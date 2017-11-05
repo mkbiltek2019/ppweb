@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Program Prehrane 5.0 - Instalacija</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="../assets/js/vendor/jquery.min.js"></script>
+    <script src="../assets/js/vendor/bootstrap.min.js"></script>
+    <script src="../assets/js/vendor/angular.min.js"></script>
+    <script src="../assets/js/vendor/angular-animate.min.js"></script>
+    <script src="../assets/js/vendor/angular-aria.min.js"></script>
+    <script src="../assets/js/vendor/angular-messages.min.js"></script>
+</head>
+<body ng-app="app" ng-controller="instalCtrl" style="padding:100px">
+    <div class="container text-center">
+        <div class="jumbotron">
+            <h2>PROGRAM PREHRANE 5.0 <span class="text-uppercase">{{version}}</span></h2>
+            <div ng-if="version=='demo'">
+                <div class="alert alert-success">
+                    <h3><span class="fa fa-smile-o fa-lg"></span> Instalacija uspješno završena.</h3>
+                </div>
+                <p>
+                    Trenutno možete koristiti DEMO verziju programa u kojoj su pojedine opcije onemogućene.
+                    Za aktivaciju pune verzije programa potrebno je pribaviti licencu.
+                    Narudžbu možete izvršiti na web stranici <a href="../index.html#order">www.programprehrane.com</a> .
+                </p>
+                <br /> <br />
+                <p><a href="../index.html#order" class="btn btn-primary btn-lg"><i class="fa fa-shopping-cart"></i> NARUDŽBA</a></p>
+            </div>
+            <div ng-if="version!='demo'">
+                <div class="alert alert-success">
+                    <h3><span class="fa fa-smile-o fa-lg"></span> Aktivacija uspješno završena.</h3>
+                </div>
+                <br /> <br />
+                <p><a href="../index.html">www.programprehrane.com</a></p>
+            </div>
+        </div>
+    </div>
+    <footer class="container-fluid text-center">
+        <p>Copyright © {{year}} IG PROG</p>
+    </footer>
+
+    <script src="../assets/js/instal.js"></script>
+</body>
+</html>
+
+

@@ -1,0 +1,173 @@
+﻿
+<div id="orderform" ng-controller="orderCtrl">
+    <div class="well text-left">
+        <h4>Narudžbenica</h4>
+
+        <ol class="breadcrumb">
+            <li ng-class="user.version=='WEB' && !showUserDetails?'bg-info':''"><span class="badge">1</span><span ng-if=""></span>{{user.version=='WEB'?'Prijava':'Verzija'}}</li>
+            <li ng-class="showUserDetails==true&&showAlert==false?'bg-info':''"><span class="badge">2</span> Narudžba</li>
+            <li ng-class="showAlert==true?'bg-info':''"><span class="badge">3</span> Plaćanje</li>
+        </ol>
+
+        <div ng-if="!showAlert">
+            <div ng-if="user.application=='Program Prehrane 5.0' && !showUserDetails">
+                <div ng-if="user.application=='Program Prehrane 5.0'" class="form-group">
+                    <label>Verzija</label>
+                    <select ng-model="user.version" class="form-control" ng-click="calculatePrice()">
+                        <option value="START">START</option>
+                        <option value="PREMIUM">PREMIUM</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="text-left">Licenca</label>
+                    <select ng-model="user.licence" ng-disabled="user.version=='WEB'" class="form-control" ng-click="calculatePrice()">
+                        <option value="1">Godišnja</option>
+                        <option value="0">Trajna</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="text-left">Broj licenci</label>
+                    <select ng-model="user.licenceNumber" ng-disabled="user.version=='WEB'" class="form-control" ng-click="calculatePrice()">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">neograničeno</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Cijena: <strong>{{user.price}} kn</strong></label>
+                </div>
+                <div class="text-right">
+                    <button class="btn btn-primary" ng-click="gotoForm()">Dalje <i class="fa fa-angle-double-right"></i></button>
+                </div>
+            </div>
+
+            <div ng-if="user.version=='WEB' && !showUserDetails" >
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Korisničko ime (E-mail)</label>
+                        <input ng-model="user.email" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" type="text" />
+                    </md-input-container>
+                </div>
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Lozinka</label>
+                        <input ng-model="password" type="password" />
+                    </md-input-container>
+                </div>
+                <div class="text-right">
+                    <button class="btn btn-primary" ng-click="login(user.email, password)">Dalje <i class="fa fa-angle-double-right"></i></button>
+                </div>
+               <div class="text-left">
+                   Nemate korisničko ime i lozinku? <a href="#app" ng-click="registration()">Registrirajte se...</a>
+               </div>
+            </div>
+            <div ng-if="showErrorAlert" class="alert alert-danger">
+                <strong>{{errorMesage}}</strong>
+            </div>
+            <div ng-if="showUserDetails">
+                <h3>Vaši podaci</h3>
+                <div>
+                    <label class="radio-inline">
+                        <input ng-model="userType" value="0" type="radio" name="usertype">Fizička osoba
+                    </label>
+                    <label class="radio-inline">
+                        <input ng-model="userType" value="1" type="radio" name="usertype">Pravna osoba
+                    </label>
+                </div>
+                <div class="text-left">
+                    <div layout-gt-sm="row">
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>E-mail</label>
+                            <input ng-model="user.email" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" type="text" />
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Ime</label>
+                            <input ng-model="user.firstName" type="text">
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Prezime</label>
+                            <input ng-model="user.lastName" type="text">
+                        </md-input-container>
+                    </div>
+                    <div ng-if="userType==1" layout-gt-sm="row">
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Tvrtka</label>
+                            <input ng-model="user.companyName" type="text">
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>OIB</label>
+                            <input ng-model="user.pin" type="number" min="0">
+                        </md-input-container>
+                    </div>
+                    <div layout-gt-sm="row">
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Ulica i broj</label>
+                            <input ng-model="user.address" type="text">
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Poštanski broj</label>
+                            <input ng-model="user.postalCode" type="text">
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Grad</label>
+                            <input ng-model="user.city" type="text">
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Država</label>
+                            <input ng-model="user.country" type="text">
+                        </md-input-container>
+                    </div>
+                    <div class="text-right">
+                        <button class="btn btn-primary" ng-disabled="isSendButtonDisabled" ng-click="sendOrder(user)">{{sendicontitle}} <span ng-class="sendicon"></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div ng-if="showAlert" class="alert alert-success">
+            <strong>Narudžba je uspješno poslana!</strong>
+            <p ng-if="user.version!='WEB'">Nakon primitka uplate ili nakon što nam pošaljete potvrdu o uplati <strong>aktivacijki kod</strong> šaljemo na Vašu email adresu.</p>
+            <p ng-if="user.version=='WEB'">Vaš korisnički račun će biti aktivan unutar 24 sata od primitka uplate ili nakon što nam pošaljete potvrdu o uplati.</p>
+        </div>
+
+        <div ng-if="showPaymentDetails" class="well text-left">
+            <div>
+                <b>Podaci za uplatu na žiro račun:</b>
+                <div>
+                    <pre>
+IBAN računa: {{config.iban}}
+Banka : {{config.bank}}
+Primatelj: {{config.company}}
+Adresa: {{config.address}}
+Opis plaćanja: {{user.application}} {{user.version}}
+Iznos: <span>{{user.price}}</span> kn
+Model: 00
+<span ng-if="user.pin">Poziv na broj: {{user.pin}}</span> 
+            </pre>
+                </div>
+                <b>Podaci za uplatu izvan hrvatske:</b>
+                <div>
+                    <pre>
+IBAN računa: {{config.iban}}
+SWIFT CODE: {{config.swift}}
+Iznos: <span>{{user.priceEur | number:0}}</span> €
+            </pre>
+                </div>
+            </div>
+            <div ng-include="'./assets/partials/paypal.html'"></div>
+        </div>
+
+
+        <div ng-if="showPaymentDetails" class="text-center">
+            <a href="{{config.appurl}}" target="_blank" class="btn btn-primary btn-lg">
+               <i class="fa fa-sign-in"></i> Pokreni aplikaciju
+            </a>
+        </div>
+
+    </div>
+
+  
+</div>

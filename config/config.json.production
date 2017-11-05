@@ -1,0 +1,13 @@
+﻿{
+  "backend": "http://backendtest.programprehrane.com/",
+  "appurl": "/app/",
+  "apk": "http://app.appsgeyser.com/5687574/ProgramPrehraneTest",
+  "debug": false,
+  "eur": 7.4,
+  "iban": "HR84 2340 0091 1603 4249 6",
+  "swift": "PBZGHR2X",
+  "bank": "Privredna banka Zagreb d.d. , Račkoga 6, 10000 Zagreb, Hrvatska",
+  "company": "IG PROG, vl. Igor Gašparović",
+  "address": "Ludvetov breg 5, 51000 Rijeka",
+  "oib": 58331314923
+}

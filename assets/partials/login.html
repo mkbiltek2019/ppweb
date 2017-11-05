@@ -1,0 +1,49 @@
+﻿<div ng-controller="loginCtrl">
+    <!--<div>
+        <md-input-container>
+            <label>{{'language' | translate}}</label>
+            <md-select ng-model="config.language" ng-change="setLanguage(config.language)">
+                <md-option ng-repeat="x in config.languages" ng-value="x.code">
+                    {{x.title | translate}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+    </div>-->
+    <div class="col-md-6 col-md-offset-3 loginBox">
+        <h3 style="color:Silver">{{'login' | translate}}</h3>
+        <hr />
+        <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sx>
+                <label style="color:white">{{'user name' | translate}}</label>
+                <input ng-init="config.debug==true?userName='igor':''" ng-model="userName" type="text" style="color:white">
+            </md-input-container>
+        </div>
+        <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sx>
+                <label style="color:white">{{'password' | translate}}</label>
+                <input ng-init="config.debug==true?password='1':''" ng-model="password" type="password" style="color:white">
+            </md-input-container>
+        </div>
+        <md-input-container>
+            <label style="color:white">{{'language' | translate}}</label>
+            <md-select ng-model="config.language" ng-change="setLanguage(config.language)" style="color:white">
+                <md-option ng-repeat="x in config.languages" ng-value="x.code" style="background-color:chocolate">
+                   <span style="color:white">{{x.title | translate}}</span>
+                </md-option>
+            </md-select>
+        </md-input-container>
+        <div class="form-group text-left">
+            <a href="" ng-click="login(userName, password)" class="btn btn-default"><span class="fa fa-key" aria-hidden="true"></span> Prijava</a>
+            <!--<a href ng-click="login('1', '1')" class="btn btn-default"><span class="fa fa-hand-o-right" aria-hidden="true"></span> Test</a>-->
+            <a href="" ng-click="singup()" class="btn btn-default"><span class="fa fa-user-plus" aria-hidden="true"></span> Registracija</a>
+            <a href="" ng-click="login('demo', '1')" class="btn btn-default"><span class="fa fa-smile-o" aria-hidden="true"></span> {{'demo' | translate}}</a>
+
+        </div>
+        <div class="form-group text-left">
+            <a href="" ng-click="forgotPassword()">{{'forgot your password' | translate}}?</a>
+        </div>
+        <div ng-if="errorLogin" class="alert alert-danger">
+            <strong>Greška !</strong> {{errorMesage}}.
+        </div>
+    </div>
+</div>

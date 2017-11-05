@@ -1,0 +1,70 @@
+﻿Korisnička licenca
+
+KORISNIČKA LICENCA definira prava KORISNIKA koja se odnose na upotrebu WEB APLIKACIJE PROGRAM PREHRANE WEB, ćiji je nositelj autorskih prava IG PROG, obrt za računalno programiranje, vl. Igor Gašparović (VLASNIK).
+Predmetna licenca nije ekskluzivna, odnosno KORISNIKU daje samo točno definirana prava, ovdje opisana.
+PROGRAM PREHRANE WEB je WEB APLIKACIJA za izradu uravnoteženih jelovnika i plana tjelesne aktivnosti.
+Registracijom i uporabom WEB APLIKACIJE KORISNIK se obvezuje poštivati odredbe koje određuje KORISNIČKA LICENCA. PROGRAM PREHRANE WEB je kao autorski rad s podrućja intelektualnog vlasništva zaštićn Zakonom o zaštiti autorskih prava i međunarodnim ugovorima o autorskim pravima, te Kaznenim zakonom RH.
+WEB APLIKACIJA PROGRAM PREHRANE WEB se ne prodaje, već se licencira.
+
+    
+Prava, koja proizlaze iz licence
+
+Ova KORISNIČKA LICENCA vam daje slijedeća prava:
+                
+Pravo korištenja
+
+KORISNIK ima pravo KORISTITI APLIKACIJU na proizvoljnom broju raćunala, s time da WEB APLIKACIJU može istovremeno UPOTREBLJAVATI onoliko KORISNIKA, za koliko ima pridobivenih licenci.
+Korisnik nema pravo prijenosa prava iz i u svezi ovog ugovora na treće osobe, kao što nema pravo odustati ili prenijeti taj ugovor, djelomićno ili u cijelosti, na treće osobe, ili im ustupiti pravo korištenja predmeta licence (podlicenca).
+
+Pravo na podršku
+
+Kao korisnik imate pravo na podršku, koju vrši sam VLASNIK ili preko ovlaštenih osoba. Za podršku, VLASNIK ili ovlaštena osoba imaju pravo na povrat troškova nastalih pružanjem iste, a visina kojih je određena važečim cjenikom.
+Podatke, koje VLASNIK ili ovlaštena osoba prime u okviru podrške, VLASNIK može upotrebljavati za svoje poslovne svrhe, vezano na podršku, dijagnostiku ili daljnji razvoj. VLASNIK ili ovlaštena osoba neće upotrebljavati te podatke na naćin, koji bi identificirao korisnika.
+
+Pravo na otklanjanje GREŠAKA
+
+GREŠKA u programskom kodu je samo ono ponašanje WEB APLIKACIJE, koje je u suprotnosti s naćinom djelovanja, opisanim u uputstvima za upotrebu.
+U slućaju otkrića GREŠKE u WEB APLIKACIJI, VLASNIK ju je dužan otkloniti.
+Otklanjanje grešaka je uređeno AUTOMATSKIM OSVJEŽAVANJEM.
+U slućaju da VLASNIK ne otkloni GREŠKU i ako ista u znatnoj mjeri utjeće na funkcionalnost APLIKACIJE, KORISNIK može zahtijevati raskid UGOVORA i plaćanje ODŠTETE.
+
+    
+Dodatne odredbe
+
+Osvježavanje
+
+OSVJEŽAVANJE je zamjena (nadogradnja) starih verzija izvršnih datoteka, eventualnih podataka, te eventualnog izvornog koda SOFTWARE-a s OSVJEŽENIM VERZIJAMA, koje nadomještaju ili dopunjavaju licencirani PROGRAMSKI PAKET i za njih pridobivene licence su u skladu s odredbama VLASNIKA.
+
+Autorska prava
+
+Sva autorska prava pripadaju VLASNIKU.
+Zbog toga, korisnik se prema WEB APLIKACIJI mora odnositi kao prema svakom drugom autorskim pravima zaštićenom materijalu, s jedinom iznimkom, da može upotrebljavati WEB APLIKACIJU na onoliko uređaja, koliko ima pridobivenih licenci.
+KORISNIK ne smije kopirati tiskanu dokumentaciju koja prati ili je dio WEB APLIKACIJE ili dijelove izvornog KOD-a bez pisanog odobrenja VLASNIKA.
+U slućaju da treča osoba prisvaja bilo kakva autorska prava nad WEB APLIKACIJOM, odnosno KORISNIKU onemogučava mirno korištenje licence, KORISNIK o tome mora neodgodivo obavijestiti VLASNIKA i zahtijevati od njega da mu u primjerenom roku omogući mirno korištenje licence.
+To pravo se ukida nakon jedne godine od dana kada je saznao za prava treće osobe.
+
+
+Ograničena garancija
+
+VLASNIK jamči da:
+
+RAČUNALNI PROGRAM djeluje u okviru specifikacija i namjene programa, na naćin koji je sa strane VLASNIKA opisan u uputstvima za upotrebu, U slučaju otkrića GREŠKE, računa se da je VLASNIK omogućio njeno otklanjanje samim omogućavanjem besplatnog osvježavanja.
+
+Ograničenje i isključenje odgovornosti, NAKNADA ŠTETE
+
+VLASNIKOVA cjelokupna odgovornost i korisnikovo jedino pravo na NAKNADU ŠTETE je da u slućaju iz »Ogranićene garancije« po prosudbi VLASNIKA:
+VLASNIK ne može popraviti RAČUNALNI PROGRAM nakon što ju je KORISNIK reklamirao VLASNIKU
+Odštetni zahtjev nema osnove ako je do greške, koja je dovela do uvažavanja »Ogranićene garancije« došlo zbog nesreće, zloupotrebe, pogrešne upotrebe ili više sile, na što VLASNIK nije imao utjecaja.
+IZNOS NAKANADE ŠTETE ne može biti viši od vrijednosti kupljene licence.
+
+Bez drugih garancija
+
+VLASNIK, sukladno odredbama Zakona, korisniku i/ili trećim osobama ne odgovara i ne daje nikakve druge garancije.
+
+Bez odgovornosti za štetu
+
+U svakom slućaju, VLASNIK i njegovi dobavljaći, te su-ugovorne strane, sukladno odredbama Zakona, iskljućuju svaku odgovornost za štetu (uključno, a ne ograničeno s nastalom poslovnom štetom, gubitkom dobiti, prekidom poslovanja, gubitkom poslovnih podataka i slićno) nastalu s ili iz upotrebe WEB APLIKACIJE, te za bilo kakvu drugu poslovnu, neposlovnu, neposrednu ili posrednu imovinsku ili neimovinsku štetu, koja može nastati korisniku i/ili trečim osobama.
+
+Nadležnost
+
+U sluèaju spora u vezi s pravima iz ove KORISNIČKE LICENCE, nadležan je trgovački sud u Rijeci.

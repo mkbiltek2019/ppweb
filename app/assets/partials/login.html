@@ -1,0 +1,107 @@
+﻿<div ng-controller="loginCtrl">
+    <div class="text-center hidden-xs" style="padding-top:20px">
+        <h3 class="text-uppercase">{{config.title | translate}}</h3>
+        <h5 class="text-capitalize">{{config.shortDescription | translate}}</h5>
+    </div>
+    <div class="col-md-4 col-md-offset-4 mt20">
+        <ul class="nav nav-tabs">
+            <li ng-class="tpl=='loginTpl'?'active':''" ng-click="toggleTpl('loginTpl')"><a href="#"><i class="fa fa-sign-in"></i> <span>{{'login' | translate}}</span></a></li>
+            <li ng-class="tpl=='singupTpl'?'active':''"><a href="#" ng-click="toggleTpl('singupTpl')"><i class="fa fa-user-plus"></i> <span>{{'sing up' | translate}}</span></a></li>
+        </ul>
+        <div ng-include="tpl" class="loginBox"></div>
+    </div>
+</div>
+
+
+<script type="text/ng-template" id="loginTpl">
+    <div>
+        <div>
+            <div class="input-group mt10">
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <input ng-init="config.debug==true?userName='igprog@yahoo.com':''" ng-model="userName" type="text" class="form-control" name="email" placeholder="{{'user name' | translate}}">
+            </div>
+            <div class="input-group mt10">
+                <span class="input-group-addon"><i class="fa fa-unlock-alt"></i></span>
+                <input ng-init="config.debug==true?password='1':''" ng-model="password" type="password" class="form-control" name="password" placeholder="{{'password' | translate}}">
+            </div>
+            <div ng-if="config.debug" class="form group mt10">
+                <select ng-model="config.language" ng-change="setLanguage(config.language)" class="form-control">
+                    <option disabled="disabled" ng-selectd="true" value="">{{'choose language' | translate}}</option>
+                    <option ng-repeat="x in config.languages" value="{{x.code}}">
+                        {{x.title}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="text-right mt10">
+            <button ng-click="login(userName, password)" class="btn btn-primary"><span class="fa fa-unlock-altfa fa-key" aria-hidden="true"></span> {{'login' | translate}}</button>
+        </div>
+
+        <div class="text-right mt10">
+            <a href="" ng-click="forgotPasswordPopup()">{{'forgot your password' | translate}}?</a>
+        </div>
+        <div ng-if="errorLogin" class="alert alert-danger">
+            <strong class="text-uppercase">{{'error' | translate}} !</strong> {{errorMesage}}.
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="singupTpl">
+    <div ng-controller="singupCtrl">
+        <div ng-if="showAlert" class="alert alert-success text-center">
+            <h3><span class="fa fa-smile-o fa-lg"></span> {{alertMessage | translate}}.</h3>
+            <div class="mt10">
+                <button ng-controller="loginCtrl" class="btn btn-success btn-lg" ng-click="login(newUser.userName, newUser.password)"><i class="fa fa-sign-in"></i> <span class="text-uppercase">{{'enter' | translate}}</span></button>
+            </div>
+        </div>
+        <div ng-show="!showAlert" >
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>{{'first name' | translate}}</label>
+                    <input ng-model="newUser.firstName" type="text" required>
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>{{'last name' | translate}}</label>
+                    <input ng-model="newUser.lastName" type="text" required>
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>{{'email' | translate}}</label>
+                    <input name="email" ng-model="newUser.email" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" required />
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>{{'password' | translate}}</label>
+                    <input ng-model="newUser.password" type="password" required>
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>{{'confirm password' | translate}}</label>
+                    <input ng-model="passwordConfirm" type="password" required>
+                </md-input-container>
+            </div>
+
+            <div>
+                <p>{{'i agree to the' | translate}}<a href="licence.txt" target="_blank"> {{'terms and conditions' | translate}}</a></p>
+                <div class="mt10">
+                    <button class="btn btn-primary" ng-click="singup()"><i class="fa fa-check"></i> {{'register' | translate}}</button>
+                </div>
+            </div>
+        </div>
+
+            <div ng-if="config.debug" class="bg-info debugBox">
+                newUser:
+                <pre>{{newUser | json}}</pre>
+            </div>
+
+    </div>
+
+</script>
+
+
+

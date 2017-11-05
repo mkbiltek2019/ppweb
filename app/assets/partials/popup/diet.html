@@ -1,0 +1,23 @@
+﻿<md-dialog flex layout-margin>
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{'diet' | translate}}</h2>
+                <span flex></span>
+                <button ng-click="cancel()" class="btn btn-primary">x</button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <label>{{d.diet | translate}}</label>
+                <div>
+                    <p>{{d.dietDescription | translate}}</p>
+                </div>
+            </div>
+            <div layout-gt-sm="row">
+                <md-button class="md-raised md-primary" ng-click="select(d)">{{'ok' | translate}}</md-button>
+                <md-button class="md-raised md-default" ng-click="cancel()">{{'close' | translate}}</md-button>
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>

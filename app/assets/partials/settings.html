@@ -1,0 +1,42 @@
+﻿<div ng-controller="settingsCtrl">
+    <button class="btn btn-default pull-right text-capitalize m10" ng-click="isLogin?toggleTpl('dashboard.html'):toggleTpl('login.html')"><i class="fa fa-times"></i><span class="hidden-xs"> {{'cancel' | translate}}</span></button>
+    <div class="well">
+        <h3 class="text-uppercase"><i class="fa fa-cogs"></i> {{'settings' | translate}}</h3>
+        <hr />
+        <div ng-if="config.debug" class="row">
+            <div class="col-sm-4">
+                <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'language' | translate}}</label>
+                    <md-select ng-model="settings.language" ng-change="setLanguage(settings.language)">
+                        <md-option ng-value="x.code" ng-repeat="x in config.languages">
+                            <md-checkbox ng-checked="x.code==settings.language" class="md-primary" aria-label="language">{{x.title | translate}}</md-checkbox>
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'currency' | translate}}</label>
+                    <md-select ng-model="settings.currency">
+                        <md-option ng-value="x.code" ng-repeat="x in config.currencies">
+                            <md-checkbox ng-checked="x.code==settings.currency" class="md-primary" aria-label="language"><span class="badge">{{x.code}}</span> {{x.title | translate}}</md-checkbox>
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+        </div>
+        <div class="row p10">
+            <div class="col-sm-4">
+                <button class="btn btn-primary pull-right" ng-click="save(settings)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</button>
+            </div>
+        </div>
+
+
+        <div ng-if="config.debug">
+            <pre>{{settings.currency}}</pre>
+            <pre>{{settings | json}}</pre>
+        </div>
+    </div>
+</div>

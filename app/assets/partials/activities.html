@@ -1,0 +1,96 @@
+﻿<div ng-controller="activitiesCtrl">
+    <div class="panel panel-default">
+        <div class="panel-heading">{{'additional activity' | translate}}<em class="text-small text-danger ml10"> *{{'osobama sa zdravstvenim problemima ili sumnjom na njih, preporučuje se da se prije odabira dodatne tjelesne aktivnosti posavjetuju sa svojim liječnikom ili trenerom' | translate}}.</em></div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <table class="table">
+                        <tr>
+                            <td>{{'additional energy expenditure' | translate}}</td>
+                            <td width="100px" class="text-right bg-warning">
+                                <strong>
+                                    <input ng-model="calculation.recommendedEnergyExpenditure" type="number" min="0" class="form-control text-right" disabled />
+                                </strong>
+                            </td>
+                            <td><strong>kcal</strong></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading bg-subpanel  hidden-xs">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <input ng-model="searchValue" class="form-control" type="text" placeholder="{{'search' | translate}}..." autofocus />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="hidden-sm hidden-md hidden-lg hidden-xl">
+                        <md-input-container md-theme="docs-dark" class="md-block" flex-gt-sm>
+                            <label>{{'select activity' | translate}}...</label>
+                            <md-select ng-model="x" ng-change="openPopup(x)">
+                                <md-option ng-value="x" ng-repeat="x in activities | filter:{activity:searchValue} | orderBy:order | filter:{isSport:1}">{{x.activity}}</md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                    <div class="hidden-xs">
+                        <div class="table-responsive">
+                            <table class="table table-condensed text-small">
+                                <thead>
+                                    <tr>
+                                        <th style="width:80%"><i ng-click="orderby('activity')" class="fa fa-sort"></i> {{'activity' | translate}}</th>
+                                        <th style="width:20%"><i ng-click="orderby('factorKcal')" class="fa fa-sort"></i> {{'factor' | translate}}</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="table-responsive" style="height:200px">
+                            <table class="table table-hover table-condensed text-small">
+                                <tbody>
+                                    <tr ng-repeat="x in activities | filter:{activity:searchValue} | orderBy:order | filter:{isSport:1}" ng-click="openPopup(x)">
+                                        <td style="width:80%">{{x.activity}}</td>
+                                        <td style="width:20%">{{x.factorKcal}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default mt20">
+                <div class="panel-heading bg-subpanel">{{'choosen activities' | translate}}</div>
+                <div class="panel-body">
+                    <table class="table">
+                        <tr ng-repeat="x in clientData.activities">
+                            <td width="50px"><a href="" style="color:red" ng-click="removeActivity(x, $index)" class="btn btn-default"><i class="fa fa-minus"></i></a></td>
+                            <td>{{x.activity}} - {{x.duration}} min,  {{x.energy | number:0}} kcal</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <button ng-if="client.clientId" class="btn btn-primary pull-left" ng-click="toggleNewTpl('calculation')"><i class="fa fa-angle-double-left" aria-hidden="true"></i><span> {{'back' | translate}}</span></button>
+    <button ng-if="client.clientId" class="btn btn-primary pull-right" ng-click="toggleNewTpl('diets')"><span> {{'forward' | translate}} </span><i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+    <!--<button ng-if="client.clientId" class="btn btn-success pull-right mr10" ng-click="saveClientData(clientData)"><i class="fa fa-floppy-o"></i><span> {{'save' | translate}}</span></button>-->
+</div> 
+
+<div ng-if="config.debug" class="bg-info debugBox">
+    choosen activities
+    <pre>{{clientData.activities | json}}</pre>
+
+    activities
+    <pre>{{activities}}</pre>
+
+    client data
+    <pre>{{clientData}}</pre>
+</div>

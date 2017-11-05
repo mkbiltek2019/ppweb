@@ -1,0 +1,64 @@
+﻿<div ng-controller="pricesCtrl">
+    <div class="panel panel-default">
+        <div class="panel-heading">{{'prices' | translate}}</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="p10">
+                        <md-radio-group ng-model="foodListType" layout="row" flex-gt-sm ng-click="getFoodList(foodListType)">
+                            <md-radio-button value="0" class="md-primary">{{'default foods' | translate}}</md-radio-button>
+                            <md-radio-button value="1" class="md-primary">{{'my foods' | translate}}</md-radio-button>
+                        </md-radio-group>
+                    </div>
+                    <div class="input-group">
+                        <input ng-model="searchFood" class="form-control" type="text" placeholder="{{'search' | translate}}..." autofocus ng-click="initCurrentFoodGroup()" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
+                        </span>
+                    </div>
+                    <div>
+                        <select ng-model="food" class="form-control" size="7" ng-change="selectFood(food)">
+                            <option ng-repeat="x in foodList | filter:{food:searchFood} | orderBy:'food'" value="{{x}}">{{x.food}}</option>
+                        </select>
+                    </div>
+                    <div class="row p10">
+                        <label class="col-sm-6 text-right">{{'netto price' | translate}}:</label>
+                            <div class="col-sm-6 input-group ml10">
+                                <input ng-model="price.nettoPrice.value" type="number" class="form-control" min="0" ng-change="calculateUnitPrice(price)" />
+                                <span class="input-group-addon">{{config.currency}} / <input ng-model="price.mass.value" type="number" min="0" style="width:60px; background-color:lightgrey" ng-change="calculateUnitPrice(price)" /> {{price.mass.unit}}</span>
+                            </div>
+                        <div class="col-sm-12 p10 text-right">
+                            <label ng-if="price.nettoPrice.value>0" class="m10">{{'unit price' | translate}}: <span>{{price.unitPrice.value | number:2}} {{price.nettoPrice.currency}} / kg</span></label>
+                            <button ng-disabled="price.nettoPrice.value<=0" class="btn btn-primary pull-right" ng-click="save(price)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                   <label>{{'price list' | translate}}</label>
+                    <div class="table-responsive">
+                        <table class="table table-condensed text-small">
+                            <tr>
+                                <th>{{'food' | translate}}</th>
+                                <th class="text-right">{{'netto price' | translate}}</th>
+                                <th></th>
+                            </tr>
+                            <tr ng-repeat="x in prices">
+                                <td>{{x.food.title}}</td>
+                                <td class="text-right">{{x.unitPrice.value}} {{x.unitPrice.currency}}/kg</td>
+                                <td class="borderNone"><a href="" style="color:red" ng-click="delete(x)" class="btn btn-default"><i class="fa fa-minus"></i></a></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="config.debug">
+                price:
+                <pre>{{price | json}}</pre>
+
+                prices:
+                <pre>{{prices | json}}</pre>
+            </div>
+          
+        </div>
+    </div>
+</div>

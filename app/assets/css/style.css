@@ -1,0 +1,162 @@
+﻿.dashboardBox {
+margin:10px 0px 10px 0px;
+padding: 10px;
+border-radius: 5px;
+height: 220px;
+border-color: red;
+}
+
+.huge {
+    font-size: 36px;
+}
+
+.vertical-nav {
+    background-color:#5cb85c;
+}
+
+a {
+    /*color: white;*/
+}
+
+.solidBox{
+    margin:10px;
+    border:1px solid green;
+    border-radius:5px;
+}
+
+.loginBox{
+    padding:20px;
+    margin-top:0px;
+    /*background-image: url('../img/login_bg.jpg');*/
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    box-shadow: 8px 8px 5px silver;
+    border-radius: 0px 0px 10px 10px !important;
+    border:1px solid #ddd;
+    border-top:0px;
+}
+
+.borderNone {
+    border:none !important;
+}
+
+.p5 {
+    padding:5px;
+}
+
+.p10 {
+    padding:10px;
+}
+
+.p20 {
+    padding:20px;
+}
+
+.pt10 {
+    padding-top:10px;
+}
+
+.pl10 {
+    padding-left:10px;
+}
+
+.m10 {
+    margin:10px;
+}
+
+.m20 {
+    margin:20px;
+}
+
+.mr10 {
+    margin-right:10px;
+}
+
+.mt10 {
+    margin-top:10px;
+}
+
+.mt20 {
+    margin-top:20px;
+}
+
+.ml10 {
+    margin-left:10px;
+}
+
+.ml5 {
+    margin-left:5px;
+}
+
+.debugBox{
+    border: solid 2px silver;
+    padding: 10px;
+}
+
+@media print {
+    .noprint {
+        display: none;
+    }
+}
+
+.panel-heading {
+/*background-color:mediumaquamarine !important;
+color:white !important;*/
+background-color:#e6e6e6 !important;
+color:black !important;
+}
+
+.navbar{
+    background-color: #337ab7 !important; /*/midnightblue !important;*/
+    border:none !important;
+    border-radius:0 !important;
+
+    /*darkred*/
+}
+
+navbar-brand {
+    color:cornsilk !important;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+    color: cornsilk !important;
+}
+
+.navbar-inverse .navbar-brand {
+    color: cornsilk !important;
+}
+
+.bg-subpanel{
+    background-color:#e6ffe6 !important;
+}
+
+.novrap{
+    white-space: nowrap;
+}
+
+.text-small{
+   font-size:12px
+}
+
+.text-bold{
+    font-weight:600 !important;
+}
+
+table td {
+  vertical-align: middle !important;
+}
+
+hr.bold {
+	border-top: 2px solid;
+}
+
+.pointer {
+    cursor:pointer;
+}
+
+.text-vertical {
+	transform: rotate(90deg);
+	transform-origin: left top 0;
+}
+
+

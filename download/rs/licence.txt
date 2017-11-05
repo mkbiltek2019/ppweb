@@ -1,0 +1,68 @@
+﻿Korisnička licenca
+
+KORISNIČKA LICENCA definira prava KORISNIKA koja se odnose na instalaciju i upotrebu programskog RAČUNALNOG PROGRAMA PROGRAM PREHRANE 5.0, čiji su nositelji autorskih prava Igor Gašparović i Vesna Bosanac (VLASNIK). Predmetna licenca nije ekskluzivna, odnosno KORISNIKU daje samo točno definirana prava, ovdje opisana.
+PROGRAM PREHRANE 5.0 je RAČUNALNI PROGRAM za izradu uravnoteženog plana prehrane i tjelesne aktivnosti. Instalacijom i uporabom računalnog programa KORISNIK se obvezuje poštivati odredbe koje određuje KORISNIčKA LICENCA. 
+PROGRAM PREHRANE 5.0 je kao autorski rad s područja intelektualnog vlasništva zaštićn Zakonom o zaštiti autorskih prava i međunarodnim ugovorima o autorskim pravima, te Kaznenim zakonom RH. RAčUNALNI PROGRAM PROGRAM PREHRANE 5.0 se ne prodaje, već se licencira.
+
+    
+Prava, koja proizlaze iz licence
+
+Ova KORISNIČKA LICENCA vam daje slijedeća prava:
+                
+Pravo instalacije i upotrebe
+
+KORISNIK ima pravo INSTALIRATI RAČUNALNI PROGRAM na proizvoljnom broju računala, s time da RAČUNALNI PROGRAM može istovremeno UPOTREBLJAVATI onoliko KORISNIKA, koliko imate pridobivenih licenci.
+Korisnik nema pravo prijenosa prava iz i u svezi ovog ugovora na treće osobe, kao što nema pravo odustati ili prenijeti taj ugovor, djelomično ili u cijelosti, na treće osobe, ili im ustupiti pravo korištenja predmeta licence (podlicenca).
+
+Pravo na podršku
+
+Kao korisnik imate pravo na podršku, koju vrši sam VLASNIK ili preko ovlaštenih osoba. Za podršku, VLASNIK ili ovlaštena osoba imaju pravo na povrat troškova nastalih pružanjem iste, a visina kojih je određena važećim cjenikom.
+Podatke, koje VLASNIK ili ovlaštena osoba prime u okviru podrške, VLASNIK može upotrebljavati za svoje poslovne svrhe, vezano na podršku, dijagnostiku ili daljnji razvoj. 
+VLASNIK ili ovlaštena osoba neć upotrebljavati te podatke na način, koji bi identificirao korisnika.
+
+Pravo na otklanjanje GREŠAKA
+
+GREŠKA u programskom kodu je samo ono ponašanje RAČUNALNOG PROGRAMA, koje je u suprotnosti s načinom djelovanja, opisanim u uputstvima za upotrebu.
+U slučaju otkrića GREŠKE u RAČUNALNOM PROGRAMU, VLASNIK ju je dužan otkloniti.
+Otklanjanje grešaka je uređeno AUTOMATSKIM OSVJEŽAVANJEM.
+U slučaju da VLASNIK ne otkloni GREŠKU i ako ista u znatnoj mjeri utječe na funkcionalnost SOFTWARE-a, KORISNIK može zahtijevati raskid UGOVORA i plaćanje ODŠTETE, najviše do vrijednosti kupljene licence.
+
+    
+Dodatne odredbe
+
+Osvježavanje
+
+OSVJEŽAVANJE je zamjena (nadogradnja) starih verzija izvršnih datoteka, eventualnih podataka, te eventualnog izvornog koda SOFTWARE-a s OSVJEŽENIM VERZIJAMA, koje nadomještaju ili dopunjavaju licencirani PROGRAMSKI PAKET i za njih pridobivene licence su u skladu s odredbama VLASNIKA.
+
+Autorska prava
+
+Sva autorska prava pripadaju VLASNIKU.
+Zbog toga, korisnik se prema RAČUNALNOM PROGRAMU mora odnositi kao prema svakom drugom autorskim pravima zaštićnom materijalu, s jedinom iznimkom, da može instalirati i/ili upotrebljavati RAČUNALNI PROGRAM na onoliko računala, koliko ima pridobivenih licenci KORISNIK i ne smije kopirati tiskanu dokumentaciju, koja prati ili je dio RAčUNALNOG PROGRAMA.
+U slučaju da treća osoba prisvaja bilo kakva autorska prava nad RAČUNALNOG PROGRAMA, odnosno KORISNIKU onemogućava mirno korištenje licence, KORISNIK o tome mora neodgodivo obavijestiti VLASNIKA i zahtijevati od njega da mu u primjerenom roku omogući mirno korištenje licence.
+To pravo se ukida nakon jedne godine od dana kada je saznao za prava treć osobe.
+
+    
+Ograničena garancija
+
+VLASNIK jamči da:
+
+RAČUNALNI PROGRAM djeluje u okviru specifikacija i namjene programa, na način koji je sa strane VLASNIKA opisan u uputstvima za upotrebu.
+U slučaju otkrića GREŠKE, računa se da je VLASNIK omogućio njeno otklanjanje samim omogućavanjem besplatnog osvježavanja.
+
+Ograničenje i isključenje odgovornosti, NAKNADA ŠTETE
+
+VLASNIKOVA cjelokupna odgovornost i korisnikovo jedino pravo na NAKNADU ŠTETE je da u slučaju iz »Ograničene garancije« po prosudbi VLASNIKA:
+VLASNIK ne može popraviti RAČUNALNI PROGRAM nakon što ju je KORISNIK reklamirao VLASNIKU
+Odštetni zahtjev nema osnove ako je do greške, koja je dovela do uvažavanja »Ograničene garancije« došlo zbog nesreć, zloupotrebe, pogrešne upotrebe ili više sile, na što VLASNIK nije imao utjecaja.
+
+Bez drugih garancija
+
+VLASNIK, sukladno odredbama Zakona, korisniku i/ili trećim osobama ne odgovara i ne daje nikakve druge garancije, bilo izražene ili zadane, uključno, a ne ograničeno s garancijom o upotrebi i/ili primjerenosti za određenu namjenu RAČUNALNI PROGRAM, odnosno njegovog dijela ili modula.
+
+Bez odgovornosti za štetu
+
+U svakom slučaju, VLASNIK i njegovi dobavljači, te su-ugovorne strane, sukladno odredbama Zakona, isključuju svaku odgovornost za štetu (uključno, a ne ograničeno s nastalom poslovnom štetom, gubitkom dobiti, prekidom poslovanja, gubitkom poslovnih podataka i slično) nastalu s ili iz upotrebe RAČUNALNOG PROGRAMA, te za bilo kakvu drugu poslovnu, neposlovnu, neposrednu ili posrednu imovinsku ili neimovinsku štetu, koja može nastati korisniku i/ili trećim osobama.
+
+Nadležnost
+
+U slučaju spora u vezi s pravima iz ove KORISNIČKE LICENCE, nadležan je trgovački sud u Rijeci.

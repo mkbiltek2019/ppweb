@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="Program Prehrane.exe" version="5.0.0.41" publicKeyToken="c264c0a993f41b2e" language="sr-Latn" processorArchitecture="x86" type="win32" />
+  <description asmv2:iconFile="PPikona.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="Program Prehrane" version="5.0.0.0" language="neutral" processorArchitecture="x86" />
+    <commandLine file="Program Prehrane.exe" parameters="" />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!-- UAC Manifest Options
+            If you want to change the Windows User Account Control level replace the 
+            requestedExecutionLevel node with one of the following.
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+            Specifying requestedExecutionLevel node will disable file and registry virtualization.
+            If you want to utilize File and Registry Virtualization for backward 
+            compatibility then delete the requestedExecutionLevel node.
+        -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Program Prehrane.exe" size="4049408">
+      <assemblyIdentity name="Program Prehrane" version="5.0.0.0" language="neutral" processorArchitecture="x86" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>+r6mIjbBIUPuB+LKntb8xnEe3GA=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="PP5.mdb" size="9768960" writeableType="applicationData">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>0D+V8ixgJ+7MfDS0bBs20stqbuQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="PP5a.mdb" size="2306048" writeableType="applicationData">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>s5KITO8hIn8SX/s3q0GvFiHzTMI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="PPikona.ico" size="3262">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>lgGOTgCiHpWKMmuSbyLMl1lpv7A=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Program Prehrane.exe.config" size="6381">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>LL+TwMvrkzVsF0EQDhRrQSjwBss=</dsig:DigestValue>
+    </hash>
+  </file>
+  <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
+    <application>
+      <!-- A list of all Windows versions that this application is designed to work with. Windows will automatically select the most compatible environment.-->
+      <!-- If your application is designed to work with Windows 7, uncomment the following supportedOS node-->
+      <!--<supportedOS Id="{35138b9a-5d96-4fbd-8e2d-a2440225f93a}"/>-->
+    </application>
+  </compatibility>
+<publisherIdentity name="CN=IGPROG\Elvira Gašparović" issuerKeyHash="297464a6db56f30a10a06075101e5c03b6fdbe20" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" /><DigestValue>hTo/bTUficlph11vhrLuA9EK+QI=</DigestValue></Reference></SignedInfo><SignatureValue>liwPDF4WImC575zyKC5lXFCsxQ5xwieLuZZpgNHQPONh3N2Qe4Wcgu75eSCxdaDLY1Hxkk190VhTDDIZAUkm2Pnchqun2ZBq2hETRqs+ICi+EQqMMs/3BdqwBtRuHCXea1Jp0bmYUYRMrD2aOZvixZoThyG1JzGmIg08fCa0/dg=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>4/kweSUV587rva9AP1DxrNNbxOd1vvVH7/nFmpq/iy6saqhffECxORjF9WzCPNpJZliNxMzlJyRNE45y1k7B6IS1QjJvKidE83KerGG48Xqp8j2vGmZWaeykIohPxro62hIZhut2tdYasKqWedU/TI7WQRwUqrtJKYRGJnmoV4s=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="02f90ad103eeb2866f5d8769c9891f356d3f3a85" Description="" Url=""><as:assemblyIdentity name="Program Prehrane.exe" version="5.0.0.41" publicKeyToken="c264c0a993f41b2e" language="sr-Latn" processorArchitecture="x86" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=IGPROG\Elvira Gašparović</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" /><DigestValue>6l5sCNnLLx87KamwZvh5wGdG9Ak=</DigestValue></Reference></SignedInfo><SignatureValue>P7iN11yjL8QGsIIBoF0uF30hovJpIyoe0LKv45XdMnx/ompE48ghJg+OwwKbtwfHrkVBpt/ZuUpqlJ7TAB7Z7L53Pm3JrEc4rDS88lNAS03Z6JRxAkVWQVozhJ2P8Hrm6RERfACEMz1OiQO2dy+5JTusS/P9uvaV5etOjf8NUFc=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>4/kweSUV587rva9AP1DxrNNbxOd1vvVH7/nFmpq/iy6saqhffECxORjF9WzCPNpJZliNxMzlJyRNE45y1k7B6IS1QjJvKidE83KerGG48Xqp8j2vGmZWaeykIohPxro62hIZhut2tdYasKqWedU/TI7WQRwUqrtJKYRGJnmoV4s=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB+TCCAWKgAwIBAgIQMJ9ZMwipIaxD82Vcnn7ZITANBgkqhkiG9w0BAQUFADA7MTkwNwYDVQQDHjAASQBHAFAAUgBPAEcAXABFAGwAdgBpAHIAYQAgAEcAYQFhAHAAYQByAG8AdgBpAQcwHhcNMTcwNDE2MTgwMzU5WhcNMTgwNDE3MDAwMzU5WjA7MTkwNwYDVQQDHjAASQBHAFAAUgBPAEcAXABFAGwAdgBpAHIAYQAgAEcAYQFhAHAAYQByAG8AdgBpAQcwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAOP5MHklFefO672vQD9Q8azTW8Tndb71R+/5xZqav4surGqoX3xAsTkYxfVswjzaSWZYjcTM5SckTROOctZOweiEtUIybyonRPNynqxhuPF6qfI9rxpmVmnspCKIT8a6OtoSGYbrdrXWGrCqlnnVP0yO1kEcFKq7SSmERiZ5qFeLAgMBAAEwDQYJKoZIhvcNAQEFBQADgYEANNgl+bYUz+9g20esOeApVhdjBi3vxExO9pwfbdwn8i0RDKLPxkLuSI81MZjkae/tF56hGSsHIiyXzpRB/nBr5aUk+WidKvzIOI0iciCSiiGgifJISSXUIIubFGUtLvBqFNmJeURqnP6GLMsMUbvsG+GlbYRBmRjJM6OSOajIcU0=</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>

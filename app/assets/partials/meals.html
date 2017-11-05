@@ -1,0 +1,26 @@
+﻿<div ng-controller="mealsCtrl">
+    <div class="panel panel-default">
+        <div class="panel-heading">{{'meals' | translate}}</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-offset-5 p20">
+                    <div ng-repeat="x in clientData.meals">
+                        <md-checkbox ng-model="x.isSelected" class="md-primary" ng-disabled="x.isDisabled">
+                            {{ x.title | translate }}
+                        </md-checkbox>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <button ng-if="client.clientId" class="btn btn-primary pull-left" ng-click="toggleNewTpl('diets')"><i class="fa fa-angle-double-left" aria-hidden="true"></i> <span>{{'back' | translate}} </span></button>
+    <button ng-if="client.clientId" class="btn btn-primary pull-right" ng-click="toggleNewTpl('menu')"><span>{{'forward' | translate}}</span> <i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+</div> 
+
+<div ng-if="config.debug" class="bg-info debugBox">
+    meals:
+    <pre>{{clientData.meals | json}}</pre>
+</div>
+

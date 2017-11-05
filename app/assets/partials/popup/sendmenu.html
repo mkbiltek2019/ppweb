@@ -1,0 +1,38 @@
+﻿<md-dialog flex="30" layout-margin>
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{'send menu' | translate}}</h2>
+                <span flex></span>
+                <button ng-click="cancel()" class="btn btn-primary">x</button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sx>
+                        <label>{{'menu name' | translate}}</label>
+                        <input ng-model="d.currentMenu.title" type="text" maxlength="50" required>
+                    </md-input-container>
+                </div>
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>{{'note' | translate}}...</label>
+                        <input ng-model="d.currentMenu.note" type="text" maxlength="200">
+                    </md-input-container>
+                </div>
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sx>
+                        <label>{{'client email' | translate}}...</label>
+                        <input name="email" ng-model="d.client.email" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" />
+                    </md-input-container>
+                </div>
+                <div class="row pull-right">
+                    <button class="btn btn-primary" ng-click="confirm(email)">{{'send' | translate }}</button>
+                    <button class="btn btn-primary" ng-click="cancel()">{{'cancel' | translate }}</button>
+                </div>
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>
+

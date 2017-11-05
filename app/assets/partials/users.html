@@ -1,0 +1,59 @@
+﻿<div ng-cloak ng-controller="userCtrl">
+    <button class="btn btn-default pull-right text-capitalize m10" ng-click="isLogin?toggleTpl('dashboard.html'):toggleTpl('login.html')"><i class="fa fa-times"></i><span class="hidden-xs"> {{'cancel' | translate}}</span></button>
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header text-capitalize">{{'users' | translate}}</h3>
+        </div>
+    </div>
+    <!--<div class="row">
+        <div class="col-sm-4">
+            <input ng-model="clientName" type="text" class="form-control" placeholder="Pretraži..." />
+        </div>
+    </div>-->
+    <md-content class="md-padding">
+        <div class="table-responsive">
+            <table class="table table-condensed table-hover">
+                <thead>
+                    <tr>
+                        <th ng-if="config.debug">{{'id' | translate}}</th>
+                        <th ng-if="config.debug">{{'user group' | translate}}</th>
+                        <th>{{'name' | translate}}</th>
+                        <th></th>
+                        <th>{{'admin type' | translate}}</th>
+                        <th>{{'expiration date' | translate}}</th>
+                        <th>{{'is active' | translate}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="x in users track by $index">
+                        <td ng-if="config.debug">{{x.userId}}</td>
+                        <td ng-if="config.debug">{{x.userGroupId}}</td>
+                        <td>
+                            <button class="btn btn-circle btn-primary" ng-click="showUser(x.userId)"><i class="fa fa-info"></i></button>
+                        </td>
+                        <td>{{x.firstName}} {{x.lastName}}</td>
+                        <!--<td>{{x.userType}}</td>-->
+                        <td>{{adminType(x.adminType)}}</td>
+                        <td>{{x.expirationDate}}</td>
+                        <td>
+                            <md-checkbox ng-if="x.userId!=x.userGroupId" ng-model="x.isActive" aria-label="" ng-change="updateUser(x)">
+                                {{x.isActive==true?'Da':'Ne'}}
+                            </md-checkbox>
+                        </td>
+                        <td>
+                            <button ng-if="x.userId!=x.userGroupId" class="btn btn-circle btn-danger" ng-click="remove(x)"><i class="fa fa-trash-o"></i></button>
+                        </td>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <button ng-click="toggleTpl('newuser.html', 10)" class="btn btn-primary"><i class="fa fa-user-plus fa-fw"></i> {{'new user' | translate}}</button>
+        </div>
+    </md-content>
+
+    <div ng-if="config.debug">
+        users:
+        <pre>{{users | json}}</pre>
+    </div>
+
+</div>

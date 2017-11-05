@@ -1,0 +1,652 @@
+﻿<div ng-controller="menuCtrl">
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                        <button class="btn btn-default" ng-click="new()"><i class="fa fa-file-o"></i> <span class="hidden-xs"> {{'new' | translate}}</span></button>
+                        <button class="btn btn-default" ng-click="get()"><i class="fa fa-folder-open-o"></i> <span class="hidden-xs"> {{'open' | translate}}</span></button>
+                        <button class="btn btn-default" ng-click="save()"><i class="fa fa-floppy-o"></i> <span class="hidden-xs">{{'save' | translate}}</span></button>
+                        <button class="btn btn-default" ng-click="send()"><i class="fa fa-paper-plane-o"></i> <span class="hidden-xs">{{'send' | translate}}</span></button>
+                </div>
+                <div class="panel-body">
+                    <div>
+                        <p><strong>{{currentMenu.title}}</strong><span ng-if="currentMenu.note"><em ng-if="currentMenu.note" class="text-small text-muted"> ({{currentMenu.note}})</em></span></p>
+                        <div>
+                            <select ng-model="currentMeal" ng-change="toggleMeals(currentMeal)" class="form-control visible-xs">
+                                <option ng-selected="x.code==currentMeal?true:false" value="{{x.code}}" ng-if="x.isSelected==1" ng-repeat="x in clientData.meals">{{x.title | translate}}</option>
+                            </select>
+                            <ul class="nav nav-tabs hidden-xs">
+                                <li ng-class="x.code==currentMeal?'active':''" ng-click="toggleMeals(x.code)" ng-if="x.isSelected==1" ng-repeat="x in clientData.meals"><a href="">{{x.title | translate}}</a></li>
+                            </ul>
+                        </div>
+                        <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around">
+                            <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
+                        </div>
+                        <div ng-show="!loading">
+                            <div class="table-responsive">
+                                <table class="table table-condensed">
+                                    <tbody class="text-small">
+                                        <tr ng-if="x.meal.code==currentMeal" ng-repeat="x in currentMenu.data.selectedFoods track by $index">
+                                            <td class="borderNone"><a href="" style="color:red" ng-click="removeFood(x, $index)" class="btn btn-default"><i class="fa fa-minus"></i></a></td>
+                                            <td class="borderNone" style="width:400px" ng-click="openFoodPopup(x, $index)"><span>{{x.food}}</span></td>
+                                            <td class="borderNone text-right" style="min-width:140px">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon pointer" ng-click="change(-1, 'quantity', $index)">-</span>
+                                                    <input ng-model="x.quantity" type="number" class="form-control" min="0.1" step="0.1" ng-change="changeQuantity(x, 'quantity', $index)" />
+                                                    <span class="input-group-addon pointer" ng-click="change(1, 'quantity', $index)">+</span>
+                                                </div>
+                                            </td>
+                                            <td class="borderNone">{{x.unit}}</td>
+                                            <td class="borderNone text-right" style="min-width:160px">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon pointer" ng-click="change(-1, 'mass', $index)">-</span>
+                                                    <input ng-model="x.mass" type="number" class="form-control" min="0.1" step="0.1" ng-change="changeQuantity(x, 'mass', $index)" />
+                                                    <span class="input-group-addon pointer" ng-click="change(1, 'mass', $index)">+</span>
+                                                </div>
+                                            </td>
+                                            <td class="borderNone" style="width:10px">g</td>
+                                            <td class="borderNone text-right" style="width:150px">{{x.energy}} kcal</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">
+                                                <a ng-disabled="addFoodBtn" href="" class="btn btn-primary" ng-click="openFoodPopup(food)"><i ng-class="addFoodBtnIcon"></i> {{'add food' | translate}}</a>
+                                            </td>
+                                            <td colspan="3" class="text-right">
+                                                {{'total' | translate}}:
+                                                <span ng-repeat="x in currentMenu.data.meals">
+                                                    <span ng-if="x.code==currentMeal">
+                                                        <b>{{totals.mealsTotalEnergy[$index].meal.energy | number:1}} kcal</b>
+                                                        <br />
+                                                        <span class="badge">{{totals.mealsTotalEnergy[$index].meal.energyPercentage| number:1}} %</span>
+                                                    </span>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row hidden-xs">
+                                <div class="col-sm-6">
+                                    <div ng-repeat="x in currentMenu.data.meals">
+                                        <textarea ng-if="x.code==currentMeal" ng-model="x.description" class="form-control hidden-xs" style="margin-bottom: 10px" rows="6" placeholder="{{'description, meal preparation' | translate}}..."></textarea>
+                                        <textarea ng-if="x.code==currentMeal" ng-model="x.description" class="form-control visible-xs" style="margin-bottom: 10px" rows="1" placeholder="{{'description, meal preparation' | translate}}..."></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    {{'distribution of energy value per meals' | translate}}
+                                    <canvas id="bar" class="chart chart-bar"
+                                            chart-data="mealsGraphData.data" chart-labels="mealsGraphData.labels" chart-colors="mealsGraphData.colors" height="180"
+                                            chart-series="mealsGraphData.series" chart-dataset-override="mealsGraphData.datasetOverride"></canvas>
+                                </div>
+                            </div>
+                            <div ng-if="totals.price.value>0" class="text-right m10">
+                                <label class="text-primary">{{'total price' | translate}}: <span>{{totals.price.value | number:2}} {{config.currency}} </span></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span><i class="fa fa-area-chart"></i> <span> {{'analytics' | translate}}</span> <em class="pl10">({{'total values' | translate}})</em></span>
+                </div>
+                <div class="panel-body text-small">
+                    <div>
+                        <ul class="nav nav-tabs">
+                            <li ng-class="analyticsTpl=='chartsTpl'?'active':''"><a href="#" ng-click="toggleAnalytics('chartsTpl')"><i class="fa fa-line-chart"></i> <span class="hidden-xs">{{'charts' | translate}}</span></a></li>
+                            <li ng-class="analyticsTpl=='tablesTpl'?'active':''" ng-click="toggleAnalytics('tablesTpl')"><a href="#"><i class="fa fa-table"></i> <span class="hidden-xs">{{'tables' | translate}}</span></a></li>
+                        </ul>
+                    </div>
+                    <div ng-include="analyticsTpl" style="padding-top:20px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div ng-if="config.debug">
+        <pre>{{clientData.meals | json}}</pre>
+        <div>
+            <h4>Current Menu</h4>
+            <div style="border:2px solid Red">
+              <pre>{{currentMenu | json}}</pre>
+            </div>
+
+            <h4>Calculation</h4>
+            <div style="border:2px solid Red">
+                <pre>{{calculation | json}}</pre>
+            </div>
+
+            <h4>Food</h4>
+            <div style="border:2px solid Green">
+               <pre>{{food}}</pre>
+            </div>
+
+            <h4>Menu</h4>
+            <div style="border:2px solid Green">
+               <pre>{{menu}}</pre>
+            </div>
+
+            <h4>Totals</h4>
+            <div style="border:2px solid Green">
+               <pre>{{totals}}</pre>
+            </div>
+
+            <h4>Recommendations</h4>
+            <div style="border:2px solid Green">
+              <pre>{{recommendations}}</pre>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<script type="text/ng-template" id="chartsTpl">
+    <div class="panel panel-default text-center">
+        <div class="panel-heading bg-subpanel">{{'unit servings' | translate}}</div>
+        <div class="panel-body">
+            <div class="row">
+                <canvas id="bar" class="chart chart-bar"
+                        chart-data="servGraphData.data" chart-labels="servGraphData.labels" chart-colors="servGraphData.colors" height="200"
+                        chart-series="servGraphData.series" chart-dataset-override="servGraphData.datasetOverride"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="row text-center">
+        <div class="col-xs-6">
+            <div class="panel panel-default">
+                <div class="panel-heading bg-subpanel">{{'energy' | translate}}</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div id="energyChart" style="height:150px"></div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    {{'recommended' | translate}}
+                    <br />
+                   {{calculation.recommendedEnergyIntake}} kcal
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="panel panel-default">
+                <div class="panel-heading bg-subpanel">{{'other foods' | translate}}</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div id="otherFoodChart" style="height:150px"></div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    {{'acceptable' | translate}}
+                    <br />
+                    {{recommendations.servings.otherFoodsEnergy | number:1}} kcal
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default text-center">
+        <div class="panel-heading bg-subpanel">{{'macronutrients' | translate}}</div>
+        <div class="panel-body">
+            <div class="row text-center">
+                <div class="col-xs-4">
+                    <label> {{'carbs' | translate}}<!--<span ng-class="isCarbohydratesOk()"></span>--></label>
+                    <div id="carbohydratesChart" style="height:90px"></div>
+                </div>
+                <div class="col-xs-4">
+                    <label> {{'prot' | translate}}<!--<span ng-class="isProteinsOk()"></span>--></label>
+                    <div id="proteinsChart" style="height:90px"></div>
+                </div>
+                <div class="col-xs-4">
+                    <label> {{'fats' | translate}}<!--<span ng-class="isFatsOk()"></span>--></label>
+                    <div id="fatsChart" style="height:90px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default text-center">
+        <div class="panel-heading bg-subpanel">{{'bad nutrients' | translate}}</div>
+        <div class="panel-body">
+            <div class="row text-center">
+                <div class="col-xs-4">
+                    <label style="min-height:30px">{{'sat. fats' | translate}}</label>
+                    <div id="saturatedFatsChart" style="height:90px"></div>
+                </div>
+                <div class="col-xs-4">
+                    <label style="min-height:30px" class="text-uppercase">{{'tfa' | translate}}</label>
+                    <div id="trifluoroaceticAcidChart" style="height:90px"></div>
+                </div>
+                <div class="col-xs-4">
+                    <label style="min-height:30px">{{'cholesterol' | translate}}</label>
+                    <div id="cholesterolChart" style="height:90px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="tablesTpl">
+    <div>
+        <div class="panel panel-default">
+            <div class="panel-heading bg-subpanel">{{'macronutrients' | translate}}</div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-condensed text-small">
+                        <tr>
+                            <th></th>
+                            <th>{{'choosen' | translate}}</th>
+                            <th>{{'recommended' | translate}}</th>
+                        </tr>
+                        <tr>
+                            <td>{{'energy' | translate}}</td>
+                            <td class="novrap text-bold">{{totals.energy | number:1}} kcal</td>
+                            <td class="novrap">{{calculation.recommendedEnergyIntake}} kcal</td>
+                        </tr>
+                        <tr>
+                            <td>{{'carbohydrates' | translate}}</td>
+                            <td class="novrap text-bold">{{totals.carbohydrates | number:1}} g, ({{totals.carbohydratesPercentage | number:1}} %)</td>
+                            <td class="novrap">{{recommendations.carbohydratesPercentageMin | number:1}}-{{recommendations.carbohydratesPercentageMax | number:1}}%</td>
+                        </tr>
+                        <tr>
+                            <td>{{'proteins' | translate}}</td>
+                            <td class="novrap text-bold">{{totals.proteins | number:1}} g, ({{totals.proteinsPercentage | number:1}} %)</td>
+                            <td class="novrap">{{recommendations.proteinsPercentageMin | number:1}}-{{recommendations.proteinsPercentageMax | number:1}}%</td>
+                        </tr>
+                        <tr>
+                            <td>{{'fats' | translate}}</td>
+                            <td class="novrap text-bold">{{totals.fats | number:1}} g, ({{totals.fatsPercentage | number:1}} %)</td>
+                            <td class="novrap">{{recommendations.fatsPercentageMin | number:1}}-{{recommendations.fatsPercentageMax | number:1}}%</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading bg-subpanel">{{'unit servings' | translate}}</div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-condensed text-small">
+                        <tr>
+                            <th></th>
+                            <th>{{'choosen' | translate}}</th>
+                            <th>{{'recommended' | translate}}</th>
+                        </tr>
+                        <tr>
+                            <td>{{'cereals' | translate}}</td>
+                            <td class="text-bold">{{totals.servings.cerealsServ}}</td>
+                            <td>{{recommendations.servings.cerealsServ}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'vegetables' | translate}}</td>
+                            <td class="text-bold">{{totals.servings.vegetablesServ}}</td>
+                            <td>{{recommendations.servings.vegetablesServ}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'fruit' | translate}}</td>
+                            <td class="text-bold">{{totals.servings.fruitServ}}</td>
+                            <td>{{recommendations.servings.fruitServ}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'meat' | translate}}</td>
+                            <td class="text-bold">{{totals.servings.meatServ}}</td>
+                            <td>{{recommendations.servings.meatServ}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'milk' | translate}}</td>
+                            <td class="text-bold">{{totals.servings.milkServ}}</td>
+                            <td>{{recommendations.servings.milkServ}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'fats' | translate}}</td>
+                            <td class="text-bold">{{totals.servings.fatsServ}}</td>
+                            <td>{{recommendations.servings.fatsServ}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th>{{'choosen' | translate}}</th>
+                            <th>{{'acceptable' | translate}}</th>
+                        </tr>
+                        <tr>
+                            <td>{{'other foods' | translate}}</td>
+                            <td class="text-bold">{{totals.servings.otherFoodsEnergy | number:1}} kcal</td>
+                            <td>{{recommendations.servings.otherFoodsEnergy | number:1}} kcal</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading bg-subpanel">{{'parameters' | translate}}</div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-condensed text-small">
+                        <tr>
+                            <th></th>
+                            <th>{{'unit' | translate}}</th>
+                            <th>{{'choosen' | translate}}</th>
+                            <th class="text-uppercase">{{'mda' | translate}}</th>
+                            <th class="text-uppercase">{{'ui' | translate}}</th>
+                            <th class="text-uppercase">{{'rda' | translate}}</th>
+                        </tr>
+                        <tr>
+                            <td>{{'starch' | translate}}</td>
+                            <td>g</td>
+                            <td class="text-bold">{{totals.starch}}</td>
+                            <td>{{recommendations.starch.mda}}</td>
+                            <td>{{recommendations.starch.ui}}</td>
+                            <td>{{recommendations.starch.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'total sugar' | translate}}</td>
+                            <td>g</td>
+                            <td class="text-bold">{{totals.totalSugar}}</td>
+                            <td>{{recommendations.totalSugar.mda}}</td>
+                            <td>{{recommendations.totalSugar.ui}}</td>
+                            <td>{{recommendations.totalSugar.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'glucose' | translate}}</td>
+                            <td>g</td>
+                            <td class="text-bold">{{totals.glucose}}</td>
+                            <td>{{recommendations.glucose.mda}}</td>
+                            <td>{{recommendations.glucose.ui}}</td>
+                            <td>{{recommendations.glucose.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'fructose' | translate}}</td>
+                            <td>g</td>
+                            <td class="text-bold">{{totals.fructose}}</td>
+                            <td>{{recommendations.fructose.mda}}</td>
+                            <td>{{recommendations.fructose.ui}}</td>
+                            <td>{{recommendations.fructose.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'saccharose' | translate}}</td>
+                            <td>g</td>
+                            <td class="text-bold">{{totals.saccharose}}</td>
+                            <td>{{recommendations.saccharose.mda}}</td>
+                            <td>{{recommendations.saccharose.ui}}</td>
+                            <td>{{recommendations.saccharose.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'maltose' | translate}}</td>
+                            <td>g</td>
+                            <td class="text-bold">{{totals.maltose}}</td>
+                            <td>{{recommendations.maltose.mda}}</td>
+                            <td>{{recommendations.maltose.ui}}</td>
+                            <td>{{recommendations.maltose.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'lactose' | translate}}</td>
+                            <td>g</td>
+                            <td class="text-bold">{{totals.lactose}}</td>
+                            <td>{{recommendations.lactose.mda}}</td>
+                            <td>{{recommendations.lactose.ui}}</td>
+                            <td>{{recommendations.lactose.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'fibers' | translate}}</td>
+                            <td>g</td>
+                            <td class="text-bold">{{totals.fibers}}</td>
+                            <td>{{recommendations.fibers.mda}}</td>
+                            <td>{{recommendations.fibers.ui}}</td>
+                            <td>{{recommendations.fibers.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'saturated fats' | translate}}</td>
+                            <td>g</td>
+                            <td class="text-bold">{{totals.saturatedFats}}</td>
+                            <td>{{recommendations.saturatedFats.mda}}</td>
+                            <td>{{recommendations.saturatedFats.ui}}</td>
+                            <td>{{recommendations.saturatedFats.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'monounsaturated fats' | translate}}</td>
+                            <td>g</td>
+                            <td class="text-bold">{{totals.monounsaturatedFats}}</td>
+                            <td>{{recommendations.monounsaturatedFats.mda}}</td>
+                            <td>{{recommendations.monounsaturatedFats.ui}}</td>
+                            <td>{{recommendations.monounsaturatedFats.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'polyunsaturated fats' | translate}}</td>
+                            <td>g</td>
+                            <td class="text-bold">{{totals.polyunsaturatedFats}}</td>
+                            <td>{{recommendations.polyunsaturatedFats.mda}}</td>
+                            <td>{{recommendations.polyunsaturatedFats.ui}}</td>
+                            <td>{{recommendations.polyunsaturatedFats.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'cholesterol' | translate}}</td>
+                            <td>mg</td>
+                            <td class="text-bold">{{totals.cholesterol}}</td>
+                            <td>{{recommendations.cholesterol.mda}}</td>
+                            <td>{{recommendations.cholesterol.ui}}</td>
+                            <td>{{recommendations.cholesterol.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'sodium' | translate}}</td>
+                            <td>mg</td>
+                            <td class="text-bold">{{totals.sodium}}</td>
+                            <td>{{recommendations.sodium.mda}}</td>
+                            <td>{{recommendations.sodium.ui}}</td>
+                            <td>{{recommendations.sodium.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'potassium' | translate}}</td>
+                            <td>mg</td>
+                            <td class="text-bold">{{totals.potassium}}</td>
+                            <td>{{recommendations.potassium.mda}}</td>
+                            <td>{{recommendations.potassium.ui}}</td>
+                            <td>{{recommendations.potassium.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'calcium' | translate}}</td>
+                            <td>mg</td>
+                            <td class="text-bold">{{totals.calcium}}</td>
+                            <td>{{recommendations.calcium.mda}}</td>
+                            <td>{{recommendations.calcium.ui}}</td>
+                            <td>{{recommendations.calcium.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'magnesium' | translate}}</td>
+                            <td>mg</td>
+                            <td class="text-bold">{{totals.magnesium}}</td>
+                            <td>{{recommendations.magnesium.mda}}</td>
+                            <td>{{recommendations.magnesium.ui}}</td>
+                            <td>{{recommendations.magnesium.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'phosphorus' | translate}}</td>
+                            <td>mg</td>
+                            <td class="text-bold">{{totals.phosphorus}}</td>
+                            <td>{{recommendations.phosphorus.mda}}</td>
+                            <td>{{recommendations.phosphorus.ui}}</td>
+                            <td>{{recommendations.phosphorus.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'iron' | translate}}</td>
+                            <td>mg</td>
+                            <td class="text-bold">{{totals.iron}}</td>
+                            <td>{{recommendations.iron.mda}}</td>
+                            <td>{{recommendations.iron.ui}}</td>
+                            <td>{{recommendations.iron.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'copper' | translate}}</td>
+                            <td>mg</td>
+                            <td class="text-bold">{{totals.copper}}</td>
+                            <td>{{recommendations.copper.mda}}</td>
+                            <td>{{recommendations.copper.ui}}</td>
+                            <td>{{recommendations.copper.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'zinc' | translate}}</td>
+                            <td>mg</td>
+                            <td class="text-bold">{{totals.zinc}}</td>
+                            <td>{{recommendations.zinc.mda}}</td>
+                            <td>{{recommendations.zinc.ui}}</td>
+                            <td>{{recommendations.zinc.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'chlorine' | translate}}</td>
+                            <td>mg</td>
+                            <td class="text-bold">{{totals.chlorine}}</td>
+                            <td>{{recommendations.chlorine.mda}}</td>
+                            <td>{{recommendations.chlorine.ui}}</td>
+                            <td>{{recommendations.chlorine.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'manganese' | translate}}</td>
+                            <td>mg</td>
+                            <td class="text-bold">{{totals.manganese}}</td>
+                            <td>{{recommendations.manganese.mda}}</td>
+                            <td>{{recommendations.manganese.ui}}</td>
+                            <td>{{recommendations.manganese.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'selenium' | translate}}</td>
+                            <td>&#956;g</td>
+                            <td class="text-bold">{{totals.selenium}}</td>
+                            <td>{{recommendations.selenium.mda}}</td>
+                            <td>{{recommendations.selenium.ui}}</td>
+                            <td>{{recommendations.selenium.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'iodine' | translate}}</td>
+                            <td>&#956;g</td>
+                            <td class="text-bold">{{totals.iodine}}</td>
+                            <td>{{recommendations.iodine.mda}}</td>
+                            <td>{{recommendations.iodine.ui}}</td>
+                            <td>{{recommendations.iodine.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'retinol' | translate}}</td>
+                            <td>&#956;g</td>
+                            <td class="text-bold">{{totals.retinol}}</td>
+                            <td>{{recommendations.retinol.mda}}</td>
+                            <td>{{recommendations.retinol.ui}}</td>
+                            <td>{{recommendations.retinol.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'carotene' | translate}}</td>
+                            <td>&#956;g</td>
+                            <td class="text-bold">{{totals.carotene}}</td>
+                            <td>{{recommendations.carotene.mda}}</td>
+                            <td>{{recommendations.carotene.ui}}</td>
+                            <td>{{recommendations.carotene.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'vitamin D' | translate}}</td>
+                            <td>&#956;g</td>
+                            <td class="text-bold">{{totals.vitaminD}}</td>
+                            <td>{{recommendations.vitaminD.mda}}</td>
+                            <td>{{recommendations.vitaminD.ui}}</td>
+                            <td>{{recommendations.vitaminD.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'vitamin E' | translate}}</td>
+                            <td>mg</td>
+                            <td class="text-bold">{{totals.vitaminE}}</td>
+                            <td>{{recommendations.vitaminE.mda}}</td>
+                            <td>{{recommendations.vitaminE.ui}}</td>
+                            <td>{{recommendations.vitaminE.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'vitamin B1' | translate}}</td>
+                            <td>mg</td>
+                            <td class="text-bold">{{totals.vitaminB1}}</td>
+                            <td>{{recommendations.vitaminB1.mda}}</td>
+                            <td>{{recommendations.vitaminB1.ui}}</td>
+                            <td>{{recommendations.vitaminB1.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'vitamin B2' | translate}}</td>
+                            <td>mg</td>
+                            <td class="text-bold">{{totals.vitaminB2}}</td>
+                            <td>{{recommendations.vitaminB2.mda}}</td>
+                            <td>{{recommendations.vitaminB2.ui}}</td>
+                            <td>{{recommendations.vitaminB2.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'vitamin B3' | translate}}</td>
+                            <td>mg</td>
+                            <td class="text-bold">{{totals.vitaminB3}}</td>
+                            <td>{{recommendations.vitaminB3.mda}}</td>
+                            <td>{{recommendations.vitaminB3.ui}}</td>
+                            <td>{{recommendations.vitaminB3.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'vitamin B6' | translate}}</td>
+                            <td>mg</td>
+                            <td class="text-bold">{{totals.vitaminB6}}</td>
+                            <td>{{recommendations.vitaminB6.mda}}</td>
+                            <td>{{recommendations.vitaminB6.ui}}</td>
+                            <td>{{recommendations.vitaminB6.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'vitamin B12' | translate}}</td>
+                            <td>&#956;g</td>
+                            <td class="text-bold">{{totals.vitaminB12}}</td>
+                            <td>{{recommendations.vitaminB12.mda}}</td>
+                            <td>{{recommendations.vitaminB12.ui}}</td>
+                            <td>{{recommendations.vitaminB12.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'folate' | translate}}</td>
+                            <td>&#956;g</td>
+                            <td class="text-bold">{{totals.folate}}</td>
+                            <td>{{recommendations.folate.mda}}</td>
+                            <td>{{recommendations.folate.ui}}</td>
+                            <td>{{recommendations.folate.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'pantothenic acid' | translate}}</td>
+                            <td>mg</td>
+                            <td class="text-bold">{{totals.pantothenicAcid}}</td>
+                            <td>{{recommendations.pantothenicAcid.mda}}</td>
+                            <td>{{recommendations.pantothenicAcid.ui}}</td>
+                            <td>{{recommendations.pantothenicAcid.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'biotin' | translate}}</td>
+                            <td>&#956;g</td>
+                            <td class="text-bold">{{totals.biotin}}</td>
+                            <td>{{recommendations.biotin.mda}}</td>
+                            <td>{{recommendations.biotin.ui}}</td>
+                            <td>{{recommendations.biotin.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'vitamin C' | translate}}</td>
+                            <td>mg</td>
+                            <td class="text-bold">{{totals.vitaminC}}</td>
+                            <td>{{recommendations.vitaminC.mda}}</td>
+                            <td>{{recommendations.vitaminC.ui}}</td>
+                            <td>{{recommendations.vitaminC.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'vitamin K' | translate}}</td>
+                            <td>&#956;g</td>
+                            <td class="text-bold">{{totals.vitaminK}}</td>
+                            <td>{{recommendations.vitaminK.mda}}</td>
+                            <td>{{recommendations.vitaminK.ui}}</td>
+                            <td>{{recommendations.vitaminK.rda}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+
+

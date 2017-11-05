@@ -1,0 +1,373 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Program Prehrane</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="Description" content="Program Prehrane 5.0 - računalni program za izradu uravnoteženih jelovnika i plana tjelesne aktivnosti.">
+    <meta name="author" content="IG PROG, obrt za računalno programiranje">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+   
+    <link rel="stylesheet" href="assets/css/vendor/angular-material.min.css">
+
+    <script src="assets/js/vendor/jquery.min.js"></script>
+    <script src="assets/js/vendor/bootstrap.min.js"></script>
+    <script src="assets/js/vendor/angular.min.js"></script>
+    <script src="assets/js/vendor/angular-animate.min.js"></script>
+    <script src="assets/js/vendor/angular-aria.min.js"></script>
+    <script src="assets/js/vendor/angular-messages.min.js"></script>
+    <script src="assets/js/vendor/angular-material.min.js"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+
+</head>
+<body id="myPage" ng-app="app" ng-controller="appCtrl" data-spy="scroll" data-target=".navbar" data-offset="60" ng-cloak>
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#myPage"><i class="fa fa-cutlery"></i> <span class="hidden-xs">Program Prehrane</span></a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#about"><i class="fa fa-info"></i> O programu</a></li>
+                    <li><a href="#app"><i class="fa fa-download"></i> Download</a></li>
+                    <li><a href="#pricing"><i class="fa fa-usd"></i> Cijene</a></li>
+                    <li><a href="#order"><i class="fa fa-shopping-cart"></i> Narudžba</a></li>
+                    <li><a href="#contact"><i class="fa fa-comment"></i> Kontakt</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="jumbotron text-center hidden-xs">
+        <div class="row text-center">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6 well" style="opacity: 0.90; filter: alpha(opacity=95); border-radius: 50%; padding:50px">
+                <h2 style="color:#1fe27e !important; text-shadow: 2px 2px darkgray">Program Prehrane 5.0</h2>
+                <p>Softver za izradu uravnoteženih jelovnika i plana tjelesne aktivnost</p>
+                <a href="#desktopapp" class="btn btn-primary m10"><span class="fa fa-download fa-4x"></span> Download</a>
+                <a href="#order" class="btn btn-success m10"><i class="fa fa-shopping-cart fa-4x"></i> Narudžba</a>
+            </div>
+            <div class="col-sm-3"></div>
+        </div>
+
+
+        <!--<h1 style="color:#1fe27e !important; text-shadow: 2px 2px darkgray">Program Prehrane 5.0</h1>
+        <p> Softver za izradu uravnoteženih jelovnika i plana tjelesne aktivnost</p>
+        <div class="row text-center">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6 well" style="opacity: 0.95; filter: alpha(opacity=95); border-radius: 50%;" ng-click="hashId('desktopapp')">
+                <a href="#desktopapp" class="btn btn-primary m10"><span class="fa fa-download fa-4x"></span> Download</a>
+                <a href="#order" class="btn btn-success m10"><i class="fa fa-shopping-cart fa-4x"></i> Narudžba</a>
+            </div>
+        </div>-->
+    </div>
+
+    <div class="visible-xs pt60 text-center">
+        <h2 style="color:#1fe27e !important; text-shadow: 2px 2px darkgray">Program Prehrane 5.0</h2>
+        <p>Softverm za izradu uravnoteženih jelovnika i plana tjelesne aktivnost</p>
+        <a href="#desktopapp" class="btn btn-primary m10"><span class="fa fa-download fa-4x"></span> Download</a>
+        <a href="#order" class="btn btn-success m10"><i class="fa fa-shopping-cart fa-4x"></i> Narudžba</a>
+        <hr />
+        <a href={{config.appurl}} class="btn btn-primary m10"><i class="fa fa-cloud fa-4x"></i>Web Aplikacija</a>
+        <a href="{{config.apk}}" class="btn btn-success m10"><i class="fa fa-android fa-4x"></i> Android aplikacija</a>
+    </div>
+
+    <div id="PP5Carousel" class="carousel slide text-center" data-ride="carousel" style="padding:60px 50px 20px 50px; margin:10px 5px 20px 5px; border:solid 1px #428bca">
+        <ol class="carousel-indicators">
+            <li data-target="#PP5Carousel" data-slide-to="0" class="active"></li>
+            <li data-target="#PP5Carousel" data-slide-to="1"></li>
+            <li data-target="#PP5Carousel" data-slide-to="2"></li>
+            <li data-target="#PP5Carousel" data-slide-to="3"></li>
+        </ol>
+
+        <div class="carousel-inner">
+            <div class="item active">
+                 <img src="./assets/img/pp5/01.jpg" alt="Program Prehrane 5.0" class="img-responsive center-block">
+                <div class="carousel-caption" style="color:black">
+                </div>
+            </div>
+            <div class="item">
+                <img src="./assets/img/pp5/02.jpg" alt="Program Prehrane 5.0" class="img-responsive center-block">
+                <div class="carousel-caption">
+                </div>
+            </div>
+            <div class="item">
+                <img src="./assets/img/pp5/03.jpg" alt="Program Prehrane 5.0" class="img-responsive center-block">
+                <div class="carousel-caption">
+                </div>
+            </div>
+            <div class="item">
+                <img src="./assets/img/pp5/04.jpg" alt="Program Prehrane 5.0" class="img-responsive center-block">
+                <div class="carousel-caption">
+                </div>
+            </div>
+        </div>
+
+        <a class="left carousel-control" href="#PP5Carousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Natrag</span>
+        </a>
+        <a class="right carousel-control" href="#PP5Carousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Naprijed</span>
+        </a>
+    </div>
+
+    <div id="about" class="container">
+        <div class="row">
+            <div class="col-sm-8">
+                <h2>O Programu Prehrane</h2><br>
+                <h4><strong>Program Prehrane 5.0</strong> je računalni program za izradu raznovrsnih i uravnoteženih jelovnika i plana tjelesne aktivnosti.</h4><br>
+                <p class="text-justify">Program omogućava utvrđivanje stanja uhranjenosti i energetske potrošnje pojedinca te izradu jelovnika utemeljenu na znanstvenim spoznajama na polju nutriconizma. Osmišljavanjem jelovnika korištenjem Programa Prehrane 5.0, prehrana krajnjih korisnika postaje uravnotežena i raznolika što se može zahvaliti činjenici da se izrada jelovnika bazira na preporučenom broju jediničnih serviranja svih skupina namirnica te njihovih energetskih, makro i mikronutiritivnih vrijednost. S obzirom da Program Prehrane 5.0 sadrži bazu od preko 660 namirnica i jela moguće je zadovoljiti zahtjeve većine korisnika po pitanju izbora namirnica. Nadalje, kad se govori o problemu prekomjerne tjelesne mase, preporuča se uz promjene prehrambenih navika, u svakodnevicu uključiti i dodatnu tjelesnu aktivnost. Program Prehrane 5.0 nudi podatke o energetskoj potrošnji za 428 tjelesnih aktivnosti. U sklopu programa dolazi i priručnik o pravilnoj i uravnoteženoj prehrani "Sam svoj nutricionist" u PDF formatu.</p>
+                <p>Više o karakteristikama i funkcijama programa pogledajte <a href="#pricing"><strong>ovdje...</strong></a></p>
+            </div>
+            <div class="col-sm-4 hidden-xs">
+                <img src="./assets/img/nutrition.jpg" alt="Program Prehrane" class="img-responsive m10">
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <img src="./assets/img/PP5_1.jpg" alt="Program Prehrane" class="img-responsive">
+            </div>
+            <div class="col-sm-8">
+                <p>
+                    <strong>MISIJA: </strong> <strong>Program Prehrane 5.0</strong>
+                    je nastao iz potrebe za izradom alata koji će nutricionistima i zdravstvenim djelatnicima ali
+                    i svima ostalima koji vode računa zdravoj i uravnoteženoj prehrani omogućiti brzu i jednostavnu izradu jelovnika te plana tjelesne aktivnosti.
+                </p>
+                <p>
+                    <strong>POVIJEST:</strong> Program Prehrane je na tržištu već 10 godina, a do sada je doživio 6 verzija.
+                    <div class="table-responsive">
+                        <table class="table table-condensed">
+                            <tr>
+                                <th>Verzija</th>
+                                <th>Godina izdanja</th>
+                                <th>Tehnologija</th>
+                            </tr>
+                            <tr>
+                                <td>Progra Prehrane 1.0</td>
+                                <td>2008</td>
+                                <td>Visual Basic 4.0</td>
+                            </tr>
+                            <tr>
+                                <td>Progra Prehrane 2.0</td>
+                                <td>2012</td>
+                                <td>Visual Basic 6.0</td>
+                            </tr>
+                            <tr>
+                                <td>Progra Prehrane 3.0</td>
+                                <td>2012</td>
+                                <td>VB Net</td>
+                            </tr>
+                            <tr>
+                                <td>Progra Prehrane 4.0</td>
+                                <td>2013</td>
+                                <td>VB Net</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Program Prehrane 5.0</strong></td>
+                                <td>2014</td>
+                                <td>VB Net</td>
+                            </tr>
+                            <tr>
+                                <td><a href="index.html" target="_blank"><strong>Program Prehrane Web</strong></a></td>
+                                <td>2017</td>
+                                <td>Angular JS, C# (ASMX), SQLite</td>
+                            </tr>
+                        </table>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-include="'./assets/partials/awards.html'"></div>
+
+    <div ng-include="'./assets/partials/customers.html'"></div>
+
+    <div id="app" class="container text-center pt60">
+        <div id="desktopapp" class="well">
+            <h2>Download</h2>
+            <div>
+                <h3>Program Prehrane 5.0</h3>
+                <hr />
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="radio">
+                            <label><input ng-model="pp5lang" value="hr" type="radio" name="optradiolang" ng-click="setDownloadLink(pp5lang)">Verzija na Hrvatsko jeziku</label>
+                        </div>
+                        <div class="radio">
+                            <label><input ng-model="pp5lang" value="rs" type="radio" name="optradiolang" ng-click="setDownloadLink(pp5lang)">Verzija na Srpskom jeziku</label>
+                        </div>
+
+                        <a href="{{pp5downloadlink}}" class="btn btn-primary"><i class="fa fa-download"></i> DOWNLOAD</a>
+                        <p> Instalacijom programa prihvaćate <a href="./download/hr/licence.txt" target="_blank">uvjete korištenja</a></p>
+
+                    </div>
+                    <div class="col-sm-6 text-left">
+                        <b>Minimalni i preporućeni sistemski i tehnički zahtjevi za pokretanje programa</b>
+                        <ul>
+                            <li>
+                                Windows 2000, Windows XP, Windows Vista, Windows 7, Windows 8, Windows 10, Windows
+                                Server 2000 SP4, Windows Server 2003 SP1, Windows Server 2008.
+                            </li>
+                            <li>Microsoft .NET Framework 4.0</li>
+                            <li>Windows Installer 3.1</li>
+                            <li>
+                                Pentium III-kompatibilni procesor ili noviji, minimalno 500 Mhz, preporućeno 1 Ghz
+                                ili više
+                            </li>
+                            <li>Radna memorija (RAM) 512 MB minimalno, preporućeno 1 GB ili više</li>
+                            <li>Monitor rezolucije minimalno 1024x768</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="pricing" class="container bg-grey pt60">
+        <div class="text-center">
+            <h2>Cijene</h2>
+            <h3>Program Prehrane 5.0</h3>
+        </div>
+
+        <div class="row slideanim">
+            <div class="col-sm-6 col-xs-12">
+                <div class="panel panel-default text-center">
+                    <div class="panel-heading">
+                        <p>Program Prehrane 5.0</p>
+                        <h1>Start</h1>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="list-group">
+                            <li class="list-group-item">660 namirnica i jela</li>
+                            <li class="list-group-item">428 tjelesnih aktivnosti</li>
+                            <li class="list-group-item">2 Vrste prehrane/dijete</li>
+                            <li class="list-group-item">Izračun BMI i energetske potrošnje</li>
+                            <li class="list-group-item">Dodatna energetska aktivnost</li>
+                            <li class="list-group-item">Prikaz mikronutrijenata i ostalih parametara</li>
+                            <li class="list-group-item">39 mikronutrijenata i ostalih parametara</li>
+                            <li class="list-group-item">Baza pripremljenih jela</li>
+                            <li class="list-group-item">Spremanje jelovnika u bazu</li>
+                            <li class="list-group-item">3 primjera jelovnika</li>
+                            <li class="list-group-item">Automatsko ažuriranje novih verzija (update)</li>
+                            <li class="list-group-item">Priručnik "Sam svoj nutricionist" (PDF)</li>
+                            <li class="list-group-item">Tehnička podrška</li>
+                            <li class="list-group-item notActive">Izrada jelovnika/normativa za skupine konzumenata</li>
+                            <li class="list-group-item notActive">Detaljni izračun energetske potrošnje</li>
+                            <li class="list-group-item notActive">Unos vlastitih namirnica</li>
+                            <li class="list-group-item notActive">Favoriti namirnica</li>
+                            <li class="list-group-item notActive">Kreiranje cjenika namirnica</li>
+                            <li class="list-group-item notActive">Prikaz ukupnih energetskih i nutritivnih vrijednosti po obrocima u ispisu</li>
+                            <li class="list-group-item notActive">Prilagodba ispisa</li>
+                            <li class="list-group-item notActive">Praćenje antropometrijskih parametara</li>
+                            <li class="list-group-item notActive">Baza klijenata</li>
+                            <li class="list-group-item notActive">Edukacija (za kupce dvije i više trajnih licenci)</li>
+                        </ul>
+                    </div>
+                    <div class="panel-footer">
+                        <h3>350.00 kn</h3>
+                        <h4>godišnje</h4>
+                        <h3>750.00 kn</h3>
+                        <h4>trajna licenca</h4>
+                        <a href="#desktopapp" class="btn btn-primary"><i class="fa fa-download"></i> Download</a>
+                        <a href="#orderform" class="btn btn-success"><i class="fa fa-shopping-cart"></i> Narudžba</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="ribbon"><span>Preporuka</span></div>
+                <div class="panel panel-default text-center">
+                    <div class="panel-heading">
+                        <p>Program Prehrane 5.0</p>
+                        <h1>Premium</h1>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="list-group">
+                            <li class="list-group-item">660 namirnica i jela</li>
+                            <li class="list-group-item">428 tjelesnih aktivnosti</li>
+                            <li class="list-group-item">24 Vrste prehrane/dijete</li>
+                            <li class="list-group-item">Izračun BMI i energetske potrošnje</li>
+                            <li class="list-group-item">Dodatna energetska aktivnost</li>
+                            <li class="list-group-item">Prikaz mikronutrijenata i ostalih parametara</li>
+                            <li class="list-group-item">39 mikronutrijenata i ostalih parametara</li>
+                            <li class="list-group-item">Baza pripremljenih jela</li>
+                            <li class="list-group-item">Spremanje jelovnika u bazu</li>
+                            <li class="list-group-item">12 primjera jelovnika</li>
+                            <li class="list-group-item">Automatsko ažuriranje novih verzija (update)</li>
+                            <li class="list-group-item">Priručnik "Sam svoj nutricionist" (PDF)</li>
+                            <li class="list-group-item">Tehnička podrška</li>
+                            <li class="list-group-item">Izrada jelovnika/normativa za skupine konzumenata</li>
+                            <li class="list-group-item">Detaljni izračun energetske potrošnje</li>
+                            <li class="list-group-item">Unos vlastitih namirnica</li>
+                            <li class="list-group-item">Favoriti namirnica</li>
+                            <li class="list-group-item">Kreiranje cjenika namirnica</li>
+                            <li class="list-group-item">Prikaz ukupnih energetskih i nutritivnih vrijednosti po obrocima u ispisu</li>
+                            <li class="list-group-item">Prilagodba ispisa</li>
+                            <li class="list-group-item">Praćenje antropometrijskih parametara</li>
+                            <li class="list-group-item">Baza klijenata</li>
+                            <li class="list-group-item">Edukacija (za kupce dvije i više trajnih licenci)</li>
+                        </ul>
+
+                    </div>
+                    <div class="panel-footer">
+                        <h3>550.00 kn</h3>
+                        <h4>godišnje</h4>
+                        <h3>950.00 kn</h3>
+                        <h4>trajna licenca</h4>
+                        <a href="#desktopapp" class="btn btn-primary"><i class="fa fa-download"></i> Download</a>
+                        <a href="#orderform" class="btn btn-success"><i class="fa fa-shopping-cart"></i> Narudžba</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="order" ng-controller="pp5Ctrl" class="container text-left pt60">
+        <h2>NARUDŽBA</h2>
+        <div>
+            <h3>Postupak narudžbe</h3>
+            <ul>
+                <li>Ukoliko već niste, instalirajte <a href="#app"><strong>Demo Verziju</strong></a> (U Demo verziji možete isprobati većinu funkcionalnosti).</li>
+                <li>Nakon toga ispunite <a href="#order"><strong>narudžbenicu</strong></a>. U narudžbenici odaberite željeni paket (START ili PREMIUM) i licencu (godišnju ili trajnu).</li>
+                <li>Ispunite obrazac za narudžbu (ako se račun izdaje na tvrtku odaberite <strong>pravna osoba</strong>).</li>
+                <li>Pošaljite narudžbu</li>
+                <li>Na Vaš e-mail ćete dobiti podatke za uplatu. (Nakon primitka Vaše uplate aktivacijski kod šaljemo na Vašu e-mail adresu).</li>
+            </ul>
+        </div>
+        <div ng-include="'./assets/partials/order.html'"></div>
+    </div>
+
+    <div ng-include="'./assets/partials/info.html'"></div>
+
+    <footer class="container text-center pt60">
+        <div class="navbar-fixed-bottom m10">
+            <a href="#myPage" title="Na vrh">
+                <span class="fa fa-chevron-up fa-2x"></span>
+            </a>
+        </div>
+        <hr />
+        <p>Program Prehrane je deponiran u Hrvatskoj autorskoj agenciji - Centru za intelektualno vlasništvo d.o.o. u Zagrebu.</p>
+        <div>
+            <span class="pull-left">Copyright © {{year}} IG PROG</span>
+            <a class="pull-right" href="admin.html" target="_blank"><i class="fa fa-user-o"></i> admin</a>
+        </div>
+    </footer>
+
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+﻿<div ng-controller="userCtrl">
+    <button class="btn btn-default pull-right text-capitalize m10" ng-click="isLogin?toggleTpl('dashboard.html'):toggleTpl('login.html')"><i class="fa fa-times"></i><span class="hidden-xs"> {{'cancel' | translate}}</span></button>
+    <div class="col-md-6 col-md-offset-3 well">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="container row">
+                    <label>{{'add new user' | translate}}<span class="radioValue"></span> </label>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>{{'first name' | translate}}</label>
+                        <input ng-model="newUser.firstName" type="text">
+                    </md-input-container>
+                </div>
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>{{'last name' | translate}}</label>
+                        <input ng-model="newUser.lastName" type="text">
+                    </md-input-container>
+                </div>
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>{{'email' | translate}}</label>
+                        <input name="email" ng-model="newUser.email" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" />
+                    </md-input-container>
+                </div>
+                <!--<div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>{{'user name' | translate}}</label>
+                        <input ng-model="newUser.userName" type="text">
+                    </md-input-container>
+                </div>-->
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>{{'password' | translate}}</label>
+                        <input ng-model="newUser.password" type="password">
+                    </md-input-container>
+                </div>
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>{{'confirm password' | translate}}</label>
+                        <input ng-model="passwordConfirm" type="password">
+                    </md-input-container>
+                </div>
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label style="margin-bottom: 30px">{{'admin type' | translate}}</label>
+                        <select ng-model="newUser.adminType" class="form-control">
+                            <option ng-repeat="x in adminTypes" ng-value="{{x.value}}">{{x.text}}</option>
+                        </select>
+                    </md-input-container>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button class="btn btn-primary" ng-click="singup()"><i class="fa fa-user-plus"></i> {{'sing up' | translate}}</button>
+
+                <!--<md-dialog-actions layout="row">
+                    <md-button class="md-raised md-primary" ng-click="singup()">{{'sing up' | translate}}</md-button>
+                </md-dialog-actions>-->
+            </div>
+        </div>
+        <div id="singupMessage" hidden="hidden" class="alert alert-danger">
+            <strong class="text-uppercase">{{'error' | translate}}!</strong>
+        </div>
+
+        <div ng-if="config.debug" class="bg-info debugBox">
+            newUser:
+            <pre>{{newUser | json}}</pre>
+        </div>
+
+    </div>
+</div>
