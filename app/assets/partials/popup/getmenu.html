@@ -41,6 +41,7 @@
                             <td class="novrap">{{x.note}}</td>
                             <td ng-if="config.debug">{{x.client.clientId}}</td>
                             <td>{{x.client.firstName}} {{x.client.lastName}}</td>
+                            <td><a href="" style="color:red" ng-click="remove(x)" class="btn btn-default"><i class="fa fa-minus"></i></a></td>
                         </tr>
                     </table>
                 </div>

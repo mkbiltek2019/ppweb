@@ -2246,7 +2246,7 @@
 
     $scope.removeFood = function (x, idx) {
         var confirm = $mdDialog.confirm()
-             .title($translate.instant('delete foood') + '?')
+             .title($translate.instant('delete food') + '?')
              .textContent(x.food)
              .targetEvent(x)
              .ok($translate.instant('yes'))
@@ -2357,6 +2357,33 @@
            });
         }
         load();
+
+        $scope.remove = function (x) {
+            var confirm = $mdDialog.confirm()
+                 .title($translate.instant('remove menu') + '?')
+                 .textContent(x.title)
+                 .targetEvent(x)
+                 .ok($translate.instant('yes'))
+                 .cancel($translate.instant('no'));
+            $mdDialog.show(confirm).then(function () {
+                remove(x);
+            }, function () {
+            });
+        }
+
+        var remove = function (x) {
+            $http({
+                url: $sessionStorage.config.backend + 'Menues.asmx/Delete',
+                method: "POST",
+                data: { userId: $rootScope.user.userGroupId, id: x.id }
+            })
+          .then(function (response) {
+              $scope.d = JSON.parse(response.data.d);
+          },
+          function (response) {
+              alert(response.data.d)
+          });
+        }
 
         $scope.cancel = function () {
             $mdDialog.cancel();
