@@ -161,7 +161,7 @@ public class Menues : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string Delete(string userId, int id) {
+    public string Delete(string userId, string id) {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
