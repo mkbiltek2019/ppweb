@@ -89,9 +89,9 @@
         </div>
         <div class="col-sm-4">
             <div class="panel panel-default">
-                <div class="panel-heading">
+                <!--<div class="panel-heading">
                     <span><i class="fa fa-area-chart"></i> <span> {{'analytics' | translate}}</span> <em class="pl10">({{'total values' | translate}})</em></span>
-                </div>
+                </div>-->
                 <div class="panel-body text-small">
                     <div>
                         <ul class="nav nav-tabs">
@@ -146,6 +146,36 @@
 
 
 <script type="text/ng-template" id="chartsTpl">
+    <div class="row text-center">
+        <div class="col-xs-6">
+            <div class="panel panel-default">
+                <div class="panel-heading bg-subpanel">
+                    {{'energy' | translate}}
+                    <br />
+                    {{'recommended' | translate}}: <strong>{{calculation.recommendedEnergyIntake}}</strong>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div id="energyChart" style="height:150px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="panel panel-default">
+                <div class="panel-heading bg-subpanel">
+                    {{'other foods' | translate}}
+                    <br />
+                    {{'acceptable' | translate}}: <strong>{{recommendations.servings.otherFoodsEnergy | number:0}}</strong>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div id="otherFoodChart" style="height:150px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="panel panel-default text-center">
         <div class="panel-heading bg-subpanel">{{'unit servings' | translate}}</div>
         <div class="panel-body">
@@ -153,38 +183,6 @@
                 <canvas id="bar" class="chart chart-bar"
                         chart-data="servGraphData.data" chart-labels="servGraphData.labels" chart-colors="servGraphData.colors" height="200"
                         chart-series="servGraphData.series" chart-dataset-override="servGraphData.datasetOverride"></canvas>
-            </div>
-        </div>
-    </div>
-    <div class="row text-center">
-        <div class="col-xs-6">
-            <div class="panel panel-default">
-                <div class="panel-heading bg-subpanel">{{'energy' | translate}}</div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div id="energyChart" style="height:150px"></div>
-                    </div>
-                </div>
-                <div class="panel-footer">
-                    {{'recommended' | translate}}
-                    <br />
-                   {{calculation.recommendedEnergyIntake}} kcal
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-6">
-            <div class="panel panel-default">
-                <div class="panel-heading bg-subpanel">{{'other foods' | translate}}</div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div id="otherFoodChart" style="height:150px"></div>
-                    </div>
-                </div>
-                <div class="panel-footer">
-                    {{'acceptable' | translate}}
-                    <br />
-                    {{recommendations.servings.otherFoodsEnergy | number:1}} kcal
-                </div>
             </div>
         </div>
     </div>
