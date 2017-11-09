@@ -1,0 +1,202 @@
+{
+  "selectedFoods": [
+    {
+      "foodGroup": {
+        "code": "OF",
+        "title": "ostale namirnice",
+        "parent": "A"
+      },
+      "meal": {
+        "code": "B",
+        "title": "doručak"
+      },
+      "servings": {
+        "cerealsServ": 0.0,
+        "vegetablesServ": 0.0,
+        "fruitServ": 0.0,
+        "meatServ": 0.0,
+        "milkServ": 0.0,
+        "fatsServ": 0.0,
+        "otherFoodsServ": 1.0,
+        "otherFoodsEnergy": 162.6
+      },
+      "price": {
+        "value": 0.762,
+        "currency": "kn",
+        "unit": "g"
+      },
+      "id": "2285c64b-e3b8-47d5-9ae0-99b28efe164b",
+      "food": "Ananas, izrezan, konzerviran u sirupu, plod i sirup",
+      "foodGroupVitaminLost": "",
+      "thermalTreatments": [],
+      "quantity": 1.0,
+      "unit": "šalica",
+      "mass": 254.0,
+      "energy": 162.6,
+      "carbohydrates": 41.91,
+      "proteins": 1.27,
+      "fats": 0.0,
+      "starch": 0.0,
+      "totalSugar": 41.91,
+      "glucose": 15.24,
+      "fructose": 12.192,
+      "saccharose": 14.732,
+      "maltose": 0.0,
+      "lactose": 0.0,
+      "fibers": 1.778,
+      "saturatedFats": 0.0,
+      "monounsaturatedFats": 0.0,
+      "polyunsaturatedFats": 0.0,
+      "trifluoroaceticAcid": 0.0,
+      "cholesterol": 0.0,
+      "sodium": 5.08,
+      "potassium": 200.66,
+      "calcium": 15.24,
+      "magnesium": 27.94,
+      "phosphorus": 12.7,
+      "iron": 0.508,
+      "copper": 0.051,
+      "zinc": 0.254,
+      "chlorine": 10.16,
+      "manganese": 2.286,
+      "selenium": 0.0,
+      "iodine": 0.0,
+      "retinol": 0.0,
+      "carotene": 27.94,
+      "vitaminD": 0.0,
+      "vitaminE": 0.152,
+      "vitaminB1": 0.178,
+      "vitaminB2": 0.025,
+      "vitaminB3": 0.508,
+      "vitaminB6": 0.178,
+      "vitaminB12": 0.0,
+      "folate": 2.54,
+      "pantothenicAcid": 0.178,
+      "biotin": 0.254,
+      "vitaminC": 33.02,
+      "vitaminK": 0.0
+    }
+  ],
+  "selectedInitFoods": [
+    {
+      "foodGroup": {
+        "code": "OF",
+        "title": "ostale namirnice",
+        "parent": "A"
+      },
+      "meal": {
+        "code": "B",
+        "title": "doručak"
+      },
+      "servings": {
+        "cerealsServ": 0.0,
+        "vegetablesServ": 0.0,
+        "fruitServ": 0.0,
+        "meatServ": 0.0,
+        "milkServ": 0.0,
+        "fatsServ": 0.0,
+        "otherFoodsServ": 1.0,
+        "otherFoodsEnergy": 162.6
+      },
+      "price": {
+        "value": 0.762,
+        "currency": "kn",
+        "unit": "g"
+      },
+      "id": "2285c64b-e3b8-47d5-9ae0-99b28efe164b",
+      "food": "Ananas, izrezan, konzerviran u sirupu, plod i sirup",
+      "foodGroupVitaminLost": "",
+      "thermalTreatments": [],
+      "quantity": 1.0,
+      "unit": "šalica",
+      "mass": 254.0,
+      "energy": 162.6,
+      "carbohydrates": 41.91,
+      "proteins": 1.27,
+      "fats": 0.0,
+      "starch": 0.0,
+      "totalSugar": 41.91,
+      "glucose": 15.24,
+      "fructose": 12.192,
+      "saccharose": 14.732,
+      "maltose": 0.0,
+      "lactose": 0.0,
+      "fibers": 1.778,
+      "saturatedFats": 0.0,
+      "monounsaturatedFats": 0.0,
+      "polyunsaturatedFats": 0.0,
+      "trifluoroaceticAcid": 0.0,
+      "cholesterol": 0.0,
+      "sodium": 5.08,
+      "potassium": 200.66,
+      "calcium": 15.24,
+      "magnesium": 27.94,
+      "phosphorus": 12.7,
+      "iron": 0.508,
+      "copper": 0.051,
+      "zinc": 0.254,
+      "chlorine": 10.16,
+      "manganese": 2.286,
+      "selenium": 0.0,
+      "iodine": 0.0,
+      "retinol": 0.0,
+      "carotene": 27.94,
+      "vitaminD": 0.0,
+      "vitaminE": 0.152,
+      "vitaminB1": 0.178,
+      "vitaminB2": 0.025,
+      "vitaminB3": 0.508,
+      "vitaminB6": 0.178,
+      "vitaminB12": 0.0,
+      "folate": 2.54,
+      "pantothenicAcid": 0.178,
+      "biotin": 0.254,
+      "vitaminC": 33.02,
+      "vitaminK": 0.0
+    }
+  ],
+  "meals": [
+    {
+      "code": "B",
+      "title": "doručak",
+      "description": "",
+      "isSelected": true,
+      "isDisabled": true
+    },
+    {
+      "code": "MS",
+      "title": "jutarnja užina",
+      "description": "",
+      "isSelected": true,
+      "isDisabled": false
+    },
+    {
+      "code": "L",
+      "title": "ručak",
+      "description": "",
+      "isSelected": true,
+      "isDisabled": true
+    },
+    {
+      "code": "AS",
+      "title": "popodnevna užina",
+      "description": "",
+      "isSelected": true,
+      "isDisabled": false
+    },
+    {
+      "code": "D",
+      "title": "večera",
+      "description": "",
+      "isSelected": true,
+      "isDisabled": true
+    },
+    {
+      "code": "MBS",
+      "title": "obrok pred spavanje",
+      "description": "",
+      "isSelected": false,
+      "isDisabled": false
+    }
+  ]
+}

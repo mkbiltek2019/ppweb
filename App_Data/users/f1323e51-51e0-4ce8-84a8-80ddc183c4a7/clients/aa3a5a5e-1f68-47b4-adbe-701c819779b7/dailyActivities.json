@@ -1,0 +1,18 @@
+[
+  {
+    "id": 424,
+    "activity": "Aerobik u vodi, gimnastika u vodi",
+    "from": "0:0",
+    "to": "4:0",
+    "duration": 240,
+    "energy": 960.0
+  },
+  {
+    "id": 17,
+    "activity": "Biciklizam, >16 km/h, npr. vožnja iz razonode",
+    "from": "4:0",
+    "to": "10:5",
+    "duration": 365,
+    "energy": 1460.0
+  }
+]

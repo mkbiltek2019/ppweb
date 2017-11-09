@@ -1,0 +1,16 @@
+[
+  {
+    "from": {
+      "hour": 0,
+      "min": 0
+    },
+    "to": {
+      "hour": 10,
+      "min": 0
+    },
+    "id": 5,
+    "activity": "Aerobik, intenzivan napor",
+    "duration": 600,
+    "energy": 4140.0
+  }
+]

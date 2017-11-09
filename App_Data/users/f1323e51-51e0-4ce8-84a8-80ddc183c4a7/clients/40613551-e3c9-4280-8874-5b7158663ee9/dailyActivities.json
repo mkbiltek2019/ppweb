@@ -1,0 +1,30 @@
+[
+  {
+    "from": {
+      "hour": 0,
+      "min": 0
+    },
+    "to": {
+      "hour": 8,
+      "min": 0
+    },
+    "id": 4,
+    "activity": "Aerobik, općenito",
+    "duration": 480,
+    "energy": 2832.0
+  },
+  {
+    "from": {
+      "hour": 8,
+      "min": 0
+    },
+    "to": {
+      "hour": 8,
+      "min": 5
+    },
+    "id": 5,
+    "activity": "Aerobik, intenzivan napor",
+    "duration": 5,
+    "energy": 34.5
+  }
+]

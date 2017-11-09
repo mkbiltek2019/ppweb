@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="assets/css/style.css">
 
 </head>
-<body id="myPage" ng-app="app" ng-controller="appCtrl" data-spy="scroll" data-target=".navbar" data-offset="60" ng-cloak>
+<body id="home" ng-app="app" ng-controller="appCtrl" data-spy="scroll" data-target=".navbar" data-offset="60" ng-cloak>
 
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
@@ -38,8 +38,8 @@
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#about"><i class="fa fa-info"></i> O aplikaciji</a></li>
-                    <li><a href="#registration"><i class="fa fa-sign-in"></i> Registracija</a></li>
                     <li><a href="#pricing"><i class="fa fa-usd"></i> Cijena</a></li>
+                    <li><a href="#registration"><i class="fa fa-sign-in"></i> Registracija</a></li>
                     <li><a href="#order"><i class="fa fa-shopping-cart"></i> Narudžba</a></li>
                     <li><a href="#contact"><i class="fa fa-comment"></i> Kontakt</a></li>
                 </ul>
@@ -53,7 +53,7 @@
             <div class="col-sm-6 well" style="opacity: 0.90; filter: alpha(opacity=95); border-radius: 50%; padding:50px">
                 <h2 style="color:#1fe27e !important; text-shadow: 2px 2px darkgray">Program Prehrane Web</h2>
                 <p>Web aplikacija za izradu uravnoteženih jelovnika i plana tjelesne aktivnost</p>
-                <a href={{config.appurl}} class="btn btn-primary"><i class="fa fa-cloud fa-4x"></i> Ulaz u aplikaciju</a>
+                <a href={{config.appurl}} class="btn btn-primary"><i class="fa fa-cloud fa-4x"></i> <strong style="font-size:xx-large">ULAZ</strong></a>
                 <div>
                     <a href="#registration"><i class="fa fa-sign-in"></i> Postani korisnik</a>
                 </div>
@@ -66,7 +66,7 @@
         <h2 style="color:#1fe27e !important; text-shadow: 2px 2px darkgray">Program Prehrane Web</h2>
         <p>Web aplikacija za izradu uravnoteženih jelovnika i plana tjelesne aktivnost</p>
         <a href={{config.appurl}} class="btn btn-primary m10"><i class="fa fa-cloud fa-4x"></i> Web App</a>
-        <a href="{{config.apk}}" class="btn btn-success m10"><i class="fa fa-android fa-4x"></i> Android App</a>
+        <!--<a href="{{config.apk}}" class="btn btn-success m10"><i class="fa fa-android fa-4x"></i> Android App</a>-->
     </div>
 
 
@@ -291,7 +291,7 @@
 
     <footer class="container text-center pt60">
         <div class="navbar-fixed-bottom m10">
-            <a href="#myPage" title="Na vrh">
+            <a href="#home" title="Na vrh">
                 <span class="fa fa-chevron-up fa-2x"></span>
             </a>
         </div>

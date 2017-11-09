@@ -1,0 +1,16 @@
+[
+  {
+    "from": {
+      "hour": 0,
+      "min": 0
+    },
+    "to": {
+      "hour": 13,
+      "min": 0
+    },
+    "id": 424,
+    "activity": "Aerobik u vodi, gimnastika u vodi",
+    "duration": 780,
+    "energy": 3120.0
+  }
+]
