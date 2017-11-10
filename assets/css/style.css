@@ -29,10 +29,11 @@ body {
       color: black;
       padding: 100px 25px;
       font-family: Montserrat, sans-serif;
-      background-image: url('../img/main.jpg');
+      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../img/main.jpg');
       background-repeat:no-repeat;
       background-position: center top;
-      background-size: 100% 100%;
+      background-size: cover; 
+      height:100vh;
   }
   .container-fluid {
      /* padding: 60px 50px;*/
@@ -78,47 +79,9 @@ body {
   .item span {
       font-style: normal;
   }
-  .panel {
-      border: 1px solid #1fe27e; 
-      border-radius:0 !important;
-      transition: box-shadow 0.5s;
-  }
-  .panel:hover {
-      box-shadow: 5px 0px 40px rgba(0,0,0, .2);
-  }
-  .panel-footer .btn:hover {
-      border: 1px solid #1fe27e;
-      background-color: #fff !important;
-      color: #1fe27e;
-  }
-  .panel-heading {
-      color: #fff !important;
-      background-color: #1fe27e !important;
-      padding: 25px;
-      border-bottom: 1px solid transparent;
-      border-top-left-radius: 0px;
-      border-top-right-radius: 0px;
-      border-bottom-left-radius: 0px;
-      border-bottom-right-radius: 0px;
-  }
-  .panel-footer {
-      background-color: white !important;
-  }
-  .panel-footer h3 {
-      font-size: 32px;
-  }
-  .panel-footer h4 {
-      color: #aaa;
-      font-size: 14px;
-  }
-  .panel-footer .btn {
-      margin: 15px 0;
-      background-color: #1fe27e;
-      color: #fff;
-  }
   .navbar {
       margin-bottom: 0;
-      background-color: #337ab7; /* #1fe27e; /*#f4511e*/
+      background-color: #337ab7;
       z-index: 9999;
       border: 0;
       font-size: 12px !important;
@@ -257,4 +220,6 @@ body {
 .m10{
     margin:10px;
 }
+
+
 

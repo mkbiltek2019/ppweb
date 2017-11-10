@@ -47,20 +47,14 @@
         </div>
     </nav>
 
-    <div class="jumbotron text-center hidden-xs">
-        <div class="row text-center">
-            <div class="col-sm-3"></div>
-            <div class="col-sm-6 well" style="opacity: 0.90; filter: alpha(opacity=95); border-radius: 50%; padding:50px">
-                <h2 style="color:#1fe27e !important; text-shadow: 2px 2px darkgray">Program Prehrane Web</h2>
-                <p>Web aplikacija za izradu uravnoteženih jelovnika i plana tjelesne aktivnost</p>
-                <a href={{config.appurl}} class="btn btn-primary"><i class="fa fa-cloud fa-4x"></i> <strong style="font-size:xx-large">ULAZ</strong></a>
-                <div>
-                    <a href="#registration"><i class="fa fa-sign-in"></i> Postani korisnik</a>
-                </div>
-            </div>
-            <div class="col-sm-3"></div>
+    <div>
+        <div class="jumbotron hidden-xs text-center" style="padding-top:200px">
+            <h1 style="color:white !important; text-shadow: 2px 2px darkgray">Program Prehrane Web</h1>
+            <a href={{config.appurl}} class="btn btn-primary"><i class="fa fa-cloud fa-4x"></i> <strong style="font-size:xx-large">ULAZ</strong></a>
+            <h2 style="color:white !important" class="text-lowercase">Web aplikacija za izradu uravnoteženih jelovnika i plana tjelesne aktivnost</h2>
         </div>
     </div>
+  
 
     <div class="visible-xs pt60 text-center">
         <h2 style="color:#1fe27e !important; text-shadow: 2px 2px darkgray">Program Prehrane Web</h2>
@@ -216,8 +210,7 @@
         </div>
 
         <div class="row slideanim">
-            <div>
-                <div class="panel panel-default col-md-6 col-md-offset-3 text-center">
+                <div class="panel panel-primary col-md-6 col-md-offset-3 text-center"  style="padding:0">
                     <div class="panel-heading">
                         <p>Program Prehrane</p>
                         <h1>Web</h1>
@@ -253,7 +246,6 @@
                         <a ng-controller="orderCtrl" href="" class="btn btn-success" ng-click="order('Program Prehrane Web','')"><i class="fa fa-shopping-cart"></i> Narudžba</a>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 
