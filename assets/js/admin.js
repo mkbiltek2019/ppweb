@@ -24,8 +24,8 @@ angular.module('app', [])
     $scope.toggleTpl('login');
 
     $scope.user = {
-        username: 'igprog',
-        password: 'Tel546360'
+        username: '',
+        password: ''
     }
 
     $scope.login = function (u) {
