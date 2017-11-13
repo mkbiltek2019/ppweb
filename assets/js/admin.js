@@ -23,10 +23,13 @@ angular.module('app', [])
     };
     $scope.toggleTpl('login');
 
-    $scope.user = {
-        username: '',
-        password: ''
+    init = function () {
+        $scope.user = {
+            username: '',
+            password: ''
+        }
     }
+    init();
 
     $scope.login = function (u) {
         $http({
@@ -49,6 +52,7 @@ angular.module('app', [])
     $scope.logout = function () {
         $scope.islogin = false;
         $scope.toggleTpl('login');
+        init();
     }
 
 }])
@@ -73,6 +77,8 @@ angular.module('app', [])
 }])
 
 .controller('webAppCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
+
+    $scope.showDetails = false;
 
     var load = function () {
         $http({

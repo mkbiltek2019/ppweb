@@ -243,7 +243,7 @@ public class Users : System.Web.Services.WebService {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
             connection.Open();
-            string sql = "SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress FROM users";
+            string sql = "SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress FROM users ORDER BY activationDate ASC";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             SQLiteDataReader reader = command.ExecuteReader();
             List<NewUser> xx = new List<NewUser>();
@@ -532,9 +532,11 @@ public class Users : System.Web.Services.WebService {
         string messageBody = string.Format(
             @"
 <p>Uspješno ste se registrirali u aplikaciju <strong>Program Prehrane Web</strong></p>
+<br />
 <p>Korisničko ime: <strong>{0}</strong></p>
 <p>Lozinka: <strong>{1}</strong></p>
-<p>Prijava u aplikaciju: <a href=""http://www.programprehrane.com"">www.programprehrane.com</a></p>
+<br />
+<p>Prijava u aplikaciju: <a href=""http://www.programprehrane.com/app"">www.programprehrane.com</a>.</p>
 <br />
 <br />
 <div style=""color:gray"">

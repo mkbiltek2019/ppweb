@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.min.css">
     <script src="../assets/js/vendor/jquery.min.js"></script>
     <script src="../assets/js/vendor/bootstrap.min.js"></script>
     <script src="../assets/js/vendor/angular.min.js"></script>
@@ -26,7 +26,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">ADMINISTRACIJA</a>
+                <a class="navbar-brand" href="../index.html" target="_blank">Program Prehrane - Admin</a>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul ng-if="islogin" class="nav navbar-nav">
@@ -43,7 +43,7 @@
 
     <div ng-include="tpl" style="padding-top:20px"></div>
 
-    <footer class="footer navbar-fixed-bottom" style="color: white; background-color:gray; padding:10px">
+    <!--<footer class="footer navbar-fixed-bottom" style="color: white; background-color:gray; padding:10px">
         <div class="row">
            <div class="col-sm-6">
                <p><a href="../index.html" target="_blank"><span style="color: white">www.programprehrane.com</span></a></p>
@@ -52,8 +52,7 @@
                 <p>Copyright © {{year}} IG PROG</p>
             </div>
         </div>
-      
-    </footer>
+    </footer>-->
 
     <script type="text/ng-template" id="login">
         <div class="container">
@@ -69,13 +68,10 @@
                         <input ng-model="user.password" type="password" class="form-control" name="password" placeholder="Password">
                     </div>
                     <div>
-                        <button ng-click="login(user)" class="btn btn-default pull-right" style="margin:5px 0px 0px 0px">Login</button>
+                        <button ng-click="login(user)" class="btn btn-default pull-right" style="margin:5px 0px 0px 0px"><i class="fa fa-key"></i> Login</button>
                     </div>
-                   
                 </div>
-              
             </div>
-          
         </div>
     </script>
 
@@ -84,53 +80,55 @@
     <script type="text/ng-template" id="programPrehraneWeb">
         <div ng-controller="webAppCtrl" class="container">
             <h2>Program Prehrane Web</h2>
-            <div class="table-responsive">
-                <table class="table table-condensed text-small">
-                    <tr>
-                        <th>UserId</th>
-                        <th>UserGroupId</th>
-                        <th>Ime</th>
-                        <th>Prezime</th>
-                        <th>Tvrtka</th>
-                        <th>Adresa</th>
-                        <th class="nowrap">Poštanski broj</th>
-                        <th>Grad</th>
-                        <th>Država</th>
-                        <th>OIB</th>
-                        <th>Email</th>
-                        <th class="nowrap">Korisničko ime</th>
-                        <th class="nowrap">Tip admina</th>
-                        <th class="nowrap">Datum aktivacije</th>
-                        <th class="nowrap">Istek aktivacije</th>
-                        <th>Aktivan</th>
-                        <th class="nowrap">Status licenca</th>
-                        <th></th>
-                    </tr>
-                    <tr ng-repeat="x in d" ng-class="x.userId!=x.userGroupId?'text-muted':''">
-                        <td class="novrap">{{x.userId}}</td>
-                        <td class="novrap">{{x.userGroupId}}</td>
-                        <td>{{x.firstName}}</td>
-                        <td>{{x.lastName}}</td>
-                        <td class="nowrap">{{x.companyName}}</td>
-                        <td class="nowrap">{{x.address}}</td>
-                        <td>{{x.postalCode}}</td>
-                        <td>{{x.city}}</td>
-                        <td>{{x.country}}</td>
-                        <td>{{x.pin}}</td>
-                        <td>{{x.email}}</td>
-                        <td>{{x.userName}}</td>
-                        <td>{{x.adminType}}</td>
-                        <td><input ng-model="x.activationDate" type="text" /></td>
-                        <td><input ng-model="x.expirationDate" type="text" /></td>
-                        <td><input ng-model="x.isActive" type="checkbox" class="form-control" /></td>
-                        <td>{{x.licenceStatus}}</td>
-                        <td><button ng-click="update(x)" class="btn btn-success"><i class="fa fa-floppy-o"></i> Spremi</button></td>
-                        <td ng-if="config.debug"><button ng-click="remove(x)" class="btn btn-danger"><i class="fa fa-thrash-o"></i> Delete</button></td>
-                    </tr>
-                </table>
+            <div class="checkbox">
+                <label><input type="checkbox" ng-model="showDetails" />Prikaži detalje / uredi</label>
             </div>
-        </div>
-
+                <div class="table-responsive">
+                    <table class="table table-condensed text-small">
+                        <tr>
+                            <th ng-if="showDetails">UserId</th>
+                            <th ng-if="showDetails">UserGroupId</th>
+                            <th>Ime</th>
+                            <th>Prezime</th>
+                            <th ng-if="showDetails">Tvrtka</th>
+                            <th ng-if="showDetails">Adresa</th>
+                            <th ng-if="showDetails" class="nowrap">Poštanski broj</th>
+                            <th ng-if="showDetails">Grad</th>
+                            <th ng-if="showDetails">Država</th>
+                            <th ng-if="showDetails">OIB</th>
+                            <th>Email</th>
+                            <th ng-if="showDetails" class="nowrap">Korisničko ime</th>
+                            <th ng-if="showDetails" class="nowrap">Tip admina</th>
+                            <th class="nowrap">Datum aktivacije</th>
+                            <th class="nowrap">Istek aktivacije</th>
+                            <th>Aktivan</th>
+                            <th class="nowrap">Status licenca</th>
+                            <th></th>
+                        </tr>
+                        <tr ng-repeat="x in d" ng-class="x.userId!=x.userGroupId?'text-muted':''">
+                            <td ng-if="showDetails" class="novrap">{{x.userId}}</td>
+                            <td ng-if="showDetails" class="novrap">{{x.userGroupId}}</td>
+                            <td>{{x.firstName}}</td>
+                            <td>{{x.lastName}}</td>
+                            <td ng-if="showDetails" class="nowrap">{{x.companyName}}</td>
+                            <td ng-if="showDetails" class="nowrap">{{x.address}}</td>
+                            <td ng-if="showDetails">{{x.postalCode}}</td>
+                            <td ng-if="showDetails">{{x.city}}</td>
+                            <td ng-if="showDetails">{{x.country}}</td>
+                            <td ng-if="showDetails">{{x.pin}}</td>
+                            <td>{{x.email}}</td>
+                            <td ng-if="showDetails">{{x.userName}}</td>
+                            <td ng-if="showDetails">{{x.adminType}}</td>
+                            <td><input ng-disabled="!showDetails" ng-model="x.activationDate" type="text" /></td>
+                            <td><input ng-disabled="!showDetails" ng-model="x.expirationDate" type="text" /></td>
+                            <td><input ng-disabled="!showDetails" ng-model="x.isActive" type="checkbox" class="form-control" /></td>
+                            <td>{{x.licenceStatus}}</td>
+                            <td><button ng-disabled="!showDetails" ng-click="update(x)" class="btn btn-success"><i class="fa fa-floppy-o"></i> Spremi</button></td>
+                            <td ng-if="config.debug"><button ng-disabled="!showDetails" ng-click="remove(x)" class="btn btn-danger"><i class="fa fa-thrash-o"></i> Delete</button></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
     </script>
 
     <script type="text/ng-template" id="programPrehrane5">

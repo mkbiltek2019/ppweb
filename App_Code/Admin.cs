@@ -17,7 +17,7 @@ public class Admin : System.Web.Services.WebService {
 
     [WebMethod]
     public bool Login(string username, string password) {
-        if(username == "igprog" && password == "Tel546360") {
+        if(username == "" && password == "") {
             return true;
         } else {
             return false;
