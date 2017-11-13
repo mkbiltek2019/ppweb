@@ -1,4 +1,8 @@
-﻿angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'chart.js', 'ngStorage', 'functions', 'charts'])
+﻿/*!
+app.js
+(c) 2017 IG PROG, www.igprog.hr
+*/
+angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'chart.js', 'ngStorage', 'functions', 'charts'])
 
 .config(['$stateProvider', '$urlRouterProvider', '$translateProvider', '$translatePartialLoaderProvider', '$httpProvider', function ($stateProvider, $urlRouterProvider, $translateProvider, $translatePartialLoaderProvider, $httpProvider) {
 
@@ -3538,7 +3542,7 @@
         })
         .then(function (response) {
             $scope.price = JSON.parse(response.data.d);
-            $scope.price.nettoPrice.currency = $sessionStorage.settings.currency;
+            $scope.price.netPrice.currency = $sessionStorage.settings.currency;
             load();
         },
         function (response) {
@@ -3569,7 +3573,9 @@
     }
 
     $scope.calculateUnitPrice = function (x) {
-        x.unitPrice.value = x.nettoPrice.value * (1 / x.mass.value) * 1000;
+        if (angular.isObject(x)) {
+            x.unitPrice.value = x.netPrice.value * (1 / x.mass.value) * 1000;
+        }
     }
 
     $scope.save = function (x) {

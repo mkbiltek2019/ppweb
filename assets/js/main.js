@@ -1,6 +1,6 @@
 ﻿/*!
-main.min.js
-(c) 2017 IG PROG, http://www.igprog.hr
+main.js
+(c) 2017 IG PROG, www.igprog.hr
 */
 $(document).ready(function () {
     $(".navbar a, footer a[href='#myPage'], a").on('click', function (event) {

@@ -1,6 +1,6 @@
 ﻿/*!
-instal.min.js
-(c) 2017 IG PROG, http://www.igprog.hr
+instal.js
+(c) 2017 IG PROG, www.igprog.hr
 */
 angular.module('app', [])
 

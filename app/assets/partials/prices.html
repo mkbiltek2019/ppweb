@@ -22,14 +22,14 @@
                         </select>
                     </div>
                     <div class="row p10">
-                        <label class="col-sm-6 text-right">{{'netto price' | translate}}:</label>
+                        <label class="col-sm-6 text-right">{{'net price' | translate}}:</label>
                             <div class="col-sm-6 input-group ml10">
-                                <input ng-model="price.nettoPrice.value" type="number" class="form-control" min="0" ng-change="calculateUnitPrice(price)" />
+                                <input ng-model="price.netPrice.value" type="number" class="form-control" min="0" ng-change="calculateUnitPrice(price)" />
                                 <span class="input-group-addon">{{config.currency}} / <input ng-model="price.mass.value" type="number" min="0" style="width:60px; background-color:lightgrey" ng-change="calculateUnitPrice(price)" /> {{price.mass.unit}}</span>
                             </div>
                         <div class="col-sm-12 p10 text-right">
-                            <label ng-if="price.nettoPrice.value>0" class="m10">{{'unit price' | translate}}: <span>{{price.unitPrice.value | number:2}} {{price.nettoPrice.currency}} / kg</span></label>
-                            <button ng-disabled="price.nettoPrice.value<=0" class="btn btn-primary pull-right" ng-click="save(price)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</button>
+                            <label ng-if="price.netPrice.value>0" class="m10">{{'unit price' | translate}}: <span>{{price.unitPrice.value | number:2}} {{price.nettoPrice.currency}} / kg</span></label>
+                            <button ng-disabled="price.netPrice.value<=0" class="btn btn-primary pull-right" ng-click="save(price)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</button>
                         </div>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                         <table class="table table-condensed text-small">
                             <tr>
                                 <th>{{'food' | translate}}</th>
-                                <th class="text-right">{{'netto price' | translate}}</th>
+                                <th class="text-right">{{'net price' | translate}}</th>
                                 <th></th>
                             </tr>
                             <tr ng-repeat="x in prices">

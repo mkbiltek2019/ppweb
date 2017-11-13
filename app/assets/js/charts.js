@@ -1,4 +1,8 @@
-﻿angular.module('charts', [])
+﻿/*!
+charts.js
+(c) 2017 IG PROG, www.igprog.hr
+*/
+angular.module('charts', [])
 
 .factory('charts', [function () {
     return {
@@ -50,8 +54,6 @@
 
             var options = {
                 title: "Energetska vrijednost",
-                //width: 220,
-                //height: 150,
                 min: 0, max: maxValue.toFixed(0),
                 greenFrom: recommendedEnergy - (recommendedEnergy * 0.02),
                 greenTo: recommendedEnergy + (recommendedEnergy * 0.02),
@@ -66,7 +68,6 @@
 
             chart.draw(data, options);
 
-            //Test  TODO - nutrijenti
             var chart1 = new google.visualization.Gauge(document.getElementById('energyChart1'));
             chart1.draw(data, options);
             var chart2 = new google.visualization.Gauge(document.getElementById('energyChart2'));
@@ -76,34 +77,15 @@
 
         },
         'guageChart': function (id, value, unit, options) {
-        //'guageChart': function (id, value, unit, title, min, max, greenFrom, greenTo, yellowFrom, yellowTo, redFrom, redTo, minorTicks) {
             var data = google.visualization.arrayToDataTable([
                   ['Label', 'Value'],
                   [unit, 80]
             ]);
-
-            //var options = {
-            //    title: title,
-            //    //width: 220,
-            //    //height: 150,
-            //    min: min,
-            //    max: max,
-            //    greenFrom: greenFrom,
-            //    greenTo: greenTo,
-            //    yellowFrom: yellowFrom,
-            //    yellowTo: yellowTo,
-            //    redFrom: redFrom,
-            //    redTo: redTo,
-            //    minorTicks: minorTicks
-            //};
             data.setValue(0, 1, value);
             var chart = new google.visualization.Gauge(document.getElementById(id));
-
             chart.draw(data, options);
         }
-
     }
 }]);
-
 
 ;

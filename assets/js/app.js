@@ -1,6 +1,6 @@
 ﻿/*!
-app.min.js
-(c) 2017 IG PROG, http://www.igprog.hr
+app.js
+(c) 2017 IG PROG, www.igprog.hr
 */
 angular.module('app', ['ngMaterial'])
 

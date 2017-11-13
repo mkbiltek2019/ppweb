@@ -1,10 +1,11 @@
-﻿angular.module('functions', [])
+﻿/*!
+functions.js
+(c) 2017 IG PROG, www.igprog.hr
+*/
+angular.module('functions', [])
 
 .factory('functions', ['$mdDialog', '$rootScope', '$window', '$translate', function ($mdDialog, $rootScope, $window, $translate) {
     return {
-        'test': function() {
-            alert('test ok');
-        },
         'alert': function (title, content) {
             var confirm = $mdDialog.confirm()
             .title(title)
@@ -27,9 +28,7 @@
                 }, function () {
                 });
         }
-
     }
 }]);
-
 
 ;

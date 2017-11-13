@@ -179,7 +179,7 @@ namespace Igprog {
                 (id VARCHAR(50) PRIMARY KEY,
                 foodId VARCHAR(50),
                 food NVARCHAR(50),
-                nettoPrice VARCHAR(50),
+                netPrice VARCHAR(50),
                 currency NVARCHAR(50),
                 mass INTEGER,
                 unit NVARCHAR(50),

@@ -24,7 +24,7 @@ public class Prices : System.Web.Services.WebService {
     public class NewPrice {
         public string id { get; set; }
         public IdTitle food { get; set; }
-        public ValueCurrency nettoPrice { get; set; }
+        public ValueCurrency netPrice { get; set; }
         public ValueUnit mass { get; set; }
         public UnitPrice unitPrice { get; set; }
         public string note { get; set; }
@@ -84,9 +84,9 @@ public class Prices : System.Web.Services.WebService {
         x.food = new IdTitle();
         x.food.id = null;
         x.food.title = null;
-        x.nettoPrice = new ValueCurrency();
-        x.nettoPrice.value = 0.0;
-        x.nettoPrice.currency = null;
+        x.netPrice = new ValueCurrency();
+        x.netPrice.value = 0.0;
+        x.netPrice.currency = null;
         x.mass = new ValueUnit();
         x.mass.value = 1000;
         x.mass.unit = "g";
@@ -104,7 +104,7 @@ public class Prices : System.Web.Services.WebService {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
-            string sql = @"SELECT id, foodId, food, nettoPrice, currency, mass, unit, unitPrice, note
+            string sql = @"SELECT id, foodId, food, netPrice, currency, mass, unit, unitPrice, note
                         FROM prices
                         ORDER BY food ASC";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
@@ -116,9 +116,9 @@ public class Prices : System.Web.Services.WebService {
                 x.food = new IdTitle();
                 x.food.id = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
                 x.food.title = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
-                x.nettoPrice = new ValueCurrency();
-                x.nettoPrice.value = reader.GetValue(3) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(3));
-                x.nettoPrice.currency = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
+                x.netPrice = new ValueCurrency();
+                x.netPrice.value = reader.GetValue(3) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(3));
+                x.netPrice.currency = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
                 x.mass = new ValueUnit();
                 x.mass.value = reader.GetValue(5) == DBNull.Value ? 1 : reader.GetInt32(5);
                 x.mass.unit = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
@@ -146,15 +146,15 @@ public class Prices : System.Web.Services.WebService {
             string sql = "";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             sql = @"BEGIN;
-                    INSERT OR REPLACE INTO prices (id, foodId, food, nettoPrice, currency, mass, unit, unitPrice, note)
-                    VALUES (@id, @foodId, @food, @nettoPrice, @currency, @mass, @unit, @unitPrice, @note);
+                    INSERT OR REPLACE INTO prices (id, foodId, food, netPrice, currency, mass, unit, unitPrice, note)
+                    VALUES (@id, @foodId, @food, @netPrice, @currency, @mass, @unit, @unitPrice, @note);
                     COMMIT;";
             command = new SQLiteCommand(sql, connection);
             command.Parameters.Add(new SQLiteParameter("id", x.id));
             command.Parameters.Add(new SQLiteParameter("foodId", x.food.id));
             command.Parameters.Add(new SQLiteParameter("food", x.food.title));
-            command.Parameters.Add(new SQLiteParameter("nettoPrice", x.nettoPrice.value));
-            command.Parameters.Add(new SQLiteParameter("currency", x.nettoPrice.currency));
+            command.Parameters.Add(new SQLiteParameter("netPrice", x.netPrice.value));
+            command.Parameters.Add(new SQLiteParameter("currency", x.netPrice.currency));
             command.Parameters.Add(new SQLiteParameter("mass", x.mass.value));
             command.Parameters.Add(new SQLiteParameter("unit", x.mass.unit));
             command.Parameters.Add(new SQLiteParameter("unitPrice", x.unitPrice.value));
@@ -183,9 +183,6 @@ public class Prices : System.Web.Services.WebService {
             return "ok";
         } catch (Exception e) { return ("Error: " + e); }
     }
-
-
-
     #endregion WebMethods
 
 }
