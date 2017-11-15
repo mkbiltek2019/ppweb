@@ -135,6 +135,6 @@ Iznos: <span>{{user.priceEur | number:0}}</span> €
     </div>
 
 
-    <pre>{{user | json}}</pre>
+    <pre ng-if="config.debug">{{user | json}}</pre>
 
 </div>

@@ -1443,6 +1443,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var getTotal = function () {
+        if ($rootScope.clientData.dailyActivities == null) {
+            $rootScope.clientData.dailyActivities = [];
+        }
         if ($rootScope.clientData.dailyActivities.length > 0) {
             $rootScope.totalDailyEnergyExpenditure.value = totalEnergy();
             $rootScope.totalDailyEnergyExpenditure.duration = totalDuration();
