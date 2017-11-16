@@ -80,6 +80,20 @@
     <script type="text/ng-template" id="programPrehraneWeb">
         <div ng-controller="webAppCtrl" class="container">
             <h2>Program Prehrane Web</h2>
+            <div class="row">
+                <div class="col-sm-4">
+                    <table class="table table-condensed">
+                        <tr>
+                            <td class="text-left">Registriranih korisnika:</td>
+                            <td class="text-left"><span class="badge">{{d.length}} </span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-left">Aktivnih korisnika:</td>
+                            <td class="text-left"><span class="badge">{{(d | filter:{isActive:1}).length}} </span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
             <div class="checkbox">
                 <label><input type="checkbox" ng-model="showDetails" />Prikaži detalje / uredi</label>
             </div>
