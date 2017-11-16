@@ -49,32 +49,26 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#about"><i class="fa fa-info"></i> O aplikaciji</a></li>
                     <li><a href="#pricing"><i class="fa fa-usd"></i> Cijena</a></li>
-                    <li><a href="#registration"><i class="fa fa-sign-in"></i> Registracija</a></li>
+                    <li><a href="#registration"><i class="fa fa-user-plus"></i> Registracija</a></li>
                     <li><a href="#order"><i class="fa fa-shopping-cart"></i> Narudžba</a></li>
                     <li><a href="#contact"><i class="fa fa-comment"></i> Kontakt</a></li>
                 </ul>
             </div>
         </div>
     </nav>
-
-    <div>
-        <div class="jumbotron hidden-xs text-center" style="padding-top:180px">
-            <h1 style="color:white !important; text-shadow: 2px 2px darkgray">WEB APLIKACIJA</h1>
-            <a href={{config.appurl}} class="btn btn-primary"><i class="fa fa-cloud fa-4x"></i> <strong style="font-size:xx-large">ULAZ</strong></a>
-            <h1 style="color:white !important; text-shadow: 2px 2px darkgray">Program Prehrane Web</h1>
-            <h2 style="color:white !important" class="text-lowercase">alat za izradu uravnoteženih jelovnika i plana tjelesne aktivnost</h2>
+    <div class="jumbotron text-center" style="padding-top:180px">
+        <h1 style="color:white !important; text-shadow: 2px 2px darkgray" class="text-capitalize">web aplikacija</h1>
+        <h1 style="color:white !important; text-shadow: 2px 2px darkgray" class="text-uppercase">program prehrane</h1>
+        <h2 style="color:white !important" class="text-lowercase hidden-xs">alat za izradu uravnoteženih jelovnika i plana tjelesne aktivnost</h2>
+        <div class="hidden-xs">
+            <a href="#registration" class="btn btn-primary m10"><i class="fa fa-user-plus fa-2x"></i> <strong style="font-size:xx-large"> Postani Korisnik</strong></a>
+            <a href={{config.appurl}} class="btn btn-success m10"><i class="fa fa-sign-in fa-2x"></i> <strong style="font-size:xx-large"> Ulaz za Korisnike</strong></a>
+        </div>
+        <div class="visible-xs text-center">
+            <a href={{config.appurl}} class="btn btn-success m10"><i class="fa fa-cloud fa-4x"></i> Web App</a>
+            <a href="{{config.apk}}" class="btn btn-danger m10"><i class="fa fa-android fa-4x"></i> Android App</a>
         </div>
     </div>
-  
-
-    <div class="visible-xs pt60 text-center">
-        <h2 style="color:#1fe27e !important; text-shadow: 2px 2px darkgray">Program Prehrane Web</h2>
-        <p>Aplikacija za izradu uravnoteženih jelovnika i plana tjelesne aktivnost</p>
-        <a href={{config.appurl}} class="btn btn-primary m10"><i class="fa fa-cloud fa-4x"></i> Web App</a>
-        <!--<a href="{{config.apk}}" class="btn btn-success m10"><i class="fa fa-android fa-4x"></i> Android App</a>-->
-    </div>
-
-
     <div id="PPWebCarousel" class="carousel slide text-center" data-ride="carousel" style="padding:60px 50px 20px 50px; margin:10px 5px 20px 5px; border:solid 1px #428bca">
         <ol class="carousel-indicators">
             <li data-target="#PPWebCarousel" data-slide-to="0" class="active"></li>
