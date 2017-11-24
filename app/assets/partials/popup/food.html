@@ -8,8 +8,8 @@
     </md-toolbar>
     <md-dialog-content>
         <div class="md-dialog-content">
-            <div class="row">
-                <div class="col-sm-3">
+            <div class="row text-small">
+                <div class="col-sm-2">
                     <ul class="list-unstyled hidden-xs">
                         <li ng-if="x.parent == '' || x.parent == 'A' || x.parent == currentMainGroup" ng-repeat="x in foodGroups" ng-mousemove="showFoodSubGroups(x)" ng-click="changeFoodGroup(x.group)">
                             <a href="#" ng-class="x.group.code == currentGroup.code?'text-bold':''"><span ng-class="x.parent == currentMainGroup?'p10 text-muted':''">{{x.group.title | translate}}</span></a>
@@ -38,15 +38,18 @@
                         <button ng-if="limit<700" class="btn btn-default" ng-click="loadMore()">{{'show more' | translate}}...</button>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-5">
                     <div ng-if="food.id" class="table-responsive">
                        <table class="table table-condensed text-small">
+                           <tr>
+                               <td colspan="3"><label>{{food.food}}</label></td>
+                           </tr>
                            <tr>
                                <td colspan="3"><em class="text-muted">{{food.foodGroup.title | translate}}</em></td>
                            </tr>
                            <tr>
-                               <td>{{'quantity' | translate}}</td>
-                               <td class="text-right bg-warning">
+                               <td style="width:100px">{{'quantity' | translate}}</td>
+                               <td class="text-right" style="width:140px">
                                    <div class="input-group" style="width:140px">
                                        <span class="input-group-addon pointer" ng-click="change(-1, 'quantity')">-</span>
                                        <input ng-model="food.quantity" type="number" step="0.1" min="0.1" class="form-control" ng-change="changeQuantity(food, 'quantity')">
@@ -57,7 +60,7 @@
                            </tr>
                            <tr>
                                <td>{{'mass' | translate}}</td>
-                               <td class="text-right bg-warning">
+                               <td class="text-right" style="width:140px">
                                    <div class="input-group" style="width:140px">
                                        <span class="input-group-addon pointer" ng-click="change(-1, 'mass')">-</span>
                                        <input ng-model="food.mass" type="number" step="0.1" min="0.1" class="form-control" ng-change="changeQuantity(food, 'mass')">
@@ -84,7 +87,7 @@
                                </td>
                            </tr>
                            <tr>
-                               <td>{{'energy' | translate}}</td>
+                               <td style="width:100px">{{'energy' | translate}}</td>
                                <td class="text-right">{{food.energy}}</td>
                                <td>kcal</td>
                            </tr>
@@ -104,7 +107,7 @@
                                <td>g</td>
                            </tr>
                            <tr ng-if="food.servings.cerealsServ">
-                               <td>{{'cereales' | translate}}</td>
+                               <td>{{'cereals' | translate}}</td>
                                <td class="text-right">{{food.servings.cerealsServ | number:1}}</td>
                                <td>{{'serv' | translate}}</td>
                            </tr>

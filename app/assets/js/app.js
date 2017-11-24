@@ -888,7 +888,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.toggleSubTpl('pal');
         $http({
             url: $sessionStorage.config.backend + webService + '/Load',
-            method: "POST",
+            method: 'POST',
             data: { userId: $sessionStorage.usergroupid }
         })
       .then(function (response) {
@@ -1047,6 +1047,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 
     $scope.searchPopupCtrl = function ($scope, $mdDialog, d, $http) {
+
         $scope.d = d;
         $scope.getDateFormat = function (x) {
             return new Date(x);
@@ -3471,7 +3472,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             functions.demoAlert('this function is not available in demo version');
             return false;
         }
-        if (checkIsOrherFood(x) == true) {
+        if (checkIsOtherFood(x) == true) {
             x.servings.cerealsServ = 0;
             x.servings.vegetablesServ = 0;
             x.servings.fruitServ = 0;
@@ -3498,7 +3499,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         });
     };
 
-    var checkIsOrherFood = function (x) {
+    var checkIsOtherFood = function (x) {
         if (x.foodGroup.code = 'OF') { return true;}
         if(  x.servings.cerealsServ > 0 ||
              x.servings.vegetablesServ > 0 ||

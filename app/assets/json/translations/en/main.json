@@ -233,6 +233,7 @@
   "net price": "net price",
   "unit price": "unit price",
   "price list": "price list",
+  "price": "price",
   "tracking of anthropometric measures": "tracking of anthropometric measures",
   "measured value": "measured value",
   "limit": "limit",
@@ -255,6 +256,7 @@
   "remove menu": "remove menu",
   "all fields are required": "all fields are required",
   "passwords are not the same": "passwords are not the same",
+  "foods": "foods",
 
 
 

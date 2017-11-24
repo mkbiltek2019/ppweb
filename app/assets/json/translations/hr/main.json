@@ -233,6 +233,7 @@
   "net price": "neto cijena",
   "unit price": "jedinična cijena",
   "price list": "cjenik",
+  "price": "cijena",
   "tracking of anthropometric measures": "parćenje natropometrijskih parametara",
   "measured value": "izmjerena vrijednost",
   "limit": "granica",
@@ -255,6 +256,7 @@
   "remove menu": "briši jelovnik",
   "all fields are required": "sva polja su obavezna",
   "passwords are not the same": "lozinke nisu jednake",
+  "foods": "namirnice",
 
 
   "all foods": "sve namirnice",

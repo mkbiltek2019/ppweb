@@ -109,11 +109,8 @@ public class Users : System.Web.Services.WebService {
 
     [WebMethod]
     public string Login(string userName, string password) {
-        if (userName == supervisorUserName && password == supervisorPassword) {
-            return Supervisor();
-        }
-        //if (userName == demoUserName && password == demoPassword) {
-        //    return Demo();
+        //if (userName == supervisorUserName && password == supervisorPassword) {
+        //    return Supervisor();
         //}
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));

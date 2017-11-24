@@ -41,6 +41,8 @@ angular.module('app', [])
              $scope.islogin = JSON.parse(response.data.d);
              if ($scope.islogin == true) {
                  $scope.toggleTpl('programPrehraneWeb');
+             } else {
+                 alert('error login');
              }
          },
          function (response) {
@@ -111,7 +113,6 @@ angular.module('app', [])
     }
 
     $scope.remove = function(user) {
-        var txt;
         var r = confirm("Briši " + user.firstName + " "  + user.lastName + "?");
         if (r == true) {
             remove(user);
@@ -133,7 +134,6 @@ angular.module('app', [])
                 alert(response.data.d);
             });
     }
-
 
 }])
 

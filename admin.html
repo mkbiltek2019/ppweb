@@ -85,11 +85,15 @@
                     <table class="table table-condensed">
                         <tr>
                             <td class="text-left">Registriranih korisnika:</td>
-                            <td class="text-left"><span class="badge">{{d.length}} </span></td>
+                            <td class="text-left"><span class="badge">{{d.length-1}} </span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-left">Kupljenih licenci:</td>
+                            <td class="text-left"><span class="badge">{{(d | filter:{isActive:true}).length-1}} </span></td>
                         </tr>
                         <tr>
                             <td class="text-left">Aktivnih korisnika:</td>
-                            <td class="text-left"><span class="badge">{{(d | filter:{isActive:1}).length}} </span></td>
+                            <td class="text-left"><span class="badge">{{(d | filter:{isActive:true, licenceStatus:'active'}).length-1}} </span></td>
                         </tr>
                     </table>
                 </div>
@@ -119,7 +123,7 @@
                             <th class="nowrap">Status licenca</th>
                             <th></th>
                         </tr>
-                        <tr ng-repeat="x in d" ng-class="x.userId!=x.userGroupId?'text-muted':''">
+                        <tr ng-repeat="x in d | orderBy: 'activationDate'" ng-class="x.userId!=x.userGroupId?'text-muted':''">
                             <td ng-if="showDetails" class="novrap">{{x.userId}}</td>
                             <td ng-if="showDetails" class="novrap">{{x.userGroupId}}</td>
                             <td>{{x.firstName}}</td>
