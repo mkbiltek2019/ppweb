@@ -126,7 +126,8 @@ public class Menues : System.Web.Services.WebService {
                 connection.Close();
                 SaveJsonToFile(userId, x.id, JsonConvert.SerializeObject(x.data, Formatting.Indented));
 
-                return "saved";
+                string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+                return json;
             } catch (Exception e) { return ("Error: " + e); }
         }
     }

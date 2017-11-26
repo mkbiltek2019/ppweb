@@ -1898,7 +1898,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 }])
 
-.controller('mealsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions) {
+.controller('mealsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
     var webService = 'Meals.asmx';
 
     var load = function () {
@@ -2421,9 +2421,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             d: { currentMenu: $rootScope.currentMenu, client: $rootScope.client }
         })
        .then(function (x) {
-           //$rootScope.currentMenu = x;
-           //$rootScope.clientData.meals = x.data.meals;
-           //getTotals($rootScope.currentMenu);
+           $rootScope.currentMenu = x;
        }, function () {
        });
     }
@@ -2431,7 +2429,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     var openSaveMenuPopupCtrl = function ($scope, $mdDialog, $http, d, $translate) {
         $scope.d = d;
         var save = function (currentMenu) {
-            $mdDialog.hide();
             if (currentMenu.title == '' || currentMenu.title == undefined) {
                 document.getElementById("txtMenuTitle").focus();
                 functions.alert($translate.instant('enter menu name'), '');
@@ -2439,14 +2436,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 return false;
             }
             currentMenu.diet = d.client.clientData.diet.diet;
-
             $http({
                 url: $sessionStorage.config.backend + 'Menues.asmx/Save',
                 method: "POST",
                 data: { userId: $rootScope.user.userGroupId, x: currentMenu }
             })
           .then(function (response) {
-              functions.alert($translate.instant(response.data.d), '');
+              $scope.d.currentMenu = JSON.parse(response.data.d);
+              $mdDialog.hide($scope.d.currentMenu);
           },
           function (response) {
               functions.alert($translate.instant(response.data.d), '');
@@ -2463,7 +2460,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             x.id = saveasnew == true ? null : x.id;
             save(x);
         }
-
     };
 
     $scope.send = function () {
