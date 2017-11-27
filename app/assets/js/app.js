@@ -658,7 +658,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
       },
       {
           'value': '1',
-          'text': 'tip korisnika'
+          'text': 'Tip korisnika'
       }
     ];
 
@@ -709,8 +709,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.singup = function () {
-        if ($rootScope.user.licenceStatus == 'demo' && $rootScope.clients.length > 0) {
-            functions.demoAlert('in demo version you can enter only one client');
+        if ($rootScope.user.licenceStatus == 'demo' && $rootScope.users.length > 0) {
+            functions.demoAlert('this function is not available in demo version');
             return false;
         }
         if ($scope.users.length >= $sessionStorage.config.maxnumberofusers) {
@@ -748,7 +748,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             load();
-            functions.alert($translate.instant('registration completed successfully'), '');
+            functions.alert($translate.instant(response.data.d));
+           // functions.alert($translate.instant('registration completed successfully'), '');
         },
         function (response) {
             functions.alert($translate.instant(response.data.d));
@@ -1085,7 +1086,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $http({
                 url: $sessionStorage.config.backend + webService + '/Delete',
                 method: "POST",
-                data: {userId: $sessionStorage.userid, clientId: x.clientId }
+                data: { userId: $sessionStorage.usergroupid, clientId: x.clientId }
             })
            .then(function (response) {
                $rootScope.clients = JSON.parse(response.data.d);
@@ -1910,7 +1911,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         .then(function (response) {
             $rootScope.clientData.meals = JSON.parse(response.data.d);
             angular.forEach($rootScope.clientData.meals, function (value, key) {
-                $rootScope.clientData.meals[key].title = $translate.instant($rootScope.clientData.meals[key].activity);
+                $rootScope.clientData.meals[key].title = $translate.instant($rootScope.clientData.meals[key].title);
             })
         },
         function (response) {
@@ -2442,8 +2443,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 data: { userId: $rootScope.user.userGroupId, x: currentMenu }
             })
           .then(function (response) {
-              $scope.d.currentMenu = JSON.parse(response.data.d);
-              $mdDialog.hide($scope.d.currentMenu);
+              if (response.data.d != 'error') {
+                  $scope.d.currentMenu = JSON.parse(response.data.d);
+                  $mdDialog.hide($scope.d.currentMenu);
+              } else {
+                  functions.alert($translate.instant('there is already a menu with the same name'), '');
+              }
           },
           function (response) {
               functions.alert($translate.instant(response.data.d), '');

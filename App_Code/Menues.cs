@@ -98,7 +98,7 @@ public class Menues : System.Web.Services.WebService {
     public string Save(string userId, NewMenu x) {
         db.CreateDataBase(userId, db.menues);
         if (x.id == null && Check(userId, x) != false) {
-            return ("there is already a menu with the same name");
+            return "error";
         } else {
             try {
                 string sql = "";
@@ -120,7 +120,7 @@ public class Menues : System.Web.Services.WebService {
                 command.Parameters.Add(new SQLiteParameter("diet", x.diet));
                 command.Parameters.Add(new SQLiteParameter("date", x.date));
                 command.Parameters.Add(new SQLiteParameter("note", x.note));
-                command.Parameters.Add(new SQLiteParameter("userId", x.userId));
+                command.Parameters.Add(new SQLiteParameter("userId", userId));
                 command.Parameters.Add(new SQLiteParameter("clientId", x.client.clientId));
                 command.ExecuteNonQuery();
                 connection.Close();
