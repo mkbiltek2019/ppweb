@@ -1,6 +1,6 @@
 ﻿<div id="orderform" ng-controller="orderCtrl">
     <div class="well text-left">
-        <button class="btn btn-default pull-right text-capitalize" ng-click="toggleTpl('dashboard.html')"><i class="fa fa-times"></i><span class="hidden-xs"> {{'cancel' | translate}}</span></button>
+        <button class="btn btn-default pull-right text-capitalize" ng-click="toggleTpl('login.html')"><i class="fa fa-times"></i><span class="hidden-xs"> {{'cancel' | translate}}</span></button>
         <h4 class="text-uppercase">{{'order' | translate}}</h4>
         <hr />
         <!--<ol class="breadcrumb">
@@ -14,13 +14,13 @@
                 <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>{{'user name' | translate}}</label>
-                        <input ng-model="user.userName" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" type="text" />
+                        <input ng-model="user.userName" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" type="text" required />
                     </md-input-container>
                 </div>
                 <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>{{'password' | translate}}</label>
-                        <input ng-model="user.password" type="password" />
+                        <input ng-model="user.password" type="password" required />
                     </md-input-container>
                 </div>
                 <div class="text-right">
@@ -35,52 +35,51 @@
             </div>
 
             <div ng-if="showUserDetails">
-                <!--<h4 class="text-capitalize">{{'your data' | translate}}</h4>-->
                 <div>
                     <label class="radio-inline">
-                        <input ng-model="userType" value="0" type="radio" name="usertype"><span class="text-capitalize">{{'natural person' | translate}}</span>
+                        <input ng-model="userType" value="0" type="radio" name="usertype" ng-change="changeUserType(0)"><span class="text-capitalize">{{'natural person' | translate}}</span>
                     </label>
                     <label class="radio-inline">
-                        <input ng-model="userType" value="1" type="radio" name="usertype"><span class="text-capitalize">{{'legal person' | translate}}</span>
+                        <input ng-model="userType" value="1" type="radio" name="usertype" ng-change="changeUserType(1)"><span class="text-capitalize">{{'legal person' | translate}}</span>
                     </label>
                 </div>
                 <div class="text-left mt20">
                     <div layout-gt-sm="row">
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>{{'first name' | translate}}</label>
-                            <input ng-model="user.firstName" type="text">
+                            <input ng-model="user.firstName" type="text" required>
                         </md-input-container>
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>{{'last name' | translate}}</label>
-                            <input ng-model="user.lastName" type="text">
+                            <input ng-model="user.lastName" type="text" required>
                         </md-input-container>
                     </div>
                     <div ng-if="userType==1" layout-gt-sm="row">
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>{{'company' | translate}}</label>
-                            <input ng-model="user.companyName" type="text">
+                            <input ng-model="user.companyName" type="text" required>
                         </md-input-container>
                         <md-input-container class="md-block" flex-gt-sm>
                             <label class="text-uppercase">{{'pin' | translate}}</label>
-                            <input ng-model="user.pin" type="number" min="0">
+                            <input ng-model="user.pin" type="number" min="0" required>
                         </md-input-container>
                     </div>
                     <div layout-gt-sm="row">
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>{{'address' | translate}}</label>
-                            <input ng-model="user.address" type="text">
+                            <input ng-model="user.address" type="text" required>
                         </md-input-container>
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>{{'postal code' | translate}}</label>
-                            <input ng-model="user.postalCode" type="text">
+                            <input ng-model="user.postalCode" type="text" required>
                         </md-input-container>
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>{{'city' | translate}}</label>
-                            <input ng-model="user.city" type="text">
+                            <input ng-model="user.city" type="text" required>
                         </md-input-container>
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>{{'country' | translate}}</label>
-                            <input ng-model="user.country" type="text">
+                            <input ng-model="user.country" type="text" required>
                         </md-input-container>
                     </div>
                     <div class="text-right">
@@ -93,14 +92,12 @@
 
         <div ng-if="showAlert" class="alert alert-success">
             <strong><span class="fa fa-smile-o fa-lg"></span> {{'the order have been sent successfully' | translate}}</strong>
-            <!--<p ng-if="user.version!='WEB'">Nakon primitka uplate ili nakon što nam pošaljete potvrdu o uplati <strong>aktivacijki kod</strong> šaljemo na Vašu email adresu.</p>-->
-            <p>{{'your account will be active within 24 hours of your payment or after you send payment confirmation' | translate}}</p>
-            <!--<p>Vaš korisnički račun će biti aktivan unutar 24 sata od primitka uplate ili nakon što nam pošaljete potvrdu o uplati.</p>-->
+            <p>{{'your account will be active within 24 hours of your payment or after you send payment confirmation on email' | translate}}: <strong><a href="{{config.email}}"><span class="fa fa-envelope-o"></span> {{config.email}}</a></strong></p>
         </div>
 
         <div ng-if="showPaymentDetails" class="well text-left">
             <div>
-                <b>{{'payment details'}}:</b>
+                <b>{{'payment details | translate'}}:</b>
                 <div>
                     <pre>
 <span class="text-uppercase">{{'iban' | translate}}</span>: HR84 2340 0091 1603 4249 6
@@ -124,7 +121,6 @@ Iznos: <span>{{user.priceEur | number:0}}</span> €
             </div>
             <div ng-include="'./assets/partials/paypal.html'"></div>
         </div>
-
 
         <div ng-if="showPaymentDetails" class="text-center">
             <a href="{{config.appurl}}" target="_blank" class="btn btn-primary btn-lg">

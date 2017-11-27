@@ -122,7 +122,7 @@ angular.module('app', ['ngMaterial'])
 .controller('orderCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
     $scope.application = $rootScope.application;
     $scope.version = $rootScope.version;
-    $scope.userType = '0';
+    $scope.userType = 0;
     $scope.showAlert = false;
     $scope.sendicon = 'fa fa-angle-double-right';
     $scope.sendicontitle = 'Dalje';
@@ -160,6 +160,10 @@ angular.module('app', ['ngMaterial'])
         getConfig();
     } else {
         init();
+    }
+
+    $scope.changeUserType = function (x) {
+        $scope.userType = x;
     }
 
     $scope.calculatePrice = function () {
@@ -208,6 +212,20 @@ angular.module('app', ['ngMaterial'])
     }
 
     $scope.sendOrder = function (user) {
+        $scope.showErrorAlert = false;
+        if (user.email == '' || user.firstName == '' || user.lastName == '' || user.address == '' || user.postalCode == '' || user.city == '' || user.country == '') {
+            $scope.showErrorAlert = true;
+            $scope.errorMesage = 'Sva polja su obavezna.';
+            return false;
+        }
+        if ($scope.userType == 1) {
+            if (user.companyName == '' || user.pin == '') {
+                $scope.showErrorAlert = true;
+                $scope.errorMesage = 'Sva polja su obavezna.';
+                return false;
+            }
+        }
+
         $scope.sendicon = 'fa fa-spinner fa-spin';
         $scope.sendicontitle = 'Šaljem';
         $scope.isSendButtonDisabled = true;

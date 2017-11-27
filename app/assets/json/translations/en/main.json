@@ -136,7 +136,7 @@
   "email": "email",
   "order": "order",
   "purchase": "purchase",
-  "your account will be active within 24 hours of your payment or after you send payment confirmation": "your account will be active within 24 hours of your payment or after you send payment confirmation",
+  "your account will be active within 24 hours of your payment or after you send payment confirmation on email": "your account will be active within 24 hours of your payment or after you send payment confirmation on email",
   "payment details": "payment details",
   "iban": "iban",
   "bank": "bank",
@@ -257,7 +257,9 @@
   "all fields are required": "all fields are required",
   "passwords are not the same": "passwords are not the same",
   "foods": "foods",
-
+  "the order have been sent successfully": "the order have been sent successfully",
+  "renew now": "renew now",
+  "sending": "sending",
 
 
 

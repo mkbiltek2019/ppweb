@@ -1,5 +1,4 @@
-﻿
-<div id="orderform" ng-controller="orderCtrl">
+﻿<div id="orderform" ng-controller="orderCtrl">
     <div class="well text-left">
         <h4>Narudžbenica</h4>
 
@@ -70,53 +69,53 @@
                 <h3>Vaši podaci</h3>
                 <div>
                     <label class="radio-inline">
-                        <input ng-model="userType" value="0" type="radio" name="usertype">Fizička osoba
+                        <input ng-model="userType" value="0" type="radio" name="usertype" ng-change="changeUserType(0)">Fizička osoba
                     </label>
                     <label class="radio-inline">
-                        <input ng-model="userType" value="1" type="radio" name="usertype">Pravna osoba
+                        <input ng-model="userType" value="1" type="radio" name="usertype" ng-change="changeUserType(1)">Pravna osoba
                     </label>
                 </div>
                 <div class="text-left">
                     <div layout-gt-sm="row">
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>E-mail</label>
-                            <input ng-model="user.email" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" type="text" />
+                            <input ng-model="user.email" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" type="text" required/>
                         </md-input-container>
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>Ime</label>
-                            <input ng-model="user.firstName" type="text">
+                            <input ng-model="user.firstName" type="text" required>
                         </md-input-container>
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>Prezime</label>
-                            <input ng-model="user.lastName" type="text">
+                            <input ng-model="user.lastName" type="text" required>
                         </md-input-container>
                     </div>
                     <div ng-if="userType==1" layout-gt-sm="row">
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>Tvrtka</label>
-                            <input ng-model="user.companyName" type="text">
+                            <input ng-model="user.companyName" type="text" required>
                         </md-input-container>
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>OIB</label>
-                            <input ng-model="user.pin" type="number" min="0">
+                            <input ng-model="user.pin" type="number" min="0" required>
                         </md-input-container>
                     </div>
                     <div layout-gt-sm="row">
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>Ulica i broj</label>
-                            <input ng-model="user.address" type="text">
+                            <input ng-model="user.address" type="text" required>
                         </md-input-container>
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>Poštanski broj</label>
-                            <input ng-model="user.postalCode" type="text">
+                            <input ng-model="user.postalCode" type="text" required>
                         </md-input-container>
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>Grad</label>
-                            <input ng-model="user.city" type="text">
+                            <input ng-model="user.city" type="text" required>
                         </md-input-container>
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>Država</label>
-                            <input ng-model="user.country" type="text">
+                            <input ng-model="user.country" type="text" required>
                         </md-input-container>
                     </div>
                     <div class="text-right">
@@ -130,7 +129,7 @@
         <div ng-if="showAlert" class="alert alert-success">
             <strong>Narudžba je uspješno poslana!</strong>
             <p ng-if="user.version!='WEB'">Nakon primitka uplate ili nakon što nam pošaljete potvrdu o uplati <strong>aktivacijki kod</strong> šaljemo na Vašu email adresu.</p>
-            <p ng-if="user.version=='WEB'">Vaš korisnički račun će biti aktivan unutar 24 sata od primitka uplate ili nakon što nam pošaljete potvrdu o uplati.</p>
+            <p ng-if="user.version=='WEB'">Vaš korisnički račun će biti aktivan unutar 24 sata od primitka uplate ili nakon što nam pošaljete potvrdu o uplati na email: <strong><a href="mailto:program.prehrane@yahoo.com@yahoo.com"><span class="fa fa-envelope-o"></span> program.prehrane@yahoo.com</a></strong></p>
         </div>
 
         <div ng-if="showPaymentDetails" class="well text-left">

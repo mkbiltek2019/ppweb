@@ -3719,7 +3719,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
   //  $rootScope.isLogin = false;
     $scope.application = 'Program Prehrane';
     $scope.version = 'WEB';
-    $scope.userType = '0';
+    $scope.userType = 0;
     $scope.showAlert = false;
     $scope.sendicon = 'fa fa-angle-double-right';
     $scope.sendicontitle = $translate.instant('send order');
@@ -3762,9 +3762,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         init();
     }
 
+    $scope.changeUserType = function (x) {
+        $scope.userType = x;
+    }
+
     $scope.calculatePrice = function () {
         var unitprice = 0;
         var totalprice = 0;
+
         $scope.user.version = $scope.version;
         unitprice = 550;
         $scope.user.licence = '1';
@@ -3825,6 +3830,20 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.sendOrder = function (user) {
+        $scope.showErrorAlert = false;
+        if (user.email == '' || user.firstName == '' || user.lastName == '' || user.address == '' || user.postalCode == '' || user.city == '' || user.country == '') {
+            $scope.showErrorAlert = true;
+            $scope.errorMesage = $translate.instant('all fields are required');;
+            return false;
+        }
+        if ($scope.userType == 1) {
+            if (user.companyName == '' || user.pin == '') {
+                $scope.showErrorAlert = true;
+                $scope.errorMesage = $translate.instant('all fields are required');;
+                return false;
+            }
+        }
+
         $scope.sendicon = 'fa fa-spinner fa-spin';
         $scope.sendicontitle = $translate.instant('sending');
         $scope.isSendButtonDisabled = true;

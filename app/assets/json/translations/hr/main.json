@@ -136,8 +136,8 @@
   "email": "email",
   "order": "narudžba",
   "purchase": "kupnja",
-  "your account will be active within 24 hours of your payment or after you send payment confirmation": "vaš korisnički račun će biti aktivan unutar 24 sata od primitka uplate ili nakon što nam pošaljete potvrdu o uplati",
-  "payment details": "Podaci za uplatu na žiro račun:",
+  "your account will be active within 24 hours of your payment or after you send payment confirmation on email": "vaš korisnički račun će biti aktivan unutar 24 sata od primitka uplate ili nakon što nam pošaljete potvrdu o uplati na email",
+  "payment details": "podaci za uplatu na žiro račun",
   "iban": "iban",
   "bank": "banka",
   "order form": "forma za naudžbu",
@@ -257,6 +257,10 @@
   "all fields are required": "sva polja su obavezna",
   "passwords are not the same": "lozinke nisu jednake",
   "foods": "namirnice",
+  "the order have been sent successfully": "narudžba je uspješno poslana",
+  "renew now": "obnovi račun",
+  "sending": "šaljem",
+
 
 
   "all foods": "sve namirnice",
