@@ -158,21 +158,10 @@ namespace Igprog {
                 note NVARCHAR(200),
                 userId VARCHAR(50),
                 clientId VARCHAR(50),
+                userGroupId VARCHAR(50),
                 PRIMARY KEY(id, clientId))";
             CreateTable(path, sql);
         }
-
-        //public void Menues(string path) {
-        //    string sql = @"CREATE TABLE IF NOT EXISTS menues
-        //        (id VARCHAR(50) PRIMARY KEY,
-        //        title NVARCHAR(50),
-        //        diet NVARCHAR(50),
-        //        date VARCHAR(50),
-        //        note NVARCHAR(200),
-        //        userId VARCHAR(50),
-        //        clientId VARCHAR(50))";
-        //    CreateTable(path, sql);
-        //}
 
         public void Prices(string path) {
             string sql = @"CREATE TABLE IF NOT EXISTS prices

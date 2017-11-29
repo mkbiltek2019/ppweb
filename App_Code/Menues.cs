@@ -31,6 +31,7 @@ public class Menues : System.Web.Services.WebService {
         public string userId { get; set; }
 
         public Clients.NewClient client = new Clients.NewClient();
+        public string userGroupId { get; set; }
 
         public JsonFile data = new JsonFile();
     }
@@ -53,6 +54,7 @@ public class Menues : System.Web.Services.WebService {
         x.note = "";
         x.userId = null;
         x.client =  new Clients.NewClient();
+        x.userGroupId = null;
         JsonFile data = new JsonFile();
         data.selectedFoods = new List<Foods.NewFood>();
         data.selectedInitFoods = new List<Foods.NewFood>();
@@ -69,7 +71,7 @@ public class Menues : System.Web.Services.WebService {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
 
-            string sql = @"SELECT id, title, diet, date, note, userId, clientId
+            string sql = @"SELECT id, title, diet, date, note, userId, clientId, userGroupId
                         FROM menues
                         ORDER BY date DESC";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
@@ -85,6 +87,7 @@ public class Menues : System.Web.Services.WebService {
                 x.note = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
                 x.userId = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
                 x.client = reader.GetValue(6) == DBNull.Value ? new Clients.NewClient() : client.GetClient(x.userId, reader.GetString(6));
+                x.userGroupId = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
                 x.data = JsonConvert.DeserializeObject<JsonFile>(GetJsonFile(userId, x.id));
                 xx.Add(x);
             }
@@ -110,8 +113,8 @@ public class Menues : System.Web.Services.WebService {
                
                 SQLiteCommand command = new SQLiteCommand(sql, connection);
                 sql = @"BEGIN;
-                    INSERT OR REPLACE INTO menues (id, title, diet, date, note, userId, clientId)
-                    VALUES (@id, @title, @diet, @date, @note, @userId, @clientId);
+                    INSERT OR REPLACE INTO menues (id, title, diet, date, note, userId, clientId, userGroupId)
+                    VALUES (@id, @title, @diet, @date, @note, @userId, @clientId, @userGroupId);
                     COMMIT;";
                 command = new SQLiteCommand(sql, connection);
 
@@ -122,6 +125,7 @@ public class Menues : System.Web.Services.WebService {
                 command.Parameters.Add(new SQLiteParameter("note", x.note));
                 command.Parameters.Add(new SQLiteParameter("userId", userId));
                 command.Parameters.Add(new SQLiteParameter("clientId", x.client.clientId));
+                command.Parameters.Add(new SQLiteParameter("userGroupId", x.userGroupId));
                 command.ExecuteNonQuery();
                 connection.Close();
                 SaveJsonToFile(userId, x.id, JsonConvert.SerializeObject(x.data, Formatting.Indented));
@@ -137,7 +141,7 @@ public class Menues : System.Web.Services.WebService {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
-            string sql = @"SELECT id, title, diet, date, note, userId
+            string sql = @"SELECT id, title, diet, date, note, userId, userGroupId
                         FROM menues
                         WHERE id = id";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
@@ -153,6 +157,7 @@ public class Menues : System.Web.Services.WebService {
                 x.note = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
                 x.userId = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
                 x.client = reader.GetValue(6) == DBNull.Value ? new Clients.NewClient() : client.GetClient(x.userId, reader.GetString(6));
+                x.userGroupId = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
                 x.data = JsonConvert.DeserializeObject<JsonFile>(GetJsonFile(userId, x.id));
             }
             connection.Close();
@@ -171,6 +176,7 @@ public class Menues : System.Web.Services.WebService {
             command.Parameters.Add(new SQLiteParameter("id", id));
             command.ExecuteNonQuery();
             connection.Close();
+            DeleteJson(userId, id);
         } catch (Exception e) { return ("Error: " + e); }
         return "OK";
     }
@@ -178,13 +184,18 @@ public class Menues : System.Web.Services.WebService {
 
     #region Methods
     public void SaveJsonToFile(string userId, string filename, string json) {
-       // try {
             string path = "~/App_Data/users/" + userId + "/menues";
             string filepath = path + "/" + filename + ".json";
             CreateFolder(path);
             WriteFile(filepath, json);
-        //    return "OK";
-        //} catch (Exception e) { return ("Error: " + e); }
+    }
+
+    public void DeleteJson(string userId, string filename) {
+        string path = Server.MapPath("~/App_Data/users/" + userId + "/menues");
+        string filepath = path + "/" + filename + ".json";
+        if (File.Exists(filepath)) {
+            File.Delete(filepath);
+        }
     }
 
     private string GetJsonFile(string userId, string filename) {
@@ -206,7 +217,7 @@ public class Menues : System.Web.Services.WebService {
         File.WriteAllText(Server.MapPath(path), value);
     }
 
-       private bool Check(string userId, NewMenu x) {
+    private bool Check(string userId, NewMenu x) {
         try {
             bool result = false;
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
@@ -223,6 +234,7 @@ public class Menues : System.Web.Services.WebService {
             return result;
         } catch (Exception e) { return false; }
     }
+
     #endregion
 
 
