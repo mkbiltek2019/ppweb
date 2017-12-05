@@ -7,7 +7,7 @@
   "new user": "new user",
   "logout": "logout",
   "activate full version": "activate full version",
-  "additional astivities": "additional astivities",
+  "additional activities": "additional activities",
   "additional energy expenditure": "additional energy expenditure",
   "activity": "activity",
   "factor": "factor",
@@ -182,7 +182,7 @@
   "overweight": "overweight",
   "obese": "obese",
   "android fat distribution": "android fat distribution",
-  "In the case of fatty tissue accumulation, it accumulates in the area of the waist": "In the case of fatty tissue accumulation, it accumulates in the area of the waist",
+  "in the case of fatty tissue accumulation, it accumulates in the area of the waist": "in the case of fatty tissue accumulation, it accumulates in the area of the waist",
   "gynoid fat distribution": "gynoid fat distribution",
   "in the case of fatty tissue accumulation, it accumulates in the area of the hips": "in the case of fatty tissue accumulation, it accumulates in the area of the hips",
   "the waist circumference between 94 and 102 cm represents an increased risk of various diseases (eg diabetes and heart disease)": "the waist circumference between 94 and 102 cm represents an increased risk of various diseases (eg diabetes and heart disease)",
@@ -260,6 +260,12 @@
   "the order have been sent successfully": "the order have been sent successfully",
   "renew now": "renew now",
   "sending": "sending",
+  "user": "user",
+  "the selected additional energy expenditure is the same as recommended": "the selected additional energy expenditure is the same as recommended",
+  "clients": "clients",
+  "web": "web",
+  "nutrition plan web": "nutrition plan web",
+  "delete choosen activity": "delete choosen activity",
 
 
 

@@ -55,7 +55,7 @@
                     <li ng-if="isLogin&&config.debug">
                         <a href="#" ng-click="toggleTpl('scheduler.html')"><i class="fa fa-calendar fa-fw"></i> <span>{{'scheduler' | translate}}</span></a>
                     </li>
-                    <li ng-if="isLogin">
+                    <li ng-if="isLogin&&config.debug">
                         <a href="#" ng-click="toggleTpl('settings.html')"><i class="fa fa-cogs fa-fw"></i> <span>{{'settings' | translate}}</span></a>
                     </li>
                     <!--<li class="dropdown">

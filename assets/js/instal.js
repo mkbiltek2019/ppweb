@@ -5,7 +5,7 @@ instal.js
 angular.module('app', [])
 
 .controller('instalCtrl', ['$scope', '$http', function ($scope, $http) {
-    // http://localhost:56396/instal.html?app:ProgramPrehrane5.0S&version:demo
+    // http://localhost:50691/instal.html?app:ProgramPrehrane5.0S&version:demo
 
     var getConfig = function () {
         $http.get('./config/config.json')

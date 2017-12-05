@@ -2,78 +2,79 @@
     <div class="panel panel-default">
         <div class="panel-heading">{{'diet' | translate}}<em class="text-small text-danger ml10"> *{{'osobama sa zdravstvenim problemima ili sumnjom na njih, preporučuje se da se prije odabira dijete posavjetuju sa svojim liječnikom' | translate}}.</em></div>
         <div class="panel-body">
-            <div class="panel panel-default">
-                <div class="panel-heading bg-subpanel hidden-xs">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="input-group">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="input-group  hidden-xs">
                                 <input ng-model="searchValue" class="form-control" type="text" placeholder="{{'search' | translate}}..." autofocus />
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
                                 </span>
                             </div>
+                            <div class="hidden-sm hidden-md hidden-lg hidden-xl">
+                                <md-input-container md-theme="docs-dark" class="md-block" flex-gt-sm>
+                                    <label>{{'select diet' | translate}}...</label>
+                                    <md-select ng-model="x" ng-change="select(x)">
+                                        <md-option ng-value="x" ng-repeat="x in diets">
+                                            <md-checkbox ng-checked="x.id==clientData.diet.id" class="md-primary" aria-label="diet">{{x.diet}}</md-checkbox>
+                                        </md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+                            <div class="hidden-xs">
+                                <div class="table-responsive">
+                                    <table class="table table-condensed text-small">
+                                        <thead>
+                                            <tr>
+                                                <th class="novrap" style="width:40%">{{'diet' | translate}}</th>
+                                                <th style="width:20%">{{'carbohydrates' | translate}}</th>
+                                                <th style="width:20%">{{'proteins' | translate}}</th>
+                                                <th style="width:20%">{{'fats' | translate}}</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div class="table-responsive" style="height:200px">
+                                    <table class="table table-hover table-condensed text-small">
+                                        <tbody>
+                                            <tr ng-repeat="x in diets | filter: searchValue" ng-click="select(x)">
+                                                <!--<td><input type="checkbox" ng-checked="x.id==clientData.diet.id" aria-label="diet" /></td>-->
+                                                <td><md-checkbox ng-checked="x.id==clientData.diet.id" class="md-primary" aria-label="diet"></md-checkbox></td>
+                                                <td style="width:40%">{{x.diet}}</td>
+                                                <td style="width:20%">{{x.carbohydratesMin}}-{{x.carbohydratesMax}}%</td>
+                                                <td style="width:20%">{{x.proteinsMin}}-{{x.proteinsMax}}%</td>
+                                                <td style="width:20%">{{x.fatsMin}}-{{x.fatsMax}}%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="panel-body">
-                    <div class="hidden-sm hidden-md hidden-lg hidden-xl">
-                        <md-input-container md-theme="docs-dark" class="md-block" flex-gt-sm>
-                            <label>{{'select diet' | translate}}...</label>
-                            <md-select ng-model="x" ng-change="select(x)">
-                                <md-option ng-value="x" ng-repeat="x in diets">
-                                    <md-checkbox ng-checked="x.id==clientData.diet.id" class="md-primary" aria-label="diet">{{x.diet}}</md-checkbox>
-                                </md-option>
-                            </md-select>
-                        </md-input-container>
-                    </div>
-                    <div class="hidden-xs">
-                        <div class="table-responsive">
-                            <table class="table table-condensed text-small">
-                                <thead>
-                                    <tr>
-                                        <th class="novrap" style="width:40%">{{'diet' | translate}}</th>
-                                        <th style="width:20%">{{'carbohydrates' | translate}}</th>
-                                        <th style="width:20%">{{'proteins' | translate}}</th>
-                                        <th style="width:20%">{{'fats' | translate}}</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-                        <div class="table-responsive" style="height:200px">
-                            <table class="table table-hover table-condensed text-small">
-                                <tbody>
-                                    <tr ng-repeat="x in diets | filter: searchValue" ng-click="select(x)">
-                                        <td><input type="checkbox" ng-checked="x.id==clientData.diet.id" aria-label="diet"/></td>
-                                        <!--<td><md-checkbox ng-checked="x.id==clientData.diet.id" class="md-primary" aria-label="diet"></md-checkbox></td>-->
-                                        <td style="width:40%">{{x.diet}}</td>
-                                        <td style="width:20%">{{x.carbohydratesMin}}-{{x.carbohydratesMax}}%</td>
-                                        <td style="width:20%">{{x.proteinsMin}}-{{x.proteinsMax}}%</td>
-                                        <td style="width:20%">{{x.fatsMin}}-{{x.fatsMax}}%</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                <div class="col-sm-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading bg-subpanel">{{'choosen diet' | translate}}</div>
+                        <div class="panel-body">
+                            <strong>{{clientData.diet.diet | translate}}</strong> {{clientData.diet.dietDescription | translate}}.
+                            <p ng-if="clientData.diet.note">* {{clientData.diet.note}}</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="panel panel-default mt20">
-                <div class="panel-heading bg-subpanel">{{'choosen diet' | translate}}</div>
-                <div class="panel-body">
-                    <strong>{{clientData.diet.diet | translate}}</strong> {{clientData.diet.dietDescription | translate}}.
-                    <p ng-if="clientData.diet.note">* {{clientData.diet.note}}</p>
-                </div>
+            <div>
+                <button ng-if="client.clientId" class="btn btn-primary pull-left" ng-click="toggleNewTpl('activities')"><i class="fa fa-angle-double-left" aria-hidden="true"></i><span> {{'back' | translate}}</span></button>
+                <button ng-if="client.clientId" class="btn btn-primary pull-right" ng-click="toggleNewTpl('meals')"><span>{{'forward' | translate}} </span><i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
             </div>
         </div>
     </div>
-    </div>
-<div>
-    <button ng-if="client.clientId" class="btn btn-primary pull-left" ng-click="toggleNewTpl('activities')"><i class="fa fa-angle-double-left" aria-hidden="true"></i><span> {{'back' | translate}}</span></button>
-    <button ng-if="client.clientId" class="btn btn-primary pull-right" ng-click="toggleNewTpl('meals')"><span>{{'forward' | translate}} </span><i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
-</div> 
+</div>
+
 
 
 <div ng-if="config.debug" class="bg-info debugBox">
-  client  diets:
+    client  diets:
     <pre>{{clientData.diet}}</pre>
     diets
     <pre>{{diets | json}}</pre>

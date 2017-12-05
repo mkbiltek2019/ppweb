@@ -1760,7 +1760,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
           }, function () {
           });
         } else {
-            functions.alert($translate.instant('the selected additional energy expenditure is the same as recommended.'), '');
+            functions.alert($translate.instant('the selected additional energy expenditure is the same as recommended'), '');
           //  alert('Odabrana dodatna tjesna potrošnja jednaka preporućenoj.')
         }
     };
@@ -1795,7 +1795,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.removeActivity = function (x, idx) {
         var confirm = $mdDialog.confirm()
-            .title($translate.instant('Delete choosen Activity'))
+            .title($translate.instant('delete choosen activity'))
             .textContent(x.title)
             .targetEvent(x)
             .ok($translate.instant('yes'))
