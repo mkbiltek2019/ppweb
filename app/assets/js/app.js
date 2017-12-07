@@ -2063,7 +2063,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.foodGroups = d.foodGroups;
         $scope.food = d.food != undefined ? d.food : null;
         var initFood = d.food != undefined ? d.food : null;
-        $scope.limit = 700;
+        $scope.limit = 20;
 
         $scope.initCurrentFoodGroup = function () {
             $scope.currentGroup = { code: 'A', title: 'all foods' };
@@ -2180,7 +2180,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
        
         $scope.changeFoodGroup = function (x) {
             $scope.searchFood = '';
-            $scope.limit = 1000;
+            $scope.limit = $scope.foods.length + 1;
             $scope.showMyFoods(false);
             $scope.currentGroup = {
                 code: x.code,
@@ -2203,7 +2203,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         $scope.loadMore = function () {
-            $scope.limit = 1000;
+            $scope.limit = $scope.limit + $scope.foods.length;
         }
 
     };

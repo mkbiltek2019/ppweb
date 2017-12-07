@@ -85,15 +85,15 @@
                     <table class="table table-condensed">
                         <tr>
                             <td class="text-left">Registriranih korisnika:</td>
-                            <td class="text-left"><span class="badge">{{d.length-1}} </span></td>
+                            <td class="text-left"><strong>{{d.length-1}} </strong></td>
                         </tr>
                         <tr>
                             <td class="text-left">Kupljenih licenci:</td>
-                            <td class="text-left"><span class="badge">{{(d | filter:{isActive:true}).length-1}} </span></td>
+                            <td class="text-left"><strong>{{(d | filter:{isActive:true}).length-1}} </strong><span class="badge">{{(((d | filter:{isActive:true}).length-1)/(d.length-1))*100 | number:1}} %</span></td>
                         </tr>
                         <tr>
                             <td class="text-left">Aktivnih korisnika:</td>
-                            <td class="text-left"><span class="badge">{{(d | filter:{isActive:true, licenceStatus:'active'}).length-1}} </span></td>
+                            <td class="text-left"><strong>{{(d | filter:{isActive:true, licenceStatus:'active'}).length-1}} </strong></td>
                         </tr>
                     </table>
                 </div>

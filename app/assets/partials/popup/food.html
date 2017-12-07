@@ -9,23 +9,24 @@
     <md-dialog-content>
         <div class="md-dialog-content">
             <div class="row text-small">
-                <div class="col-sm-2">
-                    <ul class="list-unstyled hidden-xs">
-                        <li ng-if="x.parent == '' || x.parent == 'A' || x.parent == currentMainGroup" ng-repeat="x in foodGroups" ng-mousemove="showFoodSubGroups(x)" ng-click="changeFoodGroup(x.group)">
-                            <a href="#" ng-class="x.group.code == currentGroup.code?'text-bold':''"><span ng-class="x.parent == currentMainGroup?'p10 text-muted':''">{{x.group.title | translate}}</span></a>
-                        </li>
-                        <li ng-click="showMyFoods(true)">{{'my foods' | translate}}</li>
-                    </ul>
-                </div>
-                <div class="col-sm-5">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="input-group">
-                                <input ng-model="searchFood" class="form-control" type="text" placeholder="{{'search' | translate}}..." autofocus ng-click="initCurrentFoodGroup()" />
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
-                                </span>
-                            </div>
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <input ng-model="searchFood" class="form-control" type="text" placeholder="{{'search' | translate}}..." autofocus ng-click="initCurrentFoodGroup()" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
+                        </span>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" style="width:100%; text-align:left" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{currentGroup.title | translate}} <span class="fa fa-sort-desc pull-right"></span>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width:100%">
+                            <ul class="list-unstyled p10">
+                                <li ng-if="x.parent == '' || x.parent == 'A' || x.parent == currentMainGroup" ng-repeat="x in foodGroups" ng-mousemove="showFoodSubGroups(x)" ng-click="changeFoodGroup(x.group)">
+                                    <a href="#" ng-class="x.group.code == currentGroup.code?'text-bold':''"><span ng-class="x.parent == currentMainGroup?'p10 text-muted':''">{{x.group.title | translate}}</span></a>
+                                </li>
+                                <li ng-click="showMyFoods(true)">{{'my foods' | translate}}</li>
+                            </ul>
                         </div>
                     </div>
                     <div>
@@ -35,114 +36,114 @@
                         </select>
                     </div>
                     <div class="pull-right m10">
-                        <button ng-if="limit<700" class="btn btn-default" ng-click="loadMore()">{{'show more' | translate}}...</button>
+                        <button ng-if="limit<foods.length+1" class="btn btn-primary" ng-click="loadMore()">{{'show all' | translate}}...</button>
                     </div>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-6">
                     <div ng-if="food.id" class="table-responsive">
-                       <table class="table table-condensed text-small">
-                           <tr>
-                               <td colspan="3"><label>{{food.food}}</label></td>
-                           </tr>
-                           <tr>
-                               <td colspan="3"><em class="text-muted">{{food.foodGroup.title | translate}}</em></td>
-                           </tr>
-                           <tr>
-                               <td style="width:100px">{{'quantity' | translate}}</td>
-                               <td class="text-right" style="width:140px">
-                                   <div class="input-group" style="width:140px">
-                                       <span class="input-group-addon pointer" ng-click="change(-1, 'quantity')">-</span>
-                                       <input ng-model="food.quantity" type="number" step="0.1" min="0.1" class="form-control" ng-change="changeQuantity(food, 'quantity')">
-                                       <span class="input-group-addon pointer" ng-click="change(1, 'quantity')">+</span>
-                                   </div>
-                               </td>
-                               <td class="novrap">{{food.unit}}</td>
-                           </tr>
-                           <tr>
-                               <td>{{'mass' | translate}}</td>
-                               <td class="text-right" style="width:140px">
-                                   <div class="input-group" style="width:140px">
-                                       <span class="input-group-addon pointer" ng-click="change(-1, 'mass')">-</span>
-                                       <input ng-model="food.mass" type="number" step="0.1" min="0.1" class="form-control" ng-change="changeQuantity(food, 'mass')">
-                                       <span class="input-group-addon pointer" ng-click="change(1, 'mass')">+</span>
-                                   </div>
-                               </td>
-                               <td>g</td>
-                           </tr>
-                           <tr>
-                               <td colspan="3">
-                                   <md-input-container md-theme="docs-dark" class="md-block" flex-gt-sm>
-                                       <label>{{'thermal treatment' | translate}}...</label>
-                                       <md-select ng-model="thermalTreatment" ng-change="getThermalTreatment(food.thermalTreatments, thermalTreatment)">
-                                           <md-option ng-value="$index" ng-selected="x.isSelected" ng-repeat="x in food.thermalTreatments track by $index">
-                                               <md-checkbox ng-checked="$index==thermalTreatment" class="md-primary" aria-label="thermalTreatment">{{x.thermalTreatment.title}}</md-checkbox>
-                                           </md-option>
-                                       </md-select>
-                                   </md-input-container>
-                               </td>
-                           </tr>
-                           <tr>
-                               <td colspan="3" class="text-center">
-                                   <button class="btn btn-primary btn-block text-uppercase" ng-click="confirm(food)"><i class="fa fa-check"></i> {{'add' | translate}}</button>
-                               </td>
-                           </tr>
-                           <tr>
-                               <td style="width:100px">{{'energy' | translate}}</td>
-                               <td class="text-right">{{food.energy}}</td>
-                               <td>kcal</td>
-                           </tr>
-                           <tr>
-                               <td>{{'carbohydrates' | translate}}</td>
-                               <td class="text-right">{{food.carbohydrates}}</td>
-                               <td>g</td>
-                           </tr>
-                           <tr>
-                               <td>{{'proteins' | translate}}</td>
-                               <td class="text-right">{{food.proteins}}</td>
-                               <td>g</td>
-                           </tr>
-                           <tr>
-                               <td>{{'fats' | translate}}</td>
-                               <td class="text-right">{{food.fats}}</td>
-                               <td>g</td>
-                           </tr>
-                           <tr ng-if="food.servings.cerealsServ">
-                               <td>{{'cereals' | translate}}</td>
-                               <td class="text-right">{{food.servings.cerealsServ | number:1}}</td>
-                               <td>{{'serv' | translate}}</td>
-                           </tr>
-                           <tr ng-if="food.servings.vegetablesServ">
-                               <td>{{'vegetables' | translate}}</td>
-                               <td class="text-right">{{food.servings.vegetablesServ | number:1}}</td>
-                               <td>{{'serv' | translate}}</td>
-                           </tr>
-                           <tr ng-if="food.servings.fruitServ">
-                               <td>{{'fruit' | translate}}</td>
-                               <td class="text-right">{{food.servings.fruitServ | number:1}}</td>
-                               <td>{{'serv' | translate}}</td>
-                           </tr>
-                           <tr ng-if="food.servings.meatServ">
-                               <td>{{'meat' | translate}}</td>
-                               <td class="text-right">{{food.servings.meatServ | number:1}}</td>
-                               <td>{{'serv' | translate}}</td>
-                           </tr>
-                           <tr ng-if="food.servings.milkServ">
-                               <td>{{'milk' | translate}}</td>
-                               <td class="text-right">{{food.servings.milkServ | number:1}}</td>
-                               <td>{{'serv' | translate}}</td>
-                           </tr>
-                           <tr ng-if="food.servings.fatsServ">
-                               <td>{{'fats' | translate}}</td>
-                               <td class="text-right">{{food.servings.fatsServ | number:1}}</td>
-                               <td>{{'serv' | translate}}</td>
-                           </tr>
-                       </table>
+                        <table class="table table-condensed text-small">
+                            <tr>
+                                <td colspan="3"><label>{{food.food}}</label></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><em class="text-muted">{{food.foodGroup.title | translate}}</em></td>
+                            </tr>
+                            <tr>
+                                <td style="width:100px">{{'quantity' | translate}}</td>
+                                <td class="text-right" style="width:140px">
+                                    <div class="input-group" style="width:140px">
+                                        <span class="input-group-addon pointer" ng-click="change(-1, 'quantity')">-</span>
+                                        <input ng-model="food.quantity" type="number" step="0.1" min="0.1" class="form-control" ng-change="changeQuantity(food, 'quantity')">
+                                        <span class="input-group-addon pointer" ng-click="change(1, 'quantity')">+</span>
+                                    </div>
+                                </td>
+                                <td class="novrap">{{food.unit}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{'mass' | translate}}</td>
+                                <td class="text-right" style="width:140px">
+                                    <div class="input-group" style="width:140px">
+                                        <span class="input-group-addon pointer" ng-click="change(-1, 'mass')">-</span>
+                                        <input ng-model="food.mass" type="number" step="0.1" min="0.1" class="form-control" ng-change="changeQuantity(food, 'mass')">
+                                        <span class="input-group-addon pointer" ng-click="change(1, 'mass')">+</span>
+                                    </div>
+                                </td>
+                                <td>g</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <md-input-container md-theme="docs-dark" class="md-block" flex-gt-sm>
+                                        <label>{{'thermal treatment' | translate}}...</label>
+                                        <md-select ng-model="thermalTreatment" ng-change="getThermalTreatment(food.thermalTreatments, thermalTreatment)">
+                                            <md-option ng-value="$index" ng-selected="x.isSelected" ng-repeat="x in food.thermalTreatments track by $index">
+                                                <md-checkbox ng-checked="$index==thermalTreatment" class="md-primary" aria-label="thermalTreatment">{{x.thermalTreatment.title}}</md-checkbox>
+                                            </md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="text-center">
+                                    <button class="btn btn-primary btn-block text-uppercase" ng-click="confirm(food)"><i class="fa fa-check"></i> {{'add' | translate}}</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:100px">{{'energy' | translate}}</td>
+                                <td class="text-right">{{food.energy}}</td>
+                                <td>kcal</td>
+                            </tr>
+                            <tr>
+                                <td>{{'carbohydrates' | translate}}</td>
+                                <td class="text-right">{{food.carbohydrates}}</td>
+                                <td>g</td>
+                            </tr>
+                            <tr>
+                                <td>{{'proteins' | translate}}</td>
+                                <td class="text-right">{{food.proteins}}</td>
+                                <td>g</td>
+                            </tr>
+                            <tr>
+                                <td>{{'fats' | translate}}</td>
+                                <td class="text-right">{{food.fats}}</td>
+                                <td>g</td>
+                            </tr>
+                            <tr ng-if="food.servings.cerealsServ">
+                                <td>{{'cereals' | translate}}</td>
+                                <td class="text-right">{{food.servings.cerealsServ | number:1}}</td>
+                                <td>{{'serv' | translate}}</td>
+                            </tr>
+                            <tr ng-if="food.servings.vegetablesServ">
+                                <td>{{'vegetables' | translate}}</td>
+                                <td class="text-right">{{food.servings.vegetablesServ | number:1}}</td>
+                                <td>{{'serv' | translate}}</td>
+                            </tr>
+                            <tr ng-if="food.servings.fruitServ">
+                                <td>{{'fruit' | translate}}</td>
+                                <td class="text-right">{{food.servings.fruitServ | number:1}}</td>
+                                <td>{{'serv' | translate}}</td>
+                            </tr>
+                            <tr ng-if="food.servings.meatServ">
+                                <td>{{'meat' | translate}}</td>
+                                <td class="text-right">{{food.servings.meatServ | number:1}}</td>
+                                <td>{{'serv' | translate}}</td>
+                            </tr>
+                            <tr ng-if="food.servings.milkServ">
+                                <td>{{'milk' | translate}}</td>
+                                <td class="text-right">{{food.servings.milkServ | number:1}}</td>
+                                <td>{{'serv' | translate}}</td>
+                            </tr>
+                            <tr ng-if="food.servings.fatsServ">
+                                <td>{{'fats' | translate}}</td>
+                                <td class="text-right">{{food.servings.fatsServ | number:1}}</td>
+                                <td>{{'serv' | translate}}</td>
+                            </tr>
+                        </table>
                         <span ng-if="food.price.value>0" class="pull-right">{{'price' | translate}}: {{food.price.value}} {{d.config.currency}}</span>
                     </div>
                 </div>
             </div>
         </div>
-</md-dialog-content>
+    </md-dialog-content>
 </md-dialog>
 
 
