@@ -1071,7 +1071,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         $scope.remove = function (x) {
             var confirm = $mdDialog.confirm()
-                  .title($translate.instant('Delete Input') + ' ?')
+                  .title($translate.instant('delete input') + ' ?')
                   .textContent($translate.instant('client') + ': ' + x.firstName + ' ' + x.lastName)
                   .targetEvent(x)
                   .ok($translate.instant('yes'))
@@ -3603,7 +3603,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.delete = function (x) {
         var confirm = $mdDialog.confirm()
-            .title($translate.instant('Delete Input') + '?')
+            .title($translate.instant('delete input') + '?')
             .textContent()
             .targetEvent()
             .ok($translate.instant('yes'))

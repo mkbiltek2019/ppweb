@@ -231,14 +231,6 @@
                     <td>{{recommendations.maltose.rda}}</td>
                 </tr>
                 <tr>
-                    <td>{{'maltose' | translate}}</td>
-                    <td>g</td>
-                    <td class="text-bold">{{totals.maltose}}</td>
-                    <td>{{recommendations.maltose.mda}}</td>
-                    <td>{{recommendations.maltose.ui}}</td>
-                    <td>{{recommendations.maltose.rda}}</td>
-                </tr>
-                <tr>
                     <td>{{'lactose' | translate}}</td>
                     <td>g</td>
                     <td class="text-bold">{{totals.lactose}}</td>
@@ -512,7 +504,7 @@
         </tr>
         <tr>
             <td>{{'gender' | translate}}</td>
-            <td>{{client.gender.title}}</td>
+            <td>{{client.gender.title | translate}}</td>
         </tr>
         <tr>
             <td>{{'height' | translate}}</td>
@@ -523,8 +515,8 @@
             <td>{{clientData.weight}} cm</td>
         </tr>
         <tr>
-            <td>{{'hip' | translate}}</td>
-            <td>{{clientData.hip}} cm</td>
+            <td>{{'waist' | translate}}</td>
+            <td>{{clientData.waist}} cm</td>
         </tr>
         <tr>
             <td>{{'hip' | translate}}</td>
