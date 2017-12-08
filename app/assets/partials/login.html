@@ -12,10 +12,9 @@
     </div>
 </div>
 
-
 <script type="text/ng-template" id="loginTpl">
     <div>
-        <div>
+        <form id="loginform">
             <div class="input-group mt10">
                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
                 <input ng-init="config.debug==true?userName='igprog@yahoo.com':''" ng-model="userName" type="text" class="form-control" name="email" placeholder="{{'user name' | translate}}">
@@ -32,11 +31,10 @@
                     </option>
                 </select>
             </div>
-        </div>
+        </form>
         <div class="text-right mt10">
-            <button ng-click="login(userName, password)" class="btn btn-primary"><span class="fa fa-unlock-altfa fa-key" aria-hidden="true"></span> {{'login' | translate}}</button>
+            <button type="submit" form="loginform" ng-click="login(userName, password)" class="btn btn-primary"><span class="fa fa-unlock-altfa fa-key" aria-hidden="true"></span> {{'login' | translate}}</button>
         </div>
-
         <div class="text-right mt10">
             <a href="" ng-click="forgotPasswordPopup()">{{'forgot your password' | translate}}?</a>
         </div>
