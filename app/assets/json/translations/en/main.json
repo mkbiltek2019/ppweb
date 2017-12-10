@@ -99,6 +99,7 @@
   "saturated fats": "saturated fats",
   "monounsaturated fats": "monounsaturated fats",
   "polyunsaturated fats": "polyunsaturated fats",
+  "trifluoroacetic acid": "trans masne kiseline",
   "sodium": "sodium",
   "potassium": "potassium",
   "calcium": "calcium",
@@ -279,6 +280,10 @@
   "supervisor": "supervisor",
   "admin": "admin",
   "delete input": "delete input",
+  "mono u/f": "mono u/f",
+  "poly u/f": "poly u/f",
+  "title": "title",
+  "new food": "new food",
 
 
 

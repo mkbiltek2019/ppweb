@@ -3,7 +3,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <div>
-                <button class="btn btn-default" ng-click="new()"><i class="fa fa-file-o"></i> <span class="hidden-xs"> {{'new' | translate}}</span></button>
+                <button class="btn btn-default" ng-click="new()"><i class="fa fa-file-o"></i> <span class="hidden-xs"> {{'new food' | translate}}</span></button>
                 <button class="btn btn-default" ng-click="delete(myFood)"><i class="fa fa-trash-o"></i> <span class="hidden-xs">{{'delete' | translate}}</span></button>
                 <button class="btn btn-default" ng-click="save(myFood)"><i class="fa fa-floppy-o"></i> <span class="hidden-xs">{{'save' | translate}}</span></button>
             </div>
@@ -13,7 +13,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading bg-subpanel">
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="input-group">
                                 <input ng-model="searchFood" class="form-control" type="text" placeholder="{{'search' | translate}}..." autofocus />
                                 <span class="input-group-btn">
@@ -24,18 +24,21 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    <select ng-model="choosenFood" class="form-control" size="5" title="Moje namirnice..." ng-change="getMyFoodDetails(choosenFood)">
-                        <option ng-repeat="x in myFoods | filter:{food:searchFood} track by $index" value="{{x.id}}">{{x.food}}</option>
-                    </select>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <select ng-model="choosenFood" class="form-control" size="5" title="Moje namirnice..." ng-change="getMyFoodDetails(choosenFood)">
+                                <option ng-repeat="x in myFoods | filter:{food:searchFood} track by $index" value="{{x.id}}">{{x.food}}</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
-
             <div class="panel panel-default">
                 <div class="panel-heading bg-subpanel">{{'my food' | translate}}</div>
                 <div class="panel-body">
                     <div layout-gt-sm="row">
                         <md-input-container>
-                            <label>{{'food' | translate}}</label>
+                            <label>{{'title' | translate}}</label>
                             <input ng-model="myFood.food" type="text" required>
                         </md-input-container>
                         <md-input-container>
@@ -45,7 +48,9 @@
                         <md-input-container>
                             <label>{{'unit' | translate}}</label>
                             <md-select ng-model="myFood.unit">
-                                <md-option ng-value="x" ng-repeat="x in units">{{x | translate}}</md-option>
+                                <md-option ng-value="x" ng-repeat="x in units">
+                                    <md-checkbox ng-checked="x==myFood.unit" class="md-primary" aria-label="unit">{{x | translate}}</md-checkbox>
+                                </md-option>
                             </md-select>
                         </md-input-container>
                     </div>
@@ -55,60 +60,66 @@
             <div class="panel panel-default">
                 <div class="panel-heading bg-subpanel">{{'unit servings' | translate}}</div>
                 <div class="panel-body">
-                    <div layout-gt-sm="row">
-                        <md-input-container flex>
-                            <label>{{'food group' | translate}}</label>
-                            <md-select ng-model="myFood.foodGroup.code">
-                                <md-option ng-value="x.group.code" ng-repeat="x in mainFoodGroups">{{x.group.title | translate}}</md-option>
-                            </md-select>
-                        </md-input-container>
+                    <div class="alert alert-info">
+                        <i class="fa fa-exclamation-triangle"></i>
+                        Ukoliko Vam nisu poznate vrjednosti jedniničnih serviranja, namirnica će biti uvrštena u skupinu <strong>Ostale Namirnice</strong>.
                     </div>
-                    <div ng-if="myFood.foodGroup.code !='OF' && myFood.foodGroup.code != null">
-                        <div class="alert alert-info">
-                            <ul>
-                                <li ng-if="myFood.foodGroup.code == 'C' || myFood.foodGroup.code == 'MF' || myFood.foodGroup.code == 'PM'">1 serviranje žitarica je 1/2 šalice žitarica/sjemenki/tjestenine/škrobnog povrća, 30 g kruha i sl.</li>
-                                <li ng-if="myFood.foodGroup.code == 'V' || myFood.foodGroup.code == 'PM'">1 serviranje povrća je 1/2 šalice kuhanog povrća, 1/2 šalice povrtnog soka ili 1 šalicu sirovog povrća.</li>
-                                <li ng-if="myFood.foodGroup.code == 'F' || myFood.foodGroup.code == 'PM'">1 serviranje voća je 1 mali do srednje velik komad voća, 1/2 šalice svježeg/konzerviranog voća/voćnog soka, 1/4 šalice osušenog voća.</li>
-                                <li ng-if="myFood.foodGroup.code == 'M' || myFood.foodGroup.code == 'MF' || myFood.foodGroup.code == 'PM'">1 serviranje mesa je 30 g mesa, piletine ili sira te 1/2  šalice graha (meso, piletina i grah se mjere termićki obrađeni).</li>
-                                <li ng-if="myFood.foodGroup.code == 'MI' || myFood.foodGroup.code == 'PM'">1 serviranje mlijeka i mliječnih proizvoda je 1 šalica mlijeka, 2/3 šalice jogurta (250 ml mlijeka, 180 g jogurta).</li>
-                                <li ng-if="myFood.foodGroup.code == 'FA' || myFood.foodGroup.code == 'PM'">1 serviranje masti je 1 čajna žlićica maslaca/margarina/biljnog ulja, 1 jušnu žlicu salatnog preljeva.</li>
-                            </ul>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <md-input-container class="md-block" flex-gt-xs>
+                                <label>{{'food group' | translate}}</label>
+                                <md-select ng-model="myFood.foodGroup.code">
+                                    <md-option ng-value="x.group.code" ng-repeat="x in mainFoodGroups">
+                                        <md-checkbox ng-checked="x.group.code==myFood.foodGroup.code" class="md-primary" aria-label="serv">{{x.group.title | translate}}</md-checkbox>
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
                         </div>
-                        <div class="alert alert-danger">
-                            <i class="fa fa-exclamation-triangle"></i>
-                            ukoliko Vam nisu poznate vrjednosti jedniničnih serviranja, namirnica će biti uvrštena u skupinu <strong>Ostale Namirnice</strong>.
+                        <div class="col-sm-2">
+                            <div layout-gt-sm="row">
+                                <md-input-container ng-if="myFood.foodGroup.code == 'C' || myFood.foodGroup.code == 'MF' || myFood.foodGroup.code == 'PM'">
+                                    <label>{{'cereals' | translate}} {{'serv' | translate}}.</label>
+                                    <input ng-model="myFood.servings.cerealsServ" type="number" step="0.1" min="0.1">
+                                </md-input-container>
+                                <md-input-container ng-if="myFood.foodGroup.code == 'V' || myFood.foodGroup.code == 'PM'">
+                                    <label>{{'vegetables' | translate}} {{'serv' | translate}}.</label>
+                                    <input ng-model="myFood.servings.vegetablesServ" type="number" step="0.1" min="0.1">
+                                </md-input-container>
+                                <md-input-container ng-if="myFood.foodGroup.code == 'F' || myFood.foodGroup.code == 'PM'">
+                                    <label>{{'fruit' | translate}} {{'serv' | translate}}.</label>
+                                    <input ng-model="myFood.servings.fruitServ" type="number" step="0.1" min="0.1">
+                                </md-input-container>
+                                <md-input-container ng-if="myFood.foodGroup.code == 'M'  || myFood.foodGroup.code == 'MF' || myFood.foodGroup.code == 'PM'">
+                                    <label>{{'meat' | translate}} {{'serv' | translate}}.</label>
+                                    <input ng-model="myFood.servings.meatServ" type="number" step="0.1" min="0.1">
+                                </md-input-container>
+                                <md-input-container ng-if="myFood.foodGroup.code == 'MI' || myFood.foodGroup.code == 'PM'">
+                                    <label>{{'milk' | translate}} {{'serv' | translate}}.</label>
+                                    <input ng-model="myFood.servings.milkServ" type="number" step="0.1" min="0.1">
+                                </md-input-container>
+                                <md-input-container ng-if="myFood.foodGroup.code == 'FA' || myFood.foodGroup.code == 'PM'">
+                                    <label>{{'fats' | translate}} {{'serv' | translate}}.</label>
+                                    <input ng-model="myFood.servings.fatsServ" type="number" step="0.1" min="0.1">
+                                </md-input-container>
+                            </div>
                         </div>
-                    </div>
-
-                    <div layout-gt-sm="row">
-                        <md-input-container ng-if="myFood.foodGroup.code == 'C' || myFood.foodGroup.code == 'MF' || myFood.foodGroup.code == 'PM'">
-                            <label>{{'cereals' | translate}} {{'serv' | translate}}.</label>
-                            <input ng-model="myFood.servings.cerealsServ" type="number" step="0.1" min="0.1">
-                        </md-input-container>
-                        <md-input-container ng-if="myFood.foodGroup.code == 'V' || myFood.foodGroup.code == 'PM'">
-                            <label>{{'vegetables' | translate}} {{'serv' | translate}}.</label>
-                            <input ng-model="myFood.servings.vegetablesServ" type="number" step="0.1" min="0.1">
-                        </md-input-container>
-                        <md-input-container ng-if="myFood.foodGroup.code == 'F' || myFood.foodGroup.code == 'PM'">
-                            <label>{{'fruit' | translate}} {{'serv' | translate}}.</label>
-                            <input ng-model="myFood.servings.fruitServ" type="number" step="0.1" min="0.1">
-                        </md-input-container>
-                        <md-input-container ng-if="myFood.foodGroup.code == 'M'  || myFood.foodGroup.code == 'MF' || myFood.foodGroup.code == 'PM'">
-                            <label>{{'meat' | translate}} {{'serv' | translate}}.</label>
-                            <input ng-model="myFood.servings.meatServ" type="number" step="0.1" min="0.1">
-                        </md-input-container>
-                        <md-input-container ng-if="myFood.foodGroup.code == 'MI' || myFood.foodGroup.code == 'PM'">
-                            <label>{{'milk' | translate}} {{'serv' | translate}}.</label>
-                            <input ng-model="myFood.servings.milkServ" type="number" step="0.1" min="0.1">
-                        </md-input-container>
-                        <md-input-container ng-if="myFood.foodGroup.code == 'FA' || myFood.foodGroup.code == 'PM'">
-                            <label>{{'fats' | translate}} {{'serv' | translate}}.</label>
-                            <input ng-model="myFood.servings.fatsServ" type="number" step="0.1" min="0.1">
-                        </md-input-container>
+                        <div class="col-sm-6">
+                            <div ng-if="myFood.foodGroup.code !='OF' && myFood.foodGroup.code != null">
+                                <div class="alert alert-info">
+                                    <ul>
+                                        <li ng-if="myFood.foodGroup.code == 'C' || myFood.foodGroup.code == 'MF' || myFood.foodGroup.code == 'PM'">1 serviranje žitarica je 1/2 šalice žitarica/sjemenki/tjestenine/škrobnog povrća, 30 g kruha i sl.</li>
+                                        <li ng-if="myFood.foodGroup.code == 'V' || myFood.foodGroup.code == 'PM'">1 serviranje povrća je 1/2 šalice kuhanog povrća, 1/2 šalice povrtnog soka ili 1 šalicu sirovog povrća.</li>
+                                        <li ng-if="myFood.foodGroup.code == 'F' || myFood.foodGroup.code == 'PM'">1 serviranje voća je 1 mali do srednje velik komad voća, 1/2 šalice svježeg/konzerviranog voća/voćnog soka, 1/4 šalice osušenog voća.</li>
+                                        <li ng-if="myFood.foodGroup.code == 'M' || myFood.foodGroup.code == 'MF' || myFood.foodGroup.code == 'PM'">1 serviranje mesa je 30 g mesa, piletine ili sira te 1/2  šalice graha (meso, piletina i grah se mjere termićki obrađeni).</li>
+                                        <li ng-if="myFood.foodGroup.code == 'MI' || myFood.foodGroup.code == 'PM'">1 serviranje mlijeka i mliječnih proizvoda je 1 šalica mlijeka, 2/3 šalice jogurta (250 ml mlijeka, 180 g jogurta).</li>
+                                        <li ng-if="myFood.foodGroup.code == 'FA' || myFood.foodGroup.code == 'PM'">1 serviranje masti je 1 čajna žlićica maslaca/margarina/biljnog ulja, 1 jušnu žlicu salatnog preljeva.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
             <div class="panel panel-default">
                 <div class="panel-heading bg-subpanel">{{'macronutrients' | translate}}</div>
                 <div class="panel-body">
@@ -136,12 +147,12 @@
                     </div>
                 </div>
             </div>
-
             <div class="panel panel-defaul">
                 <div class="panel-heading bg-subpanel">{{'parameters' | translate}}</div>
                 <div class="panel-body">
                     <div class="alert alert-info">
-                        <span>Ako vrijednost određenog parametra nije poznate, ostavite prazno polje.</span>
+                        <i class="fa fa-exclamation-triangle"></i>
+                        Ako vrijednost određenog parametra nije poznata, ostavite nulu.
                     </div>
                     <div layout-gt-sm="row">
                         <md-input-container>
@@ -183,13 +194,13 @@
                             <input ng-model="myFood.saturatedFats" type="number" step="0.1" min="0">
                         </md-input-container>
                         <md-input-container>
-                            <label>{{'monounsaturated fats' | translate}} (g)</label>
+                            <label>{{'mono u/f' | translate}} (g)</label>
                             <input ng-model="myFood.monounsaturatedFats" type="number" step="0.1" min="0">
                         </md-input-container>
                     </div>
                     <div layout-gt-sm="row">
                         <md-input-container>
-                            <label>{{'polyunsaturated fats' | translate}} (g)</label>
+                            <label>{{'poly u/f' | translate}} (g)</label>
                             <input ng-model="myFood.polyunsaturatedFats" type="number" step="0.1" min="0">
                         </md-input-container>
                         <md-input-container>
@@ -263,33 +274,33 @@
                             <input ng-model="myFood.carotene" type="number" step="0.1" min="0">
                         </md-input-container>
                         <md-input-container>
-                            <label>{{'vitaminD' | translate}} (<span>&#181;</span>g)</label>
+                            <label>{{'vitamin D' | translate}} (<span>&#181;</span>g)</label>
                             <input ng-model="myFood.vitaminD" type="number" step="0.1" min="0">
                         </md-input-container>
                         <md-input-container>
-                            <label>{{'vitaminE' | translate}} (mg)</label>
+                            <label>{{'vitamin E' | translate}} (mg)</label>
                             <input ng-model="myFood.vitaminE" type="number" step="0.1" min="0">
                         </md-input-container>
                         <md-input-container>
-                            <label>{{'vitaminB1' | translate}} (mg)</label>
+                            <label>{{'vitamin B1' | translate}} (mg)</label>
                             <input ng-model="myFood.vitaminB1" type="number" step="0.1" min="0">
                         </md-input-container>
                     </div>
                     <div layout-gt-sm="row">
                         <md-input-container>
-                            <label>{{'vitaminB2' | translate}} (mg)</label>
+                            <label>{{'vitamin B2' | translate}} (mg)</label>
                             <input ng-model="myFood.vitaminB2" type="number" step="0.1" min="0">
                         </md-input-container>
                         <md-input-container>
-                            <label>{{'vitaminB3' | translate}} (mg)</label>
+                            <label>{{'vitamin B3' | translate}} (mg)</label>
                             <input ng-model="myFood.vitaminB3" type="number" step="0.1" min="0">
                         </md-input-container>
                         <md-input-container>
-                            <label>{{'vitaminB6' | translate}} (mg)</label>
+                            <label>{{'vitamin B6' | translate}} (mg)</label>
                             <input ng-model="myFood.vitaminB6" type="number" step="0.1" min="0">
                         </md-input-container>
                         <md-input-container>
-                            <label>{{'vitaminB12' | translate}} (<span>&#181;</span>g)</label>
+                            <label>{{'vitamin B12' | translate}} (<span>&#181;</span>g)</label>
                             <input ng-model="myFood.vitaminB12" type="number" step="0.1" min="0">
                         </md-input-container>
                         <md-input-container>
@@ -307,7 +318,7 @@
                             <input ng-model="myFood.biotin" type="number" step="0.1" min="0">
                         </md-input-container>
                         <md-input-container>
-                            <label>{{'vitaminC' | translate}} (mg)</label>
+                            <label>{{'vitamin C' | translate}} (mg)</label>
                             <input ng-model="myFood.vitaminC" type="number" step="0.1" min="0">
                         </md-input-container>
                         <md-input-container>

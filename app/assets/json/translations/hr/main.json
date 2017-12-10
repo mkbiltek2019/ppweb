@@ -99,6 +99,7 @@
   "saturated fats": "zasićene masti",
   "monounsaturated fats": "jednostruko nezasićene masti",
   "polyunsaturated fats": "višestruko nezasićene masti",
+  "trifluoroacetic acid": "trans masne kiseline",
   "sodium": "natrij",
   "potassium": "kalij",
   "calcium": "kalcij",
@@ -279,6 +280,10 @@
   "supervisor": "supervizor",
   "admin": "administrator",
   "delete input": "briši unos",
+  "mono u/f": "jednostruko n/m",
+  "poly u/f": "višestruko n/m",
+  "title": "naziv",
+  "new food": "nova namirnica",
 
 
 
@@ -296,7 +301,7 @@
   "fat": "masti",
   "mixed foods": "mješovite namirnice",
   "prepared meals": "pripremljena jela",
-  "my food": "moje namirnice",
+  "my food": "moja namirnica",
 
 
   "stewing in water": "pirjanje u vodi",

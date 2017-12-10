@@ -88,16 +88,9 @@ public class Foods : System.Web.Services.WebService {
     public class FoodData {
         public List<NewFood> foods = new List<NewFood>();
         public List<NewFood> myFoods = new List<NewFood>();
-        //  public List<NewFood> myFoods = new List<NewFood>();
         public List<FoodGroup> foodGroups = new List<FoodGroup>();
     }
 
-    //public class FoodTitle {
-    //    public string id { get; set; }
-    //    public string food { get; set; }
-
-    //    public FoodGroup foodGroup = new FoodGroup();
-    //}
 
     public class FoodGroup {
         public CodeTitle group = new CodeTitle();
@@ -136,7 +129,6 @@ public class Foods : System.Web.Services.WebService {
     }
 
 
-    //TODO
     public class Servings {
         public double cerealsServ { get; set; }
         public double vegetablesServ { get; set; }
@@ -147,15 +139,6 @@ public class Foods : System.Web.Services.WebService {
         public double otherFoodsServ { get; set; }
         public double otherFoodsEnergy { get; set; }
     }
-
-    //public class ServValue {
-    //    public string code { get; set; }
-    //    public string title { get; set; }
-    //    public string description { get; set; }
-    //    public double value { get; set; }
-    //}
-
-
 
     public class Totals {
         public double mass { get; set; }
@@ -169,14 +152,6 @@ public class Foods : System.Web.Services.WebService {
 
         public Servings servings = new Servings();
 
-        //public double cerealsServ { get; set; }
-        //public double vegetablesServ { get; set; }
-        //public double fruitServ { get; set; }
-        //public double meatServ { get; set; }
-        //public double milkServ { get; set; }
-        //public double fatsServ { get; set; }
-        //public double otherFoodsServ { get; set; }
-        //public double otherFoodsEnergy { get; set; }
         public double starch { get; set; }
         public double totalSugar { get; set; }
         public double glucose { get; set; }
@@ -248,13 +223,6 @@ public class Foods : System.Web.Services.WebService {
         public int fatsPercentageMax { get; set; }
 
         public Servings servings = new Servings();
-        //public int cerealsServ { get; set; }
-        //public int vegetablesServ { get; set; }
-        //public int fruitServ { get; set; }
-        //public int meatServ { get; set; }
-        //public int milkServ { get; set; }
-        //public int fatsServ { get; set; }
-        //public int otherFoodsEnergyMax { get; set; }
 
         public ParameterRecommendation starch = new ParameterRecommendation();
         public ParameterRecommendation totalSugar = new ParameterRecommendation();
@@ -335,7 +303,6 @@ public class Foods : System.Web.Services.WebService {
     [WebMethod]
     public string Init() {
         SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
-        //SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + lang + "/" + dataBase));
 
         InitData data = new InitData();
 
@@ -1291,7 +1258,7 @@ public class Foods : System.Web.Services.WebService {
         return x;
     }
 
-      private Servings DietD1(int tee) {
+    private Servings DietD1(int tee) {
         //JNormalna prehrana, Dijeta bez glutena ???  TODO
         Servings x = new Servings();
         if (tee == 0) {

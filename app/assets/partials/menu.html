@@ -23,7 +23,7 @@
                             <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
                         </div>
                         <div ng-show="!loading">
-                            <div class="table-responsive">
+                            <div class="table-responsive" style="min-height:200px">
                                 <table class="table table-condensed">
                                     <tbody class="text-small">
                                         <tr ng-if="x.meal.code==currentMeal" ng-repeat="x in currentMenu.data.selectedFoods track by $index">
@@ -80,7 +80,7 @@
                                 </div>
                             </div>
                             <div ng-if="totals.price.value>0" class="text-right m10">
-                                <label class="text-primary">{{'total price' | translate}}: <span>{{totals.price.value | number:2}} {{config.currency}} </span></label>
+                                <label class="text-primary">{{'price' | translate}}: <span>{{totals.price.value | number:2}} {{config.currency}} </span></label>
                             </div>
                         </div>
                     </div>
@@ -89,16 +89,11 @@
         </div>
         <div class="col-sm-4">
             <div class="panel panel-default">
-                <!--<div class="panel-heading">
-                    <span><i class="fa fa-area-chart"></i> <span> {{'analytics' | translate}}</span> <em class="pl10">({{'total values' | translate}})</em></span>
-                </div>-->
                 <div class="panel-body text-small">
-                    <div>
                         <ul class="nav nav-tabs">
                             <li ng-class="analyticsTpl=='chartsTpl'?'active':''"><a href="#" ng-click="toggleAnalytics('chartsTpl')"><i class="fa fa-line-chart"></i> <span class="hidden-xs">{{'charts' | translate}}</span></a></li>
                             <li ng-class="analyticsTpl=='tablesTpl'?'active':''" ng-click="toggleAnalytics('tablesTpl')"><a href="#"><i class="fa fa-table"></i> <span class="hidden-xs">{{'tables' | translate}}</span></a></li>
                         </ul>
-                    </div>
                     <div ng-include="analyticsTpl" style="padding-top:20px"></div>
                 </div>
             </div>
@@ -421,6 +416,14 @@
                             <td>{{recommendations.polyunsaturatedFats.mda}}</td>
                             <td>{{recommendations.polyunsaturatedFats.ui}}</td>
                             <td>{{recommendations.polyunsaturatedFats.rda}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'trifluoroacetic acid' | translate}}</td>
+                            <td>g</td>
+                            <td class="text-bold">{{totals.trifluoroaceticAcid}}</td>
+                            <td>{{recommendations.trifluoroaceticAcid.mda}}</td>
+                            <td>{{recommendations.trifluoroaceticAcid.ui}}</td>
+                            <td>{{recommendations.trifluoroaceticAcid.rda}}</td>
                         </tr>
                         <tr>
                             <td>{{'cholesterol' | translate}}</td>

@@ -236,8 +236,6 @@ public class MyFoods : System.Web.Services.WebService {
         try {
             db.CreateDataBase(userId, db.myFoods);
             x.id = x.id != null ? x.id : Guid.NewGuid().ToString();
-          //  x.foodGroup.code = "MYF";
-            //x.servings.otherFoodsServ = 1;
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
             string sql = "";
@@ -313,7 +311,6 @@ public class MyFoods : System.Web.Services.WebService {
     [WebMethod]
     public string Delete(string userId, Foods.NewFood x) {
         try {
-          //  x.foodGroup.code = "MYF";
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
             string sql = "";

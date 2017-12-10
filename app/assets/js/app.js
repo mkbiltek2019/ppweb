@@ -3370,7 +3370,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             url: $sessionStorage.config.backend + 'Foods.asmx/Init',
             method: "POST",
             data: ''
-            //data: { lang: $rootScope.config.databaselanguage }
         })
         .then(function (response) {
             var res = JSON.parse(response.data.d);
@@ -3425,14 +3424,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             alert(response.data.d)
         });
     };
-   // load();
 
-    //$scope.toggleTpl = function (x) {
-    //    load();
-    //    $scope.myFoodsTpl = x;
-
-    //};
-    //$scope.toggleTpl('newFood');
 
     $scope.new = function(){
         init();
@@ -3440,7 +3432,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.delete = function (x) {
         var confirm = $mdDialog.confirm()
-            .title($translate.instant('delete food' + '?'))
+            .title($translate.instant('delete food') + '?')
             .textContent()
             .targetEvent()
             .ok($translate.instant('yes'))
@@ -3456,7 +3448,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             url: $sessionStorage.config.backend + webService + '/Delete',
             method: "POST",
             data: { userId: $rootScope.user.userGroupId, x: x }
-            //data: { userId: $rootScope.user.userId, x: x }
         })
      .then(function (response) {
          load();
@@ -3484,12 +3475,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             x.servings.otherFoodsEnergy = x.energy;
             x.foodGroup.code = 'OF';
         };
-       // x.servings.otherFoodsServ = 1;
         $http({
             url: $sessionStorage.config.backend + webService + '/Save',
             method: "POST",
             data: { userId: $rootScope.user.userGroupId, x: x }
-            //data: { userId: $rootScope.user.userId, x: x }
         })
         .then(function (response) {
             load();
@@ -3501,8 +3490,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 
     var checkIsOtherFood = function (x) {
-        if (x.foodGroup.code = 'OF') { return true;}
-        if(  x.servings.cerealsServ > 0 ||
+        if (x.foodGroup.code == 'OF') { return true;}
+        if ( x.servings.cerealsServ > 0 ||
              x.servings.vegetablesServ > 0 ||
              x.servings.fruitServ > 0 ||
              x.servings.meatServ > 0 ||
@@ -3516,13 +3505,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             url: $sessionStorage.config.backend + 'MyFoods.asmx/Get',
             method: "POST",
             data: { userId: $rootScope.user.userGroupId, id: x }
-            //data: { userId: $rootScope.user.userId, id: x }
         })
       .then(function (response) {
           $scope.myFood = JSON.parse(response.data.d);
-         // $scope.setServings();
-          //  initFood = JSON.parse(response.data.d);
-        //  showServings($scope.food);
       },
       function (response) {
           alert(response.data.d)
