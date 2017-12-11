@@ -175,8 +175,8 @@ public class Users : System.Web.Services.WebService {
                 command.Parameters.Add(new SQLiteParameter("Country", x.country));
                 command.Parameters.Add(new SQLiteParameter("Pin", x.pin));
                 command.Parameters.Add(new SQLiteParameter("Phone", x.phone));
-                command.Parameters.Add(new SQLiteParameter("Email", x.email));
-                command.Parameters.Add(new SQLiteParameter("UserName", x.userName));
+                command.Parameters.Add(new SQLiteParameter("Email", x.email.Trim().ToLower()));
+                command.Parameters.Add(new SQLiteParameter("UserName", x.userName.Trim().ToLower()));
                 command.Parameters.Add(new SQLiteParameter("Password", x.password));
                 command.Parameters.Add(new SQLiteParameter("adminType", x.adminType));
                 command.Parameters.Add(new SQLiteParameter("UserGroupId", x.userGroupId = x.userGroupId == null ? x.userId : x.userGroupId));
@@ -475,7 +475,7 @@ public class Users : System.Web.Services.WebService {
             connection.Open();
             SQLiteCommand command = new SQLiteCommand(
                  "SELECT EXISTS (SELECT userId FROM users WHERE email = @email)", connection);
-            command.Parameters.Add(new SQLiteParameter("email", x.email));
+            command.Parameters.Add(new SQLiteParameter("email", x.email.Trim().ToLower()));
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read()) {
                 result = reader.GetBoolean(0);
