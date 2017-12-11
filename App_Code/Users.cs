@@ -20,8 +20,6 @@ public class Users : System.Web.Services.WebService {
     string dataBase = ConfigurationManager.AppSettings["UsersDataBase"];
     DataBase db = new DataBase();
     string EncryptionKey = ConfigurationManager.AppSettings["EncryptionKey"];
-    //string demoUserName = ConfigurationManager.AppSettings["DemoUserName"];
-    //string demoPassword = ConfigurationManager.AppSettings["DemoPassword"];
     string supervisorUserName = ConfigurationManager.AppSettings["SupervisorUserName"];
     string supervisorPassword = ConfigurationManager.AppSettings["SupervisorPassword"];
     public Users () {
@@ -81,7 +79,7 @@ public class Users : System.Web.Services.WebService {
     [WebMethod]
     public string Init() {
         NewUser x = new NewUser();
-            x.userId = null;  // Convert.ToString(Guid.NewGuid()); // null;
+            x.userId = null;
             x.userType = 0;
             x.firstName = "";
             x.lastName = "";
@@ -96,7 +94,7 @@ public class Users : System.Web.Services.WebService {
             x.userName = "";
             x.password = "";
             x.adminType = 0;
-            x.userGroupId = null;  //x.userId;
+            x.userGroupId = null;
             x.activationDate = DateTime.UtcNow.ToString();
             x.expirationDate = DateTime.UtcNow.ToString();
             x.isActive = false;
@@ -109,9 +107,6 @@ public class Users : System.Web.Services.WebService {
 
     [WebMethod]
     public string Login(string userName, string password) {
-        //if (userName == supervisorUserName && password == supervisorPassword) {
-        //    return Supervisor();
-        //}
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
             connection.Open();
@@ -240,7 +235,7 @@ public class Users : System.Web.Services.WebService {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
             connection.Open();
-            string sql = "SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress FROM users ORDER BY activationDate ASC";
+            string sql = "SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress FROM users ORDER BY rowid DESC";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             SQLiteDataReader reader = command.ExecuteReader();
             List<NewUser> xx = new List<NewUser>();
@@ -360,9 +355,6 @@ public class Users : System.Web.Services.WebService {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
             connection.Open();
             string sql = @"DELETE FROM users WHERE userId = @userId";
-            //string sql = @"BEGIN
-            //            DELETE FROM users WHERE userId = @userId;
-            //            END";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             command.Parameters.Add(new SQLiteParameter("userId", x.userId));
             command.ExecuteNonQuery();
@@ -443,7 +435,6 @@ public class Users : System.Web.Services.WebService {
 
     #region Methods
     protected string Encrypt(string clearText) {
-       // string EncryptionKey = "MDOLD54FLSK5123";  // "MAKV2SPBNI99212";
         byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
         using (Aes encryptor = Aes.Create()) {
             Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
@@ -461,7 +452,6 @@ public class Users : System.Web.Services.WebService {
     }
 
     protected string Decrypt(string cipherText) {
-       // string EncryptionKey = "MDOLD54FLSK5123";  // "MAKV2SPBNI99212";
         byte[] cipherBytes = Convert.FromBase64String(cipherText);
         using (Aes encryptor = Aes.Create()) {
             Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
@@ -573,10 +563,6 @@ public class Users : System.Web.Services.WebService {
         }
         catch (Exception e) { return ("error: " + e); }
     }
-
-
     #endregion
-
-
 
 }

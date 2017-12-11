@@ -85,7 +85,7 @@
                     <table class="table table-condensed">
                         <tr>
                             <td class="text-left">Registriranih korisnika:</td>
-                            <td class="text-left"><strong>{{d.length-1}} </strong></td>
+                            <td class="text-left"><strong>{{d.length}} </strong></td>
                         </tr>
                         <tr>
                             <td class="text-left">Kupljenih licenci:</td>
@@ -93,7 +93,7 @@
                         </tr>
                         <tr>
                             <td class="text-left">Aktivnih korisnika:</td>
-                            <td class="text-left"><strong>{{(d | filter:{isActive:true, licenceStatus:'active'}).length-1}} </strong></td>
+                            <td class="text-left"><strong>{{(d | filter:{isActive:true, licenceStatus:'active'}).length}} </strong></td>
                         </tr>
                     </table>
                 </div>
@@ -104,6 +104,7 @@
                 <div class="table-responsive">
                     <table class="table table-condensed text-small">
                         <tr>
+                            <th>Br.</th>
                             <th ng-if="showDetails">UserId</th>
                             <th ng-if="showDetails">UserGroupId</th>
                             <th>Ime</th>
@@ -123,7 +124,8 @@
                             <th class="nowrap">Status</th>
                             <th></th>
                         </tr>
-                        <tr ng-repeat="x in d | orderBy: 'activationDate'" ng-class="x.userId!=x.userGroupId?'text-muted':''">
+                        <tr ng-repeat="x in d" ng-class="x.userId!=x.userGroupId?'text-muted':''">
+                            <td>{{d.length - $index}}</td>
                             <td ng-if="showDetails" class="novrap">{{x.userId}}</td>
                             <td ng-if="showDetails" class="novrap">{{x.userGroupId}}</td>
                             <td>{{x.firstName}}</td>
