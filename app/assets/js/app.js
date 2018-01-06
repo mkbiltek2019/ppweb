@@ -71,6 +71,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
           .then(function (response) {
               $rootScope.config = response.data;
               $sessionStorage.config = response.data;
+              var queryLang = location.search.substring(6);
+              if (angular.isDefined(queryLang)) {
+                  if (queryLang == 'hr' || queryLang == 'sr' || queryLang == 'en') {
+                      $rootScope.setLanguage(queryLang);
+                  }
+              }
               if ($sessionStorage.islogin == true) { $rootScope.loadData(); }
           });
     };

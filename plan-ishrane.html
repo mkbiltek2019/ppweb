@@ -3,18 +3,19 @@
 <head>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-43413032-1"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-43413032-20"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-        gtag('config', 'UA-43413032-1');
+
+        gtag('config', 'UA-43413032-20');
     </script>
 
-    <title>Program Prehrane - Web Aplikacija</title>
+    <title>Plan Ishrane - Web Aplikacija</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="Description" content="Program Prehrane - Profesionalni alat za izradu uravnoteženih jelovnika i plana tjelesne aktivnosti. Aplikacija omogućava utvrđivanje stanja uhranjenosti i energetske potrošnje pojedinca te izradu jelovnika utemeljenu na znanstvenim spoznajama na polju nutriconizma.">
+    <meta name="Description" content="Plan Ishrane - Profesionalni alat za izradu uravnoteženih jelovnika i plana fizičke aktivnosti. Aplikacija omogućuje utvrđivanje stanja uhranjenosti i energetske potrošnje pojedinca te izradu jelovnika utemeljenu na znanstvenim spoznajama na polju nutriconizma.">
     <meta name="author" content="IG PROG, obrt za računalno programiranje">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -43,7 +44,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <!--<a class="navbar-brand" href="#myPage"><i class="fa fa-cutlery"></i> <span class="hidden-xs">Program Prehrane</span></a>-->
-                <a class="navbar-brand" href="index.html" style="padding-top:2px !important"><img src="assets/img/logo.png"></a>
+                <a class="navbar-brand" href="plan-ishrane.html" style="padding-top:2px !important"><img src="assets/img/logo.png"></a>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-right">
@@ -58,14 +59,14 @@
     </nav>
     <div class="jumbotron text-center" style="padding-top:180px">
         <h1 style="color:white !important; text-shadow: 2px 2px darkgray" class="text-capitalize">web aplikacija</h1>
-        <h1 style="color:white !important; text-shadow: 2px 2px darkgray" class="text-uppercase">program prehrane</h1>
-        <h2 style="color:white !important" class="text-lowercase hidden-xs">alat za izradu uravnoteženih jelovnika i plana tjelesne aktivnost</h2>
+        <h1 style="color:white !important; text-shadow: 2px 2px darkgray" class="text-uppercase">plan ishrane</h1>
+        <h2 style="color:white !important" class="text-lowercase hidden-xs">alat za izradu uravnoteženih jelovnika i plana fizičke aktivnost</h2>
         <div class="hidden-xs">
-            <a href="{{config.appurl}}" class="btn btn-success m10"><i class="fa fa-sign-in fa-2x"></i> <strong style="font-size:xx-large"> Ulaz za Korisnike</strong></a>
+            <a href="{{config.appurl}}?lang:sr" class="btn btn-success m10"><i class="fa fa-sign-in fa-2x"></i> <strong style="font-size:xx-large"> Ulaz za Korisnike</strong></a>
             <a href="#registration" class="btn btn-primary m10"><i class="fa fa-user-plus fa-2x"></i> <strong style="font-size:xx-large"> Postani Korisnik</strong></a>
         </div>
         <div class="visible-xs text-center">
-            <a href="{{config.appurl}}" class="btn btn-success m10"><i class="fa fa-cloud fa-4x"></i> Web App</a>
+            <a href="{{config.appurl}}?lang:sr" class="btn btn-success m10"><i class="fa fa-cloud fa-4x"></i> Web App</a>
             <a href="{{config.apk}}" class="btn btn-danger m10"><i class="fa fa-android fa-4x"></i> Android App</a>
         </div>
     </div>
@@ -118,7 +119,7 @@
         </a>
         <a class="right carousel-control" href="#PPWebCarousel" role="button" data-slide="next">
             <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            <span class="sr-only">Naprijed</span>
+            <span class="sr-only">Napred</span>
         </a>
     </div>
 
@@ -127,11 +128,11 @@
         <div class="row">
             <div class="col-sm-8">
                 <h2>O aplikaciji</h2><br>
-                <h4><strong>Program Prehrane Web</strong> je web aplikacija za izradu raznovrsnih i uravnoteženih jelovnika i plana tjelesne aktivnosti.</h4><br>
+                <h4><strong>Plan Ishrane Web</strong> je web aplikacija za izradu raznovrsnih i uravnoteženih jelovnika i plana fizičke aktivnosti.</h4><br>
                 <p class="text-justify">
-                    Web aplikacija <strong>Program Prehrane Web</strong> nasljednica je <a href="#awards">višestruko nagrađivanog</a> računalnog programa <a href="program-prehrane-5.html" target="_blank"><strong>Program Prehrane 5.0</strong></a>,
-                    a nastala je iz potrebe za izradom alata koji će nutricionistima i zdravstvenim djelatnicima ali
-                    i svima ostalima koji vode računa zdravoj i uravnoteženoj prehrani omogućiti brzu i jednostavnu izradu jelovnika te plana tjelesne aktivnosti.
+                    Web aplikacija <strong>Plan Ishrane Web</strong> nasljednica je <a href="#awards">višestruko nagrađivanog</a> računalnog programa <a href="program-prehrane-5.html" target="_blank"><strong>Program Prehrane 5.0</strong></a>,
+                    a nastala je iz potrebe za izradom alata koji će nutricionistima i zdravstvenim radnicima ali
+                    i svima ostalima koji vode računa zdravoj i uravnoteženoj ishrani omogućiti brzu i jednostavnu izradu jelovnika te plana fizičke aktivnosti.
                 </p>
             </div>
             <div class="col-sm-4 hidden-xs">
@@ -140,15 +141,15 @@
         </div>
         <div>
             <p class="text-justify">
-                Aplikacija omogućava utvrđivanje stanja uhranjenosti i energetske potrošnje pojedinca te izradu jelovnika utemeljenu na znanstvenim spoznajama na polju nutriconizma.
-                Osmišljavanjem jelovnika korištenjem ove aplikacije, prehrana krajnjih korisnika postaje uravnotežena i raznolika
-                što se može zahvaliti činjenici da se izrada jelovnika bazira na preporučenom broju jediničnih serviranja svih skupina namirnica te njihovih energetskih, makro i mikronutiritivnih vrijednost.
-                S obzirom da web aplikacija Program Prehrane sadrži bazu od preko 660 namirnica i jela moguće je zadovoljiti zahtjeve većine korisnika po pitanju izbora namirnica.
-                Osim toga aplikacija pruža mogućnost unosa vlastitih namirnica i njihovih makro i mikronutirtivnih vrijednosti.
-                Nadalje, kad se govori o problemu prekomjerne tjelesne mase, preporuča se uz promjenu prehrambenih navika, u svakodnevicu uključiti i dodatnu tjelesnu aktivnost.
-                Pa tako Program Prehrane Web nudi podatke o energetskoj potrošnji za preko 400 tjelesnih aktivnosti.
+                Aplikacija omogućava utvrđivanje stanja uhranjenosti i energetske potrošnje pojedinca te izradu jelovnika utemeljenu na znanstvenim saznanjima na polju nutriconizma.
+                Osmišljavanjem jelovnika korišćenjem ove aplikacije, ishrana krajnjih korisnika postaje uravnotežena i raznolika
+                što se može zahvaliti činjenici da se izrada jelovnika bazira na preporučenom broju jediničnih serviranja svih skupina namirnica te njihovih energetskih, makro i mikronutiritivnih vrednost.
+                S obzirom da web aplikacija Plan Ishrane sadrži bazu od preko 660 namirnica i jela moguće je zadovoljiti zahtjeve većine korisnika po pitanju izbora namirnica.
+                Osim toga aplikacija pruža mogućnost unosa vlastitih namirnica i njihovih makro i mikronutirtivnih vrednosti.
+                Nadalje, kad se govori o problemu prekomerne telesne mase, preporučuje se uz promjenu prehrambenih navika, u svakodnevicu uključiti i dodatnu telesnu aktivnost.
+                Pa tako Plan Ishrane Web nudi podatke o energetskoj potrošnji za preko 400 telesnih aktivnosti.
             </p>
-            <p>Više o karakteristikama i funkcijama aplikacije pogledajte <a href="#pricing"><strong>ovdje...</strong></a></p>
+            <p>Više o karakteristikama i funkcijama aplikacije pogledajte <a href="#pricing"><strong>ovde...</strong></a></p>
         </div>
     </div>
 
@@ -160,7 +161,7 @@
             </div>
             <div class="col-sm-8">
                 <p>
-                    <strong>POVIJEST:</strong> <strong>Program Prehrane</strong> se na tržištu nalazi već 10 godina, a do sada je doživio 6 verzija.
+                    <strong>POVIEST:</strong> <strong>Plan Ishrane</strong> se na tržištu nalazi već 10 godina, a do sada je doživio 6 verzija.
                     <div class="table-responsive">
                         <table class="table table-condensed">
                             <tr>
@@ -211,46 +212,46 @@
 
     <div id="pricing" class="container bg-grey pt60">
         <div class="text-center">
-            <h2>Cijena</h2>
+            <h2>Cena</h2>
         </div>
 
         <div class="row slideanim">
-                <div class="panel panel-primary col-md-6 col-md-offset-3 text-center"  style="padding:0">
-                    <div class="panel-heading">
-                        <p>Program Prehrane</p>
-                        <h1>Web</h1>
-                    </div>
-                    <div class="panel-body">
-                        <h4>Karakteristike / funkcionalnosti</h4>
-                        <!--<p>Web aplikacija</p>
-                        <p>Web Browser (Chrome, Firefox, IE9+...)</p>-->
-                        <hr />
-                        <ul class="list-group">
-                            <li class="list-group-item">660 namirnica i jela</li>
-                            <li class="list-group-item">39 mikronutrijenata i ostalih parametara</li>
-                            <li class="list-group-item">428 tjelesnih aktivnosti</li>
-                            <li class="list-group-item">24 Vrste prehrane/dijete</li>
-                            <li class="list-group-item">Izračun BMI i energetske potrošnje</li>
-                            <li class="list-group-item">Detaljni izračun energetske potrošnje</li>
-                            <li class="list-group-item">Odabir dodatne tjelesne aktivnosti</li>
-                            <li class="list-group-item">Odabir vrste prehrane/dijete</li>
-                            <li class="list-group-item">Odabir broja obroka</li>
-                            <li class="list-group-item">Izrada jelovnika</li>
-                            <li class="list-group-item">Izrada jelovnika/normativa za skupine konzumenata</li>
-                            <li class="list-group-item">Unos vlastitih namirnica</li>
-                            <li class="list-group-item">Izrada cjenika</li>
-                            <li class="list-group-item">Automatsko slanje jelovnika na e-mail klijenta</li>
-                            <li class="list-group-item">Baza klijenata</li>
-                            <li class="list-group-item">Praćenje antropometrijskih parametara</li>
-                        </ul>
-                    </div>
-                    <div class="panel-footer">
-                        <h3>550.00 kn</h3>
-                        <h4>godišnje</h4>
-                        <a href="#registration" class="btn btn-primary"><i class="fa fa-sign-in"></i> Registracija</a>
-                        <a ng-controller="orderCtrl" href="" class="btn btn-success" ng-click="order('Program Prehrane Web','')"><i class="fa fa-shopping-cart"></i> Narudžba</a>
-                    </div>
+            <div class="panel panel-primary col-md-6 col-md-offset-3 text-center" style="padding:0">
+                <div class="panel-heading">
+                    <p>Plan Ishrane</p>
+                    <h1>Web</h1>
                 </div>
+                <div class="panel-body">
+                    <h4>Karakteristike / funkcionalnosti</h4>
+                    <!--<p>Web aplikacija</p>
+                    <p>Web Browser (Chrome, Firefox, IE9+...)</p>-->
+                    <hr />
+                    <ul class="list-group">
+                        <li class="list-group-item">660 namirnica i jela</li>
+                        <li class="list-group-item">39 mikronutrijenata i ostalih parametara</li>
+                        <li class="list-group-item">428 telesnih aktivnosti</li>
+                        <li class="list-group-item">24 Vrste prehrane/dijete</li>
+                        <li class="list-group-item">Izračun BMI i energetske potrošnje</li>
+                        <li class="list-group-item">Detaljni izračun energetske potrošnje</li>
+                        <li class="list-group-item">Odabir dodatne telesne aktivnosti</li>
+                        <li class="list-group-item">Odabir vrste ishrane/dijete</li>
+                        <li class="list-group-item">Odabir broja obroka</li>
+                        <li class="list-group-item">Izrada jelovnika</li>
+                        <li class="list-group-item">Izrada jelovnika/normativa za skupine konzumenata</li>
+                        <li class="list-group-item">Unos vlastitih namirnica</li>
+                        <li class="list-group-item">Izrada cenika</li>
+                        <li class="list-group-item">Automatsko slanje jelovnika na e-mail klijenta</li>
+                        <li class="list-group-item">Baza klijenata</li>
+                        <li class="list-group-item">Praćenje antropometrijskih parametara</li>
+                    </ul>
+                </div>
+                <div class="panel-footer">
+                    <h3>550.00 kn</h3>
+                    <h4>godišnje</h4>
+                    <a href="#registration" class="btn btn-primary"><i class="fa fa-sign-in"></i> Registracija</a>
+                    <a ng-controller="orderCtrl" href="" class="btn btn-success" ng-click="order('Program Prehrane Web','')"><i class="fa fa-shopping-cart"></i> Narudžba</a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -273,7 +274,7 @@
         <div>
             <h3>Postupak narudžbe</h3>
             <ul>
-                <li>Ukoliko se već niste registrirali, prvo se <a href="#registration">registrirajte</a>.</li>
+                <li>Ukoliko se već niste registrovali, prvo se <a href="#registration">registrujte</a>.</li>
                 <li>U narudžbenici upišite e-mail i lozinku koji ste koristili za ulaz u aplikaciju i kliknite na <strong>prijava</strong>.</li>
                 <li>Ispunite obrazac za narudžbu (ako se račun izdaje na tvrtku odaberite <strong>pravna osoba</strong>).</li>
                 <li>Pošaljite narudžbu</li>
