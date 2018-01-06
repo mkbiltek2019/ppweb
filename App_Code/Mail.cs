@@ -52,8 +52,8 @@ public class Mail : System.Web.Services.WebService {
 , user.email
 , user.application
 , user.version
-, user.licence
-, user.licenceNumber = user.licenceNumber == "0" ? "trajna" : "godišnja");
+, user.licenceNumber
+, user.licence == "0" ? "trajna" : "godišnja");
 
         SendMail(myEmail, messageSubject, messageBody);
         // ---------------------------------------
