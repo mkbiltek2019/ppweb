@@ -262,7 +262,7 @@ public class Users : System.Web.Services.WebService {
                 x.isActive = reader.GetValue(18) == DBNull.Value ? true : Convert.ToBoolean(reader.GetInt32(18));
                 x.licenceStatus = GetLicenceStatus(x);
                 x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
-            xx.Add(x);
+                xx.Add(x);
         }
         connection.Close();
         string json = JsonConvert.SerializeObject(xx, Formatting.Indented);

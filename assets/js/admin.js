@@ -136,10 +136,10 @@ angular.module('app', [])
     }
 
     $scope.idxStart = 0;
-    $scope.idxEnd = 9;
+    $scope.idxEnd = 10;
     $scope.setPage = function (x) {
         $scope.idxStart = 0 + x;
-        $scope.idxEnd = 9 + x;
+        $scope.idxEnd = 10 + x;
     }
 
     $scope.showAllPages = function () {
