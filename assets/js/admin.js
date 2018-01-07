@@ -90,6 +90,7 @@ angular.module('app', [])
         })
             .then(function (response) {
                 $scope.d = JSON.parse(response.data.d);
+                $rootScope.webapp = JSON.parse(response.data.d);
             },
             function (response) {
                 alert(response.data.d);
@@ -135,6 +136,18 @@ angular.module('app', [])
             });
     }
 
+    $scope.idxStart = 0;
+    $scope.idxEnd = 9;
+    $scope.setPage = function (x) {
+        $scope.idxStart = 0 + x;
+        $scope.idxEnd = 9 + x;
+    }
+
+    $scope.showAllPages = function () {
+        $scope.idxStart = 0;
+        $scope.idxEnd = $scope.d.length;
+    }
+
 }])
 
 .controller('ordersCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
@@ -155,5 +168,6 @@ angular.module('app', [])
     load();
 
 }])
+
 
 ;

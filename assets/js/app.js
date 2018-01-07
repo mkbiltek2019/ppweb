@@ -4,6 +4,7 @@ app.js
 */
 angular.module('app', ['ngMaterial'])
 
+
 .controller('appCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
 
     var getConfig = function () {
@@ -331,7 +332,6 @@ angular.module('app', ['ngMaterial'])
     }
 
 }])
-
 
 
 ;

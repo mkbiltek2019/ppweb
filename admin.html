@@ -13,7 +13,6 @@
     <script src="../assets/js/vendor/angular-animate.min.js"></script>
     <script src="../assets/js/vendor/angular-aria.min.js"></script>
     <script src="../assets/js/vendor/angular-messages.min.js"></script>
-
 </head>
 <body ng-app="app" ng-controller="adminCtrl" style="color:black">
 
@@ -101,54 +100,64 @@
             <div class="checkbox">
                 <label><input type="checkbox" ng-model="showDetails" />Prikaži detalje / uredi</label>
             </div>
-                <div class="table-responsive">
-                    <table class="table table-condensed text-small">
-                        <tr>
-                            <th>Br.</th>
-                            <th ng-if="showDetails">UserId</th>
-                            <th ng-if="showDetails">UserGroupId</th>
-                            <th>Ime</th>
-                            <th>Prezime</th>
-                            <th ng-if="showDetails">Tvrtka</th>
-                            <th ng-if="showDetails">Adresa</th>
-                            <th ng-if="showDetails" class="nowrap">Poštanski broj</th>
-                            <th ng-if="showDetails">Grad</th>
-                            <th ng-if="showDetails">Država</th>
-                            <th ng-if="showDetails">OIB</th>
-                            <th>Email</th>
-                            <th ng-if="showDetails" class="nowrap">Korisničko ime</th>
-                            <th ng-if="showDetails" class="nowrap">Tip admina</th>
-                            <th class="nowrap">Datum aktivacije</th>
-                            <th class="nowrap">Istek aktivacije</th>
-                            <th>Aktivan</th>
-                            <th class="nowrap">Status</th>
-                            <th></th>
-                        </tr>
-                        <tr ng-repeat="x in d" ng-class="x.userId!=x.userGroupId?'text-muted':''">
-                            <td>{{d.length - $index}}</td>
-                            <td ng-if="showDetails" class="novrap">{{x.userId}}</td>
-                            <td ng-if="showDetails" class="novrap">{{x.userGroupId}}</td>
-                            <td>{{x.firstName}}</td>
-                            <td>{{x.lastName}}</td>
-                            <td ng-if="showDetails" class="nowrap">{{x.companyName}}</td>
-                            <td ng-if="showDetails" class="nowrap">{{x.address}}</td>
-                            <td ng-if="showDetails">{{x.postalCode}}</td>
-                            <td ng-if="showDetails">{{x.city}}</td>
-                            <td ng-if="showDetails">{{x.country}}</td>
-                            <td ng-if="showDetails">{{x.pin}}</td>
-                            <td>{{x.email}}</td>
-                            <td ng-if="showDetails">{{x.userName}}</td>
-                            <td ng-if="showDetails">{{x.adminType}}</td>
-                            <td><input ng-disabled="!showDetails" ng-model="x.activationDate" type="text" /></td>
-                            <td><input ng-disabled="!showDetails" ng-model="x.expirationDate" type="text" /></td>
-                            <td><input ng-disabled="!showDetails" ng-model="x.isActive" type="checkbox" class="form-control" /></td>
-                            <td>{{x.licenceStatus}}</td>
-                            <td><button ng-disabled="!showDetails" ng-click="update(x)" class="btn btn-success"><i class="fa fa-floppy-o"></i> Spremi</button></td>
-                            <td ng-if="config.debug"><button ng-disabled="!showDetails" ng-click="remove(x)" class="btn btn-danger"><i class="fa fa-thrash-o"></i> Delete</button></td>
-                        </tr>
-                    </table>
-                </div>
+            <div class="table-responsive">
+                <table class="table table-condensed text-small">
+                    <tr>
+                        <th>Br.</th>
+                        <th ng-if="showDetails">UserId</th>
+                        <th ng-if="showDetails">UserGroupId</th>
+                        <th>Ime</th>
+                        <th>Prezime</th>
+                        <th ng-if="showDetails">Tvrtka</th>
+                        <th ng-if="showDetails">Adresa</th>
+                        <th ng-if="showDetails" class="nowrap">Poštanski broj</th>
+                        <th ng-if="showDetails">Grad</th>
+                        <th ng-if="showDetails">Država</th>
+                        <th ng-if="showDetails">OIB</th>
+                        <th>Email</th>
+                        <th ng-if="showDetails" class="nowrap">Korisničko ime</th>
+                        <th ng-if="showDetails" class="nowrap">Tip admina</th>
+                        <th class="nowrap">Datum aktivacije</th>
+                        <th class="nowrap">Istek aktivacije</th>
+                        <th>Aktivan</th>
+                        <th class="nowrap">Status</th>
+                        <th></th>
+                    </tr>
+                    <tr ng-if="$index>=idxStart && $index<idxEnd" ng-repeat="x in d" ng-class="x.userId!=x.userGroupId?'text-muted':''">
+                        <td>{{d.length - $index}}</td>
+                        <td ng-if="showDetails" class="novrap">{{x.userId}}</td>
+                        <td ng-if="showDetails" class="novrap">{{x.userGroupId}}</td>
+                        <td>{{x.firstName}}</td>
+                        <td>{{x.lastName}}</td>
+                        <td ng-if="showDetails" class="nowrap">{{x.companyName}}</td>
+                        <td ng-if="showDetails" class="nowrap">{{x.address}}</td>
+                        <td ng-if="showDetails">{{x.postalCode}}</td>
+                        <td ng-if="showDetails">{{x.city}}</td>
+                        <td ng-if="showDetails">{{x.country}}</td>
+                        <td ng-if="showDetails">{{x.pin}}</td>
+                        <td>{{x.email}}</td>
+                        <td ng-if="showDetails">{{x.userName}}</td>
+                        <td ng-if="showDetails">{{x.adminType}}</td>
+                        <td><input ng-disabled="!showDetails" ng-model="x.activationDate" type="text" /></td>
+                        <td><input ng-disabled="!showDetails" ng-model="x.expirationDate" type="text" /></td>
+                        <td><input ng-disabled="!showDetails" ng-model="x.isActive" type="checkbox" class="form-control" /></td>
+                        <td>{{x.licenceStatus}}</td>
+                        <td><button ng-disabled="!showDetails" ng-click="update(x)" class="btn btn-success"><i class="fa fa-floppy-o"></i> Spremi</button></td>
+                        <td ng-if="config.debug"><button ng-disabled="!showDetails" ng-click="remove(x)" class="btn btn-danger"><i class="fa fa-thrash-o"></i> Delete</button></td>
+                    </tr>
+                </table>
             </div>
+            <ul class="pagination">
+                <li ng-if="0<d.length"><a href="#" ng-click="setPage(0)">1</a></li>
+                <li ng-if="9<d.length"><a href="#" ng-click="setPage(9)">2</a></li>
+                <li ng-if="19<d.length"><a href="#" ng-click="setPage(19)">4</a></li>
+                <li ng-if="29<d.length"><a href="#" ng-click="setPage(29)">5</a></li>
+                <li ng-if="39<d.length"><a href="#" ng-click="setPage(39)">6</a></li>
+                <li><a href="#" ng-click="showAllPages()">All ({{d.length}})</a></li>
+            </ul>
+        </div>
+
+
     </script>
 
     <script type="text/ng-template" id="programPrehrane5">
@@ -227,9 +236,10 @@
             </div>
         </div>
     </script>
-
+   
     <script src="../assets/js/admin.js"></script>
-
+  
+   
 </body>
 </html>
 
