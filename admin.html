@@ -148,11 +148,11 @@
                 </table>
             </div>
             <ul class="pagination">
-                <li ng-if="0<d.length"><a href="#" ng-click="setPage(0)">1</a></li>
-                <li ng-if="9<d.length"><a href="#" ng-click="setPage(9)">2</a></li>
-                <li ng-if="19<d.length"><a href="#" ng-click="setPage(19)">4</a></li>
-                <li ng-if="29<d.length"><a href="#" ng-click="setPage(29)">5</a></li>
-                <li ng-if="39<d.length"><a href="#" ng-click="setPage(39)">6</a></li>
+                <li ng-if="d.length>0"><a href="#" ng-click="setPage(0)">1</a></li>
+                <li ng-if="d.length>9"><a href="#" ng-click="setPage(9)">2</a></li>
+                <li ng-if="d.length>19"><a href="#" ng-click="setPage(19)">4</a></li>
+                <li ng-if="d.length>29"><a href="#" ng-click="setPage(29)">5</a></li>
+                <li ng-if="d.length>39"><a href="#" ng-click="setPage(39)">6</a></li>
                 <li><a href="#" ng-click="showAllPages()">All ({{d.length}})</a></li>
             </ul>
         </div>

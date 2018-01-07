@@ -90,7 +90,6 @@ angular.module('app', [])
         })
             .then(function (response) {
                 $scope.d = JSON.parse(response.data.d);
-                $rootScope.webapp = JSON.parse(response.data.d);
             },
             function (response) {
                 alert(response.data.d);

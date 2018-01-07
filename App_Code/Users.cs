@@ -254,7 +254,7 @@ public class Users : System.Web.Services.WebService {
                 x.phone = reader.GetValue(10) == DBNull.Value ? "" : reader.GetString(10);
                 x.email = reader.GetValue(11) == DBNull.Value ? "" : reader.GetString(11);
                 x.userName = reader.GetValue(12) == DBNull.Value ? "" : reader.GetString(12);
-                x.password = reader.GetValue(13) == DBNull.Value ? "" : Decrypt(reader.GetString(13));
+               // x.password = reader.GetValue(13) == DBNull.Value ? "" : Decrypt(reader.GetString(13));
                 x.adminType = reader.GetValue(14) == DBNull.Value ? 0 : reader.GetInt32(14);
                 x.userGroupId = reader.GetString(15);
                 x.activationDate = reader.GetValue(16) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(16);
