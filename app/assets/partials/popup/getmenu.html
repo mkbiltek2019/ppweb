@@ -29,6 +29,7 @@
                         <tr>
                             <th>{{'title' | translate}}</th>
                             <th>{{'diet'| translate}}</th>
+                            <th>{{'energy'| translate}}</th>
                             <th>{{'date' | translate}}</th>
                             <th>{{'note' | translate}}</th>
                             <th ng-if="config.debug">{{'client Id' | translate}}</th>
@@ -37,6 +38,7 @@
                         <tr ng-if="type==0?x.client.clientId==clientData.clientId:x.client.clientId!=null" ng-repeat="x in d | filter:searchValue" ng-click="confirm(x)">
                             <td class="novrap">{{x.title}}</td>
                             <td class="novrap">{{x.diet}}</td>
+                            <td class="novrap"><span ng-if="x.energy>0">{{x.energy | number:0}} {{'kcal' | translate}}</span></td>
                             <td>{{x.date | date:'dd.MM.yyyy'}}</td>
                             <td class="novrap">{{x.note}}</td>
                             <td ng-if="config.debug">{{x.client.clientId}}</td>

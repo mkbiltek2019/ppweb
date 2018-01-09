@@ -32,6 +32,7 @@ public class Menues : System.Web.Services.WebService {
 
         public Clients.NewClient client = new Clients.NewClient();
         public string userGroupId { get; set; }
+        public double energy { get; set; }
 
         public JsonFile data = new JsonFile();
     }
@@ -55,6 +56,7 @@ public class Menues : System.Web.Services.WebService {
         x.userId = null;
         x.client =  new Clients.NewClient();
         x.userGroupId = null;
+        x.energy = 0;
         JsonFile data = new JsonFile();
         data.selectedFoods = new List<Foods.NewFood>();
         data.selectedInitFoods = new List<Foods.NewFood>();
@@ -71,7 +73,7 @@ public class Menues : System.Web.Services.WebService {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
 
-            string sql = @"SELECT id, title, diet, date, note, userId, clientId, userGroupId
+            string sql = @"SELECT id, title, diet, date, note, userId, clientId, userGroupId, energy
                         FROM menues
                         ORDER BY date DESC";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
@@ -88,13 +90,14 @@ public class Menues : System.Web.Services.WebService {
                 x.userId = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
                 x.client = reader.GetValue(6) == DBNull.Value ? new Clients.NewClient() : client.GetClient(x.userId, reader.GetString(6));
                 x.userGroupId = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
+                x.energy = reader.GetValue(8) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(8));
                 x.data = JsonConvert.DeserializeObject<JsonFile>(GetJsonFile(userId, x.id));
                 xx.Add(x);
             }
             connection.Close();
             string json = JsonConvert.SerializeObject(xx, Formatting.Indented);
             return json;
-        } catch (Exception e) { return ("Error: " + e); }
+        } catch (Exception e) { return (e.Message); }
     }
 
     [WebMethod]
@@ -110,11 +113,10 @@ public class Menues : System.Web.Services.WebService {
                 }
                 SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
                 connection.Open();
-               
                 SQLiteCommand command = new SQLiteCommand(sql, connection);
                 sql = @"BEGIN;
-                    INSERT OR REPLACE INTO menues (id, title, diet, date, note, userId, clientId, userGroupId)
-                    VALUES (@id, @title, @diet, @date, @note, @userId, @clientId, @userGroupId);
+                    INSERT OR REPLACE INTO menues (id, title, diet, date, note, userId, clientId, userGroupId, energy)
+                    VALUES (@id, @title, @diet, @date, @note, @userId, @clientId, @userGroupId, @energy);
                     COMMIT;";
                 command = new SQLiteCommand(sql, connection);
 
@@ -126,13 +128,14 @@ public class Menues : System.Web.Services.WebService {
                 command.Parameters.Add(new SQLiteParameter("userId", userId));
                 command.Parameters.Add(new SQLiteParameter("clientId", x.client.clientId));
                 command.Parameters.Add(new SQLiteParameter("userGroupId", x.userGroupId));
+                command.Parameters.Add(new SQLiteParameter("energy", x.energy));
                 command.ExecuteNonQuery();
                 connection.Close();
                 SaveJsonToFile(userId, x.id, JsonConvert.SerializeObject(x.data, Formatting.Indented));
 
                 string json = JsonConvert.SerializeObject(x, Formatting.Indented);
                 return json;
-            } catch (Exception e) { return ("Error: " + e); }
+            } catch (Exception e) { return (e.Message); }
         }
     }
 
@@ -141,7 +144,7 @@ public class Menues : System.Web.Services.WebService {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
-            string sql = @"SELECT id, title, diet, date, note, userId, userGroupId
+            string sql = @"SELECT id, title, diet, date, note, userId, userGroupId, energy
                         FROM menues
                         WHERE id = id";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
@@ -158,6 +161,7 @@ public class Menues : System.Web.Services.WebService {
                 x.userId = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
                 x.client = reader.GetValue(6) == DBNull.Value ? new Clients.NewClient() : client.GetClient(x.userId, reader.GetString(6));
                 x.userGroupId = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
+                x.energy = reader.GetValue(8) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(8));
                 x.data = JsonConvert.DeserializeObject<JsonFile>(GetJsonFile(userId, x.id));
             }
             connection.Close();

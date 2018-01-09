@@ -159,6 +159,7 @@ namespace Igprog {
                 userId VARCHAR(50),
                 clientId VARCHAR(50),
                 userGroupId VARCHAR(50),
+                energy VARCHAR(50),
                 PRIMARY KEY(id, clientId))";
             CreateTable(path, sql);
         }

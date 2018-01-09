@@ -2424,7 +2424,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             templateUrl: 'assets/partials/popup/savemenu.html',
             parent: angular.element(document.body),
             clickOutsideToClose: true,
-            d: { currentMenu: $rootScope.currentMenu, client: $rootScope.client }
+            d: { currentMenu: $rootScope.currentMenu, client: $rootScope.client, totals: $rootScope.totals }
         })
        .then(function (x) {
            $rootScope.currentMenu = x;
@@ -2468,6 +2468,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             x.client = d.client;
             x.userId = d.client.userId;
             x.id = saveasnew == true ? null : x.id;
+            x.energy = d.totals.energy;
             save(x);
         }
     };
