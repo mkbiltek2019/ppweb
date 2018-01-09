@@ -138,7 +138,7 @@
                                 <td>{{'serv' | translate}}</td>
                             </tr>
                         </table>
-                        <span ng-if="food.price.value>0" class="pull-right">{{'price' | translate}}: {{food.price.value}} {{d.config.currency}}</span>
+                        <span ng-if="food.price.value>0" class="pull-right">{{'price' | translate}}: {{food.price.value | number:2}} <span class="text-uppercase">{{d.config.currency}}</span></span>
                     </div>
                 </div>
             </div>

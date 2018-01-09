@@ -27,11 +27,15 @@
   "debug": true,
   "version": "1.0.0",
   "eur": 7.4,
-  "currency": "kn",
+  "currency": "hrk",
   "currencies": [
     {
-      "code": "kn",
+      "code": "hrk",
       "title": "kuna"
+    },
+    {
+      "code": "rsd",
+      "title": "srpski dinar"
     },
     {
       "code": "€",

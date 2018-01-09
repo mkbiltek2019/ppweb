@@ -9,11 +9,15 @@
   "author": "Igor Gašparović",
   "copyright": "IG PROG",
   "email": "program.prehrane@yahoo.com",
-  "language": "hr",
+  "language": "hrk",
   "languages": [
     {
-      "code": "hr",
+      "code": "hrk",
       "title": "croatian"
+    },
+    {
+      "code": "rsd",
+      "title": "srpski dinar"
     },
     {
       "code": "sr",
