@@ -2002,7 +2002,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $rootScope.currentMeal = 'B';
 
     $scope.toggleAnalytics = function (x) {
-       
         $timeout(function () {
             $scope.analyticsTpl = x;
             getTotals($rootScope.currentMenu);
@@ -2569,21 +2568,23 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         var t = $rootScope.totals;
         var r = $rootScope.recommendations
         $rootScope.servGraphData = charts.createGraph(
-                ['jedinična serviranja'],
+                $translate.instant('unit servings'), //['jedinična serviranja'],
                 [
                     [t.servings.cerealsServ, t.servings.vegetablesServ, t.servings.fruitServ, t.servings.meatServ, t.servings.milkServ, t.servings.fatsServ],
                     [r.servings.cerealsServ, r.servings.vegetablesServ, r.servings.fruitServ, r.servings.meatServ, r.servings.milkServ, r.servings.fatsServ]
                 ],
-                ['ugljikohidrati', 'povrče', 'voće', 'meso', 'mlijeko', 'masti'],
+                [$translate.instant('carbohydrates'), $translate.instant('fruit'), $translate.instant('vegetables'), $translate.instant('meat'), $translate.instant('milk'), $translate.instant('fats')],
+
+               // ['ugljikohidrati', 'povrče', 'voće', 'meso', 'mlijeko', 'masti'],
                 ['#45b7cd', '#33cc33', '#33cc33'],
                 [
                      {
-                         label: "Odabrano",
+                         label: $translate.instant('choosen'), // "Odabrano",
                          borderWidth: 1,
                          type: 'bar'
                      },
                      {
-                         label: "Preporučeno",
+                         label: $translate.instant('recommended'), // "Preporučeno",
                          borderWidth: 3,
                          hoverBackgroundColor: "rgba(255,99,132,0.4)",
                          hoverBorderColor: "rgba(255,99,132,1)",
@@ -2602,9 +2603,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         //        ['#45b7cd', '#ff6384', '#ff8e72']
         //);
         $rootScope.pieGraphData = charts.createGraph(
-                ['nutrijenti'],
+                [$translate.instant('nutrients')], //['nutrijenti'],
                 [t.carbohydratesPercentage, t.proteinsPercentage, t.fatsPercentage],
-                ['ugljikohidrati', 'bjelančevine', 'masti'],
+                [$translate.instant('carbohydrates'), $translate.instant('proteins'), $translate.instant('fats')],
+               // ['ugljikohidrati', 'bjelančevine', 'masti'],
                 true
         );
         //$rootScope.otherFoodsGraphData = charts.createGraph(
@@ -2615,25 +2617,25 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 
         $rootScope.mealsGraphData = charts.createGraph(
-               ['obroci'],
+               [$translate.instant('meals')], //['obroci'],
                [ $scope.mealsTotals, $scope.mealsMin, $scope.mealsMax ],
                $scope.mealsTitles,
                ['#45b7cd', '#ff6384', '#33cc33'],
                [
                     {
-                        label: "Odabrano",
+                        label: $translate.instant('choosen'),
                         borderWidth: 1,
                         type: 'bar'
                     },
                     {
-                        label: "Preporučeno",
+                        label: $translate.instant('recommended'),
                         borderWidth: 3,
                         hoverBackgroundColor: "rgba(255,99,132,0.4)",
                         hoverBorderColor: "rgba(255,99,132,1)",
                         type: 'line'
                     },
                      {
-                        label: "Preporučeno",
+                         label: $translate.instant('recommended'),
                         borderWidth: 3,
                         hoverBackgroundColor: "rgba(255,99,132,0.4)",
                         hoverBorderColor: "rgba(255,99,132,1)",
@@ -2644,7 +2646,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
        );
         //TODO
         $rootScope.parametersGraphData = charts.createGraph(
-               ['parametri'],
+               [$translate.instant('parameters')],
                [
                    [
                     t.fibers,
@@ -2745,7 +2747,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         //TODO
         $rootScope.parametersGraphDataUI = charts.createGraph(
-               ['parametri'],
+               [$translate.instant('parameters')],
                [
                    [
                        t.saturatedFats, t.trifluoroaceticAcid, t.cholesterol
@@ -3093,7 +3095,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 }])
 
-.controller('analyticsCtrl', ['$scope', '$http', '$window', '$rootScope', '$mdDialog', 'charts', 'functions', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, charts, functions) {
+.controller('analyticsCtrl', ['$scope', '$http', '$window', '$rootScope', '$mdDialog', 'charts', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, charts, functions, $translate) {
 
     $scope.toggleTpl = function (x) {
         $scope.analyticsTpl = x;
@@ -3150,23 +3152,24 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     var displayCharts = function () {
         var t = $rootScope.totals;
-        var r = $rootScope.recommendations
+        var r = $rootScope.recommendations;
         $rootScope.servGraphData = charts.createGraph(
-                ['jedinična serviranja'],
+                $translate.instant('unit servings'), //['jedinična serviranja'],
                 [
                     [t.servings.cerealsServ, t.servings.vegetablesServ, t.servings.fruitServ, t.servings.meatServ, t.servings.milkServ, t.servings.fatsServ],
                     [r.servings.cerealsServ, r.servings.vegetablesServ, r.servings.fruitServ, r.servings.meatServ, r.servings.milkServ, r.servings.fatsServ]
                 ],
-                ['ugljikohidrati', 'povrče', 'voće', 'meso', 'mlijeko', 'masti'],
+                [$translate.instant('carbohytrates'), $translate.instant('fruit'), $translate.instant('vegetables'), $translate.instant('meat'), $translate.instant('milk'), $translate.instant('fat')],
+               // ['ugljikohidrati', 'povrće', 'voće', 'meso', 'mlijeko', 'masti'],
                 ['#45b7cd', '#ff6384', '#ff8e72'],
                 [
                      {
-                         label: "Odabrano",
+                         label: $translate.instant('choosen'), //"Odabrano",
                          borderWidth: 1,
                          type: 'bar'
                      },
                      {
-                         label: "Preporučeno",
+                         label: $translate.instant('recommended'), // "Preporučeno",
                          borderWidth: 3,
                          hoverBackgroundColor: "rgba(255,99,132,0.4)",
                          hoverBorderColor: "rgba(255,99,132,1)",

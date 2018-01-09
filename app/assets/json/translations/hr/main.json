@@ -689,7 +689,7 @@
   "fat": "masti",
   "mixed foods": "mješovite namirnice",
   "prepared meals": "pripremljena jela",
-  "my foods": "moja namirnica",
+  "my foods": "moje namirnice",
 
 
   "stewing in water": "pirjanje u vodi",
@@ -1528,12 +1528,11 @@
   "new food": "nova namirnica",
   "croatian": "hrvatski",
   "serbian": "srpski",
-  "english": "engleski"
-
-
-
-
-
+  "english": "engleski",
+  "settings saved successfully": "postavke uspješno spremljene",
+  "if you do not know the value of unit servings, the food will be included in the group": "ukoliko vam nisu poznate vrijednosti jediničnih serviranja, namirnica će biti uvrštena u skupinu",
+  "If the value of a particular parameter is unknown, leave zero": "ako vrijednost određenog parametra nije poznata, ostavite nulu",
+  "mass": "masa"
 
 
 

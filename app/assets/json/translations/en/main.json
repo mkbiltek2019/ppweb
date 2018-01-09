@@ -688,7 +688,8 @@
   "fat": "fat",
   "mixed foods": "mixed foods",
   "prepared meals": "prepared meals",
-  "my food": "my food",
+  "my foods": "my foods",
+
 
   "cup": "cup",
   "piece": "piece",
@@ -1527,6 +1528,12 @@
   "new food": "new food",
   "croatian": "croatian",
   "serbian": "serbian",
-  "english": "english"
+  "english": "english",
+  "settings saved successfully": "settings saved successfully",
+  "if you do not know the value of unit servings, the food will be included in the group": "if you do not know the value of unit servings, the food will be included in the group",
+  "If the value of a particular parameter is unknown, leave zero": "If the value of a particular parameter is unknown, leave zero",
+  "mass": "mass"
+
+
 
 }

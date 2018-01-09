@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="panel panel-default">
-                <div class="panel-heading bg-subpanel">{{'my food' | translate}}</div>
+                <div class="panel-heading bg-subpanel text-uppercase">{{'food' | translate}}</div>
                 <div class="panel-body">
                     <div layout-gt-sm="row">
                         <md-input-container>
@@ -58,11 +58,11 @@
             </div>
 
             <div class="panel panel-default">
-                <div class="panel-heading bg-subpanel">{{'unit servings' | translate}}</div>
+                <div class="panel-heading bg-subpanel text-uppercase">{{'unit servings' | translate}}</div>
                 <div class="panel-body">
                     <div class="alert alert-info">
                         <i class="fa fa-exclamation-triangle"></i>
-                        Ukoliko Vam nisu poznate vrjednosti jedniničnih serviranja, namirnica će biti uvrštena u skupinu <strong>Ostale Namirnice</strong>.
+                      {{'if you do not know the value of unit servings, the food will be included in the group' | translate}} <strong class="text-capitalize">{{'other foods' | translate}}</strong>.
                     </div>
                     <div class="row">
                         <div class="col-sm-4">
@@ -121,7 +121,7 @@
                 </div>
             </div>
             <div class="panel panel-default">
-                <div class="panel-heading bg-subpanel">{{'macronutrients' | translate}}</div>
+                <div class="panel-heading bg-subpanel text-uppercase">{{'macronutrients' | translate}}</div>
                 <div class="panel-body">
                     <div layout-gt-sm="row">
                         <md-input-container>
@@ -148,11 +148,11 @@
                 </div>
             </div>
             <div class="panel panel-defaul">
-                <div class="panel-heading bg-subpanel">{{'parameters' | translate}}</div>
+                <div class="panel-heading bg-subpanel text-uppercase">{{'parameters' | translate}}</div>
                 <div class="panel-body">
                     <div class="alert alert-info">
                         <i class="fa fa-exclamation-triangle"></i>
-                        Ako vrijednost određenog parametra nije poznata, ostavite nulu.
+                        {{'If the value of a particular parameter is unknown, leave zero' | translate}}.
                     </div>
                     <div layout-gt-sm="row">
                         <md-input-container>

@@ -815,7 +815,7 @@
   "Badminton, competitive": "Badminton, utakmica",
   "Bakery, general": "Pekarski poslovi, uopšteno",
   "Basketball, shooting baskets": "Košarka, gađanje koševa",
-  "Basketball, non game, general": "Košarka, općenito, rekreativno igranje",
+  "Basketball, non game, general": "Košarka, uopšteno, rekreativno igranje",
   "Basketball, wheelchair": "Košarka, u invalidskim kolicima",
   "Basketball, officiating": "Košarka, profesionalno",
   "Basketball, games": "Košarka, igranje utakmice",
@@ -993,7 +993,7 @@
   "Judo, jujitsu, karate, kick boxing, tae kwan do": "Judo, jujitsu, kick boxing, tae kwan do",
   "Juggling": "Žongliranje",
   "Kayaking": "Vožnja kajaka",
-  "Kickball": "kikbol",
+  "Kickball": "Kikbol",
   "Lacrosse": "Lakros",
   "Laundry, folding or hanging clothes, putting clothes in washer or dryer, packing suitcase (implied standing)": "Stavljanje odeće u mašinu ili sušilicu, vešanje i slaganje odeće, stavljanje odeće u kofer, stojeći",
   "Laying or removing carpet": "Polaganje ili motanje tepiha",
@@ -1134,9 +1134,9 @@
   "Skiing, cross-country, 8,1 - 13 km/h, brisk speed, vigorous effort": "Skijanje cross country, 8.1 – 13 km/h, žustro, izrazitog intenziteta",
   "Skiing, cross-country, 13 km/h, racing": "Skijanje cross country, 13 km/h, takmičenje",
   "Skiing, downhill, light effort": "Skijanje, nizbrdo, laganog intenziteta",
-  "Skiing, downhill, moderate effort, general": "Skijanje, nizbrdo, umjerenog intenziteta, uopćeno",
+  "Skiing, downhill, moderate effort, general": "Skijanje, nizbrdo, umerenog intenziteta, uopšteno",
   "Skiing, downhill, vigorous effort, racing": "Skijanje, nizbrdo, jakog intenziteta, takmičenje",
-  "Skiing, general": "Skijanje, općenito",
+  "Skiing, general": "Skijanje, uopšteno",
   "Skiing, water": "Skijanje na vodi",
   "Skindiving, scuba diving, general": "Ronjenje s bocom kiseonika",
   "Skindiving, moderate": "Ronjenje, uopšteno",
@@ -1410,7 +1410,7 @@
   "i agree to the": "slažem se sa",
   "terms and conditions": "uslovima korišćenja",
   "to top": "na vrh",
-  "underweight": "snižena tjelesna masa",
+  "underweight": "snižena telesna masa",
   "normal weight": "normalna telesna masa",
   "overweight": "povišena telesna masa",
   "obese": "gojaznost",
@@ -1519,7 +1519,12 @@
   "croatian": "hrvatski",
   "serbian": "srpski",
   "english": "engleski",
-  "detail calculation":  "detaljni izračun"
+  "detail calculation": "detaljni izračun",
+  "settings saved successfully": "postavke uspešno spremljene",
+  "if you do not know the value of unit servings, the food will be included in the group": "ukoliko vam nisu poznate vrednosti jediničnih serviranja, namirnica će biti uvršćena u skupinu",
+  "If the value of a particular parameter is unknown, leave zero": "ako vrednost određenog parametra nije poznata, ostavite nulu",
+  "mass": "masa"
+
 
 
 }
