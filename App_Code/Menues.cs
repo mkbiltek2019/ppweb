@@ -72,7 +72,6 @@ public class Menues : System.Web.Services.WebService {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
-
             string sql = @"SELECT id, title, diet, date, note, userId, clientId, userGroupId, energy
                         FROM menues
                         ORDER BY date DESC";
@@ -91,7 +90,6 @@ public class Menues : System.Web.Services.WebService {
                 x.client = reader.GetValue(6) == DBNull.Value ? new Clients.NewClient() : client.GetClient(x.userId, reader.GetString(6));
                 x.userGroupId = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
                 x.energy = reader.GetValue(8) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(8));
-                x.data = JsonConvert.DeserializeObject<JsonFile>(GetJsonFile(userId, x.id));
                 xx.Add(x);
             }
             connection.Close();
@@ -144,9 +142,9 @@ public class Menues : System.Web.Services.WebService {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
-            string sql = @"SELECT id, title, diet, date, note, userId, userGroupId, energy
+            string sql = @"SELECT id, title, diet, date, note, userId, clientId, userGroupId, energy
                         FROM menues
-                        WHERE id = id";
+                        WHERE id = @id";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             command.Parameters.Add(new SQLiteParameter("id", id));
             NewMenu x = new NewMenu();
@@ -167,7 +165,7 @@ public class Menues : System.Web.Services.WebService {
             connection.Close();
             string json = JsonConvert.SerializeObject(x, Formatting.Indented);
             return json;
-        } catch (Exception e) { return ("Error: " + e); }
+        } catch (Exception e) { return (e.Message); }
     }
 
     [WebMethod]
@@ -181,10 +179,12 @@ public class Menues : System.Web.Services.WebService {
             command.ExecuteNonQuery();
             connection.Close();
             DeleteJson(userId, id);
-        } catch (Exception e) { return ("Error: " + e); }
+        } catch (Exception e) { return (e.Message); }
         return "OK";
     }
     #endregion
+
+
 
     #region Methods
     public void SaveJsonToFile(string userId, string filename, string json) {

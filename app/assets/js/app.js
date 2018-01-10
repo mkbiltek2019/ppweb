@@ -2404,7 +2404,18 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         };
 
         $scope.confirm = function (x) {
-            $mdDialog.hide(x);
+            $http({
+                url: $sessionStorage.config.backend + 'Menues.asmx/Get',
+                method: "POST",
+                data: { userId: $rootScope.user.userGroupId, id: x.id }
+            })
+            .then(function (response) {
+                var menu = JSON.parse(response.data.d);
+                $mdDialog.hide(menu);
+            },
+            function (response) {
+                alert(response.data.d)
+            });
         }
     };
 
