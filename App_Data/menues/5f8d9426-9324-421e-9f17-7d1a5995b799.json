@@ -1,0 +1,466 @@
+{
+  "selectedFoods": [
+    {
+      "foodGroup": {
+        "code": "F",
+        "title": "voće",
+        "parent": "A"
+      },
+      "meal": {
+        "code": "B",
+        "title": "doručak"
+      },
+      "servings": {
+        "cerealsServ": 0.0,
+        "vegetablesServ": 0.0,
+        "fruitServ": 2.667,
+        "meatServ": 0.0,
+        "milkServ": 0.0,
+        "fatsServ": 0.0,
+        "otherFoodsServ": 0.0,
+        "otherFoodsEnergy": 0.0
+      },
+      "price": {
+        "value": 0.0,
+        "currency": null,
+        "unit": null
+      },
+      "id": "d89cb2ca-ccc5-41e7-acec-7da29df5c1e0",
+      "food": "Ananas",
+      "foodGroupVitaminLost": "F",
+      "thermalTreatments": [
+        {
+          "thermalTreatment": {
+            "code": "S",
+            "title": "pirjanje"
+          },
+          "foodGroupVitaminLost": "F",
+          "isSelected": false,
+          "vitaminE": 0.0,
+          "vitaminB1": 0.25,
+          "vitaminB2": 0.25,
+          "vitaminB3": 0.25,
+          "vitaminB6": 0.2,
+          "vitaminB12": 0.0,
+          "folate": 0.8,
+          "pantothenicAcid": 0.25,
+          "biotin": 0.25,
+          "vitaminC": 0.25
+        }
+      ],
+      "quantity": 2.0,
+      "unit": "šalica",
+      "mass": 346.6,
+      "energy": 142.2,
+      "carbohydrates": 35.0,
+      "proteins": 1.4,
+      "fats": 0.7,
+      "starch": 0.0,
+      "totalSugar": 35.0,
+      "glucose": 6.9,
+      "fructose": 8.7,
+      "saccharose": 19.1,
+      "maltose": 0.0,
+      "lactose": 0.0,
+      "fibers": 4.2,
+      "saturatedFats": 0.0,
+      "monounsaturatedFats": 0.3,
+      "polyunsaturatedFats": 0.3,
+      "trifluoroaceticAcid": 0.0,
+      "cholesterol": 0.0,
+      "sodium": 6.9,
+      "potassium": 554.7,
+      "calcium": 62.4,
+      "magnesium": 55.5,
+      "phosphorus": 34.7,
+      "iron": 0.7,
+      "copper": 0.4,
+      "zinc": 0.3,
+      "chlorine": 100.5,
+      "manganese": 1.7,
+      "selenium": 0.0,
+      "iodine": 0.0,
+      "retinol": 0.0,
+      "carotene": 62.4,
+      "vitaminD": 0.0,
+      "vitaminE": 0.3,
+      "vitaminB1": 0.3,
+      "vitaminB2": 0.1,
+      "vitaminB3": 1.0,
+      "vitaminB6": 0.3,
+      "vitaminB12": 0.0,
+      "folate": 17.3,
+      "pantothenicAcid": 0.6,
+      "biotin": 1.0,
+      "vitaminC": 41.6,
+      "vitaminK": 0.7
+    },
+    {
+      "foodGroup": {
+        "code": "NFM",
+        "title": "nemasno meso i zamjene",
+        "parent": "M"
+      },
+      "meal": {
+        "code": "B",
+        "title": "doručak"
+      },
+      "servings": {
+        "cerealsServ": 0.0,
+        "vegetablesServ": 0.0,
+        "fruitServ": 0.0,
+        "meatServ": 1.0,
+        "milkServ": 0.0,
+        "fatsServ": 0.0,
+        "otherFoodsServ": 0.0,
+        "otherFoodsEnergy": 0.0
+      },
+      "price": {
+        "value": 0.0,
+        "currency": null,
+        "unit": null
+      },
+      "id": "bba740c1-c0cf-4a7d-9ab0-14292be77200",
+      "food": "Govedina, lopatica",
+      "foodGroupVitaminLost": "M",
+      "thermalTreatments": [
+        {
+          "thermalTreatment": {
+            "code": "BF",
+            "title": "roštilj / prženje"
+          },
+          "foodGroupVitaminLost": "M",
+          "isSelected": false,
+          "vitaminE": 0.2,
+          "vitaminB1": 0.2,
+          "vitaminB2": 0.2,
+          "vitaminB3": 0.2,
+          "vitaminB6": 0.2,
+          "vitaminB12": 0.2,
+          "folate": 0.5,
+          "pantothenicAcid": 0.2,
+          "biotin": 0.1,
+          "vitaminC": 0.5
+        },
+        {
+          "thermalTreatment": {
+            "code": "MD",
+            "title": "mesna jela"
+          },
+          "foodGroupVitaminLost": "M",
+          "isSelected": false,
+          "vitaminE": 0.2,
+          "vitaminB1": 0.2,
+          "vitaminB2": 0.2,
+          "vitaminB3": 0.2,
+          "vitaminB6": 0.2,
+          "vitaminB12": 0.2,
+          "folate": 0.5,
+          "pantothenicAcid": 0.2,
+          "biotin": 0.1,
+          "vitaminC": 0.5
+        }
+      ],
+      "quantity": 1.0,
+      "unit": "mali komad",
+      "mass": 28.0,
+      "energy": 40.9,
+      "carbohydrates": 0.0,
+      "proteins": 6.19,
+      "fats": 1.79,
+      "starch": 0.0,
+      "totalSugar": 0.0,
+      "glucose": 0.0,
+      "fructose": 0.0,
+      "saccharose": 0.0,
+      "maltose": 0.0,
+      "lactose": 0.0,
+      "fibers": 0.0,
+      "saturatedFats": 0.728,
+      "monounsaturatedFats": 0.812,
+      "polyunsaturatedFats": 0.112,
+      "trifluoroaceticAcid": 0.056,
+      "cholesterol": 19.32,
+      "sodium": 18.48,
+      "potassium": 95.2,
+      "calcium": 1.4,
+      "magnesium": 5.6,
+      "phosphorus": 50.4,
+      "iron": 0.56,
+      "copper": 0.011,
+      "zinc": 1.484,
+      "chlorine": 18.48,
+      "manganese": 0.0,
+      "selenium": 1.96,
+      "iodine": 3.64,
+      "retinol": 0.0,
+      "carotene": 0.0,
+      "vitaminD": 0.196,
+      "vitaminE": 0.056,
+      "vitaminB1": 0.02,
+      "vitaminB2": 0.073,
+      "vitaminB3": 1.12,
+      "vitaminB6": 0.118,
+      "vitaminB12": 0.56,
+      "folate": 1.68,
+      "pantothenicAcid": 0.182,
+      "biotin": 0.28,
+      "vitaminC": 0.0,
+      "vitaminK": 0.0
+    }
+  ],
+  "selectedInitFoods": [
+    {
+      "foodGroup": {
+        "code": "F",
+        "title": "voće",
+        "parent": "A"
+      },
+      "meal": {
+        "code": "B",
+        "title": "doručak"
+      },
+      "servings": {
+        "cerealsServ": 0.0,
+        "vegetablesServ": 0.0,
+        "fruitServ": 1.3333,
+        "meatServ": 0.0,
+        "milkServ": 0.0,
+        "fatsServ": 0.0,
+        "otherFoodsServ": 0.0,
+        "otherFoodsEnergy": 0.0
+      },
+      "price": {
+        "value": 0.0,
+        "currency": null,
+        "unit": null
+      },
+      "id": "d89cb2ca-ccc5-41e7-acec-7da29df5c1e0",
+      "food": "Ananas",
+      "foodGroupVitaminLost": "F",
+      "thermalTreatments": [
+        {
+          "thermalTreatment": {
+            "code": "S",
+            "title": "pirjanje"
+          },
+          "foodGroupVitaminLost": "F",
+          "isSelected": false,
+          "vitaminE": 0.0,
+          "vitaminB1": 0.25,
+          "vitaminB2": 0.25,
+          "vitaminB3": 0.25,
+          "vitaminB6": 0.2,
+          "vitaminB12": 0.0,
+          "folate": 0.8,
+          "pantothenicAcid": 0.25,
+          "biotin": 0.25,
+          "vitaminC": 0.25
+        }
+      ],
+      "quantity": 1.0,
+      "unit": "šalica",
+      "mass": 173.3,
+      "energy": 71.1,
+      "carbohydrates": 17.51,
+      "proteins": 0.69,
+      "fats": 0.35,
+      "starch": 0.0,
+      "totalSugar": 17.507,
+      "glucose": 3.467,
+      "fructose": 4.333,
+      "saccharose": 9.533,
+      "maltose": 0.0,
+      "lactose": 0.0,
+      "fibers": 2.08,
+      "saturatedFats": 0.0,
+      "monounsaturatedFats": 0.173,
+      "polyunsaturatedFats": 0.173,
+      "trifluoroaceticAcid": 0.0,
+      "cholesterol": 0.0,
+      "sodium": 3.467,
+      "potassium": 277.333,
+      "calcium": 31.2,
+      "magnesium": 27.733,
+      "phosphorus": 17.333,
+      "iron": 0.347,
+      "copper": 0.191,
+      "zinc": 0.173,
+      "chlorine": 50.267,
+      "manganese": 0.867,
+      "selenium": 0.0,
+      "iodine": 0.0,
+      "retinol": 0.0,
+      "carotene": 31.2,
+      "vitaminD": 0.0,
+      "vitaminE": 0.173,
+      "vitaminB1": 0.139,
+      "vitaminB2": 0.052,
+      "vitaminB3": 0.52,
+      "vitaminB6": 0.156,
+      "vitaminB12": 0.0,
+      "folate": 8.667,
+      "pantothenicAcid": 0.277,
+      "biotin": 0.52,
+      "vitaminC": 20.8,
+      "vitaminK": 0.364
+    },
+    {
+      "foodGroup": {
+        "code": "NFM",
+        "title": "nemasno meso i zamjene",
+        "parent": "M"
+      },
+      "meal": {
+        "code": "B",
+        "title": "doručak"
+      },
+      "servings": {
+        "cerealsServ": 0.0,
+        "vegetablesServ": 0.0,
+        "fruitServ": 0.0,
+        "meatServ": 1.0,
+        "milkServ": 0.0,
+        "fatsServ": 0.0,
+        "otherFoodsServ": 0.0,
+        "otherFoodsEnergy": 0.0
+      },
+      "price": {
+        "value": 0.0,
+        "currency": null,
+        "unit": null
+      },
+      "id": "bba740c1-c0cf-4a7d-9ab0-14292be77200",
+      "food": "Govedina, lopatica",
+      "foodGroupVitaminLost": "M",
+      "thermalTreatments": [
+        {
+          "thermalTreatment": {
+            "code": "BF",
+            "title": "roštilj / prženje"
+          },
+          "foodGroupVitaminLost": "M",
+          "isSelected": false,
+          "vitaminE": 0.2,
+          "vitaminB1": 0.2,
+          "vitaminB2": 0.2,
+          "vitaminB3": 0.2,
+          "vitaminB6": 0.2,
+          "vitaminB12": 0.2,
+          "folate": 0.5,
+          "pantothenicAcid": 0.2,
+          "biotin": 0.1,
+          "vitaminC": 0.5
+        },
+        {
+          "thermalTreatment": {
+            "code": "MD",
+            "title": "mesna jela"
+          },
+          "foodGroupVitaminLost": "M",
+          "isSelected": false,
+          "vitaminE": 0.2,
+          "vitaminB1": 0.2,
+          "vitaminB2": 0.2,
+          "vitaminB3": 0.2,
+          "vitaminB6": 0.2,
+          "vitaminB12": 0.2,
+          "folate": 0.5,
+          "pantothenicAcid": 0.2,
+          "biotin": 0.1,
+          "vitaminC": 0.5
+        }
+      ],
+      "quantity": 1.0,
+      "unit": "mali komad",
+      "mass": 28.0,
+      "energy": 40.9,
+      "carbohydrates": 0.0,
+      "proteins": 6.19,
+      "fats": 1.79,
+      "starch": 0.0,
+      "totalSugar": 0.0,
+      "glucose": 0.0,
+      "fructose": 0.0,
+      "saccharose": 0.0,
+      "maltose": 0.0,
+      "lactose": 0.0,
+      "fibers": 0.0,
+      "saturatedFats": 0.728,
+      "monounsaturatedFats": 0.812,
+      "polyunsaturatedFats": 0.112,
+      "trifluoroaceticAcid": 0.056,
+      "cholesterol": 19.32,
+      "sodium": 18.48,
+      "potassium": 95.2,
+      "calcium": 1.4,
+      "magnesium": 5.6,
+      "phosphorus": 50.4,
+      "iron": 0.56,
+      "copper": 0.011,
+      "zinc": 1.484,
+      "chlorine": 18.48,
+      "manganese": 0.0,
+      "selenium": 1.96,
+      "iodine": 3.64,
+      "retinol": 0.0,
+      "carotene": 0.0,
+      "vitaminD": 0.196,
+      "vitaminE": 0.056,
+      "vitaminB1": 0.02,
+      "vitaminB2": 0.073,
+      "vitaminB3": 1.12,
+      "vitaminB6": 0.118,
+      "vitaminB12": 0.56,
+      "folate": 1.68,
+      "pantothenicAcid": 0.182,
+      "biotin": 0.28,
+      "vitaminC": 0.0,
+      "vitaminK": 0.0
+    }
+  ],
+  "meals": [
+    {
+      "code": "B",
+      "title": "doručak",
+      "description": "",
+      "isSelected": true,
+      "isDisabled": true
+    },
+    {
+      "code": "MS",
+      "title": "jutarnja užina",
+      "description": "",
+      "isSelected": true,
+      "isDisabled": false
+    },
+    {
+      "code": "L",
+      "title": "ručak",
+      "description": "",
+      "isSelected": true,
+      "isDisabled": true
+    },
+    {
+      "code": "AS",
+      "title": "popodnevna užina",
+      "description": "",
+      "isSelected": true,
+      "isDisabled": false
+    },
+    {
+      "code": "D",
+      "title": "večera",
+      "description": "",
+      "isSelected": true,
+      "isDisabled": true
+    },
+    {
+      "code": "MBS",
+      "title": "obrok pred spavanje",
+      "description": "",
+      "isSelected": true,
+      "isDisabled": false
+    }
+  ]
+}

@@ -1532,7 +1532,9 @@
   "settings saved successfully": "settings saved successfully",
   "if you do not know the value of unit servings, the food will be included in the group": "if you do not know the value of unit servings, the food will be included in the group",
   "If the value of a particular parameter is unknown, leave zero": "If the value of a particular parameter is unknown, leave zero",
-  "mass": "mass"
+  "mass": "mass",
+  "my menues": "my menues",
+  "menu examples":  "menu examples"
 
 
 

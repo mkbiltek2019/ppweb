@@ -1523,7 +1523,9 @@
   "settings saved successfully": "postavke uspešno spremljene",
   "if you do not know the value of unit servings, the food will be included in the group": "ukoliko vam nisu poznate vrednosti jediničnih serviranja, namirnica će biti uvršćena u skupinu",
   "If the value of a particular parameter is unknown, leave zero": "ako vrednost određenog parametra nije poznata, ostavite nulu",
-  "mass": "masa"
+  "mass": "masa",
+  "my menues": "moji jelovnici",
+  "menu examples": "primeri jelovnika"
 
 
 

@@ -301,6 +301,7 @@ namespace Igprog {
         public string GetDataBasePath(string userId, string dataBase) {
             return HttpContext.Current.Server.MapPath("~/App_Data/users/" + userId + "/" + dataBase);
         }
+
     }
 
 }

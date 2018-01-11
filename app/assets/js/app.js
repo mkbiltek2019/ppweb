@@ -2344,7 +2344,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             templateUrl: 'assets/partials/popup/getmenu.html',
             parent: angular.element(document.body),
             clickOutsideToClose: true,
-            clientData: $rootScope.clientData
+            clientData: $rootScope.clientData,
+            config: $rootScope.config
         })
         .then(function (x) {
             $rootScope.currentMenu = x;
@@ -2354,10 +2355,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         });
     };
 
-    var getMenuPopupCtrl = function ($scope, $mdDialog, $http, clientData) {
+    var getMenuPopupCtrl = function ($scope, $mdDialog, $http, clientData, config) {
         $scope.clientData = clientData;
-        $scope.type = 1;
+        $scope.config = config;
+        $scope.loadType = 0;
+        $scope.type = 0;
+        $scope.appMenues = false;
         var load = function () {
+            $scope.appMenues = false;
             $http({
                 url: $sessionStorage.config.backend + 'Menues.asmx/Load',
                 method: "POST",
@@ -2371,6 +2376,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
            });
         }
         load();
+
+        $scope.load = function () {
+            load();
+        }
 
         $scope.remove = function (x) {
             var confirm = $mdDialog.confirm()
@@ -2403,7 +2412,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $mdDialog.cancel();
         };
 
-        $scope.confirm = function (x) {
+        var get = function (x) {
             $http({
                 url: $sessionStorage.config.backend + 'Menues.asmx/Get',
                 method: "POST",
@@ -2417,6 +2426,41 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 alert(response.data.d)
             });
         }
+
+        $scope.loadAppMenues = function () {
+            $scope.appMenues = true;
+            $http({
+                url: $sessionStorage.config.backend + 'Menues.asmx/LoadAppMenues',
+                method: "POST",
+                data: {}
+            })
+           .then(function (response) {
+               $scope.d = JSON.parse(response.data.d);
+           },
+           function (response) {
+               alert(response.data.d)
+           });
+        }
+
+        var getAppMenu = function (x) {
+            $http({
+                url: $sessionStorage.config.backend + 'Menues.asmx/GetAppMenu',
+                method: "POST",
+                data: { id: x.id }
+            })
+            .then(function (response) {
+                var menu = JSON.parse(response.data.d);
+                $mdDialog.hide(menu);
+            },
+            function (response) {
+                alert(response.data.d)
+            });
+        }
+
+        $scope.confirm = function (x) {
+            $scope.appMenues == true ? getAppMenu(x) : get(x);
+        }
+
     };
 
     $scope.save = function () {
