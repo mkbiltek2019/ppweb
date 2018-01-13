@@ -1442,7 +1442,7 @@
   "font size": "veličina fonta",
   "total values": "ukupne vrednosti",
   "patameters": "parametri",
-  "totals": "ukupno",
+  "totals": "ukupne vrednosti",
   "client data": "klijent podaci",
   "total energy": "ukupna energetska vrednost",
   "all menues": "svi jelovnici",
@@ -1525,7 +1525,9 @@
   "If the value of a particular parameter is unknown, leave zero": "ako vrednost određenog parametra nije poznata, ostavite nulu",
   "mass": "masa",
   "my menues": "moji jelovnici",
-  "menu examples": "primeri jelovnika"
+  "menu examples": "primeri jelovnika",
+  "meal": "obrok",
+  "energy value": "energetska vrednost"
 
 
 

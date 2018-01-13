@@ -52,7 +52,7 @@
                                                 <a ng-disabled="addFoodBtn" href="" class="btn btn-primary" ng-click="openFoodPopup(food)"><i ng-class="addFoodBtnIcon"></i> {{'add food' | translate}}</a>
                                             </td>
                                             <td colspan="3" class="text-right">
-                                                {{'total' | translate}}:
+                                                {{'meal' | translate}} {{'total' | translate}}:
                                                 <span ng-repeat="x in currentMenu.data.meals">
                                                     <span ng-if="x.code==currentMeal">
                                                         <b>{{totals.mealsTotalEnergy[$index].meal.energy | number:1}} kcal</b>
@@ -91,8 +91,8 @@
             <div class="panel panel-default">
                 <div class="panel-body text-small">
                         <ul class="nav nav-tabs">
-                            <li ng-class="analyticsTpl=='chartsTpl'?'active':''"><a href="#" ng-click="toggleAnalytics('chartsTpl')"><i class="fa fa-line-chart"></i> <span class="hidden-xs">{{'charts' | translate}}</span></a></li>
-                            <li ng-class="analyticsTpl=='tablesTpl'?'active':''" ng-click="toggleAnalytics('tablesTpl')"><a href="#"><i class="fa fa-table"></i> <span class="hidden-xs">{{'tables' | translate}}</span></a></li>
+                            <li ng-class="analyticsTpl=='chartsTpl'?'active':''"><a href="#" ng-click="toggleAnalytics('chartsTpl')"><i class="fa fa-line-chart"></i> <span class="hidden-xs">{{'analytics' | translate}}</span></a></li>
+                            <li ng-class="analyticsTpl=='tablesTpl'?'active':''" ng-click="toggleAnalytics('tablesTpl')"><a href="#"><i class="fa fa-table"></i> <span class="hidden-xs">{{'totals' | translate}}</span></a></li>
                         </ul>
                     <div ng-include="analyticsTpl" style="padding-top:20px"></div>
                 </div>
@@ -141,38 +141,36 @@
 
 
 <script type="text/ng-template" id="chartsTpl">
-    <div class="row text-center">
-        <div class="col-xs-6">
-            <div class="panel panel-default">
-                <div class="panel-heading bg-subpanel">
-                    {{'energy' | translate}}
-                    <br />
-                    {{'recommended' | translate}}: <strong>{{calculation.recommendedEnergyIntake}}</strong>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div id="energyChart" style="height:150px"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-6">
-            <div class="panel panel-default">
-                <div class="panel-heading bg-subpanel">
-                    {{'other foods' | translate}}
-                    <br />
-                    {{'acceptable' | translate}}: <strong>{{recommendations.servings.otherFoodsEnergy | number:0}}</strong>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div id="otherFoodChart" style="height:150px"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="panel panel-default">
+        <table class="table table-bordered table-condensed text-small text-center">
+            <tr>
+                <td class="bg-subpanel"><span class="text-uppercase">{{'energy value' | translate}}</span></td>
+                <td rowspan="3" width="120px"><div id="energyChart" style="height:100px"></div></td>
+            </tr>
+            <tr>
+                <td class="text-success"><span style="font-size:26px">{{totals.energy | number:0}} {{'kcal' | translate}}</span></td>
+            </tr>
+            <tr>
+                <td class="text-primary"><em>{{'recommended' | translate}}: {{calculation.recommendedEnergyIntake}} {{'kcal' | translate}}</em></td>
+            </tr>
+        </table>
+    </div>
+    <div class="panel panel-default">
+        <table class="table table-bordered table-condensed text-small text-center">
+            <tr>
+                <td class="bg-subpanel"><span class="text-uppercase">{{'other foods' | translate}}</span></td>
+                <td rowspan="3" width="120px"><div id="otherFoodChart" style="height:100px"></div></td>
+            </tr>
+            <tr>
+                <td class="text-danger"><span style="font-size:26px">{{totals.servings.otherFoodsEnergy | number:0}} {{'kcal' | translate}}</span></td>
+            </tr>
+            <tr>
+                <td class="text-primary"><em>{{'acceptable' | translate}}: {{recommendations.servings.otherFoodsEnergy}} {{'kcal' | translate}}</em></td>
+            </tr>
+        </table>
     </div>
     <div class="panel panel-default text-center">
-        <div class="panel-heading bg-subpanel">{{'unit servings' | translate}}</div>
+        <div class="panel-heading bg-subpanel"><span class="text-uppercase">{{'unit servings' | translate}}</span></div>
         <div class="panel-body">
             <div class="row">
                 <canvas id="bar" class="chart chart-bar"
@@ -182,7 +180,7 @@
         </div>
     </div>
     <div class="panel panel-default text-center">
-        <div class="panel-heading bg-subpanel">{{'macronutrients' | translate}}</div>
+        <div class="panel-heading bg-subpanel"><span class="text-uppercase">{{'macronutrients' | translate}}</span></div>
         <div class="panel-body">
             <div class="row text-center">
                 <div class="col-xs-4">
@@ -201,7 +199,7 @@
         </div>
     </div>
     <div class="panel panel-default text-center">
-        <div class="panel-heading bg-subpanel">{{'bad nutrients' | translate}}</div>
+        <div class="panel-heading bg-subpanel"><span class="text-uppercase">{{'bad nutrients' | translate}}</span></div>
         <div class="panel-body">
             <div class="row text-center">
                 <div class="col-xs-4">
