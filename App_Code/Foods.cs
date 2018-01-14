@@ -663,7 +663,8 @@ public class Foods : System.Web.Services.WebService {
 
         x.mealsRecommendationEnergy = GetMealsRecommendations(client.meals, x.energy);
 
-        //TODO - test
+        //TODO - presons from 18, children from 9-10, 10-14, 14-18
+
                                             // MDA,  UI,  RDA  
         x.starch = GetParameterRecommendation(null, null, null);
         x.totalSugar = GetParameterRecommendation(null, null, null);
@@ -673,10 +674,10 @@ public class Foods : System.Web.Services.WebService {
         x.maltose = GetParameterRecommendation(null, null, null);
         x.lactose = GetParameterRecommendation(null, null, null);
         x.fibers = GetParameterRecommendation(null, null, 25);
-        x.saturatedFats = GetParameterRecommendation(null, Math.Round(x.energy * 0.1, 1), null);
-        x.monounsaturatedFats = GetParameterRecommendation(null, Math.Round(x.energy * 0.2, 1), Math.Round(x.energy * 0.15, 1));
-        x.polyunsaturatedFats = GetParameterRecommendation(null, Math.Round(x.energy * 0.11, 1), Math.Round(x.energy * 0.8, 1));
-        x.trifluoroaceticAcid = GetParameterRecommendation(null, Math.Round(x.energy * 0.02, 1), null);
+        x.saturatedFats = GetParameterRecommendation(null, Math.Round((x.energy * 0.1)/9, 1), null);
+        x.monounsaturatedFats = GetParameterRecommendation(null, Math.Round((x.energy * 0.2)/9, 1), Math.Round((x.energy * 0.15)/9, 1));
+        x.polyunsaturatedFats = GetParameterRecommendation(null, Math.Round((x.energy * 0.11)/9, 1), Math.Round((x.energy * 0.8)/9, 1));
+        x.trifluoroaceticAcid = GetParameterRecommendation(null, Math.Round((x.energy * 0.02)/9, 1), null);
         x.cholesterol = GetParameterRecommendation(null, 300, null);
         x.sodium = GetParameterRecommendation(500, 2400, null);
         x.potassium = GetParameterRecommendation(2000, null, null);

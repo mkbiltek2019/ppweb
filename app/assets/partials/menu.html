@@ -23,7 +23,7 @@
                             <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
                         </div>
                         <div ng-show="!loading">
-                            <div class="table-responsive" style="min-height:200px">
+                            <div class="table-responsive" style="min-height:270px">
                                 <table class="table table-condensed">
                                     <tbody class="text-small">
                                         <tr ng-if="x.meal.code==currentMeal" ng-repeat="x in currentMenu.data.selectedFoods track by $index">
@@ -88,13 +88,111 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-body text-small">
-                        <ul class="nav nav-tabs">
-                            <li ng-class="analyticsTpl=='chartsTpl'?'active':''"><a href="#" ng-click="toggleAnalytics('chartsTpl')"><i class="fa fa-line-chart"></i> <span class="hidden-xs">{{'analytics' | translate}}</span></a></li>
-                            <li ng-class="analyticsTpl=='tablesTpl'?'active':''" ng-click="toggleAnalytics('tablesTpl')"><a href="#"><i class="fa fa-table"></i> <span class="hidden-xs">{{'totals' | translate}}</span></a></li>
-                        </ul>
-                    <div ng-include="analyticsTpl" style="padding-top:20px"></div>
+            <ul class="nav nav-tabs">
+                <li ng-class="analyticsTpl=='chartsTpl'?'active':''"><a href="#" ng-click="toggleAnalytics('chartsTpl')"><i class="fa fa-line-chart"></i> <span class="hidden-xs">{{'totals' | translate}}</span></a></li>
+                <li ng-class="analyticsTpl=='tablesTpl'?'active':''" ng-click="toggleAnalytics('tablesTpl')"><a href="#"><i class="fa fa-table"></i> <span class="hidden-xs">{{'parameters' | translate}}</span></a></li>
+            </ul>
+            <div ng-include="analyticsTpl" style="padding-top:20px"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel panel-default text-center">
+            <div class="panel-heading bg-subpanel"><span class="text-uppercase">{{'macronutrients' | translate}}</span></div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <table class="table table-bordered table-condensed text-small text-center">
+                            <tr>
+                                <td class="bg-subpanel"><span class="text-uppercase">{{'carbohydrates' | translate}}</span></td>
+                                <td rowspan="3" width="120px"><div id="carbohydratesChart" style="height:100px"></div></td>
+                            </tr>
+                            <tr>
+                                <td class="text-success"><span style="font-size:26px">{{totals.carbohydrates | number:1}} g </span><span>({{totals.carbohydratesPercentage | number:1}} %)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-primary"><em>{{'recommended' | translate}}: {{recommendations.carbohydratesPercentageMin | number:0}}-{{recommendations.carbohydratesPercentageMax | number:0}}%</em></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-sm-4">
+                        <table class="table table-bordered table-condensed text-small text-center">
+                            <tr>
+                                <td class="bg-subpanel"><span class="text-uppercase">{{'proteins' | translate}}</span></td>
+                                <td rowspan="3" width="120px"><div id="proteinsChart" style="height:100px"></div></td>
+                            </tr>
+                            <tr>
+                                <td class="text-success"><span style="font-size:26px">{{totals.proteins | number:1}} g </span><span>({{totals.proteinsPercentage | number:1}} %)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-primary"><em>{{'recommended' | translate}}: {{recommendations.proteinsPercentageMin | number:0}}-{{recommendations.proteinsPercentageMax | number:0}}%</em></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-sm-4">
+                        <table class="table table-bordered table-condensed text-small text-center">
+                            <tr>
+                                <td class="bg-subpanel"><span class="text-uppercase">{{'fats' | translate}}</span></td>
+                                <td rowspan="3" width="120px"><div id="fatsChart" style="height:100px"></div></td>
+                            </tr>
+                            <tr>
+                                <td class="text-success"><span style="font-size:26px">{{totals.fats | number:1}} g </span><span>({{totals.fatsPercentage | number:1}} %)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-primary"><em>{{'recommended' | translate}}: {{recommendations.fatsPercentageMin | number:0}}-{{recommendations.fatsPercentageMax | number:0}}%</em></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel panel-default text-center">
+            <div class="panel-heading bg-subpanel"><span class="text-uppercase">{{'bad nutrients' | translate}}</span></div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <table class="table table-bordered table-condensed text-small text-center">
+                            <tr>
+                                <td class="bg-subpanel"><span class="text-uppercase">{{'saturated fats' | translate}}</span></td>
+                                <td rowspan="3" width="120px"><div id="saturatedFatsChart" style="height:100px"></div></td>
+                            </tr>
+                            <tr>
+                                <td class="text-danger"><span style="font-size:26px">{{totals.saturatedFats | number:1}} g </span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-primary"><em>{{'acceptable' | translate}}: {{recommendations.saturatedFats.ui | number:0}} g</em></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-sm-4">
+                        <table class="table table-bordered table-condensed text-small text-center">
+                            <tr>
+                                <td class="bg-subpanel"><span class="text-uppercase">{{'trifluoroacetic acid' | translate}}</span></td>
+                                <td rowspan="3" width="120px"><div id="trifluoroaceticAcidChart" style="height:100px"></div></td>
+                            </tr>
+                            <tr>
+                                <td class="text-danger"><span style="font-size:26px">{{totals.trifluoroaceticAcid | number:1}} g</span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-primary"><em>{{'acceptable' | translate}}: {{recommendations.trifluoroaceticAcid.ui | number:0}} g</em></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-sm-4">
+                        <table class="table table-bordered table-condensed text-small text-center">
+                            <tr>
+                                <td class="bg-subpanel"><span class="text-uppercase">{{'cholesterol' | translate}}</span></td>
+                                <td rowspan="3" width="120px"><div id="cholesterolChart" style="height:100px"></div></td>
+                            </tr>
+                            <tr>
+                                <td class="text-danger"><span style="font-size:26px">{{totals.cholesterol | number:1}} mg </span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-primary"><em>{{'acceptable' | translate}}: {{recommendations.cholesterol.ui | number:0}} mg</em></td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -179,49 +277,11 @@
             </div>
         </div>
     </div>
-    <div class="panel panel-default text-center">
-        <div class="panel-heading bg-subpanel"><span class="text-uppercase">{{'macronutrients' | translate}}</span></div>
-        <div class="panel-body">
-            <div class="row text-center">
-                <div class="col-xs-4">
-                    <label> {{'carbs' | translate}}<!--<span ng-class="isCarbohydratesOk()"></span>--></label>
-                    <div id="carbohydratesChart" style="height:90px"></div>
-                </div>
-                <div class="col-xs-4">
-                    <label> {{'prot' | translate}}<!--<span ng-class="isProteinsOk()"></span>--></label>
-                    <div id="proteinsChart" style="height:90px"></div>
-                </div>
-                <div class="col-xs-4">
-                    <label> {{'fats' | translate}}<!--<span ng-class="isFatsOk()"></span>--></label>
-                    <div id="fatsChart" style="height:90px"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="panel panel-default text-center">
-        <div class="panel-heading bg-subpanel"><span class="text-uppercase">{{'bad nutrients' | translate}}</span></div>
-        <div class="panel-body">
-            <div class="row text-center">
-                <div class="col-xs-4">
-                    <label style="min-height:30px">{{'sat. fats' | translate}}</label>
-                    <div id="saturatedFatsChart" style="height:90px"></div>
-                </div>
-                <div class="col-xs-4">
-                    <label style="min-height:30px" class="text-uppercase">{{'tfa' | translate}}</label>
-                    <div id="trifluoroaceticAcidChart" style="height:90px"></div>
-                </div>
-                <div class="col-xs-4">
-                    <label style="min-height:30px">{{'cholesterol' | translate}}</label>
-                    <div id="cholesterolChart" style="height:90px"></div>
-                </div>
-            </div>
-        </div>
-    </div>
 </script>
 
 <script type="text/ng-template" id="tablesTpl">
     <div>
-        <div class="panel panel-default">
+        <!--<div class="panel panel-default">
             <div class="panel-heading bg-subpanel">{{'macronutrients' | translate}}</div>
             <div class="panel-body">
                 <div class="table-responsive">
@@ -239,17 +299,17 @@
                         <tr>
                             <td>{{'carbohydrates' | translate}}</td>
                             <td class="novrap text-bold">{{totals.carbohydrates | number:1}} g, ({{totals.carbohydratesPercentage | number:1}} %)</td>
-                            <td class="novrap">{{recommendations.carbohydratesPercentageMin | number:1}}-{{recommendations.carbohydratesPercentageMax | number:1}}%</td>
+                            <td class="novrap">{{recommendations.carbohydratesPercentageMin | number:0}}-{{recommendations.carbohydratesPercentageMax | number:0}}%</td>
                         </tr>
                         <tr>
                             <td>{{'proteins' | translate}}</td>
                             <td class="novrap text-bold">{{totals.proteins | number:1}} g, ({{totals.proteinsPercentage | number:1}} %)</td>
-                            <td class="novrap">{{recommendations.proteinsPercentageMin | number:1}}-{{recommendations.proteinsPercentageMax | number:1}}%</td>
+                            <td class="novrap">{{recommendations.proteinsPercentageMin | number:0}}-{{recommendations.proteinsPercentageMax | number:0}}%</td>
                         </tr>
                         <tr>
                             <td>{{'fats' | translate}}</td>
                             <td class="novrap text-bold">{{totals.fats | number:1}} g, ({{totals.fatsPercentage | number:1}} %)</td>
-                            <td class="novrap">{{recommendations.fatsPercentageMin | number:1}}-{{recommendations.fatsPercentageMax | number:1}}%</td>
+                            <td class="novrap">{{recommendations.fatsPercentageMin | number:0}}-{{recommendations.fatsPercentageMax | number:0}}%</td>
                         </tr>
                     </table>
                 </div>
@@ -312,19 +372,24 @@
                     </table>
                 </div>
             </div>
-        </div>
+        </div>-->
 
         <div class="panel panel-default">
-            <div class="panel-heading bg-subpanel">{{'parameters' | translate}}</div>
+            <div class="panel-heading bg-subpanel"><span class="text-uppercase">{{'parameters' | translate}}</span></div>
             <div class="panel-body">
-                <div class="table-responsive">
+                <b>u</b>: <em>{{'unit' | translate}}</em><br />
+                <b class="text-uppercase">{{'mda' | translate}}</b>: <em>{{'minimum dietary allowance' | translate}}</em><br />
+                <b class="text-uppercase">{{'ul' | translate}}</b>: <em>{{'upper intake level' | translate}}</em><br />
+                <b class="text-uppercase">{{'rda' | translate}}</b>: <em>{{'recommended dietary allowance' | translate}}</em><br />
+
+                <div class="table-responsive mt10" style="height:400px">
                     <table class="table table-bordered table-condensed text-small">
                         <tr>
                             <th></th>
-                            <th>{{'unit' | translate}}</th>
+                            <th>u<!--{{'unit' | translate}}--></th>
                             <th>{{'choosen' | translate}}</th>
                             <th class="text-uppercase">{{'mda' | translate}}</th>
-                            <th class="text-uppercase">{{'ui' | translate}}</th>
+                            <th class="text-uppercase">{{'ul' | translate}}</th>
                             <th class="text-uppercase">{{'rda' | translate}}</th>
                         </tr>
                         <tr>
