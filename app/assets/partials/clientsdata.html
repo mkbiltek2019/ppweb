@@ -1,6 +1,6 @@
 ﻿ <div ng-controller="clientsCtrl">
      <div class="panel panel-default">
-         <div class="panel-heading">
+         <div ng-if="client.clientId" class="panel-heading">
              <div class="row">
                  <div class="col-sm-6">
                      <button class="btn btn-default" ng-click="newClient()"><i class="fa fa-user-plus"></i> <span class="hidden-xs">{{'new client' | translate}}</span></button>

@@ -1,5 +1,9 @@
 ﻿<div ng-controller="dashboardCtrl">
-    <div class="noprint">
+    <div ng-if="!client.clientId" ng-controller="clientsCtrl" class="text-center" style="padding:0; margin-top:150px">
+        <button class="btn btn-default btn-lg" style="min-width:280px" ng-click="newClient()"><span class="text-primary text-uppercase"><i class="fa fa-user-plus"></i> <span>{{'new client' | translate}}</span></span></button>
+        <button ng-if="clients.length>0" class="btn btn-default btn-lg m10" style="min-width:280px" ng-click="search()"><span class="text-primary text-uppercase"><i class="fa fa-search"></i> <span>{{'search clients' | translate}}</span></span></button>
+    </div>
+    <div ng-if="client.clientId" class="noprint">
         <ul class="nav nav-tabs">
             <li ng-class="selectedNavItem=='clientsdata'?'active':''" ng-click="toggleNewTpl('clientsdata')"><a href="#"><i class="fa fa-user-o"></i> <span class="hidden-xs text-uppercase">{{'client' | translate}}</span></a></li>
             <li ng-if="showTabs()" ng-class="selectedNavItem=='calculation'?'active':''"><a href="#" ng-click="toggleNewTpl('calculation')"><i class="fa fa-calculator"></i> <span class="hidden-xs text-uppercase">{{'calculation' | translate}}</span></a></li>
@@ -12,6 +16,6 @@
             <li ng-if="showTabs()" ng-class="selectedNavItem=='prices'?'active':''"><a href="#" ng-click="toggleNewTpl('prices')"><i class="fa fa-usd"></i> <span class="hidden-xs text-uppercase">{{'prices' | translate}}</span></a></li>
         </ul>
     </div>
-    <div ng-include="newTpl" class="loginBox" style="min-height:80%"></div>
+    <div ng-if="client.clientId" ng-include="newTpl" class="loginBox" style="min-height:80%"></div>
 </div>
 
