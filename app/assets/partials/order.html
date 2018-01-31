@@ -1,6 +1,6 @@
 ﻿<div id="orderform" ng-controller="orderCtrl">
     <div class="well text-left">
-        <button class="btn btn-default pull-right text-capitalize" ng-click="toggleTpl('login.html')"><i class="fa fa-times"></i><span class="hidden-xs"> {{'cancel' | translate}}</span></button>
+        <a href="" class="btn btn-default pull-right text-capitalize" ng-click="toggleTpl('login.html')"><i class="fa fa-times"></i><span class="hidden-xs"> {{'cancel' | translate}}</span></a>
         <h4 class="text-uppercase">{{'order' | translate}}</h4>
         <hr />
         <!--<ol class="breadcrumb">
@@ -24,7 +24,7 @@
                     </md-input-container>
                 </div>
                 <div class="text-right">
-                    <button class="btn btn-primary" ng-click="login(user.userName, user.password)">{{'next' | translate}} <i class="fa fa-angle-double-right"></i></button>
+                    <a href="" class="btn btn-primary" ng-click="login(user.userName, user.password)">{{'next' | translate}} <i class="fa fa-angle-double-right"></i></a>
                 </div>
                 <div class="text-left text-capitalize">
                      <a href="#app" ng-click="registration()">{{'create your account' | translate}}</a>
@@ -83,7 +83,7 @@
                         </md-input-container>
                     </div>
                     <div class="text-right">
-                        <button class="btn btn-primary" ng-disabled="isSendButtonDisabled" ng-click="sendOrder(user)">{{sendicontitle}} <span ng-class="sendicon"></span></button>
+                        <a href="" class="btn btn-primary" ng-disabled="isSendButtonDisabled" ng-click="sendOrder(user)">{{sendicontitle}} <span ng-class="sendicon"></span></a>
                     </div>
                 </div>
             </div>

@@ -13,7 +13,7 @@
                     <div class="input-group">
                         <input ng-model="searchFood" class="form-control" type="text" placeholder="{{'search' | translate}}..." autofocus ng-click="initCurrentFoodGroup()" />
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
+                            <a href="" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</a>
                         </span>
                     </div>
                     <div>
@@ -29,7 +29,7 @@
                             </div>
                         <div class="col-sm-12 p10 text-right">
                             <label ng-if="price.netPrice.value>0" class="m10">{{'unit price' | translate}}: <span>{{price.unitPrice.value | number:2}} {{price.nettoPrice.currency}} / kg</span></label>
-                            <button ng-disabled="price.netPrice.value<=0" class="btn btn-primary pull-right" ng-click="save(price)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</button>
+                            <a href="" ng-disabled="price.netPrice.value<=0" class="btn btn-primary pull-right" ng-click="save(price)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</a>
                         </div>
                     </div>
                 </div>

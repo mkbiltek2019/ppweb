@@ -2010,31 +2010,33 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.toggleAnalytics('chartsTpl');
 
     $scope.changeQuantity = function (x, type, idx) {
-                $http({
-                    url: $sessionStorage.config.backend + webService + '/ChangeFoodQuantity',
-                    method: "POST",
-                    data: { initFood: $rootScope.currentMenu.data.selectedInitFoods[idx], newQuantity: x.quantity, newMass: x.mass, type: type }
-                })
-           .then(function (response) {
-               $rootScope.currentMenu.data.selectedFoods[idx] = JSON.parse(response.data.d);
-               getTotals($rootScope.currentMenu);
-           },
-           function (response) {
-               alert(response.data.d)
-           });
+        $timeout(function () {
+            $http({
+                url: $sessionStorage.config.backend + webService + '/ChangeFoodQuantity',
+                method: "POST",
+                data: { initFood: $rootScope.currentMenu.data.selectedInitFoods[idx], newQuantity: x.quantity, newMass: x.mass, type: type }
+            })
+            .then(function (response) {
+                $rootScope.currentMenu.data.selectedFoods[idx] = JSON.parse(response.data.d);
+                getTotals($rootScope.currentMenu);
+            },
+            function (response) {
+                alert(response.data.d)
+            });
+        }, 400);
     }
 
     $scope.change = function (x, type, idx) {
         if ($rootScope.currentMenu.data.selectedFoods[idx].quantity + x > 0) {
-            if (type == 'quantity') {
-                $rootScope.currentMenu.data.selectedFoods[idx].quantity = $rootScope.currentMenu.data.selectedFoods[idx].quantity + x;
-                $scope.changeQuantity($rootScope.currentMenu.data.selectedFoods[idx], 'quantity', idx);
+                if (type == 'quantity') {
+                    $rootScope.currentMenu.data.selectedFoods[idx].quantity = $rootScope.currentMenu.data.selectedFoods[idx].quantity + x;
+                    $scope.changeQuantity($rootScope.currentMenu.data.selectedFoods[idx], 'quantity', idx);
+                }
+                if (type == 'mass') {
+                    $rootScope.currentMenu.data.selectedFoods[idx].mass = $rootScope.currentMenu.data.selectedFoods[idx].mass + x;
+                    $scope.changeQuantity($rootScope.currentMenu.data.selectedFoods[idx], 'mass', idx);
+                }
             }
-            if (type == 'mass') {
-                $rootScope.currentMenu.data.selectedFoods[idx].mass = $rootScope.currentMenu.data.selectedFoods[idx].mass + x;
-                $scope.changeQuantity($rootScope.currentMenu.data.selectedFoods[idx], 'mass', idx);
-            }
-        }
     }
 
     $scope.openFoodPopup = function (x, idx) {
@@ -2150,6 +2152,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         $scope.changeQuantity = function (x, type) {
+            $timeout(function () {
                 $http({
                     url: $sessionStorage.config.backend + webService + '/ChangeFoodQuantity',
                     method: "POST",
@@ -2157,11 +2160,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 })
                 .then(function (response) {
                     $scope.food = JSON.parse(response.data.d);
-                   // showServings($scope.food);
                 },
                 function (response) {
-                  //  alert(response.data.d)
                 });
+            }, 400);
         }
 
         $scope.change = function (x, type) {

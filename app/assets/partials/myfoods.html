@@ -3,9 +3,9 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <div>
-                <button class="btn btn-default" ng-click="new()"><i class="fa fa-file-o"></i> <span class="hidden-xs"> {{'new food' | translate}}</span></button>
-                <button class="btn btn-default" ng-click="delete(myFood)"><i class="fa fa-trash-o"></i> <span class="hidden-xs">{{'delete' | translate}}</span></button>
-                <button class="btn btn-default" ng-click="save(myFood)"><i class="fa fa-floppy-o"></i> <span class="hidden-xs">{{'save' | translate}}</span></button>
+                <a href="" class="btn btn-default" ng-click="new()"><i class="fa fa-file-o"></i> <span class="hidden-xs"> {{'new food' | translate}}</span></a>
+                <a href="" class="btn btn-default" ng-click="delete(myFood)"><i class="fa fa-trash-o"></i> <span class="hidden-xs">{{'delete' | translate}}</span></a>
+                <a href="" class="btn btn-default" ng-click="save(myFood)"><i class="fa fa-floppy-o"></i> <span class="hidden-xs">{{'save' | translate}}</span></a>
             </div>
         </div>
         <div class="panel-body">
@@ -17,7 +17,7 @@
                             <div class="input-group">
                                 <input ng-model="searchFood" class="form-control" type="text" placeholder="{{'search' | translate}}..." autofocus />
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
+                                    <a href="" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</a>
                                 </span>
                             </div>
                         </div>
@@ -331,7 +331,7 @@
         </div>
 
         <div class="panel text-center">
-            <button class="btn btn-primary" ng-click="save(myFood)"><i class="fa fa-floppy-o"></i> <span>{{'save' | translate}}</span></button>
+            <a href="" class="btn btn-primary" ng-click="save(myFood)"><i class="fa fa-floppy-o"></i> <span>{{'save' | translate}}</span></a>
         </div>
 
     </div>

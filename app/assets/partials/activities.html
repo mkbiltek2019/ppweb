@@ -24,7 +24,7 @@
                             <div class="input-group  hidden-xs">
                                 <input ng-model="searchValue" class="form-control" type="text" placeholder="{{'search' | translate}}..." autofocus />
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
+                                    <a href="" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</a>
                                 </span>
                             </div>
                             <div class="hidden-sm hidden-md hidden-lg hidden-xl">
@@ -73,8 +73,8 @@
                 </div>
             </div>
             <div>
-                <button ng-if="client.clientId" class="btn btn-primary pull-left" ng-click="toggleNewTpl('calculation')"><i class="fa fa-angle-double-left" aria-hidden="true"></i><span> {{'back' | translate}}</span></button>
-                <button ng-if="client.clientId" class="btn btn-primary pull-right" ng-click="toggleNewTpl('diets')"><span> {{'forward' | translate}} </span><i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+                <a href="" ng-if="client.clientId" class="btn btn-primary pull-left" ng-click="toggleNewTpl('calculation')"><i class="fa fa-angle-double-left" aria-hidden="true"></i><span> {{'back' | translate}}</span></a>
+                <a href="" ng-if="client.clientId" class="btn btn-primary pull-right" ng-click="toggleNewTpl('diets')"><span> {{'forward' | translate}} </span><i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
                 <!--<button ng-if="client.clientId" class="btn btn-success pull-right mr10" ng-click="saveClientData(clientData)"><i class="fa fa-floppy-o"></i><span> {{'save' | translate}}</span></button>-->
             </div> 
         </div>

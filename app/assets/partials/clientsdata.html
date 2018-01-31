@@ -3,9 +3,9 @@
          <div ng-if="client.clientId" class="panel-heading">
              <div class="row">
                  <div class="col-sm-6">
-                     <button class="btn btn-default" ng-click="newClient()"><i class="fa fa-user-plus"></i> <span class="hidden-xs">{{'new client' | translate}}</span></button>
-                     <button ng-if="clients.length>0" class="btn btn-default" ng-click="search()"><i class="fa fa-search"></i> <span class="hidden-xs">{{'search clients' | translate}}</span></button>
-                     <button ng-if="showTabs()" class="btn btn-default" ng-click="saveClientData(clientData)"><i class="fa fa-floppy-o"></i> <span class="hidden-xs">{{'save' | translate}}</span></button>
+                     <a href="" class="btn btn-default" ng-click="newClient()"><i class="fa fa-user-plus"></i> <span class="hidden-xs">{{'new client' | translate}}</span></a>
+                     <a href="" ng-if="clients.length>0" class="btn btn-default" ng-click="search()"><i class="fa fa-search"></i> <span class="hidden-xs">{{'search clients' | translate}}</span></a>
+                     <a href="" ng-if="showTabs()" class="btn btn-default" ng-click="saveClientData(clientData)"><i class="fa fa-floppy-o"></i> <span class="hidden-xs">{{'save' | translate}}</span></a>
                  </div>
                  <div class="text-right text-small col-sm-6">
                      <div ng-if="client.clientId" class="p10">
@@ -23,7 +23,7 @@
              </div>
              <div ng-include="clientDataTpl" style="padding-top:20px"></div>
              <div class="mt10">
-                 <button ng-if="showTabs()" class="btn btn-primary pull-right" ng-click="toggleNewTpl('calculation')"><span>{{'forward' | translate}} </span><i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+                 <a href="" ng-if="showTabs()" class="btn btn-primary pull-right" ng-click="toggleNewTpl('calculation')"><span>{{'forward' | translate}} </span><i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
              </div>
          </div>
      </div>
@@ -150,14 +150,14 @@
                     <div class="input-group">
                         <input ng-model="searchValue" class="form-control" type="text" placeholder="{{'search' | translate}}..." autofocus />
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
+                            <a href="" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</a>
                         </span>
                     </div>
                     <div>
                         <select ng-model="activity" class="form-control" size="7">
                             <option value="{{x}}" ng-repeat="x in activities | filter:{activity:searchValue} | orderBy:'activity'">{{x.activity}}</option>
                         </select>
-                        <button ng-if="totalDailyEnergyExpenditure.duration<1440" class="btn btn-primary pull-right mt10" ng-click="confirmActivity(activity)"><i class="fa fa-check"></i> {{'ok' | translate}}</button>
+                        <a href="" ng-if="totalDailyEnergyExpenditure.duration<1440" class="btn btn-primary pull-right mt10" ng-click="confirmActivity(activity)"><i class="fa fa-check"></i> {{'ok' | translate}}</a>
                     </div>
                     <div ng-if="config.debug">
                         activity: <pre>{{activity}}</pre>
@@ -190,8 +190,8 @@
                     </table>
                 </div>
                 <div class="text-right mt20">
-                    <button ng-if="clientData.dailyActivities.length>0" class="btn btn-danger" ng-click="clearDailyActivities()"><i class="fa fa-trash-o"></i> {{'clear' | translate}}</button>
-                    <button class="btn btn-success" ng-click="save(clientData.dailyActivities)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</button>
+                    <a href="" ng-if="clientData.dailyActivities.length>0" class="btn btn-danger" ng-click="clearDailyActivities()"><i class="fa fa-trash-o"></i> {{'clear' | translate}}</a>
+                    <a href="" class="btn btn-success" ng-click="save(clientData.dailyActivities)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</a>
                 </div>
             </div>
         </div>
