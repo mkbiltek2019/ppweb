@@ -107,7 +107,7 @@
                                 <td rowspan="3" width="120px"><div id="carbohydratesChart" style="height:100px"></div></td>
                             </tr>
                             <tr>
-                                <td class="text-success"><span style="font-size:26px">{{totals.carbohydrates | number:1}} g </span><span>({{totals.carbohydratesPercentage | number:1}} %)</span></td>
+                                <td class="text-success"><span style="font-size:24px">{{totals.carbohydrates | number:1}} g </span><span>({{totals.carbohydratesPercentage | number:1}} %)</span></td>
                             </tr>
                             <tr>
                                 <td class="text-primary"><em>{{'recommended' | translate}}: {{recommendations.carbohydratesPercentageMin | number:0}}-{{recommendations.carbohydratesPercentageMax | number:0}}%</em></td>
@@ -121,7 +121,7 @@
                                 <td rowspan="3" width="120px"><div id="proteinsChart" style="height:100px"></div></td>
                             </tr>
                             <tr>
-                                <td class="text-success"><span style="font-size:26px">{{totals.proteins | number:1}} g </span><span>({{totals.proteinsPercentage | number:1}} %)</span></td>
+                                <td class="text-success"><span style="font-size:24px">{{totals.proteins | number:1}} g </span><span>({{totals.proteinsPercentage | number:1}} %)</span></td>
                             </tr>
                             <tr>
                                 <td class="text-primary"><em>{{'recommended' | translate}}: {{recommendations.proteinsPercentageMin | number:0}}-{{recommendations.proteinsPercentageMax | number:0}}%</em></td>
@@ -135,7 +135,7 @@
                                 <td rowspan="3" width="120px"><div id="fatsChart" style="height:100px"></div></td>
                             </tr>
                             <tr>
-                                <td class="text-success"><span style="font-size:26px">{{totals.fats | number:1}} g </span><span>({{totals.fatsPercentage | number:1}} %)</span></td>
+                                <td class="text-success"><span style="font-size:24px">{{totals.fats | number:1}} g </span><span>({{totals.fatsPercentage | number:1}} %)</span></td>
                             </tr>
                             <tr>
                                 <td class="text-primary"><em>{{'recommended' | translate}}: {{recommendations.fatsPercentageMin | number:0}}-{{recommendations.fatsPercentageMax | number:0}}%</em></td>
@@ -158,7 +158,7 @@
                                 <td rowspan="3" width="120px"><div id="saturatedFatsChart" style="height:100px"></div></td>
                             </tr>
                             <tr>
-                                <td class="text-danger"><span style="font-size:26px">{{totals.saturatedFats | number:1}} g </span></td>
+                                <td class="text-danger"><span style="font-size:24px">{{totals.saturatedFats | number:1}} g </span></td>
                             </tr>
                             <tr>
                                 <td class="text-primary"><em>{{'acceptable' | translate}}: {{recommendations.saturatedFats.ui | number:0}} g</em></td>
@@ -172,7 +172,7 @@
                                 <td rowspan="3" width="120px"><div id="trifluoroaceticAcidChart" style="height:100px"></div></td>
                             </tr>
                             <tr>
-                                <td class="text-danger"><span style="font-size:26px">{{totals.trifluoroaceticAcid | number:1}} g</span></td>
+                                <td class="text-danger"><span style="font-size:24px">{{totals.trifluoroaceticAcid | number:1}} g</span></td>
                             </tr>
                             <tr>
                                 <td class="text-primary"><em>{{'acceptable' | translate}}: {{recommendations.trifluoroaceticAcid.ui | number:0}} g</em></td>
@@ -186,7 +186,7 @@
                                 <td rowspan="3" width="120px"><div id="cholesterolChart" style="height:100px"></div></td>
                             </tr>
                             <tr>
-                                <td class="text-danger"><span style="font-size:26px">{{totals.cholesterol | number:1}} mg </span></td>
+                                <td class="text-danger"><span style="font-size:24px">{{totals.cholesterol | number:1}} mg </span></td>
                             </tr>
                             <tr>
                                 <td class="text-primary"><em>{{'acceptable' | translate}}: {{recommendations.cholesterol.ui | number:0}} mg</em></td>
@@ -246,7 +246,7 @@
                 <td rowspan="3" width="120px"><div id="energyChart" style="height:100px"></div></td>
             </tr>
             <tr>
-                <td class="text-success"><span style="font-size:26px">{{totals.energy | number:0}} {{'kcal' | translate}}</span></td>
+                <td class="text-success"><span style="font-size:24px">{{totals.energy | number:0}} {{'kcal' | translate}}</span></td>
             </tr>
             <tr>
                 <td class="text-primary"><em>{{'recommended' | translate}}: {{calculation.recommendedEnergyIntake}} {{'kcal' | translate}}</em></td>
@@ -260,7 +260,7 @@
                 <td rowspan="3" width="120px"><div id="otherFoodChart" style="height:100px"></div></td>
             </tr>
             <tr>
-                <td class="text-danger"><span style="font-size:26px">{{totals.servings.otherFoodsEnergy | number:0}} {{'kcal' | translate}}</span></td>
+                <td class="text-danger"><span style="font-size:24px">{{totals.servings.otherFoodsEnergy | number:0}} {{'kcal' | translate}}</span></td>
             </tr>
             <tr>
                 <td class="text-primary"><em>{{'acceptable' | translate}}: {{recommendations.servings.otherFoodsEnergy}} {{'kcal' | translate}}</em></td>
@@ -281,99 +281,6 @@
 
 <script type="text/ng-template" id="tablesTpl">
     <div>
-        <!--<div class="panel panel-default">
-            <div class="panel-heading bg-subpanel">{{'macronutrients' | translate}}</div>
-            <div class="panel-body">
-                <div class="table-responsive">
-                    <table class="table table-condensed text-small">
-                        <tr>
-                            <th></th>
-                            <th>{{'choosen' | translate}}</th>
-                            <th>{{'recommended' | translate}}</th>
-                        </tr>
-                        <tr>
-                            <td>{{'energy' | translate}}</td>
-                            <td class="novrap text-bold">{{totals.energy | number:1}} kcal</td>
-                            <td class="novrap">{{calculation.recommendedEnergyIntake}} kcal</td>
-                        </tr>
-                        <tr>
-                            <td>{{'carbohydrates' | translate}}</td>
-                            <td class="novrap text-bold">{{totals.carbohydrates | number:1}} g, ({{totals.carbohydratesPercentage | number:1}} %)</td>
-                            <td class="novrap">{{recommendations.carbohydratesPercentageMin | number:0}}-{{recommendations.carbohydratesPercentageMax | number:0}}%</td>
-                        </tr>
-                        <tr>
-                            <td>{{'proteins' | translate}}</td>
-                            <td class="novrap text-bold">{{totals.proteins | number:1}} g, ({{totals.proteinsPercentage | number:1}} %)</td>
-                            <td class="novrap">{{recommendations.proteinsPercentageMin | number:0}}-{{recommendations.proteinsPercentageMax | number:0}}%</td>
-                        </tr>
-                        <tr>
-                            <td>{{'fats' | translate}}</td>
-                            <td class="novrap text-bold">{{totals.fats | number:1}} g, ({{totals.fatsPercentage | number:1}} %)</td>
-                            <td class="novrap">{{recommendations.fatsPercentageMin | number:0}}-{{recommendations.fatsPercentageMax | number:0}}%</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="panel panel-default">
-            <div class="panel-heading bg-subpanel">{{'unit servings' | translate}}</div>
-            <div class="panel-body">
-                <div class="table-responsive">
-                    <table class="table table-condensed text-small">
-                        <tr>
-                            <th></th>
-                            <th>{{'choosen' | translate}}</th>
-                            <th>{{'recommended' | translate}}</th>
-                        </tr>
-                        <tr>
-                            <td>{{'cereals' | translate}}</td>
-                            <td class="text-bold">{{totals.servings.cerealsServ}}</td>
-                            <td>{{recommendations.servings.cerealsServ}}</td>
-                        </tr>
-                        <tr>
-                            <td>{{'vegetables' | translate}}</td>
-                            <td class="text-bold">{{totals.servings.vegetablesServ}}</td>
-                            <td>{{recommendations.servings.vegetablesServ}}</td>
-                        </tr>
-                        <tr>
-                            <td>{{'fruit' | translate}}</td>
-                            <td class="text-bold">{{totals.servings.fruitServ}}</td>
-                            <td>{{recommendations.servings.fruitServ}}</td>
-                        </tr>
-                        <tr>
-                            <td>{{'meat' | translate}}</td>
-                            <td class="text-bold">{{totals.servings.meatServ}}</td>
-                            <td>{{recommendations.servings.meatServ}}</td>
-                        </tr>
-                        <tr>
-                            <td>{{'milk' | translate}}</td>
-                            <td class="text-bold">{{totals.servings.milkServ}}</td>
-                            <td>{{recommendations.servings.milkServ}}</td>
-                        </tr>
-                        <tr>
-                            <td>{{'fats' | translate}}</td>
-                            <td class="text-bold">{{totals.servings.fatsServ}}</td>
-                            <td>{{recommendations.servings.fatsServ}}</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3"></td>
-                        </tr>
-                        <tr>
-                            <th></th>
-                            <th>{{'choosen' | translate}}</th>
-                            <th>{{'acceptable' | translate}}</th>
-                        </tr>
-                        <tr>
-                            <td>{{'other foods' | translate}}</td>
-                            <td class="text-bold">{{totals.servings.otherFoodsEnergy | number:1}} kcal</td>
-                            <td>{{recommendations.servings.otherFoodsEnergy | number:1}} kcal</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>-->
-
         <div class="panel panel-default">
             <div class="panel-heading bg-subpanel"><span class="text-uppercase">{{'parameters' | translate}}</span></div>
             <div class="panel-body">
@@ -382,7 +289,7 @@
                 <b class="text-uppercase">{{'ul' | translate}}</b>: <em>{{'upper intake level' | translate}}</em><br />
                 <b class="text-uppercase">{{'rda' | translate}}</b>: <em>{{'recommended dietary allowance' | translate}}</em><br />
 
-                <div class="table-responsive mt10" style="height:400px">
+                <div class="table-responsive mt10" style="height:400px; overflow-y: scroll; -webkit-overflow-scrolling: touch;">
                     <table class="table table-bordered table-condensed text-small">
                         <tr>
                             <th></th>

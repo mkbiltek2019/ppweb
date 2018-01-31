@@ -1509,10 +1509,16 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     getCalculation();
 
     $scope.getBmiClass = function (x) {
-        if (x < 18.5) { return 'alert alert-info fa fa-exclamation'; }
-        if (x >= 18.5 && x <= 25) { return 'alert alert-success fa fa-check'; }
-        if (x > 25 && x < 30) { return 'alert alert-warning fa fa-exclamation'; }
-        if (x >= 30) { return 'alert alert-danger fa fa-exclamation'; }
+        if (x < 18.5) { return { text: 'text-info', icon: 'fa fa-exclamation' }; }
+        if (x >= 18.5 && x <= 25) { return { text: 'text-success', icon: 'fa fa-check' }; }
+        if (x > 25 && x < 30) { return { text: 'text-warning', icon: 'fa fa-exclamation' }; }
+        if (x >= 30) { return { text: 'text-danger', icon: 'fa fa-exclamation' }; }
+    }
+
+    $scope.getWaistClass = function (x) {
+        if (x < 94) { return { text: 'text-success', icon: 'fa fa-check' }; }
+        if (x >= 94 && x <= 102) { return { text: 'text-warning', icon: 'fa fa-exclamation' }; }
+        if (x > 102) { return { text: 'text-danger', icon: 'fa fa-exclamation' }; }
     }
 
     var getCharts = function () {
@@ -1526,7 +1532,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     var bmiChart = function () {
         var id = 'bmiChart';
-        var value = $rootScope.calculation.bmi.value.toFixed(0);
+        var value = $rootScope.calculation.bmi.value.toFixed(1);
         var unit = 'BMI';
         var options = {
             title: 'BMI',
@@ -1545,7 +1551,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     var whrChart = function () {
         var id = 'whrChart';
-        var value = $rootScope.calculation.whr.value.toFixed(0);
+        var value = $rootScope.calculation.whr.value.toFixed(1);
         var unit = 'WHR';
         var options = {
             title: 'WHR',
@@ -1557,14 +1563,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             yellowTo: 1.1,
             redFrom: 1.1,
             redTo: 2,
-            minorTicks: 5
+            minorTicks: 0.1
         };
         google.charts.setOnLoadCallback(charts.guageChart(id, value, unit, options));
     }
 
     var waistChart = function () {
         var id = 'waistChart';
-        var value = $rootScope.calculation.waist.value.toFixed(0);
+        var value = $rootScope.calculation.waist.value.toFixed(1);
         var unit = 'cm';
         var options = {
             title: 'WHR',

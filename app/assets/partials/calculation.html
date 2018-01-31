@@ -6,62 +6,58 @@
                     <span class="text-uppercase">{{'calculation' | translate}}</span>
                 </div>
                 <div class="panel-body">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <td><strong>TEE</strong><em class="text-small text-muted"> ({{'total energy expenditure' | translate}})</em></td>
-                                <td width=120px><strong class="pull-right">{{calculation.tee | number:0}} kcal</strong></td>
-                            </tr>
-                        </thead>
-                    </table>
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <td><strong>BMI</strong><em class="text-small text-muted"> ({{'body mass index' | translate}})</em> </td>
-                                <td width="120px"><strong class="pull-right">{{calculation.bmi.value | number:1}} kg/m&sup2</strong></td>
-                            </tr>
-                        </thead>
+                    <table class="table table-bordered text-small table-condensed">
                         <tr>
-                            <td class="text-center"><span ng-class="getBmiClass(calculation.bmi.value)"><strong>{{calculation.bmi.title | translate}}</strong></span></td>
-                            <td width="120px">
-                                <div id="bmiChart" class="pull-right" style="height:100px"></div>
-                            </td>
+                            <td class="bg-subpanel"><strong>TEE</strong><em class="text-small text-muted"> ({{'total energy expenditure' | translate}})</em></td>
+                            <td width=120px class="text-center"><span class="text-primary" style="font-size:24px">{{calculation.tee | number:0}} kcal</span></td>
                         </tr>
                     </table>
-                    <table ng-if="calculation.whr.value>0" class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <td><strong>WHR</strong><em class="text-small text-muted"> ({{'waist–hip ratio' | translate}})</em></td>
-                                <td width="120px"><strong class="pull-right">{{calculation.whr.value | number:1}}</strong></td>
-                            </tr>
-                        </thead>
+                    <table class="table table-bordered text-small table-condensed">
                         <tr>
-                            <td class="text-center">
-                                <span ng-class="calculation.whr.value>1?'alert alert-danger fa fa-exclamation':''">{{calculation.whr.title | translate}}
-                                <br />
+                            <td class="bg-subpanel"><b class="text-uppercase">BMI</b><em class="text-small text-muted"> ({{'body mass index' | translate}})</em></td>
+                            <td rowspan="3" width="120px"><div id="bmiChart" class="pull-right" style="height:100px"></div></td>
+                        </tr>
+                        <tr class="text-center">
+                            <td ng-class="getBmiClass(calculation.bmi.value).text"><span style="font-size:24px">{{calculation.bmi.value | number:1}} kg/m&sup2</span></td>
+                        </tr>
+                        <tr class="text-center">
+                            <td class="text-primary"><em>{{'recommended' | translate}}: (18.5 - 25)</em></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" ng-class="getBmiClass(calculation.bmi.value).text"><i ng-class="getBmiClass(calculation.bmi.value).icon"></i> <strong class="text-uppercase">{{calculation.bmi.title | translate}}</strong></td>
+                        </tr>
+                    </table>
+                    <table ng-if="calculation.whr.value>0" class="table table-bordered text-small table-condensed">
+                        <tr>
+                            <td class="bg-subpanel"><b class="text-uppercase">WHR</b><em class="text-small text-muted"> ({{'waist–hip ratio' | translate}})</em></td>
+                            <td rowspan="2" width="120px"><div id="whrChart" class="pull-right" style="height:100px"></div></td>
+                        </tr>
+                        <tr class="text-center">
+                            <td ng-class="calculation.whr.value>1?'text-danger':'text-success'"><span style="font-size:24px">{{calculation.whr.value | number:1}}</span></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="text-uppercase">
+                                <span ng-class="calculation.whr.value>1?'text-danger fa fa-exclamation':'text-success'">
+                                    <strong>{{calculation.whr.title | translate}}</strong>
+                                    <br />
                                     <span> {{calculation.whr.description | translate}}</span>
                                 </span>
-                                
-                                <!--<span class="alert alert-info"><strong>{{calculation.whr.title | translate}}</strong>
-                               <span> {{calculation.whr.description | translate}}</span>
-                                </span>-->
-                            </td>
-                            <td width="120px">
-                                <div id="whrChart" class="pull-right" style="height:100px"></div>
                             </td>
                         </tr>
                     </table>
-                    <table ng-if="calculation.waist.value" class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <td>{{'waist' | translate}}</td>
-                                <td width="120px"><strong class="pull-right">{{calculation.waist.value | number:1}} cm</strong></td>
-                            </tr>
-                        </thead>
+                    <table ng-if="calculation.waist.value>0" class="table table-bordered text-small table-condensed">
                         <tr>
-                            <td class="text-center"><span ng-class="calculation.waist.value>=94?'alert alert-danger fa fa-exclamation':''">{{calculation.waist.title | translate}}</span></td>
-                            <td width="120px">
-                                <div id="waistChart" class="pull-right" style="height:100px"></div>
+                            <td class="bg-subpanel"><b class="text-uppercase">{{'waist' | translate}}</b></td>
+                            <td rowspan="2" width="120px"><div id="waistChart" class="pull-right" style="height:100px"></div></td>
+                        </tr>
+                        <tr class="text-center">
+                            <td ng-class="getWaistClass(calculation.waist.value).text"><span style="font-size:24px">{{calculation.waist.value | number:1}} cm</span></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <span ng-class="getWaistClass(calculation.waist.value).text">
+                                    <strong class="text-uppercase"><i ng-class="getWaistClass(calculation.waist.value).icon"></i> {{calculation.waist.title | translate}}</strong>
+                                </span>
                             </td>
                         </tr>
                     </table>
@@ -83,7 +79,7 @@
                     <table class="table table-bordered">
                         <tr>
                             <td>{{'weight' | translate}}</td>
-                            <td width="100px" class="text-right">
+                            <td width="100px" class="text-center">
                                 <strong>
                                     {{calculation.recommendedWeight.min | number:0}} - {{calculation.recommendedWeight.max | number:0}}
                                 </strong>
