@@ -27,7 +27,7 @@
                                 <table class="table table-condensed">
                                     <tbody class="text-small">
                                         <tr ng-if="x.meal.code==currentMeal" ng-repeat="x in currentMenu.data.selectedFoods track by $index">
-                                            <td class="borderNone"><a href="" style="color:red" ng-click="removeFood(x, $index)" class="btn btn-default"><i class="fa fa-minus"></i></a></td>
+                                            <td class="borderNone"><a href="" style="color:red" ng-click="removeFood(x, $index)" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-trash-o"></i></a></td>
                                             <td class="borderNone" style="width:400px" ng-click="openFoodPopup(x, $index)"><span>{{x.food}}</span></td>
                                             <td class="borderNone text-right" style="min-width:140px">
                                                 <div class="input-group">
@@ -97,7 +97,7 @@
     </div>
     <div class="row">
         <div class="panel panel-default text-center">
-            <div class="panel-heading bg-subpanel"><span class="text-uppercase">{{'macronutrients' | translate}}</span></div>
+            <div class="panel-heading"><span class="text-uppercase">{{'macronutrients' | translate}}</span></div>
             <div class="panel-body">
                 <div class="row">
                     <div class="col-sm-4">
@@ -148,7 +148,7 @@
     </div>
     <div class="row">
         <div class="panel panel-default text-center">
-            <div class="panel-heading bg-subpanel"><span class="text-uppercase">{{'bad nutrients' | translate}}</span></div>
+            <div class="panel-heading"><span class="text-uppercase">{{'bad nutrients' | translate}}</span></div>
             <div class="panel-body">
                 <div class="row">
                     <div class="col-sm-4">

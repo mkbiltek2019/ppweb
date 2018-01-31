@@ -1,6 +1,6 @@
 ﻿<div ng-controller="activitiesCtrl">
     <div class="panel panel-default">
-        <div class="panel-heading">{{'additional activity' | translate}}<em class="text-small text-danger ml10"> *{{'osobama sa zdravstvenim problemima ili sumnjom na njih, preporučuje se da se prije odabira dodatne tjelesne aktivnosti posavjetuju sa svojim liječnikom ili trenerom' | translate}}.</em></div>
+        <div class="panel-heading"><span class="text-uppercase">{{'additional activity' | translate}}</span><em class="text-small text-danger ml10"> *{{'osobama sa zdravstvenim problemima ili sumnjom na njih, preporučuje se da se prije odabira dodatne tjelesne aktivnosti posavjetuju sa svojim liječnikom ili trenerom' | translate}}.</em></div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-sm-6">
@@ -65,7 +65,7 @@
                             <table class="table text-small">
                                 <tr ng-repeat="x in clientData.activities">
                                     <td><strong>{{x.activity}}</strong> - {{x.duration}} min,  {{x.energy | number:0}} kcal</td>
-                                    <td width="50px"><a href="" style="color:red" ng-click="removeActivity(x, $index)" class="btn btn-default"><i class="fa fa-minus"></i></a></td>
+                                    <td width="50px"><a href="" style="color:red" ng-click="removeActivity(x, $index)" class="btn btn-default"><i class="fa fa-trash-o"></i></a></td>
                                 </tr>
                             </table>
                         </div>

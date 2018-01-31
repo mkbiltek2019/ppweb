@@ -1,6 +1,6 @@
 ﻿<div ng-controller="pricesCtrl">
     <div class="panel panel-default">
-        <div class="panel-heading">{{'prices' | translate}}</div>
+        <div class="panel-heading"><span class="text-uppercase">{{'prices' | translate}}</span></div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-sm-6">
@@ -45,7 +45,7 @@
                             <tr ng-repeat="x in prices">
                                 <td>{{x.food.title}}</td>
                                 <td class="text-right">{{x.unitPrice.value}} {{x.unitPrice.currency}}/kg</td>
-                                <td class="borderNone"><a href="" style="color:red" ng-click="delete(x)" class="btn btn-default"><i class="fa fa-minus"></i></a></td>
+                                <td class="borderNone"><a href="" style="color:red" ng-click="delete(x)" class="btn btn-default"><i class="fa fa-trash-o"></i></a></td>
                             </tr>
                         </table>
                     </div>
