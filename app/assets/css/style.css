@@ -23,13 +23,13 @@ a {
     /*color: white;*/
 }
 
-.solidBox{
+.solidBox {
     margin:10px;
     border:1px solid green;
     border-radius:5px;
 }
 
-.loginBox{
+.loginBox {
     padding:20px;
     margin-top:0px;
     /*background-image: url('../img/login_bg.jpg');*/
@@ -39,6 +39,19 @@ a {
     border-radius: 0px 0px 10px 10px !important;
     border:1px solid #ddd;
     border-top:0px;
+}
+
+@media (max-width: 767px) {
+    .loginBox {
+        padding:20px;
+        margin-top:0px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        box-shadow: none;
+        border-radius: 0px 0px 10px 10px !important;
+        border:1px solid #ddd;
+        border-top:0px;
+    }
 }
 
 .borderNone {

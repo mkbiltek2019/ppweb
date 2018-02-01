@@ -25,7 +25,7 @@
                         <label class="col-sm-6 text-right">{{'net price' | translate}}:</label>
                             <div class="col-sm-6 input-group ml10">
                                 <input ng-model="price.netPrice.value" type="number" class="form-control" min="0" ng-change="calculateUnitPrice(price)" />
-                                <span class="input-group-addon"><span class="text-uppercase">{{config.currency}}</span> / <input ng-model="price.mass.value" type="number" min="0" style="width:60px; background-color:lightgrey" ng-change="calculateUnitPrice(price)" /> {{price.mass.unit}}</span>
+                                <span class="input-group-addon"><span class="text-uppercase">{{config.currency}}</span> / <input ng-model="price.mass.value" type="number" min="0" style="width:60px; background-color:lightgray" ng-change="calculateUnitPrice(price)" /> {{price.mass.unit}}</span>
                             </div>
                         <div class="col-sm-12 p10 text-right">
                             <label ng-if="price.netPrice.value>0" class="m10">{{'unit price' | translate}}: <span>{{price.unitPrice.value | number:2}} {{price.nettoPrice.currency}} / kg</span></label>
