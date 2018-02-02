@@ -31,7 +31,7 @@ public class PrintPdf : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string MenuPdf(string userId, string fileName, Menues.NewMenu currentMenu, ClientsData.NewClientData clientData) {
+    public string MenuPdf(string userId, string fileName, Menues.NewMenu currentMenu, ClientsData.NewClientData clientData, Foods.Totals totals) {
         var doc = new Document();
         //List<Menues.JsonFile> xx = new List<Menues.JsonFile>();
         //xx = JsonConvert.DeserializeObject<List<Menues.JsonFile>>(json);
@@ -49,46 +49,65 @@ public class PrintPdf : System.Web.Services.WebService {
         Font brown = new Font(Font.COURIER, 9f, Font.NORMAL, new Color(163, 21, 21));
         Font verdana = FontFactory.GetFont("Verdana", 16, Font.BOLDITALIC, new Color(255, 255, 255));
 
+        //unicode font
+        BaseFont bf = BaseFont.CreateFont(Environment.GetEnvironmentVariable("windir") + @"\fonts\ARIALUNI.TTF", BaseFont.IDENTITY_H, true);
+        Font normalFont = new iTextSharp.text.Font(bf, 12, Font.NORMAL, Color.BLACK);
+
+
         PdfPTable table = new PdfPTable(6);
 
-        PdfPCell cell = new PdfPCell(new Phrase("Jelovnik", verdana));
+        PdfPCell cell = new PdfPCell(new Phrase("Jelovnik", normalFont));
         cell.Colspan = 6;
         cell.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
         cell.BackgroundColor = new Color(0, 179, 179);
+        cell.Border = 0;
         table.AddCell(cell);
 
-        table.AddCell("Id");
-        table.AddCell("Namirnica");
-        table.AddCell("Količina");
-        table.AddCell("Mjera");
-        table.AddCell("Masa");
-        table.AddCell("Energija");
+        //table.AddCell("Id");
+        //table.AddCell("Namirnica");
+        //table.AddCell("Količina");
+        //table.AddCell("Mjera");
+        //table.AddCell("Masa");
+        //table.AddCell("Energija");
 
         foreach (var x in currentMenu.data.selectedFoods) {
-            PdfPCell cell1 = new PdfPCell(new Phrase(x.id.ToString(), courier));
+            PdfPCell cell1 = new PdfPCell(new Phrase(x.meal.title.ToString(), normalFont));
             cell1.Border = 0;
             table.AddCell(cell1);
-            PdfPCell cell2 = new PdfPCell(new Phrase(x.food.ToString(), courier));
+            PdfPCell cell2 = new PdfPCell(new Phrase(x.food.ToString(), normalFont));
             cell2.Border = 0;
             table.AddCell(cell2);
-            PdfPCell cell3 = new PdfPCell(new Phrase(x.quantity.ToString(), courier));
+            PdfPCell cell3 = new PdfPCell(new Phrase(x.quantity.ToString(), normalFont));
             cell3.Border = 0;
             table.AddCell(cell3);
-            PdfPCell cell4 = new PdfPCell(new Phrase(x.unit.ToString(), courier));
+            PdfPCell cell4 = new PdfPCell(new Phrase(x.unit.ToString(), normalFont));
             cell4.Border = 0;
             table.AddCell(cell4);
-            PdfPCell cell5 = new PdfPCell(new Phrase(x.mass.ToString(), courier));
+            PdfPCell cell5 = new PdfPCell(new Phrase(x.mass.ToString(), normalFont));
             cell5.Border = 0;
             table.AddCell(cell5);
-            PdfPCell cell6 = new PdfPCell(new Phrase(x.energy.ToString(), courier));
+            PdfPCell cell6 = new PdfPCell(new Phrase(x.energy.ToString(), normalFont));
             cell6.Border = 0;
             table.AddCell(cell6);
         }
+
         doc.Add(table);
 
-        string text = @"Lorem ipsum dolor sit amet, civibus epicurei pericula cum te, cu eos audire denique. Ei electram voluptaria usu. Tale saperet te vim, sea meliore quaerendum scribentur ne, ad ridens corpora pro. Eam id purto cibo timeam, sale dissentias cu duo. Ex scaevola electram has, ei eius mazim nominati pri. Dolor expetendis est at. ";
-
-        doc.Add(new Paragraph(text, brown));
+        string tot = string.Format(@"
+        Total
+        Energy: {0} kcal
+        Carbohydrates: {1}g ({2})%
+        Proteins: {3} g ({4})%
+        Fats: {5} g ({6})%",
+                    Convert.ToString(totals.energy),
+                    Convert.ToString(totals.carbohydrates),
+                    Convert.ToString(totals.carbohydratesPercentage),
+                    Convert.ToString(totals.proteins),
+                    Convert.ToString(totals.proteinsPercentage),
+                    Convert.ToString(totals.fats),
+                    Convert.ToString(totals.fatsPercentage)
+                    );
+        doc.Add(new Paragraph(tot, normalFont));
         doc.Close();   
 
         return "OK.";

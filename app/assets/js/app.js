@@ -222,11 +222,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     var checkUser = function () {
         if ($sessionStorage.userid == "" || $sessionStorage.userid == undefined || $sessionStorage.user.licenceStatus == 'expired') {
             $scope.toggleTpl('login.html');
-            // $rootScope.currTpl = './assets/partials/login.html';
             $rootScope.isLogin = false;
         } else {
             $scope.toggleTpl('dashboard.html');
-           // $rootScope.currTpl = './assets/partials/dashboard.html';
             $scope.activeTab = 0;
             $rootScope.isLogin = true;
         }
@@ -235,8 +233,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.toggleNewTpl = function (x) {
         if ($rootScope.clientData != undefined) {
-
-            $rootScope.saveClientData($rootScope.clientData);
 
             if (x == 'menu' && $rootScope.clientData.meals.length > 0) {
                 if ($rootScope.clientData.meals[1].isSelected == false && $rootScope.clientData.meals[5].isSelected == true) {
@@ -250,6 +246,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     return false;
                 }
             }
+
+            $rootScope.saveClientData($rootScope.clientData);
+
         }
         $rootScope.newTpl = './assets/partials/' + x + '.html';
         $rootScope.selectedNavItem = x;
@@ -297,22 +296,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 return false;
             }
         }
-           
-        //if ($rootScope.user.licenceStatus == 'demo') {
-        //    functions.demoAlert($rootScope.user);
-        //} else {
-        //    saveClientData(x);
-        //}
         saveClientData(x);
-
     }
 
     var saveClientData = function (x) {
-        // functions.demoAlert($rootScope.user);
-        angular.forEach(x.meals, function (value, key) {
-            x.meals[key].title = $translate.instant(value.title);
-        })
-
+        //angular.forEach(x.meals, function (value, key) {
+        //    x.meals[key].title = $translate.instant(value.title);
+        //})
         x.userId = $rootScope.user.userId;
         x.clientId = x.clientId == null ? $rootScope.client.clientId : x.clientId;
         $http({
@@ -2322,7 +2312,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $http({
                 url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
                 method: "POST",
-                data: { userId: $rootScope.user.userId, fileName: fileName, currentMenu: d.currentMenu, clientData: d.clientData }
+                data: { userId: $rootScope.user.userId, fileName: fileName, currentMenu: d.currentMenu, clientData: d.clientData, totals: $rootScope.totals }
             })
               .then(function (response) {
                //   alert(response.data.d);
@@ -3203,7 +3193,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $http({
                 url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
                 method: "POST",
-                data: {userId: $rootScope.user.userId, fileName: 'testpdf',  currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData }
+                data: { userId: $rootScope.user.userId, fileName: 'testpdf', currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData, totals: $rootScope.totals }
             })
               .then(function (response) {
                   alert(response.data.d);
@@ -3714,7 +3704,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
             method: "POST",
-            data: { userId: $sessionStorage.usergroupid, fileName: fileName, currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData }
+            data: { userId: $sessionStorage.usergroupid, fileName: fileName, currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData, totals: $rootScope.totals }
         })
           .then(function (response) {
               $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
