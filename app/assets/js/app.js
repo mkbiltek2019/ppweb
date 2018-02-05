@@ -3926,9 +3926,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 }])
 
-.controller('helpCtrl', ['$scope', '$rootScope', '$translate', function ($scope, $rootScope, $translate) {
+//.controller('helpCtrl', ['$scope', '$rootScope', '$translate', function ($scope, $rootScope, $translate) {
 
-}])
+//}])
 
 .controller('infoCtrl', ['$scope', '$rootScope', '$translate', function ($scope, $rootScope, $translate) {
 

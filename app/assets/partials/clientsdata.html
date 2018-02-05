@@ -146,7 +146,6 @@
                             </tr>
                         </table>
                     </div>
-
                     <div class="input-group">
                         <input ng-model="searchValue" class="form-control" type="text" placeholder="{{'search' | translate}}..." autofocus />
                         <span class="input-group-btn">
@@ -158,9 +157,6 @@
                             <option value="{{x}}" ng-repeat="x in activities | filter:{activity:searchValue} | orderBy:'activity'">{{x.activity}}</option>
                         </select>
                         <a href="" ng-if="totalDailyEnergyExpenditure.duration<1440" class="btn btn-primary pull-right mt10" ng-click="confirmActivity(activity)"><i class="fa fa-check"></i> {{'ok' | translate}}</a>
-                    </div>
-                    <div ng-if="config.debug">
-                        activity: <pre>{{activity}}</pre>
                     </div>
                 </div>
             </div>
@@ -195,6 +191,9 @@
                 </div>
             </div>
         </div>
+        <div ng-if="config.debug">
+            activity: <pre>{{activity}}</pre>
+        </div>
     </div>
 
 </script>
@@ -228,8 +227,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="x in clientLog">
-                        <td style="width:20%">{{$index +1}}</td>
+                    <tr ng-repeat="x in clientLog | orderBy: '-id'">
+                        <td style="width:20%">{{clientLog.length - $index}}</td>
                         <td style="width:20%">{{getDateFormat(x.date) | date:'dd.MM.yyyy'}}</td>
                         <td style="width:20%">{{x.weight}}</td>
                         <td style="width:20%">{{x.waist}}</td>
