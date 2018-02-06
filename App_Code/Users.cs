@@ -52,6 +52,16 @@ public class Users : System.Web.Services.WebService {
     public string expired = "expired";
     public string active = "active";
 
+    public class Totals {
+        public int active { get; set; }
+        public int demo { get; set; }
+        public int expired { get; set; }
+        public int usergroup { get; set; }
+        public int subuser { get; set; }
+        public int total { get; set; }
+
+    }
+
     public class CheckUser {
         public bool CheckUserId(string userId, bool isActive) {
             try {
@@ -233,41 +243,27 @@ public class Users : System.Web.Services.WebService {
     [WebMethod]
     public string Load() {
         try {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
-            connection.Open();
-            string sql = "SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress FROM users ORDER BY rowid DESC";
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
-            SQLiteDataReader reader = command.ExecuteReader();
-            List<NewUser> xx = new List<NewUser>();
-            while (reader.Read()) {
-                NewUser x = new NewUser();
-                x.userId = reader.GetString(0);
-                x.userType = reader.GetValue(1) == DBNull.Value ? 0 : reader.GetInt32(1);
-                x.firstName = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
-                x.lastName = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
-                x.companyName = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
-                x.address = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
-                x.postalCode = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
-                x.city = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
-                x.country = reader.GetValue(8) == DBNull.Value ? "" : reader.GetString(8);
-                x.pin = reader.GetValue(9) == DBNull.Value ? "" : reader.GetString(9);
-                x.phone = reader.GetValue(10) == DBNull.Value ? "" : reader.GetString(10);
-                x.email = reader.GetValue(11) == DBNull.Value ? "" : reader.GetString(11);
-                x.userName = reader.GetValue(12) == DBNull.Value ? "" : reader.GetString(12);
-                x.password = reader.GetValue(13) == DBNull.Value ? "" : Decrypt(reader.GetString(13));
-                x.adminType = reader.GetValue(14) == DBNull.Value ? 0 : reader.GetInt32(14);
-                x.userGroupId = reader.GetString(15);
-                x.activationDate = reader.GetValue(16) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(16);
-                x.expirationDate = x.userId != x.userGroupId ? GetUserGroupExpirationDate(x.userGroupId, connection) : reader.GetString(17);
-                x.isActive = reader.GetValue(18) == DBNull.Value ? true : Convert.ToBoolean(reader.GetInt32(18));
-                x.licenceStatus = GetLicenceStatus(x);
-                x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
-                xx.Add(x);
+            return JsonConvert.SerializeObject(GetUsers(), Formatting.Indented);
+        } catch (Exception e) {
+            return (e.Message);
         }
-        connection.Close();
-        string json = JsonConvert.SerializeObject(xx, Formatting.Indented);
-        return json;
-        } catch (Exception e) { return ("error: " + e); }
+    }
+
+    [WebMethod]
+    public string Total() {
+        try {
+            Totals x = new Totals();
+            List<NewUser> users = GetUsers();
+            x.active = users.Where(a => a.isActive == true).Count();
+            x.demo = users.Where(a => a.isActive == false && a.activationDate == a.expirationDate).Count();
+            x.expired = users.Where(a => a.isActive == false && Convert.ToDateTime(a.activationDate) < Convert.ToDateTime(a.expirationDate)).Count();
+            x.usergroup = users.Where(a => a.isActive == true && a.userId == a.userGroupId).Count();
+            x.subuser = users.Where(a => a.isActive == true && a.userId != a.userGroupId).Count();
+            x.total = users.Count();
+            return JsonConvert.SerializeObject(x, Formatting.Indented);
+        } catch (Exception e) {
+            return (e.Message);
+        }
     }
 
     [WebMethod]
@@ -363,7 +359,7 @@ public class Users : System.Web.Services.WebService {
         } catch (Exception e) { return ("error: " + e); }
     }
 
-     [WebMethod]
+    [WebMethod]
     public string ForgotPassword(string email) {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
@@ -562,6 +558,41 @@ public class Users : System.Web.Services.WebService {
             return expirationDate;
         }
         catch (Exception e) { return ("error: " + e); }
+    }
+
+    private List<NewUser> GetUsers() {
+        SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
+        connection.Open();
+        string sql = "SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress FROM users ORDER BY rowid DESC";
+        SQLiteCommand command = new SQLiteCommand(sql, connection);
+        SQLiteDataReader reader = command.ExecuteReader();
+        List<NewUser> xx = new List<NewUser>();
+        while (reader.Read()) {
+            NewUser x = new NewUser();
+            x.userId = reader.GetString(0);
+            x.userType = reader.GetValue(1) == DBNull.Value ? 0 : reader.GetInt32(1);
+            x.firstName = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+            x.lastName = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
+            x.companyName = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
+            x.address = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
+            x.postalCode = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
+            x.city = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
+            x.country = reader.GetValue(8) == DBNull.Value ? "" : reader.GetString(8);
+            x.pin = reader.GetValue(9) == DBNull.Value ? "" : reader.GetString(9);
+            x.phone = reader.GetValue(10) == DBNull.Value ? "" : reader.GetString(10);
+            x.email = reader.GetValue(11) == DBNull.Value ? "" : reader.GetString(11);
+            x.userName = reader.GetValue(12) == DBNull.Value ? "" : reader.GetString(12);
+            x.password = reader.GetValue(13) == DBNull.Value ? "" : Decrypt(reader.GetString(13));
+            x.adminType = reader.GetValue(14) == DBNull.Value ? 0 : reader.GetInt32(14);
+            x.userGroupId = reader.GetString(15);
+            x.activationDate = reader.GetValue(16) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(16);
+            x.expirationDate = x.userId != x.userGroupId ? GetUserGroupExpirationDate(x.userGroupId, connection) : reader.GetString(17);
+            x.isActive = reader.GetValue(18) == DBNull.Value ? true : Convert.ToBoolean(reader.GetInt32(18));
+            x.licenceStatus = GetLicenceStatus(x);
+            x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
+            xx.Add(x);
+        }
+        return xx;
     }
     #endregion
 

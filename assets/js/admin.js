@@ -97,6 +97,21 @@ angular.module('app', [])
     }
     load();
 
+    var total = function () {
+        $http({
+            url: $rootScope.config.backend + 'Users.asmx/Total',
+            method: 'POST',
+            data: ''
+        })
+            .then(function (response) {
+                $scope.t = JSON.parse(response.data.d);
+            },
+            function (response) {
+                alert(response.data.d);
+            });
+    }
+    total();
+
     $scope.update = function (user) {
         $http({
             url: $rootScope.config.backend + 'Users.asmx/Update',
@@ -105,6 +120,7 @@ angular.module('app', [])
         })
             .then(function (response) {
                 load();
+                total();
                 alert(response.data.d);
             },
             function (response) {
@@ -128,6 +144,7 @@ angular.module('app', [])
         })
             .then(function (response) {
                 load();
+                total();
                 alert(response.data.d);
             },
             function (response) {

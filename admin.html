@@ -84,15 +84,27 @@
                     <table class="table table-condensed">
                         <tr>
                             <td class="text-left">Registriranih korisnika:</td>
-                            <td class="text-left"><strong>{{d.length}} </strong></td>
-                        </tr>
-                        <tr>
-                            <td class="text-left">Kupljenih licenci:</td>
-                            <td class="text-left"><strong>{{(d | filter:{isActive:true}).length-1}} </strong><span class="badge">{{(((d | filter:{isActive:true}).length-1)/(d.length-1))*100 | number:1}} %</span></td>
+                            <td class="text-left"><strong>{{t.total}}</strong></td>
                         </tr>
                         <tr>
                             <td class="text-left">Aktivnih korisnika:</td>
-                            <td class="text-left"><strong>{{(d | filter:{isActive:true, licenceStatus:'active'}).length}} </strong></td>
+                            <td class="text-left"><strong>{{t.active}}</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="text-left">Licence</td>
+                            <td class="text-left"><strong>{{t.usergroup}}</strong> <span class="badge">{{(t.usergroup/(t.total-t.subuser))*100 | number:1}} %</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-left">Pod licence:</td>
+                            <td class="text-left"><strong>{{t.subuser}}</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="text-left">Demo:</td>
+                            <td class="text-left"><strong>{{t.demo}}</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="text-left">Istekle licence:</td>
+                            <td class="text-left"><strong>{{t.expired}}</strong></td>
                         </tr>
                     </table>
                 </div>
