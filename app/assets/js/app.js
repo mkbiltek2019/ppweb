@@ -882,18 +882,21 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
   
     var getClients = function () {
+        $rootScope.loading = true;
         $scope.toggleSubTpl('pal');
         $http({
             url: $sessionStorage.config.backend + webService + '/Load',
             method: 'POST',
             data: { userId: $sessionStorage.usergroupid }
         })
-      .then(function (response) {
-          $rootScope.clients = JSON.parse(response.data.d);
-      },
-      function (response) {
-          functions.alert($translate.instant(response.data.d), '');
-      });
+        .then(function (response) {
+            $rootScope.clients = JSON.parse(response.data.d);
+            $rootScope.loading = false;
+        },
+        function (response) {
+            functions.alert($translate.instant(response.data.d), '');
+            $rootScope.loading = false;
+        });
     };
     getClients();
 
@@ -2360,6 +2363,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.type = 0;
         $scope.appMenues = false;
         var load = function () {
+            $scope.loading = true;
             $scope.appMenues = false;
             $http({
                 url: $sessionStorage.config.backend + 'Menues.asmx/Load',
@@ -2368,9 +2372,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             })
            .then(function (response) {
                $scope.d = JSON.parse(response.data.d);
+               $scope.loading = false;
            },
            function (response) {
-               alert(response.data.d)
+               $scope.loading = false;
+               alert(response.data.d);
            });
         }
         load();
@@ -2471,7 +2477,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     var openSaveMenuPopup = function () {
         $rootScope.client.clientData = $rootScope.clientData;
-
         $mdDialog.show({
             controller: openSaveMenuPopupCtrl,
             templateUrl: 'assets/partials/popup/savemenu.html',
@@ -2486,7 +2491,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var openSaveMenuPopupCtrl = function ($scope, $mdDialog, $http, d, $translate) {
-        $scope.d = d;
+        $scope.d = angular.copy(d);
         var save = function (currentMenu) {
             if (currentMenu.title == '' || currentMenu.title == undefined) {
                 document.getElementById("txtMenuTitle").focus();
@@ -2550,7 +2555,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var openSendMenuPopupCtrl = function ($scope, $mdDialog, $http, d, $translate) {
-        $scope.d = d;
+        $scope.d = angular.copy(d);
      
         var send = function () {
             $mdDialog.hide();
