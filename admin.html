@@ -13,6 +13,7 @@
     <script src="../assets/js/vendor/angular-animate.min.js"></script>
     <script src="../assets/js/vendor/angular-aria.min.js"></script>
     <script src="../assets/js/vendor/angular-messages.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body ng-app="app" ng-controller="adminCtrl" style="color:black">
 
@@ -92,7 +93,7 @@
                         </tr>
                         <tr>
                             <td class="text-left">Licence</td>
-                            <td class="text-left"><strong>{{t.usergroup}}</strong> <span class="badge">{{(t.usergroup/(t.total-t.subuser))*100 | number:1}} %</span></td>
+                            <td class="text-left"><strong>{{t.usergroup}}</strong> <span class="badge">{{t.licencepercentage}} %</span></td>
                         </tr>
                         <tr>
                             <td class="text-left">Pod licence:</td>
@@ -107,6 +108,9 @@
                             <td class="text-left"><strong>{{t.expired}}</strong></td>
                         </tr>
                     </table>
+                </div>
+                <div class="col-sm-8">
+                    <div id="chart_ppweb"></div>
                 </div>
             </div>
             <div class="checkbox">

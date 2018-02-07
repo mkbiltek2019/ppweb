@@ -59,6 +59,7 @@ public class Users : System.Web.Services.WebService {
         public int usergroup { get; set; }
         public int subuser { get; set; }
         public int total { get; set; }
+        public double licencepercentage { get; set; }
 
     }
 
@@ -260,7 +261,32 @@ public class Users : System.Web.Services.WebService {
             x.usergroup = users.Where(a => a.isActive == true && a.userId == a.userGroupId).Count();
             x.subuser = users.Where(a => a.isActive == true && a.userId != a.userGroupId).Count();
             x.total = users.Count();
+            x.licencepercentage = x.total == x.subuser ? 0 : Math.Round((Convert.ToDouble(x.usergroup) / (x.total - x.subuser) * 100), 1);
             return JsonConvert.SerializeObject(x, Formatting.Indented);
+        } catch (Exception e) {
+            return (e.Message);
+        }
+    }
+
+    [WebMethod]
+    public string TotalList() {
+        try {
+            List<Totals> xx = new List<Totals>();
+            List<NewUser> users = GetUsers();
+            int i = 1;
+            foreach(NewUser u in users) {
+                Totals x = new Totals();
+                x.active = users.Where(a => a.isActive == true).Take(i).Count();
+                x.demo = users.Where(a => a.isActive == false && a.activationDate == a.expirationDate).Take(i).Count();
+                x.expired = users.Where(a => a.isActive == false && Convert.ToDateTime(a.activationDate) < Convert.ToDateTime(a.expirationDate)).Take(i).Count();
+                x.usergroup = users.Where(a => a.isActive == true && a.userId == a.userGroupId).Take(i).Count();
+                x.subuser = users.Where(a => a.isActive == true && a.userId != a.userGroupId).Take(i).Count();
+                x.total = users.Take(i).Count();
+                x.licencepercentage = x.total == x.subuser ? 0 : Math.Round((Convert.ToDouble(x.usergroup) / (x.total - x.subuser) * 100), 1);
+                xx.Add(x);
+                i++;
+            }
+            return JsonConvert.SerializeObject(xx, Formatting.Indented);
         } catch (Exception e) {
             return (e.Message);
         }
@@ -301,7 +327,7 @@ public class Users : System.Web.Services.WebService {
             connection.Close();
             string json = JsonConvert.SerializeObject(x, Formatting.Indented);
             return json;
-        } catch (Exception e) { return ("error: " + e); }
+        } catch (Exception e) { return (e.Message); }
     }
 
     [WebMethod]

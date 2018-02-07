@@ -79,7 +79,6 @@ angular.module('app', [])
 }])
 
 .controller('webAppCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
-
     $scope.showDetails = false;
 
     var load = function () {
@@ -88,12 +87,12 @@ angular.module('app', [])
             method: 'POST',
             data: ''
         })
-            .then(function (response) {
-                $scope.d = JSON.parse(response.data.d);
-            },
-            function (response) {
-                alert(response.data.d);
-            });
+        .then(function (response) {
+            $scope.d = JSON.parse(response.data.d);
+        },
+        function (response) {
+            alert(response.data.d);
+        });
     }
     load();
 
@@ -103,12 +102,12 @@ angular.module('app', [])
             method: 'POST',
             data: ''
         })
-            .then(function (response) {
-                $scope.t = JSON.parse(response.data.d);
-            },
-            function (response) {
-                alert(response.data.d);
-            });
+        .then(function (response) {
+            $scope.t = JSON.parse(response.data.d);
+        },
+        function (response) {
+            alert(response.data.d);
+        });
     }
     total();
 
@@ -162,6 +161,40 @@ angular.module('app', [])
     $scope.showAllPages = function () {
         $scope.idxStart = 0;
         $scope.idxEnd = $scope.d.length;
+    }
+
+
+    google.charts.load('current', { 'packages': ['line'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 'Aktivacije');
+        data.addColumn('number', 'Postotak licenci');
+        $http({
+            url: $rootScope.config.backend + 'Users.asmx/TotalList',
+            method: 'POST',
+            data: ''
+        })
+        .then(function (response) {
+            var tl = JSON.parse(response.data.d);
+            angular.forEach(tl, function (value, key) {
+                data.addRows([
+                       [key, value.licencepercentage]
+                ]);
+            })
+            var options = {
+                chart: {
+                    title: 'Pregled registracija i aktivacija'
+                },
+                height: 250
+            };
+            var chart = new google.charts.Line(document.getElementById('chart_ppweb'));
+            chart.draw(data, google.charts.Line.convertOptions(options));
+        },
+        function (response) {
+            alert(response.data.d);
+        });
     }
 
 }])
