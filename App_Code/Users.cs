@@ -276,11 +276,11 @@ public class Users : System.Web.Services.WebService {
             int i = 1;
             foreach(NewUser u in users) {
                 Totals x = new Totals();
-                x.active = users.Where(a => a.isActive == true).Take(i).Count();
-                x.demo = users.Where(a => a.isActive == false && a.activationDate == a.expirationDate).Take(i).Count();
-                x.expired = users.Where(a => a.isActive == false && Convert.ToDateTime(a.activationDate) < Convert.ToDateTime(a.expirationDate)).Take(i).Count();
-                x.licence = users.Where(a => a.isActive == true && a.userId == a.userGroupId).Take(i).Count();
-                x.subuser = users.Where(a => a.isActive == true && a.userId != a.userGroupId).Take(i).Count();
+                x.active = users.Take(i).Where(a => a.isActive == true).Count();
+                x.demo = users.Take(i).Where(a => a.isActive == false && a.activationDate == a.expirationDate).Count();
+                x.expired = users.Take(i).Where(a => a.isActive == false && Convert.ToDateTime(a.activationDate) < Convert.ToDateTime(a.expirationDate)).Count();
+                x.licence = users.Take(i).Where(a => a.isActive == true && a.userId == a.userGroupId).Count();
+                x.subuser = users.Take(i).Where(a => a.isActive == true && a.userId != a.userGroupId).Count();
                 x.total = users.Take(i).Count();
                 x.licencepercentage = x.total == x.subuser ? 0 : Math.Round((Convert.ToDouble(x.licence) / (x.total - x.subuser) * 100), 1);
                 xx.Add(x);
