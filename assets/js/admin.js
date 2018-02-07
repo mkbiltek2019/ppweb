@@ -171,6 +171,7 @@ angular.module('app', [])
         var data = new google.visualization.DataTable();
         data.addColumn('number', 'Aktivacije');
         data.addColumn('number', 'Postotak licenci');
+        data.addColumn('number', 'Licence');
         $http({
             url: $rootScope.config.backend + 'Users.asmx/TotalList',
             method: 'POST',
@@ -180,7 +181,7 @@ angular.module('app', [])
             var tl = JSON.parse(response.data.d);
             angular.forEach(tl, function (value, key) {
                 data.addRows([
-                       [key, value.licencepercentage]
+                       [key, value.licencepercentage, value.licence]
                 ]);
             })
             var options = {

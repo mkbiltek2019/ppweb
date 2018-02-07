@@ -56,7 +56,7 @@ public class Users : System.Web.Services.WebService {
         public int active { get; set; }
         public int demo { get; set; }
         public int expired { get; set; }
-        public int usergroup { get; set; }
+        public int licence { get; set; }
         public int subuser { get; set; }
         public int total { get; set; }
         public double licencepercentage { get; set; }
@@ -258,10 +258,10 @@ public class Users : System.Web.Services.WebService {
             x.active = users.Where(a => a.isActive == true).Count();
             x.demo = users.Where(a => a.isActive == false && a.activationDate == a.expirationDate).Count();
             x.expired = users.Where(a => a.isActive == false && Convert.ToDateTime(a.activationDate) < Convert.ToDateTime(a.expirationDate)).Count();
-            x.usergroup = users.Where(a => a.isActive == true && a.userId == a.userGroupId).Count();
+            x.licence = users.Where(a => a.isActive == true && a.userId == a.userGroupId).Count();
             x.subuser = users.Where(a => a.isActive == true && a.userId != a.userGroupId).Count();
             x.total = users.Count();
-            x.licencepercentage = x.total == x.subuser ? 0 : Math.Round((Convert.ToDouble(x.usergroup) / (x.total - x.subuser) * 100), 1);
+            x.licencepercentage = x.total == x.subuser ? 0 : Math.Round((Convert.ToDouble(x.licence) / (x.total - x.subuser) * 100), 1);
             return JsonConvert.SerializeObject(x, Formatting.Indented);
         } catch (Exception e) {
             return (e.Message);
@@ -279,10 +279,10 @@ public class Users : System.Web.Services.WebService {
                 x.active = users.Where(a => a.isActive == true).Take(i).Count();
                 x.demo = users.Where(a => a.isActive == false && a.activationDate == a.expirationDate).Take(i).Count();
                 x.expired = users.Where(a => a.isActive == false && Convert.ToDateTime(a.activationDate) < Convert.ToDateTime(a.expirationDate)).Take(i).Count();
-                x.usergroup = users.Where(a => a.isActive == true && a.userId == a.userGroupId).Take(i).Count();
+                x.licence = users.Where(a => a.isActive == true && a.userId == a.userGroupId).Take(i).Count();
                 x.subuser = users.Where(a => a.isActive == true && a.userId != a.userGroupId).Take(i).Count();
                 x.total = users.Take(i).Count();
-                x.licencepercentage = x.total == x.subuser ? 0 : Math.Round((Convert.ToDouble(x.usergroup) / (x.total - x.subuser) * 100), 1);
+                x.licencepercentage = x.total == x.subuser ? 0 : Math.Round((Convert.ToDouble(x.licence) / (x.total - x.subuser) * 100), 1);
                 xx.Add(x);
                 i++;
             }
