@@ -821,6 +821,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
        });
     }
 
+    $scope.showPassword = function () {
+        $scope.showpass = $scope.showpass == true ? false : true;
+    }
+
 }])
 
 //-------------- Program Prehrane Controllers---------------
