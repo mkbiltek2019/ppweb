@@ -2603,6 +2603,19 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var displayCharts = function () {
+        $scope.mealsTotals = [];
+        $scope.mealsMin = [];
+        $scope.mealsMax = [];
+        $scope.mealsTitles = [];
+        angular.forEach($rootScope.clientData.meals, function (value, key) {
+            if (value.isSelected == true && angular.isDefined($rootScope.totals)) {
+                $scope.mealsTotals.push($rootScope.totals.mealsTotalEnergy.length > 0 ? $rootScope.totals.mealsTotalEnergy[key].meal.energy : 0);
+                $scope.mealsMin.push($rootScope.recommendations.mealsRecommendationEnergy[key].meal.energyMin);
+                $scope.mealsMax.push($rootScope.recommendations.mealsRecommendationEnergy[key].meal.energyMax);
+                $scope.mealsTitles.push(value.title);
+            }
+        })
+
         totalEnergyChart();
         otherFoodChart();
         carbohydratesChart();
@@ -2611,22 +2624,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         trifluoroaceticAcidChart();
         cholesterolChart();
         fatsChart();
-
-        var mealsTotals = function () {
-            $scope.mealsTotals = [];
-            $scope.mealsMin = [];
-            $scope.mealsMax = [];
-            $scope.mealsTitles = [];
-            angular.forEach($rootScope.clientData.meals, function (value, key) {
-                if (value.isSelected == true) {
-                    $scope.mealsTotals.push($rootScope.totals.mealsTotalEnergy[key].meal.energy);
-                    $scope.mealsMin.push($rootScope.recommendations.mealsRecommendationEnergy[key].meal.energyMin);
-                    $scope.mealsMax.push($rootScope.recommendations.mealsRecommendationEnergy[key].meal.energyMax);
-                    $scope.mealsTitles.push(value.title);
-                }
-            })
-        }
-        mealsTotals();
 
         var t = $rootScope.totals;
         var r = $rootScope.recommendations
@@ -3139,7 +3136,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     var mealEnergyChart = function (idx) {
         var recommended = $rootScope.recommendations.energy;
         var id = 'mealEnergyChart_' + idx;
-        var value = $rootScope.totals.mealsTotalEnergy[idx].meal.energy;
+        var value = angular.isDefined($rootScope.totals) ? $rootScope.totals.mealsTotalEnergy[idx].meal.energy : 0;
 
         $scope.testmealenergy = value;
 
