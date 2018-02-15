@@ -714,7 +714,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             return false;
         }
 
-        if ($rootScope.user == undefined) { $rootScope.user = $scope.newUser; }
+        if (!angular.isDefined($rootScope.user)) { $rootScope.user = $scope.newUser; }
 
         $scope.newUser.userName = $scope.newUser.email;
         $scope.newUser.companyName = $rootScope.user.companyName;
@@ -727,6 +727,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.newUser.userGroupId = $rootScope.user.userGroupId;
         $scope.newUser.expirationDate = $rootScope.user.expirationDate;
         $scope.newUser.isActive = true;
+        $scope.newUser.adminType = 1;
 
         if ($scope.newUser.password == "" || $scope.passwordConfirm == "") {
             functions.alert($translate.instant('enter password'), '');
