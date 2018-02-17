@@ -1937,7 +1937,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 .controller('menuCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'charts', '$timeout', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, charts, $timeout, functions, $translate) {
     var webService = 'Foods.asmx';
-    $scope.addFoodBtnIcon = 'fa fa-plus';
+    $scope.addFoodBtnIcon = 'fa fa-hand-o-right';
     $scope.addFoodBtn = false;
 
     $rootScope.selectedFoods = $rootScope.selectedFoods == undefined ? [] : $rootScope.selectedFoods;
@@ -2058,11 +2058,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             d: { foods: $rootScope.foods, myFoods: $rootScope.myFoods, foodGroups: $rootScope.foodGroups, food: x, idx: idx, config:$rootScope.config }
         })
         .then(function (x) {
-            $scope.addFoodBtnIcon = 'fa fa-plus';
+            $scope.addFoodBtnIcon = 'fa fa-hand-o-right';
             $scope.addFoodBtn = false;
             $scope.addFoodToMeal(x.food, x.initFood, idx);
         }, function () {
-            $scope.addFoodBtnIcon = 'fa fa-plus';
+            $scope.addFoodBtnIcon = 'fa fa-hand-o-right';
             $scope.addFoodBtn = false;
         });
     };
