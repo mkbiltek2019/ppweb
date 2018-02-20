@@ -28,7 +28,7 @@
                                 </span>
                             </div>
                             <div class="hidden-sm hidden-md hidden-lg hidden-xl">
-                                <md-input-container md-theme="docs-dark" class="md-block" flex-gt-sm>
+                                <md-input-container class="md-block" flex-gt-sm>
                                     <label>{{'select activity' | translate}}...</label>
                                     <md-select ng-model="x" ng-change="openPopup(x)">
                                         <md-option ng-value="x" ng-repeat="x in activities | filter:{activity:searchValue} | orderBy:order | filter:{isSport:1}">{{x.activity}}</md-option>
