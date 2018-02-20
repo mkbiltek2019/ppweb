@@ -1544,7 +1544,9 @@
   "food title": "naziv namirnice",
   "clear": "briši",
   "show password": "prikaži lozinku",
-  "hide password": "sakrij lozinku"
+  "hide password": "sakrij lozinku",
+  "move up": "pomakni gore",
+  "move down": "pomakni dolje"
 
 
 

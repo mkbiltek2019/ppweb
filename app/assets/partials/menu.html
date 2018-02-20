@@ -24,10 +24,14 @@
                         </div>
                         <div ng-show="!loading">
                             <div class="table-responsive" style="min-height:270px">
-                                <table class="table table-condensed">
+                                <table class="table table-condensed table-hover">
                                     <tbody class="text-small">
-                                        <tr ng-if="x.meal.code==currentMeal" ng-repeat="x in currentMenu.data.selectedFoods track by $index">
-                                            <td class="borderNone"><a href="" style="color:red" ng-click="removeFood(x, $index)" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-trash-o"></i></a></td>
+                                        <tr ng-repeat="x in currentMenu.data.selectedFoods | filter:filterMeal track by $index">
+                                            <td class="borderNone"><a href="" style="color:red" ng-click="removeFood(x, currentMenu.data.selectedFoods.indexOf(x))" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-trash-o"></i></a></td>
+                                            <td class="borderNone">
+                                                <button class="fa fa-arrow-up text-primary" ng-click="moveUp(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move up' | translate}}"></button><br />
+                                                <button class="fa fa-arrow-down text-primary" ng-click="moveDown(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move down' | translate}}"></button>
+                                            </td>
                                             <td class="borderNone" style="width:400px" ng-click="openFoodPopup(x, $index)"><span>{{x.food}}</span></td>
                                             <td class="borderNone text-right" style="min-width:140px">
                                                 <div class="input-group">
@@ -48,7 +52,7 @@
                                             <td class="borderNone text-right" style="width:150px">{{x.energy}} kcal</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="4">
+                                            <td colspan="5">
                                                 <a ng-disabled="addFoodBtn" href="" class="btn btn-primary" ng-click="openFoodPopup(food)"><i ng-class="addFoodBtnIcon"></i> {{'add food' | translate}}</a>
                                             </td>
                                             <td colspan="3" class="text-right">

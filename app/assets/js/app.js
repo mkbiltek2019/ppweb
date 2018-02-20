@@ -3155,6 +3155,49 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         google.charts.load('current', { 'packages': ['gauge'] });
         google.charts.setOnLoadCallback(charts.guageChart(id, value, title, min, max, greenFrom, greenTo, yellowFrom, yellowTo, redFrom, redTo, minorTicks));
     }
+
+    $scope.moveUp = function (idx) {
+        var _idx = idx;
+        if (idx > 0) {
+            angular.forEach($rootScope.currentMenu.data.selectedFoods, function (value, key) {
+                if (value.meal.code == $rootScope.currentMeal) {
+                    if (key < idx) {
+                        _idx = key + 1;
+                    }
+                }
+            });
+            tmp = $rootScope.currentMenu.data.selectedFoods[_idx - 1];
+            $rootScope.currentMenu.data.selectedFoods[_idx - 1] = $rootScope.currentMenu.data.selectedFoods[idx];
+            $rootScope.currentMenu.data.selectedFoods[idx] = tmp;
+        }
+    }
+
+    $scope.moveDown = function (idx) {
+        if (idx < $rootScope.currentMenu.data.selectedFoods.length - 1) {
+            var keepGoing = true;
+            angular.forEach($rootScope.currentMenu.data.selectedFoods, function (value, key) {
+                if (value.meal.code == $rootScope.currentMeal && keepGoing == true) {
+                    if (key > idx) {
+                        _idx = key - 1;
+                        keepGoing = false;
+                    }
+                }
+            });
+            tmp = $rootScope.currentMenu.data.selectedFoods[_idx + 1];
+            $rootScope.currentMenu.data.selectedFoods[_idx + 1] = $rootScope.currentMenu.data.selectedFoods[idx];
+            $rootScope.currentMenu.data.selectedFoods[idx] = tmp;
+        }
+    }
+
+    $scope.filterMeal = function (x) {
+            if (x.meal.code == $rootScope.currentMeal) {
+                return true;
+            } else {
+                return false;
+            }
+    }
+
+
 }])
 
 .controller('analyticsCtrl', ['$scope', '$http', '$window', '$rootScope', '$mdDialog', 'charts', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, charts, functions, $translate) {
