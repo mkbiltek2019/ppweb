@@ -2634,7 +2634,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     [t.servings.cerealsServ, t.servings.vegetablesServ, t.servings.fruitServ, t.servings.meatServ, t.servings.milkServ, t.servings.fatsServ],
                     [r.servings.cerealsServ, r.servings.vegetablesServ, r.servings.fruitServ, r.servings.meatServ, r.servings.milkServ, r.servings.fatsServ]
                 ],
-                [$translate.instant('carbohydrates'), $translate.instant('fruit'), $translate.instant('vegetables'), $translate.instant('meat'), $translate.instant('milk'), $translate.instant('fats')],
+                [$translate.instant('carbohydrates'), $translate.instant('vegetables'), $translate.instant('fruit'), $translate.instant('meat'), $translate.instant('milk'), $translate.instant('fats')],
 
                // ['ugljikohidrati', 'povrče', 'voće', 'meso', 'mlijeko', 'masti'],
                 ['#45b7cd', '#33cc33', '#33cc33'],
