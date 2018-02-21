@@ -29,23 +29,26 @@
                                         <tr ng-repeat="x in currentMenu.data.selectedFoods | filter:filterMeal track by $index">
                                             <td class="borderNone"><a href="" style="color:red" ng-click="removeFood(x, currentMenu.data.selectedFoods.indexOf(x))" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-trash-o"></i></a></td>
                                             <td class="borderNone">
-                                                <button class="fa fa-arrow-up text-primary" ng-click="moveUp(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move up' | translate}}"></button><br />
-                                                <button class="fa fa-arrow-down text-primary" ng-click="moveDown(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move down' | translate}}"></button>
+                                                <button ng-if="config.debug" class="fa fa-arrow-up text-primary" ng-click="moveUp(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move up' | translate}}"></button><br />
+                                                <button ng-if="config.debug" class="fa fa-arrow-down text-primary" ng-click="moveDown(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move down' | translate}}"></button>
+                                                <span ng-if="config.debug">
+                                                    {{$index}}({{currentMenu.data.selectedFoods.indexOf(x)}})
+                                                </span>
                                             </td>
-                                            <td class="borderNone" style="width:400px" ng-click="openFoodPopup(x, $index)"><span>{{x.food}}</span></td>
+                                            <td class="borderNone" style="width:400px" ng-click="openFoodPopup(x, currentMenu.data.selectedFoods.indexOf(x))"><span>{{x.food}}</span></td>
                                             <td class="borderNone text-right" style="min-width:140px">
                                                 <div class="input-group">
-                                                    <span class="input-group-addon pointer" ng-click="change(-1, 'quantity', $index)">-</span>
-                                                    <input ng-model="x.quantity" type="number" class="form-control" min="0.1" step="0.1" ng-change="changeQuantity(x, 'quantity', $index)" />
-                                                    <span class="input-group-addon pointer" ng-click="change(1, 'quantity', $index)">+</span>
+                                                    <span class="input-group-addon pointer" ng-click="change(-1, 'quantity', currentMenu.data.selectedFoods.indexOf(x))">-</span>
+                                                    <input ng-model="x.quantity" type="number" class="form-control" min="0.1" step="0.1" ng-change="changeQuantity(x, 'quantity', currentMenu.data.selectedFoods.indexOf(x))" />
+                                                    <span class="input-group-addon pointer" ng-click="change(1, 'quantity', currentMenu.data.selectedFoods.indexOf(x))">+</span>
                                                 </div>
                                             </td>
                                             <td class="borderNone">{{x.unit}}</td>
                                             <td class="borderNone text-right" style="min-width:160px">
                                                 <div class="input-group">
-                                                    <span class="input-group-addon pointer" ng-click="change(-1, 'mass', $index)">-</span>
-                                                    <input ng-model="x.mass" type="number" class="form-control" min="0.1" step="0.1" ng-change="changeQuantity(x, 'mass', $index)" />
-                                                    <span class="input-group-addon pointer" ng-click="change(1, 'mass', $index)">+</span>
+                                                    <span class="input-group-addon pointer" ng-click="change(-1, 'mass', currentMenu.data.selectedFoods.indexOf(x))">-</span>
+                                                    <input ng-model="x.mass" type="number" class="form-control" min="0.1" step="0.1" ng-change="changeQuantity(x, 'mass', currentMenu.data.selectedFoods.indexOf(x))" />
+                                                    <span class="input-group-addon pointer" ng-click="change(1, 'mass', currentMenu.data.selectedFoods.indexOf(x))">+</span>
                                                 </div>
                                             </td>
                                             <td class="borderNone" style="width:10px">g</td>

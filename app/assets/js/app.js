@@ -3169,6 +3169,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             tmp = $rootScope.currentMenu.data.selectedFoods[_idx - 1];
             $rootScope.currentMenu.data.selectedFoods[_idx - 1] = $rootScope.currentMenu.data.selectedFoods[idx];
             $rootScope.currentMenu.data.selectedFoods[idx] = tmp;
+            $rootScope.currentMenu.data.selectedInitFoods[_idx - 1] = $rootScope.currentMenu.data.selectedInitFoods[idx];
+            $rootScope.currentMenu.data.selectedInitFoods[idx] = tmp;
         }
     }
 
@@ -3186,6 +3188,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             tmp = $rootScope.currentMenu.data.selectedFoods[_idx + 1];
             $rootScope.currentMenu.data.selectedFoods[_idx + 1] = $rootScope.currentMenu.data.selectedFoods[idx];
             $rootScope.currentMenu.data.selectedFoods[idx] = tmp;
+            $rootScope.currentMenu.data.selectedInitFoods[_idx + 1] = $rootScope.currentMenu.data.selectedInitFoods[idx];
+            $rootScope.currentMenu.data.selectedInitFoods[idx] = tmp;
         }
     }
 
