@@ -71,6 +71,7 @@ public class PrintPdf : System.Web.Services.WebService {
         //table.AddCell("Energija");
 
         foreach (var x in currentMenu.data.selectedFoods) {
+            var meal1 = currentMenu.data.selectedFoods.Where(a => a.meal.code == "B");
             PdfPCell cell1 = new PdfPCell(new Phrase(x.meal.title.ToString(), normalFont));
             cell1.Border = 0;
             table.AddCell(cell1);

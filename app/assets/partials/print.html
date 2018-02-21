@@ -19,34 +19,31 @@
 </div>
 
 <script type="text/ng-template" id="menuTpl">
-        <div layout-gt-sm="row"  class="noprint">
-                <md-input-container>
-                    <label>{{'number of consumers' | translate}}</label>
-                    <input ng-model="consumers" type="number" min="1" ng-change="changeNumberOfConsumers(consumers)">
-                </md-input-container>
-                <md-input-container>
-                    <label>{{'font size' | translate}}</label>
-                    <input ng-model="fontsize" type="number" min="8" ng-change="changeFontSize(fontsize)">
-                </md-input-container>
-        </div>
-
+    <div layout-gt-sm="row" class="noprint">
+        <md-input-container>
+            <label>{{'number of consumers' | translate}}</label>
+            <input ng-model="consumers" type="number" min="1" ng-change="changeNumberOfConsumers(consumers)">
+        </md-input-container>
+        <md-input-container>
+            <label>{{'font size' | translate}}</label>
+            <input ng-model="fontsize" type="number" min="8" ng-change="changeFontSize(fontsize)">
+        </md-input-container>
+    </div>
     <div ng-style="fs">
         <strong>{{currentMenu.title}}</strong>
         <p>{{currentMenu.note}}</p>
         <p ng-if="consumers > 1">{{'number of consumers' | translate}}: <strong>{{consumers}}</strong></p>
-       
         <hr />
-        <div ng-if="x.isSelected==1" ng-repeat="x in currentMenu.data.meals track by $index">
+        <div ng-if="x.isSelected" ng-repeat="x in currentMenu.data.meals track by $index">
             <label>{{x.title | translate}}</label>
-         <div class="p10">
-             <p ng-if="y.meal.code==x.code" ng-repeat="y in foods track by $index">{{y.food | translate}}, {{y.quantity}} {{y.unit | translate}}, ({{y.mass}} g)</p>
-         </div>
+            <div id="sortable_{{$index}}" class="p10">
+                <p ng-if="y.meal.code==x.code" class="print-item" ng-repeat="y in foods track by $index">{{y.food | translate}}, {{y.quantity}} {{y.unit | translate}}, ({{y.mass}} g)</p>
+            </div>
             <div ng-if="x.description">
                 <em class="text-justify">{{x.description}}</em>
             </div>
             <hr />
         </div>
-
         <div>
             <label>{{'total energy' | translate}}: <span>{{totals.energy}} kcal</span></label>
             <p>{{'carbohydrates' | translate}}: <span>{{totals.carbohydrates | number:1}} g, ({{totals.carbohydratesPercentage | number:1}} %)</span></p>
@@ -536,5 +533,27 @@
     <div ng-if="config.debug" class="bg-info">
         <pre>{{client | json}}</pre>
     </div>
+</script>
+
+<script>
+  $( function() {
+    $("#sortable_0").sortable();
+    $("#sortable_0").disableSelection();
+
+    $("#sortable_1").sortable();
+    $("#sortable_1").disableSelection();
+
+    $("#sortable_2").sortable();
+    $("#sortable_2").disableSelection();
+
+    $("#sortable_3").sortable();
+    $("#sortable_3").disableSelection();
+
+    $("#sortable_4").sortable();
+    $("#sortable_4").disableSelection();
+
+    $("#sortable_5").sortable();
+    $("#sortable_5").disableSelection();
+  } );
 </script>
 

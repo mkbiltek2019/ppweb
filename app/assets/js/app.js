@@ -3166,30 +3166,33 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     }
                 }
             });
-            tmp = $rootScope.currentMenu.data.selectedFoods[_idx - 1];
+            var tmp = $rootScope.currentMenu.data.selectedFoods[_idx - 1];
             $rootScope.currentMenu.data.selectedFoods[_idx - 1] = $rootScope.currentMenu.data.selectedFoods[idx];
             $rootScope.currentMenu.data.selectedFoods[idx] = tmp;
+            var tmp_init = $rootScope.currentMenu.data.selectedInitFoods[_idx - 1];
             $rootScope.currentMenu.data.selectedInitFoods[_idx - 1] = $rootScope.currentMenu.data.selectedInitFoods[idx];
-            $rootScope.currentMenu.data.selectedInitFoods[idx] = tmp;
+            $rootScope.currentMenu.data.selectedInitFoods[idx] = tmp_init;
         }
     }
 
     $scope.moveDown = function (idx) {
+        var _idx = idx;
         if (idx < $rootScope.currentMenu.data.selectedFoods.length - 1) {
             var keepGoing = true;
             angular.forEach($rootScope.currentMenu.data.selectedFoods, function (value, key) {
                 if (value.meal.code == $rootScope.currentMeal && keepGoing == true) {
-                    if (key > idx) {
+                    if (key > idx && key > 0) {
                         _idx = key - 1;
                         keepGoing = false;
                     }
                 }
             });
-            tmp = $rootScope.currentMenu.data.selectedFoods[_idx + 1];
+            var tmp = $rootScope.currentMenu.data.selectedFoods[_idx + 1];
             $rootScope.currentMenu.data.selectedFoods[_idx + 1] = $rootScope.currentMenu.data.selectedFoods[idx];
             $rootScope.currentMenu.data.selectedFoods[idx] = tmp;
+            var tmp_init = $rootScope.currentMenu.data.selectedInitFoods[_idx + 1];
             $rootScope.currentMenu.data.selectedInitFoods[_idx + 1] = $rootScope.currentMenu.data.selectedInitFoods[idx];
-            $rootScope.currentMenu.data.selectedInitFoods[idx] = tmp;
+            $rootScope.currentMenu.data.selectedInitFoods[idx] = tmp_init;
         }
     }
 

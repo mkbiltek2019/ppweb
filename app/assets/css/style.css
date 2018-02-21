@@ -177,5 +177,12 @@ hr.bold {
 	transform-origin: left top 0;
 }
 
+.print-item {
+    cursor: move;
+}
+
+.print-item:hover {
+    background-color:#e6e6e6;
+}
 
 
