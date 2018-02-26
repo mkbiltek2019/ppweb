@@ -2320,7 +2320,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $http({
                 url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
                 method: "POST",
-                data: { userId: $rootScope.user.userId, fileName: fileName, currentMenu: d.currentMenu, clientData: d.clientData, totals: $rootScope.totals }
+                data: { userId: $rootScope.user.userId, fileName: fileName, currentMenu: d.currentMenu, clientData: d.clientData, totals: $rootScope.totals, lang: $rootScope.config.language }
             })
               .then(function (response) {
                //   alert(response.data.d);
@@ -2441,7 +2441,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $http({
                 url: $sessionStorage.config.backend + 'Menues.asmx/LoadAppMenues',
                 method: "POST",
-                data: {}
+                data: { lang: $rootScope.config.language }
             })
            .then(function (response) {
                $scope.d = JSON.parse(response.data.d);
@@ -2455,7 +2455,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $http({
                 url: $sessionStorage.config.backend + 'Menues.asmx/GetAppMenu',
                 method: "POST",
-                data: { id: x.id }
+                data: { id: x.id, lang: $rootScope.config.language }
             })
             .then(function (response) {
                 var menu = JSON.parse(response.data.d);
@@ -2532,6 +2532,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             x.userId = d.client.userId;
             x.id = saveasnew == true ? null : x.id;
             x.energy = d.totals.energy;
+            x.date = new Date(new Date().setHours(0, 0, 0, 0));
             save(x);
         }
     };
@@ -3250,7 +3251,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $http({
                 url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
                 method: "POST",
-                data: { userId: $rootScope.user.userId, fileName: 'testpdf', currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData, totals: $rootScope.totals }
+                data: { userId: $rootScope.user.userId, fileName: 'testpdf', currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData, totals: $rootScope.totals, lang: $rootScope.config.language }
             })
               .then(function (response) {
                   alert(response.data.d);
@@ -3739,7 +3740,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 .controller('printCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions) {
     $scope.consumers = 1;
-    $scope.fontsize = 16;
+    $scope.fontsize = 14;
   
     $scope.toggleTpl = function (x) {
         $scope.printTpl = x;
@@ -3761,7 +3762,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
             method: "POST",
-            data: { userId: $sessionStorage.usergroupid, fileName: fileName, currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData, totals: $rootScope.totals }
+            data: { userId: $sessionStorage.usergroupid, fileName: fileName, currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData, totals: $rootScope.totals, lang: $rootScope.config.language }
         })
           .then(function (response) {
               $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';

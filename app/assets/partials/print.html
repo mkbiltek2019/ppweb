@@ -2,7 +2,7 @@
     <div class="panel panel-default">
         <div class="panel-heading noprint">
             <a href="" ng-click="printWindow()" class="btn btn-default"><i class="fa fa-print"></i> <span class="hidden-xs">{{'print' | translate}}</span></a>
-            <a ng-if="config.debug" href="" class="btn btn-danger" ng-click="printPdf()"><i class="fa fa-file-pdf-o"></i> <span class="hidden-xs">{{'PDF' | translate}}</span></a>
+            <a href="" class="btn btn-default" ng-click="printPdf()"><span class="text-danger"><i class="fa fa-file-pdf-o"></i> <span class="hidden-xs">{{'PDF' | translate}}</span></span></a>
         </div>
         <div class="panel-body" style="font-size:12px">
             <div class="noprint">
@@ -35,12 +35,12 @@
         <p ng-if="consumers > 1">{{'number of consumers' | translate}}: <strong>{{consumers}}</strong></p>
         <hr />
         <div ng-if="x.isSelected" ng-repeat="x in currentMenu.data.meals track by $index">
-            <label>{{x.title | translate}}</label>
-            <div id="sortable_{{$index}}" class="p10">
-                <p ng-if="y.meal.code==x.code" class="print-item" ng-repeat="y in foods track by $index">{{y.food | translate}}, {{y.quantity}} {{y.unit | translate}}, ({{y.mass}} g)</p>
-            </div>
+            <label class="text-uppercase">{{x.title | translate}}</label>
             <div ng-if="x.description">
                 <em class="text-justify">{{x.description}}</em>
+            </div>
+            <div id="sortable_{{$index}}" class="p10">
+                <p ng-if="y.meal.code==x.code" class="print-item" ng-repeat="y in foods track by $index" title="{{'click and move' | translate}}">- {{y.food | translate}}, {{y.quantity}} {{y.unit | translate}}, ({{y.mass}} g)</p>
             </div>
             <hr />
         </div>

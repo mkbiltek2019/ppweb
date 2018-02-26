@@ -191,13 +191,13 @@ public class Menues : System.Web.Services.WebService {
 
     #endregion AppMenues
     [WebMethod]
-    public string LoadAppMenues() {
+    public string LoadAppMenues(string lang) {
         try {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + appDataBase));
+            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath(string.Format("~/App_Data/{0}", appDataBase)));
             connection.Open();
-            string sql = @"SELECT id, title, diet, note, energy
-                        FROM menues
-                        ORDER BY title ASC";
+            string sql = string.Format(@"SELECT id, title, diet, note, energy
+                        FROM menues WHERE language = '{0}'
+                        ORDER BY title ASC", lang);
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             List<NewMenu> xx = new List<NewMenu>();
             Clients.Client client = new Clients.Client();
@@ -218,9 +218,9 @@ public class Menues : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string GetAppMenu(string id) {
+    public string GetAppMenu(string id, string lang) {
         try {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + appDataBase));
+            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath(string.Format("~/App_Data/{0}", appDataBase)));
             connection.Open();
             string sql = @"SELECT id, title, diet, note, energy
                         FROM menues
@@ -236,7 +236,7 @@ public class Menues : System.Web.Services.WebService {
                 x.diet = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
                 x.note = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
                 x.energy = reader.GetValue(4) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(4));
-                x.data = JsonConvert.DeserializeObject<JsonFile>(GetJsonFile("~/App_Data/menues/" + x.id));
+                x.data = JsonConvert.DeserializeObject<JsonFile>(GetJsonFile(string.Format("~/App_Data/menues/{0}/{1}.json", lang, x.id)));
             }
             connection.Close();
             string json = JsonConvert.SerializeObject(x, Formatting.Indented);
