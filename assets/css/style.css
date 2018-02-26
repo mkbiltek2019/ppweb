@@ -217,8 +217,16 @@ body {
     padding-top:60px;
 }
 
-.m10{
+.m10 {
     margin:10px;
+}
+
+.mt20 {
+    margin-top:20px;
+}
+
+.p5 {
+    padding:5px;
 }
 
 

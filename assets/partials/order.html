@@ -3,9 +3,9 @@
         <h4>Narudžbenica</h4>
 
         <ol class="breadcrumb">
-            <li ng-class="user.version=='WEB' && !showUserDetails?'bg-info':''"><span class="badge">1</span><span ng-if=""></span>{{user.version=='WEB'?'Prijava':'Verzija'}}</li>
-            <li ng-class="showUserDetails==true&&showAlert==false?'bg-info':''"><span class="badge">2</span> Narudžba</li>
-            <li ng-class="showAlert==true?'bg-info':''"><span class="badge">3</span> Plaćanje</li>
+            <li ng-class="user.version=='WEB' && !showUserDetails?'bg-info':''" style="padding:10px; border-radius: 25px"><span class="badge">1</span><span ng-if=""></span> {{user.version=='WEB'?'Prijava':'Verzija'}}</li>
+            <li ng-class="showUserDetails==true&&showAlert==false?'bg-info':''" style="padding:10px; border-radius: 25px"><span class="badge">2</span> Narudžba</li>
+            <li ng-class="showAlert==true?'bg-info':''" style="padding:10px; border-radius: 25px"><span class="badge">3</span> Plaćanje</li>
         </ol>
 
         <div ng-if="!showAlert">
@@ -67,7 +67,7 @@
             </div>
             <div ng-if="showUserDetails">
                 <h3>Vaši podaci</h3>
-                <div>
+                <div class="mt20">
                     <label class="radio-inline">
                         <input ng-model="userType" value="0" type="radio" name="usertype" ng-change="changeUserType(0)">Fizička osoba
                     </label>
@@ -75,7 +75,7 @@
                         <input ng-model="userType" value="1" type="radio" name="usertype" ng-change="changeUserType(1)">Pravna osoba
                     </label>
                 </div>
-                <div class="text-left">
+                <div class="text-left mt20">
                     <div layout-gt-sm="row">
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>E-mail</label>

@@ -113,8 +113,13 @@
                     <div id="chart_ppweb"></div>
                 </div>
             </div>
-            <div class="checkbox">
-                <label><input type="checkbox" ng-model="showDetails" />Prikaži detalje / uredi</label>
+            <div class="row">
+                <div class="col-sm-4">
+                    <input ng-model="searchSingup" class="form-control" placeholder="Pretraži..." />
+                </div>
+                <div class="col-sm-4 checkbox">
+                    <label><input type="checkbox" ng-model="showDetails" />Prikaži detalje / uredi</label>
+                </div>
             </div>
             <div class="table-responsive">
                 <table class="table table-condensed text-small">
@@ -139,7 +144,7 @@
                         <th class="nowrap">Status</th>
                         <th></th>
                     </tr>
-                    <tr ng-if="$index>=idxStart && $index<idxEnd" ng-repeat="x in d" ng-class="x.userId!=x.userGroupId?'text-muted':''">
+                    <tr ng-if="$index>=idxStart && $index<idxEnd" ng-repeat="x in d | filter:searchSingup" ng-class="x.userId!=x.userGroupId?'text-muted':''">
                         <td>{{d.length - $index}}</td>
                         <td ng-if="showDetails" class="novrap">{{x.userId}}</td>
                         <td ng-if="showDetails" class="novrap">{{x.userGroupId}}</td>
@@ -206,10 +211,16 @@
     <script type="text/ng-template" id="orders">
         <div ng-controller="ordersCtrl" class="container">
             <h2>Narudžbe</h2>
+            <div class="row" style="padding-bottom:10px">
+                <div class="col-sm-4">
+                    <input ng-model="searchOrders" class="form-control" placeholder="Pretraži..." />
+                </div>
+            </div>
             <div class="table-responsive">
-                <table class="table table-condensed">
+                <table class="table table-condensed text-small">
                     <tr>
                         <th>Br.</th>
+                        <th>Datum</th>
                         <th>Ime</th>
                         <th>Prezime</th>
                         <th>Tvrtka</th>
@@ -224,12 +235,12 @@
                         <th>Licenca</th>
                         <th>Broj licenci</th>
                         <th>Cijena</th>
-                        <th>Datum</th>
                         <th>Dodatna usluga</th>
                         <th>Napomena</th>
                     </tr>
-                    <tr ng-repeat="x in orders">
+                    <tr ng-repeat="x in orders | filter:searchOrders">
                         <td>{{x.id}}</td>
+                        <td style="white-space: nowrap">{{x.orderDate}}</td>
                         <td>{{x.firstName}}</td>
                         <td>{{x.lastName}}</td>
                         <td>{{x.companyName}}</td>
@@ -244,7 +255,6 @@
                         <td>{{x.licence}}</td>
                         <td>{{x.licenceNumber}}</td>
                         <td>{{x.price}}</td>
-                        <td style="white-space: nowrap">{{x.orderDate}}</td>
                         <td>{{x.additionalService}}</td>
                         <td>{{x.note}}</td>
                     </tr>

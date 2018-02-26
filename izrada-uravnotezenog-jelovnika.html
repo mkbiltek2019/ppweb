@@ -1,0 +1,323 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Izrada uravnoteženog jelovnika</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="Description" content="Izrada uravnoteženog jelovnika uz pomoć web aplikacije Program Prehrane Web">
+    <meta name="author" content="IG PROG, obrt za računalno programiranje">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+
+    <script src="assets/js/vendor/jquery.min.js"></script>
+    <script src="assets/js/vendor/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <link href='https://fonts.googleapis.com/css?family=Encode Sans Expanded' rel='stylesheet'>
+    <style>
+        body {
+            font-family: 'Encode Sans Expanded';
+            font-size: 16px;
+        }
+    </style>
+
+</head>
+<body id="home" data-spy="scroll" data-target=".navbar" data-offset="60" ng-cloak>
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!--<a class="navbar-brand" href="#myPage"><i class="fa fa-cutlery"></i> <span class="hidden-xs">Program Prehrane</span></a>-->
+                <a class="navbar-brand" href="index.html" style="padding-top:2px !important"><img src="assets/img/logo.png"></a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="index.html"><i class="fa fa-home"></i> Početna</a></li>
+                    <li><a href="/app" target="_blank"><i class="fa fa-cog"></i> Aplikacija</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container pt60">
+        <h1>Izrada uravnoteženog jelovnika</h1>
+        <em>uz pomoć web aplikacije <a href="app" target="_blank">Program Prehrane Web</a></em>
+        <br />
+        <img src="assets/img/ppweb/izrada_uravnotezenog_jelovnika/izrada_jelovnika.jpg" class="img-thumbnail" style="margin-top:20px" />
+        <div class="pt60">
+            <h3>OSMIŠLJAVANJE JELOVNIKA</h3>
+            <hr />
+
+           <h4>Što je uravnotežen i raznovrstan jelovnik?</h4>
+
+            <p>Dobro osmišljeni dnevni jelovnik treba zadovoljiti sljedeće:</p>
+            <ul>
+                <li>osigurati adekvatan energetski unos,</li>
+                <li>zadovoljiti potrebe za nutrijentima,</li>
+                <li>biti uravnotežen, što znači da u jednom danu sve skupine namirnica moraju biti zastupljene s adekvatnim brojem jediničnih serviranja,</li>
+                <li>biti raznovrstan, što znači da uključuje što više različitih namirnica iz iste skupine i</li>
+                <li>uključiti barem tri glavna obroka.</li>
+            </ul>
+        </div>
+
+        <hr />
+        <p>U sljedećem primjeru ćemo pokazati razliku izmedu uravnoteženog i neuravnoteženog jelovnika</p>
+        <p>Za primjer ćemo uzeti mušku osoba starosti 45, godina, visine 80 cm i mase 105 kg.
+           Osoba je slabo aktivna na poslu i u slobodno vrijeme, npr. uredski poslovi.</p>
+        <br />
+        <div class="row">
+            <div class="col-sm-6">
+                <h4>Izračun</h4>
+                <ul>
+                    <li>Indeksa tjelesne mase (BMI): 32,4</li>
+                    <li>Energetska potrošnja: 3302 kcal</li>
+                    <li>Preporućeni energetski unos: 3002 kcal</li>
+                    <li>Dodatna energetska potrošnja: 200 kcal</li>
+                </ul>
+                <div><em><a href="app" target="_blank">* Izračun je napravljem uz pomoć web aplikacija Program Prehrane</a></em></div>
+            </div>
+            <div class="col-sm-6">
+                <img src="assets/img/ppweb/izrada_uravnotezenog_jelovnika/bmi.jpg" class="img-thumbnail" />
+                <div><em><a href="app" target="_blank">* Program Prehrane Web</a></em></div>
+            </div>
+        </div>
+
+
+        <div class="pt60">
+            <div class="well">
+                <div>
+                    <h3 class="text-danger"><i class="fa fa-exclamation-triangle"></i> Primjer neuravnoteženog jelovnika</h3>
+                    <hr />
+                    <h4>doručak</h4>
+                    <ul>
+                        <li>Kava, bez šećera, 0.5 šalica, (126.6 g)</li>
+                        <li>Šećer, bijeli, 2 čajna žličica, (8 g)</li>
+                        <li>Croissant, 1 komad, (50 g)</li>
+                    </ul>
+                    <hr />
+                    <h4>jutarnja užina</h4>
+                    <ul>
+                        <li>Burek sa sirom, 1 porcija, (250 g)</li>
+                        <li>Pivo, lager, 1 limenka, (333.3 g)</li>
+                    </ul>
+                    <hr />
+                    <h4>ručak</h4>
+                    <ul>
+                        <li>Kava, bez šećera, 0.5 šalica, (126.6 g)</li>
+                        <li>Šećer, bijeli, 2 čajna žličica, (8 g)</li>
+                    </ul>
+                    <hr />
+                    <h4>popodnevna užina</h4>
+                    <ul>
+                        <li>Svinjetina, kotlet, s masti, pečena na roštilju, 10 mali komad, (200 g)</li>
+                        <li>Krumpir, stari, 4 srednji plod, (600 g)</li>
+                        <li>Ulje, suncokretovo, 2 čajna žličica, (8.6 g)</li>
+                        <li>Kruh, bijeli, 4 kriška, (140 g)</li>
+                    </ul>
+                    <hr />
+                    <h4>večera</h4>
+                    <ul>
+                        <li>Kruh, bijeli, tost, 2 kriška, (50 g)</li>
+                        <li>Šunka u ovitku, 2 mali komad, (56 g)</li>
+                        <li>Sir, Edam, 2 mali komad, (56 g)</li>
+                        <li>Palačinka, slatka, pripremljena s punomasnim mlijekom, bez nadjeva, 4 komad, (180 g)</li>
+                        <li>Namaz, od čokolade i lješnjaka, 2 porcija, (60 g)</li>
+                        <li>Pivo, lager, 1 limenka, (333.3 g)</li>
+                    </ul>
+                    <hr />
+                </div>
+                <div>
+                    <h3>Analiza jelovnika</h3>
+                    <div class="row well">
+                        <div class="col-sm-6">
+                            <h4>Energetska vrijednost</h4>
+                            <p>
+                                Iz analize jelovnika je vidljivo da je energetska vrijednost jelovnika veća od energetske potrošnje za 632 kcal što za posljedicu ima
+                                nakupljanje masnog tkiva i debljanje.
+                                a udio ostalih namirnica (u koje spadaju npr: pivo, burek, kava i sl.) iznosi čak 2176 kcal što je 4 puta viće od prihvatljivih 536 kcal.
+                            </p>
+
+                        </div>
+                        <div class="col-sm-6">
+                            <img src="assets/img/ppweb/izrada_uravnotezenog_jelovnika/energija_0.jpg" class="img-thumbnail" />
+                        </div>
+                    </div>
+                    <div class="row well">
+                        <div class="col-sm-6">
+                            <h4>Jedinična serviranja</h4>
+                            <p>
+                                U dnevnom jelovniku nisu zastupljene namirnice is skupina povrće, voće i mlijeka i mliječnih proizvoda,
+                                dok namirnice iz skupina žitarice i poroizvodi od žita i mesa i zamjena, zastupljene u količinama večim od preporućenih.
+                            </p>
+                        </div>
+                        <div class="col-sm-6">
+                            <img src="assets/img/ppweb/izrada_uravnotezenog_jelovnika/jedinicna_serviranja_0.jpg" class="img-thumbnail" />
+                        </div>
+                    </div>
+                    <div class="row well">
+                        <div class="col-sm-6">
+                            <h4>Raspored energetske vrijednosti po obrocima</h4>
+                            <p>
+                                Raspored energetske vrijednosti po obrocima takođen nije unutar preporuka.
+                                <br />
+                                U dnevnom jelovniku, doručku bi trebao biti zastupljen između 20-25%, ručak između 30-40%, a večera manje od 5%.
+                            </p>
+                        </div>
+                        <div class="col-sm-6">
+                            <img src="assets/img/ppweb/izrada_uravnotezenog_jelovnika/raspored_po_obrocima_0.jpg" class="img-thumbnail" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="well">
+                <div>
+                    <h3 class="text-success"><i class="fa fa-check"></i> Primjer uravnoteženog jelovnika</h3>
+                    <hr />
+                    <h4>doručak</h4>
+                    <ul>
+                        <li>Kukuruzna krupica, 6 jušna žlica, (49.8 g)</li>
+                        <li>Ulje, suncokretovo, 1.5 čajna žličica, (6.4 g)</li>
+                        <li>Jogurt od djelomično obrana mlijeka, 1 šalica, (240 g)</li>
+                        <li>Kupina, 1 šalica, (130 g)</li>
+                    </ul>
+                    <p>Palenta, jogurt i voće. Palenta: zakuhanoj vodi dodati ulje i sol te uz miješanje sipati kukuruznu krupicu.</p>
+                    <hr />
+                    <h4>jutarnja užina</h4>
+                    <ul>
+                        <li>Jabuka, neoguljena, 1 veliki plod, (220 g)</li>
+                        <li>Breskva, 1.5 srednji plod, (241.5 g)</li>
+                    </ul>
+                    <p>Voćna salata. Opranu breskvu i jabuku očistiti, izrezati i pomiješati.</p>
+                    <hr />
+                    <h4>ručak</h4>
+                    <ul>
+                        <li>Svinjetina, but bez kosti, s kožom, 4 mali komad, (112 g)</li>
+                        <li>Rajčica, 1 veliki plod, (180 g)</li>
+                        <li>Kupus, kiseli, 2.5 šalica, (500 g)</li>
+                        <li>Luk, mladi, 0.4 šalica, (40 g)</li>
+                        <li>Paprika, zelena, izrezana, 1 šalica, (121 g)</li>
+                        <li>Ulje, suncokretovo, 5 čajna žličica, (21.5 g)</li>
+                        <li>Krumpir, mladi, kuhan u neposoljenoj vodi, 2 srednji plod, (280 g)</li>
+                        <li>Kruh, crni, prosjek, 1 kriška, (70 g)</li>
+                        <li>Keksi sa zobenim i pšeničnim brašnom, 3 komad, (30 g)</li>
+                    </ul>
+                    <p>Pirjana svinjetina s povrćem, kuhani krumpir, kruh i desert.</p>
+                    <hr />
+                    <h4>popodnevna užina</h4>
+                    <ul>
+                        <li>Jogurt od djelomično obrana mlijeka, 0.75 šalica, (180 g)</li>
+                        <li>Kruška, 2.5 srednji plod, (325 g)</li>
+                    </ul>
+                    <hr />
+                    <h4>večera</h4>
+                    <ul>
+                        <li>Riba, bijela, prosjek, 3 mali komad, (84 g)</li>
+                        <li>Riža, bijela, 4 jušna žlica, (34 g)</li>
+                        <li>Luk, mladi, 0.4 šalica, (40 g)</li>
+                        <li>Tikvice, izrezane, 1.5 šalica, (128 g)</li>
+                        <li>Ulje, suncokretovo, 1.5 čajna žličica, (6,4 g)</li>
+                        <li>Kruh, crni, prosjek, 2 kriška, (70 g)</li>
+                    </ul>
+                    <p>Pečena riba i povrtni rižoto.</p>
+                    <hr />
+                    <h4>obrok pred spavanje</h4>
+                    <ul>
+                        <li>Mlijeko, kozje, 3,7 % m. m., pasterizirano, 0.5 šalica, (125 g)</li>
+                        <li>Šećer, bijeli, 2 čajna žličica, (8 g)</li>
+                        <li>Čokolada, mliječna, 0.3 porcija, (15 g)</li>
+                    </ul>
+                    <p>Čokoladno kozje mlijeko</p>
+                    <hr />
+                </div>
+                <div>
+                    <h3>Analiza jelovnika</h3>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            Analizom jelovnika je vidljivo da su svi parametri unutar preporućenih vrijednosti
+                        </div>
+                    </div>
+                    <div class="row well">
+                        <div class="col-sm-4">
+                            <h4>Energetska vrijednost</h4>
+                            <img src="assets/img/ppweb/izrada_uravnotezenog_jelovnika/energija_1.jpg" class="img-thumbnail" />
+                        </div>
+                        <div class="col-sm-4">
+                            <h4>Jedinična serviranja</h4>
+                            <img src="assets/img/ppweb/izrada_uravnotezenog_jelovnika/jedinicna_serviranja_1.jpg" class="img-thumbnail" />
+                        </div>
+                        <div class="col-sm-4">
+                            <h4>Raspored po obrocima</h4>
+                            <img src="assets/img/ppweb/izrada_uravnotezenog_jelovnika/raspored_po_obrocima_1.jpg" class="img-thumbnail" />
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+            <p>Pomoću web aplikacije <strong><a href="/app" target="_blank">Program Prehrane Web</a></strong> moguće je, uz već spomenutu energetsku vrijednost, jedinična serviranja i energetski udio po obrocima pratiti, pratitio i odnose makro i mikronutritivnih vrijednosti jelovnika.</p>
+            <p>Aplikacija daje preporućene, maksimalne i minimalne vrijednosti.</p>
+            <div class="row">
+                <div class="col-sm-8">
+                    <h4>Nutrijenti</h4>
+                    <img src="assets/img/ppweb/izrada_uravnotezenog_jelovnika/nutrijenti.jpg" class="img-thumbnail" />
+                </div>
+                <div class="col-sm-4">
+                    <h4>Mikronutrijenti</h4>
+                    <img src="assets/img/ppweb/izrada_uravnotezenog_jelovnika/parametri.jpg" class="img-thumbnail" />
+                </div>
+            </div>
+        </div>
+
+        <div class="pt60">
+            <h4>Raznovrsnost i odabir namirnica</h4>
+            <p class="text-justify">
+                Potreba za konzumiranjem raznovrsne hrane proizlazi iz činjenice da ne postoji hrana (osim mlijeka u prvim mjesecima života) čijom se konzumacijom u cijelosti mogu zadovoljiti dnevne energetske i nutritivne potrebe.
+                Samo pravilnim odabirom različitih namirnica iz svih skupina, prehrana biva uravnotežena, a jela zanimljiva. Potrebno je konzumirati barem tri glavna obroka i u svaki od njih uključiti namirnice iz najmanje tri različite skupine.
+                Prednost treba dati namirnicama u njihovu izvornom (neprerađenom) obliku te, kada je god moguće, obroke pripremati kod kuće kako bi se imao uvid u njihov sastav.
+                Svježe pripremljena hrana općenito je kvalitetnija od gotove, a od načina pripreme preporučuje se kuhanje, pirjanje, roštiljanje ili pečenje u vatrostalnoj posudi.
+                Uz pomoć web aplikacije <strong><a href="/app" target="_blank">Program Prehrane Web</a></strong> slijede se preporuke o odnosu energetskih vrijednosti jelovnika i zastupljenosti jediničnih serviranja u njima s ciljem da jelovnik bude uravnotežen s adekvatnim energetskim i nutritivnim vrijednostima.
+            </p>
+            <br />
+            <h4>Važnost žvakanja hrane</h4>
+            <p class="text-justify">
+                Hranu je potrebno konzumirati u ugodnoj atmosferi i dobro je sažvakati jer se na taj način olakšava njezina probava te apsorpcija i iskoristivost nutrijenata.
+                Žvakanjem hrane potiče se izlučivanje sline, čime se snižava kiselost medija, što pomaže u sprječavanju pojave karijesa. Još jednom je primjetna važnost konzumiranja neprerađene hrane (primjerice voća i povrća te cjelovitih žitarica) jer ona zahtijeva dugo žvakanje.
+                Kako bi se omogućilo pravilno žvakanje, potrebno je održavati zdravlje i higijenu usne šupljine.
+                Nadalje, žvakanjem hrane šalju se impulsi mozgu da je hrana unesena u organizam, a što je ono dugotrajnije, mozak prima više impulsa. Iz ovoga se može zaključiti kako se nedovoljnim žvakanjem hrane teže kontrolira njezin unos, sitost se javlja sa zakašnjenjem, a sve to doprinosi povišenju tjelesne mase.
+            </p>
+            <br />
+            <h4>
+                Bioritam i konzumiranje obroka
+            </h4>
+            <p class="text-justify">
+                Potrebno je spomenuti kako je za uravnoteženu prehranu i održavanje primjerene tjelesne mase važan bioritam. Samo odmorni i naspavani možemo dobro obavljati svoje dnevne zadatke te biti tjelesno aktivni, što pridonosi sprječavanju nagomilavanja prekomjerne tjelesne mase.
+                U različito doba dana sposobnost je organizma za obavljanje fizičkih i umnih napora različita, a različita je i njegova sposobnost za probavu hrane. Preporučljivo je poći spavati do 23 sata, a ujutro se probuditi do 7 i doručkovati do 8 sati. Ručak bi trebalo konzumirati od 12 do 14, a večeru, koja treba biti kompletna, no lakše probavljiva, do 20 sati.
+                Preporučuje se unošenje i međuobrokâ, posebice u slučaju redukcijskih dijeta, zato što oni daju osjećaj sitosti, čime se sprječava prejedanje tijekom glavnih obroka. Obroke bi trebalo konzumirati u približno isto vrijeme, što pozitivno djeluje, ne samo na metabolizam, nego i na ritam života.
+            </p>
+        </div>
+        <em>(dio teksta preuzet iz priručnika "Sam svoj nutricionist" - računalni program <a href="program-prehrane-5.html" target="_blank">Program Prehrane 5.0</a>)</em>
+
+    </div>
+
+    <footer class="container text-center pt60">
+        <div class="navbar-fixed-bottom m10">
+            <a href="#home" title="Na vrh">
+                <span class="fa fa-chevron-up fa-2x"></span>
+            </a>
+        </div>
+        <hr />
+        <div>
+            <span class="pull-left">Copyright © 2018 IG PROG</span>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+
+</body>
+</html>

@@ -97,6 +97,12 @@
                     </div>
                 </div>
             </div>
+            <div ng-if="config.debug" class="col-sm-6">
+                <a href="assets/3d/body.html?bmi:25" target="_blank" class="btn btn-default"><span class="text-primary"><i class="fa fa-arrows-alt"></i> {{'full screen' | translate}}</span></a>
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="assets/3d/body.html?bmi:25" allowfullscreen></iframe>
+                </div>
+            </div>
         </div>
         <ul class="nav nav-tabs mt20">
             <li ng-class="subTpl=='pal'?'active':''" ng-click="toggleSubTpl('pal')"><a href="#" ng-click="toggleSubTpl('pal')"><i class="fa fa-bicycle"></i> <span class="hidden-xs">{{'physical activity level' | translate}}</span></a></li>
