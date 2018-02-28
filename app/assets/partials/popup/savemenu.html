@@ -24,6 +24,7 @@
                 <div class="row pull-right">
                     <a href="" class="btn btn-primary m10" ng-click="confirm(d.currentMenu, false)"><i class="fa fa-floppy-o"></i> <span>{{'save' | translate}}</span></a>
                     <a href="" class="btn btn-primary m10" ng-click="confirm(d.currentMenu, true)"><i class="fa fa-plus"></i> <span>{{'save as new' | translate}}</span></a>
+                    <a ng-if="d.config.debug" href="" class="btn btn-danger m10" ng-click="saveAppMenu(d.currentMenu, false)"><i class="fa fa-floppy-o"></i> <span>{{'save as app menu' | translate}}</span></a>
                 </div>
             </div>
 

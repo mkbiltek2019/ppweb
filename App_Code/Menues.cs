@@ -243,10 +243,36 @@ public class Menues : System.Web.Services.WebService {
             return json;
         } catch (Exception e) { return (e.Message); }
     }
+
+    [WebMethod]
+    public string SaveAppMenu(NewMenu x, string lang) {
+            try {
+            string id = Convert.ToString(Guid.NewGuid());
+            string sql = string.Format(@"BEGIN;
+                    INSERT OR REPLACE INTO menues (id, title, diet, note, energy, language)
+                    VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}');
+                    COMMIT;", id, x.title, x.diet, x.note, x.energy, lang);
+            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath(string.Format("~/App_Data/{0}", appDataBase)));
+            connection.Open();
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+            command = new SQLiteCommand(sql, connection);
+            command.ExecuteNonQuery();
+            connection.Close();
+            SaveAppMenuJsonToFile(id, lang, JsonConvert.SerializeObject(x.data, Formatting.Indented));
+            string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+            return json;
+        } catch (Exception e) { return (e.Message); }
+    }
     #endregion
 
 
     #region Methods
+    public void SaveAppMenuJsonToFile(string id, string lang, string json) {
+        string path = string.Format(@"~/App_Data/menues/{0}", lang);
+        string filepath = string.Format(@"~/App_Data/menues/{0}/{1}.json", lang, id);
+        CreateFolder(path);
+        WriteFile(filepath, json);
+    }
     public void SaveJsonToFile(string userId, string filename, string json) {
             string path = "~/App_Data/users/" + userId + "/menues";
             string filepath = path + "/" + filename + ".json";

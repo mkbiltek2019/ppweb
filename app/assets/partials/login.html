@@ -1,12 +1,12 @@
 ﻿<div ng-controller="loginCtrl">
-    <div class="text-center hidden-xs" style="padding-top:20px">
+    <div class="text-center hidden-xs" style="padding-top:40px; color:white">
         <h3 class="text-uppercase">{{config.title | translate}}</h3>
-        <h5>{{config.shortDescription | translate}}</h5>
+        <h4><em>{{config.shortDescription | translate}}</em></h4>
     </div>
     <div class="col-md-4 col-md-offset-4 mt20">
         <ul class="nav nav-tabs">
-            <li ng-class="tpl=='loginTpl'?'active':''" ng-click="toggleTpl('loginTpl')"><a href="#"><i class="fa fa-sign-in"></i> <span>{{'login' | translate}}</span></a></li>
-            <li ng-class="tpl=='singupTpl'?'active':''"><a href="#" ng-click="toggleTpl('singupTpl')"><i class="fa fa-user-plus"></i> <span>{{'sing up' | translate}}</span></a></li>
+            <li ng-class="tpl=='loginTpl'?'active':'inactive'" ng-click="toggleTpl('loginTpl')"><a href="#"><i class="fa fa-sign-in"></i> <span class="text-capitalize">{{'login' | translate}}</span></a></li>
+            <li ng-class="tpl=='singupTpl'?'active':'inactive'"><a href="#" ng-click="toggleTpl('singupTpl')"><i class="fa fa-user-plus"></i> <span class="text-capitalize">{{'sing up' | translate}}</span></a></li>
         </ul>
         <div ng-include="tpl" class="loginBox"></div>
     </div>
@@ -17,11 +17,11 @@
         <form id="loginform">
             <div class="input-group mt10">
                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                <input ng-init="config.debug==true?userName='igprog@yahoo.com':''" ng-model="userName" type="text" class="form-control" name="email" placeholder="{{'user name' | translate}}">
+                <input ng-model="userName" type="text" class="form-control" name="email" placeholder="{{'user name' | translate}}">
             </div>
             <div class="input-group mt10">
                 <span class="input-group-addon"><i class="fa fa-unlock-alt"></i></span>
-                <input ng-init="config.debug==true?password='1':''" ng-model="password" type="password" class="form-control" name="password" placeholder="{{'password' | translate}}">
+                <input ng-model="password" type="password" class="form-control" name="password" placeholder="{{'password' | translate}}">
             </div>
             <div class="form group mt10">
                 <select ng-model="config.language" ng-change="setLanguage(config.language)" class="form-control">
@@ -33,7 +33,7 @@
             </div>
         </form>
         <div class="text-right mt10">
-            <button type="submit" form="loginform" ng-click="login(userName, password)" class="btn btn-primary"><span class="fa fa-unlock-altfa fa-key" aria-hidden="true"></span> {{'login' | translate}}</button>
+            <button type="submit" form="loginform" ng-click="login(userName, password)" class="btn btn-primary"><span class="fa fa-unlock-altfa fa-key" aria-hidden="true"></span> <span class="text-capitalize">{{'login' | translate}}</span></button>
         </div>
         <div class="text-right mt10">
             <a href="" ng-click="forgotPasswordPopup()">{{'forgot your password' | translate}}?</a>

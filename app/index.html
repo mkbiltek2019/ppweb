@@ -45,29 +45,30 @@
     </style>
 </head>
 <body ng-app="app" ng-controller="AppCtrl" style="height:auto" ng-cloak>
-    <nav class="navbar navbar-inverse noprint">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <!--<a class="navbar-brand text-capitalize" href="{{config.webpageurl}}" target="_blank">{{config.webpage}}</a>-->
-                <a class="navbar-brand" href="{{config.webpageurl}}" target="_blank" style="padding-top:2px !important"><img src="assets/img/logo.png"></a>
-            </div>
-            <div class="collapse navbar-collapse" id="myNavbar">
-                <ul class="nav navbar-nav navbar-right text-right">
-                    <!--<li>
+    <div ng-class="!isLogin?'background':''">
+        <nav class="navbar navbar-inverse noprint">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <!--<a class="navbar-brand text-capitalize" href="{{config.webpageurl}}" target="_blank">{{config.webpage}}</a>-->
+                    <a class="navbar-brand" href="{{config.webpageurl}}" target="_blank" style="padding-top:2px !important"><img src="assets/img/logo.png"></a>
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav navbar-right text-right">
+                        <!--<li>
                         <a href="#" ng-click="toggleTpl('assets/partials/dashboard.html')"><i class="fa fa-tachometer fa-fw"></i> <span>{{'application' | translate}}</span></a>
                     </li>-->
-                    <li ng-if="isLogin&&config.debug">
-                        <a href="#" ng-click="toggleTpl('scheduler.html')"><i class="fa fa-calendar fa-fw"></i> <span>{{'scheduler' | translate}}</span></a>
-                    </li>
-                    <li ng-if="isLogin&&config.debug">
-                        <a href="#" ng-click="toggleTpl('settings.html')"><i class="fa fa-cogs fa-fw"></i> <span>{{'settings' | translate}}</span></a>
-                    </li>
-                    <!--<li class="dropdown">
+                        <li ng-if="isLogin&&config.debug">
+                            <a href="#" ng-click="toggleTpl('scheduler.html')"><i class="fa fa-calendar fa-fw"></i> <span>{{'scheduler' | translate}}</span></a>
+                        </li>
+                        <li ng-if="isLogin&&config.debug">
+                            <a href="#" ng-click="toggleTpl('settings.html')"><i class="fa fa-cogs fa-fw"></i> <span>{{'settings' | translate}}</span></a>
+                        </li>
+                        <!--<li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-language fa-fw"></i> {{'language' | translate}}</a>
                         <ul class="dropdown-menu  dropdown-user text-right">
                             <li>
@@ -79,55 +80,55 @@
                             </li>
                         </ul>
                     </li>-->
-                    <li>
-                        <a href="../uputa.html" target="_blank"><i class="fa fa-question fa-fw"></i> <span>{{'help' | translate}}</span></a>
-                    </li>
-                    <li>
-                        <a href="#" ng-click="toggleTpl('info.html')"><i class="fa fa-info fa-fw"></i> <span>{{'info' | translate}}</span></a>
-                    </li>
+                        <li>
+                            <a href="../uputa.html" target="_blank"><i class="fa fa-question fa-fw"></i> <span>{{'help' | translate}}</span></a>
+                        </li>
+                        <li>
+                            <a href="#" ng-click="toggleTpl('info.html')"><i class="fa fa-info fa-fw"></i> <span>{{'info' | translate}}</span></a>
+                        </li>
 
-                    <li ng-if="isLogin" class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-user fa-fw"></i> <span>{{'user' | translate}}: {{loginUser.firstName}} {{loginUser.lastName}}</span> <i class="fa fa-caret-down"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-user text-right">
-                            <li>
-                                <a href="#" ng-click="toggleTpl('user.html', 8)"><i class="fa fa-user fa-fw"></i> {{'user profile' | translate}}</a>
-                            </li>
-                            <li ng-if="loginUser.adminType==0" >
-                                <a href="#" ng-click="toggleTpl('users.html', 9)"><i class="fa fa-users fa-fw"></i> {{'users' | translate}}</a>
-                            </li>
-                            <li ng-if="loginUser.adminType==0" >
-                                <a href="#" ng-click="toggleTpl('newuser.html', 10)"><i class="fa fa-user-plus fa-fw"></i> {{'new user' | translate}}</a>
-                            </li>
-                            <li>
-                                <a href="" ng-click="logout()"><i class="fa fa-sign-out fa-fw"></i> <span>{{'logout' | translate}}</span></a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+                        <li ng-if="isLogin" class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-user fa-fw"></i> <span>{{'user' | translate}}: {{loginUser.firstName}} {{loginUser.lastName}}</span> <i class="fa fa-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user text-right">
+                                <li>
+                                    <a href="#" ng-click="toggleTpl('user.html', 8)"><i class="fa fa-user fa-fw"></i> {{'user profile' | translate}}</a>
+                                </li>
+                                <li ng-if="loginUser.adminType==0">
+                                    <a href="#" ng-click="toggleTpl('users.html', 9)"><i class="fa fa-users fa-fw"></i> {{'users' | translate}}</a>
+                                </li>
+                                <li ng-if="loginUser.adminType==0">
+                                    <a href="#" ng-click="toggleTpl('newuser.html', 10)"><i class="fa fa-user-plus fa-fw"></i> {{'new user' | translate}}</a>
+                                </li>
+                                <li>
+                                    <a href="" ng-click="logout()"><i class="fa fa-sign-out fa-fw"></i> <span>{{'logout' | translate}}</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
             </div>
+        </nav>
+        <div>
+            <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around" class="text-center">
+                <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
+            </div>
+            <div ng-if="showTabs() && mainMessage && isLogin" class="alert alert-success alert-dismissable text-center m10" style="height:auto !important">
+                <strong>
+                    <i class="fa fa-info-circle fa-2x" aria-hidden="true"></i><span class="text-capitalize ml5">{{mainMessage}}</span>
+                    <strong class="btn btn-danger ml10" ng-click="toggleTpl('order.html')"><i class="fa fa-hand-o-right fa-2x" aria-hidden="true"></i><span class="text-uppercase ml5">{{'activate full version' | translate}}</span></strong>
+                </strong>
+            </div>
+            <div ng-show="!loading" class="container" ng-include="currTpl" style="margin-bottom:50px"></div>
 
-        </div>
-    </nav>
-    <div>
-        <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around" class="text-center">
-            <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
-        </div>
-
-        <div></div>
-        <div ng-if="showTabs() && mainMessage && isLogin" class="alert alert-success alert-dismissable text-center m10" style="height:auto !important">
-            <strong>
-                <i class="fa fa-info-circle fa-2x" aria-hidden="true"></i><span class="text-capitalize ml5">{{mainMessage}}</span>
-                <strong class="btn btn-danger ml10" ng-click="toggleTpl('order.html')"><i class="fa fa-hand-o-right fa-2x" aria-hidden="true"></i><span class="text-uppercase ml5">{{'activate full version' | translate}}</span></strong>
-            </strong>
-        </div>
-        <div ng-show="!loading" class="container" ng-include="currTpl" style="margin-bottom:50px"></div>
-
-        <div class="text-right navbar-fixed-bottom" style="padding:5px 10px 0px 0px">
-            <a href="https://www.igprog.hr" target="_blank" class="text-muted small">&copy {{today | date:'yyyy'}} {{config.copyright}}</a>
+            <div class="text-right navbar-fixed-bottom" style="padding:5px 10px 0px 0px">
+                <a href="https://www.igprog.hr" target="_blank" class="text-primary small">&copy {{today | date:'yyyy'}} {{config.copyright}}</a>
+            </div>
         </div>
     </div>
+   
 
     <script src="assets/js/app.js?v=2"></script>
     <script src="assets/js/functions.js?v=1.0.0"></script>

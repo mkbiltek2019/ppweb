@@ -361,7 +361,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 $rootScope.isLogin = true;
                 $rootScope.loadData();
 
-                $rootScope.getUserSettings();
+             //   $rootScope.getUserSettings();  //TODO
 
 
                 if ($rootScope.user.licenceStatus == 'expired') {
@@ -2326,7 +2326,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                //   alert(response.data.d);
                   //window.open($sessionStorage.config.backend + '/App_Data/users/' + $rootScope.user.userId + '/pdf/' + fileName + '.pdf', + '_blank');
                   //  window.open($sessionStorage.config.backend + 'pdf/users/' + $rootScope.user.userId + '/pdf/' + fileName + '.pdf');
-                  $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userId + '/pdf/' + fileName + '.pdf';
+               //   $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userId + '/pdf/' + fileName + '.pdf';
               },
               function (response) {
                   alert(response.data.d)
@@ -2357,6 +2357,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $rootScope.currentMenu = x;
             $rootScope.clientData.meals = x.data.meals;
             getTotals($rootScope.currentMenu);
+            $rootScope.currentMeal = 'B';
         }, function () {
         });
     };
@@ -2487,7 +2488,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             templateUrl: 'assets/partials/popup/savemenu.html',
             parent: angular.element(document.body),
             clickOutsideToClose: true,
-            d: { currentMenu: $rootScope.currentMenu, client: $rootScope.client, totals: $rootScope.totals }
+            d: { currentMenu: $rootScope.currentMenu, client: $rootScope.client, totals: $rootScope.totals, config: $sessionStorage.config }
         })
        .then(function (x) {
            $rootScope.currentMenu = x;
@@ -2534,6 +2535,33 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             x.energy = d.totals.energy;
             x.date = new Date(new Date().setHours(0, 0, 0, 0));
             save(x);
+        }
+
+
+        var saveAppMenu = function (currentMenu) {
+            if (currentMenu.title == '' || currentMenu.title == undefined) {
+                document.getElementById("txtMenuTitle").focus();
+                functions.alert($translate.instant('enter menu name'), '');
+                openSaveMenuPopup();
+                return false;
+            }
+            currentMenu.diet = d.client.clientData.diet.diet;
+            $http({
+                url: $sessionStorage.config.backend + 'Menues.asmx/SaveAppMenu',
+                method: "POST",
+                data: { x: currentMenu, lang: $rootScope.config.language }
+            })
+          .then(function (response) {
+              functions.alert('ok', '');
+          },
+          function (response) {
+              functions.alert($translate.instant(response.data.d), '');
+          });
+        }
+
+        $scope.saveAppMenu = function (x) {
+            x.energy = d.totals.energy;
+            saveAppMenu(x);
         }
     };
 
@@ -3765,8 +3793,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { userId: $sessionStorage.usergroupid, fileName: fileName, currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData, totals: $rootScope.totals, lang: $rootScope.config.language }
         })
           .then(function (response) {
-              $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
-              window.open($scope.pdfLink, '_blank');
+            //  $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
+            //  window.open($scope.pdfLink, '_blank');
           },
           function (response) {
               alert(response.data.d)
