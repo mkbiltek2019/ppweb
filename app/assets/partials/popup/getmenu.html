@@ -1,7 +1,7 @@
 ﻿<md-dialog flex layout-margin>
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2>{{'open menu' | translate}}</h2>
+                <h2 class="text-capitalize">{{'menues' | translate}}</h2>
                 <span flex></span>
                 <button ng-click="cancel()" class="btn btn-primary">x</button>
             </div>
@@ -11,10 +11,10 @@
             <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
         </div>
         <div ng-show="!loading" class="md-dialog-content">
-            <div ng-if="config.debug" class="row p10">
+            <div class="row p10">
                 <md-radio-group layout="row" ng-model="loadType">
-                    <md-radio-button value="0" class="md-primary" ng-click="load()">{{'my menues' | translate}}</md-radio-button>
-                    <md-radio-button value="1" class="md-primary" ng-click="loadAppMenues()">{{'menu examples' | translate}}</md-radio-button>
+                    <md-radio-button value="0" class="md-primary" ng-click="load()"><span class="text-capitalize">{{'my menues' | translate}}</span></md-radio-button>
+                    <md-radio-button value="1" class="md-primary" ng-click="loadAppMenues()"><span class="text-capitalize">{{'menu examples' | translate}}</span></md-radio-button>
                 </md-radio-group>
             </div>
             <div class="row">
@@ -46,7 +46,7 @@
                     </tr>
                     <tr ng-if="type==1?x.client.clientId==clientData.clientId:x.client.clientId!=null" ng-repeat="x in d | filter:searchValue" ng-click="confirm(x)">
                         <td class="novrap">{{x.title}}</td>
-                        <td class="novrap">{{x.diet}}</td>
+                        <td class="novrap">{{x.diet | translate}}</td>
                         <td class="novrap"><span ng-if="x.energy>0">{{x.energy | number:0}} {{'kcal' | translate}}</span></td>
                         <td>{{x.date | date:'dd.MM.yyyy'}}</td>
                         <td class="novrap">{{x.note}}</td>
@@ -64,7 +64,7 @@
                     </tr>
                     <tr ng-repeat="x in d | filter:searchValue" ng-click="confirm(x)">
                         <td class="novrap">{{x.title}}</td>
-                        <td class="novrap">{{x.diet}}</td>
+                        <td class="novrap">{{x.diet | translate}}</td>
                         <td class="novrap"><span ng-if="x.energy>0">{{x.energy | number:0}} {{'kcal' | translate}}</span></td>
                         <td class="novrap">{{x.note}}</td>
                     </tr>

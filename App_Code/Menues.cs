@@ -76,7 +76,7 @@ public class Menues : System.Web.Services.WebService {
             connection.Open();
             string sql = @"SELECT id, title, diet, date, note, userId, clientId, userGroupId, energy
                         FROM menues
-                        ORDER BY date DESC";
+                        ORDER BY rowid DESC";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             List<NewMenu> xx = new List<NewMenu>();
             Clients.Client client = new Clients.Client();
@@ -197,7 +197,7 @@ public class Menues : System.Web.Services.WebService {
             connection.Open();
             string sql = string.Format(@"SELECT id, title, diet, note, energy
                         FROM menues WHERE language = '{0}'
-                        ORDER BY title ASC", lang);
+                        ORDER BY rowid ASC", lang);
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             List<NewMenu> xx = new List<NewMenu>();
             Clients.Client client = new Clients.Client();
