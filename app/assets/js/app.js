@@ -2362,12 +2362,15 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         });
     };
 
-    var getMenuPopupCtrl = function ($scope, $mdDialog, $http, clientData, config) {
+    var getMenuPopupCtrl = function ($scope, $mdDialog, $http, clientData, config, $translate, $translatePartialLoader, $timeout) {
         $scope.clientData = clientData;
         $scope.config = config;
         $scope.loadType = 0;
         $scope.type = 0;
         $scope.appMenues = false;
+        $scope.toTranslate = false;
+        $scope.toLanguage = '';
+
         var load = function () {
             $scope.loading = true;
             $scope.appMenues = false;
@@ -2426,7 +2429,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $http({
                 url: $sessionStorage.config.backend + 'Menues.asmx/Get',
                 method: "POST",
-                data: { userId: $rootScope.user.userGroupId, id: x.id }
+                data: { userId: $rootScope.user.userGroupId, id: x.id,  }
             })
             .then(function (response) {
                 var menu = JSON.parse(response.data.d);
@@ -2456,10 +2459,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $http({
                 url: $sessionStorage.config.backend + 'Menues.asmx/GetAppMenu',
                 method: "POST",
-                data: { id: x.id, lang: $rootScope.config.language }
+                data: { id: x.id, lang: $rootScope.config.language, toTranslate: $scope.toTranslate }
             })
             .then(function (response) {
                 var menu = JSON.parse(response.data.d);
+                if ($scope.toTranslate == true) {
+                    translateFoods(menu);
+                }
                 $mdDialog.hide(menu);
             },
             function (response) {
@@ -2469,6 +2475,26 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         $scope.confirm = function (x) {
             $scope.appMenues == true ? getAppMenu(x) : get(x);
+        }
+
+        $scope.setToTranslate = function (x) {
+            $scope.toTranslate = x;
+        }
+
+        $scope.setToLanguage = function (x) {
+            $scope.toLanguage = x;
+        }
+
+        var translateFoods = function (menu) {
+            $rootScope.setLanguage($scope.toLanguage);
+             $timeout(function () {
+                 angular.forEach(menu.data.selectedFoods, function (value, key) {
+                     value.food = $translate.instant(value.food);
+                     value.unit = $translate.instant(value.unit);
+                 })
+                 $mdDialog.hide(menu);
+                 $rootScope.setLanguage('hr');
+              }, 500);
         }
 
     };

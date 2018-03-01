@@ -61,8 +61,8 @@
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-book"></i> Dokumentacija<span class="caret"></span></a>
                         <ul class="dropdown-menu" style="background-color:#337ab7">
-                            <li class="p5"><a href="uputa.html"><i class="fa fa-question-circle"></i> Uputa</a></li>
-                            <li class="p5"><a href="izrada-uravnotezenog-jelovnika.html"><i class="fa fa-cutlery"></i> Izrada uravnoteženog jelovnika</a></li>
+                            <li style="padding:5px"><a href="uputa.html"><i class="fa fa-question-circle"></i> Uputa</a></li>
+                            <li style="padding:5px"><a href="izrada-uravnotezenog-jelovnika.html"><i class="fa fa-cutlery"></i> Izrada uravnoteženog jelovnika</a></li>
                         </ul>
                     </li>
                     <li><a href="#contact"><i class="fa fa-comment"></i> Kontakt</a></li>
@@ -229,42 +229,49 @@
         </div>
 
         <div class="row slideanim">
-                <div class="panel panel-primary col-md-6 col-md-offset-3 text-center"  style="padding:0">
-                    <div class="panel-heading">
-                        <p>Program Prehrane</p>
-                        <h1>Web</h1>
-                    </div>
-                    <div class="panel-body">
-                        <h4>Karakteristike / funkcionalnosti</h4>
-                        <!--<p>Web aplikacija</p>
-                        <p>Web Browser (Chrome, Firefox, IE9+...)</p>-->
-                        <hr />
-                        <ul class="list-group">
-                            <li class="list-group-item">660 namirnica i jela</li>
-                            <li class="list-group-item">39 mikronutrijenata i ostalih parametara</li>
-                            <li class="list-group-item">428 tjelesnih aktivnosti</li>
-                            <li class="list-group-item">24 Vrste prehrane/dijete</li>
-                            <li class="list-group-item">Izračun BMI i energetske potrošnje</li>
-                            <li class="list-group-item">Detaljni izračun energetske potrošnje</li>
-                            <li class="list-group-item">Odabir dodatne tjelesne aktivnosti</li>
-                            <li class="list-group-item">Odabir vrste prehrane/dijete</li>
-                            <li class="list-group-item">Odabir broja obroka</li>
-                            <li class="list-group-item">Izrada jelovnika</li>
-                            <li class="list-group-item">Izrada jelovnika/normativa za skupine konzumenata</li>
-                            <li class="list-group-item">Unos vlastitih namirnica</li>
-                            <li class="list-group-item">Izrada cjenika</li>
-                            <li class="list-group-item">Automatsko slanje jelovnika na e-mail klijenta</li>
-                            <li class="list-group-item">Baza klijenata</li>
-                            <li class="list-group-item">Praćenje antropometrijskih parametara</li>
-                        </ul>
-                    </div>
-                    <div class="panel-footer">
-                        <h3>550.00 kn</h3>
-                        <h4>godišnje</h4>
-                        <a href="#registration" class="btn btn-primary"><i class="fa fa-sign-in"></i> Registracija</a>
-                        <a ng-controller="orderCtrl" href="" class="btn btn-success" ng-click="order('Program Prehrane Web','')"><i class="fa fa-shopping-cart"></i> Narudžba</a>
-                    </div>
+            <div class="panel panel-primary col-md-6 col-md-offset-3 text-center" style="padding:0">
+                <div class="panel-heading">
+                    <h3>Web Aplikacija</h3>
+                    <h1>Program Prehrane Web</h1>
                 </div>
+                <div class="panel-body">
+                    <h4>Karakteristike / funkcionalnosti</h4>
+                    <hr />
+                    <ul class="list-group">
+                        <li class="list-group-item">660 namirnica i jela</li>
+                        <li class="list-group-item">39 mikronutrijenata i ostalih parametara</li>
+                        <li class="list-group-item">428 tjelesnih aktivnosti</li>
+                        <li class="list-group-item">24 Vrste prehrane/dijete</li>
+                        <li class="list-group-item">Izračun BMI i energetske potrošnje</li>
+                        <li class="list-group-item">Detaljni izračun energetske potrošnje</li>
+                        <li class="list-group-item">Odabir dodatne tjelesne aktivnosti</li>
+                        <li class="list-group-item">Odabir vrste prehrane/dijete</li>
+                        <li class="list-group-item">Odabir broja obroka</li>
+                        <li class="list-group-item">Izrada jelovnika</li>
+                        <li class="list-group-item">Izrada jelovnika/normativa za skupine konzumenata</li>
+                        <li class="list-group-item">Primjeri jelovnika</li>
+                        <li class="list-group-item">Unos vlastitih namirnica</li>
+                        <li class="list-group-item">Izrada cjenika</li>
+                        <li class="list-group-item">Automatsko slanje jelovnika na e-mail klijenta</li>
+                        <li class="list-group-item">Baza klijenata</li>
+                        <li class="list-group-item">Praćenje antropometrijskih parametara</li>
+                    </ul>
+                </div>
+                <div class="panel-footer">
+                    <h3>550.00 kn</h3>
+                    <h4>godišnje</h4>
+                    <a href="#registration" class="btn btn-primary"><i class="fa fa-sign-in"></i> Registracija</a>
+                    <a ng-controller="orderCtrl" href="" class="btn btn-success" ng-click="order('Program Prehrane Web','')"><i class="fa fa-shopping-cart"></i> Narudžba</a>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <h2>Dodatne usluge</h2>
+            <ul>
+                <li style="padding:5px">Kastomizacja aplikacije. (Prilagodba ili nadogradnja aplikacije prema Vašim specifičnim potrebama). <a href="#contact" class="btn btn-default">Cijena na upit</a></li>
+                <li style="padding:5px">Edukacija o korištenju aplikacije. <a href="#contact" class="btn btn-default">Cijena na upit</a></li>
+            </ul>
         </div>
     </div>
 

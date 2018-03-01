@@ -56,6 +56,17 @@
                     </tr>
                 </table>
                 <table ng-if="appMenues==true" class="table table-hover table-condensed">
+                    <tr ng-if="config.debug">
+                        <td><label><input ng-model="toTranslate" type="checkbox" ng-checked="setToTranslate(toTranslate)" /> {{'translate to' | translate}}: </label></td>
+                        <td ng-if="toTranslate==true">
+                            <select ng-model="toLanguage" ng-change="setToLanguage(toLanguage)" class="form-control">
+                                <option disabled="disabled" ng-selectd="true" value="">{{'choose language' | translate}}</option>
+                                <option ng-repeat="x in config.languages" value="{{x.code}}">
+                                    {{x.title | translate}}
+                                </option>
+                            </select>
+                        </td>
+                    </tr>
                     <tr>
                         <th>{{'title' | translate}}</th>
                         <th>{{'diet'| translate}}</th>

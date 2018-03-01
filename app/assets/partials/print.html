@@ -35,7 +35,7 @@
         <p ng-if="consumers > 1">{{'number of consumers' | translate}}: <strong>{{consumers}}</strong></p>
         <hr />
         <div ng-if="x.isSelected" ng-repeat="x in currentMenu.data.meals track by $index">
-            <label class="text-uppercase">{{x.title | translate}}</label>
+            <label class="text-uppercase">{{x.title}}</label>
             <div ng-if="x.description">
                 <em class="text-justify">{{x.description}}</em>
             </div>

@@ -218,7 +218,7 @@ public class Menues : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string GetAppMenu(string id, string lang) {
+    public string GetAppMenu(string id, string lang, bool toTranslate) {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath(string.Format("~/App_Data/{0}", appDataBase)));
             connection.Open();
@@ -238,7 +238,13 @@ public class Menues : System.Web.Services.WebService {
                 x.energy = reader.GetValue(4) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(4));
                 x.data = JsonConvert.DeserializeObject<JsonFile>(GetJsonFile(string.Format("~/App_Data/menues/{0}/{1}.json", lang, x.id)));
             }
+
+            if(toTranslate == true) {
+                x = TranslateManu(connection, x);
+            }
+
             connection.Close();
+
             string json = JsonConvert.SerializeObject(x, Formatting.Indented);
             return json;
         } catch (Exception e) { return (e.Message); }
@@ -331,6 +337,42 @@ public class Menues : System.Web.Services.WebService {
             connection.Close();
             return result;
         } catch (Exception e) { return false; }
+    }
+
+    private NewMenu TranslateManu(SQLiteConnection connection, NewMenu menu) {
+        try {
+            string sql = "SELECT id, food, unit FROM foods";
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+            List<FoodTran> xx = new List<FoodTran>();
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read()) {
+                FoodTran x = new FoodTran();
+                x.id = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
+                x.food = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
+                x.unit = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+                xx.Add(x);
+            }
+            foreach (Foods.NewFood f in menu.data.selectedFoods) {
+                FoodTran row = xx.Where(a => a.id == f.id).FirstOrDefault();
+                f.food = row.food;
+                f.unit = row.unit;
+            }
+            foreach (Foods.NewFood f in menu.data.selectedInitFoods) {
+                FoodTran row = xx.Where(a => a.id == f.id).FirstOrDefault();
+                f.food = row.food;
+                f.unit = row.unit;
+            }
+            return menu;
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
+
+    public class FoodTran {
+        public string id { get; set; }
+        public string food { get; set; }
+        public string unit { get; set; }
     }
 
     #endregion
