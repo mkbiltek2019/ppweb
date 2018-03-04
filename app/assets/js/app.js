@@ -2492,6 +2492,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                      value.food = $translate.instant(value.food);
                      value.unit = $translate.instant(value.unit);
                  })
+                 angular.forEach(menu.data.selectedInitFoods, function (value, key) {
+                     value.food = $translate.instant(value.food);
+                     value.unit = $translate.instant(value.unit);
+                 })
                  $mdDialog.hide(menu);
                  $rootScope.setLanguage('hr');
               }, 500);

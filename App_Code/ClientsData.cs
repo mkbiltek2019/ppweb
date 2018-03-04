@@ -58,10 +58,10 @@ public class ClientsData : System.Web.Services.WebService {
         //x.gender = new Clients.Gender();
         x.gender = GetGender(client.gender.value);
         x.gender.title = client.gender.title;
-        x.height = 175.0;
-        x.weight = 75.0;
-        x.waist = 100.0;
-        x.hip = 100.0;
+        x.height = 0;
+        x.weight = 0;
+        x.waist = 0;
+        x.hip = 0;
         //x.pal =  0.0;
         x.pal = new Calculations.Pal();
         x.goal = new Goals.NewGoal();  // null;

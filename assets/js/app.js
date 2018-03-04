@@ -105,6 +105,14 @@ angular.module('app', ['ngMaterial'])
 
     $scope.singup = function (user) {
         user.userName = user.email;
+        if (user.firstName == "" || user.lastName == "" || user.email == "" || user.password == "" || user.passwordConfirm == "") {
+            alert('Sva polja su obavezna.');
+            return false;
+        }
+        if (user.password != $scope.passwordConfirm) {
+            alert('Lozinke moraju biti jednake.');
+            return false;
+        }
         $http({
             url: $rootScope.config.backend +  'Users.asmx/Singup',
             method: 'POST',
