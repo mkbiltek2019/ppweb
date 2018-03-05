@@ -13,10 +13,10 @@
                         <p><strong>{{currentMenu.title}}</strong><span ng-if="currentMenu.note"><em ng-if="currentMenu.note" class="text-small text-muted"> ({{currentMenu.note}})</em></span></p>
                         <div>
                             <select ng-model="currentMeal" ng-change="toggleMeals(currentMeal)" class="form-control visible-xs">
-                                <option ng-selected="x.code==currentMeal?true:false" value="{{x.code}}" ng-if="x.isSelected==1" ng-repeat="x in clientData.meals">{{x.title | translate}}</option>
+                                <option ng-selected="x.code==currentMeal?true:false" value="{{x.code}}" ng-if="x.isSelected==1" ng-repeat="x in clientData.meals" class="text-capitalize">{{x.title | translate}}</option>
                             </select>
                             <ul class="nav nav-tabs hidden-xs">
-                                <li ng-class="x.code==currentMeal?'active':''" ng-click="toggleMeals(x.code)" ng-if="x.isSelected==1" ng-repeat="x in clientData.meals"><a href="">{{x.title | translate}}</a></li>
+                                <li ng-class="x.code==currentMeal?'active':''" ng-click="toggleMeals(x.code)" ng-if="x.isSelected==1" ng-repeat="x in clientData.meals"><a href="" class="text-capitalize">{{x.title | translate}}</a></li>
                             </ul>
                         </div>
                         <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around">

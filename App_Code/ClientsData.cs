@@ -219,6 +219,29 @@ public class ClientsData : System.Web.Services.WebService {
     }
 
     [WebMethod]
+    public string UpdateClientLog(string userId, NewClientData clientData) {
+        try {
+            db.CreateDataBase(userId, db.clientsData);
+            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
+            connection.Open();
+            string sql = @"UPDATE clientsdata SET  
+                        clientId = @clientId, height = @height, weight = @weight, waist = @waist, hip = @hip
+                        WHERE clientId = @clientId AND rowid = @id";
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+            command = new SQLiteCommand(sql, connection);
+            command.Parameters.Add(new SQLiteParameter("clientId", clientData.clientId));
+            command.Parameters.Add(new SQLiteParameter("height", clientData.height));
+            command.Parameters.Add(new SQLiteParameter("weight", clientData.weight));
+            command.Parameters.Add(new SQLiteParameter("waist", clientData.waist));
+            command.Parameters.Add(new SQLiteParameter("hip", clientData.hip));
+            command.Parameters.Add(new SQLiteParameter("id", clientData.id));
+            command.ExecuteNonQuery();
+            connection.Close();
+            return "saved";
+        } catch (Exception e) { return ("Error: " + e.Message); }
+    }
+
+    [WebMethod]
     public string Delete(string userId, NewClientData clientData) {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));

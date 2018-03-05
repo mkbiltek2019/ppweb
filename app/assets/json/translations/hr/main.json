@@ -1551,7 +1551,10 @@
   "menues": "jelovnici",
   "forgot password": "zaboravljena lozinka",
   "enter your email": "upišite svoj e-mail",
-  "translate to": "prevedi na"
+  "translate to": "prevedi na",
+  "edit": "uredi",
+  "delete record": "briši zapis",
+  "record date": "datum zapisa"
 
 
 

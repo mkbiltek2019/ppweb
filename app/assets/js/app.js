@@ -1116,7 +1116,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 $rootScope.clientData = JSON.parse(response.data.d);
                 $rootScope.clientData.date = new Date(new Date().setHours(0, 0, 0, 0));
                 $scope.getPalDetails($rootScope.clientData.pal.value);
-                $scope.toggleTpl('inputData');
                 $rootScope.calculation = [];
             } else {
                 init(x);
@@ -1138,6 +1137,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
           $rootScope.pal = JSON.parse(response.data.d)
           $rootScope.pal.value = x;
           $rootScope.clientData.pal = $rootScope.pal;
+          $scope.toggleTpl('inputData');
       },
       function (response) {
           alert(response.data.d)
@@ -1162,8 +1162,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.removeClientLog = function (x, idx) {
         var confirm = $mdDialog.confirm()
-            .title($translate.instant('Delete Record') + ' ?')
-            .textContent($translate.instant('record date') + ': ' + $filter('date')(x.date, "dd.MM.yyyy") + ', mass: ' + x.weight + 'kg')
+            .title($translate.instant('delete record') + '?')
+            .textContent($translate.instant('record date') + ': ' + $filter('date')(x.date, "dd.MM.yyyy") + ', ' + $translate.instant('mass') + ': ' + x.weight + ' kg')
             .targetEvent(x)
             .ok($translate.instant('yes'))
             .cancel($translate.instant('no'));
@@ -1179,13 +1179,28 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             method: "POST",
             data: { userId: $sessionStorage.usergroupid, clientData: x }
         })
-    .then(function (response) {
-        $scope.getClientLog(x);
-    },
-    function (response) {
-        alert(response.data.d)
-    });
+        .then(function (response) {
+            $scope.getClientLog(x);
+        },
+        function (response) {
+            alert(response.data.d)
+        });
     }
+
+    $scope.updateClientLog = function (x) {
+        $http({
+            url: $sessionStorage.config.backend + 'ClientsData.asmx/UpdateClientLog',
+            method: "POST",
+            data: { userId: $sessionStorage.usergroupid, clientData: x }
+        })
+        .then(function (response) {
+            $scope.getClientLog(x);
+        },
+        function (response) {
+            alert(response.data.d)
+        });
+    }
+
 
     var getCalculation = function () {
         $http({

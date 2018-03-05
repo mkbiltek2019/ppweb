@@ -220,26 +220,31 @@
            
         </div>
 
-        <div class="table-responsive" style="height:200px">
+        <div class="table-responsive" style="height:300px; overflow-y: scroll; -webkit-overflow-scrolling: touch;">
             <table class="table table-condensed text-small">
                 <thead>
                     <tr>
-                        <th style="width:20%">{{'number' | translate}}</th>
-                        <th style="width:20%">{{'date' | translate}}</th>
-                        <th style="width:20%">{{'weight' | translate}}</th>
-                        <th style="width:20%">{{'waist' | translate}}</th>
-                        <th style="width:20%">{{'hip' | translate}}</th>
                         <th></th>
+                        <th>{{'number' | translate}}</th>
+                        <th>{{'date' | translate}}</th>
+                        <th>{{'height' | translate}}</th>
+                        <th>{{'weight' | translate}}</th>
+                        <th>{{'waist' | translate}}</th>
+                        <th>{{'hip' | translate}}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="x in clientLog | orderBy: '-id'">
-                        <td style="width:20%">{{clientLog.length - $index}}</td>
-                        <td style="width:20%">{{getDateFormat(x.date) | date:'dd.MM.yyyy'}}</td>
-                        <td style="width:20%">{{x.weight}}</td>
-                        <td style="width:20%">{{x.waist}}</td>
-                        <td style="width:20%">{{x.hip}}</td>
-                        <td class="borderNone"><a href="" style="color:red" ng-click="removeClientLog(x)" class="btn btn-default"><i class="fa fa-trash-o"></i></a></td>
+                        <td class="borderNone" style="width: 100px">
+                            <a href="" style="color:red" ng-click="removeClientLog(x)" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-trash-o"></i></a>
+                            <a href="" style="color:green" ng-click="updateClientLog(x)" class="btn btn-default" title="{{'save' | translate}}"><i class="fa fa-floppy-o"></i></a>
+                        </td>
+                        <td>{{clientLog.length - $index}}</td>
+                        <td>{{getDateFormat(x.date) | date:'dd.MM.yyyy'}}</td>
+                        <td style="min-width: 100px"><input ng-model="x.height" type="number" class="form-control" min="120" max="220" step="1" /></td>
+                        <td style="min-width: 100px"><input ng-model="x.weight" type="number" class="form-control" min="20" max="300" step="1" /></td>
+                        <td style="min-width: 100px"><input ng-model="x.waist" type="number" class="form-control" min="80" max="220" step="1" /></td>
+                        <td style="min-width: 100px"><input ng-model="x.hip" type="number" class="form-control" min="80" max="220" step="1" /></td>
                     </tr>
                 </tbody>
             </table>
