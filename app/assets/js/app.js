@@ -2304,35 +2304,33 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $mdDialog.cancel();
         };
 
-        $scope.print = function () {
-            alert('todo');
-            window.print();
-
-           
-        }
+        //$scope.print = function () {
+        //    alert('todo');
+        //    window.print();
+        //}
 
         //$scope.pdf = function () {
         //    printPdf();
         //}
 
-        var printPdf = function () {
-            var fileName = 'jelovnik';
-            $http({
-                url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
-                method: "POST",
-                data: { userId: $rootScope.user.userId, fileName: fileName, currentMenu: d.currentMenu, clientData: d.clientData, totals: $rootScope.totals, lang: $rootScope.config.language }
-            })
-              .then(function (response) {
-               //   alert(response.data.d);
-                  //window.open($sessionStorage.config.backend + '/App_Data/users/' + $rootScope.user.userId + '/pdf/' + fileName + '.pdf', + '_blank');
-                  //  window.open($sessionStorage.config.backend + 'pdf/users/' + $rootScope.user.userId + '/pdf/' + fileName + '.pdf');
-               //   $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userId + '/pdf/' + fileName + '.pdf';
-              },
-              function (response) {
-                  alert(response.data.d)
-              });
-        }
-        printPdf();
+        //var printPdf = function () {
+        //    var fileName = 'jelovnik';
+        //    $http({
+        //        url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
+        //        method: "POST",
+        //        data: { userId: $rootScope.user.userId, fileName: fileName, currentMenu: d.currentMenu, clientData: d.clientData, totals: $rootScope.totals, lang: $rootScope.config.language }
+        //    })
+        //      .then(function (response) {
+        //       //   alert(response.data.d);
+        //          //window.open($sessionStorage.config.backend + '/App_Data/users/' + $rootScope.user.userId + '/pdf/' + fileName + '.pdf', + '_blank');
+        //          //  window.open($sessionStorage.config.backend + 'pdf/users/' + $rootScope.user.userId + '/pdf/' + fileName + '.pdf');
+        //       //   $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userId + '/pdf/' + fileName + '.pdf';
+        //      },
+        //      function (response) {
+        //          alert(response.data.d)
+        //      });
+        //}
+        //printPdf();
 
     };
   
@@ -3294,30 +3292,30 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $mdDialog.cancel();
         };
 
-        $scope.print = function () {
-            alert('todo print');
-        }
+        //$scope.print = function () {
+        //    alert('todo print');
+        //}
 
-        $scope.pdf = function () {
-          //  alert('todo');
+        //$scope.pdf = function () {
+        //  //  alert('todo');
 
-            printPdf();
+        //    printPdf();
 
-        }
+        //}
 
-        var printPdf = function () {
-            $http({
-                url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
-                method: "POST",
-                data: { userId: $rootScope.user.userId, fileName: 'testpdf', currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData, totals: $rootScope.totals, lang: $rootScope.config.language }
-            })
-              .then(function (response) {
-                  alert(response.data.d);
-              },
-              function (response) {
-                  alert(response.data.d)
-              });
-        }
+        //var printPdf = function () {
+        //    $http({
+        //        url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
+        //        method: "POST",
+        //        data: { userId: $rootScope.user.userId, fileName: 'testpdf', currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData, totals: $rootScope.totals, lang: $rootScope.config.language }
+        //    })
+        //      .then(function (response) {
+        //          alert(response.data.d);
+        //      },
+        //      function (response) {
+        //          alert(response.data.d)
+        //      });
+        //}
 
     };
 
@@ -3796,7 +3794,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 }])
 
-.controller('printCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions) {
+.controller('printCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
     $scope.consumers = 1;
     $scope.fontsize = 14;
   
@@ -3816,28 +3814,26 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 
     $scope.printPdf = function () {
-        var fileName = 'jelovnik';
+        var fileName = $translate.instant('menu');
         $http({
             url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
             method: "POST",
             data: { userId: $sessionStorage.usergroupid, fileName: fileName, currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData, totals: $rootScope.totals, lang: $rootScope.config.language }
         })
           .then(function (response) {
-            //  $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
-            //  window.open($scope.pdfLink, '_blank');
+                var pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
+                window.open(pdfLink, '_blank');
           },
           function (response) {
               alert(response.data.d)
           });
     }
-  //  printPdf();
 
     var getClient = function () {
         $http({
             url: $sessionStorage.config.backend + 'Clients.asmx/Get',
             method: "POST",
             data: { userId: $sessionStorage.userid, clientId: $rootScope.client.clientId }
-            //data: { lang: $rootScope.config.databaselanguage, userId: $sessionStorage.userid, clientId: $rootScope.client.clientId }
         })
           .then(function (response) {
               $scope.client = JSON.parse(response.data.d);
@@ -3865,23 +3861,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
        });
     }
     if ($rootScope.currentMenu != undefined) { $scope.changeNumberOfConsumers($scope.consumers); }
-
-    //$scope.getClientLog = function (x) {
-    //    $http({
-    //        url: $sessionStorage.config.backend + 'ClientsData.asmx/GetClientLog',
-    //        method: "POST",
-    //        data: { userId: $sessionStorage.usergroupid, clientId: x.clientId }
-    //    })
-    //    .then(function (response) {
-    //        //getCalculation();
-    //        //$scope.toggleTpl('clientStatictic');
-    //        $scope.clientLog = JSON.parse(response.data.d);
-    //    },
-    //    function (response) {
-    //        alert(response.data.d)
-    //    });
-    //};
-    //$scope.getClientLog($rootScope.client);
 
 }])
 

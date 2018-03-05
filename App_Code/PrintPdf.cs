@@ -24,53 +24,29 @@ public class PrintPdf : System.Web.Services.WebService {
     public PrintPdf() {
     }
 
-    protected void CreateFolder(string path) {
-        if (!Directory.Exists(Server.MapPath(path))) {
-            Directory.CreateDirectory(Server.MapPath(path));
-        }
-    }
-
     [WebMethod]
     public string MenuPdf(string userId, string fileName, Menues.NewMenu currentMenu, ClientsData.NewClientData clientData, Foods.Totals totals, string lang) {
         try {
             var doc = new Document();
-            //  fileName = Guid.NewGuid().ToString();
-            string path = "~/upload/users/" + userId + "/pdf/";
-          //  string path = "~/App_Data/users/" + userId + "/pdf";
+            string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
+
             CreateFolder(path);
-            PdfWriter.GetInstance(doc, new FileStream(Server.MapPath(path + fileName + ".pdf"), FileMode.Create));
+            string filePath = Path.Combine(path, string.Format("{0}.pdf", fileName));
+            PdfWriter.GetInstance(doc, new FileStream(filePath, FileMode.Create));
 
             doc.Open();
 
             Font arial8 = FontFactory.GetFont("Arial", 8, Color.BLACK);
+            Font arial12 = FontFactory.GetFont("Arial", 12, Color.BLACK);
             Font arial16 = FontFactory.GetFont("Arial", 16, Color.BLACK);
             Font courier = new Font(Font.COURIER, 9f);
             Font brown = new Font(Font.COURIER, 9f, Font.NORMAL, new Color(163, 21, 21));
             Font verdana = FontFactory.GetFont("Verdana", 16, Font.BOLDITALIC, new Color(255, 255, 255));
             Font arial8_itelic = FontFactory.GetFont("Arial", 8, Font.ITALIC, Color.BLACK);
 
-            //unicode font  not working on server  - TODO
-            //BaseFont bf = BaseFont.CreateFont(Environment.GetEnvironmentVariable("windir") + @"\fonts\ARIALUNI.TTF", BaseFont.IDENTITY_H, true);
-            //Font normalFont = new iTextSharp.text.Font(bf, 8, Font.NORMAL, Color.BLACK);
+            Font normalFont = FontFactory.GetFont(Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, 9);
 
-               Font normalFont = FontFactory.GetFont("Arial", 8, Color.BLACK);
-
-
-            /*
-            string arialuniTff = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "ARIALUNI.TTF");
-            if (!string.IsNullOrEmpty(arialuniTff)) {
-                iTextSharp.text.FontFactory.Register(arialuniTff);
-                normalFont = FontFactory.GetFont("ARIALUNI", 8, Font.NORMAL, Color.BLACK);
-            }*/
-
-
-
-            //BaseFont arialuni = BaseFont.CreateFont(Server.MapPath("~/app/assets/fonts/") + "ARIALUNI.TTF", BaseFont.IDENTITY_H, true);
-            //Font normalFont = new Font(arialuni, 8, Font.NORMAL, Color.BLACK);
-
-
-
-            doc.Add(new Paragraph(currentMenu.title, arial16));
+            doc.Add(new Paragraph(currentMenu.title, arial12));
             doc.Add(new Paragraph(currentMenu.note, arial8_itelic));
 
             List<Foods.NewFood> meal1 = currentMenu.data.selectedFoods.Where(a => a.meal.code == "B").ToList();
@@ -97,7 +73,7 @@ public class PrintPdf : System.Web.Services.WebService {
             string tot = string.Format(@"
 {0}
 {1}: {5} kcal
-{2}: {6}g ({7})%
+{2}: {6} g ({7})%
 {3}: {8} g ({9})%
 {4}: {10} g ({11})%",
                         Translate("total", lang).ToUpper(),
@@ -116,29 +92,31 @@ public class PrintPdf : System.Web.Services.WebService {
             doc.Add(new Paragraph(tot, normalFont));
             doc.Close();
 
-
-            System.Diagnostics.Process.Start(Server.MapPath(path + fileName + ".pdf"));
-            return "OK.";
+            return "OK";
         } catch(Exception e) {
-            return e.Message;
+            return e.StackTrace;
         }
+    }
 
-        
+    protected void CreateFolder(string path) {
+        if (!Directory.Exists(path)) {
+            Directory.CreateDirectory(path);
+        }
     }
 
     private string AppendMeal(List<Foods.NewFood> meal, List<Meals.NewMeal> meals) {
         StringBuilder sb = new StringBuilder();
         if (meal.Count > 0) {
-            sb.AppendLine(string.Format(@"{0}", meal[0].meal.title.ToString().ToUpper()));
-        string description = meals.Where(a => a.code == meal[0].meal.code).FirstOrDefault().description;
-        if (!string.IsNullOrEmpty(description)) {
+            sb.AppendLine(string.Format(@"{0}", meal[0].meal.title).ToUpper());
+            string description = meals.Where(a => a.code == meal[0].meal.code).FirstOrDefault().description;
+            if (!string.IsNullOrEmpty(description)) {
             sb.AppendLine(string.Format(@"{0}
                                             ", description));
         } 
         foreach (Foods.NewFood food in meal) {
             sb.AppendLine(string.Format(@"- {0} {1} {2}, ({3} g)", food.food, food.quantity, food.unit, food.mass));
         }
-        sb.AppendLine("__________________________________________________________________________________");
+        sb.AppendLine("___________________________________________________________________________________");
         }
         return sb.ToString();
     }
@@ -166,7 +144,5 @@ public class PrintPdf : System.Web.Services.WebService {
         }
         return title;
     }
-
-
 
 }
