@@ -32,6 +32,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
             CreateFolder(path);
             string filePath = Path.Combine(path, string.Format("{0}.pdf", fileName));
+            DeleteFile(filePath);
             PdfWriter.GetInstance(doc, new FileStream(filePath, FileMode.Create));
 
             doc.Open();
@@ -46,8 +47,19 @@ public class PrintPdf : System.Web.Services.WebService {
 
             Font normalFont = FontFactory.GetFont(Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, 9);
 
+
+            //TODO;
+            /*string logoPath = Server.MapPath(string.Format("~/app/assets/img/logo_invert.png"));
+            Image logo = Image.GetInstance(logoPath);
+            logo.Alignment = Image.ALIGN_RIGHT;
+            logo.ScalePercent(80f);
+            doc.Add(logo);*/
+
             doc.Add(new Paragraph(currentMenu.title, arial12));
             doc.Add(new Paragraph(currentMenu.note, arial8_itelic));
+
+            iTextSharp.text.pdf.draw.LineSeparator line = new iTextSharp.text.pdf.draw.LineSeparator(0f, 100f, Color.BLACK, Element.ALIGN_LEFT, 1);
+            doc.Add(new Chunk(line));
 
             List<Foods.NewFood> meal1 = currentMenu.data.selectedFoods.Where(a => a.meal.code == "B").ToList();
             List<Foods.NewFood> meal2 = currentMenu.data.selectedFoods.Where(a => a.meal.code == "MS").ToList();
@@ -57,7 +69,6 @@ public class PrintPdf : System.Web.Services.WebService {
             List<Foods.NewFood> meal6 = currentMenu.data.selectedFoods.Where(a => a.meal.code == "MBS").ToList();
 
             StringBuilder sb = new StringBuilder();
-
             sb.AppendLine(string.Format(@"
                                         "));
 
@@ -90,6 +101,7 @@ public class PrintPdf : System.Web.Services.WebService {
                         Convert.ToString(totals.fatsPercentage)
                         );
             doc.Add(new Paragraph(tot, normalFont));
+            doc.Add(new Chunk(line));
             doc.Close();
 
             return "OK";
@@ -101,6 +113,12 @@ public class PrintPdf : System.Web.Services.WebService {
     protected void CreateFolder(string path) {
         if (!Directory.Exists(path)) {
             Directory.CreateDirectory(path);
+        }
+    }
+
+    protected void DeleteFile(string filePath) {
+        if (File.Exists(filePath)) {
+            File.Delete(filePath);
         }
     }
 
@@ -116,7 +134,7 @@ public class PrintPdf : System.Web.Services.WebService {
         foreach (Foods.NewFood food in meal) {
             sb.AppendLine(string.Format(@"- {0} {1} {2}, ({3} g)", food.food, food.quantity, food.unit, food.mass));
         }
-        sb.AppendLine("___________________________________________________________________________________");
+        sb.AppendLine("________________________________________________________________________");
         }
         return sb.ToString();
     }

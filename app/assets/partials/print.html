@@ -1,7 +1,7 @@
 ﻿<div ng-controller="printCtrl">
     <div class="panel panel-default">
         <div class="panel-heading noprint">
-            <a href="" ng-click="printWindow()" class="btn btn-default"><i class="fa fa-print"></i> <span class="hidden-xs">{{'print' | translate}}</span></a>
+            <a href="" ng-click="printWindow()" class="btn btn-default hidden-xs"><i class="fa fa-print"></i> <span class="hidden-xs">{{'print' | translate}}</span></a>
             <a ng-if="printTpl=='menuTpl'" href="" class="btn btn-default" ng-click="printPdf()"><span class="text-danger"><i class="fa fa-file-pdf-o"></i> <span class="hidden-xs">{{'PDF' | translate}}</span></span></a>
         </div>
         <div class="panel-body" style="font-size:12px">
