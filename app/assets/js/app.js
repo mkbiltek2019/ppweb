@@ -3828,20 +3828,24 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         window.print();
     };
 
-    $scope.printPdf = function () {
-        var fileName = $translate.instant('menu');
+    var printPdf = function () {
         $http({
             url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
             method: "POST",
-            data: { userId: $sessionStorage.usergroupid, fileName: fileName, currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData, totals: $rootScope.totals, lang: $rootScope.config.language }
+            data: { userId: $sessionStorage.usergroupid, fileName: null, currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData, totals: $rootScope.totals, lang: $rootScope.config.language }
         })
           .then(function (response) {
-                var pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
-                window.open(pdfLink, '_blank');
+              var fileName = response.data.d;
+                $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
           },
           function (response) {
               alert(response.data.d)
           });
+    }
+    printPdf();
+
+    $scope.openPdf = function () {
+        window.open($scope.pdfLink, '_blank');
     }
 
     var getClient = function () {

@@ -29,10 +29,10 @@ public class PrintPdf : System.Web.Services.WebService {
         try {
             var doc = new Document();
             string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
-
+            DeleteFolder(path);
             CreateFolder(path);
+            fileName = Guid.NewGuid().ToString();
             string filePath = Path.Combine(path, string.Format("{0}.pdf", fileName));
-            DeleteFile(filePath);
             PdfWriter.GetInstance(doc, new FileStream(filePath, FileMode.Create));
 
             doc.Open();
@@ -104,7 +104,7 @@ public class PrintPdf : System.Web.Services.WebService {
             doc.Add(new Chunk(line));
             doc.Close();
 
-            return "OK";
+            return fileName;
         } catch(Exception e) {
             return e.StackTrace;
         }
@@ -116,9 +116,9 @@ public class PrintPdf : System.Web.Services.WebService {
         }
     }
 
-    protected void DeleteFile(string filePath) {
-        if (File.Exists(filePath)) {
-            File.Delete(filePath);
+    protected void DeleteFolder(string path) {
+        if (Directory.Exists(path)) {
+            Directory.Delete(path, true);
         }
     }
 
