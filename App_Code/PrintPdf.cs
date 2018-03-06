@@ -47,13 +47,11 @@ public class PrintPdf : System.Web.Services.WebService {
 
             Font normalFont = FontFactory.GetFont(Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, 9);
 
-
-            //TODO;
-            /*string logoPath = Server.MapPath(string.Format("~/app/assets/img/logo_invert.png"));
+            string logoPath = Server.MapPath(string.Format("~/app/assets/img/logo1.png"));
             Image logo = Image.GetInstance(logoPath);
             logo.Alignment = Image.ALIGN_RIGHT;
             logo.ScalePercent(80f);
-            doc.Add(logo);*/
+            doc.Add(logo);
 
             doc.Add(new Paragraph(currentMenu.title, arial12));
             doc.Add(new Paragraph(currentMenu.note, arial8_itelic));
