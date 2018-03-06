@@ -46,17 +46,7 @@ public class Orders : System.Web.Services.WebService {
     [WebMethod]
     public string Init() {
         NewUser x = new NewUser();
-            x.id = 0; // Convert.ToString(Guid.NewGuid()); // null;
-                      //x.firstName = "Igor";
-                      //x.lastName = "Gašparović";
-                      //x.companyName = "IGPROG";
-                      //x.address = "Ludvetov breg 5";
-                      //x.postalCode = "51000";
-                      //x.city = "Rijeka";
-                      //x.country = "Hrvatska";
-                      //x.pin = null;
-                      //x.email = "igprog@yahoo.com";
-
+            x.id = 0;
             x.firstName = "";
             x.lastName = "";
             x.companyName = "";
@@ -66,8 +56,6 @@ public class Orders : System.Web.Services.WebService {
             x.country = "";
             x.pin = null;
             x.email = "";
-
-
             x.ipAddress = HttpContext.Current.Request.UserHostAddress;
             x.application = "";
             x.version = "";

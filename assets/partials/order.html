@@ -66,7 +66,17 @@
                 <strong>{{errorMesage}}</strong>
             </div>
             <div ng-if="showUserDetails">
-                <h3>Vaši podaci</h3>
+                <div ng-if="user.version=='WEB'" class="row m10">
+                    <label class="col-sm-4 text-right">Trajanje licence: </label>
+                    <div class="input-group col-sm-6">
+                        <select ng-model="user.licence" class="form-control" ng-change="calculatePrice()">
+                            <option ng-value="1" ng-selected="user.licence==1?true:false">1 godina</option>
+                            <option ng-value="2" ng-selected="user.licence==2?true:false">2 godine</option>
+                        </select>
+                        <span class="input-group-addon">{{user.price}} kn ({{user.priceEur | number:0}} €)</span>
+                    </div>
+                </div>
+                <h4 class="lead">Vaši podaci</h4>
                 <div class="mt20">
                     <label class="radio-inline">
                         <input ng-model="userType" value="0" type="radio" name="usertype" ng-change="changeUserType(0)">Fizička osoba
@@ -156,7 +166,8 @@ Iznos: <span>{{user.priceEur | number:0}}</span> €
             </pre>
                 </div>
             </div>
-            <div ng-include="'./assets/partials/paypal.html'"></div>
+            <div ng-if="user.version=='WEB'" ng-include="'./app/assets/partials/paypal.html'"></div>
+            <div ng-if="user.version!='WEB'" ng-include="'./assets/partials/paypal.html'"></div>
         </div>
 
 

@@ -3907,7 +3907,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
          $scope.user.password = $rootScope.user.password;
          $scope.user.application = $scope.application;
          $scope.user.version = 'WEB';
-         $scope.user.licence = '0';
+         $scope.user.licence = '1';
          $scope.user.licenceNumber = '1';
          $scope.login($scope.user.userName, $scope.user.password);
          $scope.calculatePrice();
@@ -3939,8 +3939,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         var totalprice = 0;
 
         $scope.user.version = $scope.version;
-        unitprice = 550;
-        $scope.user.licence = '1';
+        if ($scope.user.licence == '1') { unitprice = 550; }
+        if ($scope.user.licence == '2') { unitprice = 750; }
         $scope.user.licenceNumber = '1';
 
         totalprice = $scope.user.licenceNumber > 1 ? unitprice * $scope.user.licenceNumber - (unitprice * $scope.user.licenceNumber * 0.1) : unitprice;

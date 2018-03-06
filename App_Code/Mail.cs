@@ -40,20 +40,20 @@ public class Mail : System.Web.Services.WebService {
 <p>OIB: {7}</p>
 <p>Email: {8}</p>
 <p>Verzija: {9} {10}</p>
-<p>Licenca: {11} {12}</p>"
-, user.firstName
-, user.lastName
-, user.companyName
-, user.address
-, user.postalCode
-, user.city
-, user.country
-, user.pin
-, user.email
-, user.application
-, user.version
-, user.licenceNumber
-, user.licence == "0" ? "trajna" : "godišnja");
+<p>Licenca: {11} ({12})</p>"
+        , user.firstName
+        , user.lastName
+        , user.companyName
+        , user.address
+        , user.postalCode
+        , user.city
+        , user.country
+        , user.pin
+        , user.email
+        , user.application
+        , user.version
+        , user.licenceNumber
+        , GetLicenceDuration(user.licence));
 
         SendMail(myEmail, messageSubject, messageBody);
         // ---------------------------------------
@@ -219,6 +219,18 @@ public class Mail : System.Web.Services.WebService {
     }
 
 
+    private string GetLicenceDuration(string licence) {
+        switch (licence) {
+            case "0":
+                return "trajna";
+            case "1":
+                return "godišnja";
+            case "2":
+                return "dvogodišnja";
+            default:
+                return "";
+        }
+    }
 
 
 }

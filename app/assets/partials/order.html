@@ -33,7 +33,16 @@
             <div ng-if="showErrorAlert" class="alert alert-danger">
                 <strong>{{errorMesage}}</strong>
             </div>
-
+            <div class="row m10">
+                <label class="col-sm-2 text-right">Trajanje licence: </label>
+                <div class="input-group col-sm-3">
+                    <select ng-model="user.licence" class="form-control" ng-change="calculatePrice()">
+                        <option ng-value="1" ng-selected="user.licence==1?true:false">1 godina</option>
+                        <option ng-value="2" ng-selected="user.licence==2?true:false">2 godine</option>
+                    </select>
+                    <span class="input-group-addon">{{user.price}} kn ({{user.priceEur | number:0}} €)</span>
+                </div>
+            </div>
             <div ng-if="showUserDetails">
                 <div>
                     <label class="radio-inline">
@@ -97,7 +106,7 @@
 
         <div ng-if="showPaymentDetails" class="well text-left">
             <div>
-                <b>{{'payment details | translate'}}:</b>
+                <b>{{'payment details' | translate}}:</b>
                 <div>
                     <pre>
 <span class="text-uppercase">{{'iban' | translate}}</span>: HR84 2340 0091 1603 4249 6

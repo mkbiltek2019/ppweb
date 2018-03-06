@@ -149,7 +149,7 @@ angular.module('app', ['ngMaterial'])
          $scope.user = JSON.parse(response.data.d);
          $scope.user.application = $scope.application;
          $scope.user.version = 'PREMIUM';
-         $scope.user.licence = '0';
+         $scope.user.licence = $rootScope.application == 'Program Prehrane' ? '1' : '0';
          $scope.user.licenceNumber = '1';
          $scope.calculatePrice();
      },
@@ -181,8 +181,8 @@ angular.module('app', ['ngMaterial'])
 
         if ($scope.user.application == 'Program Prehrane') {
             $scope.user.version = $scope.version;
-            unitprice = 550;
-            $scope.user.licence = '1';
+            if ($scope.user.licence == '1') { unitprice = 550; }
+            if ($scope.user.licence == '2') { unitprice = 750; }
             $scope.user.licenceNumber = '1';
         } else {
             $scope.user.version = $scope.user.version == '' ? 'PREMIUM' : $scope.user.version;
@@ -206,7 +206,7 @@ angular.module('app', ['ngMaterial'])
         $scope.user.price = totalprice;
         $scope.user.priceEur = totalprice / $rootScope.config.eur;
     }
-   
+
     $scope.order = function (application, version) {
         init();
         window.location.hash = 'order';
