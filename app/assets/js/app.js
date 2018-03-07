@@ -3828,6 +3828,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         window.print();
     };
 
+    $scope.pdfLink = null;
     var printPdf = function () {
         $http({
             url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
