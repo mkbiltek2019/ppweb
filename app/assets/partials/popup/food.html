@@ -43,7 +43,7 @@
                         <div ng-if="food.id" class="table-responsive">
                             <table class="table table-condensed text-small">
                                 <tr>
-                                    <td colspan="3"><label>{{food.food}}</label></td>
+                                    <td colspan="3"><input ng-model="food.food" type="text" class="form-control" /></td>
                                 </tr>
                                 <tr>
                                     <td colspan="3"><em class="text-muted">{{food.foodGroup.title | translate}}</em></td>

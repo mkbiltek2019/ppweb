@@ -864,11 +864,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         });
     }
 
-    if ($rootScope.clientData == undefined || null) {
-        if ($rootScope.client != undefined) {
-            init($rootScope.client);
-        }
-    }
+    //if ($rootScope.clientData == undefined || null) {
+    //    if ($rootScope.client != undefined) {
+    //        init($rootScope.client);
+    //    }
+    //}
 
     var initClient = function () {
         $http({
@@ -1131,7 +1131,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             url: $sessionStorage.config.backend + 'Calculations.asmx/GetPalDetails',
             method: "POST",
             data: { palValue: x }
-            //data: { lang: $rootScope.config.databaselanguage, palValue: x }
         })
       .then(function (response) {
           $rootScope.pal = JSON.parse(response.data.d)
@@ -2037,6 +2036,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             })
             .then(function (response) {
                 $rootScope.currentMenu.data.selectedFoods[idx] = JSON.parse(response.data.d);
+
                 getTotals($rootScope.currentMenu);
             },
             function (response) {
@@ -2171,6 +2171,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         $scope.changeQuantity = function (x, type) {
+            var currentFood = $scope.food.food;  // << in case where user change food title
             $timeout(function () {
                 $http({
                     url: $sessionStorage.config.backend + webService + '/ChangeFoodQuantity',
@@ -2179,6 +2180,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 })
                 .then(function (response) {
                     $scope.food = JSON.parse(response.data.d);
+                    $scope.food.food = currentFood; // << in case where user change food title
                 },
                 function (response) {
                 });
@@ -3830,23 +3832,31 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.pdfLink = null;
     var printPdf = function () {
+        var currentMenu = angular.copy($rootScope.currentMenu);
+        currentMenu.data.selectedFoods = $scope.foods;
         $http({
             url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
             method: "POST",
-            data: { userId: $sessionStorage.usergroupid, fileName: null, currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData, totals: $rootScope.totals, lang: $rootScope.config.language }
+            data: { userId: $sessionStorage.usergroupid, fileName: null, currentMenu: currentMenu, clientData: $rootScope.clientData, totals: $rootScope.totals, lang: $rootScope.config.language }
         })
           .then(function (response) {
               var fileName = response.data.d;
-                $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
+              $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
+              $scope.openPdf();
           },
           function (response) {
               alert(response.data.d)
           });
     }
-    printPdf();
+
+    $scope.printPdf = function () {
+        printPdf();
+    }
 
     $scope.openPdf = function () {
-        window.open($scope.pdfLink, '_blank');
+        if ($scope.pdfLink != null) {
+            window.open($scope.pdfLink, '_blank');
+        }
     }
 
     var getClient = function () {
@@ -3873,8 +3883,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
        .then(function (response) {
            $scope.foods = JSON.parse(response.data.d);
-           //$rootScope.currentMenu.data.selectedFoods[idx] = JSON.parse(response.data.d);
-           //getTotals($rootScope.currentMenu);
        },
        function (response) {
            //   alert(response.data.d)
