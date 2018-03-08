@@ -3836,21 +3836,23 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.pdfLink = null;
     var printMenuPdf = function () {
-        var currentMenu = angular.copy($rootScope.currentMenu);
-        currentMenu.data.selectedFoods = $scope.foods;
-        $http({
-            url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
-            method: "POST",
-            data: { userId: $sessionStorage.usergroupid, currentMenu: currentMenu, clientData: $rootScope.clientData, totals: $rootScope.totals, consumers: $scope.consumers, lang: $rootScope.config.language }
-        })
-          .then(function (response) {
-              var fileName = response.data.d;
-              $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
-              $scope.openPdf();
-          },
-          function (response) {
-              alert(response.data.d)
-          });
+        if (angular.isDefined($rootScope.currentMenu)) {
+            var currentMenu = angular.copy($rootScope.currentMenu);
+            currentMenu.data.selectedFoods = $scope.foods;
+            $http({
+                url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
+                method: "POST",
+                data: { userId: $sessionStorage.usergroupid, currentMenu: currentMenu, clientData: $rootScope.clientData, totals: $rootScope.totals, consumers: $scope.consumers, lang: $rootScope.config.language }
+            })
+              .then(function (response) {
+                  var fileName = response.data.d;
+                  $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
+                  $scope.openPdf();
+              },
+              function (response) {
+                  alert(response.data.d)
+              });
+        }
     }
 
     var printClientPdf = function () {
@@ -3876,7 +3878,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.openPdf = function () {
         if ($scope.pdfLink != null) {
-            window.open($scope.pdfLink, '_blank');
+            window.open($scope.pdfLink, window.innerWidth <= 800 && window.innerHeight <= 600 ? '_self' : '_blank');
         }
     }
 

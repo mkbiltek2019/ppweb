@@ -63,10 +63,10 @@
                         <a href="#" ng-click="toggleTpl('assets/partials/dashboard.html')"><i class="fa fa-tachometer fa-fw"></i> <span>{{'application' | translate}}</span></a>
                     </li>-->
                         <li ng-if="isLogin&&config.debug">
-                            <a href="#" ng-click="toggleTpl('scheduler.html')"><i class="fa fa-calendar fa-fw"></i> <span>{{'scheduler' | translate}}</span></a>
+                            <a href="#" ng-click="toggleTpl('scheduler.html')"><i class="fa fa-calendar fa-fw"></i> <span class="text-capitalize">{{'scheduler' | translate}}</span></a>
                         </li>
                         <li ng-if="isLogin&&config.debug">
-                            <a href="#" ng-click="toggleTpl('settings.html')"><i class="fa fa-cogs fa-fw"></i> <span>{{'settings' | translate}}</span></a>
+                            <a href="#" ng-click="toggleTpl('settings.html')"><i class="fa fa-cogs fa-fw"></i> <span class="text-capitalize">{{'settings' | translate}}</span></a>
                         </li>
                         <!--<li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-language fa-fw"></i> {{'language' | translate}}</a>
@@ -81,28 +81,28 @@
                         </ul>
                     </li>-->
                         <li>
-                            <a href="../uputa.html" target="_blank"><i class="fa fa-question fa-fw"></i> <span>{{'help' | translate}}</span></a>
+                            <a href="../uputa.html" target="_blank"><i class="fa fa-question fa-fw"></i> <span class="text-capitalize">{{'help' | translate}}</span></a>
                         </li>
                         <li>
-                            <a href="#" ng-click="toggleTpl('info.html')"><i class="fa fa-info fa-fw"></i> <span>{{'info' | translate}}</span></a>
+                            <a href="#" ng-click="toggleTpl('info.html')"><i class="fa fa-info fa-fw"></i> <span class="text-capitalize">{{'info' | translate}}</span></a>
                         </li>
 
                         <li ng-if="isLogin" class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <i class="fa fa-user fa-fw"></i> <span>{{'user' | translate}}: {{loginUser.firstName}} {{loginUser.lastName}}</span> <i class="fa fa-caret-down"></i>
+                                <i class="fa fa-user fa-fw"></i> <span class="text-capitalize">{{'user' | translate}}: {{loginUser.firstName}} {{loginUser.lastName}}</span> <i class="fa fa-caret-down"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-user text-right">
                                 <li>
-                                    <a href="#" ng-click="toggleTpl('user.html', 8)"><i class="fa fa-user fa-fw"></i> {{'user profile' | translate}}</a>
+                                    <a href="#" ng-click="toggleTpl('user.html', 8)" class="text-capitalize"><i class="fa fa-user fa-fw"></i> {{'user profile' | translate}}</a>
                                 </li>
                                 <li ng-if="loginUser.adminType==0">
-                                    <a href="#" ng-click="toggleTpl('users.html', 9)"><i class="fa fa-users fa-fw"></i> {{'users' | translate}}</a>
+                                    <a href="#" ng-click="toggleTpl('users.html', 9)" class="text-capitalize"><i class="fa fa-users fa-fw"></i> {{'users' | translate}}</a>
                                 </li>
                                 <li ng-if="loginUser.adminType==0">
-                                    <a href="#" ng-click="toggleTpl('newuser.html', 10)"><i class="fa fa-user-plus fa-fw"></i> {{'new user' | translate}}</a>
+                                    <a href="#" ng-click="toggleTpl('newuser.html', 10)" class="text-capitalize"><i class="fa fa-user-plus fa-fw"></i> {{'new user' | translate}}</a>
                                 </li>
                                 <li>
-                                    <a href="" ng-click="logout()"><i class="fa fa-sign-out fa-fw"></i> <span>{{'logout' | translate}}</span></a>
+                                    <a href="" ng-click="logout()" class="text-capitalize"><i class="fa fa-sign-out fa-fw"></i> <span>{{'logout' | translate}}</span></a>
                                 </li>
                             </ul>
                         </li>

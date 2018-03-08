@@ -22,13 +22,7 @@ public class PrintPdf : System.Web.Services.WebService {
     DataBase db = new DataBase();
     Translate t = new Translate();
 
-    //Font arial8 = FontFactory.GetFont("Arial", 8, Color.BLACK);
-    //Font arial12 = FontFactory.GetFont("Arial", 12, Color.BLACK);
-    //Font arial16 = FontFactory.GetFont("Arial", 16, Color.BLACK);
     Font courier = new Font(Font.COURIER, 9f);
-    //Font brown = new Font(Font.COURIER, 9f, Font.NORMAL, new Color(163, 21, 21));
-    //Font verdana = FontFactory.GetFont("Verdana", 16, Font.BOLDITALIC, new Color(255, 255, 255));
-    //Font arial8_itelic = FontFactory.GetFont("Arial", 8, Font.ITALIC, Color.BLACK);
     Font normalFont = FontFactory.GetFont(HttpContext.Current.Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, 9);
     Font normalFont_8 = FontFactory.GetFont(HttpContext.Current.Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, 8);
     Font normalFont_12 = FontFactory.GetFont(HttpContext.Current.Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, 12);
@@ -140,11 +134,13 @@ public class PrintPdf : System.Web.Services.WebService {
 
             string c = string.Format(@"
 {0}: {1}
-{2}: {3} cm
+{2}: {3}
 {4}: {5} cm
 {6}: {7} cm
 {8}: {9} cm
-{10}: {11} ({12})"
+{10}: {11} cm
+{12}: {13} ({14})"
+            , t.Tran("gender", lang), clientData.gender.title
             , t.Tran("age", lang), clientData.age
             , t.Tran("height", lang), clientData.height
             , t.Tran("weight", lang), clientData.weight

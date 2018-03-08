@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.IO;
-using System.Data.SQLite;
+using System.Text.RegularExpressions;
 
 /// <summary>
 /// Translate
@@ -19,12 +19,12 @@ namespace Igprog {
                 string path1 = HttpContext.Current.Server.MapPath(path);
                 if (File.Exists(HttpContext.Current.Server.MapPath(path))) {
                     string json = File.ReadAllText(HttpContext.Current.Server.MapPath(path));
-                    string[] ss = json.Split(',');
+                    string[] ss = Regex.Split(json, ",\r\n");
                     foreach (string s in ss) {
                         string[] _s = s.Split(':');
                         if (_s.Count() == 2) {
                             if (_s[0].Replace("\"", "").Replace("\r", "").Replace("\n","").Replace("{\r\n", "").Trim().ToLower().ToString() == title.ToLower()) {
-                                title = s.Split(':')[1].Replace("\"", "").Replace("\r\n}", "").ToString();
+                                title = s.Split(':')[1].Replace("\"", "").Replace("\r\n}", "").Trim().ToString();
                             }
                         }
                     }

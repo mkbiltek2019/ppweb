@@ -3,20 +3,20 @@
         <div class="col-md-8">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                        <a href="" class="btn btn-default" ng-click="new()"><i class="fa fa-file-o"></i> <span class="hidden-xs"> {{'new' | translate}}</span></a>
-                        <a href="" class="btn btn-default" ng-click="get()"><i class="fa fa-folder-open-o"></i> <span class="hidden-xs"> {{'open' | translate}}</span></a>
-                        <a href="" class="btn btn-default" ng-click="save()"><i class="fa fa-floppy-o"></i> <span class="hidden-xs">{{'save' | translate}}</span></a>
-                        <a href="" class="btn btn-default" ng-click="send()"><i class="fa fa-paper-plane-o"></i> <span class="hidden-xs">{{'send' | translate}}</span></a>
+                        <a href="" class="btn btn-default" ng-click="new()"><i class="fa fa-file-o"></i> <span class="hidden-xs text-capitalize"> {{'new' | translate}}</span></a>
+                        <a href="" class="btn btn-default" ng-click="get()"><i class="fa fa-folder-open-o"></i> <span class="hidden-xs text-capitalize"> {{'open' | translate}}</span></a>
+                        <a href="" class="btn btn-default" ng-click="save()"><i class="fa fa-floppy-o"></i> <span class="hidden-xs text-capitalize">{{'save' | translate}}</span></a>
+                        <a href="" class="btn btn-default" ng-click="send()"><i class="fa fa-paper-plane-o"></i> <span class="hidden-xs text-capitalize">{{'send' | translate}}</span></a>
                 </div>
                 <div class="panel-body">
                     <div>
                         <div layout-gt-sm="row" style="height:60px; margin:0px">
                             <md-input-container class="md-block" flex-gt-sm >
-                                <label>{{'menu title' | translate}}</label>
+                                <label class="text-capitalize">{{'menu title' | translate}}</label>
                                 <input ng-model="currentMenu.title" type="text">
                             </md-input-container>
                             <md-input-container class="md-block"  flex-gt-sm >
-                                <label>{{'note' | translate}}</label>
+                                <label class="text-capitalize">{{'note' | translate}}</label>
                                 <input ng-model="currentMenu.note" type="text">
                             </md-input-container>
                         </div>
@@ -62,7 +62,7 @@
                                         </tr>
                                         <tr>
                                             <td colspan="5">
-                                                <a ng-disabled="addFoodBtn" href="" class="btn btn-primary" ng-click="openFoodPopup(food)"><i ng-class="addFoodBtnIcon"></i> {{'add food' | translate}}</a>
+                                                <a ng-disabled="addFoodBtn" href="" class="btn btn-primary text-uppercase" ng-click="openFoodPopup(food)"><i ng-class="addFoodBtnIcon"></i> {{'add food' | translate}}</a>
                                             </td>
                                             <td colspan="3" class="text-right">
                                                 {{'meal' | translate}} {{'total' | translate}}:
@@ -102,8 +102,8 @@
         </div>
         <div class="col-md-4">
             <ul class="nav nav-tabs">
-                <li ng-class="analyticsTpl=='chartsTpl'?'active':''"><a href="#" ng-click="toggleAnalytics('chartsTpl')"><i class="fa fa-line-chart"></i> <span class="hidden-xs">{{'totals' | translate}}</span></a></li>
-                <li ng-class="analyticsTpl=='tablesTpl'?'active':''" ng-click="toggleAnalytics('tablesTpl')"><a href="#"><i class="fa fa-table"></i> <span class="hidden-xs">{{'parameters' | translate}}</span></a></li>
+                <li ng-class="analyticsTpl=='chartsTpl'?'active':''"><a href="#" ng-click="toggleAnalytics('chartsTpl')"><i class="fa fa-line-chart"></i> <span class="hidden-xs text-capitalize">{{'totals' | translate}}</span></a></li>
+                <li ng-class="analyticsTpl=='tablesTpl'?'active':''" ng-click="toggleAnalytics('tablesTpl')"><a href="#"><i class="fa fa-table"></i> <span class="hidden-xs text-capitalize">{{'parameters' | translate}}</span></a></li>
             </ul>
             <div ng-include="analyticsTpl" style="padding-top:20px"></div>
         </div>
