@@ -10,7 +10,16 @@
                 </div>
                 <div class="panel-body">
                     <div>
-                        <p><strong>{{currentMenu.title}}</strong><span ng-if="currentMenu.note"><em ng-if="currentMenu.note" class="text-small text-muted"> ({{currentMenu.note}})</em></span></p>
+                        <div layout-gt-sm="row" style="height:60px; margin:0px">
+                            <md-input-container class="md-block" flex-gt-sm >
+                                <label>{{'menu title' | translate}}</label>
+                                <input ng-model="currentMenu.title" type="text">
+                            </md-input-container>
+                            <md-input-container class="md-block"  flex-gt-sm >
+                                <label>{{'note' | translate}}</label>
+                                <input ng-model="currentMenu.note" type="text">
+                            </md-input-container>
+                        </div>
                         <div>
                             <select ng-model="currentMeal" ng-change="toggleMeals(currentMeal)" class="form-control visible-xs">
                                 <option ng-selected="x.code==currentMeal?true:false" value="{{x.code}}" ng-if="x.isSelected==1" ng-repeat="x in clientData.meals" class="text-capitalize">{{x.title | translate}}</option>
@@ -23,7 +32,7 @@
                             <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
                         </div>
                         <div ng-show="!loading">
-                            <div class="table-responsive" style="min-height:270px">
+                            <div class="table-responsive" style="min-height:220px">
                                 <table class="table table-condensed table-hover">
                                     <tbody class="text-small">
                                         <tr ng-repeat="x in currentMenu.data.selectedFoods | filter:filterMeal track by $index">

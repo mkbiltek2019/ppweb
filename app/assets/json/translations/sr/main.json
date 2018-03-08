@@ -668,7 +668,6 @@
   "Cereals, ready-to-eat, Special K": "Žitarice, gotove, Readi Brek, obične, bez dodataka",
   "Cereals, ready-to-eat, Sultan Bran": "Žitarice, gotove, Special K",
 
-
   "all foods": "sve namirnice",
   "cereals and cereal products": "žitarice i proizvodi od žita",
   "Meat and substitutes": "meso i zamene",
@@ -688,7 +687,6 @@
   "prepared meals": "pripremljena jela",
   "other foods": "ostale namirnice",
   "my foods": "moje namirnice",
-
 
   "cup": "šoljica",
   "piece": "komad",
@@ -1448,7 +1446,7 @@
   "all menues": "svi jelovnici",
   "client menues": "klijentovi jelovnici",
   "save menu": "spremi jelovnik",
-  "menu name": "naziv jelovnika",
+  "menu title": "naziv jelovnika",
   "note": "napomena",
   "save as new": "spremi kao novi",
   "cancel": "zatvori",
@@ -1545,8 +1543,7 @@
   "translate to": "prevedi na",
   "edit": "uredi",
   "delete record": "briši zapis",
-  "record date":  "datum zapisa"
-
-
-
+  "record date": "datum zapisa",
+  "per consumer": "po konzumentu",
+  "enter menu title": "upišite naziv jelovnika"
 }

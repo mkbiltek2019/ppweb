@@ -20,41 +20,47 @@ using Igprog;
 public class PrintPdf : System.Web.Services.WebService {
     string dataBase = ConfigurationManager.AppSettings["UserDataBase"];
     DataBase db = new DataBase();
+    Translate t = new Translate();
+
+    //Font arial8 = FontFactory.GetFont("Arial", 8, Color.BLACK);
+    //Font arial12 = FontFactory.GetFont("Arial", 12, Color.BLACK);
+    //Font arial16 = FontFactory.GetFont("Arial", 16, Color.BLACK);
+    Font courier = new Font(Font.COURIER, 9f);
+    //Font brown = new Font(Font.COURIER, 9f, Font.NORMAL, new Color(163, 21, 21));
+    //Font verdana = FontFactory.GetFont("Verdana", 16, Font.BOLDITALIC, new Color(255, 255, 255));
+    //Font arial8_itelic = FontFactory.GetFont("Arial", 8, Font.ITALIC, Color.BLACK);
+    Font normalFont = FontFactory.GetFont(HttpContext.Current.Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, 9);
+    Font normalFont_8 = FontFactory.GetFont(HttpContext.Current.Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, 8);
+    Font normalFont_12 = FontFactory.GetFont(HttpContext.Current.Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, 12);
+
+    string logoPath = HttpContext.Current.Server.MapPath(string.Format("~/app/assets/img/logo1.png"));
 
     public PrintPdf() {
     }
 
     [WebMethod]
-    public string MenuPdf(string userId, string fileName, Menues.NewMenu currentMenu, ClientsData.NewClientData clientData, Foods.Totals totals, string lang) {
+    public string MenuPdf(string userId, Menues.NewMenu currentMenu, ClientsData.NewClientData clientData, Foods.Totals totals, int consumers, string lang) {
         try {
             var doc = new Document();
             string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
             DeleteFolder(path);
             CreateFolder(path);
-            fileName = Guid.NewGuid().ToString();
+            string fileName = Guid.NewGuid().ToString();
             string filePath = Path.Combine(path, string.Format("{0}.pdf", fileName));
             PdfWriter.GetInstance(doc, new FileStream(filePath, FileMode.Create));
 
             doc.Open();
 
-            Font arial8 = FontFactory.GetFont("Arial", 8, Color.BLACK);
-            Font arial12 = FontFactory.GetFont("Arial", 12, Color.BLACK);
-            Font arial16 = FontFactory.GetFont("Arial", 16, Color.BLACK);
-            Font courier = new Font(Font.COURIER, 9f);
-            Font brown = new Font(Font.COURIER, 9f, Font.NORMAL, new Color(163, 21, 21));
-            Font verdana = FontFactory.GetFont("Verdana", 16, Font.BOLDITALIC, new Color(255, 255, 255));
-            Font arial8_itelic = FontFactory.GetFont("Arial", 8, Font.ITALIC, Color.BLACK);
-
-            Font normalFont = FontFactory.GetFont(Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, 9);
-
-            string logoPath = Server.MapPath(string.Format("~/app/assets/img/logo1.png"));
             Image logo = Image.GetInstance(logoPath);
             logo.Alignment = Image.ALIGN_RIGHT;
             logo.ScalePercent(80f);
             doc.Add(logo);
 
-            doc.Add(new Paragraph(currentMenu.title, arial12));
-            doc.Add(new Paragraph(currentMenu.note, arial8_itelic));
+            doc.Add(new Paragraph(currentMenu.title, normalFont_12));
+            doc.Add(new Paragraph(currentMenu.note, normalFont_8));
+            if(consumers > 1) {
+                doc.Add(new Paragraph(t.Tran("number of consumers", lang) + ": " + consumers, normalFont_8));
+            }
 
             iTextSharp.text.pdf.draw.LineSeparator line = new iTextSharp.text.pdf.draw.LineSeparator(0f, 100f, Color.BLACK, Element.ALIGN_LEFT, 1);
             doc.Add(new Chunk(line));
@@ -85,11 +91,11 @@ public class PrintPdf : System.Web.Services.WebService {
 {2}: {6} g ({7})%
 {3}: {8} g ({9})%
 {4}: {10} g ({11})%",
-                        Translate("total", lang).ToUpper(),
-                        Translate("energy", lang),
-                        Translate("carbohydrates", lang),
-                        Translate("proteins", lang),
-                        Translate("fats", lang),
+                        t.Tran("total", lang).ToUpper() + (consumers > 1 ? " (" + t.Tran("per consumer", lang) + ")" : ""),
+                        t.Tran("energy", lang),
+                        t.Tran("carbohydrates", lang),
+                        t.Tran("proteins", lang),
+                        t.Tran("fats", lang),
                         Convert.ToString(totals.energy),
                         Convert.ToString(totals.carbohydrates),
                         Convert.ToString(totals.carbohydratesPercentage),
@@ -100,6 +106,88 @@ public class PrintPdf : System.Web.Services.WebService {
                         );
             doc.Add(new Paragraph(tot, normalFont));
             doc.Add(new Chunk(line));
+            doc.Close();
+
+            return fileName;
+        } catch(Exception e) {
+            return e.StackTrace;
+        }
+    }
+
+    [WebMethod]
+    public string ClientPdf(string userId, Clients.NewClient client, ClientsData.NewClientData clientData, List<ClientsData.NewClientData> clientLog, string lang) {
+        try {
+            var doc = new Document();
+            string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
+            DeleteFolder(path);
+            CreateFolder(path);
+            string fileName = Guid.NewGuid().ToString();
+            string filePath = Path.Combine(path, string.Format("{0}.pdf", fileName));
+            PdfWriter.GetInstance(doc, new FileStream(filePath, FileMode.Create));
+
+            doc.Open();
+
+            Image logo = Image.GetInstance(logoPath);
+            logo.Alignment = Image.ALIGN_RIGHT;
+            logo.ScalePercent(80f);
+            doc.Add(logo);
+
+            doc.Add(new Paragraph((client.firstName + " " + client.lastName), normalFont_12));
+
+
+            iTextSharp.text.pdf.draw.LineSeparator line = new iTextSharp.text.pdf.draw.LineSeparator(0f, 100f, Color.BLACK, Element.ALIGN_LEFT, 1);
+            doc.Add(new Chunk(line));
+
+            string c = string.Format(@"
+{0}: {1}
+{2}: {3} cm
+{4}: {5} cm
+{6}: {7} cm
+{8}: {9} cm
+{10}: {11} ({12})"
+            , t.Tran("age", lang), clientData.age
+            , t.Tran("height", lang), clientData.height
+            , t.Tran("weight", lang), clientData.weight
+            , t.Tran("waist", lang), clientData.waist
+            , t.Tran("hip", lang), clientData.hip
+            , t.Tran("physical activity level", lang), t.Tran(clientData.pal.title, lang), t.Tran(clientData.pal.description, lang));
+
+            doc.Add(new Paragraph(c, normalFont));
+
+            doc.Add(new Chunk(line));
+
+            if (clientLog.Count > 0) {
+                doc.Add(new Paragraph(t.Tran("tracking of anthropometric measures", lang), normalFont));
+
+                PdfPTable table = new PdfPTable(5);
+                table.AddCell(new PdfPCell(new Phrase(t.Tran("date", lang), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+                table.AddCell(new PdfPCell(new Phrase(t.Tran("height", lang) + " (cm)", normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+                table.AddCell(new PdfPCell(new Phrase(t.Tran("weight", lang) + " (cm)", normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+                table.AddCell(new PdfPCell(new Phrase(t.Tran("waist", lang) + " (cm)", normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+                table.AddCell(new PdfPCell(new Phrase(t.Tran("hip", lang) + " (cm)", normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+
+                StringBuilder sb = new StringBuilder();
+                foreach (ClientsData.NewClientData cl in clientLog) {
+                    PdfPCell cell1 = new PdfPCell(new Phrase(cl.date.ToString("dd.MM.yyyy"), courier));
+                    cell1.Border = 0;
+                    table.AddCell(cell1);
+                    PdfPCell cell2 = new PdfPCell(new Phrase(cl.height.ToString(), courier));
+                    cell2.Border = 0;
+                    table.AddCell(cell2);
+                    PdfPCell cell3 = new PdfPCell(new Phrase(cl.weight.ToString(), courier));
+                    cell3.Border = 0;
+                    table.AddCell(cell3);
+                    PdfPCell cell4 = new PdfPCell(new Phrase(cl.waist.ToString(), courier));
+                    cell4.Border = 0;
+                    table.AddCell(cell4);
+                    PdfPCell cell5 = new PdfPCell(new Phrase(cl.hip.ToString(), courier));
+                    cell5.Border = 0;
+                    table.AddCell(cell5);
+                }
+                doc.Add(table);
+            }
+
+
             doc.Close();
 
             return fileName;
@@ -135,30 +223,6 @@ public class PrintPdf : System.Web.Services.WebService {
         sb.AppendLine("________________________________________________________________________");
         }
         return sb.ToString();
-    }
-
-    private string Translate(string title, string lang) {
-        switch (lang) {
-            case "hr":
-                if (title.ToLower() == "menu") { return "jelovnik"; }
-                if (title.ToLower() == "total") { return "ukupno"; }
-                if (title.ToLower() == "energy") { return "energija"; }
-                if (title.ToLower() == "carbohydrates") { return "ugljikohidrati"; }
-                if (title.ToLower() == "proteins") { return "bjelančevine"; }
-                if (title.ToLower() == "fats") { return "masti"; }
-                break;
-            case "sr":
-                if (title.ToLower() == "menu") { return "jelovnik"; }
-                if (title.ToLower() == "total") { return "ukupno"; }
-                if (title.ToLower() == "energy") { return "energija"; }
-                if (title.ToLower() == "carbohydrates") { return "ugljeni hidrati"; }
-                if (title.ToLower() == "proteins") { return "belančevine"; }
-                if (title.ToLower() == "fats") { return "masti"; }
-                break;
-            default:
-                return title;
-        }
-        return title;
     }
 
 }

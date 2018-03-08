@@ -2,7 +2,7 @@
     <div class="panel panel-default">
         <div class="panel-heading noprint">
             <a href="" ng-click="printWindow()" class="btn btn-default hidden-xs"><span class="text-success"><i class="fa fa-print"></i> <span class="hidden-xs text-capitalize">{{'print' | translate}} (Browser)</span></span></a>
-            <a ng-if="printTpl=='menuTpl'" href="" class="btn btn-default" ng-click="printPdf()"><span class="text-danger"><i class="fa fa-file-pdf-o"></i> <span>{{'PDF' | translate}}</span></span></a>
+            <a ng-if="printTpl!='chartsTpl'" href="" class="btn btn-default" ng-click="printPdf()"><span class="text-danger"><i class="fa fa-file-pdf-o"></i> <span>{{'PDF' | translate}}</span></span></a>
         </div>
         <div class="panel-body" style="font-size:12px">
             <div class="noprint">
@@ -45,7 +45,8 @@
             <hr />
         </div>
         <div>
-            <label>{{'total energy' | translate}}: <span>{{totals.energy}} kcal</span></label>
+            <label><span class="text-uppercase">{{'total' | translate}}</span><span ng-if="consumers > 1"> ({{'per consumer' | translate}})</span>:</label>
+            <p>{{'energy' | translate}}: <span>{{totals.energy}} kcal</span></p>
             <p>{{'carbohydrates' | translate}}: <span>{{totals.carbohydrates | number:1}} g, ({{totals.carbohydratesPercentage | number:1}} %)</span></p>
             <p>{{'proteins' | translate}}: <span>{{totals.proteins | number:1}} g, ({{totals.proteinsPercentage | number:1}} %)</span></p>
             <p>{{'fats' | translate}}: <span>{{totals.fats | number:1}} g, ({{totals.fatsPercentage | number:1}} %)</span></p>
@@ -521,17 +522,27 @@
         </tr>
         <tr>
             <td>{{'physical activity level' | translate}}</td>
-            <td>{{clientData.pal.description | translate}}</td>
+            <td>{{clientData.pal.title | translate}} ({{clientData.pal.description | translate}})</td>
         </tr>
     </table>
-    <div>
+    <div ng-if="config.debug">
         <label>{{'tracking of anthropometric measures' | translate}}</label>
+        <select ng-model="type" class="form-control noprint" style="width: 200px" ng-change="setType(type)">
+            <option ng-value="0" ng-selected="type==0">{{'weight' | translate}}</option>
+            <option ng-value="1" ng-selected="type==1">{{'waist' | translate}}</option>
+            <option ng-value="2" ng-selected="type==2">{{'hip' | translate}}</option>
+        </select>
         <canvas id="clientDataChart" class="chart-bar" chart-data="clientLogGraphData.data" chart-colors="clientLogGraphData.colors" height="70"
                 chart-labels="clientLogGraphData.labels" chart-series="clientLogGraphData.series" chart-options="clientLogGraphData.options" chart-dataset-override="clientLogGraphData.datasetOverride"></canvas>
     </div>
    
     <div ng-if="config.debug" class="bg-info">
-        <pre>{{client | json}}</pre>
+        client:
+        <pre>{{client}}</pre>
+        client data:
+        <pre>{{clientData}}</pre>
+        clientLog
+        <pre>{{clientLog}}</pre>
     </div>
 </script>
 

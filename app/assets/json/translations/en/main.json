@@ -673,7 +673,6 @@
   "Cereals, ready-made, Special K": "Cereals, ready-made, Special K",
   "Cereals, ready, Sultan Bran": "Cereals, ready, Sultan Bran",
 
-
   "all foods": "all foods",
   "cereals and cereal products": "cereals and cereal products",
   "Meat and substitutes": "Meat and substitutes",
@@ -689,7 +688,6 @@
   "mixed foods": "mixed foods",
   "prepared meals": "prepared meals",
   "my foods": "my foods",
-
 
   "cup": "cup",
   "piece": "piece",
@@ -740,7 +738,6 @@
   "maintaining existing body mass": "maintaining existing body mass",
   "increase in body mass": "increase in body mass",
   "increase muscle mass": "increase muscle mass",
-
 
   "inactive": "inactive",
   "sedentary": "sedentary",
@@ -804,7 +801,6 @@
   "It is intended for patients who use eggs, milk and dairy products in their diet of animal proteins": "It is intended for patients who use eggs, milk and dairy products in their diet of animal proteins",
   "It is intended for patients who exclude certain foods of animal origin from their diet, mainly red meat": "It is intended for patients who exclude certain foods of animal origin from their diet, mainly red meat",
   "(of which ≤ 7% saturated fatt acids)": "(of which ≤ 7% saturated fatt acids)",
-
 
   "Accordion, playing": "Accordion, playing",
   "Aerobic, ballet or modern, twist": "Aerobic, ballet or modern, twist",
@@ -1458,7 +1454,7 @@
   "all menues": "all menues",
   "client menues": "client menues",
   "save menu": "save menu",
-  "menu name": "menu name",
+  "menu title": "menu title",
   "note": "note",
   "save as new": "save as new",
   "cancel": "cancel",
@@ -1553,8 +1549,7 @@
   "translate to": "translate to",
   "edit": "edit",
   "delete record": "delete record",
-  "record date": "record date"
-
-
-
+  "record date": "record date",
+  "per consumer": "per consumer",
+  "enter menu title": "enter menu title"
 }

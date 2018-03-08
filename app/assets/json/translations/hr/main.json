@@ -673,8 +673,6 @@
   "Cereals, ready-made, Special K": "Žitarice, gotove, Special K",
   "Cereals, ready, Sultan Bran": "Žitarice, gotove, Sultana Bran",
 
-
-
   "all foods": "sve namirnice",
   "cereals and cereal products": "žitarice i proizvodi od žita",
   "Meat and substitutes": "meso i zamjene",
@@ -690,7 +688,6 @@
   "mixed foods": "mješovite namirnice",
   "prepared meals": "pripremljena jela",
   "my foods": "moje namirnice",
-
 
   "stewing in water": "pirjanje u vodi",
   "barbecue": "roštilj",
@@ -1222,9 +1219,6 @@
   "Writing, reclining": "Pisanje, u fotelji ili kauču",
   "Writing, desk work (sitting)": "Pisanje, rad za stolom (sjedenje)",
 
-
-
-
   "cup": "šalica",
   "piece": "komad",
   "small piece": "mali komad",
@@ -1239,7 +1233,6 @@
   "glass": "čaša",
   "bottle": "boca",
   "half": "polovica",
-
 
   "application": "aplikacija",
   "scheduler": "kalendar",
@@ -1459,7 +1452,7 @@
   "all menues": "svi jelovnici",
   "client menues": "klijentovi jelovnici",
   "save menu": "spremi jelovnik",
-  "menu name": "naziv jelovnika",
+  "menu title": "naziv jelovnika",
   "note": "napomena",
   "save as new": "spremi kao novi",
   "cancel": "zatvori",
@@ -1554,9 +1547,7 @@
   "translate to": "prevedi na",
   "edit": "uredi",
   "delete record": "briši zapis",
-  "record date": "datum zapisa"
-
-
-
-
+  "record date": "datum zapisa",
+  "per consumer": "po konzumentu",
+  "enter menu title": "upišite naziv jelovnika"
 }

@@ -189,7 +189,7 @@ public class ClientsData : System.Web.Services.WebService {
             List<NewClientData> xx = new List<NewClientData>();
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read()) {
-                NewClientData x = new NewClientData(); // {
+                NewClientData x = new NewClientData();
                 Calculations c = new Calculations();
                 Goals g = new Goals();
                 x.id = reader.GetInt32(0);
@@ -209,7 +209,6 @@ public class ClientsData : System.Web.Services.WebService {
                 x.meals = JsonConvert.DeserializeObject<List<Meals.NewMeal>>(reader.GetString(12));
                 x.date = reader.GetValue(13) == DBNull.Value ? DateTime.UtcNow : Convert.ToDateTime(reader.GetString(13));
                 x.userId = reader.GetValue(14) == DBNull.Value ? "" : reader.GetString(14);
-                //  };
                 xx.Add(x);
             }
             connection.Close();
