@@ -214,7 +214,7 @@ public class PrintPdf : System.Web.Services.WebService {
                                             ", description));
         } 
         foreach (Foods.NewFood food in meal) {
-            sb.AppendLine(string.Format(@"- {0} {1} {2}, ({3} g)", food.food, food.quantity, food.unit, food.mass));
+            sb.AppendLine(string.Format(@"- {0}, {1} {2}, ({3} g)", food.food, food.quantity, food.unit, food.mass));
         }
         sb.AppendLine("________________________________________________________________________");
         }
