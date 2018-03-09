@@ -140,7 +140,7 @@ public class PrintPdf : System.Web.Services.WebService {
 {8}: {9} cm
 {10}: {11} cm
 {12}: {13} ({14})"
-            , t.Tran("gender", lang), clientData.gender.title
+            , t.Tran("gender", lang), t.Tran(clientData.gender.title, lang)
             , t.Tran("age", lang), clientData.age
             , t.Tran("height", lang), clientData.height
             , t.Tran("weight", lang), clientData.weight

@@ -2,7 +2,7 @@
     <div class="panel panel-default">
         <div class="panel-heading noprint">
             <a href="" ng-click="printWindow()" class="btn btn-default hidden-xs"><span class="text-success"><i class="fa fa-print"></i> <span class="hidden-xs text-capitalize">{{'print' | translate}} (Browser)</span></span></a>
-            <a ng-if="printTpl!='chartsTpl'" href="" class="btn btn-default" ng-click="printPdf()"><span class="text-danger"><i class="fa fa-file-pdf-o"></i> <span>{{'PDF' | translate}}</span></span></a>
+            <a ng-if="printTpl!='chartsTpl' && pdfLink!=null" href="{{pdfLink}}" class="btn btn-default" download><span class="text-danger"><i class="fa fa-file-pdf-o"></i> <span>{{'PDF' | translate}}</span></span></a>
         </div>
         <div class="panel-body" style="font-size:12px">
             <div class="noprint">

@@ -3818,13 +3818,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 .controller('printCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
     $scope.consumers = 1;
     $scope.fontsize = 14;
-  
-    $scope.toggleTpl = function (x) {
-        $scope.printTpl = x;
 
-    };
-    $scope.toggleTpl('menuTpl');
-  
     $scope.changeFontSize = function (x) {
         $scope.fs = { 'font-size': + x + 'px' };
     };
@@ -3847,7 +3841,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
               .then(function (response) {
                   var fileName = response.data.d;
                   $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
-                  $scope.openPdf();
+                 // $scope.openPdf();
               },
               function (response) {
                   alert(response.data.d)
@@ -3864,7 +3858,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
           .then(function (response) {
               var fileName = response.data.d;
               $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
-              $scope.openPdf();
+           //   $scope.openPdf();
           },
           function (response) {
               alert(response.data.d)
@@ -3919,7 +3913,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
     if ($rootScope.client != undefined) { getClient(); }
 
-    //TODO
+    $scope.toggleTpl = function (x) {
+        $scope.printTpl = x;
+            $scope.printPdf();
+    };
+
     $scope.changeNumberOfConsumers = function (x) {
         $scope.consumers = x;
         $http({
@@ -3929,12 +3927,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
        .then(function (response) {
            $scope.foods = JSON.parse(response.data.d);
+           $scope.toggleTpl('menuTpl');
        },
        function (response) {
            //   alert(response.data.d)
        });
     }
-    if ($rootScope.currentMenu != undefined) { $scope.changeNumberOfConsumers($scope.consumers); }
+    if (angular.isDefined($rootScope.currentMenu)) { $scope.changeNumberOfConsumers($scope.consumers); }
+
 
 }])
 
