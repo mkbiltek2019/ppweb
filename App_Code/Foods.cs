@@ -730,7 +730,7 @@ public class Foods : System.Web.Services.WebService {
             default:
                 break;
         }
-
+        x.unit = GetUnit(x.quantity, initFood.unit);
         x.energy = Math.Round(initFood.energy * k, 1);
         x.carbohydrates = Math.Round(initFood.carbohydrates * k, 1);
         x.proteins = Math.Round(initFood.proteins * k, 1);
@@ -1225,6 +1225,117 @@ public class Foods : System.Web.Services.WebService {
         } catch (Exception e) { return new List<string>(); }
     }
 
+    private string GetUnit(double qty, string unit) {
+        switch (unit){
+            #region hr
+            case "jušna žlica":
+                if (qty > 1 && qty < 5 ) { unit = "jušne žlice"; }
+                if (qty >= 5) { unit = "jušnih žlica"; }
+                break;
+            case "šalica":
+                if (qty > 1 && qty < 5) { unit = "šalice"; }
+                if (qty >= 5) { unit = "šalice"; }
+                break;
+            case "plod":
+                if (qty > 1 && qty < 5) { unit = "ploda"; }
+                if (qty >= 5) { unit = "plodova"; }
+                break;
+            case "čajna žličica":
+                if (qty > 1 && qty < 5) { unit = "čajne žličice"; }
+                if (qty >= 5) { unit = "čajnih žličica"; }
+                break;
+            case "porcija":
+                if (qty > 1 && qty < 5) { unit = "porcije"; }
+                if (qty >= 5) { unit = "porcija"; }
+                break;
+            case "limenka":
+                if (qty > 1 && qty < 5) { unit = "limenke"; }
+                if (qty >= 5) { unit = "limenki"; }
+                break;
+            case "kriška":
+                if (qty > 1 && qty < 5) { unit = "kriške"; }
+                if (qty >= 5) { unit = "kriški"; }
+                break;
+            case "boca":
+                if (qty > 1 && qty < 5) { unit = "boce"; }
+                if (qty >= 5) { unit = "boca"; }
+                break;
+            case "čaša":
+                if (qty > 1 && qty < 5) { unit = "čaše"; }
+                if (qty >= 5) { unit = "čaša"; }
+                break;
+            case "polovica":
+                if (qty > 1 && qty < 5) { unit = "polovice"; }
+                if (qty >= 5) { unit = "polovica"; }
+                break;
+            case "mali komad":
+                if (qty > 1 && qty < 5) { unit = "mala komada"; }
+                if (qty >= 5) { unit = "malih komada"; }
+                break;
+            case "listić":
+                if (qty > 1 && qty < 5) { unit = "listića"; }
+                if (qty >= 5) { unit = "listića"; }
+                break;
+            case "zrno":
+                if (qty > 1 && qty < 5) { unit = "zrna"; }
+                if (qty >= 5) { unit = "zrna"; }
+                break;
+            case "veliki plod":
+                if (qty > 1 && qty < 5) { unit = "velika ploda"; }
+                if (qty >= 5) { unit = "velikih plodova"; }
+                break;
+            case "srednji plod":
+                if (qty > 1 && qty < 5) { unit = "srednja ploda"; }
+                if (qty >= 5) { unit = "srednjih plodova"; }
+                break;
+            case "veliki komad":
+                if (qty > 1 && qty < 5) { unit = "velika komada"; }
+                if (qty >= 5) { unit = "velikih komada"; }
+                break;
+            case "komad":
+                if (qty > 1 && qty < 5) { unit = "komada"; }
+                if (qty >= 5) { unit = "komada"; }
+                break;
+            #endregion hr
+            #region sr
+            case "šoljica":
+                if (qty > 1 && qty < 5) { unit = "šoljice"; }
+                if (qty >= 5) { unit = "šoljica"; }
+                break;
+            case "parče":
+                if (qty > 1 && qty < 5) { unit = "parčeta"; }
+                if (qty >= 5) { unit = "parčeta"; }
+                break;
+            case "čajna kašika":
+                if (qty > 1 && qty < 5) { unit = "čajne kašike"; }
+                if (qty >= 5) { unit = "čajnih kašika"; }
+                break;
+            case "supena kašika":
+                if (qty > 1 && qty < 5) { unit = "supene kašike"; }
+                if (qty >= 5) { unit = "supenih kašika"; }
+                break;
+            case "malo parče":
+                if (qty > 1 && qty < 5) { unit = "mala parčeta"; }
+                if (qty >= 5) { unit = "malih parčeta"; }
+                break;
+            case "veliko parče":
+                if (qty > 1 && qty < 5) { unit = "velika parčeta"; }
+                if (qty >= 5) { unit = "velikih parčeta"; }
+                break;
+            case "kašičica":
+                if (qty > 1 && qty < 5) { unit = "kašičice"; }
+                if (qty >= 5) { unit = "kašičica"; }
+                break;
+            case "flaša":
+                if (qty > 1 && qty < 5) { unit = "flaše"; }
+                if (qty >= 5) { unit = "flaša"; }
+                break;
+            #endregion sr
+            default:
+                break;
+        }
+        return unit;
+    }
 
     #region Servings
     private Servings GetRecommendedServings(ClientsData.NewClientData clientData, int tee) {

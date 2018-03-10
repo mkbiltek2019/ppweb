@@ -26,7 +26,7 @@
         "unit": null
       },
       "id": "a2ea3b16-99e3-48ef-97e4-3bb10c74bfec",
-      "food": "Zobene pahuljice",
+      "food": "Ovsena kaša, pripremljena na vodi",
       "foodGroupVitaminLost": "C",
       "thermalTreatments": [
         {
@@ -67,7 +67,7 @@
         }
       ],
       "quantity": 0.5,
-      "unit": "šalica",
+      "unit": "šoljica",
       "mass": 44.0,
       "energy": 165.0,
       "carbohydrates": 29.0,
@@ -139,7 +139,7 @@
         "unit": null
       },
       "id": "fc3fc0d4-b918-49aa-a7d3-58ae17cd50c1",
-      "food": "Jogurt od djelomično obrana mlijeka",
+      "food": "Jogurt od delimično obranog mleka",
       "foodGroupVitaminLost": "MI",
       "thermalTreatments": [
         {
@@ -198,7 +198,7 @@
         }
       ],
       "quantity": 1.0,
-      "unit": "šalica",
+      "unit": "šoljica",
       "mass": 240.0,
       "energy": 146.7,
       "carbohydrates": 11.3,
@@ -270,7 +270,7 @@
         "unit": null
       },
       "id": "e7d63ba8-e13a-4097-812c-38b39ce7b059",
-      "food": "Grožđice",
+      "food": "Suvo grožđe",
       "foodGroupVitaminLost": "F",
       "thermalTreatments": [
         {
@@ -293,7 +293,7 @@
         }
       ],
       "quantity": 2.0,
-      "unit": "jušna žlica",
+      "unit": "supene kašike",
       "mass": 19.0,
       "energy": 51.6,
       "carbohydrates": 13.2,
@@ -460,7 +460,7 @@
         "unit": null
       },
       "id": "716c67e6-96b2-4b39-a929-50cbbfce1ef2",
-      "food": "Mrkva, mlada",
+      "food": "Šargarepa, mlada",
       "foodGroupVitaminLost": "V",
       "thermalTreatments": [
         {
@@ -519,7 +519,7 @@
         }
       ],
       "quantity": 0.5,
-      "unit": "šalica",
+      "unit": "šoljica",
       "mass": 77.0,
       "energy": 23.1,
       "carbohydrates": 4.6,
@@ -573,10 +573,10 @@
       },
       "meal": {
         "code": "L",
-        "title": "ručak"
+        "title": "doručak"
       },
       "servings": {
-        "cerealsServ": 10.0,
+        "cerealsServ": 8.0,
         "vegetablesServ": 0.0,
         "fruitServ": 0.0,
         "meatServ": 0.0,
@@ -591,7 +591,7 @@
         "unit": null
       },
       "id": "6de9e76a-7a22-48c8-b3a2-f6eee39ee8f9",
-      "food": "Kruh, integralni, prosjek",
+      "food": "Hleb, integralni, prosek",
       "foodGroupVitaminLost": "C",
       "thermalTreatments": [
         {
@@ -631,52 +631,52 @@
           "vitaminC": 0.0
         }
       ],
-      "quantity": 5.0,
-      "unit": "kriška",
-      "mass": 350.0,
-      "energy": 759.5,
-      "carbohydrates": 147.0,
-      "proteins": 32.9,
-      "fats": 8.8,
-      "starch": 137.6,
-      "totalSugar": 9.8,
-      "glucose": 0.7,
-      "fructose": 1.4,
+      "quantity": 4.0,
+      "unit": "kriške",
+      "mass": 280.0,
+      "energy": 607.6,
+      "carbohydrates": 117.6,
+      "proteins": 26.3,
+      "fats": 7.0,
+      "starch": 110.0,
+      "totalSugar": 7.8,
+      "glucose": 0.6,
+      "fructose": 1.1,
       "saccharose": 0.0,
-      "maltose": 7.7,
+      "maltose": 6.2,
       "lactose": 0.0,
-      "fibers": 17.5,
-      "saturatedFats": 1.6,
-      "monounsaturatedFats": 2.1,
-      "polyunsaturatedFats": 2.9,
+      "fibers": 14.0,
+      "saturatedFats": 1.3,
+      "monounsaturatedFats": 1.7,
+      "polyunsaturatedFats": 2.3,
       "trifluoroaceticAcid": 0.1,
       "cholesterol": 0.0,
-      "sodium": 1704.5,
-      "potassium": 885.5,
-      "calcium": 371.0,
-      "magnesium": 231.0,
-      "phosphorus": 707.0,
-      "iron": 8.4,
-      "copper": 0.8,
-      "zinc": 5.6,
-      "chlorine": 2800.0,
-      "manganese": 6.1,
-      "selenium": 24.5,
+      "sodium": 1363.6,
+      "potassium": 708.4,
+      "calcium": 296.8,
+      "magnesium": 184.8,
+      "phosphorus": 565.6,
+      "iron": 6.7,
+      "copper": 0.6,
+      "zinc": 4.5,
+      "chlorine": 2240.0,
+      "manganese": 4.9,
+      "selenium": 19.6,
       "iodine": 0.0,
       "retinol": 0.0,
       "carotene": 0.0,
       "vitaminD": 0.0,
-      "vitaminE": 1.0,
-      "vitaminB1": 0.9,
-      "vitaminB2": 0.2,
-      "vitaminB3": 13.3,
-      "vitaminB6": 0.4,
+      "vitaminE": 0.8,
+      "vitaminB1": 0.7,
+      "vitaminB2": 0.1,
+      "vitaminB3": 10.6,
+      "vitaminB6": 0.3,
       "vitaminB12": 0.0,
-      "folate": 140.0,
-      "pantothenicAcid": 2.2,
-      "biotin": 22.0,
+      "folate": 112.0,
+      "pantothenicAcid": 1.8,
+      "biotin": 17.6,
       "vitaminC": 0.0,
-      "vitaminK": 7.0
+      "vitaminK": 5.6
     },
     {
       "foodGroup": {
@@ -686,7 +686,7 @@
       },
       "meal": {
         "code": "L",
-        "title": "ručak"
+        "title": "doručak"
       },
       "servings": {
         "cerealsServ": 0.0,
@@ -763,7 +763,7 @@
         }
       ],
       "quantity": 2.0,
-      "unit": "mali komad",
+      "unit": "mala parčeta",
       "mass": 56.0,
       "energy": 191.0,
       "carbohydrates": 0.0,
@@ -835,7 +835,7 @@
         "unit": null
       },
       "id": "b08dde1c-f978-4218-8c59-27bd44b56b74",
-      "food": "Rajčica",
+      "food": "Paradajz",
       "foodGroupVitaminLost": "V",
       "thermalTreatments": [
         {
@@ -948,7 +948,7 @@
       },
       "meal": {
         "code": "L",
-        "title": "ručak"
+        "title": "doručak"
       },
       "servings": {
         "cerealsServ": 0.0,
@@ -1025,7 +1025,7 @@
         }
       ],
       "quantity": 1.75,
-      "unit": "šalica",
+      "unit": "šoljice",
       "mass": 250.1,
       "energy": 25.0,
       "carbohydrates": 3.7,
@@ -1079,7 +1079,7 @@
       },
       "meal": {
         "code": "L",
-        "title": "ručak"
+        "title": "doručak"
       },
       "servings": {
         "cerealsServ": 0.0,
@@ -1097,11 +1097,11 @@
         "unit": null
       },
       "id": "7c0c20cf-6872-4384-9c4e-f3da10dfb075",
-      "food": "Ulje, maslinovo",
+      "food": "Ulje, kukuruzno",
       "foodGroupVitaminLost": "",
       "thermalTreatments": [],
       "quantity": 3.0,
-      "unit": "čajna žličica",
+      "unit": "kašičice",
       "mass": 12.9,
       "energy": 116.1,
       "carbohydrates": 0.0,
@@ -1155,7 +1155,7 @@
       },
       "meal": {
         "code": "AS",
-        "title": "popodnevna užina"
+        "title": "doručak"
       },
       "servings": {
         "cerealsServ": 0.0,
@@ -1173,7 +1173,7 @@
         "unit": null
       },
       "id": "6478cb6a-572b-4c58-8585-65ec546394cc",
-      "food": "Jabuka, neoguljena",
+      "food": "Jabuka, neočišćena",
       "foodGroupVitaminLost": "F",
       "thermalTreatments": [
         {
@@ -1196,7 +1196,7 @@
         }
       ],
       "quantity": 2.0,
-      "unit": "veliki plod",
+      "unit": "velika ploda",
       "mass": 440.0,
       "energy": 206.8,
       "carbohydrates": 51.9,
@@ -1250,7 +1250,7 @@
       },
       "meal": {
         "code": "D",
-        "title": "večera"
+        "title": "doručak"
       },
       "servings": {
         "cerealsServ": 0.0,
@@ -1268,11 +1268,11 @@
         "unit": null
       },
       "id": "b384aaae-40ff-4e8c-ba5a-927a56f66677",
-      "food": "Piletina, bijelo meso, pečena",
+      "food": "Piletina, belo meso, pečena",
       "foodGroupVitaminLost": "",
       "thermalTreatments": [],
       "quantity": 4.0,
-      "unit": "mali komad",
+      "unit": "mala parčeta",
       "mass": 80.0,
       "energy": 122.4,
       "carbohydrates": 0.0,
@@ -1326,7 +1326,7 @@
       },
       "meal": {
         "code": "D",
-        "title": "večera"
+        "title": "doručak"
       },
       "servings": {
         "cerealsServ": 3.294,
@@ -1344,11 +1344,11 @@
         "unit": null
       },
       "id": "4250a894-4ad4-4fd8-a08d-d8640eb328ed",
-      "food": "Krumpir, mladi, kuhan u neposoljenoj vodi",
+      "food": "Krompir, mladi, kuvan u neposoljenoj vodi",
       "foodGroupVitaminLost": "",
       "thermalTreatments": [],
       "quantity": 2.0,
-      "unit": "srednji plod",
+      "unit": "srednja ploda",
       "mass": 280.0,
       "energy": 210.2,
       "carbohydrates": 49.8,
@@ -1402,7 +1402,7 @@
       },
       "meal": {
         "code": "D",
-        "title": "večera"
+        "title": "doručak"
       },
       "servings": {
         "cerealsServ": 0.0,
@@ -1420,11 +1420,11 @@
         "unit": null
       },
       "id": "7c0c20cf-6872-4384-9c4e-f3da10dfb075",
-      "food": "Ulje, maslinovo",
+      "food": "Ulje, kukuruzno",
       "foodGroupVitaminLost": "",
       "thermalTreatments": [],
       "quantity": 4.0,
-      "unit": "čajna žličica",
+      "unit": "kašičice",
       "mass": 17.2,
       "energy": 154.8,
       "carbohydrates": 0.0,
@@ -1478,7 +1478,7 @@
       },
       "meal": {
         "code": "D",
-        "title": "večera"
+        "title": "doručak"
       },
       "servings": {
         "cerealsServ": 0.0,
@@ -1496,11 +1496,11 @@
         "unit": null
       },
       "id": "1dc00a94-5ccd-4c27-ab47-7d79529ea912",
-      "food": "Špinat, kuhan u neposoljenoj vodi",
+      "food": "Spanać",
       "foodGroupVitaminLost": "",
       "thermalTreatments": [],
       "quantity": 1.5,
-      "unit": "šalica",
+      "unit": "šoljice",
       "mass": 240.0,
       "energy": 45.6,
       "carbohydrates": 1.9,
@@ -1572,7 +1572,7 @@
         "unit": null
       },
       "id": "fc3fc0d4-b918-49aa-a7d3-58ae17cd50c1",
-      "food": "Jogurt od djelomično obrana mlijeka",
+      "food": "Jogurt od delimično obranog mleka",
       "foodGroupVitaminLost": "MI",
       "thermalTreatments": [
         {
@@ -1631,7 +1631,7 @@
         }
       ],
       "quantity": 1.0,
-      "unit": "šalica",
+      "unit": "šoljica",
       "mass": 240.0,
       "energy": 146.7,
       "carbohydrates": 11.3,
@@ -1705,7 +1705,7 @@
         "unit": null
       },
       "id": "a2ea3b16-99e3-48ef-97e4-3bb10c74bfec",
-      "food": "Zobene pahuljice",
+      "food": "Ovsena kaša, pripremljena na vodi",
       "foodGroupVitaminLost": "C",
       "thermalTreatments": [
         {
@@ -1746,7 +1746,7 @@
         }
       ],
       "quantity": 1.0,
-      "unit": "šalica",
+      "unit": "šoljica",
       "mass": 88.0,
       "energy": 330.0,
       "carbohydrates": 58.08,
@@ -1818,7 +1818,7 @@
         "unit": null
       },
       "id": "fc3fc0d4-b918-49aa-a7d3-58ae17cd50c1",
-      "food": "Jogurt od djelomično obrana mlijeka",
+      "food": "Jogurt od delimično obranog mleka",
       "foodGroupVitaminLost": "MI",
       "thermalTreatments": [
         {
@@ -1877,7 +1877,7 @@
         }
       ],
       "quantity": 1.0,
-      "unit": "šalica",
+      "unit": "šoljica",
       "mass": 240.0,
       "energy": 146.7,
       "carbohydrates": 11.29,
@@ -1949,7 +1949,7 @@
         "unit": null
       },
       "id": "e7d63ba8-e13a-4097-812c-38b39ce7b059",
-      "food": "Grožđice",
+      "food": "Suvo grožđe",
       "foodGroupVitaminLost": "F",
       "thermalTreatments": [
         {
@@ -1972,7 +1972,7 @@
         }
       ],
       "quantity": 1.0,
-      "unit": "jušna žlica",
+      "unit": "supena kašika",
       "mass": 9.5,
       "energy": 25.8,
       "carbohydrates": 6.58,
@@ -2139,7 +2139,7 @@
         "unit": null
       },
       "id": "716c67e6-96b2-4b39-a929-50cbbfce1ef2",
-      "food": "Mrkva, mlada",
+      "food": "Šargarepa, mlada",
       "foodGroupVitaminLost": "V",
       "thermalTreatments": [
         {
@@ -2198,7 +2198,7 @@
         }
       ],
       "quantity": 1.0,
-      "unit": "šalica",
+      "unit": "šoljica",
       "mass": 154.0,
       "energy": 46.2,
       "carbohydrates": 9.24,
@@ -2270,7 +2270,7 @@
         "unit": null
       },
       "id": "6de9e76a-7a22-48c8-b3a2-f6eee39ee8f9",
-      "food": "Kruh, integralni, prosjek",
+      "food": "Hleb, integralni, prosek",
       "foodGroupVitaminLost": "C",
       "thermalTreatments": [
         {
@@ -2442,7 +2442,7 @@
         }
       ],
       "quantity": 1.0,
-      "unit": "mali komad",
+      "unit": "malo parče",
       "mass": 28.0,
       "energy": 95.5,
       "carbohydrates": 0.0,
@@ -2514,7 +2514,7 @@
         "unit": null
       },
       "id": "b08dde1c-f978-4218-8c59-27bd44b56b74",
-      "food": "Rajčica",
+      "food": "Paradajz",
       "foodGroupVitaminLost": "V",
       "thermalTreatments": [
         {
@@ -2704,7 +2704,7 @@
         }
       ],
       "quantity": 1.0,
-      "unit": "šalica",
+      "unit": "šoljica",
       "mass": 142.9,
       "energy": 14.3,
       "carbohydrates": 2.14,
@@ -2776,11 +2776,11 @@
         "unit": null
       },
       "id": "7c0c20cf-6872-4384-9c4e-f3da10dfb075",
-      "food": "Ulje, maslinovo",
+      "food": "Ulje, kukuruzno",
       "foodGroupVitaminLost": "",
       "thermalTreatments": [],
       "quantity": 1.0,
-      "unit": "čajna žličica",
+      "unit": "kašičica",
       "mass": 4.3,
       "energy": 38.7,
       "carbohydrates": 0.0,
@@ -2852,7 +2852,7 @@
         "unit": null
       },
       "id": "6478cb6a-572b-4c58-8585-65ec546394cc",
-      "food": "Jabuka, neoguljena",
+      "food": "Jabuka, neočišćena",
       "foodGroupVitaminLost": "F",
       "thermalTreatments": [
         {
@@ -2947,11 +2947,11 @@
         "unit": null
       },
       "id": "b384aaae-40ff-4e8c-ba5a-927a56f66677",
-      "food": "Piletina, bijelo meso, pečena",
+      "food": "Piletina, belo meso, pečena",
       "foodGroupVitaminLost": "",
       "thermalTreatments": [],
       "quantity": 1.0,
-      "unit": "mali komad",
+      "unit": "malo parče",
       "mass": 20.0,
       "energy": 30.6,
       "carbohydrates": 0.0,
@@ -3023,7 +3023,7 @@
         "unit": null
       },
       "id": "4250a894-4ad4-4fd8-a08d-d8640eb328ed",
-      "food": "Krumpir, mladi, kuhan u neposoljenoj vodi",
+      "food": "Krompir, mladi, kuvan u neposoljenoj vodi",
       "foodGroupVitaminLost": "",
       "thermalTreatments": [],
       "quantity": 1.0,
@@ -3099,11 +3099,11 @@
         "unit": null
       },
       "id": "7c0c20cf-6872-4384-9c4e-f3da10dfb075",
-      "food": "Ulje, maslinovo",
+      "food": "Ulje, kukuruzno",
       "foodGroupVitaminLost": "",
       "thermalTreatments": [],
       "quantity": 1.0,
-      "unit": "čajna žličica",
+      "unit": "kašičica",
       "mass": 4.3,
       "energy": 38.7,
       "carbohydrates": 0.0,
@@ -3175,11 +3175,11 @@
         "unit": null
       },
       "id": "1dc00a94-5ccd-4c27-ab47-7d79529ea912",
-      "food": "Špinat, kuhan u neposoljenoj vodi",
+      "food": "Spanać",
       "foodGroupVitaminLost": "",
       "thermalTreatments": [],
       "quantity": 1.0,
-      "unit": "šalica",
+      "unit": "šoljica",
       "mass": 160.0,
       "energy": 30.4,
       "carbohydrates": 1.28,
@@ -3251,7 +3251,7 @@
         "unit": null
       },
       "id": "fc3fc0d4-b918-49aa-a7d3-58ae17cd50c1",
-      "food": "Jogurt od djelomično obrana mlijeka",
+      "food": "Jogurt od delimično obranog mleka",
       "foodGroupVitaminLost": "MI",
       "thermalTreatments": [
         {
@@ -3310,7 +3310,7 @@
         }
       ],
       "quantity": 1.0,
-      "unit": "šalica",
+      "unit": "šoljica",
       "mass": 240.0,
       "energy": 146.7,
       "carbohydrates": 11.29,
@@ -3375,7 +3375,7 @@
     {
       "code": "L",
       "title": "ručak",
-      "description": "Sendvič od sira, salata od rajčice i krastavaca.",
+      "description": "Sendvič sa sirom, salata od paradajza i krastavaca.",
       "isSelected": true,
       "isDisabled": true
     },
@@ -3389,7 +3389,7 @@
     {
       "code": "D",
       "title": "večera",
-      "description": "Pečena piletina, lešo špinat i krumpir.",
+      "description": "Pečena piletina, kuvani spanać i krompir.",
       "isSelected": true,
       "isDisabled": true
     },

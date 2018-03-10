@@ -85,7 +85,7 @@
         }
       ],
       "quantity": 1.5,
-      "unit": "šalica",
+      "unit": "šalice",
       "mass": 360.0,
       "energy": 220.0,
       "carbohydrates": 16.9,
@@ -237,7 +237,7 @@
       "foodGroupVitaminLost": "",
       "thermalTreatments": [],
       "quantity": 4.0,
-      "unit": "čajna žličica",
+      "unit": "čajne žličice",
       "mass": 32.0,
       "energy": 92.0,
       "carbohydrates": 24.4,
@@ -332,7 +332,7 @@
         }
       ],
       "quantity": 1.5,
-      "unit": "srednji plod",
+      "unit": "srednja ploda",
       "mass": 231.0,
       "energy": 219.4,
       "carbohydrates": 53.6,
@@ -1041,7 +1041,7 @@
       },
       "meal": {
         "code": "L",
-        "title": "ručak"
+        "title": "doručak"
       },
       "servings": {
         "cerealsServ": 3.0,
@@ -1068,7 +1068,7 @@
             "title": "kuhanje"
           },
           "foodGroupVitaminLost": "V",
-          "isSelected": true,
+          "isSelected": false,
           "vitaminE": 0.0,
           "vitaminB1": 0.35,
           "vitaminB2": 0.2,
@@ -1118,7 +1118,7 @@
         }
       ],
       "quantity": 6.0,
-      "unit": "jušna žlica",
+      "unit": "jušnih žlica",
       "mass": 75.0,
       "energy": 209.4,
       "carbohydrates": 34.7,
@@ -1172,7 +1172,7 @@
       },
       "meal": {
         "code": "L",
-        "title": "ručak"
+        "title": "doručak"
       },
       "servings": {
         "cerealsServ": 0.0,
@@ -1194,7 +1194,7 @@
       "foodGroupVitaminLost": "",
       "thermalTreatments": [],
       "quantity": 3.0,
-      "unit": "čajna žličica",
+      "unit": "čajne žličice",
       "mass": 12.9,
       "energy": 116.1,
       "carbohydrates": 0.0,
@@ -1248,7 +1248,7 @@
       },
       "meal": {
         "code": "L",
-        "title": "ručak"
+        "title": "doručak"
       },
       "servings": {
         "cerealsServ": 0.0,
@@ -1270,7 +1270,7 @@
       "foodGroupVitaminLost": "",
       "thermalTreatments": [],
       "quantity": 2.0,
-      "unit": "mali komad",
+      "unit": "mala komada",
       "mass": 40.0,
       "energy": 81.6,
       "carbohydrates": 0.0,
@@ -1324,7 +1324,7 @@
       },
       "meal": {
         "code": "L",
-        "title": "ručak"
+        "title": "doručak"
       },
       "servings": {
         "cerealsServ": 0.0,
@@ -1401,7 +1401,7 @@
         }
       ],
       "quantity": 3.0,
-      "unit": "šalica",
+      "unit": "šalice",
       "mass": 105.0,
       "energy": 13.8,
       "carbohydrates": 2.0,
@@ -1531,7 +1531,7 @@
       },
       "meal": {
         "code": "L",
-        "title": "ručak"
+        "title": "doručak"
       },
       "servings": {
         "cerealsServ": 0.0,
@@ -1553,7 +1553,7 @@
       "foodGroupVitaminLost": "",
       "thermalTreatments": [],
       "quantity": 4.0,
-      "unit": "čajna žličica",
+      "unit": "čajne žličice",
       "mass": 17.2,
       "energy": 154.8,
       "carbohydrates": 0.0,
@@ -1666,7 +1666,7 @@
         }
       ],
       "quantity": 2.0,
-      "unit": "kriška",
+      "unit": "kriške",
       "mass": 140.0,
       "energy": 303.8,
       "carbohydrates": 58.8,
@@ -1815,7 +1815,7 @@
       },
       "meal": {
         "code": "L",
-        "title": "ručak"
+        "title": "doručak"
       },
       "servings": {
         "cerealsServ": 0.0,
@@ -1856,7 +1856,7 @@
         }
       ],
       "quantity": 2.0,
-      "unit": "veliki plod",
+      "unit": "velika ploda",
       "mass": 440.0,
       "energy": 206.8,
       "carbohydrates": 51.9,
@@ -1910,7 +1910,7 @@
       },
       "meal": {
         "code": "L",
-        "title": "ručak"
+        "title": "doručak"
       },
       "servings": {
         "cerealsServ": 0.0,
@@ -1932,7 +1932,7 @@
       "foodGroupVitaminLost": "",
       "thermalTreatments": [],
       "quantity": 2.0,
-      "unit": "čajna žličica",
+      "unit": "čajne žličice",
       "mass": 8.0,
       "energy": 31.6,
       "carbohydrates": 8.4,
@@ -1986,7 +1986,7 @@
       },
       "meal": {
         "code": "D",
-        "title": "večera"
+        "title": "doručak"
       },
       "servings": {
         "cerealsServ": 0.0,
@@ -2081,7 +2081,7 @@
         }
       ],
       "quantity": 2.0,
-      "unit": "mali komad",
+      "unit": "mala komada",
       "mass": 46.0,
       "energy": 87.0,
       "carbohydrates": 0.0,
@@ -2135,7 +2135,7 @@
       },
       "meal": {
         "code": "D",
-        "title": "večera"
+        "title": "doručak"
       },
       "servings": {
         "cerealsServ": 4.0,
@@ -2157,7 +2157,7 @@
       "foodGroupVitaminLost": "",
       "thermalTreatments": [],
       "quantity": 4.0,
-      "unit": "šalica",
+      "unit": "šalice",
       "mass": 280.0,
       "energy": 240.8,
       "carbohydrates": 51.8,
@@ -2342,7 +2342,7 @@
       },
       "meal": {
         "code": "D",
-        "title": "večera"
+        "title": "doručak"
       },
       "servings": {
         "cerealsServ": 0.0,
@@ -2419,7 +2419,7 @@
         }
       ],
       "quantity": 1.2,
-      "unit": "šalica",
+      "unit": "šalice",
       "mass": 171.5,
       "energy": 17.2,
       "carbohydrates": 2.6,
@@ -2473,7 +2473,7 @@
       },
       "meal": {
         "code": "D",
-        "title": "večera"
+        "title": "doručak"
       },
       "servings": {
         "cerealsServ": 0.0,
@@ -2495,7 +2495,7 @@
       "foodGroupVitaminLost": "",
       "thermalTreatments": [],
       "quantity": 3.0,
-      "unit": "čajna žličica",
+      "unit": "čajne žličice",
       "mass": 12.9,
       "energy": 116.1,
       "carbohydrates": 0.0,
@@ -5743,7 +5743,7 @@
     {
       "code": "L",
       "title": "ručak",
-      "description": "Grah varivo s povrćem, kuhana šunka, salata, kruh, voćna salata.\n\nGrah varivo s povrćem priprema; preko noći u vodi namakati grah. Na ulju blago popržiti crveni luk, dodati oprani grah te izrezanu rajčicu, krumpir, mrkvu i celer. Začiniti po želji. Doliti vodu i kuhati. Pred služenje posuti isjeckanim peršinom. Poslužiti sa suhim mesom i zelenom salatom.",
+      "description": "Grah varivo s povrćem, kuhana šunka, salata, kruh, voćna salata.\nGrah varivo s povrćem priprema: preko noći u vodi namakati grah. Na ulju blago popržiti crveni luk, dodati oprani grah te izrezanu rajčicu, krumpir, mrkvu i celer. Začiniti po želji. Doliti vodu i kuhati. Pred služenje posuti isjeckanim peršinom. Poslužiti sa suhim mesom i zelenom salatom.",
       "isSelected": true,
       "isDisabled": true
     },
@@ -5757,7 +5757,7 @@
     {
       "code": "D",
       "title": "večera",
-      "description": "Tjestenina s tunom, salata od rajčice i krastavaca, crni kruh, jogurt.\n\nTjestenina s tunom priprema, skuhanu i ocijeđenu tjesteninu pomiješati s tunom iz konzerve. Poslužiti sa salatom od rajčice.",
+      "description": "Tjestenina s tunom, salata od rajčice i krastavaca, crni kruh, jogurt.\nTjestenina s tunom priprema: skuhanu i ocijeđenu tjesteninu pomiješati s tunom iz konzerve. Poslužiti sa salatom od rajčice.",
       "isSelected": true,
       "isDisabled": true
     },

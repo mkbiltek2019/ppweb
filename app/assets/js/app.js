@@ -2032,21 +2032,23 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.toggleAnalytics('chartsTpl');
 
     $scope.changeQuantity = function (x, type, idx) {
-        $timeout(function () {
-            $http({
-                url: $sessionStorage.config.backend + webService + '/ChangeFoodQuantity',
-                method: "POST",
-                data: { initFood: $rootScope.currentMenu.data.selectedInitFoods[idx], newQuantity: x.quantity, newMass: x.mass, type: type }
-            })
-            .then(function (response) {
-                $rootScope.currentMenu.data.selectedFoods[idx] = JSON.parse(response.data.d);
+        if (x.quantity > 0) {
+            $timeout(function () {
+                $http({
+                    url: $sessionStorage.config.backend + webService + '/ChangeFoodQuantity',
+                    method: "POST",
+                    data: { initFood: $rootScope.currentMenu.data.selectedInitFoods[idx], newQuantity: x.quantity, newMass: x.mass, type: type }
+                })
+                .then(function (response) {
+                    $rootScope.currentMenu.data.selectedFoods[idx] = JSON.parse(response.data.d);
 
-                getTotals($rootScope.currentMenu);
-            },
-            function (response) {
-                alert(response.data.d)
-            });
-        }, 400);
+                    getTotals($rootScope.currentMenu);
+                },
+                function (response) {
+                    alert(response.data.d)
+                });
+            }, 200);
+        }
     }
 
     $scope.change = function (x, type, idx) {
@@ -2175,20 +2177,22 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         $scope.changeQuantity = function (x, type) {
-            var currentFood = $scope.food.food;  // << in case where user change food title
-            $timeout(function () {
-                $http({
-                    url: $sessionStorage.config.backend + webService + '/ChangeFoodQuantity',
-                    method: "POST",
-                    data: { initFood: initFood, newQuantity: x.quantity, newMass: x.mass, type: type }
-                })
-                .then(function (response) {
-                    $scope.food = JSON.parse(response.data.d);
-                    $scope.food.food = currentFood; // << in case where user change food title
-                },
-                function (response) {
-                });
-            }, 400);
+            if (x.quantity > 0) {
+                var currentFood = $scope.food.food;  // << in case where user change food title
+                $timeout(function () {
+                    $http({
+                        url: $sessionStorage.config.backend + webService + '/ChangeFoodQuantity',
+                        method: "POST",
+                        data: { initFood: initFood, newQuantity: x.quantity, newMass: x.mass, type: type }
+                    })
+                    .then(function (response) {
+                        $scope.food = JSON.parse(response.data.d);
+                        $scope.food.food = currentFood; // << in case where user change food title
+                    },
+                    function (response) {
+                    });
+                }, 200);
+            }
         }
 
         $scope.change = function (x, type) {

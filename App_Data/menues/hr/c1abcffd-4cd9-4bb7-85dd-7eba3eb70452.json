@@ -311,7 +311,7 @@
         }
       ],
       "quantity": 2.0,
-      "unit": "srednji plod",
+      "unit": "srednja ploda",
       "mass": 260.0,
       "energy": 104.0,
       "carbohydrates": 26.0,
@@ -442,7 +442,7 @@
         }
       ],
       "quantity": 1.4,
-      "unit": "šalica",
+      "unit": "šalice",
       "mass": 336.0,
       "energy": 205.4,
       "carbohydrates": 15.8,
@@ -1340,7 +1340,7 @@
       },
       "meal": {
         "code": "L",
-        "title": "ručak"
+        "title": "doručak"
       },
       "servings": {
         "cerealsServ": 0.0,
@@ -1385,7 +1385,7 @@
             "title": "mesna jela"
           },
           "foodGroupVitaminLost": "M",
-          "isSelected": true,
+          "isSelected": false,
           "vitaminE": 0.2,
           "vitaminB1": 0.2,
           "vitaminB2": 0.2,
@@ -1399,7 +1399,7 @@
         }
       ],
       "quantity": 4.0,
-      "unit": "mali komad",
+      "unit": "mala komada",
       "mass": 112.0,
       "energy": 221.6,
       "carbohydrates": 0.0,
@@ -1453,7 +1453,7 @@
       },
       "meal": {
         "code": "L",
-        "title": "ručak"
+        "title": "doručak"
       },
       "servings": {
         "cerealsServ": 0.0,
@@ -1475,7 +1475,7 @@
       "foodGroupVitaminLost": "",
       "thermalTreatments": [],
       "quantity": 3.0,
-      "unit": "čajna žličica",
+      "unit": "čajne žličice",
       "mass": 12.9,
       "energy": 116.1,
       "carbohydrates": 0.0,
@@ -1813,7 +1813,7 @@
       "foodGroupVitaminLost": "",
       "thermalTreatments": [],
       "quantity": 2.0,
-      "unit": "šalica",
+      "unit": "šalice",
       "mass": 186.6,
       "energy": 194.2,
       "carbohydrates": 41.4,
@@ -1998,7 +1998,7 @@
       },
       "meal": {
         "code": "L",
-        "title": "ručak"
+        "title": "doručak"
       },
       "servings": {
         "cerealsServ": 0.0,
@@ -2020,7 +2020,7 @@
       "foodGroupVitaminLost": "",
       "thermalTreatments": [],
       "quantity": 3.0,
-      "unit": "čajna žličica",
+      "unit": "čajne žličice",
       "mass": 12.9,
       "energy": 116.1,
       "carbohydrates": 0.0,
@@ -2361,7 +2361,7 @@
       "foodGroupVitaminLost": "",
       "thermalTreatments": [],
       "quantity": 3.0,
-      "unit": "čajna žličica",
+      "unit": "čajne žličice",
       "mass": 12.0,
       "energy": 47.4,
       "carbohydrates": 12.6,
@@ -2510,7 +2510,7 @@
       },
       "meal": {
         "code": "L",
-        "title": "ručak"
+        "title": "doručak"
       },
       "servings": {
         "cerealsServ": 0.0,
@@ -2551,7 +2551,7 @@
         }
       ],
       "quantity": 2.0,
-      "unit": "veliki plod",
+      "unit": "velika ploda",
       "mass": 440.0,
       "energy": 206.8,
       "carbohydrates": 51.9,
@@ -2605,7 +2605,7 @@
       },
       "meal": {
         "code": "D",
-        "title": "večera"
+        "title": "doručak"
       },
       "servings": {
         "cerealsServ": 0.0,
@@ -2650,7 +2650,7 @@
             "title": "kajgana / omlet"
           },
           "foodGroupVitaminLost": "E",
-          "isSelected": true,
+          "isSelected": false,
           "vitaminE": 0.0,
           "vitaminB1": 0.05,
           "vitaminB2": 0.2,
@@ -2664,7 +2664,7 @@
         }
       ],
       "quantity": 2.0,
-      "unit": "komad",
+      "unit": "komada",
       "mass": 94.0,
       "energy": 142.0,
       "carbohydrates": 0.0,
@@ -3038,7 +3038,7 @@
       },
       "meal": {
         "code": "D",
-        "title": "večera"
+        "title": "doručak"
       },
       "servings": {
         "cerealsServ": 0.0,
@@ -3115,7 +3115,7 @@
         }
       ],
       "quantity": 2.0,
-      "unit": "jušna žlica",
+      "unit": "jušne žlice",
       "mass": 24.0,
       "energy": 56.6,
       "carbohydrates": 0.8,
@@ -3169,7 +3169,7 @@
       },
       "meal": {
         "code": "D",
-        "title": "večera"
+        "title": "doručak"
       },
       "servings": {
         "cerealsServ": 0.0,
@@ -3232,7 +3232,7 @@
             "title": "povrtna jela"
           },
           "foodGroupVitaminLost": "V",
-          "isSelected": true,
+          "isSelected": false,
           "vitaminE": 0.0,
           "vitaminB1": 0.2,
           "vitaminB2": 0.2,
@@ -3246,7 +3246,7 @@
         }
       ],
       "quantity": 3.0,
-      "unit": "šalica",
+      "unit": "šalice",
       "mass": 300.0,
       "energy": 75.0,
       "carbohydrates": 4.8,
@@ -3376,7 +3376,7 @@
       },
       "meal": {
         "code": "D",
-        "title": "večera"
+        "title": "doručak"
       },
       "servings": {
         "cerealsServ": 4.941,
@@ -3398,7 +3398,7 @@
       "foodGroupVitaminLost": "",
       "thermalTreatments": [],
       "quantity": 3.0,
-      "unit": "srednji plod",
+      "unit": "srednja ploda",
       "mass": 420.0,
       "energy": 315.2,
       "carbohydrates": 74.8,
@@ -7397,7 +7397,7 @@
     {
       "code": "L",
       "title": "ručak",
-      "description": "Povrtna juha, tjestenina bolonjez, salata, kruh, voće, kava.\n\nPovrtna juha priprema: očišćeno i na kockice izrezano povrće propirjati na ulju. Doliti vodu, začiniti po želji i kuhati. Kada je juha kuhana, povrće izmiksati štapnim mikserom. Pred služenje posuti isjeckanim peršinom.\n\nTjestenina bolonjez priprema: na ulju blago popržiti luk. Dodati mljeveno meso i pirjati par minuta uz stalno miješanje. Dodati oprano, očišćeno i na kockice izrezano povrće. Smanjiti vatru. Miješati još 2-3 minute. Začiniti po želji. Uz povremeno miješanje, dolijevati vodu i pirjati kuhati oko 2 h. Umak preliti po kuhanoj tjestenini. Pred služenje posuti isjeckanim peršinom.",
+      "description": "Povrtna juha, tjestenina bolonjez, salata, kruh, voće, kava.\nPovrtna juha priprema: očišćeno i na kockice izrezano povrće propirjati na ulju. Doliti vodu, začiniti po želji i kuhati. Kada je juha kuhana, povrće izmiksati štapnim mikserom. Pred služenje posuti isjeckanim peršinom.\nTjestenina bolonjez priprema: na ulju blago popržiti luk. Dodati mljeveno meso i pirjati par minuta uz stalno miješanje. Dodati oprano, očišćeno i na kockice izrezano povrće. Smanjiti vatru. Miješati još 2-3 minute. Začiniti po želji. Uz povremeno miješanje, dolijevati vodu i pirjati kuhati oko 2 h. Umak preliti po kuhanoj tjestenini. Pred služenje posuti isjeckanim peršinom.",
       "isSelected": true,
       "isDisabled": true
     },
@@ -7411,7 +7411,7 @@
     {
       "code": "D",
       "title": "večera",
-      "description": "Pržena jaja, špinat na mlijeku, pire krumpir, jogurt, kruh.\n\nŠpinat na mlijeku priprema: na ulju blago zažutiti brašno, dodati izrezani kuhani špinat, vrhnje i mlijeko. Začiniti po želji. Na blagoj vatri pirjati 20-tak minuta.",
+      "description": "Pržena jaja, špinat na mlijeku, pire krumpir, jogurt, kruh.\nŠpinat na mlijeku priprema: na ulju blago zažutiti brašno, dodati izrezani kuhani špinat, vrhnje i mlijeko. Začiniti po želji. Na blagoj vatri pirjati 20-tak minuta.",
       "isSelected": true,
       "isDisabled": true
     },

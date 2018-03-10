@@ -689,8 +689,8 @@
   "my foods": "moje namirnice",
 
   "cup": "šoljica",
-  "piece": "komad",
-  "small piece": "mali komad",
+  "piece": "parče",
+  "small piece": "malo parče",
   "tablespoon": "supena kašika",
   "medium fruit": "srednji plod",
   "portion": "porcija",
@@ -700,7 +700,7 @@
   "great fruit": "veliki plod",
   "slice": "kriška",
   "glass": "čaša",
-  "bottle": "boca",
+  "bottle": "flaša",
   "half": "polovina",
 
   "thermal treatment": "termička obrada",

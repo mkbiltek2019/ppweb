@@ -6,7 +6,8 @@
                         <a href="" class="btn btn-default" ng-click="new()"><i class="fa fa-file-o"></i> <span class="hidden-xs text-capitalize"> {{'new' | translate}}</span></a>
                         <a href="" class="btn btn-default" ng-click="get()"><i class="fa fa-folder-open-o"></i> <span class="hidden-xs text-capitalize"> {{'open' | translate}}</span></a>
                         <a href="" class="btn btn-default" ng-click="save()"><i class="fa fa-floppy-o"></i> <span class="hidden-xs text-capitalize">{{'save' | translate}}</span></a>
-                        <a href="" class="btn btn-default" ng-click="send()"><i class="fa fa-paper-plane-o"></i> <span class="hidden-xs text-capitalize">{{'send' | translate}}</span></a>
+                        <a ng-if="config.debug" href="" class="btn btn-default" ng-click="send()"><i class="fa fa-paper-plane-o"></i> <span class="hidden-xs text-capitalize">{{'send' | translate}}</span></a>
+                <span ng-if="config.debug">{{currentMenu.id}}</span>
                 </div>
                 <div class="panel-body">
                     <div>
@@ -81,7 +82,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div ng-repeat="x in currentMenu.data.meals">
-                                        <textarea ng-show="x.code==currentMeal" ng-model="x.description" class="form-control hidden-xs" style="margin-bottom: 10px" rows="6" placeholder="{{'description, meal preparation' | translate}}..."></textarea>
+                                        <textarea ng-show="x.code==currentMeal" ng-model="x.description" class="form-control hidden-xs" style="margin-bottom: 10px" rows="9" placeholder="{{'description, meal preparation' | translate}}..."></textarea>
                                         <textarea ng-show="x.code==currentMeal" ng-model="x.description" class="form-control visible-xs" style="margin-bottom: 10px" rows="1" placeholder="{{'description, meal preparation' | translate}}..."></textarea>
                                     </div>
                                 </div>
@@ -213,8 +214,13 @@
 
 
     <div ng-if="config.debug">
-        <pre>{{clientData.meals | json}}</pre>
+        
         <div>
+            <h4>Meals</h4>
+            <div style="border:2px solid Blue">
+                <pre>{{clientData.meals}}</pre>
+            </div>
+
             <h4>Current Menu</h4>
             <div style="border:2px solid Red">
               <pre>{{currentMenu | json}}</pre>
