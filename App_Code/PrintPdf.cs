@@ -528,7 +528,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
             AppendHeader(doc);
             doc.Add(new Paragraph((client.firstName + " " + client.lastName), normalFont_12));
-
+            doc.Add(new Paragraph(((!string.IsNullOrEmpty(client.email) ? t.Tran("email", lang) + ": " + client.email + "   " : "") + (!string.IsNullOrEmpty(client.phone) ? t.Tran("phone", lang) + ": " + client.phone : "")), normalFont_10));
             doc.Add(new Chunk(line));
 
             string c = string.Format(@"
