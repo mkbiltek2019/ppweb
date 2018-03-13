@@ -1,14 +1,14 @@
 ﻿<div ng-controller="printCtrl">
     <div class="panel panel-default">
         <div class="panel-heading noprint">
-            <a href="" ng-click="printWindow()" class="btn btn-default hidden-xs"><span class="text-success"><i class="fa fa-print"></i> <span class="hidden-xs text-capitalize">{{'print' | translate}} (Browser)</span></span></a>
-            <a ng-if="printTpl!='chartsTpl' && pdfLink!=null" href="{{pdfLink}}" class="btn btn-default" download><span class="text-danger"><i class="fa fa-file-pdf-o"></i> <span>{{'PDF' | translate}}</span></span></a>
+            <a ng-if="config.debug" href="" ng-click="printWindow()" class="btn btn-default hidden-xs"><span class="text-success"><i class="fa fa-print"></i> <span class="hidden-xs text-capitalize">{{'print' | translate}} (Browser)</span></span></a>
+            <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-default" download><span class="text-danger"><i class="fa fa-file-pdf-o"></i> <span>{{'PDF' | translate}}</span></span></a>
         </div>
         <div class="panel-body" style="font-size:12px">
             <div class="noprint">
                 <ul class="nav nav-tabs">
                     <li ng-class="printTpl=='menuTpl'?'active':''"><a href="#" ng-click="toggleTpl('menuTpl')"><i class="fa fa-cutlery"></i> <span class="hidden-xs">{{'menu' | translate}}</span></a></li>
-                    <li ng-class="printTpl=='chartsTpl'?'active':''" ng-click="toggleTpl('chartsTpl')"><a href="#"><i class="fa fa-bar-chart"></i> <span class="hidden-xs">{{'totals' | translate}}</span></a></li>
+                    <li ng-class="printTpl=='menuAnalysisTpl'?'active':''" ng-click="toggleTpl('menuAnalysisTpl')"><a href="#"><i class="fa fa-bar-chart"></i> <span class="hidden-xs">{{'manu analysis' | translate}}</span></a></li>
                     <li ng-class="printTpl=='clientTpl'?'active':''" ng-click="toggleTpl('clientTpl')"><a href="#"><i class="fa fa-user-o"></i> <span class="hidden-xs">{{'client data' | translate}}</span></a></li>
                 </ul>
             </div>
@@ -71,7 +71,7 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="chartsTpl">
+<script type="text/ng-template" id="menuAnalysisTpl">
     <div ng-style="fs">
         <h3>{{currentMenu.title}}</h3>
         <h3>{{'total values' | translate}}</h3>
@@ -167,7 +167,6 @@
                         chart-series="servGraphData.series" chart-dataset-override="servGraphData.datasetOverride"></canvas>
             </div>
         </div>
-
         <div style="width:60%">
             <label>{{'patameters' | translate}}</label>
             <table class="table table-bordered table-condensed text-small">
@@ -180,7 +179,7 @@
                     <th>{{'rda' | translate}}</th>
                 </tr>
                 <tr>
-                    <td>{{'cereals' | translate}}</td>
+                    <td>{{'starch' | translate}}</td>
                     <td>g</td>
                     <td class="text-bold">{{totals.starch}}</td>
                     <td>{{recommendations.starch.mda}}</td>
@@ -266,6 +265,14 @@
                     <td>{{recommendations.polyunsaturatedFats.mda}}</td>
                     <td>{{recommendations.polyunsaturatedFats.ui}}</td>
                     <td>{{recommendations.polyunsaturatedFats.rda}}</td>
+                </tr>
+                <tr>
+                    <td>{{'trifluoroacetic acid' | translate}}</td>
+                    <td>g</td>
+                    <td class="text-bold">{{totals.trifluoroaceticAcid}}</td>
+                    <td>{{recommendations.trifluoroaceticAcid.mda}}</td>
+                    <td>{{recommendations.trifluoroaceticAcid.ui}}</td>
+                    <td>{{recommendations.trifluoroaceticAcid.rda}}</td>
                 </tr>
                 <tr>
                     <td>{{'cholesterol' | translate}}</td>
@@ -486,6 +493,15 @@
             </table>
         </div>
     </div>
+    <div ng-if="config.debug">
+        calculation:
+        <pre>{{calculation}}</pre>
+        totals:
+        <pre>{{totals}}</pre>
+        recommendations:
+        <pre>{{recommendations}}</pre>
+    </div>
+
 </script>
 
 <script type="text/ng-template" id="clientTpl">
@@ -546,7 +562,7 @@
 </script>
 
 <script>
-  $( function() {
+  $( function(){ 
     $("#sortable_0").sortable();
     $("#sortable_0").disableSelection();
 

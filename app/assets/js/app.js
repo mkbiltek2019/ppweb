@@ -461,17 +461,20 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
     init();
 
+    $scope.singupdisabled = false;
     $scope.singup = function () {
+        $scope.singupdisabled = true;
         $scope.newUser.userName = $scope.newUser.email;
         if ($scope.newUser.firstName == "" || $scope.newUser.lastName == "" || $scope.newUser.email == "" || $scope.newUser.password == "" || $scope.passwordConfirm == "") {
             functions.alert($translate.instant('all fields are required'), '');
+            $scope.singupdisabled = false;
             return false;
         }
         if ($scope.newUser.password != $scope.passwordConfirm) {
+            $scope.singupdisabled = false;
             functions.alert($translate.instant('passwords are not the same'), '');
             return false;
         }
-
         $http({
             url: $sessionStorage.config.backend + webService + '/Singup',
             method: "POST",
@@ -487,6 +490,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         },
         function (response) {
             $scope.showAlert = false;
+            $scope.singupdisabled = false;
             functions.alert($translate.instant(response.data.d), '');
         });
     }
@@ -1116,7 +1120,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 $rootScope.clientData = JSON.parse(response.data.d);
                 $rootScope.clientData.date = new Date(new Date().setHours(0, 0, 0, 0));
                 $scope.getPalDetails($rootScope.clientData.pal.value);
-                $rootScope.calculation = [];
+                getCalculation();
+             //   $rootScope.calculation = [];
             } else {
                 init(x);
             }
@@ -1268,13 +1273,16 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         )
 
         //TODO - goal, date
-        angular.forEach($scope.clientLog, function (x, key) {
-            if (type == 0) { clientData.push(x.weight); goalFrom.push($rootScope.calculation.recommendedWeight.min); goalTo.push($rootScope.calculation.recommendedWeight.max); }
-            //if (type == 0) { clientData.push(x.weight); goal.push(75); }
-            if (type == 1) { clientData.push(x.waist); goalFrom.push(95); }
-            if (type == 2) { clientData.push(x.hip);; goalFrom.push(97); }
-            labels.push(new Date(x.date).toLocaleDateString());
-        });
+        if (angular.isDefined($rootScope.calculation.recommendedWeight)) {
+            angular.forEach($scope.clientLog, function (x, key) {
+                if (type == 0) { clientData.push(x.weight); goalFrom.push($rootScope.calculation.recommendedWeight.min); goalTo.push($rootScope.calculation.recommendedWeight.max); }
+                //if (type == 0) { clientData.push(x.weight); goal.push(75); }
+                if (type == 1) { clientData.push(x.waist); goalFrom.push(95); }
+                if (type == 2) { clientData.push(x.hip);; goalFrom.push(97); }
+                labels.push(new Date(x.date).toLocaleDateString());
+            });
+        }
+        
 
     };
 
@@ -3853,6 +3861,24 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     }
 
+    var printMenuDetailsPdf = function () {
+        if (angular.isDefined($rootScope.currentMenu)) {
+            var currentMenu = angular.copy($rootScope.currentMenu);
+            $http({
+                url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuDetailsPdf',
+                method: "POST",
+                data: { userId: $sessionStorage.usergroupid, currentMenu: currentMenu, calculation: $rootScope.calculation, totals: $rootScope.totals, recommendations: $rootScope.recommendations, lang: $rootScope.config.language }
+            })
+              .then(function (response) {
+                  var fileName = response.data.d;
+                  $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
+              },
+              function (response) {
+                  alert(response.data.d)
+              });
+        }
+    }
+
     var printClientPdf = function () {
         $http({
             url: $sessionStorage.config.backend + 'PrintPdf.asmx/ClientPdf',
@@ -3871,6 +3897,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.printPdf = function () {
         if ($scope.printTpl == 'menuTpl') { printMenuPdf(); }
+        if ($scope.printTpl == 'menuAnalysisTpl') { printMenuDetailsPdf(); }
         if ($scope.printTpl == 'clientTpl') { printClientPdf(); }
     }
 
@@ -3918,6 +3945,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     if ($rootScope.client != undefined) { getClient(); }
 
     $scope.toggleTpl = function (x) {
+        $scope.pdfLink = null;
         $scope.printTpl = x;
             $scope.printPdf();
     };

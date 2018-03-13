@@ -1549,5 +1549,6 @@
   "delete record": "briši zapis",
   "record date": "datum zapisa",
   "per consumer": "po konzumentu",
-  "enter menu title": "upišite naziv jelovnika"
+  "enter menu title": "upišite naziv jelovnika",
+  "manu analysis":  "analiza jelovnika"
 }

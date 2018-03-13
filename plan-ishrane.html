@@ -1,0 +1,319 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Refresh" content="1;url=http://www.plan-ishrane.com">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-43413032-20"></script>
+    <!--<script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-43413032-20');
+    </script>-->
+
+    <title>Web Aplikacija PLAN ISHRANE. Verzija na srpskom jeziku</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="Description" content="Plan Ishrane - Profesionalni alat za izradu uravnoteženih jelovnika i plana fizičke aktivnosti. Aplikacija omogućuje utvrđivanje stanja uhranjenosti i energetske potrošnje pojedinca te izradu jelovnika utemeljenu na znanstvenim spoznajama na polju nutriconizma.">
+    <meta name="author" content="IG PROG, obrt za računalno programiranje">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="assets/css/vendor/angular-material.min.css">
+    <script src="assets/js/vendor/jquery.min.js"></script>
+    <script src="assets/js/vendor/bootstrap.min.js"></script>
+    <script src="assets/js/vendor/angular.min.js"></script>
+    <script src="assets/js/vendor/angular-animate.min.js"></script>
+    <script src="assets/js/vendor/angular-aria.min.js"></script>
+    <script src="assets/js/vendor/angular-messages.min.js"></script>
+    <script src="assets/js/vendor/angular-material.min.js"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <link href='https://fonts.googleapis.com/css?family=Encode Sans Expanded' rel='stylesheet'>
+    <style>
+        body {
+            font-family: 'Encode Sans Expanded';
+            font-size: 16px;
+        }
+    </style>
+
+</head>
+<body id="home" ng-app="app" ng-controller="appCtrl" data-spy="scroll" data-target=".navbar" data-offset="60" ng-cloak>
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!--<a class="navbar-brand" href="#myPage"><i class="fa fa-cutlery"></i> <span class="hidden-xs">Program Prehrane</span></a>-->
+                <a class="navbar-brand" href="plan-ishrane.html" style="padding-top:2px !important"><img src="assets/img/logo.png"></a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#about"><i class="fa fa-info"></i> O aplikaciji</a></li>
+                    <li><a href="#pricing"><i class="fa fa-usd"></i> Cena</a></li>
+                    <li><a href="#registration"><i class="fa fa-user-plus"></i> Registracija</a></li>
+                    <li><a href="#order"><i class="fa fa-shopping-cart"></i> Narudžba</a></li>
+                    <li><a href="uputa.html"><i class="fa fa-question-circle"></i> Uputstva</a></li>
+                    <li><a href="#contact"><i class="fa fa-comment"></i> Kontakt</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="jumbotron text-center" style="padding-top:180px">
+        <h1 style="color:white !important; text-shadow: 2px 2px darkgray" class="text-capitalize">web aplikacija</h1>
+        <h1 style="color:white !important; text-shadow: 2px 2px darkgray" class="text-uppercase">plan ishrane</h1>
+        <h2 style="color:white !important" class="text-lowercase hidden-xs">alat za izradu uravnoteženih jelovnika i plana fizičke aktivnost</h2>
+        <div class="hidden-xs">
+            <a href="{{config.appurl}}?lang:sr" class="btn btn-success m10"><i class="fa fa-sign-in fa-2x"></i> <strong style="font-size:xx-large"> Ulaz za Korisnike</strong></a>
+            <a href="#registration" class="btn btn-primary m10"><i class="fa fa-user-plus fa-2x"></i> <strong style="font-size:xx-large"> Postani Korisnik</strong></a>
+        </div>
+        <div class="visible-xs text-center">
+            <a href="{{config.appurl}}?lang:sr" class="btn btn-success m10"><i class="fa fa-cloud fa-4x"></i> Web App</a>
+            <a href="{{config.apk}}" class="btn btn-danger m10"><i class="fa fa-android fa-4x"></i> Android App</a>
+        </div>
+    </div>
+    <div id="PPWebCarousel" class="carousel slide text-center" data-ride="carousel" style="padding:60px 50px 20px 50px; margin:10px 5px 20px 5px; border:solid 1px #428bca">
+        <ol class="carousel-indicators">
+            <li data-target="#PPWebCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#PPWebCarousel" data-slide-to="1"></li>
+            <li data-target="#PPWebCarousel" data-slide-to="2"></li>
+            <li data-target="#PPWebCarousel" data-slide-to="3"></li>
+            <li data-target="#PPWebCarousel" data-slide-to="4"></li>
+            <li data-target="#PPWebCarousel" data-slide-to="5"></li>
+        </ol>
+
+        <div class="carousel-inner">
+            <div class="item active">
+                <img src="./assets/img/ppweb/01.jpg" alt="Program Prehrane Web" class="img-responsive center-block">
+                <div class="carousel-caption" style="color:black">
+                </div>
+            </div>
+            <div class="item">
+                <img src="./assets/img/ppweb/02.jpg" alt="Program Prehrane Web" class="img-responsive center-block">
+                <div class="carousel-caption">
+                </div>
+            </div>
+            <div class="item">
+                <img src="./assets/img/ppweb/03.jpg" alt="Program Prehrane Web" class="img-responsive center-block">
+                <div class="carousel-caption">
+                </div>
+            </div>
+            <div class="item">
+                <img src="./assets/img/ppweb/04.jpg" alt="Program Prehrane Web" class="img-responsive center-block">
+                <div class="carousel-caption">
+                </div>
+            </div>
+            <div class="item">
+                <img src="./assets/img/ppweb/05.jpg" alt="Program Prehrane Web" class="img-responsive center-block">
+                <div class="carousel-caption">
+                </div>
+            </div>
+            <div class="item">
+                <img src="./assets/img/ppweb/06.jpg" alt="Program Prehrane Web" class="img-responsive center-block">
+                <div class="carousel-caption">
+                </div>
+            </div>
+        </div>
+
+        <a class="left carousel-control" href="#PPWebCarousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Natrag</span>
+        </a>
+        <a class="right carousel-control" href="#PPWebCarousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Napred</span>
+        </a>
+    </div>
+
+    <!-- Container (About Section) -->
+    <div id="about" class="container pt60">
+        <div class="row">
+            <div class="col-sm-8">
+                <h2>O aplikaciji</h2><br>
+                <h4><strong>Plan Ishrane Web</strong> je web aplikacija za izradu raznovrsnih i uravnoteženih jelovnika i plana fizičke aktivnosti.</h4><br>
+                <p class="text-justify">
+                    Web aplikacija <strong>Plan Ishrane Web</strong> nasljednica je <a href="#awards">višestruko nagrađivanog</a> računalnog programa <a href="program-prehrane-5.html" target="_blank"><strong>Program Prehrane 5.0</strong></a>,
+                    a nastala je iz potrebe za izradom alata koji će nutricionistima i zdravstvenim radnicima ali
+                    i svima ostalima koji vode računa zdravoj i uravnoteženoj ishrani omogućiti brzu i jednostavnu izradu jelovnika te plana fizičke aktivnosti.
+                </p>
+            </div>
+            <div class="col-sm-4 hidden-xs">
+                <img src="./assets/img/nutrition.jpg" alt="Program Prehrane" class="img-responsive m10">
+            </div>
+        </div>
+        <div>
+            <p class="text-justify">
+                Aplikacija omogućava utvrđivanje stanja uhranjenosti i energetske potrošnje pojedinca te izradu jelovnika utemeljenu na znanstvenim saznanjima na polju nutriconizma.
+                Osmišljavanjem jelovnika korišćenjem ove aplikacije, ishrana krajnjih korisnika postaje uravnotežena i raznolika
+                što se može zahvaliti činjenici da se izrada jelovnika bazira na preporučenom broju jediničnih serviranja svih skupina namirnica te njihovih energetskih, makro i mikronutiritivnih vrednost.
+                S obzirom da web aplikacija Plan Ishrane sadrži bazu od preko 660 namirnica i jela moguće je zadovoljiti zahtjeve većine korisnika po pitanju izbora namirnica.
+                Osim toga aplikacija pruža mogućnost unosa vlastitih namirnica i njihovih makro i mikronutirtivnih vrednosti.
+                Nadalje, kad se govori o problemu prekomerne telesne mase, preporučuje se uz promenu prehrambenih navika, u svakodnevicu uključiti i dodatnu fizičku aktivnost.
+                Pa tako Plan Ishrane Web nudi podatke o energetskoj potrošnji za preko 400 telesnih aktivnosti.
+            </p>
+            <p>Više o karakteristikama i funkcijama aplikacije pogledajte <a href="#pricing"><strong>ovde...</strong></a></p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <img src="./assets/img/responsive.jpg" alt="Program Prehrane" class="img-responsive">
+                <!--<img src="./assets/img/PP5_1.jpg" alt="Program Prehrane" class="img-responsive">-->
+            </div>
+            <div class="col-sm-8">
+                <p>
+                    <strong>POVIEST:</strong> <strong>Plan Ishrane</strong> se na tržištu nalazi već 10 godina, a do sada je doživio 6 verzija.
+                    <div class="table-responsive">
+                        <table class="table table-condensed">
+                            <tr>
+                                <th>Verzija</th>
+                                <th>Godina izdanja</th>
+                                <th>Tehnologija</th>
+                            </tr>
+                            <tr>
+                                <td>Program Prehrane 1.0</td>
+                                <td>2008</td>
+                                <td>Visual Basic 4.0</td>
+                            </tr>
+                            <tr>
+                                <td>Program Prehrane 2.0</td>
+                                <td>2012</td>
+                                <td>Visual Basic 6.0</td>
+                            </tr>
+                            <tr>
+                                <td>Program Prehrane 3.0</td>
+                                <td>2012</td>
+                                <td>VB Net</td>
+                            </tr>
+                            <tr>
+                                <td>Program Prehrane 4.0</td>
+                                <td>2013</td>
+                                <td>VB Net</td>
+                            </tr>
+                            <tr>
+                                <td><a href="program-prehrane-5.html" target="_blank"><strong>Program Prehrane 5.0</strong></a></td>
+                                <td>2014</td>
+                                <td>VB Net</td>
+                            </tr>
+                            <tr>
+                                <td>Program Prehrane Web</td>
+                                <td>2017</td>
+                                <td>Angular JS, C# (ASMX), SQLite</td>
+                            </tr>
+                        </table>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div ng-include="'./assets/partials/awards.html'"></div>
+
+    <div ng-include="'./assets/partials/customers.html'"></div>
+
+    <div id="pricing" class="container bg-grey pt60">
+        <div class="text-center">
+            <h2>Cena</h2>
+        </div>
+
+        <div class="row slideanim">
+            <div class="panel panel-primary col-md-6 col-md-offset-3 text-center" style="padding:0">
+                <div class="panel-heading">
+                    <p>Plan Ishrane</p>
+                    <h1>Web</h1>
+                </div>
+                <div class="panel-body">
+                    <h4>Karakteristike / funkcionalnosti</h4>
+                    <!--<p>Web aplikacija</p>
+                    <p>Web Browser (Chrome, Firefox, IE9+...)</p>-->
+                    <hr />
+                    <ul class="list-group">
+                        <li class="list-group-item">660 namirnica i jela</li>
+                        <li class="list-group-item">39 mikronutrijenata i ostalih parametara</li>
+                        <li class="list-group-item">428 telesnih aktivnosti</li>
+                        <li class="list-group-item">24 Vrste prehrane/dijete</li>
+                        <li class="list-group-item">Izračun BMI i energetske potrošnje</li>
+                        <li class="list-group-item">Detaljni izračun energetske potrošnje</li>
+                        <li class="list-group-item">Odabir dodatne fizičke aktivnosti</li>
+                        <li class="list-group-item">Odabir vrste ishrane/dijete</li>
+                        <li class="list-group-item">Odabir broja obroka</li>
+                        <li class="list-group-item">Izrada jelovnika</li>
+                        <li class="list-group-item">Izrada jelovnika/normativa za skupine konzumenata</li>
+                        <li class="list-group-item">Unos vlastitih namirnica</li>
+                        <li class="list-group-item">Izrada cenika</li>
+                        <li class="list-group-item">Automatsko slanje jelovnika na e-mail klijenta</li>
+                        <li class="list-group-item">Baza klijenata</li>
+                        <li class="list-group-item">Praćenje antropometrijskih parametara</li>
+                        <li class="list-group-item">Registracija do 5 korisnika unutar tima</li>
+                    </ul>
+                </div>
+                <div class="panel-footer">
+                    <h3>74.00 € / 1 godina</h3>
+                    <h3>101.00 € / 2 godine</h3>
+                    <div class="p5">
+                        <a href="#registration" class="btn btn-primary"><i class="fa fa-sign-in"></i> Registracija</a>
+                        <a ng-controller="orderCtrl" href="" class="btn btn-success" ng-click="order('Program Prehrane Web','')"><i class="fa fa-shopping-cart"></i> Narudžba</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="registration" class="container text-left pt60">
+        <h2 class="text-center">Registracija</h2>
+        <!--<div>
+            <h3>Postupak registracije</h3>
+            <ul>
+                <li>Ispunite <strong>registracijsku formu</strong>.</li>
+                <li>Nakon uspješne registracije, na Vaš email ćete dobiti upute za prijavu u aplikaciju.</li>
+            </ul>
+        </div>-->
+        <div id="webapp" class="col-md-6 col-md-offset-3">
+            <div ng-include="'./assets/partials/singup.html'"></div>
+        </div>
+    </div>
+
+    <div id="order" ng-controller="webAppCtrl" class="container text-left pt60">
+        <h2 class="text-center">NARUDŽBA</h2>
+        <div>
+            <h3>Postupak narudžbe</h3>
+            <ul>
+                <li>Ukoliko se već niste registrovali, prvo se <a href="#registration">registrujte</a>.</li>
+                <li>U narudžbenici upišite e-mail i lozinku koji ste koristili za ulaz u aplikaciju i kliknite na <strong>prijava</strong>.</li>
+                <li>Ispunite obrazac za narudžbu (ako se račun izdaje na tvrtku odaberite <strong>pravna osoba</strong>).</li>
+                <li>Pošaljite narudžbu</li>
+                <li>Na Vaš e-mail ćete dobiti podatke za uplatu.</li>
+                <li>Aplikacija postaje aktivna nakon primitka Vaše uplate ili nakon što nam pošaljete potvrdu o uplati.</li>
+            </ul>
+        </div>
+        <div ng-include="'./assets/partials/order.html'" class="col-md-8 col-md-offset-2"></div>
+    </div>
+
+    <div ng-include="'./assets/partials/info.html'"></div>
+
+    <footer class="container text-center pt60">
+        <div class="navbar-fixed-bottom m10">
+            <a href="#home" title="Na vrh">
+                <span class="fa fa-chevron-up fa-2x"></span>
+            </a>
+        </div>
+        <hr />
+        <p>Program Prehrane je deponiran u Hrvatskoj autorskoj agenciji - Centru za intelektualno vlasništvo d.o.o. u Zagrebu.</p>
+        <div>
+            <span class="pull-left">Copyright © {{year}} IG PROG</span>
+        </div>
+    </footer>
+
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/main.js"></script>
+
+</body>
+</html>

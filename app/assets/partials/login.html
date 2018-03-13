@@ -87,7 +87,7 @@
             <div>
                 <p>{{'i agree to the' | translate}}<a href="licence.txt" target="_blank"> {{'terms and conditions' | translate}}</a></p>
                 <div class="mt10">
-                    <a href="" class="btn btn-primary" ng-click="singup()"><i class="fa fa-check"></i> {{'register' | translate}}</a>
+                    <a href="" class="btn btn-primary" ng-click="singup()" ng-disabeld="singupdisabled==true" ng-dblclick="return false"><i class="fa fa-check"></i> {{'register' | translate}}</a>
                 </div>
             </div>
         </div>
