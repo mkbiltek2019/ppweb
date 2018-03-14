@@ -78,7 +78,7 @@
 
 
     <script type="text/ng-template" id="programPrehraneWeb">
-        <div ng-controller="webAppCtrl" class="container">
+        <div ng-controller="webAppCtrl" class="container" style="padding-bottom:40px">
             <h2>Program Prehrane Web</h2>
             <div class="row">
                 <div class="col-sm-4">
@@ -115,13 +115,18 @@
             </div>
             <div class="row">
                 <div class="col-sm-4">
-                    <input ng-model="searchSingup" class="form-control" placeholder="Pretraži..." />
+                    <input ng-model="searchQuery" class="form-control" placeholder="Pretraži..." ng-change="search()" />
+                    <!--<input ng-model="searchSingup" class="form-control" placeholder="Pretraži..." />-->
                 </div>
                 <div class="col-sm-4 checkbox">
                     <label><input type="checkbox" ng-model="showDetails" />Prikaži detalje / uredi</label>
                 </div>
             </div>
-            <div class="table-responsive">
+            <div ng-if="loading" class="text-center text-primary">
+                <label class="lead text-primary">Učitavanje...</label>
+                <div><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>
+            </div>
+            <div ng-if="!loading" class="table-responsive">
                 <table class="table table-condensed text-small">
                     <tr>
                         <th>Br.</th>
@@ -142,10 +147,12 @@
                         <th class="nowrap">Istek aktivacije</th>
                         <th>Aktivan</th>
                         <th class="nowrap">Status</th>
-                        <th></th>
+                        <th colspan="2"></th>
                     </tr>
-                    <tr ng-if="$index>=idxStart && $index<idxEnd" ng-repeat="x in d | filter:searchSingup" ng-class="x.userId!=x.userGroupId?'text-muted':''">
-                        <td>{{d.length - $index}}</td>
+                    <!--<tr ng-if="$index>=idxStart && $index<idxEnd" ng-repeat="x in d | filter:searchSingup" ng-class="x.userId!=x.userGroupId?'text-muted':''">-->
+                    <tr ng-class="x.userId!=x.userGroupId?'text-muted':''"  ng-repeat="x in d track by $index">
+                        <!--<td>{{d.length - $index}}</td>-->
+                        <td>{{x.rowid}}</td>
                         <td ng-if="showDetails" class="novrap">{{x.userId}}</td>
                         <td ng-if="showDetails" class="novrap">{{x.userGroupId}}</td>
                         <td>{{x.firstName}}</td>
@@ -168,17 +175,20 @@
                     </tr>
                 </table>
             </div>
-            <ul class="pagination">
+            <div ng-if="!loading">
+                <button class="btn btn-default" ng-click="prevPage()"><i class="fa fa-arrow-left"></i> Prev</button>
+                <span class="badge">{{page}}</span>
+                <button class="btn btn-default" ng-click="nextPage()">Next <i class="fa fa-arrow-right"></i></button>
+            </div>
+            <!--<ul class="pagination">
                 <li ng-if="d.length>0"><a href="#" ng-click="setPage(0)">1</a></li>
                 <li ng-if="d.length>10"><a href="#" ng-click="setPage(10)">2</a></li>
                 <li ng-if="d.length>20"><a href="#" ng-click="setPage(20)">4</a></li>
                 <li ng-if="d.length>30"><a href="#" ng-click="setPage(30)">5</a></li>
                 <li ng-if="d.length>40"><a href="#" ng-click="setPage(40)">6</a></li>
                 <li><a href="#" ng-click="showAllPages()">All ({{d.length}})</a></li>
-            </ul>
+            </ul>-->
         </div>
-
-
     </script>
 
     <script type="text/ng-template" id="programPrehrane5">

@@ -80,23 +80,13 @@ angular.module('app', [])
 
 .controller('webAppCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
     $scope.showDetails = false;
-
-    var load = function () {
-        $http({
-            url: $rootScope.config.backend + 'Users.asmx/Load',
-            method: 'POST',
-            data: ''
-        })
-        .then(function (response) {
-            $scope.d = JSON.parse(response.data.d);
-        },
-        function (response) {
-            alert(response.data.d);
-        });
-    }
-    load();
+    $scope.loading = false;
+    $scope.limit = 10;
+    $scope.page = 1;
+    $scope.searchQuery = '';
 
     var total = function () {
+        $scope.loading = true;
         $http({
             url: $rootScope.config.backend + 'Users.asmx/Total',
             method: 'POST',
@@ -104,12 +94,51 @@ angular.module('app', [])
         })
         .then(function (response) {
             $scope.t = JSON.parse(response.data.d);
+            $scope.loading = false;
         },
         function (response) {
+            $scope.loading = false;
             alert(response.data.d);
         });
     }
     total();
+
+    var load = function () {
+        $scope.loading = true;
+        $http({
+            url: $rootScope.config.backend + 'Users.asmx/Load',
+            method: 'POST',
+            data: { limit: $scope.limit, page: $scope.page }
+        })
+        .then(function (response) {
+            $scope.loading = false;
+            $scope.d = JSON.parse(response.data.d);
+        },
+        function (response) {
+            $scope.loading = false;
+            alert(response.data.d);
+        });
+    }
+    //load();
+
+    $scope.search = function () {
+        $scope.loading = true;
+        $scope.page = 1;
+        $http({
+            url: $rootScope.config.backend + 'Users.asmx/Search',
+            method: 'POST',
+            data: { query: $scope.searchQuery, limit: $scope.limit, page: $scope.page }
+        })
+        .then(function (response) {
+            $scope.d = JSON.parse(response.data.d);
+            $scope.loading = false;
+        },
+        function (response) {
+            $scope.loading = false;
+            alert(response.data.d);
+        });
+    }
+    $scope.search();
 
     $scope.update = function (user) {
         $http({
@@ -196,6 +225,18 @@ angular.module('app', [])
         function (response) {
             alert(response.data.d);
         });
+    }
+
+    $scope.nextPage = function() {
+        $scope.page = $scope.page + 1;
+        load();
+    }
+
+    $scope.prevPage = function () {
+        if ($scope.page > 1) {
+            $scope.page = $scope.page - 1;
+            load();
+        }
     }
 
 }])

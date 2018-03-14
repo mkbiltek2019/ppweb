@@ -46,6 +46,7 @@ public class Users : System.Web.Services.WebService {
         public bool isActive { get; set; }
         public string licenceStatus { get; set; }
         public string ipAddress { get; set; }
+        public int rowid { get; set; }
     }
 
     public string demo = "demo";
@@ -111,6 +112,7 @@ public class Users : System.Web.Services.WebService {
             x.isActive = false;
             x.licenceStatus = demo;
             x.ipAddress = HttpContext.Current.Request.UserHostAddress;
+            x.rowid = 0;
 
         string json = JsonConvert.SerializeObject(x, Formatting.Indented);
         return json;
@@ -242,9 +244,9 @@ public class Users : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string Load() {
+    public string Load(int? limit, int? page) {
         try {
-            return JsonConvert.SerializeObject(GetUsers(), Formatting.Indented);
+            return JsonConvert.SerializeObject(GetUsers(limit, page), Formatting.Indented);
         } catch (Exception e) {
             return (e.Message);
         }
@@ -254,7 +256,7 @@ public class Users : System.Web.Services.WebService {
     public string Total() {
         try {
             Totals x = new Totals();
-            List<NewUser> users = GetUsers();
+            List<NewUser> users = GetUsers(null, null);
             x.active = users.Where(a => a.isActive == true).Count();
             x.demo = users.Where(a => a.isActive == false && a.activationDate == a.expirationDate).Count();
             x.expired = users.Where(a => a.isActive == false && Convert.ToDateTime(a.activationDate) < Convert.ToDateTime(a.expirationDate)).Count();
@@ -272,7 +274,7 @@ public class Users : System.Web.Services.WebService {
     public string TotalList() {
         try {
             List<Totals> xx = new List<Totals>();
-            List<NewUser> users = GetUsers();
+            List<NewUser> users = GetUsers(null, null);
             int i = 1;
             foreach(NewUser u in users) {
                 Totals x = new Totals();
@@ -290,6 +292,53 @@ public class Users : System.Web.Services.WebService {
         } catch (Exception e) {
             return (e.Message);
         }
+    }
+
+    [WebMethod]
+    public string Search(string query, int? limit, int? page) {
+        try {
+            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
+            connection.Open();
+            string limitSql = "";
+            if (limit != null && page != null) {
+                limitSql = string.Format("LIMIT {0} OFFSET {1}", limit, (page - 1) * limit);
+            }
+            string sql = string.Format(@"
+                        SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress, rowid FROM users
+                        WHERE firstName LIKE '%{0}%' OR lastName LIKE '%{0}%' OR companyName LIKE '%{0}%' OR email LIKE '%{0}%'
+                        ORDER BY rowid DESC {1}", query, limitSql);
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+            List<NewUser> xx = new List<NewUser>();
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read()) {
+                NewUser x = new NewUser();
+                x.userId = reader.GetString(0);
+                x.userType = reader.GetValue(1) == DBNull.Value ? 0 : reader.GetInt32(1);
+                x.firstName = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+                x.lastName = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
+                x.companyName = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
+                x.address = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
+                x.postalCode = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
+                x.city = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
+                x.country = reader.GetValue(8) == DBNull.Value ? "" : reader.GetString(8);
+                x.pin = reader.GetValue(9) == DBNull.Value ? "" : reader.GetString(9);
+                x.phone = reader.GetValue(10) == DBNull.Value ? "" : reader.GetString(10);
+                x.email = reader.GetValue(11) == DBNull.Value ? "" : reader.GetString(11);
+                x.userName = reader.GetValue(12) == DBNull.Value ? "" : reader.GetString(12);
+                x.password = reader.GetValue(13) == DBNull.Value ? "" : Decrypt(reader.GetString(13));
+                x.adminType = reader.GetValue(14) == DBNull.Value ? 0 : reader.GetInt32(14);
+                x.userGroupId = reader.GetString(15);
+                x.activationDate = reader.GetValue(16) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(16);
+                x.expirationDate = reader.GetValue(17) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(17);
+                x.isActive = reader.GetValue(18) == DBNull.Value ? true : Convert.ToBoolean(reader.GetInt32(18));
+                x.licenceStatus = GetLicenceStatus(x);
+                x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
+                x.rowid = reader.GetValue(20) == DBNull.Value ? 0 : reader.GetInt32(20);
+                xx.Add(x);
+            }
+            connection.Close();
+            return JsonConvert.SerializeObject(xx, Formatting.Indented);
+        } catch (Exception e) { return (e.Message); }
     }
 
     [WebMethod]
@@ -586,10 +635,17 @@ public class Users : System.Web.Services.WebService {
         catch (Exception e) { return ("error: " + e); }
     }
 
-    private List<NewUser> GetUsers() {
+    private List<NewUser> GetUsers(int? limit, int? page) {
         SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
         connection.Open();
-        string sql = "SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress FROM users ORDER BY rowid DESC";
+        string limitSql = "";
+        if (limit !=null && page != null) {
+            limitSql = string.Format("LIMIT {0} OFFSET {1}", limit, (page - 1) * limit);
+        }
+
+        string sql = string.Format(@"
+                    SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress, rowid FROM users
+                    ORDER BY rowid DESC {0}", limitSql);
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         SQLiteDataReader reader = command.ExecuteReader();
         List<NewUser> xx = new List<NewUser>();
@@ -616,6 +672,7 @@ public class Users : System.Web.Services.WebService {
             x.isActive = reader.GetValue(18) == DBNull.Value ? true : Convert.ToBoolean(reader.GetInt32(18));
             x.licenceStatus = GetLicenceStatus(x);
             x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
+            x.rowid = reader.GetValue(20) == DBNull.Value ? 0 : reader.GetInt32(20);
             xx.Add(x);
         }
         return xx;
