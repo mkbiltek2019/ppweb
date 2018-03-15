@@ -730,6 +730,7 @@ public class Foods : System.Web.Services.WebService {
             default:
                 break;
         }
+
         x.unit = GetUnit(x.quantity, initFood.unit);
         x.energy = Math.Round(initFood.energy * k, 1);
         x.carbohydrates = Math.Round(initFood.carbohydrates * k, 1);

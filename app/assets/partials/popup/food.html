@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <div ng-if="food.id" class="table-responsive">
+                        <div ng-if="food.id">
                             <table class="table table-condensed text-small">
                                 <tr>
                                     <td colspan="3"><input ng-model="food.food" type="text" class="form-control" /></td>
@@ -87,65 +87,280 @@
                                         <button type="submit" form="foodform" class="btn btn-primary btn-block text-uppercase" ng-click="confirm(food)"><i class="fa fa-check"></i> {{'add' | translate}}</button>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td style="width:100px">{{'energy' | translate}}</td>
-                                    <td class="text-right">{{food.energy}}</td>
-                                    <td>kcal</td>
-                                </tr>
-                                <tr>
-                                    <td>{{'carbohydrates' | translate}}</td>
-                                    <td class="text-right">{{food.carbohydrates}}</td>
-                                    <td>g</td>
-                                </tr>
-                                <tr>
-                                    <td>{{'proteins' | translate}}</td>
-                                    <td class="text-right">{{food.proteins}}</td>
-                                    <td>g</td>
-                                </tr>
-                                <tr>
-                                    <td>{{'fats' | translate}}</td>
-                                    <td class="text-right">{{food.fats}}</td>
-                                    <td>g</td>
-                                </tr>
-                                <tr ng-if="food.servings.cerealsServ">
-                                    <td>{{'cereals' | translate}}</td>
-                                    <td class="text-right">{{food.servings.cerealsServ | number:1}}</td>
-                                    <td>{{'serv' | translate}}</td>
-                                </tr>
-                                <tr ng-if="food.servings.vegetablesServ">
-                                    <td>{{'vegetables' | translate}}</td>
-                                    <td class="text-right">{{food.servings.vegetablesServ | number:1}}</td>
-                                    <td>{{'serv' | translate}}</td>
-                                </tr>
-                                <tr ng-if="food.servings.fruitServ">
-                                    <td>{{'fruit' | translate}}</td>
-                                    <td class="text-right">{{food.servings.fruitServ | number:1}}</td>
-                                    <td>{{'serv' | translate}}</td>
-                                </tr>
-                                <tr ng-if="food.servings.meatServ">
-                                    <td>{{'meat' | translate}}</td>
-                                    <td class="text-right">{{food.servings.meatServ | number:1}}</td>
-                                    <td>{{'serv' | translate}}</td>
-                                </tr>
-                                <tr ng-if="food.servings.milkServ">
-                                    <td>{{'milk' | translate}}</td>
-                                    <td class="text-right">{{food.servings.milkServ | number:1}}</td>
-                                    <td>{{'serv' | translate}}</td>
-                                </tr>
-                                <tr ng-if="food.servings.fatsServ">
-                                    <td>{{'fats' | translate}}</td>
-                                    <td class="text-right">{{food.servings.fatsServ | number:1}}</td>
-                                    <td>{{'serv' | translate}}</td>
-                                </tr>
                             </table>
-                            <span ng-if="food.price.value>0" class="pull-right">{{'price' | translate}}: {{food.price.value | number:2}} <span class="text-uppercase">{{d.config.currency}}</span></span>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="table-responsive">
+                                        <table class="table table-condensed text-small">
+                                            <tr>
+                                                <td style="width:100px">{{'energy' | translate}}</td>
+                                                <td class="text-right">{{food.energy}}</td>
+                                                <td>kcal</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{'carbohydrates' | translate}}</td>
+                                                <td class="text-right">{{food.carbohydrates}}</td>
+                                                <td>g</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{'proteins' | translate}}</td>
+                                                <td class="text-right">{{food.proteins}}</td>
+                                                <td>g</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{'fats' | translate}}</td>
+                                                <td class="text-right">{{food.fats}}</td>
+                                                <td>g</td>
+                                            </tr>
+                                            <tr ng-if="food.servings.cerealsServ">
+                                                <td>{{'cereals' | translate}}</td>
+                                                <td class="text-right">{{food.servings.cerealsServ | number:1}}</td>
+                                                <td>{{'serv' | translate}}</td>
+                                            </tr>
+                                            <tr ng-if="food.servings.vegetablesServ">
+                                                <td>{{'vegetables' | translate}}</td>
+                                                <td class="text-right">{{food.servings.vegetablesServ | number:1}}</td>
+                                                <td>{{'serv' | translate}}</td>
+                                            </tr>
+                                            <tr ng-if="food.servings.fruitServ">
+                                                <td>{{'fruit' | translate}}</td>
+                                                <td class="text-right">{{food.servings.fruitServ | number:1}}</td>
+                                                <td>{{'serv' | translate}}</td>
+                                            </tr>
+                                            <tr ng-if="food.servings.meatServ">
+                                                <td>{{'meat' | translate}}</td>
+                                                <td class="text-right">{{food.servings.meatServ | number:1}}</td>
+                                                <td>{{'serv' | translate}}</td>
+                                            </tr>
+                                            <tr ng-if="food.servings.milkServ">
+                                                <td>{{'milk' | translate}}</td>
+                                                <td class="text-right">{{food.servings.milkServ | number:1}}</td>
+                                                <td>{{'serv' | translate}}</td>
+                                            </tr>
+                                            <tr ng-if="food.servings.fatsServ">
+                                                <td>{{'fats' | translate}}</td>
+                                                <td class="text-right">{{food.servings.fatsServ | number:1}}</td>
+                                                <td>{{'serv' | translate}}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <ng-include src="'parametersTpl'"></ng-include>
+                                </div>
+                            </div>
+                            <em ng-if="food.price.value>0" class="pull-right">{{'price' | translate}}: {{food.price.value | number:2}} <span class="text-uppercase">{{d.config.currency}}</span></em>
                         </div>
+
+                       
                     </div>
                 </form>
             </div>
         </div>
     </md-dialog-content>
 </md-dialog>
+
+<script type="text/ng-template" id="parametersTpl">
+    <div class="table-responsive" style="height:150px; overflow-y: scroll; -webkit-overflow-scrolling: touch;">
+                <table class="table table-condensed text-small">
+                    <tr>
+                        <td>{{'starch' | translate}}</td>
+                        <td class="text-right">{{food.starch}}</td>
+                        <td>g</td>
+                    </tr>
+                    <tr>
+                        <td>{{'total sugar' | translate}}</td>
+                        <td class="text-right">{{food.totalSugar}}</td>
+                        <td>g</td>
+                    </tr>
+                    <tr>
+                        <td>{{'glucose' | translate}}</td>
+                        <td class="text-right">{{food.glucose}}</td>
+                        <td>g</td>
+                    </tr>
+                    <tr>
+                        <td>{{'fructose' | translate}}</td>
+                        <td class="text-right">{{food.fructose}}</td>
+                        <td>g</td>
+                    </tr>
+                    <tr>
+                        <td>{{'saccharose' | translate}}</td>
+                        <td class="text-right">{{food.saccharose}}</td>
+                        <td>g</td>
+                    </tr>
+                    <tr>
+                        <td>{{'maltose' | translate}}</td>
+                        <td class="text-right">{{food.maltose}}</td>
+                        <td>g</td>
+                    </tr>
+                    <tr>
+                        <td>{{'lactose' | translate}}</td>
+                        <td class="text-right">{{food.lactose}}</td>
+                        <td>g</td>
+                    </tr>
+                    <tr>
+                        <td>{{'fibers' | translate}}</td>
+                        <td class="text-right">{{food.fibers}}</td>
+                        <td>g</td>
+                    </tr>
+                    <tr>
+                        <td>{{'saturated fats' | translate}}</td>
+                        <td class="text-right">{{food.saturatedFats}}</td>
+                        <td>g</td>
+                    </tr>
+                    <tr>
+                        <td>{{'monounsaturated fats' | translate}}</td>
+                        <td class="text-right">{{food.monounsaturatedFats}}</td>
+                        <td>g</td>
+                    </tr>
+                    <tr>
+                        <td>{{'polyunsaturated fats' | translate}}</td>
+                        <td class="text-right">{{food.polyunsaturatedFats}}</td>
+                        <td>g</td>
+                    </tr>
+                    <tr>
+                        <td>{{'trifluoroacetic acid' | translate}}</td>
+                        <td class="text-right">{{food.trifluoroaceticAcid}}</td>
+                        <td>g</td>
+                    </tr>
+                    <tr>
+                        <td>{{'cholesterol' | translate}}</td>
+                        <td class="text-right">{{food.cholesterol}}</td>
+                        <td>mg</td>
+                    </tr>
+                    <tr>
+                        <td>{{'sodium' | translate}}</td>
+                        <td class="text-right">{{food.sodium}}</td>
+                        <td>mg</td>
+                    </tr>
+                    <tr>
+                        <td>{{'potassium' | translate}}</td>
+                        <td class="text-right">{{food.potassium}}</td>
+                        <td>mg</td>
+                    </tr>
+                    <tr>
+                        <td>{{'calcium' | translate}}</td>
+                        <td class="text-right">{{food.calcium}}</td>
+                        <td>mg</td>
+                    </tr>
+                    <tr>
+                        <td>{{'magnesium' | translate}}</td>
+                        <td class="text-right">{{food.magnesium}}</td>
+                        <td>mg</td>
+                    </tr>
+                    <tr>
+                        <td>{{'phosphorus' | translate}}</td>
+                        <td class="text-right">{{food.phosphorus}}</td>
+                        <td>mg</td>
+                    </tr>
+                    <tr>
+                        <td>{{'iron' | translate}}</td>
+                        <td class="text-right">{{food.iron}}</td>
+                        <td>mg</td>
+                    </tr>
+                    <tr>
+                        <td>{{'copper' | translate}}</td>
+                        <td class="text-right">{{food.copper}}</td>
+                        <td>mg</td>
+                    </tr>
+                    <tr>
+                        <td>{{'zinc' | translate}}</td>
+                        <td class="text-right">{{food.zinc}}</td>
+                        <td>mg</td>
+                    </tr>
+                    <tr>
+                        <td>{{'chlorine' | translate}}</td>
+                        <td class="text-right">{{food.chlorine}}</td>
+                        <td>mg</td>
+                    </tr>
+                    <tr>
+                        <td>{{'manganese' | translate}}</td>
+                        <td class="text-right">{{food.manganese}}</td>
+                        <td>mg</td>
+                    </tr>
+                    <tr>
+                        <td>{{'selenium' | translate}}</td>
+                        <td class="text-right">{{food.selenium}}</td>
+                        <td>&#956;g</td>
+                    </tr>
+                    <tr>
+                        <td>{{'iodine' | translate}}</td>
+                        <td class="text-right">{{food.iodine}}</td>
+                        <td>&#956;g</td>
+                    </tr>
+                    <tr>
+                        <td>{{'retinol' | translate}}</td>
+                        <td class="text-right">{{food.retinol}}</td>
+                        <td>&#956;g</td>
+                    </tr>
+                    <tr>
+                        <td>{{'carotene' | translate}}</td>
+                        <td class="text-right">{{food.carotene}}</td>
+                        <td>&#956;g</td>
+                    </tr>
+                    <tr>
+                        <td>{{'vitamin D' | translate}}</td>
+                        <td class="text-right">{{food.vitaminD}}</td>
+                        <td>&#956;g</td>
+                    </tr>
+                    <tr>
+                        <td>{{'vitamin E' | translate}}</td>
+                        <td class="text-right">{{food.vitaminE}}</td>
+                        <td>mg</td>
+                    </tr>
+                    <tr>
+                        <td>{{'vitamin B1' | translate}}</td>
+                        <td class="text-right">{{food.vitaminB1}}</td>
+                        <td>mg</td>
+                    </tr>
+                    <tr>
+                        <td>{{'vitamin B2' | translate}}</td>
+                        <td class="text-right">{{food.vitaminB2}}</td>
+                        <td>mg</td>
+                    </tr>
+                    <tr>
+                        <td>{{'vitamin B3' | translate}}</td>
+                        <td class="text-right">{{food.vitaminB3}}</td>
+                        <td>mg</td>
+                    </tr>
+                    <tr>
+                        <td>{{'vitamin B6' | translate}}</td>
+                        <td class="text-right">{{food.vitaminB6}}</td>
+                        <td>mg</td>
+                    </tr>
+                    <tr>
+                        <td>{{'vitamin B12' | translate}}</td>
+                        <td class="text-right">{{food.vitaminB12}}</td>
+                        <td>&#956;g</td>
+                    </tr>
+                    <tr>
+                        <td>{{'folate' | translate}}</td>
+                        <td class="text-right">{{food.folate}}</td>
+                        <td>&#956;g</td>
+                    </tr>
+                    <tr>
+                        <td>{{'pantothenic acid' | translate}}</td>
+                        <td class="text-right">{{food.pantothenicAcid}}</td>
+                        <td>mg</td>
+                    </tr>
+                    <tr>
+                        <td>{{'biotin' | translate}}</td>
+                        <td class="text-right">{{food.biotin}}</td>
+                        <td>&#956;g</td>
+                    </tr>
+                    <tr>
+                        <td>{{'vitamin C' | translate}}</td>
+                        <td class="text-right">{{food.vitaminC}}</td>
+                        <td>mg</td>
+                    </tr>
+                    <tr>
+                        <td>{{'vitamin K' | translate}}</td>
+                        <td class="text-right">{{food.vitaminK}}</td>
+                        <td>&#956;g</td>
+                    </tr>
+                </table>
+            </div>
+</script>
 
 
 

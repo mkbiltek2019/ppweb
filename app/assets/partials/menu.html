@@ -94,7 +94,7 @@
                                 </div>
                             </div>
                             <div ng-if="totals.price.value>0" class="text-right m10">
-                                <label class="text-primary">{{'price' | translate}}: <span>{{totals.price.value | number:2}}</span> <span class="text-uppercase">{{config.currency}}</span></label>
+                                <em class="text-primary">{{'price' | translate}}: <span>{{totals.price.value | number:2}}</span> <span class="text-uppercase">{{config.currency}}</span></em>
                             </div>
                         </div>
                     </div>
@@ -385,7 +385,7 @@
                         <tr>
                             <td>{{'saturated fats' | translate}}</td>
                             <td>g</td>
-                            <td class="text-bold">{{totals.saturatedFats}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.saturatedFats, recommendations.saturatedFats.ui)}}">{{totals.saturatedFats}}</td>
                             <td>{{recommendations.saturatedFats.mda}}</td>
                             <td>{{recommendations.saturatedFats.ui}}</td>
                             <td>{{recommendations.saturatedFats.rda}}</td>
@@ -393,7 +393,7 @@
                         <tr>
                             <td>{{'monounsaturated fats' | translate}}</td>
                             <td>g</td>
-                            <td class="text-bold">{{totals.monounsaturatedFats}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.monounsaturatedFats, recommendations.monounsaturatedFats.ui)}}">{{totals.monounsaturatedFats}}</td>
                             <td>{{recommendations.monounsaturatedFats.mda}}</td>
                             <td>{{recommendations.monounsaturatedFats.ui}}</td>
                             <td>{{recommendations.monounsaturatedFats.rda}}</td>
@@ -401,7 +401,7 @@
                         <tr>
                             <td>{{'polyunsaturated fats' | translate}}</td>
                             <td>g</td>
-                            <td class="text-bold">{{totals.polyunsaturatedFats}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.polyunsaturatedFats, recommendations.polyunsaturatedFats.ui)}}">{{totals.polyunsaturatedFats}}</td>
                             <td>{{recommendations.polyunsaturatedFats.mda}}</td>
                             <td>{{recommendations.polyunsaturatedFats.ui}}</td>
                             <td>{{recommendations.polyunsaturatedFats.rda}}</td>
@@ -409,7 +409,7 @@
                         <tr>
                             <td>{{'trifluoroacetic acid' | translate}}</td>
                             <td>g</td>
-                            <td class="text-bold">{{totals.trifluoroaceticAcid}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.trifluoroaceticAcid, recommendations.trifluoroaceticAcid.ui)}}">{{totals.trifluoroaceticAcid}}</td>
                             <td>{{recommendations.trifluoroaceticAcid.mda}}</td>
                             <td>{{recommendations.trifluoroaceticAcid.ui}}</td>
                             <td>{{recommendations.trifluoroaceticAcid.rda}}</td>
@@ -417,7 +417,7 @@
                         <tr>
                             <td>{{'cholesterol' | translate}}</td>
                             <td>mg</td>
-                            <td class="text-bold">{{totals.cholesterol}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.cholesterol, recommendations.cholesterol.ui)}}">{{totals.cholesterol}}</td>
                             <td>{{recommendations.cholesterol.mda}}</td>
                             <td>{{recommendations.cholesterol.ui}}</td>
                             <td>{{recommendations.cholesterol.rda}}</td>
@@ -425,7 +425,7 @@
                         <tr>
                             <td>{{'sodium' | translate}}</td>
                             <td>mg</td>
-                            <td class="text-bold">{{totals.sodium}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.sodium, recommendations.sodium.ui)}}">{{totals.sodium}}</td>
                             <td>{{recommendations.sodium.mda}}</td>
                             <td>{{recommendations.sodium.ui}}</td>
                             <td>{{recommendations.sodium.rda}}</td>
@@ -441,7 +441,7 @@
                         <tr>
                             <td>{{'calcium' | translate}}</td>
                             <td>mg</td>
-                            <td class="text-bold">{{totals.calcium}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.calcium, recommendations.calcium.ui)}}">{{totals.calcium}}</td>
                             <td>{{recommendations.calcium.mda}}</td>
                             <td>{{recommendations.calcium.ui}}</td>
                             <td>{{recommendations.calcium.rda}}</td>
@@ -449,7 +449,7 @@
                         <tr>
                             <td>{{'magnesium' | translate}}</td>
                             <td>mg</td>
-                            <td class="text-bold">{{totals.magnesium}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.magnesium, recommendations.magnesium.ui)}}">{{totals.magnesium}}</td>
                             <td>{{recommendations.magnesium.mda}}</td>
                             <td>{{recommendations.magnesium.ui}}</td>
                             <td>{{recommendations.magnesium.rda}}</td>
@@ -457,7 +457,7 @@
                         <tr>
                             <td>{{'phosphorus' | translate}}</td>
                             <td>mg</td>
-                            <td class="text-bold">{{totals.phosphorus}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.phosphorus, recommendations.phosphorus.ui)}}">{{totals.phosphorus}}</td>
                             <td>{{recommendations.phosphorus.mda}}</td>
                             <td>{{recommendations.phosphorus.ui}}</td>
                             <td>{{recommendations.phosphorus.rda}}</td>
@@ -465,7 +465,7 @@
                         <tr>
                             <td>{{'iron' | translate}}</td>
                             <td>mg</td>
-                            <td class="text-bold">{{totals.iron}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.iron, recommendations.iron.ui)}}">{{totals.iron}}</td>
                             <td>{{recommendations.iron.mda}}</td>
                             <td>{{recommendations.iron.ui}}</td>
                             <td>{{recommendations.iron.rda}}</td>
@@ -473,7 +473,7 @@
                         <tr>
                             <td>{{'copper' | translate}}</td>
                             <td>mg</td>
-                            <td class="text-bold">{{totals.copper}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.copper, recommendations.copper.ui)}}">{{totals.copper}}</td>
                             <td>{{recommendations.copper.mda}}</td>
                             <td>{{recommendations.copper.ui}}</td>
                             <td>{{recommendations.copper.rda}}</td>
@@ -481,7 +481,7 @@
                         <tr>
                             <td>{{'zinc' | translate}}</td>
                             <td>mg</td>
-                            <td class="text-bold">{{totals.zinc}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.zinc, recommendations.zinc.ui)}}">{{totals.zinc}}</td>
                             <td>{{recommendations.zinc.mda}}</td>
                             <td>{{recommendations.zinc.ui}}</td>
                             <td>{{recommendations.zinc.rda}}</td>
@@ -497,7 +497,7 @@
                         <tr>
                             <td>{{'manganese' | translate}}</td>
                             <td>mg</td>
-                            <td class="text-bold">{{totals.manganese}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.manganese, recommendations.manganese.ui)}}">{{totals.manganese}}</td>
                             <td>{{recommendations.manganese.mda}}</td>
                             <td>{{recommendations.manganese.ui}}</td>
                             <td>{{recommendations.manganese.rda}}</td>
@@ -505,7 +505,7 @@
                         <tr>
                             <td>{{'selenium' | translate}}</td>
                             <td>&#956;g</td>
-                            <td class="text-bold">{{totals.selenium}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.selenium, recommendations.selenium.ui)}}">{{totals.selenium}}</td>
                             <td>{{recommendations.selenium.mda}}</td>
                             <td>{{recommendations.selenium.ui}}</td>
                             <td>{{recommendations.selenium.rda}}</td>
@@ -513,7 +513,7 @@
                         <tr>
                             <td>{{'iodine' | translate}}</td>
                             <td>&#956;g</td>
-                            <td class="text-bold">{{totals.iodine}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.iodine, recommendations.iodine.ui)}}">{{totals.iodine}}</td>
                             <td>{{recommendations.iodine.mda}}</td>
                             <td>{{recommendations.iodine.ui}}</td>
                             <td>{{recommendations.iodine.rda}}</td>
@@ -521,7 +521,7 @@
                         <tr>
                             <td>{{'retinol' | translate}}</td>
                             <td>&#956;g</td>
-                            <td class="text-bold">{{totals.retinol}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.retinol, recommendations.retinol.ui)}}">{{totals.retinol}}</td>
                             <td>{{recommendations.retinol.mda}}</td>
                             <td>{{recommendations.retinol.ui}}</td>
                             <td>{{recommendations.retinol.rda}}</td>
@@ -537,7 +537,7 @@
                         <tr>
                             <td>{{'vitamin D' | translate}}</td>
                             <td>&#956;g</td>
-                            <td class="text-bold">{{totals.vitaminD}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.vitaminD, recommendations.vitaminD.ui)}}">{{totals.vitaminD}}</td>
                             <td>{{recommendations.vitaminD.mda}}</td>
                             <td>{{recommendations.vitaminD.ui}}</td>
                             <td>{{recommendations.vitaminD.rda}}</td>
@@ -545,7 +545,7 @@
                         <tr>
                             <td>{{'vitamin E' | translate}}</td>
                             <td>mg</td>
-                            <td class="text-bold">{{totals.vitaminE}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.vitaminE, recommendations.vitaminE.ui)}}">{{totals.vitaminE}}</td>
                             <td>{{recommendations.vitaminE.mda}}</td>
                             <td>{{recommendations.vitaminE.ui}}</td>
                             <td>{{recommendations.vitaminE.rda}}</td>
@@ -553,7 +553,7 @@
                         <tr>
                             <td>{{'vitamin B1' | translate}}</td>
                             <td>mg</td>
-                            <td class="text-bold">{{totals.vitaminB1}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.vitaminB1, recommendations.vitaminB1.ui)}}">{{totals.vitaminB1}}</td>
                             <td>{{recommendations.vitaminB1.mda}}</td>
                             <td>{{recommendations.vitaminB1.ui}}</td>
                             <td>{{recommendations.vitaminB1.rda}}</td>
@@ -561,7 +561,7 @@
                         <tr>
                             <td>{{'vitamin B2' | translate}}</td>
                             <td>mg</td>
-                            <td class="text-bold">{{totals.vitaminB2}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.vitaminB2, recommendations.vitaminB2.ui)}}">{{totals.vitaminB2}}</td>
                             <td>{{recommendations.vitaminB2.mda}}</td>
                             <td>{{recommendations.vitaminB2.ui}}</td>
                             <td>{{recommendations.vitaminB2.rda}}</td>
@@ -569,7 +569,7 @@
                         <tr>
                             <td>{{'vitamin B3' | translate}}</td>
                             <td>mg</td>
-                            <td class="text-bold">{{totals.vitaminB3}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.vitaminB3, recommendations.vitaminB3.ui)}}">{{totals.vitaminB3}}</td>
                             <td>{{recommendations.vitaminB3.mda}}</td>
                             <td>{{recommendations.vitaminB3.ui}}</td>
                             <td>{{recommendations.vitaminB3.rda}}</td>
@@ -577,7 +577,7 @@
                         <tr>
                             <td>{{'vitamin B6' | translate}}</td>
                             <td>mg</td>
-                            <td class="text-bold">{{totals.vitaminB6}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.vitaminB6, recommendations.vitaminB6.ui)}}">{{totals.vitaminB6}}</td>
                             <td>{{recommendations.vitaminB6.mda}}</td>
                             <td>{{recommendations.vitaminB6.ui}}</td>
                             <td>{{recommendations.vitaminB6.rda}}</td>
@@ -585,7 +585,7 @@
                         <tr>
                             <td>{{'vitamin B12' | translate}}</td>
                             <td>&#956;g</td>
-                            <td class="text-bold">{{totals.vitaminB12}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.vitaminB12, recommendations.vitaminB12.ui)}}">{{totals.vitaminB12}}</td>
                             <td>{{recommendations.vitaminB12.mda}}</td>
                             <td>{{recommendations.vitaminB12.ui}}</td>
                             <td>{{recommendations.vitaminB12.rda}}</td>
@@ -593,7 +593,7 @@
                         <tr>
                             <td>{{'folate' | translate}}</td>
                             <td>&#956;g</td>
-                            <td class="text-bold">{{totals.folate}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.folate, recommendations.folate.ui)}}">{{totals.folate}}</td>
                             <td>{{recommendations.folate.mda}}</td>
                             <td>{{recommendations.folate.ui}}</td>
                             <td>{{recommendations.folate.rda}}</td>
@@ -601,7 +601,7 @@
                         <tr>
                             <td>{{'pantothenic acid' | translate}}</td>
                             <td>mg</td>
-                            <td class="text-bold">{{totals.pantothenicAcid}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.pantothenicAcid, recommendations.pantothenicAcid.ui)}}">{{totals.pantothenicAcid}}</td>
                             <td>{{recommendations.pantothenicAcid.mda}}</td>
                             <td>{{recommendations.pantothenicAcid.ui}}</td>
                             <td>{{recommendations.pantothenicAcid.rda}}</td>
@@ -609,7 +609,7 @@
                         <tr>
                             <td>{{'biotin' | translate}}</td>
                             <td>&#956;g</td>
-                            <td class="text-bold">{{totals.biotin}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.biotin, recommendations.biotin.ui)}}">{{totals.biotin}}</td>
                             <td>{{recommendations.biotin.mda}}</td>
                             <td>{{recommendations.biotin.ui}}</td>
                             <td>{{recommendations.biotin.rda}}</td>
@@ -617,7 +617,7 @@
                         <tr>
                             <td>{{'vitamin C' | translate}}</td>
                             <td>mg</td>
-                            <td class="text-bold">{{totals.vitaminC}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.vitaminC, recommendations.vitaminC.ui)}}">{{totals.vitaminC}}</td>
                             <td>{{recommendations.vitaminC.mda}}</td>
                             <td>{{recommendations.vitaminC.ui}}</td>
                             <td>{{recommendations.vitaminC.rda}}</td>
@@ -625,7 +625,7 @@
                         <tr>
                             <td>{{'vitamin K' | translate}}</td>
                             <td>&#956;g</td>
-                            <td class="text-bold">{{totals.vitaminK}}</td>
+                            <td class="text-bold" style="{{parameterStyle(totals.vitaminK, recommendations.vitaminK.ui)}}">{{totals.vitaminK}}</td>
                             <td>{{recommendations.vitaminK.mda}}</td>
                             <td>{{recommendations.vitaminK.ui}}</td>
                             <td>{{recommendations.vitaminK.rda}}</td>

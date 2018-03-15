@@ -2079,7 +2079,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 function (response) {
                     alert(response.data.d)
                 });
-            }, 200);
+            }, 1000);
         }
     }
 
@@ -2223,7 +2223,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     },
                     function (response) {
                     });
-                }, 200);
+                }, 1000);
             }
         }
 
@@ -3316,6 +3316,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             } else {
                 return false;
             }
+    }
+
+    $scope.parameterStyle = function (total, ui) {
+        if (ui != null) {
+            if (total > ui) { return 'background-color:#f94040; color:white' }
+        }
     }
 
 
