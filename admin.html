@@ -116,7 +116,7 @@
             <div class="row">
                 <div class="col-sm-4">
                     <input ng-model="searchQuery" class="form-control" placeholder="Pretraži..." ng-change="search()" />
-                    <!--<input ng-model="searchSingup" class="form-control" placeholder="Pretraži..." />-->
+                    <!--<input ng-model="searchsignup" class="form-control" placeholder="Pretraži..." />-->
                 </div>
                 <div class="col-sm-4 checkbox">
                     <label><input type="checkbox" ng-model="showDetails" />Prikaži detalje / uredi</label>
@@ -149,7 +149,7 @@
                         <th class="nowrap">Status</th>
                         <th colspan="2"></th>
                     </tr>
-                    <!--<tr ng-if="$index>=idxStart && $index<idxEnd" ng-repeat="x in d | filter:searchSingup" ng-class="x.userId!=x.userGroupId?'text-muted':''">-->
+                    <!--<tr ng-if="$index>=idxStart && $index<idxEnd" ng-repeat="x in d | filter:searchsignup" ng-class="x.userId!=x.userGroupId?'text-muted':''">-->
                     <tr ng-class="x.userId!=x.userGroupId?'text-muted':''"  ng-repeat="x in d track by $index">
                         <!--<td>{{d.length - $index}}</td>-->
                         <td>{{x.rowid}}</td>

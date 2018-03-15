@@ -74,7 +74,7 @@ angular.module('app', ['ngMaterial'])
 }])
 
 
-.controller('singupCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
+.controller('signupCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
 
     var init = function () {
         $http({
@@ -103,7 +103,7 @@ angular.module('app', ['ngMaterial'])
         init();
     }
 
-    $scope.singup = function (user) {
+    $scope.signup = function (user) {
         user.userName = user.email;
         if (user.firstName == "" || user.lastName == "" || user.email == "" || user.password == "" || user.passwordConfirm == "") {
             alert('Sva polja su obavezna.');
@@ -114,7 +114,7 @@ angular.module('app', ['ngMaterial'])
             return false;
         }
         $http({
-            url: $rootScope.config.backend +  'Users.asmx/Singup',
+            url: $rootScope.config.backend +  'Users.asmx/Signup',
             method: 'POST',
             data: { x: user }
         })

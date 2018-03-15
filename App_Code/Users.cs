@@ -161,7 +161,7 @@ public class Users : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string Singup(NewUser x) {
+    public string Signup(NewUser x) {
         string path = HttpContext.Current.Server.MapPath("~/App_Data/" + dataBase);
         db.CreateGlobalDataBase(path, db.users);
         if (Check(x) != false) {

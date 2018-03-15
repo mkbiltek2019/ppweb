@@ -1,7 +1,7 @@
 ﻿<div class="well text-left">
     <h4>Registracijska forma</h4>
     <hr />
-    <div ng-controller="singupCtrl" class="text-left">
+    <div ng-controller="signupCtrl" class="text-left">
         <div layout-gt-sm="row">
             <md-input-container class="md-block" flex-gt-sm>
                 <label>Ime</label>
@@ -32,7 +32,7 @@
                 <input ng-model="passwordConfirm" type="password">
             </md-input-container>
         </div>
-        <button class="btn btn-primary" ng-click="singup(user)" ng-dblclick="return false"><i class="fa fa-sign-in"></i> REGISTRACIJA</button>
+        <button class="btn btn-primary" ng-click="signup(user)" ng-dblclick="return false"><i class="fa fa-sign-in"></i> REGISTRACIJA</button>
         <p> Registracijom programa prihvaćate <a href="{{config.appurl}}licence.txt" target="_blank">uvjete korištenja</a></p>
 
     </div>
