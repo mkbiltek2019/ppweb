@@ -1241,7 +1241,7 @@
   "users": "korisnici",
   "new user": "novi korisnik",
   "logout": "odjava",
-  "activate full version": "aktiviraj punu verziju",
+  "activate full version": "aktivirajte punu verziju",
   "additional activities": "dodatne aktivnosti",
   "additional energy expenditure": "dodatna energetska potrošnja",
   "activity": "aktivnost",
@@ -1494,7 +1494,7 @@
   "passwords are not the same": "lozinke nisu jednake",
   "foods": "namirnice",
   "the order have been sent successfully": "narudžba je uspješno poslana",
-  "renew now": "obnovi račun",
+  "renew now": "obnovite pretplatu",
   "sending": "šaljem",
   "user": "korisnik",
   "the selected additional energy expenditure is the same as recommended": "odabrana dodatna energetska potrošnja je veća od preporučene",
@@ -1550,5 +1550,13 @@
   "record date": "datum zapisa",
   "per consumer": "po konzumentu",
   "enter menu title": "upišite naziv jelovnika",
-  "manu analysis":  "analiza jelovnika"
+  "manu analysis": "analiza jelovnika",
+  "subscribe": "pretplata",
+  "1 year": "1 godina",
+  "2 years": "2 godine",
+  "your subscription will expire in": "vaša pretplata istiće za",
+  "day": "dan",
+  "days": "dana",
+  "renew subscription": "obnovite pretplatu",
+  "your subscription will expire today": "danas istiće vaša pretplata"
 }

@@ -1488,7 +1488,7 @@
   "foods": "namirnice",
   "your account will be active within 24 hours of your payment or after you send payment confirmation on email": "vaš korisnički račun će biti aktivan unutar 24 sata od primitka uplate ili nakon što nam pošaljete potvrdu o uplati na email",
   "the order have been sent successfully": "narudžba je uspješno poslata",
-  "renew now": "obnoviti racun",
+  "renew now": "obnovite pretplatu",
   "sending": "šaljem",
   "user": "korisnik",
   "the selected additional energy expenditure is the same as recommended": "odabrana dodatna energetska potrošnja je veća od preporučene",
@@ -1546,5 +1546,13 @@
   "record date": "datum zapisa",
   "per consumer": "po konzumentu",
   "enter menu title": "upišite naziv jelovnika",
-  "manu analysis": "analiza jelovnika"
+  "manu analysis": "analiza jelovnika",
+  "subscribe": "pretplata",
+  "1 year": "1 godina",
+  "2 years": "2 godine",
+  "your subscription will expire in": "vaša pretplata istiće za",
+  "day": "dan",
+  "days": "dana",
+  "renew subscription": "obnovite pretplatu",
+  "your subscription will expire today":  "danas istiće vaša pretplata"
 }

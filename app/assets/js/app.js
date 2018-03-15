@@ -60,9 +60,20 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $rootScope.loginUser = $sessionStorage.loginuser;
     $rootScope.user = $sessionStorage.user;
 
-    if ($rootScope.user != undefined) {
-        if ($rootScope.user.licenceStatus == 'demo') {
-            $rootScope.mainMessage = $translate.instant('you are currently working in a demo version') + '. ' + $translate.instant('some functions are disabled' + '.');
+    $scope.today = new Date();
+    //$scope.getDateDiff = function (x) {
+    //    var today = new Date();
+    //    var date1 = today;
+    //    var date2 = new Date(x);
+    //    var diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24));
+    //    return diffDays;
+    //}
+
+    if (angular.isDefined($rootScope.user)) {
+        if ($rootScope.user != null) {
+            if ($rootScope.user.licenceStatus == 'demo') {
+                $rootScope.mainMessage = $translate.instant('you are currently working in a demo version') + '. ' + $translate.instant('some functions are disabled' + '.');
+            }
         }
     }
    
@@ -255,16 +266,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
     $scope.toggleNewTpl('clientsdata');
 
-    $scope.today = new Date();
-
-    $scope.getDateDiff = function (x) {
-        var today = new Date();
-        var date1 = today;
-        var date2 = new Date(x);
-        var diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24));
-        return diffDays;
-    }
-
     $scope.showSaveMessage = false;
 
     $scope.logout = function () {
@@ -328,6 +329,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     }
 
+    $scope.hideMsg = function () {
+        $rootScope.mainMessage = null;
+    }
+
 }])
 
 .controller('loginCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', 'functions', '$translate', '$mdDialog', function ($scope, $http, $sessionStorage, $window, $rootScope, functions, $translate, $mdDialog) {
@@ -337,6 +342,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.tpl = x;
     }
     $scope.toggleTpl('loginTpl');
+
+    var getDateDiff = function (x) {
+        var today = new Date();
+        var date1 = today;
+        var date2 = new Date(x);
+        var diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24));
+        return diffDays;
+    }
 
     $scope.login = function (u, p) {
         $rootScope.loading = true;
@@ -370,12 +383,23 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     $rootScope.currTpl = './assets/partials/order.html';
                 } else {
                     $rootScope.currTpl = './assets/partials/dashboard.html';
+                    var daysToExpite = getDateDiff($rootScope.user.expirationDate);
+                    if (daysToExpite <= 10 && daysToExpite > 0) {
+                        $rootScope.mainMessage = $translate.instant('your subscription will expire in') + ' ' + daysToExpite + ' ' + (daysToExpite == 1 ? $translate.instant('day') : $translate.instant('days')) + '.';
+                        $rootScope.mainMessageBtn = $translate.instant('renew subscription');
+                    }
+                    if (daysToExpite == 0) {
+                        $rootScope.mainMessage = $translate.instant('your subscription will expire today') + '.';
+                        $rootScope.mainMessageBtn = $translate.instant('renew subscription');
+                    }
                     if ($rootScope.user.licenceStatus == 'demo') {
                         $rootScope.mainMessage = $translate.instant('you are currently working in a demo version') + '. ' + $translate.instant('some functions are disabled') + '.';
-                       // functions.alert($translate.instant('you are currently working in a demo version'), $translate.instant('some options are disabled'));
+                        $rootScope.mainMessageBtn = $translate.instant('activate full version');
+                        // functions.alert($translate.instant('you are currently working in a demo version'), $translate.instant('some options are disabled'));
                     }
                 }
 
+                
                 
              //   $rootScope.loading = false;
             } else {

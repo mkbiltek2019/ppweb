@@ -18,7 +18,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="text-left">Licenca</label>
+                    <label class="text-left">Pretplata</label>
                     <select ng-model="user.licence" ng-disabled="user.version=='WEB'" class="form-control" ng-click="calculatePrice()">
                         <option value="1">Godišnja</option>
                         <option value="0">Trajna</option>
@@ -67,7 +67,7 @@
             </div>
             <div ng-if="showUserDetails">
                 <div ng-if="user.version=='WEB'" class="row m10">
-                    <label class="col-sm-4 text-right">Trajanje licence: </label>
+                    <label class="col-sm-4 text-right">Pretplata: </label>
                     <div class="input-group col-sm-6">
                         <select ng-model="user.licence" class="form-control" ng-change="calculatePrice()">
                             <option ng-value="1" ng-selected="user.licence==1?true:false">1 godina</option>

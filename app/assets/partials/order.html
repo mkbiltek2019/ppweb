@@ -34,11 +34,11 @@
                 <strong>{{errorMesage}}</strong>
             </div>
             <div class="row m10">
-                <label class="col-sm-2 text-right">Trajanje licence: </label>
+                <span class="col-sm-2 text-right text-capitalize">{{'subscribe' | translate}}: </span>
                 <div class="input-group col-sm-3">
                     <select ng-model="user.licence" class="form-control" ng-change="calculatePrice()">
-                        <option ng-value="1" ng-selected="user.licence==1?true:false">1 godina</option>
-                        <option ng-value="2" ng-selected="user.licence==2?true:false">2 godine</option>
+                        <option value="1" ng-selected="user.licence==1?true:false">{{'1 year' | translate}}</option>
+                        <option value="2" ng-selected="user.licence==2?true:false">{{'2 years' | translate}}</option>
                     </select>
                     <span class="input-group-addon">{{user.price}} kn ({{user.priceEur | number:0}} €)</span>
                 </div>
