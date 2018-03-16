@@ -1291,7 +1291,7 @@
   "fats": "fats",
   "choosen diet": "choosen diet",
   "login": "login",
-  "sing up": "sing up",
+  "sign up": "sign up",
   "meal planning web app": "meal planning web app",
   "user name": "user name",
   "password": "password",
@@ -1560,5 +1560,7 @@
   "day": "day",
   "days": "days",
   "renew subscription": "renew subscription",
-  "your subscription will expire today": "your subscription will expire today"
+  "your subscription will expire today": "your subscription will expire today",
+  "under": "under",
+  "over":  "over"
 }

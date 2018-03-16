@@ -6,7 +6,7 @@
     <div class="col-md-4 col-md-offset-4 mt20">
         <ul class="nav nav-tabs">
             <li ng-class="tpl=='loginTpl'?'active':'inactive'" ng-click="toggleTpl('loginTpl')"><a href="#"><i class="fa fa-sign-in"></i> <span class="text-capitalize">{{'login' | translate}}</span></a></li>
-            <li ng-class="tpl=='singupTpl'?'active':'inactive'"><a href="#" ng-click="toggleTpl('singupTpl')"><i class="fa fa-user-plus"></i> <span class="text-capitalize">{{'sing up' | translate}}</span></a></li>
+            <li ng-class="tpl=='signupTpl'?'active':'inactive'"><a href="#" ng-click="toggleTpl('signupTpl')"><i class="fa fa-user-plus"></i> <span class="text-capitalize">{{'sign up' | translate}}</span></a></li>
         </ul>
         <div ng-include="tpl" class="loginBox"></div>
     </div>
@@ -44,8 +44,8 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="singupTpl">
-    <div ng-controller="singupCtrl">
+<script type="text/ng-template" id="signupTpl">
+    <div ng-controller="signupCtrl">
         <div ng-if="showAlert" class="alert alert-success text-center">
             <h3><span class="fa fa-smile-o fa-lg"></span> {{alertMessage | translate}}.</h3>
             <div class="mt10">
@@ -87,7 +87,7 @@
             <div>
                 <p>{{'i agree to the' | translate}}<a href="licence.txt" target="_blank"> {{'terms and conditions' | translate}}</a></p>
                 <div class="mt10">
-                    <a href="" class="btn btn-primary" ng-click="singup()" ng-disabeld="singupdisabled==true" ng-dblclick="return false"><i class="fa fa-check"></i> {{'register' | translate}}</a>
+                    <a href="" class="btn btn-primary" ng-click="signup()" ng-disabeld="signupdisabled==true" ng-dblclick="return false"><i class="fa fa-check"></i> {{'register' | translate}}</a>
                 </div>
             </div>
         </div>

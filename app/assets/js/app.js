@@ -406,7 +406,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 $rootScope.loading = false;
                 $scope.errorLogin = true;
                 $scope.errorMesage = $translate.instant('wrong user name or password');
-               // $rootScope.currTpl = 'assets/partials/singup.html';  //<< Only fo first registration
+               // $rootScope.currTpl = 'assets/partials/signup.html';  //<< Only fo first registration
             }
         },
         function (response) {
@@ -415,8 +415,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         });
      }
 
-     $scope.singup = function () {
-         $rootScope.currTpl = 'assets/partials/singup.html';
+     $scope.signup = function () {
+         $rootScope.currTpl = 'assets/partials/signup.html';
      }
 
 
@@ -465,7 +465,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 }])
 
-.controller('singupCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, functions, $translate) {
+.controller('signupCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, functions, $translate) {
     var webService = 'Users.asmx';
     $scope.showAlert = false;
     $scope.passwordConfirm = '';
@@ -485,22 +485,22 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
     init();
 
-    $scope.singupdisabled = false;
-    $scope.singup = function () {
-        $scope.singupdisabled = true;
+    $scope.signupdisabled = false;
+    $scope.signup = function () {
+        $scope.signupdisabled = true;
         $scope.newUser.userName = $scope.newUser.email;
         if ($scope.newUser.firstName == "" || $scope.newUser.lastName == "" || $scope.newUser.email == "" || $scope.newUser.password == "" || $scope.passwordConfirm == "") {
             functions.alert($translate.instant('all fields are required'), '');
-            $scope.singupdisabled = false;
+            $scope.signupdisabled = false;
             return false;
         }
         if ($scope.newUser.password != $scope.passwordConfirm) {
-            $scope.singupdisabled = false;
+            $scope.signupdisabled = false;
             functions.alert($translate.instant('passwords are not the same'), '');
             return false;
         }
         $http({
-            url: $sessionStorage.config.backend + webService + '/Singup',
+            url: $sessionStorage.config.backend + webService + '/Signup',
             method: "POST",
             data: { x: $scope.newUser }
         })
@@ -514,7 +514,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         },
         function (response) {
             $scope.showAlert = false;
-            $scope.singupdisabled = false;
+            $scope.signupdisabled = false;
             functions.alert($translate.instant(response.data.d), '');
         });
     }
@@ -732,7 +732,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     }
 
-    $scope.singup = function () {
+    $scope.signup = function () {
         if ($rootScope.user.licenceStatus == 'demo' && $rootScope.users.length > 0) {
             functions.demoAlert('this function is not available in demo version');
             return false;
@@ -767,7 +767,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         $http({
-            url: $sessionStorage.config.backend + webService + '/Singup',
+            url: $sessionStorage.config.backend + webService + '/Signup',
             method: "POST",
             data: { x: $scope.newUser }
         })
@@ -2718,6 +2718,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var displayCharts = function () {
+        if (!angular.isDefined($rootScope.totals)) { return false;}
         $scope.mealsTotals = [];
         $scope.mealsMin = [];
         $scope.mealsMax = [];
@@ -3318,10 +3319,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             }
     }
 
-    $scope.parameterStyle = function (total, ui) {
-        if (ui != null) {
-            if (total > ui) { return 'background-color:#f94040; color:white' }
+    $scope.parameterStyle = function (total, r) {
+        if (r.mda != null) {
+            if (total < r.mda) { return 'background-color:#9bc1ff; color:white' }
         }
+        if (r.ui != null) {
+            if (total > r.ui) { return 'background-color:#f94040; color:white' }
+        }
+
     }
 
 
@@ -3336,7 +3341,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.printPreview = function () {
         $mdDialog.show({
-            controller: $scope.printPreviewCtrl, // RealizationCtrl,
+            controller: $scope.printPreviewCtrl,
             templateUrl: 'assets/partials/popup/printmenu.html',
             parent: angular.element(document.body),
             clickOutsideToClose: true,
@@ -3354,31 +3359,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.cancel = function () {
             $mdDialog.cancel();
         };
-
-        //$scope.print = function () {
-        //    alert('todo print');
-        //}
-
-        //$scope.pdf = function () {
-        //  //  alert('todo');
-
-        //    printPdf();
-
-        //}
-
-        //var printPdf = function () {
-        //    $http({
-        //        url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
-        //        method: "POST",
-        //        data: { userId: $rootScope.user.userId, fileName: 'testpdf', currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData, totals: $rootScope.totals, lang: $rootScope.config.language }
-        //    })
-        //      .then(function (response) {
-        //          alert(response.data.d);
-        //      },
-        //      function (response) {
-        //          alert(response.data.d)
-        //      });
-        //}
 
     };
 
@@ -3773,7 +3753,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             $scope.price = JSON.parse(response.data.d);
-            $scope.price.netPrice.currency = $sessionStorage.settings.currency;
+            $scope.price.netPrice.currency = $sessionStorage.config.currency;
             load();
         },
         function (response) {

@@ -1289,7 +1289,7 @@
   "fats": "masti",
   "choosen diet": "izabrana dijeta",
   "login": "prijava",
-  "sing up": "registracija",
+  "sign up": "registracija",
   "meal planning web app": "web aplikacija za kreiranje uravnoteženih menija i planova fizicke aktivnosti",
   "user name": "korisnicko ime",
   "password": "lozinka",
@@ -1554,5 +1554,7 @@
   "day": "dan",
   "days": "dana",
   "renew subscription": "obnovite pretplatu",
-  "your subscription will expire today":  "danas istiće vaša pretplata"
+  "your subscription will expire today": "danas istiće vaša pretplata",
+  "under": "ispod",
+  "over": "iznad"
 }
