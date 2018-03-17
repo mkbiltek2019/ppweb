@@ -2097,12 +2097,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.openFoodPopup = function (x, idx) {
-        if ($rootScope.user.licenceStatus == 'demo' && $rootScope.currentMenu.data.selectedFoods.length > 9) {
-            functions.demoAlert('in demo version maximum number of choosen foods is 10');
-            return false;
-        }
         $scope.addFoodBtn = true;
         $scope.addFoodBtnIcon = 'fa fa-spinner fa-spin';
+        if ($rootScope.user.licenceStatus == 'demo' && $rootScope.currentMenu.data.selectedFoods.length > 9) {
+            functions.demoAlert('in demo version maximum number of choosen foods is 10');
+            $scope.addFoodBtnIcon = 'fa fa-hand-o-right';
+            $scope.addFoodBtn = false;
+            return false;
+        }
         $mdDialog.show({
             controller: $scope.foodPopupCtrl,
             templateUrl: 'assets/partials/popup/food.html',
@@ -2127,7 +2129,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.foodGroups = d.foodGroups;
         $scope.food = d.food != undefined ? d.food : null;
         var initFood = d.food != undefined ? d.food : null;
-        $scope.limit = 20;
+        $scope.limit = 100;
 
         $scope.initCurrentFoodGroup = function () {
             $scope.currentGroup = { code: 'A', title: 'all foods' };
