@@ -17,7 +17,11 @@
     },
     {
       "code": "sr",
-      "title": "serbian"
+      "title": "serbian (latin)"
+    },
+    {
+      "code": "sr_cyrl",
+      "title": "serbian (cyrillic)"
     },
     {
       "code": "en",
