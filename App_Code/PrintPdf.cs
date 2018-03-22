@@ -70,12 +70,12 @@ public class PrintPdf : System.Web.Services.WebService {
             sb.AppendLine(string.Format(@"
                                         "));
 
-            sb.AppendLine(AppendMeal(meal1, currentMenu.data.meals));
-            sb.AppendLine(AppendMeal(meal2, currentMenu.data.meals));
-            sb.AppendLine(AppendMeal(meal3, currentMenu.data.meals));
-            sb.AppendLine(AppendMeal(meal4, currentMenu.data.meals));
-            sb.AppendLine(AppendMeal(meal5, currentMenu.data.meals));
-            sb.AppendLine(AppendMeal(meal6, currentMenu.data.meals));
+            sb.AppendLine(AppendMeal(meal1, currentMenu.data.meals, lang));
+            sb.AppendLine(AppendMeal(meal2, currentMenu.data.meals, lang));
+            sb.AppendLine(AppendMeal(meal3, currentMenu.data.meals, lang));
+            sb.AppendLine(AppendMeal(meal4, currentMenu.data.meals, lang));
+            sb.AppendLine(AppendMeal(meal5, currentMenu.data.meals, lang));
+            sb.AppendLine(AppendMeal(meal6, currentMenu.data.meals, lang));
 
             doc.Add(new Paragraph(sb.ToString(), normalFont));
 
@@ -603,10 +603,10 @@ public class PrintPdf : System.Web.Services.WebService {
         }
     }
 
-    private string AppendMeal(List<Foods.NewFood> meal, List<Meals.NewMeal> meals) {
+    private string AppendMeal(List<Foods.NewFood> meal, List<Meals.NewMeal> meals, string lang) {
         StringBuilder sb = new StringBuilder();
         if (meal.Count > 0) {
-            sb.AppendLine(string.Format(@"{0}", meal[0].meal.title).ToUpper());
+            sb.AppendLine(string.Format(@"{0}", t.Tran(GetMealTitle(meal[0].meal.code), lang)).ToUpper());
             string description = meals.Where(a => a.code == meal[0].meal.code).FirstOrDefault().description;
             if (!string.IsNullOrEmpty(description)) {
             sb.AppendLine(string.Format(@"{0}
@@ -635,5 +635,16 @@ public class PrintPdf : System.Web.Services.WebService {
         }
     }
 
+    private string GetMealTitle(string code) {
+        switch (code) {
+            case "B": return "breakfast";
+            case "MS": return "morning snack";
+            case "L": return "lunch";
+            case "AS": return "afternoon snack";
+            case "D": return "dinner";
+            case "MBS": return "meal before sleep";
+            default: return "";
+        }
+    }
 
 }

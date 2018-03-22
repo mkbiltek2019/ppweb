@@ -333,6 +333,15 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $rootScope.mainMessage = null;
     }
 
+    $rootScope.getMealTitle = function (x) {
+        if (x == 'B') { return 'breakfast'; }
+        if (x == 'MS') { return 'morning snack'; }
+        if (x == 'L') { return 'lunch'; }
+        if (x == 'AS') { return 'afternoon snack'; }
+        if (x == 'D') { return 'dinner'; }
+        if (x == 'MBS') { return 'meal before sleep'; }
+    }
+
 }])
 
 .controller('loginCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', 'functions', '$translate', '$mdDialog', function ($scope, $http, $sessionStorage, $window, $rootScope, functions, $translate, $mdDialog) {
@@ -1982,7 +1991,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     if ($rootScope.clientData.meals.length == 0) {
         load();
     }
-    
+
 }])
 
 .controller('menuCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'charts', '$timeout', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, charts, $timeout, functions, $translate) {

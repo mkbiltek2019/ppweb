@@ -6,7 +6,7 @@
                 <div class="col-md-offset-5 p20">
                     <div ng-repeat="x in clientData.meals">
                         <md-checkbox ng-model="x.isSelected" class="md-primary" ng-disabled="x.isDisabled">
-                            {{ x.title | translate }}
+                            {{getMealTitle(x.code) | translate}}
                         </md-checkbox>
                     </div>
                 </div>
