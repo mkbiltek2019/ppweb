@@ -19,7 +19,7 @@ angular.module('app', [])
     $scope.year = d.getFullYear();
 
     $scope.toggleTpl = function (x) {
-        $scope.tpl = x;
+        $rootScope.tpl = x;
     };
     $scope.toggleTpl('login');
 
@@ -242,6 +242,8 @@ angular.module('app', [])
 }])
 
 .controller('ordersCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
+    $scope.isInvoice = false;
+    $scope.pdfLink = null;
 
     var load = function () {
         $http({
@@ -257,6 +259,75 @@ angular.module('app', [])
      });
     }
     load();
+
+    $scope.createInvoice = function (order, tpl) {
+        $http({
+            url: $rootScope.config.backend + 'Invoice.asmx/InitPP',
+            method: 'POST',
+            data: { order: order }
+        })
+     .then(function (response) {
+         $rootScope.i = JSON.parse(response.data.d);
+         $rootScope.tpl = tpl;
+     },
+     function (response) {
+         alert(response.data.d);
+     });
+    }
+
+}])
+
+.controller('invoiceCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
+    $scope.isInvoice = false;
+    $scope.pdfLink = null;
+    $scope.loading = false;
+
+    $scope.init = function () {
+        $http({
+            url: $rootScope.config.backend + 'Invoice.asmx/Init',
+            method: 'POST',
+            data: ''
+        })
+     .then(function (response) {
+         $rootScope.i = JSON.parse(response.data.d);
+     },
+     function (response) {
+         alert(response.data.d);
+     });
+    }
+    if(angular.isUndefined($rootScope.i)) { $scope.init(); }
+
+    $scope.add = function () {
+        $rootScope.i.items.push({
+            title: '',
+            qty: 1,
+            unitPrice: 0
+        })
+    }
+
+    $scope.remove = function (idx) {
+        $rootScope.i.items.splice(idx, 1);
+    }
+
+    $scope.createPdf = function (i) {
+        $scope.loading = true;
+        $scope.pdfLink = null;
+        var fileName = null;
+        $http({
+            url: $rootScope.config.backend + 'PrintPdf.asmx/InvoicePdf',
+            method: 'POST',
+            data: { invoice: i }
+        })
+     .then(function (response) {
+         $scope.loading = false;
+         fileName = response.data.d;
+         $scope.pdfLink = $rootScope.config.backend + 'upload/invoice/' + fileName + '.pdf';
+     },
+     function (response) {
+         $scope.loading = false;
+         alert(response.data.d);
+     });
+    }
 
 }])
 

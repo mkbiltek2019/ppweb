@@ -28,14 +28,18 @@ public class PrintPdf : System.Web.Services.WebService {
     Font normalFont_10 = FontFactory.GetFont(HttpContext.Current.Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, 10);
     Font normalFont_12 = FontFactory.GetFont(HttpContext.Current.Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, 12);
     Font normalFont_bold = FontFactory.GetFont(HttpContext.Current.Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, 9, Font.BOLD);
+    Font normalFont_10_bold = FontFactory.GetFont(HttpContext.Current.Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, 10, Font.BOLD);
     Font normalFont_italic = FontFactory.GetFont(HttpContext.Current.Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, 9, Font.ITALIC);
 
     string logoPath = HttpContext.Current.Server.MapPath(string.Format("~/app/assets/img/logo1.png"));
+    string logoPathIgProg = HttpContext.Current.Server.MapPath(string.Format("~/assets/img/logo_igprog.png"));
+
     iTextSharp.text.pdf.draw.LineSeparator line = new iTextSharp.text.pdf.draw.LineSeparator(0f, 100f, Color.BLACK, Element.ALIGN_LEFT, 1);
 
     public PrintPdf() {
     }
 
+    #region Webmethods
     [WebMethod]
     public string MenuPdf(string userId, Menues.NewMenu currentMenu, ClientsData.NewClientData clientData, Foods.Totals totals, int consumers, string lang) {
         try {
@@ -590,7 +594,150 @@ public class PrintPdf : System.Web.Services.WebService {
             return e.StackTrace;
         }
     }
+    
+    [WebMethod]
+    public string InvoicePdf(Invoice.NewInvoice invoice) {
+        try {
+            var doc = new Document();
+            string path = Server.MapPath("~/upload/invoice/");
+            DeleteFolder(path);
+            CreateFolder(path);
+            string fileName = Guid.NewGuid().ToString();
+            string filePath = Path.Combine(path, string.Format("{0}.pdf", fileName));
+            PdfWriter.GetInstance(doc, new FileStream(filePath, FileMode.Create));
 
+            doc.Open();
+
+            Image logo = Image.GetInstance(logoPathIgProg);
+            logo.Alignment = Image.ALIGN_LEFT;
+            logo.ScalePercent(8f);
+
+            doc.Add(logo);
+            string info = string.Format(@"
+Ludvetov breg 5, HR-51000 Rijeka
+OIB 58331314923; MB 97370371
+IBAN HR8423400091160342496
+");
+            doc.Add(new Paragraph(info, normalFont));
+
+            doc.Add(new Chunk(line));
+           // doc.Add(new Paragraph("Naručitelj:", normalFont_10));
+
+            string client = string.Format(@"
+
+
+                                                                                                            {0}
+                                                                                                            {1}
+                                                                                                            {2} {3}
+                                                                                                            {4}
+
+                                                                                                            {5}
+
+
+",
+            !string.IsNullOrWhiteSpace(invoice.companyName) ? invoice.companyName : string.Format("{0} {1}", invoice.firstName, invoice.lastName),
+            invoice.address,
+            invoice.postalCode,
+            invoice.city,
+            invoice.country,
+            !string.IsNullOrWhiteSpace(invoice.pin) ? string.Format("OIB: {0}", invoice.pin): "");
+
+            doc.Add(new Paragraph(client, normalFont_10));
+
+            doc.Add(new Paragraph("RAČUN R2", normalFont_12));
+            doc.Add(new Paragraph("Obračun prema naplaćenoj naknadi", normalFont_italic));
+
+            doc.Add(new Paragraph(string.Format("Broj računa: {0}", invoice.number) , normalFont));
+
+            PdfPTable table = new PdfPTable(5);
+            table.AddCell(new PdfPCell(new Phrase("Redni broj", normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
+            table.AddCell(new PdfPCell(new Phrase("Naziv proizvoda / usluge", normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15,  });
+            table.AddCell(new PdfPCell(new Phrase("Količina", normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
+            table.AddCell(new PdfPCell(new Phrase("Jedinična cijena", normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
+            table.AddCell(new PdfPCell(new Phrase("Ukupno", normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
+
+            int row = 0;
+            double totPrice = 0;
+            foreach (Invoice.Item item in invoice.items) {
+                row++;
+                totPrice = totPrice + (item.unitPrice * item.qty);
+                table.AddCell(new PdfPCell(new Phrase(string.Format("{0}.", row), normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
+                table.AddCell(new PdfPCell(new Phrase(item.title, normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+                table.AddCell(new PdfPCell(new Phrase(item.qty.ToString(), normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
+                table.AddCell(new PdfPCell(new Phrase(string.Format("{0} kn", string.Format("{0:N}", item.unitPrice)), normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+                table.AddCell(new PdfPCell(new Phrase(string.Format("{0} kn", string.Format("{0:N}", item.unitPrice * item.qty)), normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+            }
+            
+            table.AddCell(new PdfPCell(new Phrase("", normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 10 });
+            table.AddCell(new PdfPCell(new Phrase("", normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 10 });
+            table.AddCell(new PdfPCell(new Phrase("Ukupan iznos računa: ", normalFont_10)) { Border = PdfPCell.TOP_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 10, Colspan = 2, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+            table.AddCell(new PdfPCell(new Phrase(string.Format("{0} kn", string.Format("{0:N}", totPrice)), normalFont_10_bold)) { Border = PdfPCell.TOP_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+
+            table.WidthPercentage = 100f;
+            float[] widths = new float[] { 1f, 3f, 1f, 1f, 1f };
+            table.SetWidths(widths);
+            doc.Add(table);
+
+            doc.Add(new Paragraph("PDV nije obračunat jer obveznik IG PROG nije u sustavu PDV-a po čl. 90, st. 1. Zakona o porezu na dodanu vrijednost.", normalFont_italic));
+
+            PdfPTable invoiceInfo_table = new PdfPTable(2);
+            invoiceInfo_table.AddCell(new PdfPCell(new Phrase("Datum i vrijeme:", normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 20 });
+            invoiceInfo_table.AddCell(new PdfPCell(new Phrase(invoice.dateAndTime, normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 20, });
+
+            invoiceInfo_table.AddCell(new PdfPCell(new Phrase("Oznaka operatera:", normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 5 });
+            invoiceInfo_table.AddCell(new PdfPCell(new Phrase("IG", normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 5, });
+
+            invoiceInfo_table.AddCell(new PdfPCell(new Phrase("Način plaćanja:", normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 5 });
+            invoiceInfo_table.AddCell(new PdfPCell(new Phrase("Transakcijski račun", normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 5, });
+
+            invoiceInfo_table.AddCell(new PdfPCell(new Phrase("Mjesto isporuke:", normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 0,  PaddingTop = 5 });
+            invoiceInfo_table.AddCell(new PdfPCell(new Phrase("Rijeka", normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 5, });
+
+            invoiceInfo_table.WidthPercentage = 100f;
+            float[] invoiceInfo_widths = new float[] { 1f, 4f };
+            invoiceInfo_table.SetWidths(invoiceInfo_widths);
+            doc.Add(invoiceInfo_table);
+
+            Single spacing = 140f;
+            if (row == 1) { spacing = 160f; }
+            if (row == 2) { spacing = 140f; }
+            if (row == 3) { spacing = 100f; }
+            if (row == 4) { spacing = 60f; }
+            if (row == 5) { spacing = 20f; }
+            if (row == 6) { spacing = 40f; }
+
+            PdfPTable sign_table = new PdfPTable(2);
+            sign_table.SpacingBefore = spacing;
+            sign_table.AddCell(new PdfPCell(new Phrase("", normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 5, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+            sign_table.AddCell(new PdfPCell(new Phrase("Dokument izdao:", normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 5, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
+            sign_table.AddCell(new PdfPCell(new Phrase("", normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 5, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+            sign_table.AddCell(new PdfPCell(new Phrase("Igor Gašparović", normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 5, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
+
+
+            sign_table.WidthPercentage = 100f;
+            float[] sign_widths = new float[] { 4f, 1f };
+            sign_table.SetWidths(sign_widths);
+            doc.Add(sign_table);
+
+            PdfPTable footer_table = new PdfPTable(1);
+            footer_table.AddCell(new PdfPCell(new Phrase("mob: +385 98 330 966   |   email: igprog@yahoo.com   |   web: www.igprog.hr", normalFont_8)) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 80, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
+            doc.Add(footer_table);
+
+            //  doc.Add(new Paragraph(doc.BottomMargin, "mob: +385 98 330 966   |   email: igprog@yahoo.com   |   web: www.igprog.hr", normalFont_8));
+
+            doc.Close();
+
+            return fileName;
+        } catch(Exception e) {
+            return e.StackTrace;
+        }
+    }
+    
+
+    
+    #endregion WebMethods
+
+    #region Methods
     protected void CreateFolder(string path) {
         if (!Directory.Exists(path)) {
             Directory.CreateDirectory(path);
@@ -646,5 +793,6 @@ public class PrintPdf : System.Web.Services.WebService {
             default: return "";
         }
     }
+    #endregion Methods
 
 }

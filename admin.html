@@ -33,6 +33,7 @@
                     <li ng-if="islogin" ng-click="toggleTpl('programPrehraneWeb')"><a href="#">Web App</a></li>
                     <li ng-if="islogin" ng-click="toggleTpl('programPrehrane5')"><a href="#">Instalacije</a></li>
                     <li ng-if="islogin" ng-click="toggleTpl('orders')"><a href="#">Narudžbe</a></li>
+                    <li ng-if="islogin" ng-click="toggleTpl('invoice')"><a href="#">Račun</a></li>
                 </ul>
                 <ul ng-if="islogin" class="nav navbar-nav navbar-right">
                     <li ng-click="logout()"><a href="#"><span class="fa fa-sign-in"></span> Odjava</a></li>
@@ -61,7 +62,7 @@
                 <div class="col-sm-4">
                     <div class="input-group" style="margin:5px 0px 0px 0px">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input ng-model="user.username" type="text" class="form-control" name="email" placeholder="Email">
+                        <input ng-init="user.username='igprog@yahoo.com'" ng-model="user.username" type="text" class="form-control" name="email" placeholder="Email">
                     </div>
                     <div class="input-group" style="margin:5px 0px 0px 0px">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
@@ -74,8 +75,6 @@
             </div>
         </div>
     </script>
-
-
 
     <script type="text/ng-template" id="programPrehraneWeb">
         <div ng-controller="webAppCtrl" class="container" style="padding-bottom:40px">
@@ -220,58 +219,153 @@
 
     <script type="text/ng-template" id="orders">
         <div ng-controller="ordersCtrl" class="container">
-            <h2>Narudžbe</h2>
-            <div class="row" style="padding-bottom:10px">
-                <div class="col-sm-4">
-                    <input ng-model="searchOrders" class="form-control" placeholder="Pretraži..." />
+
+                <h2>Narudžbe</h2>
+                <div class="row" style="padding-bottom:10px">
+                    <div class="col-sm-4">
+                        <input ng-model="searchOrders" class="form-control" placeholder="Pretraži..." />
+                    </div>
                 </div>
-            </div>
-            <div class="table-responsive" style="max-height:600px">
-                <table class="table table-condensed text-small">
-                    <tr>
-                        <th>Br.</th>
-                        <th>Datum</th>
-                        <th>Ime</th>
-                        <th>Prezime</th>
-                        <th>Tvrtka</th>
-                        <th>Adresa</th>
-                        <th class="nowrap">Poštanski broj</th>
-                        <th>Grad</th>
-                        <th>Država</th>
-                        <th>OIB</th>
-                        <th>Email</th>
-                        <th>IP adresa</th>
-                        <th>Verzija</th>
-                        <th>Licenca</th>
-                        <th>Broj licenci</th>
-                        <th>Cijena</th>
-                        <th>Dodatna usluga</th>
-                        <th>Napomena</th>
-                    </tr>
-                    <tr ng-repeat="x in orders | filter:searchOrders">
-                        <td>{{x.id}}</td>
-                        <td style="white-space: nowrap">{{x.orderDate}}</td>
-                        <td>{{x.firstName}}</td>
-                        <td>{{x.lastName}}</td>
-                        <td>{{x.companyName}}</td>
-                        <td class="nowrap">{{x.address}}</td>
-                        <td>{{x.postalCode}}</td>
-                        <td>{{x.city}}</td>
-                        <td>{{x.country}}</td>
-                        <td>{{x.pin}}</td>
-                        <td>{{x.email}}</td>
-                        <td>{{x.ipAddress}}</td>
-                        <td>{{x.version}}</td>
-                        <td>{{x.licence}}</td>
-                        <td>{{x.licenceNumber}}</td>
-                        <td>{{x.price}}</td>
-                        <td>{{x.additionalService}}</td>
-                        <td>{{x.note}}</td>
-                    </tr>
-                </table>
-            </div>
+                <div class="table-responsive" style="max-height:600px">
+                    <table class="table table-condensed text-small">
+                        <tr>
+                            <th></th>
+                            <th>Br.</th>
+                            <th>Datum</th>
+                            <th>Ime</th>
+                            <th>Prezime</th>
+                            <th>Tvrtka</th>
+                            <th>Adresa</th>
+                            <th class="nowrap">Poštanski broj</th>
+                            <th>Grad</th>
+                            <th>Država</th>
+                            <th>OIB</th>
+                            <th>Email</th>
+                            <th>IP adresa</th>
+                            <th>Verzija</th>
+                            <th>Licenca</th>
+                            <th>Broj licenci</th>
+                            <th>Cijena</th>
+                            <th>Dodatna usluga</th>
+                            <th>Napomena</th>
+                        </tr>
+                        <tr ng-repeat="x in orders | filter:searchOrders">
+                            <td><a href="" class="btn btn-success" ng-click="createInvoice(x, 'invoice')"><i class="fa fa-file-text-o"></i> Račun</a></td>
+                            <td>{{x.id}}</td>
+                            <td style="white-space: nowrap">{{x.orderDate}}</td>
+                            <td>{{x.firstName}}</td>
+                            <td>{{x.lastName}}</td>
+                            <td>{{x.companyName}}</td>
+                            <td class="nowrap">{{x.address}}</td>
+                            <td>{{x.postalCode}}</td>
+                            <td>{{x.city}}</td>
+                            <td>{{x.country}}</td>
+                            <td>{{x.pin}}</td>
+                            <td>{{x.email}}</td>
+                            <td>{{x.ipAddress}}</td>
+                            <td>{{x.version}}</td>
+                            <td>{{x.licence}}</td>
+                            <td>{{x.licenceNumber}}</td>
+                            <td>{{x.price}}</td>
+                            <td>{{x.additionalService}}</td>
+                            <td>{{x.note}}</td>
+                        </tr>
+                    </table>
+                </div>
         </div>
     </script>
+
+    <script type="text/ng-template" id="invoice">
+        <div ng-controller="invoiceCtrl" class="container">
+            <h2>Račun</h2>
+            <div>
+                <a href="" class="btn btn-primary" ng-click="init()"><i class="fa fa-file-text-o"></i> Novi račun</a>
+            </div>
+            <div class="row mt20">
+                <div class="col-sm-6">
+                    <div class="table-responsive">
+                        <table class="table table-condensed text-small">
+                            <tr>
+                                <td>Broj</td>
+                                <td><input ng-model="i.number" type="text" class="form-control" /></td>
+                            </tr>
+                            <tr>
+                                <td>Ime</td>
+                                <td><input ng-model="i.dateAndTime" type="text" class="form-control" /></td>
+                            </tr>
+                            <tr>
+                                <td>Ime</td>
+                                <td><input ng-model="i.firstName" type="text" class="form-control" /></td>
+                            </tr>
+                            <tr>
+                                <td>Prezime</td>
+                                <td><input ng-model="i.lastName" type="text" class="form-control" /></td>
+                            </tr>
+                            <tr>
+                                <td>Tvrtka</td>
+                                <td><input ng-model="i.companyName" type="text" class="form-control" /></td>
+                            </tr>
+                            <tr>
+                                <td>Ulica i broj</td>
+                                <td><input ng-model="i.address" type="text" class="form-control" /></td>
+                            </tr>
+                            <tr>
+                                <td>Poštanski broj</td>
+                                <td><input ng-model="i.postalCode" type="text" class="form-control" /></td>
+                            </tr>
+                            <tr>
+                                <td>Grad</td>
+                                <td><input ng-model="i.city" type="text" class="form-control" /></td>
+                            </tr>
+                            <tr>
+                                <td>Država</td>
+                                <td><input ng-model="i.country" type="text" class="form-control" /></td>
+                            </tr>
+                            <tr>
+                                <td>OIB</td>
+                                <td><input ng-model="i.pin" type="text" class="form-control" /></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <label class="col-sm-2">Stavke:</label>
+                <div class="col-sm-8 table-responsive">
+                    <table class="table table-condensed table-bordered">
+                        <tr>
+                            <th style="width:50px"></th>
+                            <th>Naziv</th>
+                            <th style="width:100px">Količina</th>
+                            <th style="width:100px">Jedinična cijena</th>
+                        </tr>
+                        <tr ng-repeat="x in i.items">
+                            <td><a href="" class="btn btn-danger" ng-click="remove($index)"><i class="fa fa-minus"></i></a></td>
+                            <td><input ng-model="x.title" type="text" class="form-control" /></td>
+                            <td><input ng-model="x.qty" type="number" min="0" class="form-control" /></td>
+                            <td><input ng-model="x.unitPrice" type="text" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td><a href="" class="btn btn-success" ng-click="add()"><i class="fa fa-plus"></i></a></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div style="margin-bottom:100px">
+                <a href="" class="btn btn-success" ng-click="createPdf(i)"><i class="fa fa-{{loading==true?'spinner fa-spin':'file-pdf-o'}}"></i> Kreiraj PDF</a>
+                <a ng-if="pdfLink" href="{{pdfLink}}" download><i class="fa fa-file-pdf-o"></i> {{pdfLink}}</a>
+            </div>
+
+            <!--invoice
+            <pre>{{i | json}}</pre>
+
+            order
+            <pre>{{o | json}}</pre>-->
+        </div>
+    </script>
+
+
    
     <script src="../assets/js/admin.js"></script>
   
