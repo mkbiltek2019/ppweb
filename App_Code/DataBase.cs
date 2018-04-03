@@ -24,6 +24,7 @@ namespace Igprog {
         public string instals = "instals";
         public string orders = "orders";
         public string prices = "prices";
+        public string invoices = "invoices";
 
         #region CreateTable (users.ddb)
         //TODO
@@ -52,7 +53,6 @@ namespace Igprog {
             CreateTable(path, sql);
         }
         #endregion
-
 
         #region CreateTable (app)
         public void Clients(string path) {
@@ -149,7 +149,7 @@ namespace Igprog {
             CreateTable(path, sql);
         }
 
-           public void Menues(string path) {
+        public void Menues(string path) {
             string sql = @"CREATE TABLE IF NOT EXISTS menues
                 (id VARCHAR(50),
                 title NVARCHAR(50),
@@ -190,7 +190,7 @@ namespace Igprog {
         #endregion
 
         #region CreateTable (web page)
-          public void Orders(string path) {
+        public void Orders(string path) {
             string sql = @"CREATE TABLE IF NOT EXISTS orders
                 (firstName NVARCHAR(50),
                 lastName NVARCHAR(50),
@@ -213,13 +213,33 @@ namespace Igprog {
                 note NVARCHAR(200))";
             CreateTable(path, sql);
         }
-         public void Instals(string path) {
+        public void Instals(string path) {
             string sql = @"CREATE TABLE IF NOT EXISTS instals
                 (instalDate NVARCHAR(50),
                 application NVARCHAR(50),
                 version NVARCHAR(50),
                 action NVARCHAR(50),
                 ipAddress NVARCHAR(50))";
+            CreateTable(path, sql);
+        }
+
+        public void Invoices(string path) {
+            string sql = @"CREATE TABLE IF NOT EXISTS invoices
+                (number NVARCHAR(50) PRIMARY KEY,
+                fileName NVARCHAR(50),
+                orderNumber NVARCHAR(50),
+                dateAndTime NVARCHAR(50),
+                year NVARCHAR(50),
+                firstName NVARCHAR(50),
+                lastName NVARCHAR(50),
+                companyName NVARCHAR(50),
+                address NVARCHAR(50),
+                postalCode NVARCHAR(50),
+                city NVARCHAR(50),
+                country NVARCHAR(50),
+                pin VARCHAR(50),
+                note NVARCHAR(200),
+                items NVARCHAR(200))";
             CreateTable(path, sql);
         }
         #endregion
@@ -280,6 +300,9 @@ namespace Igprog {
                     break;
                 case "orders":
                     Orders(path);
+                    break;
+                case "invoices":
+                    Invoices(path);
                     break;
                 default:
                     break;

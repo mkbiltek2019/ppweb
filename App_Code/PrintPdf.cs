@@ -599,7 +599,7 @@ public class PrintPdf : System.Web.Services.WebService {
     public string InvoicePdf(Invoice.NewInvoice invoice) {
         try {
             var doc = new Document();
-            string path = Server.MapPath("~/upload/invoice/");
+            string path = Server.MapPath("~/upload/invoice/temp/");
             DeleteFolder(path);
             CreateFolder(path);
             string fileName = Guid.NewGuid().ToString();
@@ -647,7 +647,7 @@ IBAN HR8423400091160342496
             doc.Add(new Paragraph("RAČUN R2", normalFont_12));
             doc.Add(new Paragraph("Obračun prema naplaćenoj naknadi", normalFont_italic));
 
-            doc.Add(new Paragraph(string.Format("Broj računa: {0}", invoice.number) , normalFont));
+            doc.Add(new Paragraph(string.Format("Broj računa: {0}/1/1", invoice.number) , normalFont));
 
             PdfPTable table = new PdfPTable(5);
             table.AddCell(new PdfPCell(new Phrase("Redni broj", normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
@@ -732,9 +732,6 @@ IBAN HR8423400091160342496
             return e.StackTrace;
         }
     }
-    
-
-    
     #endregion WebMethods
 
     #region Methods

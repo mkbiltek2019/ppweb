@@ -70,7 +70,7 @@ public class Orders : System.Web.Services.WebService {
         return json;
     }
 
-     [WebMethod]
+    [WebMethod]
     public string Load() {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));

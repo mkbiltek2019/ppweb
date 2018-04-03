@@ -7,9 +7,9 @@ using System.IO;
 using Newtonsoft.Json;
 
 /// <summary>
-/// Save data to files
+/// files
 /// </summary>
-[WebService(Namespace = "http://igprog.hr/")]
+[WebService(Namespace = "http://programprehrane.com/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [System.Web.Script.Services.ScriptService]
 public class Files : System.Web.Services.WebService {

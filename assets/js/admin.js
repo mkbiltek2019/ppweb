@@ -242,8 +242,8 @@ angular.module('app', [])
 }])
 
 .controller('ordersCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
-    $scope.isInvoice = false;
-    $scope.pdfLink = null;
+    //$scope.isInvoice = false;
+    //$scope.pdfLink = null;
 
     var load = function () {
         $http({
@@ -279,10 +279,13 @@ angular.module('app', [])
 
 .controller('invoiceCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
     $scope.isInvoice = false;
-    $scope.pdfLink = null;
+    $scope.pdfTempLink = null;
     $scope.loading = false;
+    $scope.invoices = [];
+    $scope.showInvoices = false;
 
     $scope.init = function () {
+        $scope.showInvoices = false;
         $http({
             url: $rootScope.config.backend + 'Invoice.asmx/Init',
             method: 'POST',
@@ -297,6 +300,26 @@ angular.module('app', [])
     }
     if(angular.isUndefined($rootScope.i)) { $scope.init(); }
 
+    $scope.load = function () {
+        $scope.showInvoices = true;
+        $http({
+            url: $rootScope.config.backend + 'Invoice.asmx/Load',
+            method: 'POST',
+            data: ''
+        })
+     .then(function (response) {
+         $scope.invoices = JSON.parse(response.data.d);
+     },
+     function (response) {
+         alert(response.data.d);
+     });
+    }
+
+    $scope.get = function (x) {
+        $scope.showInvoices = false;
+        $rootScope.i = x;
+    }
+
     $scope.add = function () {
         $rootScope.i.items.push({
             title: '',
@@ -310,9 +333,13 @@ angular.module('app', [])
     }
 
     $scope.createPdf = function (i) {
+        if (i.number == '' || i.number == null) {
+            alert('enter order number');
+            return false;
+        }
         $scope.loading = true;
-        $scope.pdfLink = null;
-        var fileName = null;
+        $scope.pdfTempLink = null;
+        $scope.tempFileName = null;
         $http({
             url: $rootScope.config.backend + 'PrintPdf.asmx/InvoicePdf',
             method: 'POST',
@@ -320,11 +347,30 @@ angular.module('app', [])
         })
      .then(function (response) {
          $scope.loading = false;
-         fileName = response.data.d;
-         $scope.pdfLink = $rootScope.config.backend + 'upload/invoice/' + fileName + '.pdf';
+         $scope.tempFileName = response.data.d;
+         $scope.pdfTempLink = $rootScope.config.backend + 'upload/invoice/temp/' + $scope.tempFileName + '.pdf';
      },
      function (response) {
          $scope.loading = false;
+         alert(response.data.d);
+     });
+    }
+
+    $scope.loading_1 = false;
+    $scope.savePdf = function (i) {
+        $scope.loading_1 = true;
+        $http({
+            url: $rootScope.config.backend + 'Invoice.asmx/Save',
+            method: 'POST',
+            data: { x: i, pdf: $scope.tempFileName }
+        })
+     .then(function (response) {
+         $scope.loading_1 = false;
+         $scope.fileName = response.data.d;
+         $scope.pdfLink = $rootScope.config.backend + 'upload/invoice/' + $scope.fileName + '.pdf';
+     },
+     function (response) {
+         $scope.loading_1 = false;
          alert(response.data.d);
      });
     }
