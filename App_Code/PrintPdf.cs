@@ -709,10 +709,9 @@ IBAN HR8423400091160342496
             PdfPTable sign_table = new PdfPTable(2);
             sign_table.SpacingBefore = spacing;
             sign_table.AddCell(new PdfPCell(new Phrase("", normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 5, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
-            sign_table.AddCell(new PdfPCell(new Phrase("Dokument izdao:", normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 5, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
+            sign_table.AddCell(new PdfPCell(new Phrase("Račun izdao:", normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 5, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
             sign_table.AddCell(new PdfPCell(new Phrase("", normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 5, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
             sign_table.AddCell(new PdfPCell(new Phrase("Igor Gašparović", normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 5, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
-
 
             sign_table.WidthPercentage = 100f;
             float[] sign_widths = new float[] { 4f, 1f };
