@@ -84,6 +84,9 @@ angular.module('app', ['ngMaterial'])
         })
      .then(function (response) {
          $scope.user = JSON.parse(response.data.d);
+         $scope.passwordConfirm = '';
+         $scope.emailConfirm = '';
+
      },
      function (response) {
          alert(response.data.d);
@@ -105,7 +108,7 @@ angular.module('app', ['ngMaterial'])
 
     $scope.signup = function (user) {
         user.userName = user.email;
-        if (user.firstName == "" || user.lastName == "" || user.email == "" || user.password == "" || user.passwordConfirm == "") {
+        if (user.firstName == "" || user.lastName == "" || user.email == "" || user.password == "" || $scope.passwordConfirm == "" || $scope.emailConfirm == "") {
             alert('Sva polja su obavezna.');
             return false;
         }
@@ -113,8 +116,12 @@ angular.module('app', ['ngMaterial'])
             alert('Lozinke moraju biti jednake.');
             return false;
         }
+        if (user.email != $scope.emailConfirm) {
+            alert('Email adrese moraju biti jednake.');
+            return false;
+        }
         $http({
-            url: $rootScope.config.backend +  'Users.asmx/Signup',
+            url: $rootScope.config.backend + 'Users.asmx/Signup',
             method: 'POST',
             data: { x: user }
         })

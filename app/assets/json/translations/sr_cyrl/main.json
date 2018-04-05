@@ -1557,5 +1557,8 @@
   "under": "испод",
   "over": "изнад",
   "serbian (latin)": "српски (латиница)",
-  "serbian (cyrillic)": "српски (цyриллиц)"
+  "serbian (cyrillic)": "српски (цyриллиц)",
+  "confirm email": "потврдите емаил",
+  "emails are not the same": "емаил адресе нису једнаке"
+
 }

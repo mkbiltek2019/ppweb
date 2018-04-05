@@ -5,31 +5,37 @@
         <div layout-gt-sm="row">
             <md-input-container class="md-block" flex-gt-sm>
                 <label>Ime</label>
-                <input ng-model="user.firstName" type="text">
+                <input ng-model="user.firstName" type="text" required>
             </md-input-container>
         </div>
         <div layout-gt-sm="row">
             <md-input-container class="md-block" flex-gt-sm>
                 <label>Prezime</label>
-                <input ng-model="user.lastName" type="text">
+                <input ng-model="user.lastName" type="text" required>
             </md-input-container>
         </div>
         <div layout-gt-sm="row">
             <md-input-container class="md-block" flex-gt-sm>
                 <label>Email</label>
-                <input name="email" ng-model="user.email" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" />
+                <input name="email" ng-model="user.email" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" required />
+            </md-input-container>
+        </div>
+        <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>Potvrdite Email</label>
+                <input ng-model="emailConfirm" type="text" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" required>
             </md-input-container>
         </div>
         <div layout-gt-sm="row">
             <md-input-container class="md-block" flex-gt-sm>
                 <label>Lozinka</label>
-                <input ng-model="user.password" type="password">
+                <input ng-model="user.password" type="password" required>
             </md-input-container>
         </div>
         <div layout-gt-sm="row">
             <md-input-container class="md-block" flex-gt-sm>
                 <label>Potvrdite lozinku</label>
-                <input ng-model="passwordConfirm" type="password">
+                <input ng-model="passwordConfirm" type="password" required>
             </md-input-container>
         </div>
         <button class="btn btn-primary" ng-click="signup(user)" ng-dblclick="return false"><i class="fa fa-sign-in"></i> REGISTRACIJA</button>

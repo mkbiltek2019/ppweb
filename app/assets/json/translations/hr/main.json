@@ -1562,5 +1562,8 @@
   "under": "ispod",
   "over": "iznad",
   "serbian (latin)": "srpski (latinica)",
-  "serbian (cyrillic)": "srpski (čirilica)"
+  "serbian (cyrillic)": "srpski (čirilica)",
+  "confirm email": "potvrdite email",
+  "emails are not the same": "email adrese nisu jednake"
+
 }

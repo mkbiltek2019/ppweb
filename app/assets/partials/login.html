@@ -73,6 +73,12 @@
             </div>
             <div layout-gt-sm="row">
                 <md-input-container class="md-block" flex-gt-sm>
+                    <label>{{'confirm email' | translate}}</label>
+                    <input ng-model="emailConfirm" type="text" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" required>
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
                     <label>{{'password' | translate}}</label>
                     <input ng-model="newUser.password" type="password" required>
                 </md-input-container>

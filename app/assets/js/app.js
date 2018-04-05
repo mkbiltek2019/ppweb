@@ -478,6 +478,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     var webService = 'Users.asmx';
     $scope.showAlert = false;
     $scope.passwordConfirm = '';
+    $scope.emailConfirm = '';
 
     var init = function () {
         $http({
@@ -498,7 +499,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.signup = function () {
         $scope.signupdisabled = true;
         $scope.newUser.userName = $scope.newUser.email;
-        if ($scope.newUser.firstName == "" || $scope.newUser.lastName == "" || $scope.newUser.email == "" || $scope.newUser.password == "" || $scope.passwordConfirm == "") {
+        if ($scope.newUser.firstName == "" || $scope.newUser.lastName == "" || $scope.newUser.email == "" || $scope.newUser.password == "" || $scope.passwordConfirm == "" || $scope.emailConfirm == "") {
             functions.alert($translate.instant('all fields are required'), '');
             $scope.signupdisabled = false;
             return false;
@@ -506,6 +507,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         if ($scope.newUser.password != $scope.passwordConfirm) {
             $scope.signupdisabled = false;
             functions.alert($translate.instant('passwords are not the same'), '');
+            return false;
+        }
+        if ($scope.newUser.email != $scope.emailConfirm) {
+            $scope.signupdisabled = false;
+            functions.alert($translate.instant('emails are not the same'), '');
             return false;
         }
         $http({
