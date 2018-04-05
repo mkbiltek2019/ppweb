@@ -291,7 +291,8 @@
                             <td>Ime</td>
                             <td>Prezime</td>
                             <td>Tvrtka</td>
-                            <td>Proizvodi</td>
+                            <td>Proizvod</td>
+                            <td>Uplaćeno</td>
                         </tr>
                         <tr ng-repeat="x in invoices">
                             <td><a href="" class="btn btn-primary" ng-click="get(x)"><i class="fa fa-eye"></i></a></td>
@@ -306,10 +307,11 @@
                                     <li ng-repeat="y in x.items">{{y.title}}, {{y.qty}} kom., {{y.unitPrice}} kn</li>
                                 </ul>
                             </td>
+                            <td>{{x.paidAmount}} kn</td>
                         </tr>
                     </table>
                 </div>
-                <pre>{{invoices | json}}</pre>
+                <!--<pre>{{invoices | json}}</pre>-->
             </div>
             <div ng-if="!showInvoices">
                 <div class="row mt20">
@@ -368,55 +370,71 @@
                                     <td><textarea ng-model="i.note" type="text" class="form-control" cols="3" /></td>
                                 </tr>
                             </table>
-
                         </div>
                     </div>
-                </div>
-                <hr />
-                <label>Stavke:</label>
-                <div class="row">
-                    <div class="col-sm-8">
+                    <div class="col-sm-6">
+                        <label>Stavke:</label>
                         <div class="table-responsive">
                             <table class="table table-condensed table-bordered">
                                 <tr>
                                     <th style="width:50px"></th>
-                                    <th style="min-width:300px">Naziv</th>
+                                    <th style="min-width:300px">Naziv proizvoda / usluge</th>
                                     <th style="width:100px">Količina</th>
                                     <th style="width:100px">Jedinična cijena</th>
                                 </tr>
                                 <tr ng-repeat="x in i.items">
                                     <td><a href="" class="btn btn-danger" ng-click="remove($index)"><i class="fa fa-minus"></i></a></td>
                                     <td><input ng-model="x.title" type="text" class="form-control" /></td>
-                                    <td><input ng-model="x.qty" type="number" min="0" class="form-control" /></td>
-                                    <td><input ng-model="x.unitPrice" type="text" class="form-control" /></td>
+                                    <td><input ng-model="x.qty" type="number" min="0" class="form-control" ng-change="getTotal(i.items)" /></td>
+                                    <td class="text-right"><input ng-model="x.unitPrice" type="text" class="form-control" ng-change="getTotal(i.items)" /></td>
                                 </tr>
                                 <tr>
                                     <td><a href="" class="btn btn-success" ng-click="add()"><i class="fa fa-plus"></i></a></td>
+                                    <td colspan="2" class="text-right">Ukupno:</td>
+                                    <td>{{total}} kn</td>
                                 </tr>
                             </table>
                         </div>
+                        <div class="teble-responsive">
+                            <table class="table table-condensed text-small">
+                                <tr>
+                                    <td style="width:150px">Plaćeno</td>
+                                    <td>
+                                        <input ng-model="i.isPaid" type="checkbox" class="form-control" style="width:50px" ng-click="setPaidAmount(i)" />
+                                    </td>
+                                </tr>
+                                <tr ng-if="i.isPaid">
+                                    <td>Uplaćeni iznos</td>
+                                    <td><input ng-model="i.paidAmount" type="text" class="form-control" /></td>
+                                </tr>
+                                <tr ng-if="i.isPaid">
+                                    <td>Datum uplate</td>
+                                    <td><input ng-model="i.paidDate" type="text" class="form-control" /></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div style="margin-bottom:100px">
+                            <div class="row m10">
+                                <div class="col-sm-4">
+                                    <a href="" class="btn btn-danger btn-block" ng-click="createPdf(i)"><i class="fa fa-{{loading==true?'spinner fa-spin':'file-pdf-o'}}"></i> Kreiraj PDF</a>
+                                </div>
+                                <div class="col-sm-8">
+                                    <a ng-if="pdfTempLink" href="{{pdfTempLink}}" download><i class="fa fa-file-pdf-o"></i> {{pdfTempLink}}</a>
+                                </div>
+                            </div>
+                            <div class="row m10">
+                                <div class="col-sm-4">
+                                    <a ng-if="pdfTempLink" href="" class="btn btn-success btn-block" ng-click="save(i)"><i class="fa fa-{{loading_1==true?'spinner fa-spin':'floppy'}}"></i> Spremi</a>
+                                </div>
+                                <div class="col-sm-8">
+                                    <a ng-if="pdfLink" href="{{pdfLink}}" download><i class="fa fa-file-pdf-o"></i> {{pdfLink}}</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div style="margin-bottom:100px">
-                    <div class="row m10">
-                        <div class="col-sm-2">
-                            <a href="" class="btn btn-danger btn-block" ng-click="createPdf(i)"><i class="fa fa-{{loading==true?'spinner fa-spin':'file-pdf-o'}}"></i> Kreiraj PDF</a>
-                        </div>
-                        <div class="col-sm-10">
-                            <a ng-if="pdfTempLink" href="{{pdfTempLink}}" download><i class="fa fa-file-pdf-o"></i> {{pdfTempLink}}</a>
-                        </div>
-                    </div>
-                    <div class="row m10">
-                        <div class="col-sm-2">
-                            <a ng-if="pdfTempLink" href="" class="btn btn-success btn-block" ng-click="savePdf(i)"><i class="fa fa-{{loading_1==true?'spinner fa-spin':'floppy'}}"></i> Spremi PDF</a>
-                        </div>
-                        <div class="col-sm-10">
-                            <a ng-if="pdfLink" href="{{pdfLink}}" download><i class="fa fa-file-pdf-o"></i> {{pdfLink}}</a>
-                        </div>
-                    </div>
-                </div>
+                <hr />
             </div>
-           
 
             <!--invoice
             <pre>{{i | json}}</pre>

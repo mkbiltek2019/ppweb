@@ -213,6 +213,7 @@ namespace Igprog {
                 note NVARCHAR(200))";
             CreateTable(path, sql);
         }
+
         public void Instals(string path) {
             string sql = @"CREATE TABLE IF NOT EXISTS instals
                 (instalDate NVARCHAR(50),
@@ -225,11 +226,11 @@ namespace Igprog {
 
         public void Invoices(string path) {
             string sql = @"CREATE TABLE IF NOT EXISTS invoices
-                (number NVARCHAR(50) PRIMARY KEY,
+                (number INTEGER PRIMARY KEY,
                 fileName NVARCHAR(50),
-                orderNumber NVARCHAR(50),
+                orderNumber INTEGER,
                 dateAndTime NVARCHAR(50),
-                year NVARCHAR(50),
+                year INTEGER,
                 firstName NVARCHAR(50),
                 lastName NVARCHAR(50),
                 companyName NVARCHAR(50),
@@ -239,7 +240,10 @@ namespace Igprog {
                 country NVARCHAR(50),
                 pin VARCHAR(50),
                 note NVARCHAR(200),
-                items NVARCHAR(200))";
+                items NVARCHAR(200),
+                isPaid INTEGER,
+                paidAmount VARCHAR(50),
+                paidDate VARCHAR(50))";
             CreateTable(path, sql);
         }
         #endregion

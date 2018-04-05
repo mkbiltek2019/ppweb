@@ -283,6 +283,7 @@ angular.module('app', [])
     $scope.loading = false;
     $scope.invoices = [];
     $scope.showInvoices = false;
+    $scope.total = 0;
 
     $scope.init = function () {
         $scope.showInvoices = false;
@@ -357,7 +358,7 @@ angular.module('app', [])
     }
 
     $scope.loading_1 = false;
-    $scope.savePdf = function (i) {
+    $scope.save = function (i) {
         $scope.loading_1 = true;
         $http({
             url: $rootScope.config.backend + 'Invoice.asmx/Save',
@@ -374,6 +375,25 @@ angular.module('app', [])
          alert(response.data.d);
      });
     }
+
+    $scope.getTotal = function (x) {
+        var total = 0;
+        angular.forEach(x, function (value, key) {
+            total += value.unitPrice * value.qty;
+        })
+        $scope.total = total;
+    }
+
+    $scope.setPaidAmount = function (x) {
+        $scope.getTotal(x.items);
+        if (x.isPaid == true) {
+            $scope.i.paidAmount = $scope.total;
+        } else {
+            $scope.i.paidAmount = 0;
+            $scope.i.paidDate = '';
+        }
+    }
+
 
 }])
 

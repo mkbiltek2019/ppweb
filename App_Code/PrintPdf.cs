@@ -704,7 +704,15 @@ IBAN HR8423400091160342496
             if (row == 3) { spacing = 100f; }
             if (row == 4) { spacing = 60f; }
             if (row == 5) { spacing = 20f; }
-            if (row == 6) { spacing = 40f; }
+
+            if (!string.IsNullOrWhiteSpace(invoice.note)) {
+                Paragraph title = new Paragraph();
+                title.SpacingBefore = 20f;
+                title.Font = normalFont;
+                title.Add(invoice.note);
+                doc.Add(title);
+                spacing = spacing - 40f;
+            }
 
             PdfPTable sign_table = new PdfPTable(2);
             sign_table.SpacingBefore = spacing;

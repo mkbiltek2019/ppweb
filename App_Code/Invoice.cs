@@ -23,8 +23,8 @@ public class Invoice : System.Web.Services.WebService {
 
     #region Class
     public class NewInvoice {
-        public int id { get; set; } 
-        public string number { get; set; }
+        public int id { get; set; }
+        public int number { get; set; }
         public string fileName { get; set; }
         public int orderNumber { get; set; }
         public string dateAndTime { get; set; }
@@ -40,6 +40,10 @@ public class Invoice : System.Web.Services.WebService {
         public string note { get; set; }
 
         public List<Item> items = new List<Item>();
+        public bool isPaid { get; set; }
+        public double paidAmount { get; set; }
+        public string paidDate {get;set;}
+
     }
 
     public class Item {
@@ -54,7 +58,7 @@ public class Invoice : System.Web.Services.WebService {
     public string Init() {
         NewInvoice x = new NewInvoice();
         x.id = 0;
-        x.number = GetNextOrderNumber();
+        x.number = GetNextOrderNumber(DateTime.Now.Year);
         x.fileName = null;
         x.orderNumber = 0;
         x.dateAndTime = DateTime.Now.ToString("dd.MM.yyyy, HH:mm");
@@ -74,6 +78,9 @@ public class Invoice : System.Web.Services.WebService {
         item.qty = 1;
         item.unitPrice = 0;
         x.items.Add(item);
+        x.isPaid = false;
+        x.paidAmount = 0;
+        x.paidDate = null;
         string json = JsonConvert.SerializeObject(x, Formatting.Indented);
         return json;
     }
@@ -82,7 +89,7 @@ public class Invoice : System.Web.Services.WebService {
     public string InitPP(Orders.NewUser order) {
         NewInvoice x = new NewInvoice();
         x.id = 0;
-        x.number = null;
+        x.number = GetNextOrderNumber(DateTime.Now.Year);
         x.fileName = null;
         x.orderNumber = order.id;
         x.dateAndTime = DateTime.Now.ToString("dd.MM.yyyy, HH:mm");
@@ -97,6 +104,9 @@ public class Invoice : System.Web.Services.WebService {
         x.pin = order.pin;
         x.note = null;
         x.items = GetItems(order);
+        x.isPaid = false;
+        x.paidAmount = 0;
+        x.paidDate = null;
         string json = JsonConvert.SerializeObject(x, Formatting.Indented);
         return json;
     }
@@ -106,7 +116,7 @@ public class Invoice : System.Web.Services.WebService {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
             connection.Open();
-            string sql = @"SELECT rowid, number, fileName, orderNumber, dateAndTime, year, firstName, lastName, companyName, address, postalCode, city, country, pin, note, items
+            string sql = @"SELECT rowid, number, fileName, orderNumber, dateAndTime, year, firstName, lastName, companyName, address, postalCode, city, country, pin, note, items, isPaid, paidAmount, paidDate
                         FROM invoices
                         ORDER BY rowid DESC";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
@@ -115,11 +125,11 @@ public class Invoice : System.Web.Services.WebService {
             while (reader.Read()) {
                 NewInvoice x = new NewInvoice();
                 x.id = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
-                x.number = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
+                x.number = reader.GetValue(1) == DBNull.Value ? 0 : reader.GetInt32(1);
                 x.fileName = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
-                x.orderNumber = reader.GetValue(3) == DBNull.Value ? 0 : Convert.ToInt32(reader.GetString(3));
+                x.orderNumber = reader.GetValue(3) == DBNull.Value ? 0 : reader.GetInt32(3);
                 x.dateAndTime = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
-                x.year = reader.GetValue(5) == DBNull.Value ? DateTime.Now.Year : Convert.ToInt32(reader.GetString(5));
+                x.year = reader.GetValue(5) == DBNull.Value ? DateTime.Now.Year : reader.GetInt32(5);
                 x.firstName = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
                 x.lastName = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
                 x.companyName = reader.GetValue(8) == DBNull.Value ? "" : reader.GetString(8);
@@ -130,6 +140,9 @@ public class Invoice : System.Web.Services.WebService {
                 x.pin = reader.GetValue(13) == DBNull.Value ? "" : reader.GetString(13);
                 x.note = reader.GetValue(14) == DBNull.Value ? "" : reader.GetString(14);
                 x.items = reader.GetValue(15) == DBNull.Value ? new List<Item>() : JsonConvert.DeserializeObject<List<Item>>(reader.GetString(15));
+                x.isPaid = reader.GetValue(16) == DBNull.Value ? false : Convert.ToBoolean(reader.GetInt32(16));
+                x.paidAmount = reader.GetValue(17) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(17));
+                x.paidDate = reader.GetValue(18) == DBNull.Value ? null : reader.GetString(18);
                 xx.Add(x);
             }
             connection.Close();
@@ -143,7 +156,7 @@ public class Invoice : System.Web.Services.WebService {
             try {
             string path = Server.MapPath("~/App_Data/" + dataBase);
             string pdfTempPath = Server.MapPath(string.Format("~/upload/invoice/temp/{0}.pdf", pdf));
-            int year = x.year; // Convert.ToDateTime(x.dateAndTime).Year;
+            int year = x.year;
             string fileName = string.Format("{0}_{1}", x.number, year);
             string pdfDir = string.Format("~/upload/invoice/{0}/", year);
             string pdfPath = Server.MapPath(string.Format("{0}{1}.pdf", pdfDir, fileName));
@@ -152,7 +165,7 @@ public class Invoice : System.Web.Services.WebService {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
             connection.Open();
             string sql = @"INSERT OR REPLACE INTO invoices VALUES  
-                       (@number, @fileName, @orderNumber, @dateAndTime, @year, @firstName, @lastName, @companyName, @address, @postalCode, @city, @country, @pin, @note, @items)";
+                       (@number, @fileName, @orderNumber, @dateAndTime, @year, @firstName, @lastName, @companyName, @address, @postalCode, @city, @country, @pin, @note, @items, @isPaid, @paidAmount, @paidDate)";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             command.Parameters.Add(new SQLiteParameter("number", x.number));
             command.Parameters.Add(new SQLiteParameter("fileName", fileName));
@@ -169,6 +182,9 @@ public class Invoice : System.Web.Services.WebService {
             command.Parameters.Add(new SQLiteParameter("pin", x.pin));
             command.Parameters.Add(new SQLiteParameter("note", x.note));
             command.Parameters.Add(new SQLiteParameter("items", JsonConvert.SerializeObject(x.items, Formatting.Indented)));
+            command.Parameters.Add(new SQLiteParameter("isPaid", x.isPaid));
+            command.Parameters.Add(new SQLiteParameter("paidAmount", x.paidAmount));
+            command.Parameters.Add(new SQLiteParameter("paidDate", x.paidDate));
 
             command.ExecuteNonQuery();
             connection.Close();
@@ -193,11 +209,11 @@ public class Invoice : System.Web.Services.WebService {
         return xx;
     }
 
-    private string GetNextOrderNumber() {
+    private int GetNextOrderNumber(int year) {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
             connection.Open();
-            string sql = @"SELECT MAX(CAST(number as int) +1 ) FROM invoices";
+            string sql = string.Format("SELECT MAX(CAST(number as int) +1 ) FROM (SELECT number FROM invoices WHERE year = '{0}')", year);
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             SQLiteDataReader reader = command.ExecuteReader();
             int nextNumber = 0;
@@ -205,8 +221,8 @@ public class Invoice : System.Web.Services.WebService {
                 nextNumber = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
             }
             connection.Close();
-            return nextNumber.ToString();
-        } catch (Exception e) { return null; }
+            return nextNumber;
+        } catch (Exception e) { return 0; }
     }
     #endregion Methods
 
