@@ -42,14 +42,20 @@ public class Invoice : System.Web.Services.WebService {
         public List<Item> items = new List<Item>();
         public bool isPaid { get; set; }
         public double paidAmount { get; set; }
-        public string paidDate {get;set;}
-
+        public string paidDate { get; set; }
     }
 
     public class Item {
         public string title { get; set; }
         public int qty { get; set; }
         public double unitPrice { get; set; }
+    }
+
+    public class Invoices {
+        public List<NewInvoice> data = new List<NewInvoice>();
+        public double total { get; set; }
+        public int[] years { get; set; }
+
     }
     #endregion Class
 
@@ -112,7 +118,7 @@ public class Invoice : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string Load() {
+    public string Load(int year) {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
             connection.Open();
@@ -120,7 +126,7 @@ public class Invoice : System.Web.Services.WebService {
                         FROM invoices
                         ORDER BY rowid DESC";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
-            List<NewInvoice> xx = new List<NewInvoice>();
+            Invoices xx = new Invoices();
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read()) {
                 NewInvoice x = new NewInvoice();
@@ -143,8 +149,11 @@ public class Invoice : System.Web.Services.WebService {
                 x.isPaid = reader.GetValue(16) == DBNull.Value ? false : Convert.ToBoolean(reader.GetInt32(16));
                 x.paidAmount = reader.GetValue(17) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(17));
                 x.paidDate = reader.GetValue(18) == DBNull.Value ? null : reader.GetString(18);
-                xx.Add(x);
+                xx.data.Add(x);
             }
+            xx.total = xx.data.Where(a => a.isPaid == true && a.year == year).Sum(a => a.paidAmount);
+            xx.years = xx.data.Select(a => a.year).Distinct().ToArray();
+            xx.data = xx.data.Where(a => a.year == year).ToList();
             connection.Close();
             string json = JsonConvert.SerializeObject(xx, Formatting.Indented);
             return json;
@@ -154,12 +163,28 @@ public class Invoice : System.Web.Services.WebService {
     [WebMethod]
     public string Save(NewInvoice x, string pdf) {
             try {
+            SaveToDb(x);
+            return SavePdf(x, pdf);
+            } catch (Exception e) { return ("Error: " + e); }
+        } 
+
+    [WebMethod]
+    public string SaveDb(NewInvoice x) {
+        try {
+            return SaveToDb(x);
+        } catch(Exception e) {
+            return (e.Message);
+        }
+    }
+
+    #endregion WebMethods
+
+    #region Methods
+    private string SaveToDb(NewInvoice x) {
+        try {
             string path = Server.MapPath("~/App_Data/" + dataBase);
-            string pdfTempPath = Server.MapPath(string.Format("~/upload/invoice/temp/{0}.pdf", pdf));
             int year = x.year;
             string fileName = string.Format("{0}_{1}", x.number, year);
-            string pdfDir = string.Format("~/upload/invoice/{0}/", year);
-            string pdfPath = Server.MapPath(string.Format("{0}{1}.pdf", pdfDir, fileName));
 
             db.CreateGlobalDataBase(path, db.invoices);
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
@@ -188,6 +213,17 @@ public class Invoice : System.Web.Services.WebService {
 
             command.ExecuteNonQuery();
             connection.Close();
+            return "OK";
+        } catch (Exception e) { return e.Message; }
+    }
+
+    private string SavePdf(NewInvoice x, string pdf) {
+        try {
+            string pdfTempPath = Server.MapPath(string.Format("~/upload/invoice/temp/{0}.pdf", pdf));
+            int year = x.year;
+            string fileName = string.Format("{0}_{1}", x.number, year);
+            string pdfDir = string.Format("~/upload/invoice/{0}/", year);
+            string pdfPath = Server.MapPath(string.Format("{0}{1}.pdf", pdfDir, fileName));
 
             if (!Directory.Exists(Server.MapPath(pdfDir))) {
                 Directory.CreateDirectory(Server.MapPath(pdfDir));
@@ -195,10 +231,8 @@ public class Invoice : System.Web.Services.WebService {
             File.Copy(pdfTempPath, pdfPath, true);
             return string.Format("{0}/{1}", year, fileName);
             } catch (Exception e) { return ("Error: " + e); }
-        } 
-    #endregion WebMethods
+    }
 
-    #region Methods
     private List<Item> GetItems(Orders.NewUser order) {
         Item x = new Item();
         x.title = string.Format("{0} {1}", order.application, order.version);

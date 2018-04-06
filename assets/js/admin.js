@@ -278,12 +278,18 @@ angular.module('app', [])
 }])
 
 .controller('invoiceCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
-    $scope.isInvoice = false;
-    $scope.pdfTempLink = null;
-    $scope.loading = false;
-    $scope.invoices = [];
-    $scope.showInvoices = false;
-    $scope.total = 0;
+    var init = function () {
+        $scope.isInvoice = false;
+        $scope.pdfTempLink = null;
+        $scope.loading = false;
+        $scope.loading_1 = false;
+        $scope.loading_2 = false;
+        $scope.invoices = [];
+        $scope.showInvoices = false;
+        $scope.total = 0;
+        $scope.year = new Date().getFullYear();
+    }
+    init();
 
     $scope.init = function () {
         $scope.showInvoices = false;
@@ -294,6 +300,7 @@ angular.module('app', [])
         })
      .then(function (response) {
          $rootScope.i = JSON.parse(response.data.d);
+         init();
      },
      function (response) {
          alert(response.data.d);
@@ -301,12 +308,12 @@ angular.module('app', [])
     }
     if(angular.isUndefined($rootScope.i)) { $scope.init(); }
 
-    $scope.load = function () {
+    $scope.load = function (year) {
         $scope.showInvoices = true;
         $http({
             url: $rootScope.config.backend + 'Invoice.asmx/Load',
             method: 'POST',
-            data: ''
+            data: { year: year }
         })
      .then(function (response) {
          $scope.invoices = JSON.parse(response.data.d);
@@ -357,7 +364,6 @@ angular.module('app', [])
      });
     }
 
-    $scope.loading_1 = false;
     $scope.save = function (i) {
         $scope.loading_1 = true;
         $http({
@@ -376,12 +382,30 @@ angular.module('app', [])
      });
     }
 
+    $scope.saveDb = function (i) {
+        $scope.loading_2 = true;
+        $http({
+            url: $rootScope.config.backend + 'Invoice.asmx/SaveDb',
+            method: 'POST',
+            data: { x: i }
+        })
+     .then(function (response) {
+         $scope.loading_2 = false;
+         alert(response.data.d);
+     },
+     function (response) {
+         $scope.loading_2 = false;
+         alert(response.data.d);
+     });
+    }
+
     $scope.getTotal = function (x) {
         var total = 0;
         angular.forEach(x, function (value, key) {
             total += value.unitPrice * value.qty;
         })
         $scope.total = total;
+        return total;
     }
 
     $scope.setPaidAmount = function (x) {

@@ -277,37 +277,49 @@
     <script type="text/ng-template" id="invoice">
         <div ng-controller="invoiceCtrl" class="container">
             <h2>Račun</h2>
-            <div>
-                <a href="" class="btn btn-primary" ng-click="init()"><i class="fa fa-file-text-o"></i> Novi račun</a>
-                <a href="" class="btn btn-primary" ng-click="load()"><i class="fa fa-files-o"></i> Pregled računa</a>
-            </div>
+                <div>
+                    <a href="" class="btn btn-primary m10" ng-click="init()"><i class="fa fa-file-text-o"></i> Novi račun</a>
+                    <a href="" class="btn btn-primary m10" ng-click="load(year)"><i class="fa fa-files-o"></i> Pregled računa</a>
+                </div>
             <div ng-if="showInvoices">
+                <div class="row m10">
+                    <div class="col-sm-2">
+                        <select ng-model="year" class="form-control" ng-change="load(year)">
+                            <option ng-selected="x==year?true:false"  ng-repeat="x in invoices.years">{{x}}</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-condensed">
                         <tr>
-                            <td colspan="2"></td>
-                            <td>Broj računa</td>
-                            <td>Datum i vrijeme</td>
-                            <td>Ime</td>
-                            <td>Prezime</td>
-                            <td>Tvrtka</td>
-                            <td>Proizvod</td>
-                            <td>Uplaćeno</td>
+                            <td colspan="7"></td>
+                            <td class="text-right">Ukupno:</td>
+                            <td class="text-right"><label>{{invoices.total | currency : ""}} kn</label></td>
                         </tr>
-                        <tr ng-repeat="x in invoices">
+                        <tr>
+                            <th colspan="2"></th>
+                            <th>Broj</th>
+                            <th>Datum i vrijeme</th>
+                            <th>Ime</th>
+                            <th>Prezime</th>
+                            <th>Tvrtka</th>
+                            <th>Proizvod</th>
+                            <th class="nowrap">Uplaćeno (kn)</th>
+                        </tr>
+                        <tr ng-repeat="x in invoices.data">
                             <td><a href="" class="btn btn-primary" ng-click="get(x)"><i class="fa fa-eye"></i></a></td>
                             <td><a href="{{config.backend + 'upload/invoice/' + x.year + '/'+ x.fileName + '.pdf'}}" class="btn btn-danger" download><i class="fa fa-file-pdf-o"></i></a></td>
                             <td>{{x.number}}</td>
                             <td>{{x.dateAndTime}}</td>
                             <td>{{x.firstName}}</td>
                             <td>{{x.lastName}}</td>
-                            <td>{{x.companyName}}</td>
+                            <td class="nowrap">{{x.companyName}}</td>
                             <td>
                                 <ul>
                                     <li ng-repeat="y in x.items">{{y.title}}, {{y.qty}} kom., {{y.unitPrice}} kn</li>
                                 </ul>
                             </td>
-                            <td>{{x.paidAmount}} kn</td>
+                            <td class="text-right">{{x.paidAmount | currency : ""}}</td>
                         </tr>
                     </table>
                 </div>
@@ -379,39 +391,37 @@
                                 <tr>
                                     <th style="width:50px"></th>
                                     <th style="min-width:300px">Naziv proizvoda / usluge</th>
-                                    <th style="width:100px">Količina</th>
-                                    <th style="width:100px">Jedinična cijena</th>
+                                    <th style="width:80px">Količina</th>
+                                    <th class="nowrap">Jedinična cijena (kn)</th>
                                 </tr>
                                 <tr ng-repeat="x in i.items">
                                     <td><a href="" class="btn btn-danger" ng-click="remove($index)"><i class="fa fa-minus"></i></a></td>
                                     <td><input ng-model="x.title" type="text" class="form-control" /></td>
-                                    <td><input ng-model="x.qty" type="number" min="0" class="form-control" ng-change="getTotal(i.items)" /></td>
-                                    <td class="text-right"><input ng-model="x.unitPrice" type="text" class="form-control" ng-change="getTotal(i.items)" /></td>
+                                    <td><input ng-model="x.qty" type="number" min="0" class="form-control" /></td>
+                                    <td><input ng-model="x.unitPrice" type="text" class="form-control text-right" /></td>
                                 </tr>
                                 <tr>
                                     <td><a href="" class="btn btn-success" ng-click="add()"><i class="fa fa-plus"></i></a></td>
                                     <td colspan="2" class="text-right">Ukupno:</td>
-                                    <td>{{total}} kn</td>
+                                    <td><input ng-model="getTotal(i.items)" type="text" class="form-control text-right" readonly /></td>
                                 </tr>
                             </table>
                         </div>
-                        <div class="teble-responsive">
+                        <div class="checkbox"><label><input ng-model="i.isPaid" type="checkbox" ng-click="setPaidAmount(i)" /> Plaćeno</label></div>
+                        <div ng-if="i.isPaid" class="teble-responsive well">
                             <table class="table table-condensed text-small">
                                 <tr>
-                                    <td style="width:150px">Plaćeno</td>
-                                    <td>
-                                        <input ng-model="i.isPaid" type="checkbox" class="form-control" style="width:50px" ng-click="setPaidAmount(i)" />
-                                    </td>
-                                </tr>
-                                <tr ng-if="i.isPaid">
                                     <td>Uplaćeni iznos</td>
                                     <td><input ng-model="i.paidAmount" type="text" class="form-control" /></td>
                                 </tr>
-                                <tr ng-if="i.isPaid">
+                                <tr>
                                     <td>Datum uplate</td>
                                     <td><input ng-model="i.paidDate" type="text" class="form-control" /></td>
                                 </tr>
                             </table>
+                            <div class="text-right">
+                                <a href="" class="btn btn-success" ng-click="saveDb(i)"><i class="fa fa-{{loading_2==true?'spinner fa-spin':'floppy-o'}}"></i> Spremi</a>
+                            </div>
                         </div>
                         <div style="margin-bottom:100px">
                             <div class="row m10">
@@ -424,7 +434,7 @@
                             </div>
                             <div class="row m10">
                                 <div class="col-sm-4">
-                                    <a ng-if="pdfTempLink" href="" class="btn btn-success btn-block" ng-click="save(i)"><i class="fa fa-{{loading_1==true?'spinner fa-spin':'floppy'}}"></i> Spremi</a>
+                                    <a ng-if="pdfTempLink" href="" class="btn btn-success btn-block" ng-click="save(i)"><i class="fa fa-{{loading_1==true?'spinner fa-spin':'floppy-o'}}"></i> Spremi PDF</a>
                                 </div>
                                 <div class="col-sm-8">
                                     <a ng-if="pdfLink" href="{{pdfLink}}" download><i class="fa fa-file-pdf-o"></i> {{pdfLink}}</a>
