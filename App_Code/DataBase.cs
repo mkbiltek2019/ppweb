@@ -226,7 +226,8 @@ namespace Igprog {
 
         public void Invoices(string path) {
             string sql = @"CREATE TABLE IF NOT EXISTS invoices
-                (number INTEGER PRIMARY KEY,
+                (id VARCHAR (50) PRIMARY KEY,
+                number INTEGER,
                 fileName NVARCHAR(50),
                 orderNumber INTEGER,
                 dateAndTime NVARCHAR(50),

@@ -341,6 +341,10 @@ angular.module('app', [])
     }
 
     $scope.createPdf = function (i) {
+        if ($rootScope.i.firstName == null && $rootScope.i.lastName == null && $rootScope.i.companyName == null) {
+            alert('Upiši ime ili naziv');
+            return false;
+        }
         if (i.number == '' || i.number == null) {
             alert('enter order number');
             return false;
@@ -365,6 +369,10 @@ angular.module('app', [])
     }
 
     $scope.save = function (i) {
+        if ($rootScope.i.firstName == null && $rootScope.i.lastName == null && $rootScope.i.companyName == null) {
+            alert('Upiši ime ili naziv');
+            return false;
+        }
         $scope.loading_1 = true;
         $http({
             url: $rootScope.config.backend + 'Invoice.asmx/Save',
@@ -373,7 +381,8 @@ angular.module('app', [])
         })
      .then(function (response) {
          $scope.loading_1 = false;
-         $scope.fileName = response.data.d;
+         $rootScope.i = JSON.parse(response.data.d);
+         $scope.fileName = $rootScope.i.year + '/' + $rootScope.i.fileName; //  response.data.d;
          $scope.pdfLink = $rootScope.config.backend + 'upload/invoice/' + $scope.fileName + '.pdf';
      },
      function (response) {
@@ -383,6 +392,10 @@ angular.module('app', [])
     }
 
     $scope.saveDb = function (i) {
+        if ($rootScope.i.firstName == null && $rootScope.i.lastName == null && $rootScope.i.companyName == null) {
+            alert('Upiši ime ili naziv');
+            return false;
+        }
         $scope.loading_2 = true;
         $http({
             url: $rootScope.config.backend + 'Invoice.asmx/SaveDb',
@@ -391,7 +404,8 @@ angular.module('app', [])
         })
      .then(function (response) {
          $scope.loading_2 = false;
-         alert(response.data.d);
+         $rootScope.i = JSON.parse(response.data.d);
+        // alert(response.data.d);
      },
      function (response) {
          $scope.loading_2 = false;

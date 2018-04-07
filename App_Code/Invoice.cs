@@ -23,7 +23,7 @@ public class Invoice : System.Web.Services.WebService {
 
     #region Class
     public class NewInvoice {
-        public int id { get; set; }
+        public string id { get; set; }
         public int number { get; set; }
         public string fileName { get; set; }
         public int orderNumber { get; set; }
@@ -63,7 +63,7 @@ public class Invoice : System.Web.Services.WebService {
     [WebMethod]
     public string Init() {
         NewInvoice x = new NewInvoice();
-        x.id = 0;
+        x.id = null;
         x.number = GetNextOrderNumber(DateTime.Now.Year);
         x.fileName = null;
         x.orderNumber = 0;
@@ -94,7 +94,7 @@ public class Invoice : System.Web.Services.WebService {
     [WebMethod]
     public string InitPP(Orders.NewUser order) {
         NewInvoice x = new NewInvoice();
-        x.id = 0;
+        x.id = null;
         x.number = GetNextOrderNumber(DateTime.Now.Year);
         x.fileName = null;
         x.orderNumber = order.id;
@@ -122,7 +122,7 @@ public class Invoice : System.Web.Services.WebService {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
             connection.Open();
-            string sql = @"SELECT rowid, number, fileName, orderNumber, dateAndTime, year, firstName, lastName, companyName, address, postalCode, city, country, pin, note, items, isPaid, paidAmount, paidDate
+            string sql = @"SELECT id, number, fileName, orderNumber, dateAndTime, year, firstName, lastName, companyName, address, postalCode, city, country, pin, note, items, isPaid, paidAmount, paidDate
                         FROM invoices
                         ORDER BY rowid DESC";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
@@ -130,7 +130,7 @@ public class Invoice : System.Web.Services.WebService {
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read()) {
                 NewInvoice x = new NewInvoice();
-                x.id = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                x.id = reader.GetValue(0) == DBNull.Value ? null : reader.GetString(0);
                 x.number = reader.GetValue(1) == DBNull.Value ? 0 : reader.GetInt32(1);
                 x.fileName = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
                 x.orderNumber = reader.GetValue(3) == DBNull.Value ? 0 : reader.GetInt32(3);
@@ -163,9 +163,9 @@ public class Invoice : System.Web.Services.WebService {
     [WebMethod]
     public string Save(NewInvoice x, string pdf) {
             try {
-            SaveToDb(x);
-            return SavePdf(x, pdf);
-            } catch (Exception e) { return ("Error: " + e); }
+            SavePdf(x, pdf);
+            return SaveToDb(x);
+        } catch (Exception e) { return ("Error: " + e); }
         } 
 
     [WebMethod]
@@ -184,16 +184,18 @@ public class Invoice : System.Web.Services.WebService {
         try {
             string path = Server.MapPath("~/App_Data/" + dataBase);
             int year = x.year;
-            string fileName = string.Format("{0}_{1}", x.number, year);
-
+            x.fileName = string.IsNullOrEmpty(x.fileName) ? string.Format("{0}_{1}", x.number, year) : x.fileName;
             db.CreateGlobalDataBase(path, db.invoices);
+            x.id = string.IsNullOrEmpty(x.id) ? Guid.NewGuid().ToString() : x.id;
+
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
             connection.Open();
             string sql = @"INSERT OR REPLACE INTO invoices VALUES  
-                       (@number, @fileName, @orderNumber, @dateAndTime, @year, @firstName, @lastName, @companyName, @address, @postalCode, @city, @country, @pin, @note, @items, @isPaid, @paidAmount, @paidDate)";
+                       (@id, @number, @fileName, @orderNumber, @dateAndTime, @year, @firstName, @lastName, @companyName, @address, @postalCode, @city, @country, @pin, @note, @items, @isPaid, @paidAmount, @paidDate)";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
+            command.Parameters.Add(new SQLiteParameter("id", x.id));
             command.Parameters.Add(new SQLiteParameter("number", x.number));
-            command.Parameters.Add(new SQLiteParameter("fileName", fileName));
+            command.Parameters.Add(new SQLiteParameter("fileName", x.fileName));
             command.Parameters.Add(new SQLiteParameter("orderNumber", x.orderNumber));
             command.Parameters.Add(new SQLiteParameter("dateAndTime", x.dateAndTime));
             command.Parameters.Add(new SQLiteParameter("year", x.year));
@@ -213,11 +215,11 @@ public class Invoice : System.Web.Services.WebService {
 
             command.ExecuteNonQuery();
             connection.Close();
-            return "OK";
+            return JsonConvert.SerializeObject(x, Formatting.Indented);
         } catch (Exception e) { return e.Message; }
     }
 
-    private string SavePdf(NewInvoice x, string pdf) {
+    private void SavePdf(NewInvoice x, string pdf) {
         try {
             string pdfTempPath = Server.MapPath(string.Format("~/upload/invoice/temp/{0}.pdf", pdf));
             int year = x.year;
@@ -229,8 +231,8 @@ public class Invoice : System.Web.Services.WebService {
                 Directory.CreateDirectory(Server.MapPath(pdfDir));
             }
             File.Copy(pdfTempPath, pdfPath, true);
-            return string.Format("{0}/{1}", year, fileName);
-            } catch (Exception e) { return ("Error: " + e); }
+        }
+        catch (Exception e) { }
     }
 
     private List<Item> GetItems(Orders.NewUser order) {
@@ -245,9 +247,11 @@ public class Invoice : System.Web.Services.WebService {
 
     private int GetNextOrderNumber(int year) {
         try {
+            string path = Server.MapPath("~/App_Data/" + dataBase);
+            db.CreateGlobalDataBase(path, db.invoices);
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
             connection.Open();
-            string sql = string.Format("SELECT MAX(CAST(number as int) +1 ) FROM (SELECT number FROM invoices WHERE year = '{0}')", year);
+            string sql = string.Format("SELECT MAX(CAST(number as int)) FROM (SELECT number FROM invoices WHERE year = '{0}')", year);
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             SQLiteDataReader reader = command.ExecuteReader();
             int nextNumber = 0;
@@ -255,7 +259,7 @@ public class Invoice : System.Web.Services.WebService {
                 nextNumber = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
             }
             connection.Close();
-            return nextNumber;
+            return nextNumber + 1;
         } catch (Exception e) { return 0; }
     }
     #endregion Methods
