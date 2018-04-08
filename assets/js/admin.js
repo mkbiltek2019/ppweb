@@ -242,9 +242,6 @@ angular.module('app', [])
 }])
 
 .controller('ordersCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
-    //$scope.isInvoice = false;
-    //$scope.pdfLink = null;
-
     var load = function () {
         $http({
             url: $rootScope.config.backend + 'Orders.asmx/Load',
@@ -278,9 +275,10 @@ angular.module('app', [])
 }])
 
 .controller('invoiceCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
-    var init = function () {
+    var initForm = function () {
         $scope.isInvoice = false;
         $scope.pdfTempLink = null;
+        $scope.pdfLink = null;
         $scope.loading = false;
         $scope.loading_1 = false;
         $scope.loading_2 = false;
@@ -289,7 +287,7 @@ angular.module('app', [])
         $scope.total = 0;
         $scope.year = new Date().getFullYear();
     }
-    init();
+    initForm();
 
     $scope.init = function () {
         $scope.showInvoices = false;
@@ -300,7 +298,7 @@ angular.module('app', [])
         })
      .then(function (response) {
          $rootScope.i = JSON.parse(response.data.d);
-         init();
+         initForm();
      },
      function (response) {
          alert(response.data.d);
@@ -327,6 +325,33 @@ angular.module('app', [])
         $scope.showInvoices = false;
         $rootScope.i = x;
     }
+
+    $scope.copy = function (x) {
+        $scope.showInvoices = false;
+        $http({
+            url: $rootScope.config.backend + 'Invoice.asmx/Init',
+            method: 'POST',
+            data: ''
+        })
+     .then(function (response) {
+         $rootScope.i = JSON.parse(response.data.d);
+         initForm();
+         $rootScope.i.firstName = x.firstName;
+         $rootScope.i.lastName = x.lastName;
+         $rootScope.i.companyName = x.companyName;
+         $rootScope.i.address = x.address;
+         $rootScope.i.postalCode = x.postalCode;
+         $rootScope.i.city = x.city;
+         $rootScope.i.country = x.country;
+         $rootScope.i.pin = x.pin;
+         $rootScope.i.note = x.note;
+         $rootScope.i.items = x.items;
+     },
+     function (response) {
+         alert(response.data.d);
+     });
+    }
+
 
     $scope.add = function () {
         $rootScope.i.items.push({
@@ -431,7 +456,6 @@ angular.module('app', [])
             $scope.i.paidDate = '';
         }
     }
-
 
 }])
 

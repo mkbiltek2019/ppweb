@@ -33,7 +33,7 @@
                     <li ng-if="islogin" ng-click="toggleTpl('programPrehraneWeb')"><a href="#">Web App</a></li>
                     <li ng-if="islogin" ng-click="toggleTpl('programPrehrane5')"><a href="#">Instalacije</a></li>
                     <li ng-if="islogin" ng-click="toggleTpl('orders')"><a href="#">Narudžbe</a></li>
-                    <li ng-if="islogin" ng-click="toggleTpl('invoice')"><a href="#">Račun</a></li>
+                    <li ng-if="islogin" ng-click="toggleTpl('invoices')"><a href="#">Računi</a></li>
                 </ul>
                 <ul ng-if="islogin" class="nav navbar-nav navbar-right">
                     <li ng-click="logout()"><a href="#"><span class="fa fa-sign-in"></span> Odjava</a></li>
@@ -249,7 +249,7 @@
                             <th>Napomena</th>
                         </tr>
                         <tr ng-repeat="x in orders | filter:searchOrders">
-                            <td><a href="" class="btn btn-success" ng-click="createInvoice(x, 'invoice')"><i class="fa fa-file-text-o"></i> Račun</a></td>
+                            <td><a href="" class="btn btn-success" ng-click="createInvoice(x, 'invoices')"><i class="fa fa-file-text-o"></i> Račun</a></td>
                             <td>{{x.id}}</td>
                             <td style="white-space: nowrap">{{x.orderDate}}</td>
                             <td>{{x.firstName}}</td>
@@ -274,9 +274,9 @@
         </div>
     </script>
 
-    <script type="text/ng-template" id="invoice">
+    <script type="text/ng-template" id="invoices">
         <div ng-controller="invoiceCtrl" class="container">
-            <h2>Račun</h2>
+            <h2>Računi</h2>
                 <div>
                     <a href="" class="btn btn-primary m10" ng-click="init()"><i class="fa fa-file-text-o"></i> Novi račun</a>
                     <a href="" class="btn btn-primary m10" ng-click="load(year)"><i class="fa fa-files-o"></i> Pregled računa</a>
@@ -292,12 +292,12 @@
                 <div class="table-responsive">
                     <table class="table table-condensed">
                         <tr>
-                            <td colspan="7"></td>
+                            <td colspan="6"></td>
                             <td class="text-right">Ukupno:</td>
                             <td class="text-right"><label>{{invoices.total | currency : ""}} kn</label></td>
                         </tr>
                         <tr>
-                            <th colspan="2"></th>
+                            <th></th>
                             <th>Broj</th>
                             <th>Datum i vrijeme</th>
                             <th>Ime</th>
@@ -307,8 +307,11 @@
                             <th class="nowrap">Uplaćeno (kn)</th>
                         </tr>
                         <tr ng-repeat="x in invoices.data">
-                            <td><a href="" class="btn btn-primary" ng-click="get(x)"><i class="fa fa-eye"></i></a></td>
-                            <td><a href="{{config.backend + 'upload/invoice/' + x.year + '/'+ x.fileName + '.pdf'}}" class="btn btn-danger" download><i class="fa fa-file-pdf-o"></i></a></td>
+                            <td class="nowrap">
+                                <a href="" class="btn btn-primary m2" ng-click="get(x)" title="Uredi"><i class="fa fa-eye"></i></a>
+                                <a href="{{config.backend + 'upload/invoice/' + x.year + '/'+ x.fileName + '.pdf'}}" class="btn btn-danger m2" download title="PDF"><i class="fa fa-file-pdf-o"></i></a>
+                                <a href="" class="btn btn-warning m2" ng-click="copy(x)" title="Kopiraj"><i class="fa fa-copy"></i></a>
+                            </td>
                             <td>{{x.number}}</td>
                             <td>{{x.dateAndTime}}</td>
                             <td>{{x.firstName}}</td>
@@ -448,9 +451,9 @@
 
             <!--invoice
             <pre>{{i | json}}</pre>
-
             order
             <pre>{{o | json}}</pre>-->
+
         </div>
     </script>
 

@@ -153,7 +153,8 @@ public class Invoice : System.Web.Services.WebService {
             }
             xx.total = xx.data.Where(a => a.isPaid == true && a.year == year).Sum(a => a.paidAmount);
             xx.years = xx.data.Select(a => a.year).Distinct().ToArray();
-            xx.data = xx.data.Where(a => a.year == year).ToList();
+            xx.data = xx.data.Where(a => a.year == year).OrderByDescending(a => a.number).ToList();
+
             connection.Close();
             string json = JsonConvert.SerializeObject(xx, Formatting.Indented);
             return json;
