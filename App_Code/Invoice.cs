@@ -185,7 +185,7 @@ public class Invoice : System.Web.Services.WebService {
         try {
             string path = Server.MapPath("~/App_Data/" + dataBase);
             int year = x.year;
-            x.fileName = string.IsNullOrEmpty(x.fileName) ? string.Format("{0}_{1}", x.number, year) : x.fileName;
+            x.fileName = string.Format("{0}_{1}", x.number, year);
             db.CreateGlobalDataBase(path, db.invoices);
             x.id = string.IsNullOrEmpty(x.id) ? Guid.NewGuid().ToString() : x.id;
 
