@@ -1566,6 +1566,20 @@
   "serbian (latin)": "serbian (latin)",
   "serbian (cyrillic)": "serbian (cyrillic)",
   "confirm email": "confirm email",
-  "emails are not the same": "emails are not the same"
+  "emails are not the same": "emails are not the same",
+  "monday": "monday",
+  "tuesday": "tuesday",
+  "wednesday": "wednesday",
+  "thursday": "thursday",
+  "friday": "friday",
+  "saturday": "saturday",
+  "sunday": "sunday",
+  "daily menu": "daily menu",
+  "weekly menu": "weekly menu",
+  "create pdf": "create PDF",
+  "download": "download",
+  "page size": "page size"
+
+
 
 }

@@ -1559,6 +1559,18 @@
   "serbian (latin)": "српски (латиница)",
   "serbian (cyrillic)": "српски (цyриллиц)",
   "confirm email": "потврдите емаил",
-  "emails are not the same": "емаил адресе нису једнаке"
+  "emails are not the same": "емаил адресе нису једнаке",
+  "monday": "понедељак",
+  "tuesday": "уторак",
+  "wednesday": "среда",
+  "thursday": "четвртак",
+  "friday": "петак",
+  "saturday": "субота",
+  "sunday": "недеља",
+  "daily menu": "дневни мени",
+  "weekly menu": "недељни мени",
+  "create pdf": "креирај ПДФ",
+  "download": "преузми",
+  "page size": "величина странице"
 
 }

@@ -45,6 +45,12 @@ public class Menues : System.Web.Services.WebService {
 
     }
 
+    public class FoodTran {
+        public string id { get; set; }
+        public string food { get; set; }
+        public string unit { get; set; }
+    }
+
     #region WebMethods
     [WebMethod]
     public string Init() {
@@ -186,10 +192,7 @@ public class Menues : System.Web.Services.WebService {
     }
     #endregion ClientMenues
 
-
     #region AppMenues
-
-    #endregion AppMenues
     [WebMethod]
     public string LoadAppMenues(string lang) {
         try {
@@ -269,6 +272,8 @@ public class Menues : System.Web.Services.WebService {
             return json;
         } catch (Exception e) { return (e.Message); }
     }
+    #endregion AppMenues
+
     #endregion
 
 
@@ -366,15 +371,37 @@ public class Menues : System.Web.Services.WebService {
         } catch (Exception e) {
             return null;
         }
-
     }
 
-    public class FoodTran {
-        public string id { get; set; }
-        public string food { get; set; }
-        public string unit { get; set; }
+    public NewMenu WeeklyMenu(string userId, string menuId) {
+         try {
+            NewMenu x = new NewMenu();
+            if (!string.IsNullOrEmpty(menuId)) {
+                SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
+                connection.Open();
+                string sql = string.Format(@"SELECT id, title, diet, date, note, userId, clientId, userGroupId, energy
+                        FROM menues
+                        WHERE id = '{0}'", menuId);
+                SQLiteCommand command = new SQLiteCommand(sql, connection);
+                Clients.Client client = new Clients.Client();
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read()) {
+                    x.id = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
+                    x.title = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
+                    x.diet = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+                    x.date = reader.GetValue(3) == DBNull.Value ? DateTime.UtcNow : Convert.ToDateTime(reader.GetString(3));
+                    x.note = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
+                    x.userId = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
+                    x.client = reader.GetValue(6) == DBNull.Value ? new Clients.NewClient() : client.GetClient(x.userId, reader.GetString(6));
+                    x.userGroupId = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
+                    x.energy = reader.GetValue(8) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(8));
+                    x.data = JsonConvert.DeserializeObject<JsonFile>(GetJsonFile(userId, x.id));
+                }
+                connection.Close();
+            }
+            return x;
+        } catch (Exception e) { return new NewMenu(); }
     }
-
     #endregion
 
 

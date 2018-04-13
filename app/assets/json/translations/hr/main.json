@@ -1564,6 +1564,18 @@
   "serbian (latin)": "srpski (latinica)",
   "serbian (cyrillic)": "srpski (čirilica)",
   "confirm email": "potvrdite email",
-  "emails are not the same": "email adrese nisu jednake"
+  "emails are not the same": "email adrese nisu jednake",
+  "monday": "ponedjeljak",
+  "tuesday": "utorak",
+  "wednesday": "srijeda",
+  "thursday": "četvrtak",
+  "friday": "petak",
+  "saturday": "subota",
+  "sunday": "nedjelja",
+  "daily menu": "dnevni jelovnik",
+  "weekly menu": "tjedni jelovnik",
+  "create pdf": "kreiraj PDF",
+  "download": "preuzmi",
+  "page size": "veličina stranice"
 
 }

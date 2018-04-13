@@ -3856,12 +3856,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 .controller('printCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
     $scope.consumers = 1;
-    $scope.fontsize = 14;
-
-    $scope.changeFontSize = function (x) {
-        $scope.fs = { 'font-size': + x + 'px' };
-    };
-    $scope.changeFontSize($scope.fontsize);
 
     $scope.printWindow = function () {
         window.print();
@@ -3974,7 +3968,23 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.toggleTpl = function (x) {
         $scope.pdfLink = null;
         $scope.printTpl = x;
-            $scope.printPdf();
+        $scope.printPdf();
+        if (x == 'weeklyMenuTpl') {
+            $scope.loading = true;
+            $http({
+                url: $sessionStorage.config.backend + 'Menues.asmx/Load',
+                method: "POST",
+                data: { userId: $rootScope.user.userGroupId }
+            })
+           .then(function (response) {
+               $scope.menues = JSON.parse(response.data.d);
+               $scope.loading = false;
+           },
+           function (response) {
+               $scope.loading = false;
+               alert(response.data.d);
+           });
+        }
     };
 
     $scope.changeNumberOfConsumers = function (x) {
@@ -3994,6 +4004,32 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
     if (angular.isDefined($rootScope.currentMenu)) { $scope.changeNumberOfConsumers($scope.consumers); }
 
+    $scope.menuList = [];
+    $scope.getMenuList = function (id1, id2, id3, id4, id5, id6, id7) {
+        $scope.menuList = [id1, id2, id3, id4, id5, id6, id7];
+    }
+
+    $scope.pageSizes = ['A4', 'A3', 'A2', 'A1']
+    $scope.pageSize = 'A3';
+    $scope.creatingPdf = false;
+    $scope.printWeeklyMenu = function (pageSize, consumers) {
+        $scope.pdfLink = null;
+        $scope.creatingPdf = true;
+        $http({
+            url: $sessionStorage.config.backend + 'PrintPdf.asmx/WeeklyMenuPdf',
+            method: "POST",
+            data: { userId: $sessionStorage.usergroupid, menuList: $scope.menuList, clientData: $rootScope.clientData, consumers: consumers, lang: $rootScope.config.language, pageSize: pageSize }
+        })
+          .then(function (response) {
+              var fileName = response.data.d;
+              $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
+              $scope.creatingPdf = false;
+          },
+          function (response) {
+              $scope.creatingPdf = false;
+              alert(response.data.d)
+          });
+    }
 
 }])
 

@@ -113,6 +113,76 @@ public class PrintPdf : System.Web.Services.WebService {
     }
 
     [WebMethod]
+    public string WeeklyMenuPdf(string userId, string[] menuList, ClientsData.NewClientData clientData, int consumers, string lang, string pageSize) {
+        try {
+            Rectangle ps = PageSize.A3;
+            switch (pageSize) {
+                case "A4": ps = PageSize.A4; break;
+                case "A3": ps = PageSize.A3; break;
+                case "A2": ps = PageSize.A2; break;
+                case "A1": ps = PageSize.A1; break;
+                default: ps = PageSize.A3; break;
+            }
+            Document doc = new Document(ps.Rotate(), 10, 10, 10, 10);
+            string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
+            DeleteFolder(path);
+            CreateFolder(path);
+            string fileName = Guid.NewGuid().ToString();
+            string filePath = Path.Combine(path, string.Format("{0}.pdf", fileName));
+            PdfWriter.GetInstance(doc, new FileStream(filePath, FileMode.Create));
+
+            doc.Open();
+
+            AppendHeader(doc);
+            if(consumers > 1) {
+                doc.Add(new Paragraph(t.Tran("number of consumers", lang) + ": " + consumers, normalFont_10));
+            }
+
+            PdfPTable table = new PdfPTable(8);
+            table.WidthPercentage = 95f;
+            table.SetWidths(new float[] { 1.5f, 2f, 2f, 2f, 2f, 2f, 2f, 2f });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("meals", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("monday", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("tuesday", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("wednesday", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("thursday", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("friday", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("saturday", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("sunday", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
+
+            if (menuList.Length > 0) {
+                table.AddCell(new PdfPCell(new Phrase(t.Tran("breakfast", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+                AppendDayMeal(table, menuList, "B", consumers, userId);
+
+                table.AddCell(new PdfPCell(new Phrase(t.Tran("morning snack", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+                AppendDayMeal(table, menuList, "MS", consumers, userId);
+
+                table.AddCell(new PdfPCell(new Phrase(t.Tran("lunch", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+                AppendDayMeal(table, menuList, "L", consumers, userId);
+
+                table.AddCell(new PdfPCell(new Phrase(t.Tran("afternoon snack", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+                AppendDayMeal(table, menuList, "AS", consumers, userId);
+
+                table.AddCell(new PdfPCell(new Phrase(t.Tran("dinner", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+                AppendDayMeal(table, menuList, "D", consumers, userId);
+
+                table.AddCell(new PdfPCell(new Phrase(t.Tran("meal before sleep", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+                AppendDayMeal(table, menuList, "MBS", consumers, userId);
+
+                table.AddCell(new PdfPCell(new Phrase(t.Tran("energy", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, MinimumHeight = 30, PaddingTop = 15, PaddingRight = 2, PaddingBottom = 5, PaddingLeft = 2 });
+                AppendTotal(table, menuList, userId);
+            }
+            
+            doc.Add(table);
+            doc.Close();
+
+            return fileName;
+        } catch(Exception e) {
+            return e.StackTrace;
+        }
+    }
+
+    [WebMethod]
     public string MenuDetailsPdf(string userId, Menues.NewMenu currentMenu, Calculations.NewCalculation calculation, Foods.Totals totals, Foods.Recommendations recommendations, string lang) {
         try {
             var doc = new Document();
@@ -224,7 +294,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
 
             PdfPTable tblParameters = new PdfPTable(6);
-            tblParameters.SetWidths(new int[] { 3, 1, 1, 1, 1, 1 });
+            tblParameters.SetWidths(new float[] { 3f, 1f, 1f, 1f, 1f, 1f });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("parameter", lang), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("unit", lang), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("choosen", lang), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
@@ -565,7 +635,7 @@ public class PrintPdf : System.Web.Services.WebService {
                 table.AddCell(new PdfPCell(new Phrase(t.Tran("waist", lang) + " (cm)", normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
                 table.AddCell(new PdfPCell(new Phrase(t.Tran("hip", lang) + " (cm)", normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
 
-                StringBuilder sb = new StringBuilder();
+              //  StringBuilder sb = new StringBuilder();
                 foreach (ClientsData.NewClientData cl in clientLog) {
                     PdfPCell cell1 = new PdfPCell(new Phrase(cl.date.ToString("dd.MM.yyyy"), courier));
                     cell1.Border = 0;
@@ -730,8 +800,6 @@ IBAN HR8423400091160342496
             footer_table.AddCell(new PdfPCell(new Phrase("mob: +385 98 330 966   |   email: igprog@yahoo.com   |   web: www.igprog.hr", normalFont_8)) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 80, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
             doc.Add(footer_table);
 
-            //  doc.Add(new Paragraph(doc.BottomMargin, "mob: +385 98 330 966   |   email: igprog@yahoo.com   |   web: www.igprog.hr", normalFont_8));
-
             doc.Close();
 
             return fileName;
@@ -795,6 +863,40 @@ IBAN HR8423400091160342496
             case "D": return "dinner";
             case "MBS": return "meal before sleep";
             default: return "";
+        }
+    }
+
+    private void AppendDayMeal(PdfPTable table, string[] menuList, string m, int consumers, string userId) {
+        List<Foods.NewFood> meal = new List<Foods.NewFood>();
+        StringBuilder sb = new StringBuilder();
+        Foods food = new Foods();
+        Menues me = new Menues();
+        int i = 0;
+         for (i = 0; i < 7; i++) {
+            Menues.NewMenu weeklyMenu = me.WeeklyMenu(userId, menuList[i]);
+            sb = new StringBuilder();
+            if (!string.IsNullOrEmpty(weeklyMenu.id)) {
+            meal = weeklyMenu.data.selectedFoods.Where(a => a.meal.code == m).ToList();
+            List<Foods.NewFood> meal_ = food.MultipleConsumers(meal, consumers);
+            foreach (Foods.NewFood f in meal_) {
+                sb.AppendLine(string.Format("- {0}, {1} {2} ({3} g)", f.food, f.quantity, f.unit, f.mass));
+            }
+        }
+        table.AddCell(new PdfPCell(new Phrase(sb.ToString(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, MinimumHeight = 30, PaddingTop = 5, PaddingRight = 2, PaddingBottom = 5, PaddingLeft = 2 });
+        }
+    }
+
+    private void AppendTotal(PdfPTable table, string[] menuList, string userId) {
+        StringBuilder sb = new StringBuilder();
+        Menues me = new Menues();
+        int i = 0;
+        for (i = 0; i < 7; i++) {
+            Menues.NewMenu weeklyMenu = me.WeeklyMenu(userId, menuList[i]);
+            sb = new StringBuilder();
+            if (!string.IsNullOrEmpty(weeklyMenu.id)) {
+                sb.AppendLine(string.Format("{0} kcal", weeklyMenu.energy));
+            }
+            table.AddCell(new PdfPCell(new Phrase(sb.ToString(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, MinimumHeight = 30, PaddingTop = 15, PaddingRight = 2, PaddingBottom = 5, PaddingLeft = 2 });
         }
     }
     #endregion Methods
