@@ -75,7 +75,7 @@ public class Mail : System.Web.Services.WebService {
 <p>Adresa: Ludvetov breg 5, 51000 Rijeka</p>
 <p>Opis plaćanja: {0} {1}</p>
 <p>Iznos: {2} kn</p>
-<p>Model: 00</p>
+<p>Model: HR99</p>
 <p>Poziv na broj: {3}</p>
 <hr/>
 <br />

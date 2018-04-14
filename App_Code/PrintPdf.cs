@@ -883,6 +883,37 @@ IBAN HR8423400091160342496
                 }
             }
             table.AddCell(new PdfPCell(new Phrase(sb.ToString(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, MinimumHeight = 30, PaddingTop = 5, PaddingRight = 2, PaddingBottom = 5, PaddingLeft = 2 });
+
+
+            //TODO set diferent color for food and quantity
+            /*
+             * var p = new Paragraph();
+p.Add("First line text\n");
+p.Add("    Second line text\n");
+p.Add("    Third line text\n");
+p.Add("Fourth line text\n");
+myTable.AddCell(p);
+             */
+
+
+
+
+            /*  var blackListTextFont = FontFactory.GetFont("Arial", 28, Color.BLACK);
+              var redListTextFont = FontFactory.GetFont("Arial", 28, Color.RED);
+
+              var titleChunk = new Chunk("Title", blackListTextFont);
+              var descriptionChunk = new Chunk("Description", redListTextFont);
+
+              var phrase = new Phrase(titleChunk);
+              phrase.Add(descriptionChunk);
+
+              table.AddCell(new PdfPCell(phrase));
+              */
+
+
+
+
+
         }
     }
 
