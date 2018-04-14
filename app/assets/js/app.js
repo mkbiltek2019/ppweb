@@ -4014,8 +4014,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.creatingPdf = false;
     $scope.showQty = true;
     $scope.showMass = true;
+    $scope.showDescription = false;
     $scope.orientation = "L";  //Landscape
-    $scope.printWeeklyMenu = function (pageSize, consumers, showQty, showMass, orientation) {
+    $scope.printWeeklyMenu = function (pageSize, consumers, showQty, showMass, showDescription, orientation) {
         if ($scope.menuList.length == 0) {
             functions.alert($translate.instant('select menues'), '');
             return false;
@@ -4025,7 +4026,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + 'PrintPdf.asmx/WeeklyMenuPdf',
             method: "POST",
-            data: { userId: $sessionStorage.usergroupid, menuList: $scope.menuList, clientData: $rootScope.clientData, consumers: consumers, lang: $rootScope.config.language, pageSize: pageSize, showQty: showQty, showMass: showMass, orientation: orientation }
+            data: { userId: $sessionStorage.usergroupid, menuList: $scope.menuList, clientData: $rootScope.clientData, consumers: consumers, lang: $rootScope.config.language, pageSize: pageSize, showQty: showQty, showMass: showMass, showDescription: showDescription, orientation: orientation }
         })
           .then(function (response) {
               var fileName = response.data.d;
