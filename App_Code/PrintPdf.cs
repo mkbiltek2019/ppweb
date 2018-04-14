@@ -30,6 +30,7 @@ public class PrintPdf : System.Web.Services.WebService {
     Font normalFont_bold = FontFactory.GetFont(HttpContext.Current.Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, 9, Font.BOLD);
     Font normalFont_10_bold = FontFactory.GetFont(HttpContext.Current.Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, 10, Font.BOLD);
     Font normalFont_italic = FontFactory.GetFont(HttpContext.Current.Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, 9, Font.ITALIC);
+    Font font_qty = FontFactory.GetFont(HttpContext.Current.Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, 9, Font.ITALIC);
 
     string logoPath = HttpContext.Current.Server.MapPath(string.Format("~/app/assets/img/logo1.png"));
     string logoPathIgProg = HttpContext.Current.Server.MapPath(string.Format("~/assets/img/logo_igprog.png"));
@@ -868,52 +869,26 @@ IBAN HR8423400091160342496
 
     private void AppendDayMeal(PdfPTable table, string[] menuList, string m, int consumers, string userId, bool showQty, bool showMass) {
         List<Foods.NewFood> meal = new List<Foods.NewFood>();
-        StringBuilder sb = new StringBuilder();
+        Phrase p = new Phrase();
         Foods food = new Foods();
         Menues me = new Menues();
         int i = 0;
         for (i = 0; i < 7; i++) {
             Menues.NewMenu weeklyMenu = me.WeeklyMenu(userId, menuList[i]);
-            sb = new StringBuilder();
+            p = new Phrase();
             if (!string.IsNullOrEmpty(weeklyMenu.id)) {
                 meal = weeklyMenu.data.selectedFoods.Where(a => a.meal.code == m).ToList();
                 List<Foods.NewFood> meal_ = food.MultipleConsumers(meal, consumers);
                 foreach (Foods.NewFood f in meal_) {
-                    sb.AppendLine(string.Format("- {0}, {1} {2}", f.food, showQty == true ? (f.quantity.ToString() + " " + f.unit) : "", showMass == true ? ("(" + f.mass.ToString() + "g)") : ""));
+                    font_qty.SetColor(8, 61, 134);
+                    p.Add(new Chunk("- " + f.food, normalFont));
+                    if (showQty == true || showMass == true) {
+                        p.Add(new Chunk((showQty == true ? (" " + f.quantity.ToString() + " " + f.unit) : "") + (showMass == true ? (" (" + f.mass.ToString() + "g)") : ""), font_qty));
+                    }
+                    p.Add(new Chunk("\n", normalFont));
                 }
             }
-            table.AddCell(new PdfPCell(new Phrase(sb.ToString(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, MinimumHeight = 30, PaddingTop = 5, PaddingRight = 2, PaddingBottom = 5, PaddingLeft = 2 });
-
-
-            //TODO set diferent color for food and quantity
-            /*
-             * var p = new Paragraph();
-p.Add("First line text\n");
-p.Add("    Second line text\n");
-p.Add("    Third line text\n");
-p.Add("Fourth line text\n");
-myTable.AddCell(p);
-             */
-
-
-
-
-            /*  var blackListTextFont = FontFactory.GetFont("Arial", 28, Color.BLACK);
-              var redListTextFont = FontFactory.GetFont("Arial", 28, Color.RED);
-
-              var titleChunk = new Chunk("Title", blackListTextFont);
-              var descriptionChunk = new Chunk("Description", redListTextFont);
-
-              var phrase = new Phrase(titleChunk);
-              phrase.Add(descriptionChunk);
-
-              table.AddCell(new PdfPCell(phrase));
-              */
-
-
-
-
-
+            table.AddCell(new PdfPCell(p) { Border = PdfPCell.BOTTOM_BORDER, MinimumHeight = 30, PaddingTop = 5, PaddingRight = 2, PaddingBottom = 5, PaddingLeft = 2 });
         }
     }
 
