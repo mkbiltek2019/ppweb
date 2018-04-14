@@ -1576,6 +1576,11 @@
   "weekly menu": "tjedni jelovnik",
   "create pdf": "kreiraj PDF",
   "download": "preuzmi",
-  "page size": "veličina stranice"
+  "page size": "veličina stranice",
+  "print settings": "postavke ispisa",
+  "show quantity": "prikaži količinu",
+  "show mass": "prikaži masu",
+  "select menues": "odaberite jelovnike",
+  "orientation": "orjentacija"
 
 }

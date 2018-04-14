@@ -1572,6 +1572,11 @@
   "weekly menu": "nedeljni meni",
   "create pdf": "kreiraj PDF",
   "download": "preuzmi",
-  "page size": "veličina stranice"
+  "page size": "veličina stranice",
+  "print settings": "postavke štampanja",
+  "show quantity": "prikaži količinu",
+  "show mass": "prikaži masu",
+  "select menues": "izaberite menije",
+  "orientation":  "orjentacija"
 
 }

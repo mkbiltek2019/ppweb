@@ -4012,13 +4012,20 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.pageSizes = ['A4', 'A3', 'A2', 'A1']
     $scope.pageSize = 'A3';
     $scope.creatingPdf = false;
-    $scope.printWeeklyMenu = function (pageSize, consumers) {
+    $scope.showQty = true;
+    $scope.showMass = true;
+    $scope.orientation = "L";  //Landscape
+    $scope.printWeeklyMenu = function (pageSize, consumers, showQty, showMass, orientation) {
+        if ($scope.menuList.length == 0) {
+            functions.alert($translate.instant('select menues'), '');
+            return false;
+        }
         $scope.pdfLink = null;
         $scope.creatingPdf = true;
         $http({
             url: $sessionStorage.config.backend + 'PrintPdf.asmx/WeeklyMenuPdf',
             method: "POST",
-            data: { userId: $sessionStorage.usergroupid, menuList: $scope.menuList, clientData: $rootScope.clientData, consumers: consumers, lang: $rootScope.config.language, pageSize: pageSize }
+            data: { userId: $sessionStorage.usergroupid, menuList: $scope.menuList, clientData: $rootScope.clientData, consumers: consumers, lang: $rootScope.config.language, pageSize: pageSize, showQty: showQty, showMass: showMass, orientation: orientation }
         })
           .then(function (response) {
               var fileName = response.data.d;

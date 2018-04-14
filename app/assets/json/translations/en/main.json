@@ -1578,8 +1578,10 @@
   "weekly menu": "weekly menu",
   "create pdf": "create PDF",
   "download": "download",
-  "page size": "page size"
-
-
+  "page size": "page size",
+  "print settings": "print settings",
+  "show quantity": "show quantity",
+  "show mass": "show mass",
+  "orientation": "orientation"
 
 }
