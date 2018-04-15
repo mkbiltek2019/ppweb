@@ -2002,7 +2002,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 .controller('menuCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'charts', '$timeout', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, charts, $timeout, functions, $translate) {
     var webService = 'Foods.asmx';
-    $scope.addFoodBtnIcon = 'fa fa-hand-o-right';
+    $scope.addFoodBtnIcon = 'fa fa-plus'; // 'fa fa-hand-o-right';
     $scope.addFoodBtn = false;
 
     $rootScope.selectedFoods = $rootScope.selectedFoods == undefined ? [] : $rootScope.selectedFoods;
@@ -2116,28 +2116,28 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.addFoodBtnIcon = 'fa fa-spinner fa-spin';
         if ($rootScope.user.licenceStatus == 'demo' && $rootScope.currentMenu.data.selectedFoods.length > 9) {
             functions.demoAlert('in demo version maximum number of choosen foods is 10');
-            $scope.addFoodBtnIcon = 'fa fa-hand-o-right';
+            $scope.addFoodBtnIcon = 'fa fa-plus';
             $scope.addFoodBtn = false;
             return false;
         }
         $mdDialog.show({
-            controller: $scope.foodPopupCtrl,
+            controller: $rootScope.foodPopupCtrl,
             templateUrl: 'assets/partials/popup/food.html',
             parent: angular.element(document.body),
             clickOutsideToClose: true,
             d: { foods: $rootScope.foods, myFoods: $rootScope.myFoods, foodGroups: $rootScope.foodGroups, food: x, idx: idx, config:$rootScope.config }
         })
         .then(function (x) {
-            $scope.addFoodBtnIcon = 'fa fa-hand-o-right';
+            $scope.addFoodBtnIcon = 'fa fa-plus';
             $scope.addFoodBtn = false;
             $scope.addFoodToMeal(x.food, x.initFood, idx);
         }, function () {
-            $scope.addFoodBtnIcon = 'fa fa-hand-o-right';
+            $scope.addFoodBtnIcon = 'fa fa-plus';
             $scope.addFoodBtn = false;
         });
     };
 
-    $scope.foodPopupCtrl = function ($scope, $mdDialog, d, $http, $translate) {
+    $rootScope.foodPopupCtrl = function ($scope, $mdDialog, d, $http, $translate) {
         $scope.d = d;
         $scope.foods = d.foods;
         $scope.myFoods = d.myFoods;
@@ -3343,8 +3343,198 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         if (r.ui != null) {
             if (total > r.ui) { return 'background-color:#f94040; color:white' }
         }
-
     }
+
+    $scope.openRecipePopup = function () {
+        openRecipePopup();
+    }
+
+
+    var openRecipePopup = function () {
+        $mdDialog.show({
+            controller: getRecipePopupCtrl,
+            templateUrl: 'assets/partials/popup/getrecipe.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true,
+            clientData: $rootScope.clientData,
+            config: $rootScope.config
+        })
+        .then(function (recipe) {
+            angular.forEach(recipe.data.selectedFoods, function (value, key) {
+                var idx = $rootScope.currentMenu.data.selectedFoods.length;
+                $scope.addFoodToMeal(value, recipe.data.selectedInitFoods[key], idx);
+            });
+
+
+            //$rootScope.currentMenu = x;
+            //$rootScope.clientData.meals = x.data.meals;
+            getTotals($rootScope.currentMenu);
+           // $rootScope.currentMeal = 'B';
+        }, function () {
+        });
+    };
+
+    var getRecipePopupCtrl = function ($scope, $mdDialog, $http, clientData, config, $translate, $translatePartialLoader, $timeout) {
+        $scope.clientData = clientData;
+        $scope.config = config;
+        $scope.loadType = 0;
+        $scope.type = 0;
+        $scope.appRecipes = false;
+        $scope.toTranslate = false;
+        $scope.toLanguage = '';
+
+        var load = function () {
+            $scope.loading = true;
+            $scope.appRecipes = false;
+            $http({
+                url: $sessionStorage.config.backend + 'Recipes.asmx/Load',
+                method: "POST",
+                data: { userId: $rootScope.user.userGroupId }
+            })
+           .then(function (response) {
+               $scope.appRecipes = false;
+               $scope.d = JSON.parse(response.data.d);
+               $scope.loading = false;
+           },
+           function (response) {
+               $scope.loading = false;
+               alert(response.data.d);
+           });
+        }
+        load();
+
+        $scope.load = function () {
+            load();
+        }
+
+        //$scope.remove = function (x) {
+        //    var confirm = $mdDialog.confirm()
+        //         .title($translate.instant('remove recipe') + '?')
+        //         .textContent(x.title)
+        //         .targetEvent(x)
+        //         .ok($translate.instant('yes'))
+        //         .cancel($translate.instant('no'));
+        //    $mdDialog.show(confirm).then(function () {
+        //        remove(x);
+        //    }, function () {
+        //    });
+        //}
+
+        //var remove = function (x) {
+        //    $http({
+        //        url: $sessionStorage.config.backend + 'Recipes.asmx/Delete',
+        //        method: "POST",
+        //        data: { userId: $rootScope.user.userGroupId, id: x.id }
+        //    })
+        //  .then(function (response) {
+        //      $scope.d = JSON.parse(response.data.d);
+        //  },
+        //  function (response) {
+        //      alert(response.data.d)
+        //  });
+        //}
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+
+        $scope.toogleMyRecipeTpl = function () {
+            $mdDialog.cancel();
+            $rootScope.newTpl = './assets/partials/myrecipes.html';
+            $rootScope.selectedNavItem = 'myrecipes';
+        }
+
+
+        $scope.get = function (x) {
+            get(x);
+        }
+
+        var get = function (x) {
+            $http({
+                url: $sessionStorage.config.backend + 'Recipes.asmx/Get',
+                method: "POST",
+                data: { userId: $rootScope.user.userGroupId, id: x.id }
+            })
+            .then(function (response) {
+                $scope.recipe = JSON.parse(response.data.d);
+                angular.forEach($rootScope.currentMenu.data.meals, function (value, key) {
+                    if (value.code == $rootScope.currentMeal) {
+                        value.description = value.description == '' ? $scope.recipe.description : value.description + '\n' + $scope.recipe.description;
+                    }
+                });
+                $mdDialog.hide($scope.recipe);
+            },
+            function (response) {
+                alert(response.data.d)
+            });
+        }
+
+        $scope.loadAppRecipes = function () {
+            $scope.appRecipes = true;
+            $http({
+                url: $sessionStorage.config.backend + 'Menues.asmx/LoadAppRecipes',
+                method: "POST",
+                data: { lang: $rootScope.config.language }
+            })
+           .then(function (response) {
+               $scope.d = JSON.parse(response.data.d);
+           },
+           function (response) {
+               alert(response.data.d)
+           });
+        }
+
+        var getAppRecipe = function (x) {
+            $http({
+                url: $sessionStorage.config.backend + 'Menues.asmx/GetAppRecipe',
+                method: "POST",
+                data: { id: x.id, lang: $rootScope.config.language, toTranslate: $scope.toTranslate }
+            })
+            .then(function (response) {
+                var menu = JSON.parse(response.data.d);
+                if ($scope.toTranslate == true) {
+                    translateFoods(menu);
+                }
+                $mdDialog.hide(menu);
+            },
+            function (response) {
+                alert(response.data.d)
+            });
+        }
+
+        $scope.confirm = function (x) {
+            $scope.appRecipes == true ? getAppRecipes(x) : get(x);
+        }
+
+        $scope.setToTranslate = function (x) {
+            $scope.toTranslate = x;
+        }
+
+        $scope.setToLanguage = function (x) {
+            $scope.toLanguage = x;
+        }
+
+        var translateFoods = function (menu) {
+            $rootScope.setLanguage($scope.toLanguage);
+            $timeout(function () {
+                angular.forEach(menu.data.selectedFoods, function (value, key) {
+                    value.food = $translate.instant(value.food);
+                    value.unit = $translate.instant(value.unit);
+                })
+                angular.forEach(menu.data.selectedInitFoods, function (value, key) {
+                    value.food = $translate.instant(value.food);
+                    value.unit = $translate.instant(value.unit);
+                })
+                $mdDialog.hide(menu);
+                $rootScope.setLanguage('hr');
+            }, 500);
+        }
+
+    };
+
+
+
+    //----------------------------------------
 
 
 }])
@@ -3753,6 +3943,174 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
 }])
+
+.controller('myRecipesCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
+    var webService = 'Recipes.asmx';
+    $scope.currentRecipe = null;
+
+    //$rootScope.loadFoods();
+
+
+        var init = function () {
+            $http({
+                url: $sessionStorage.config.backend + 'Recipes.asmx/Init',
+                method: "POST",
+                data: ''
+            })
+            .then(function (response) {
+                $scope.recipe = JSON.parse(response.data.d);
+                load();
+            },
+            function (response) {
+                alert(response.data.d)
+            });
+        };
+
+        var load = function () {
+            $rootScope.loading = true;
+            $http({
+                url: $sessionStorage.config.backend + 'Recipes.asmx/Load',
+                method: "POST",
+                data: { userId: $sessionStorage.usergroupid }
+            })
+            .then(function (response) {
+                $scope.recipes = JSON.parse(response.data.d);
+                $rootScope.loading = false;
+            },
+            function (response) {
+                $rootScope.loading = false;
+                alert(response.data.d)
+            });
+        };
+
+        init();
+
+        //var getUnits = function () {
+        //    $http({
+        //        url: $sessionStorage.config.backend + 'Foods.asmx/GetUnits',
+        //        method: "POST",
+        //        data: { lang: $rootScope.config.language }
+        //    })
+        //  .then(function (response) {
+        //      $scope.units = JSON.parse(response.data.d);
+        //  },
+        //  function (response) {
+        //      alert(response.data.d)
+        //  });
+        //}
+        //$scope.units = [
+        //    'komad',
+        //    'jušna žljica',
+        //    'porcija'
+        //];
+
+        //$scope.recipe = [];
+        $scope.add = function (x) {
+            $scope.recipe.push(x);
+        }
+
+        $scope.openFoodPopup = function () {
+            $mdDialog.show({
+                controller: $rootScope.foodPopupCtrl,
+                templateUrl: 'assets/partials/popup/food.html',
+                parent: angular.element(document.body),
+                clickOutsideToClose: true,
+                d: { foods: $rootScope.foods, myFoods: $rootScope.myFoods, foodGroups: $rootScope.foodGroups, food: null, idx: null, config: $rootScope.config }
+            })
+        .then(function (x) {
+            $scope.food = x;
+            $scope.recipe.data.selectedFoods.push(x.food);
+            $scope.recipe.data.selectedInitFoods.push(x.initFood);
+            //$scope.addFoodBtnIcon = 'fa fa-plus';
+            //$scope.addFoodBtn = false;
+            //$scope.addFoodToMeal(x.food, x.initFood, idx);
+        }, function () {
+            //$scope.addFoodBtnIcon = 'fa fa-plus';
+            //$scope.addFoodBtn = false;
+        });
+        }
+
+
+        $scope.new = function () {
+            init();
+        }
+
+        $scope.get = function (id) {
+            if (id == null) {
+                return false;
+            }
+            $http({
+                url: $sessionStorage.config.backend + 'Recipes.asmx/Get',
+                method: "POST",
+                data: { userId: $sessionStorage.usergroupid, id: id }
+            })
+            .then(function (response) {
+                $scope.recipe = JSON.parse(response.data.d);
+            },
+            function (response) {
+                // $rootScope.loading = false;
+                alert(response.data.d);
+            });
+        }
+
+        $scope.save = function (recipe) {
+            if (recipe.title == '' || recipe.title == null) {
+                functions.alert($translate.instant('enter recipe title'), '');
+                return false;
+            }
+            $http({
+                url: $sessionStorage.config.backend + 'Recipes.asmx/Save',
+                method: "POST",
+                data: { userId: $sessionStorage.usergroupid, x: recipe }
+            })
+            .then(function (response) {
+                $scope.recipe = JSON.parse(response.data.d);
+                load();
+            },
+            function (response) {
+               // $rootScope.loading = false;
+                alert(response.data.d);
+            });
+        }
+    
+        $scope.removeFood = function (x, idx) {
+            $scope.recipe.data.selectedFoods.splice(idx, 1);
+            $scope.recipe.data.selectedInitFoods.splice(idx, 1);
+            //$rootScope.currentMenu.data.selectedFoods.splice(idx, 1);
+        }
+
+
+        //$scope.delete = function (x) {
+        //    var confirm = $mdDialog.confirm()
+        //        .title($translate.instant('delete food') + '?')
+        //        .textContent()
+        //        .targetEvent()
+        //        .ok($translate.instant('yes'))
+        //        .cancel($translate.instant('no'));
+        //    $mdDialog.show(confirm).then(function () {
+        //        remove(x);
+        //    }, function () {
+        //    });
+        //};
+
+        //var remove = function (x) {
+        //    $http({
+        //        url: $sessionStorage.config.backend + webService + '/Delete',
+        //        method: "POST",
+        //        data: { userId: $rootScope.user.userGroupId, x: x }
+        //    })
+        // .then(function (response) {
+        //     load();
+        //     init();
+        //     alert(response.data.d);
+        // },
+        // function (response) {
+        //     alert(response.data.d);
+        // });
+        //}
+
+
+    }])
 
 .controller('pricesCtrl', ['$scope', '$http', '$sessionStorage', '$rootScope', '$translate', 'functions', '$mdDialog', function ($scope, $http, $sessionStorage, $rootScope, $translate, functions, $mdDialog) {
     var webService = 'Prices.asmx';

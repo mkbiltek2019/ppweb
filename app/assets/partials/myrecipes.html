@@ -1,0 +1,60 @@
+﻿<div ng-controller="myRecipesCtrl">
+    <div class="panel panel-default">
+        <div class="panel-heading"><span class="text-uppercase">{{'recipes' | translate}}</span></div>
+        <div class="panel-body">
+            <div ng-if="recipes.length>0" class="row">
+                <div class="col-sm-6">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>{{'recipes' | translate}}</label>
+                        <md-select ng-model="currentRecipe" ng-change="get(currentRecipe.id)">
+                            <md-option ng-repeat="x in recipes" ng-value="x">
+                                {{x.title}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </div>
+            <div class="m10">
+                <a href="" class="btn btn-primary m2" ng-click="new()"><i class="fa fa-file-o"></i> {{'new recipe' | translate}}</a>
+                <a href="" class="btn btn-success m2" ng-click="save(recipe, title, description)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</a>
+            </div>
+            <div class="mt20">
+                <md-input-container>
+                    <label>{{'title' | translate}}</label>
+                    <input ng-model="recipe.title" type="text">
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>{{'description' | translate}}</label>
+                    <input ng-model="recipe.description" type="text">
+                </md-input-container>
+                <div class="table-responsive">
+                    <table class="table-responsive table-condensed table-bordered">
+                        <tr>
+                            <th></th>
+                            <th style="width:50%">{{'food' | translate}}</th>
+                            <th>{{'quantity' | translate}}</th>
+                            <th>{{'unit' | translate}}</th>
+                            <th>{{'mass' | translate}} (g)</th>
+                            <th class="nowrap">{{'thermal treatment' | translate}}</th>
+                            <th>{{'energy' | translate}}</th>
+                        </tr>
+                        <tr ng-repeat="x in recipe.data.selectedFoods">
+                            <td><a href="" class="btn btn-default" ng-click="removeFood($index)" title="{{'delete' | translate}}"><i class="fa fa-trash-o text-danger"></i></a></td>
+                            <td><input ng-model="x.food" type="text" class="form-control" /></td>
+                            <td>{{x.quantity}}</td>
+                            <td>{{x.unit}}</td>
+                            <td>{{x.mass}}</td>
+                            <td>
+                                <span ng-if="x.isSelected==true" ng-repeat="x in x.thermalTreatments">{{x.thermalTreatment.title}}</span>
+                            </td>
+                            <td>{{x.food.energy}}</td>
+                        </tr>
+                    </table>
+                    <div class="m10">
+                        <a href="" class="btn btn-primary" ng-click="openFoodPopup()"><i class="fa fa-plus"></i> {{'add food' | translate}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

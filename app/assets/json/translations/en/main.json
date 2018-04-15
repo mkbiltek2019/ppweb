@@ -1583,6 +1583,14 @@
   "show quantity": "show quantity",
   "show description": "show description",
   "show mass": "show mass",
-  "orientation": "orientation"
+  "orientation": "orientation",
+  "my recipes": "my recipes",
+  "add recipe": "add recipe",
+  "new recipe": "new recipe",
+  "recipe": "recipe",
+  "recipes": "recipes",
+  "enter recipe title": "enter recipe title",
+  "you do not have any recipes": "you do not have any recipes",
+  "create recipe": "create recipe"
 
 }

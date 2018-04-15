@@ -1577,6 +1577,14 @@
   "show mass": "прикажи масу",
   "show description": "прикажи опис",
   "select menues": "изаберите меније",
-  "orientation": "орјентација"
+  "orientation": "орјентација",
+  "my recipes": "моји рецепте",
+  "add recipe": "додај рецепт",
+  "new recipe": "нови рецепт",
+  "recipe": "рецепт",
+  "recipes": "рецепти",
+  "enter recipe title": "унесите назив рецепта",
+  "you do not have any recipes": "немате израђене рецепте",
+  "create recipe": "израдите рецепт"
 
 }

@@ -1582,6 +1582,14 @@
   "show mass": "prikaži masu",
   "show description": "prikaži opis",
   "select menues": "odaberite jelovnike",
-  "orientation": "orjentacija"
+  "orientation": "orjentacija",
+  "my recipes": "moji recepti",
+  "add recipe": "dodaj recept",
+  "new recipe": "novi recept",
+  "recipe": "recept",
+  "recipes": "recepti",
+  "enter recipe title": "upišite naziv recepta",
+  "you do not have any recipes": "nemate izrađene recepate",
+  "create recipe": "izradite recept"
 
 }
