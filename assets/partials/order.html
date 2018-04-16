@@ -153,7 +153,7 @@ Primatelj: {{config.company}}
 Adresa: {{config.address}}
 Opis plaćanja: {{user.application}} {{user.version}}
 Iznos: <span>{{user.price}}</span> kn
-Model: HR99
+Model: <span ng-if="user.pin">HR00</span><span ng-if="!user.pin">HR99</span>
 <span ng-if="user.pin">Poziv na broj: {{user.pin}}</span> 
             </pre>
                 </div>

@@ -75,8 +75,8 @@ public class Mail : System.Web.Services.WebService {
 <p>Adresa: Ludvetov breg 5, 51000 Rijeka</p>
 <p>Opis plaćanja: {0} {1}</p>
 <p>Iznos: {2} kn</p>
-<p>Model: HR99</p>
-<p>Poziv na broj: {3}</p>
+<p>Model: {5}</p>
+<p>{3}</p>
 <hr/>
 <br />
 <b>Podaci za uplatu izvan hrvatske:</b>
@@ -100,8 +100,9 @@ public class Mail : System.Web.Services.WebService {
 , user.application
 , user.version
 , user.price
-, user.pin = String.IsNullOrWhiteSpace(user.pin) ? Convert.ToString(DateTime.Now.Ticks).Substring(10) : user.pin
-, Math.Round(user.priceEur,0));
+, string.IsNullOrWhiteSpace(user.pin) ? "" : string.Format("Poziv na broj: {0}", user.pin)
+, Math.Round(user.priceEur,0)
+, string.IsNullOrWhiteSpace(user.pin) ? "HR99" : "HR00");
 
         SendMail(user.email, messageSubject, messageBody);
         //-----------------------------------------
