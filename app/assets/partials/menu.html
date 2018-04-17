@@ -2,11 +2,11 @@
     <div class="row">
         <div class="col-md-8">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                        <a href="" class="btn btn-default" ng-click="new()"><i class="fa fa-file-o"></i> <span class="hidden-xs text-capitalize"> {{'new' | translate}}</span></a>
-                        <a href="" class="btn btn-default" ng-click="get()"><i class="fa fa-folder-open-o"></i> <span class="hidden-xs text-capitalize"> {{'open' | translate}}</span></a>
-                        <a href="" class="btn btn-default" ng-click="save()"><i class="fa fa-floppy-o"></i> <span class="hidden-xs text-capitalize">{{'save' | translate}}</span></a>
-                        <a ng-if="config.debug" href="" class="btn btn-default" ng-click="send()"><i class="fa fa-paper-plane-o"></i> <span class="hidden-xs text-capitalize">{{'send' | translate}}</span></a>
+                <div class="panel-heading text-capitalize">
+                        <a href="" class="btn btn-default" ng-click="new()"><i class="fa fa-file-o"></i> <span class="hidden-xs"> {{'new' | translate}}</span></a>
+                        <a href="" class="btn btn-default" ng-click="get()"><i class="fa fa-folder-open-o"></i> <span class="hidden-xs"> {{'open' | translate}}</span></a>
+                        <a href="" class="btn btn-default" ng-click="save()"><i class="fa fa-floppy-o"></i> <span class="hidden-xs">{{'save' | translate}}</span></a>
+                        <a ng-if="config.debug" href="" class="btn btn-default" ng-click="send()"><i class="fa fa-paper-plane-o"></i> <span class="hidden-xs">{{'send' | translate}}</span></a>
                 <span ng-if="config.debug">{{currentMenu.id}}</span>
                 </div>
                 <div class="panel-body">
@@ -62,9 +62,9 @@
                                             <td class="borderNone text-right" style="width:150px">{{x.energy}} kcal</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="5">
-                                                <a ng-disabled="addFoodBtn" href="" class="btn btn-primary text-uppercase" ng-click="openFoodPopup(food)"><i ng-class="addFoodBtnIcon"></i> {{'add food' | translate}}</a>
-                                                <a ng-if="config.debug" href="" class="btn btn-warning text-uppercase ml5" ng-click="openRecipePopup()"><i class="fa fa-file-text-o"></i> {{'add recipe' | translate}}</a>
+                                            <td colspan="5" class="text-capitalize">
+                                                <a ng-disabled="addFoodBtn" href="" class="btn btn-primary" ng-click="openFoodPopup(food)"><i ng-class="addFoodBtnIcon"></i> {{'add food' | translate}}</a>
+                                                <a ng-if="config.debug" href="" class="btn btn-default ml5" ng-click="openRecipePopup()"><i class="fa fa-file-text-o"></i> {{'add recipe' | translate}}</a>
                                             </td>
                                             <td colspan="3" class="text-right">
                                                 {{'meal' | translate}} {{'total' | translate}}:
