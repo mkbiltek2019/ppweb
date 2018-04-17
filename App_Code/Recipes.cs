@@ -114,6 +114,7 @@ public class Recipes : System.Web.Services.WebService {
                 if (x.id == null) {
                     x.id = Convert.ToString(Guid.NewGuid());
                 }
+                x.energy = x.data.selectedFoods.Sum(a => a.energy);
                 SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
                 connection.Open();
                 SQLiteCommand command = new SQLiteCommand(sql, connection);
@@ -122,7 +123,6 @@ public class Recipes : System.Web.Services.WebService {
                     VALUES (@id, @title, @description, @energy);
                     COMMIT;";
                 command = new SQLiteCommand(sql, connection);
-
                 command.Parameters.Add(new SQLiteParameter("id", x.id));
                 command.Parameters.Add(new SQLiteParameter("title", x.title));
                 command.Parameters.Add(new SQLiteParameter("description", x.description));

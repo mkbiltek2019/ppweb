@@ -4038,6 +4038,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $scope.recipe.push(x);
         }
 
+        $scope.getTotEnergy = function (x) {
+            var sum = 0;
+            angular.forEach(x, function (value, key) {
+                sum += value.energy;
+            })
+            return sum;
+        }
+
         $scope.openFoodPopup = function () {
             $mdDialog.show({
                 controller: $rootScope.foodPopupCtrl,

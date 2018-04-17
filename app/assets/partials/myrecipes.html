@@ -31,12 +31,12 @@
                     <table class="table-responsive table-condensed table-bordered">
                         <tr>
                             <th></th>
-                            <th style="width:50%">{{'food' | translate}}</th>
+                            <th style="width:50%">{{'foods' | translate}}</th>
                             <th>{{'quantity' | translate}}</th>
                             <th>{{'unit' | translate}}</th>
                             <th>{{'mass' | translate}} (g)</th>
                             <th class="nowrap">{{'thermal treatment' | translate}}</th>
-                            <th>{{'energy' | translate}}</th>
+                            <th class="nowrap">{{'energy' | translate}} (kcal)</th>
                         </tr>
                         <tr ng-repeat="x in recipe.data.selectedFoods">
                             <td><a href="" class="btn btn-default" ng-click="removeFood($index)" title="{{'delete' | translate}}"><i class="fa fa-trash-o text-danger"></i></a></td>
@@ -47,12 +47,19 @@
                             <td>
                                 <span ng-if="x.isSelected==true" ng-repeat="x in x.thermalTreatments">{{x.thermalTreatment.title}}</span>
                             </td>
-                            <td>{{x.food.energy}}</td>
+                            <td class="text-right">{{x.energy}}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td colspan="4">
+                                <a href="" class="btn btn-primary" ng-click="openFoodPopup()"><i class="fa fa-plus"></i> {{'add food' | translate}}</a>
+                            </td>
+                            <td class="text-right">
+                                <label>{{'total' | translate}}:</label>
+                            </td>
+                            <td class="text-right"><label>{{getTotEnergy(recipe.data.selectedFoods) | number : 1}}</label></td>
                         </tr>
                     </table>
-                    <div class="m10">
-                        <a href="" class="btn btn-primary" ng-click="openFoodPopup()"><i class="fa fa-plus"></i> {{'add food' | translate}}</a>
-                    </div>
                 </div>
             </div>
         </div>
