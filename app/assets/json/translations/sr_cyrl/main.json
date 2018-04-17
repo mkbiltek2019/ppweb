@@ -1585,6 +1585,9 @@
   "recipes": "рецепти",
   "enter recipe title": "унесите назив рецепта",
   "you do not have any recipes": "немате израђене рецепте",
-  "create recipe": "израдите рецепт"
+  "create recipe": "израдите рецепт",
+  "first name is required": "име је обавезно",
+  "birth date is required": "датум рођења је обавезан"
+
 
 }

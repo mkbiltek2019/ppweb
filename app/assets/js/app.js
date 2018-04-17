@@ -1006,6 +1006,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.d.date = new Date($scope.d.date);
         $scope.d.birthDate = new Date($scope.d.birthDate);
 
+        var getDateDiff = function (x) {
+            var today = new Date();
+            var date2 = today;
+            var date1 = new Date(x);
+            var diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24));
+            return diffDays;
+        }
+
         $scope.hide = function () {
             $mdDialog.hide();
         };
@@ -1013,7 +1021,28 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $mdDialog.cancel();
         };
 
+        var save = function (x) {
+
+        }
+
+        $scope.firstNameRequiredMsq = null;
+        $scope.firstNameRequiredMsq = null;
+
         $scope.save = function (x) {
+            if (x.firstName == '' || x.firstName == null ) {
+                $scope.firstNameRequiredMsq = 'first name is required';
+                return false;
+            } else {
+                $scope.firstNameRequiredMsq = null;
+                if (getDateDiff(x.birthDate) < 365) {
+                    $scope.birthDateRequiredMsq = 'birth date is required';
+                    return false;
+                } else {
+                    $scope.birthDateRequiredMsq = null;
+                }
+            }
+            
+            
             if ($rootScope.user.licenceStatus == 'demo' && $rootScope.clients.length > 0) {
                 functions.demoAlert('in demo version you can enter only one client');
                 return false;

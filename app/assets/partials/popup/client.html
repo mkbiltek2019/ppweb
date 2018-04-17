@@ -15,6 +15,7 @@
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>{{'first name' | translate}}</label>
                         <input ng-model="d.firstName" type="text" required>
+                        <span ng-if="firstNameRequiredMsq" class="text-danger">{{firstNameRequiredMsq | translate}}</span>
                     </md-input-container>
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>{{'last name' | translate}}</label>
@@ -25,6 +26,7 @@
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>{{'birth date' | translate}} *</label>
                         <md-datepicker ng-model="d.birthDate" md-current-view="year" md-open-on-focus></md-datepicker>
+                        <span ng-if="birthDateRequiredMsq" class="text-danger">{{birthDateRequiredMsq | translate}}</span>
                     </md-input-container>
                     <!--<span style="padding:20px">{{'gender' | translate}} *  </span>-->
                     <md-radio-group ng-model="d.gender.value" layout="column" flex-gt-sm>

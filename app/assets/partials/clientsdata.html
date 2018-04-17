@@ -41,70 +41,63 @@
     <div ng-if="client.clientId">
         <div>
             <md-input-container class="md-block" flex-gt-sm>
-                <label>{{'measurement date' | translate}}</label>
+                <label style="color:black">{{'measurement date' | translate}}</label>
                 <md-datepicker ng-model="clientData.date" md-open-on-focus ng-required="true"></md-datepicker>
             </md-input-container>
         </div>
         <div class="row">
             <div class="col-sm-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading"><i class="fa fa-male"></i> {{'anthropometric parameters' | translate}}</div>
-                    <div class="panel-body">
+                    <div class="p20">
                         <div class="row">
-                            <div class="col-md-offset-1 p20">
-                                <div class="row">
-                                    <span class="col-sm-6">*{{'height' | translate}} <em>(cm)</em>:</span>
-                                    <div class="col-sm-4">
-                                        <div class="input-group" style="width:160px">
-                                            <span class="input-group-addon pointer" ng-click="change(-1, 'height')">-</span>
-                                            <input type="number" ng-model="clientData.height" class="form-control" min="120" max="220" step="1" required>
-                                            <span class="input-group-addon pointer" ng-click="change(1, 'height')">+</span>
-                                        </div>
-                                    </div>
+                            <span class="col-sm-6">*{{'height' | translate}} <em>(cm)</em>:</span>
+                            <div class="col-sm-4">
+                                <div class="input-group" style="width:160px">
+                                    <span class="input-group-addon pointer" ng-click="change(-1, 'height')">-</span>
+                                    <input type="number" ng-model="clientData.height" class="form-control" min="120" max="220" step="1" required>
+                                    <span class="input-group-addon pointer" ng-click="change(1, 'height')">+</span>
                                 </div>
-                                <div class="row mt10">
-                                    <span class="col-sm-6">*{{'weight' | translate}} <em>(kg)</em>:</span>
-                                    <div class="col-sm-4">
-                                        <div class="input-group" style="width:160px">
-                                            <span class="input-group-addon pointer" ng-click="change(-1, 'weight')">-</span>
-                                            <input type="number" ng-model="clientData.weight" class="form-control" min="20" max="300" step="1" required>
-                                            <span class="input-group-addon pointer" ng-click="change(1, 'weight')">+</span>
-                                        </div>
-                                    </div>
+                            </div>
+                        </div>
+                        <div class="row mt10">
+                            <span class="col-sm-6">*{{'weight' | translate}} <em>(kg)</em>:</span>
+                            <div class="col-sm-4">
+                                <div class="input-group" style="width:160px">
+                                    <span class="input-group-addon pointer" ng-click="change(-1, 'weight')">-</span>
+                                    <input type="number" ng-model="clientData.weight" class="form-control" min="20" max="300" step="1" required>
+                                    <span class="input-group-addon pointer" ng-click="change(1, 'weight')">+</span>
                                 </div>
-                                <div class="row mt10">
-                                    <span class="col-sm-6">{{'waist' | translate}} <em>(cm)</em>:</span>
-                                    <div class="col-sm-4">
-                                        <div class="input-group" style="width:160px">
-                                            <span class="input-group-addon pointer" ng-click="change(-1, 'waist')">-</span>
-                                            <input type="number" ng-model="clientData.waist" class="form-control" min="80" max="220" step="1">
-                                            <span class="input-group-addon pointer" ng-click="change(1, 'waist')">+</span>
-                                        </div>
-                                    </div>
+                            </div>
+                        </div>
+                        <div class="row mt10">
+                            <span class="col-sm-6">{{'waist' | translate}} <em>(cm)</em>:</span>
+                            <div class="col-sm-4">
+                                <div class="input-group" style="width:160px">
+                                    <span class="input-group-addon pointer" ng-click="change(-1, 'waist')">-</span>
+                                    <input type="number" ng-model="clientData.waist" class="form-control" min="80" max="220" step="1">
+                                    <span class="input-group-addon pointer" ng-click="change(1, 'waist')">+</span>
                                 </div>
-                                <div class="row mt10">
-                                    <span class="col-sm-6">{{'hip' | translate}} <em>(cm)</em>:</span>
-                                    <div class="col-sm-4">
-                                        <div class="input-group" style="width:160px">
-                                            <span class="input-group-addon pointer" ng-click="change(-1, 'hip')">-</span>
-                                            <input type="number" ng-model="clientData.hip" class="form-control" min="80" max="220" step="1">
-                                            <span class="input-group-addon pointer" ng-click="change(1, 'hip')">+</span>
-                                        </div>
-                                    </div>
+                            </div>
+                        </div>
+                        <div class="row mt10">
+                            <span class="col-sm-6">{{'hip' | translate}} <em>(cm)</em>:</span>
+                            <div class="col-sm-4">
+                                <div class="input-group" style="width:160px">
+                                    <span class="input-group-addon pointer" ng-click="change(-1, 'hip')">-</span>
+                                    <input type="number" ng-model="clientData.hip" class="form-control" min="80" max="220" step="1">
+                                    <span class="input-group-addon pointer" ng-click="change(1, 'hip')">+</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
-            <div ng-if="config.debug" class="col-sm-6">
+            <!--<div ng-if="config.debug" class="col-sm-6">
                 <a href="assets/3d/body.html?bmi:25" target="_blank" class="btn btn-default"><span class="text-primary"><i class="fa fa-arrows-alt"></i> {{'full screen' | translate}}</span></a>
                 <div class="embed-responsive embed-responsive-16by9">
                     <iframe class="embed-responsive-item" src="assets/3d/body.html?bmi:25" allowfullscreen></iframe>
                 </div>
-            </div>
+            </div>-->
         </div>
-        <ul class="nav nav-tabs mt20">
+        <ul class="nav nav-tabs">
             <li ng-class="subTpl=='pal'?'active':''" ng-click="toggleSubTpl('pal')"><a href="#" ng-click="toggleSubTpl('pal')"><i class="fa fa-bicycle"></i> <span class="hidden-xs">{{'physical activity level' | translate}}</span></a></li>
             <li ng-class="subTpl=='detailCalculationOfEnergyExpenditure'?'active':''"><a href="#" ng-click="toggleSubTpl('detailCalculationOfEnergyExpenditure')"><i class="fa fa-info"></i> <span class="hidden-xs">{{'detail calculation of energy expenditure' | translate}}</span></a></li>
         </ul>
@@ -114,19 +107,16 @@
 
 <script type="text/ng-template" id="pal">
     <div class="row p20">
-        <div class="col-sm-4">
-            <md-input-container class="md-block" flex-gt-xs>
-                <label>{{'physical activity level' | translate}}</label>
-                <md-select ng-model="clientData.pal.value" ng-change="getPalDetails(clientData.pal.value)">
-                    <md-option ng-value="x.value" ng-repeat="x in pals">
-                        <md-checkbox ng-checked="x.value==clientData.pal.value" class="md-primary" aria-label="pal">{{x.title | translate}}</md-checkbox>
-                    </md-option>
-                </md-select>
-            </md-input-container>
+        <div class="col-sm-2">
+            <md-radio-group ng-model="clientData.pal.value" ng-change="getPalDetails(clientData.pal.value)">
+                <md-radio-button ng-repeat="x in pals" value="{{x.value}}" class="md-primary" >{{x.title | translate}}</md-radio-button>
+            </md-radio-group>
         </div>
-        <div ng-if="clientData.pal.value" class="col-sm-8 alert alert-success">
-            {{pal.description | translate}}.
-            <div><a href="#" ng-click="toggleSubTpl('detailCalculationOfEnergyExpenditure')"><i class="fa fa-info"></i> <span>{{'detail calculation' | translate}}</span></a></div>
+        <div ng-if="clientData.pal.value" class="col-sm-10 p20">
+            <div class="alert alert-success">
+                {{pal.description | translate}}.
+                <div><a href="#" ng-click="toggleSubTpl('detailCalculationOfEnergyExpenditure')"><i class="fa fa-info"></i> <span>{{'detail calculation' | translate}}</span></a></div>
+            </div>
         </div>
     </div>
 </script>

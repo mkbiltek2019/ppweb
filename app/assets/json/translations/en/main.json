@@ -1591,6 +1591,8 @@
   "recipes": "recipes",
   "enter recipe title": "enter recipe title",
   "you do not have any recipes": "you do not have any recipes",
-  "create recipe": "create recipe"
+  "create recipe": "create recipe",
+  "first name is required": "first name is required",
+  "birth date is required": "birth date is required"
 
 }
