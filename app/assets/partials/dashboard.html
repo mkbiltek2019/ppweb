@@ -13,7 +13,7 @@
             <li ng-if="showTabs()" ng-class="selectedNavItem=='menu'?'active':''"><a href="#" ng-click="toggleNewTpl('menu')"><i class="fa fa-cutlery"></i> <span class="hidden-xs text-uppercase">{{'menu' | translate}}</span></a></li>
             <li ng-if="showTabs()" ng-class="selectedNavItem=='print'?'active':''"><a href="#" ng-click="toggleNewTpl('print')"><i class="fa fa-print"></i> <span class="hidden-xs text-uppercase">{{'print' | translate}}</span></a></li>
             <li ng-if="showTabs()" ng-class="selectedNavItem=='myfoods'?'active':''"><a href="#" ng-click="toggleNewTpl('myfoods')"><i class="fa fa-apple"></i> <span class="hidden-xs text-uppercase">{{'my foods' | translate}}</span></a></li>
-            <li ng-if="showTabs() && config.debug" ng-class="selectedNavItem=='myrecipes'?'active':''"><a href="#" ng-click="toggleNewTpl('myrecipes')"><i class="fa fa-file-text-o"></i> <span class="hidden-xs text-uppercase">{{'my recipes' | translate}}</span></a></li>
+            <li ng-if="showTabs()" ng-class="selectedNavItem=='myrecipes'?'active':''"><a href="#" ng-click="toggleNewTpl('myrecipes')"><i class="fa fa-file-text-o"></i> <span class="hidden-xs text-uppercase">{{'my recipes' | translate}}</span></a></li>
             <li ng-if="showTabs()" ng-class="selectedNavItem=='prices'?'active':''"><a href="#" ng-click="toggleNewTpl('prices')"><i class="fa fa-usd"></i> <span class="hidden-xs text-uppercase">{{'prices' | translate}}</span></a></li>
         </ul>
     </div>
