@@ -2722,12 +2722,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     var openSendMenuPopupCtrl = function ($scope, $mdDialog, $http, d, $translate) {
         $scope.d = angular.copy(d);
      
-        var send = function () {
+        var send = function (x) {
             $mdDialog.hide();
             $http({
                 url: $sessionStorage.config.backend + 'Mail.asmx/SendMenu',
                 method: "POST",
-                data: { email: d.client.email, messageSubject: d.currentMenu.title, currentMenu: d.currentMenu }
+                data: { email: x.client.email, messageSubject: x.currentMenu.title, currentMenu: x.currentMenu }
             })
         .then(function (response) {
             functions.alert($translate.instant(response.data.d), '');
@@ -2741,8 +2741,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $mdDialog.cancel();
         };
 
-        $scope.confirm = function (x, saveasnew) {
-            send();
+        $scope.confirm = function (x) {
+            send(x);
         }
 
     };

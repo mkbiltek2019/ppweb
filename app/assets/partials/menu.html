@@ -3,20 +3,20 @@
         <div class="col-md-8">
             <div class="panel panel-default">
                 <div class="panel-heading text-capitalize">
-                        <a href="" class="btn btn-default" ng-click="new()"><i class="fa fa-file-o"></i> <span class="hidden-xs"> {{'new' | translate}}</span></a>
-                        <a href="" class="btn btn-default" ng-click="get()"><i class="fa fa-folder-open-o"></i> <span class="hidden-xs"> {{'open' | translate}}</span></a>
-                        <a href="" class="btn btn-default" ng-click="save()"><i class="fa fa-floppy-o"></i> <span class="hidden-xs">{{'save' | translate}}</span></a>
-                        <a ng-if="config.debug" href="" class="btn btn-default" ng-click="send()"><i class="fa fa-paper-plane-o"></i> <span class="hidden-xs">{{'send' | translate}}</span></a>
-                <span ng-if="config.debug">{{currentMenu.id}}</span>
+                    <a href="" class="btn btn-default" ng-click="new()"><i class="fa fa-file-o"></i> <span class="hidden-xs"> {{'new' | translate}}</span></a>
+                    <a href="" class="btn btn-default" ng-click="get()"><i class="fa fa-folder-open-o"></i> <span class="hidden-xs"> {{'open' | translate}}</span></a>
+                    <a href="" class="btn btn-default" ng-click="save()"><i class="fa fa-floppy-o"></i> <span class="hidden-xs">{{'save' | translate}}</span></a>
+                    <a href="" class="btn btn-default" ng-click="send()"><i class="fa fa-paper-plane-o"></i> <span class="hidden-xs">{{'send' | translate}}</span></a>
+                    <span ng-if="config.debug">{{currentMenu.id}}</span>
                 </div>
                 <div class="panel-body">
                     <div>
                         <div layout-gt-sm="row" style="height:60px; margin:0px">
-                            <md-input-container class="md-block" flex-gt-sm >
+                            <md-input-container class="md-block" flex-gt-sm>
                                 <label class="text-capitalize">{{'menu title' | translate}}</label>
                                 <input ng-model="currentMenu.title" type="text">
                             </md-input-container>
-                            <md-input-container class="md-block"  flex-gt-sm >
+                            <md-input-container class="md-block" flex-gt-sm>
                                 <label class="text-capitalize">{{'note' | translate}}</label>
                                 <input ng-model="currentMenu.note" type="text">
                             </md-input-container>
