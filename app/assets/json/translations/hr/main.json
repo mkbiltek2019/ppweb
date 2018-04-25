@@ -1593,7 +1593,9 @@
   "create recipe": "izradite recept",
   "first name is required": "ime je obavezno",
   "birth date is required": "datum rođenja je obavezan",
-  "description, recipe preparation": "opis, priprema recepta"
+  "description, recipe preparation": "opis, priprema recepta",
+  "menu title is required": "naziv jelovnika je obavezan",
+  "email is required": "email je obavezan"
 
 
 

@@ -2719,22 +2719,32 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
        });
     }
 
-    var openSendMenuPopupCtrl = function ($scope, $mdDialog, $http, d, $translate) {
+    var openSendMenuPopupCtrl = function ($scope, $mdDialog, $http, d, $translate, functions) {
         $scope.d = angular.copy(d);
-     
+
         var send = function (x) {
+            $scope.titlealert = null;
+            $scope.emailalert = null;
+            if (functions.isNullOrEmpty(x.currentMenu.title)) {
+                $scope.titlealert = $translate.instant('menu title is required');
+                return false;
+            }
+            if (functions.isNullOrEmpty(x.client.email)) {
+                $scope.emailalert = $translate.instant('email is required');
+                return false;
+            }
             $mdDialog.hide();
             $http({
                 url: $sessionStorage.config.backend + 'Mail.asmx/SendMenu',
                 method: "POST",
                 data: { email: x.client.email, messageSubject: x.currentMenu.title, currentMenu: x.currentMenu }
             })
-        .then(function (response) {
-            functions.alert($translate.instant(response.data.d), '');
-        },
-        function (response) {
-            functions.alert($translate.instant(response.data.d), '');
-        });
+            .then(function (response) {
+                functions.alert($translate.instant(response.data.d), '');
+            },
+            function (response) {
+                functions.alert($translate.instant(response.data.d), '');
+            });
         }
 
         $scope.cancel = function () {
@@ -2795,7 +2805,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     [t.servings.cerealsServ, t.servings.vegetablesServ, t.servings.fruitServ, t.servings.meatServ, t.servings.milkServ, t.servings.fatsServ],
                     [r.servings.cerealsServ, r.servings.vegetablesServ, r.servings.fruitServ, r.servings.meatServ, r.servings.milkServ, r.servings.fatsServ]
                 ],
-                [$translate.instant('carbohydrates'), $translate.instant('vegetables'), $translate.instant('fruit'), $translate.instant('meat'), $translate.instant('milk'), $translate.instant('fats')],
+                [$translate.instant('cereals'), $translate.instant('vegetables'), $translate.instant('fruit'), $translate.instant('meat'), $translate.instant('milk'), $translate.instant('fats')],
 
                // ['ugljikohidrati', 'povrče', 'voće', 'meso', 'mlijeko', 'masti'],
                 ['#45b7cd', '#33cc33', '#33cc33'],

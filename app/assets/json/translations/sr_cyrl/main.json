@@ -1588,7 +1588,9 @@
   "create recipe": "израдите рецепт",
   "first name is required": "име је обавезно",
   "birth date is required": "датум рођења је обавезан",
-  "description, recipe preparation": "опис, припрема рецепта"
+  "description, recipe preparation": "опис, припрема рецепта",
+  "menu title is required": "назив менија je обазвезан",
+  "email is required": "емаил je обазвезан"
 
 
 }

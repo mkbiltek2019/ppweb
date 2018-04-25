@@ -12,7 +12,8 @@
                 <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sx>
                         <label>{{'menu title' | translate}}</label>
-                        <input ng-model="d.currentMenu.title" type="text" maxlength="50" required>
+                        <input ng-model="d.currentMenu.title" type="text" maxlength="50">
+                        <div ng-if="titlealert" class="text-danger">{{titlealert}}</div>
                     </md-input-container>
                 </div>
                 <div layout-gt-sm="row">
@@ -25,11 +26,12 @@
                     <md-input-container class="md-block" flex-gt-sx>
                         <label>{{'client email' | translate}}...</label>
                         <input name="email" ng-model="d.client.email" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" />
+                        <div ng-if="emailalert" class="text-danger">{{emailalert}}</div>
                     </md-input-container>
                 </div>
                 <div class="row pull-right">
-                    <a href="" class="btn btn-primary" ng-click="confirm(d)">{{'send' | translate }}</a>
-                    <a href="" class="btn btn-primary" ng-click="cancel()">{{'cancel' | translate }}</a>
+                    <a href="" class="btn btn-primary" ng-click="confirm(d)"><i class="fa fa-paper-plane-o"></i> {{'send' | translate }}</a>
+                    <a href="" class="btn btn-primary" ng-click="cancel()"><i class="fa fa-close"></i> {{'cancel' | translate }}</a>
                 </div>
             </div>
         </md-dialog-content>

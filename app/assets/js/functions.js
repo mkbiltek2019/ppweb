@@ -27,6 +27,13 @@ angular.module('functions', [])
                     $rootScope.currTpl = './assets/partials/order.html';
                 }, function () {
                 });
+        },
+        'isNullOrEmpty': function (x) {
+            var res = false;
+            if (x === '' || x == undefined || x == null) {
+                res = true;
+            }
+            return res;
         }
     }
 }]);

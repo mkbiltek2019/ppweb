@@ -74,7 +74,7 @@
                                         <td colspan="3">
                                             <md-input-container class="md-block" flex-gt-sm>
                                                 <label>{{'thermal treatment' | translate}}...</label>
-                                                <md-select ng-model="thermalTreatment" ng-change="getThermalTreatment(food.thermalTreatments, thermalTreatment)">
+                                                <md-select ng-disabled="food.thermalTreatments.length==0" ng-model="thermalTreatment" ng-change="getThermalTreatment(food.thermalTreatments, thermalTreatment)">
                                                     <md-option ng-value="$index" ng-selected="x.isSelected" ng-repeat="x in food.thermalTreatments track by $index">
                                                         <md-checkbox ng-checked="$index==thermalTreatment" class="md-primary" aria-label="thermalTreatment">{{x.thermalTreatment.title}}</md-checkbox>
                                                     </md-option>
