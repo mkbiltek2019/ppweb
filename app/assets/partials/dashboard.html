@@ -1,7 +1,23 @@
 ﻿<div ng-controller="dashboardCtrl">
     <div ng-show="!client.clientId" ng-controller="clientsCtrl" class="text-center" style="padding:0; margin-top:150px">
-        <a href="" class="btn btn-default btn-lg" style="min-width:260px" ng-click="newClient()"><span class="text-primary text-uppercase"><i class="fa fa-user-plus"></i> <span>{{'new client' | translate}}</span></span></a>
-        <a href="" ng-show="clients.length>0" class="btn btn-default btn-lg m10" style="min-width:260px" ng-click="search()"><span class="text-primary text-uppercase"><i class="fa fa-search"></i> <span>{{'search clients' | translate}}</span></span></a>
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-2 p20">
+                <a href="" class="btn btn-default btn-lg btn-block" ng-click="newClient()">
+                    <div class="text-primary text-uppercase">
+                        <i class="fa fa-user-plus fa-3x"></i>
+                        <div>{{'new client' | translate}}</div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-sm-4 p20">
+                <a href="" ng-show="clients.length>0" class="btn btn-default btn-lg btn-block" ng-click="search()">
+                    <div class="text-primary text-uppercase">
+                        <i class="fa fa-search fa-3x"></i>
+                        <div>{{'search clients' | translate}}</div>
+                    </div>
+                </a>
+            </div>
+        </div>
     </div>
     <div ng-if="client.clientId" class="noprint">
         <ul class="nav nav-tabs">
