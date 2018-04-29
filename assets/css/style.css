@@ -53,6 +53,7 @@ body {
       padding: 0 0 15px 0;
       border: none;
       border-radius: 0;
+      min-height:420px;
   }
   .thumbnail img {
       width: 100%;
@@ -231,6 +232,10 @@ body {
 
 .m2 {
     margin:2px;
+}
+
+.mt10 {
+    margin-top: 10px;
 }
 
 
