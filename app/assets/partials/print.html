@@ -185,10 +185,8 @@
                        <a ng-click="printWeeklyMenu(pageSize, consumers, showQty, showMass, showDescription, orientation)" class="btn btn-default btn-block" download ng-disabled="creatingPdf==true"><span class="text-danger"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> <span>{{'create pdf' | translate}}</span></span></a>
                    </div>
                    <div class="col-sm-8 mt10">
-                       <a href="{{pdfLink}}" download>
-                           <div ng-if="pdfLink!=null" class="alert alert-success">
-                               <label><span><i class="fa fa-file-pdf-o"></i> <span>{{'download' | translate}} {{'PDF' | translate}}</span></span></label>
-                           </div>
+                       <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success btn-block" download>
+                           <i class="fa fa-file-pdf-o"></i> {{'download' | translate}} {{'PDF' | translate}}
                        </a>
                    </div>
                </div>

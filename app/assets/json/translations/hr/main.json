@@ -1595,7 +1595,9 @@
   "birth date is required": "datum rođenja je obavezan",
   "description, recipe preparation": "opis, priprema recepta",
   "menu title is required": "naziv jelovnika je obavezan",
-  "email is required": "email je obavezan"
+  "email is required": "email je obavezan",
+  "landscape": "horizontalno",
+  "portrait": "vertikalno"
 
 
 

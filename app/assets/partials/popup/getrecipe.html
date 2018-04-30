@@ -15,7 +15,7 @@
                 {{'you do not have any recipes' | translate}}
             </div>
         </div>
-        <div class="text-right">
+        <div class="text-right text-capitalize">
             <a href="" class="btn btn-primary" ng-click="toogleMyRecipeTpl()"><i class="fa fa-file-text-o"></i> {{'create recipe' | translate}}</a>
         </div>
         <div ng-if="d.length>0" ng-show="!loading" class="md-dialog-content">
@@ -34,18 +34,21 @@
                         </span>
                     </div>
                 </div>
+                <div class="col-sm-12 pt10">
+                    <md-checkbox ng-model="showDescription" class="md-primary">
+                        {{'show description' | translate}}
+                    </md-checkbox>
+                </div>
             </div>
-            <div class="mt10">
+            <div class="table-responsive mt10">
                 <table ng-if="appRecipes==false" class="table table-hover table-condensed">
                     <tr>
                         <th>{{'title' | translate}}</th>
-                        <th>{{'description'| translate}}</th>
-                        <!--<th>{{'energy'| translate}}</th>-->
+                        <th class="text-right">{{'energy'| translate}}</th>
                     </tr>
-                    <tr ng-repeat="x in d | filter:searchValue" ng-click="confirm(x)">
+                    <tr ng-repeat="x in d | filter:searchValue" ng-click="confirm(x, showDescription)">
                         <td class="novrap">{{x.title}}</td>
-                        <td>{{x.description}}</td>
-                        <!--<td class="novrap"><span ng-if="x.energy>0">{{x.energy | number:0}} {{'kcal' | translate}}</span></td>-->
+                        <td class="novrap text-right"><span ng-if="x.energy>0">{{x.energy | number:0}} {{'kcal' | translate}}</span></td>
                     </tr>
                 </table>
                 <table ng-if="appRecipes==true" class="table table-hover table-condensed">

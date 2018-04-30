@@ -286,6 +286,7 @@ angular.module('app', [])
         $scope.showInvoices = false;
         $scope.total = 0;
         $scope.year = new Date().getFullYear();
+        $scope.isForeign = false;
     }
     initForm();
 
@@ -365,7 +366,7 @@ angular.module('app', [])
         $rootScope.i.items.splice(idx, 1);
     }
 
-    $scope.createPdf = function (i) {
+    $scope.createPdf = function (i, isForeign) {
         if ($rootScope.i.firstName == null && $rootScope.i.lastName == null && $rootScope.i.companyName == null) {
             alert('Upiši ime ili naziv');
             return false;
@@ -380,7 +381,7 @@ angular.module('app', [])
         $http({
             url: $rootScope.config.backend + 'PrintPdf.asmx/InvoicePdf',
             method: 'POST',
-            data: { invoice: i }
+            data: { invoice: i, isForeign: isForeign }
         })
      .then(function (response) {
          $scope.loading = false;

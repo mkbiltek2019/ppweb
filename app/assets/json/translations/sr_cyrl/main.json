@@ -1590,7 +1590,9 @@
   "birth date is required": "датум рођења је обавезан",
   "description, recipe preparation": "опис, припрема рецепта",
   "menu title is required": "назив менија je обазвезан",
-  "email is required": "емаил je обазвезан"
+  "email is required": "емаил je обазвезан",
+  "landscape": "хоризонтално",
+  "portrait": "вертикално"
 
 
 }

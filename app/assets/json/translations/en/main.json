@@ -1596,6 +1596,8 @@
   "birth date is required": "birth date is required",
   "description, recipe preparation": "description, recipe preparation",
   "menu title is required": "menu title is required",
-  "email is required": "email is required"
+  "email is required": "email is required",
+  "landscape": "landscape",
+  "portrait": "portrait"
 
 }

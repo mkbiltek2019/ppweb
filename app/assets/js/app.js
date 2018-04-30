@@ -3421,6 +3421,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.appRecipes = false;
         $scope.toTranslate = false;
         $scope.toLanguage = '';
+        $scope.showDescription = true;
 
         var load = function () {
             $scope.loading = true;
@@ -3488,7 +3489,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             get(x);
         }
 
-        var get = function (x) {
+        var get = function (x, showDescription) {
             $http({
                 url: $sessionStorage.config.backend + 'Recipes.asmx/Get',
                 method: "POST",
@@ -3496,11 +3497,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             })
             .then(function (response) {
                 $scope.recipe = JSON.parse(response.data.d);
-                angular.forEach($rootScope.currentMenu.data.meals, function (value, key) {
-                    if (value.code == $rootScope.currentMeal) {
-                        value.description = value.description == '' ? $scope.recipe.description : value.description + '\n' + $scope.recipe.description;
-                    }
-                });
+                if (showDescription == true) {
+                    angular.forEach($rootScope.currentMenu.data.meals, function (value, key) {
+                        if (value.code == $rootScope.currentMeal) {
+                            value.description = value.description == '' ? $scope.recipe.description : value.description + '\n' + $scope.recipe.description;
+                        }
+                    });
+                }
                 $mdDialog.hide($scope.recipe);
             },
             function (response) {
@@ -3541,8 +3544,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             });
         }
 
-        $scope.confirm = function (x) {
-            $scope.appRecipes == true ? getAppRecipes(x) : get(x);
+        $scope.confirm = function (x, showDescription) {
+            $scope.appRecipes == true ? getAppRecipes(x) : get(x, showDescription);
         }
 
         $scope.setToTranslate = function (x) {

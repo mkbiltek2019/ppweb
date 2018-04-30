@@ -428,10 +428,13 @@
                         </div>
                         <div style="margin-bottom:100px">
                             <div class="row m10">
-                                <div class="col-sm-4">
-                                    <a href="" class="btn btn-danger btn-block" ng-click="createPdf(i)"><i class="fa fa-{{loading==true?'spinner fa-spin':'file-pdf-o'}}"></i> Kreiraj PDF</a>
-                                </div>
                                 <div class="col-sm-8">
+                                    <div class="checkbox"><label><input ng-model="isForeign" type="checkbox" /> Inozemni račun</label></div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <a href="" class="btn btn-danger btn-block" ng-click="createPdf(i, isForeign)"><i class="fa fa-{{loading==true?'spinner fa-spin':'file-pdf-o'}}"></i> Kreiraj PDF</a>
+                                </div>
+                                <div class="col-sm-12">
                                     <a ng-if="pdfTempLink" href="{{pdfTempLink}}" download><i class="fa fa-file-pdf-o"></i> {{pdfTempLink}}</a>
                                 </div>
                             </div>
