@@ -1,6 +1,6 @@
-﻿Korisnička licenca
+﻿**************** KORISNIČKA LICENCA ****************
 
-KORISNIČKA LICENCA definira prava KORISNIKA koja se odnose na upotrebu WEB APLIKACIJE PROGRAM PREHRANE WEB, ćiji je nositelj autorskih prava IG PROG, obrt za računalno programiranje, vl. Igor Gašparović (VLASNIK).
+KORISNIČKA LICENCA definira prava KORISNIKA koja se odnose na upotrebu WEB APLIKACIJE PROGRAM PREHRANE WEB (https://www.programprehrane.com/app), ćiji je nositelj autorskih prava IG PROG, obrt za računalno programiranje, vl. Igor Gašparović (VLASNIK).
 Predmetna licenca nije ekskluzivna, odnosno KORISNIKU daje samo točno definirana prava, ovdje opisana.
 PROGRAM PREHRANE WEB je WEB APLIKACIJA za izradu uravnoteženih jelovnika i plana tjelesne aktivnosti.
 Registracijom i uporabom WEB APLIKACIJE KORISNIK se obvezuje poštivati odredbe koje određuje KORISNIČKA LICENCA. PROGRAM PREHRANE WEB je kao autorski rad s podrućja intelektualnog vlasništva zaštićn Zakonom o zaštiti autorskih prava i međunarodnim ugovorima o autorskim pravima, te Kaznenim zakonom RH.
@@ -31,6 +31,26 @@ U slućaju da VLASNIK ne otkloni GREŠKU i ako ista u znatnoj mjeri utjeće na f
     
 Dodatne odredbe
 
+Način zaštite povjerljivih podataka i Izjava o prikupljanju i korištenju osobnih podataka
+
+Kako bi mogli korisniti WEB PLIKAIJCU sa nama dijelite povjerljive informacije. Povjerljive informacije mogu uključivati: Vaše ime i prezime, naziv tvrtke, OIB tvrtke, adresu, broJ telefona, adresU elektroničke pošte, lozinke i ostale podatke koje podijelite sa nama. VLASNIK se obavezuje čuvati vaše podatke tajnima.
+VLASNIK nikada neće dijeliti vaše podatke sa trećom stranom. VLASNIK može koristiti vaše podatke za slanje promotivnih materijala, ali isključivo sa vašim prethodnim odobrenjem.
+Vaše podatke sigurno spremamo u našu bazu podataka te koristimo sve dostupne tehnologije kako bi vaši podaci ostali sačuvani.
+Kupac ima pravo da u svakom trenutku zatraži prestanak obrade svojih korisničkih podataka od strane VLASNIK-a.
+VLASNIK će zatim u cijelosti prestati sa obradom korisničkih podataka i ukloniti korisnika iz baze podataka.
+KORINIK može na vlastiti zahtjev zatražiti brisanje svojih osobnih podataka iz baze VLASNIK-a trgovine putem naših web stranica, telefonskim putem ili putem e-maila.
+Prilikom registracije na www.programprehrane.com biti ćete dužni kreirati lozinku koju morate zadržati samo za sebe i ne dijeliti je s drugim osobama.
+Preporučujemo da koristite jedinstvenu lozinku za pristup našem sustavu. Ako znate ili sumnjate da još netko zna Vašu lozinku, ljubazno Vas molimo da nas kontaktirate putem e-maila program.prehrane@yahoo.com, a kako bismo Vam dali upute za izmjenu Vaše lozinke.
+Ukoliko postoji bilo kakva sumnja da postoji propust u sigurnosti, VLASNIK ima pravo od Vas tražiti da promijenite lozinku ili može blokirati Vaš korisnički račun. Sve stranice i podstranice programprehrane.com na kojima se vrši razmjena povjerljivih podataka (lozinka, plaćanje putem interneta..) zaštićene su uporabom SSL sigurnosnog protokola.
+SSL enkripcija je standardna tehnologija zaštite podataka koja omogućava sigurnu razmjenu podataka između Vašeg preglednika i stranica programprehrane.com.
+Ukoliko postoji bilo kakva sumnja da postoji propust u sigurnosti ili su tajni korisnički podaci ugroženi, VLANIK je dužan obavjestiti registrirane korisnike o tim događajima u roku od 48h.
+
+Vaši osobni podaci
+Vašu e-adresu i ostale podatke ne prodajemo, ne iznajmljujemo i ne stavljamo trećim pravnim i fizičkim osobama na raspolaganje bez vašeg pristanka jer je to protivno našoj politici o privatnosti.
+VLASNIK se drži stroge politike »no spam«. VLASNIK ne odgovara za slučajnu pogrešku ili pogrešku zbog više sile ili drugih objektivnih okolnosti kojima se uzrokuje slučajno kršenje zajamčene zaštite vaših podataka, ali jamči da će pogreška biti otklonjena, ako je to moguće, čim prije.
+Prikupljamo samo one osobne podatke koji su nam dobrovoljno dostavljeni. Ne zahtijevamo od vas da nam pošaljete te podatke kako bismo vam omogućili pristup na svoje stranice i ne tražimo da otkrijete više podataka no što je doista potrebno za sudjelovanje u nekoj aktivnosti na našim stranicama.
+Ako imate bilo kakva pitanja ili dvojbe u vezi s našom Politikom zaštite osobnih podataka i Općim uvjetima, ili u vezi sa svojim iskustvima s ovom internetskom adresom, molimo vas da nam se javite.
+
 Osvježavanje
 
 OSVJEŽAVANJE je zamjena (nadogradnja) starih verzija izvršnih datoteka, eventualnih podataka, te eventualnog izvornog koda SOFTWARE-a s OSVJEŽENIM VERZIJAMA, koje nadomještaju ili dopunjavaju licencirani PROGRAMSKI PAKET i za njih pridobivene licence su u skladu s odredbama VLASNIKA.
@@ -48,7 +68,7 @@ Ograničena garancija
 
 VLASNIK jamči da:
 
-RAČUNALNI PROGRAM djeluje u okviru specifikacija i namjene programa, na naćin koji je sa strane VLASNIKA opisan u uputstvima za upotrebu, U slučaju otkrića GREŠKE, računa se da je VLASNIK omogućio njeno otklanjanje samim omogućavanjem besplatnog osvježavanja.
+WEB APLIKACIJA djeluje u okviru specifikacija i namjene programa, na naćin koji je sa strane VLASNIKA opisan u uputstvima za upotrebu, U slučaju otkrića GREŠKE, računa se da je VLASNIK omogućio njeno otklanjanje samim omogućavanjem besplatnog osvježavanja.
 
 Ograničenje i isključenje odgovornosti, NAKNADA ŠTETE
 
@@ -65,6 +85,7 @@ Bez odgovornosti za štetu
 
 U svakom slućaju, VLASNIK i njegovi dobavljaći, te su-ugovorne strane, sukladno odredbama Zakona, iskljućuju svaku odgovornost za štetu (uključno, a ne ograničeno s nastalom poslovnom štetom, gubitkom dobiti, prekidom poslovanja, gubitkom poslovnih podataka i slićno) nastalu s ili iz upotrebe WEB APLIKACIJE, te za bilo kakvu drugu poslovnu, neposlovnu, neposrednu ili posrednu imovinsku ili neimovinsku štetu, koja može nastati korisniku i/ili trečim osobama.
 
-Nadležnost
 
-U sluèaju spora u vezi s pravima iz ove KORISNIČKE LICENCE, nadležan je trgovački sud u Rijeci.
+
+**************** IG PROG, obrt za računalno programiranje | www.programprehrane.com ****************
+
