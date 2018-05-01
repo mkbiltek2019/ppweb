@@ -275,6 +275,19 @@ angular.module('app', [])
 }])
 
 .controller('invoiceCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
+    $scope.getTotal = function (x) {
+        var total = 0;
+        angular.forEach(x, function (value, key) {
+            total += value.unitPrice * value.qty;
+        })
+        $scope.total = total;
+        return total;
+    }
+    //if (angular.isDefined($rootScope.i)) {
+    //    $scope.getTotal($rootScope.i.items);
+    //}
+
+
     var initForm = function () {
         $scope.isInvoice = false;
         $scope.pdfTempLink = null;
@@ -284,9 +297,10 @@ angular.module('app', [])
         $scope.loading_2 = false;
         $scope.invoices = [];
         $scope.showInvoices = false;
-        $scope.total = 0;
+        $scope.total = angular.isDefined($rootScope.i) ? $scope.getTotal($rootScope.i.items) : 0;
         $scope.year = new Date().getFullYear();
         $scope.isForeign = false;
+        //$scope.totPrice_eur = 0;
     }
     initForm();
 
@@ -325,6 +339,7 @@ angular.module('app', [])
     $scope.get = function (x) {
         $scope.showInvoices = false;
         $rootScope.i = x;
+        $scope.getTotal($rootScope.i.items);
     }
 
     $scope.copy = function (x) {
@@ -347,6 +362,7 @@ angular.module('app', [])
          $rootScope.i.pin = x.pin;
          $rootScope.i.note = x.note;
          $rootScope.i.items = x.items;
+         $scope.getTotal($rootScope.i.items);
      },
      function (response) {
          alert(response.data.d);
@@ -360,13 +376,16 @@ angular.module('app', [])
             qty: 1,
             unitPrice: 0
         })
+        $scope.getTotal($rootScope.i.items);
     }
 
     $scope.remove = function (idx) {
         $rootScope.i.items.splice(idx, 1);
+        $scope.getTotal($rootScope.i.items);
     }
 
-    $scope.createPdf = function (i, isForeign) {
+    $scope.totPrice_eur = 0;
+    $scope.createPdf = function (i, isForeign, totPrice_eur) {
         if ($rootScope.i.firstName == null && $rootScope.i.lastName == null && $rootScope.i.companyName == null) {
             alert('Upiši ime ili naziv');
             return false;
@@ -381,7 +400,7 @@ angular.module('app', [])
         $http({
             url: $rootScope.config.backend + 'PrintPdf.asmx/InvoicePdf',
             method: 'POST',
-            data: { invoice: i, isForeign: isForeign }
+            data: { invoice: i, isForeign: isForeign, totPrice_eur: totPrice_eur }
         })
      .then(function (response) {
          $scope.loading = false;
@@ -437,15 +456,6 @@ angular.module('app', [])
          $scope.loading_2 = false;
          alert(response.data.d);
      });
-    }
-
-    $scope.getTotal = function (x) {
-        var total = 0;
-        angular.forEach(x, function (value, key) {
-            total += value.unitPrice * value.qty;
-        })
-        $scope.total = total;
-        return total;
     }
 
     $scope.setPaidAmount = function (x) {

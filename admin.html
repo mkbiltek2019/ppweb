@@ -62,7 +62,7 @@
                 <div class="col-sm-4">
                     <div class="input-group" style="margin:5px 0px 0px 0px">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input ng-init="user.username='igprog@yahoo.com'" ng-model="user.username" type="text" class="form-control" name="email" placeholder="Email">
+                        <input ng-model="user.username" type="text" class="form-control" name="email" placeholder="Email">
                     </div>
                     <div class="input-group" style="margin:5px 0px 0px 0px">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
@@ -399,14 +399,14 @@
                                 </tr>
                                 <tr ng-repeat="x in i.items">
                                     <td><a href="" class="btn btn-danger" ng-click="remove($index)"><i class="fa fa-minus"></i></a></td>
-                                    <td><input ng-model="x.title" type="text" class="form-control" /></td>
-                                    <td><input ng-model="x.qty" type="number" min="0" class="form-control" /></td>
-                                    <td><input ng-model="x.unitPrice" type="text" class="form-control text-right" /></td>
+                                    <td><input ng-model="x.title" type="text" class="form-control" ng-change="getTotal(i.items)" /></td>
+                                    <td><input ng-model="x.qty" type="number" min="0" class="form-control" ng-change="getTotal(i.items)" /></td>
+                                    <td><input ng-model="x.unitPrice" type="text" class="form-control text-right" ng-change="getTotal(i.items)" /></td>
                                 </tr>
                                 <tr>
                                     <td><a href="" class="btn btn-success" ng-click="add()"><i class="fa fa-plus"></i></a></td>
                                     <td colspan="2" class="text-right">Ukupno:</td>
-                                    <td><input ng-model="getTotal(i.items)" type="text" class="form-control text-right" readonly /></td>
+                                    <td><input ng-model="total" type="text" class="form-control text-right" readonly /></td>
                                 </tr>
                             </table>
                         </div>
@@ -427,16 +427,20 @@
                             </div>
                         </div>
                         <div style="margin-bottom:100px">
-                            <div class="row m10">
+                            <div class="checkbox">
+                                <label><input ng-model="isForeign" type="checkbox" /> Inozemni račun</label>
+                            </div>
+                            <div ng-show="isForeign" class="row well">
+                                <span class="col-sm-4" for="email">Ukupno (€): {{totPrice_eur}}</span>
                                 <div class="col-sm-8">
-                                    <div class="checkbox"><label><input ng-model="isForeign" type="checkbox" /> Inozemni račun</label></div>
+                                    <input ng-model="totPrice_eur" class="form-control" tyoe="number" />
                                 </div>
-                                <div class="col-sm-4">
-                                    <a href="" class="btn btn-danger btn-block" ng-click="createPdf(i, isForeign)"><i class="fa fa-{{loading==true?'spinner fa-spin':'file-pdf-o'}}"></i> Kreiraj PDF</a>
-                                </div>
-                                <div class="col-sm-12">
-                                    <a ng-if="pdfTempLink" href="{{pdfTempLink}}" download><i class="fa fa-file-pdf-o"></i> {{pdfTempLink}}</a>
-                                </div>
+                            </div>
+                            <div>
+                                <a href="" class="btn btn-danger" ng-click="createPdf(i, isForeign, totPrice_eur)"><i class="fa fa-{{loading==true?'spinner fa-spin':'file-pdf-o'}}"></i> Kreiraj PDF</a>
+                            </div>
+                            <div class="m10">
+                                <a ng-if="pdfTempLink" href="{{pdfTempLink}}" download><i class="fa fa-file-pdf-o"></i> {{pdfTempLink}}</a>
                             </div>
                             <div class="row m10">
                                 <div class="col-sm-4">

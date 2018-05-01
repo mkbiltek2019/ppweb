@@ -669,9 +669,9 @@ public class PrintPdf : System.Web.Services.WebService {
     }
     
     [WebMethod]
-    public string InvoicePdf(Invoice.NewInvoice invoice, bool isForeign) {
+    public string InvoicePdf(Invoice.NewInvoice invoice, bool isForeign, double totPrice_eur) {
         try {
-            normalFont_8_italic.SetColor(249, 144, 57);
+            normalFont_8_italic.SetColor(255, 122, 56);
             Paragraph p = new Paragraph();
             var doc = new Document();
             string path = Server.MapPath("~/upload/invoice/temp/");
@@ -719,31 +719,22 @@ IBAN HR8423400091160342496
 
             doc.Add(new Paragraph(client, normalFont_10));
 
-            //doc.Add(new Paragraph("RAČUN R2", normalFont_12));
             p = new Paragraph();
             p.Add(new Chunk("RAČUN R2", normalFont_12));
             if (isForeign) { p.Add(new Chunk(" / INVOICE", normalFont_8_italic)); }
             doc.Add(p);
-            //  doc.Add(new Paragraph("RAČUN R2", normalFont_12).Add(new Chunk("ljlkj")));
-            //  if (isForeign) { doc.Add(new Paragraph("INVOICE", normalFont_8_italic)); }   
 
             p = new Paragraph();
             p.Add(new Chunk("Obračun prema naplaćenoj naknadi", normalFont_italic));
             if (isForeign) { p.Add(new Chunk(" / calculation according to a paid compensation", normalFont_8_italic)); }
             doc.Add(p);
-            //doc.Add(new Paragraph("Obračun prema naplaćenoj naknadi", normalFont_italic));
 
-            //    p.Add(new Chunk("- " + f.food, normalFont));
-
-
-            //doc.Add(new Paragraph(string.Format("Broj računa: {0}/1/1", invoice.number) , normalFont));
             p = new Paragraph();
             p.Add(new Chunk("Broj računa", normalFont));
             if (isForeign) { p.Add(new Chunk(" / invoice number", normalFont_8_italic)); }
-            p.Add(new Chunk(string.Format(": {0}/1/1", invoice.number), normalFont_10));
-           // p.Add(new Chunk("Obračun prema naplaćenoj naknadi", normalFont_italic));
+            p.Add(new Chunk(":", isForeign ? normalFont_8_italic : normalFont_10));
+            p.Add(new Chunk(string.Format(" {0}/1/1", invoice.number), normalFont_10));
             doc.Add(p);
-
 
             PdfPTable table = new PdfPTable(5);
 
@@ -772,15 +763,6 @@ IBAN HR8423400091160342496
             if (isForeign) { p.Add(new Chunk("total", normalFont_8_italic)); }
             table.AddCell(new PdfPCell(p) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
 
-
-
-            //table.AddCell(new PdfPCell(new Phrase("Redni broj", normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
-            //table.AddCell(new PdfPCell(new Phrase("Naziv proizvoda / usluge", normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15,  });
-            //table.AddCell(new PdfPCell(new Phrase("Količina", normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
-            //table.AddCell(new PdfPCell(new Phrase("Jedinična cijena", normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
-            //table.AddCell(new PdfPCell(new Phrase("Ukupno", normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
-
-
             int row = 0;
             double totPrice = 0;
             foreach (Invoice.Item item in invoice.items) {
@@ -798,28 +780,60 @@ IBAN HR8423400091160342496
             table.AddCell(new PdfPCell(new Phrase("Ukupan iznos računa: ", normalFont_10)) { Border = PdfPCell.TOP_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 10, Colspan = 2, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
             table.AddCell(new PdfPCell(new Phrase(string.Format("{0} kn", string.Format("{0:N}", totPrice)), normalFont_10_bold)) { Border = PdfPCell.TOP_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
 
+            if (isForeign) {
+                table.AddCell(new PdfPCell(new Phrase("", normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 2 });
+                table.AddCell(new PdfPCell(new Phrase("", normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 2 });
+                table.AddCell(new PdfPCell(new Phrase("Total: ", normalFont_8_italic)) { Border = PdfPCell.NO_BORDER, Padding = 2, Colspan = 2, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+                table.AddCell(new PdfPCell(new Phrase(string.Format("{0} €", string.Format("{0:N}", totPrice_eur)), normalFont_10_bold)) { Border = PdfPCell.NO_BORDER, Padding = 2, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+            }
+
+
             table.WidthPercentage = 100f;
             float[] widths = new float[] { 1f, 3f, 1f, 1f, 1f };
             table.SetWidths(widths);
             doc.Add(table);
 
-            doc.Add(new Paragraph("PDV nije obračunat jer obveznik IG PROG nije u sustavu PDV-a po čl. 90, st. 1. Zakona o porezu na dodanu vrijednost.", normalFont_italic));
+            p = new Paragraph();
+            p.Add(new Chunk("PDV nije obračunat jer obveznik IG PROG nije u sustavu PDV - a po čl. 90, st. 1.Zakona o porezu na dodanu vrijednost.", normalFont_italic));
+            if (isForeign) { p.Add(new Chunk(" / VAT is not charged because taxpayer IG PROG is not registerd for VAT under Art 90, para 1 of the Law om VAT.", normalFont_8_italic)); }
+            doc.Add(p);
 
             PdfPTable invoiceInfo_table = new PdfPTable(2);
-            invoiceInfo_table.AddCell(new PdfPCell(new Phrase("Datum i vrijeme:", normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 20 });
+
+            p = new Paragraph();
+            p.Add(new Chunk("Datum i vrijeme", normalFont));
+            if (isForeign) { p.Add(new Chunk(" / date and time", normalFont_8_italic)); }
+            p.Add(new Chunk(":", isForeign ? normalFont_8_italic : normalFont_10));
+            invoiceInfo_table.AddCell(new PdfPCell(p) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 20 });
             invoiceInfo_table.AddCell(new PdfPCell(new Phrase(invoice.dateAndTime, normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 20, });
 
-            invoiceInfo_table.AddCell(new PdfPCell(new Phrase("Oznaka operatera:", normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 5 });
+            p = new Paragraph();
+            p.Add(new Chunk("Oznaka operatera", normalFont));
+            if (isForeign) { p.Add(new Chunk(" / operator", normalFont_8_italic)); }
+            p.Add(new Chunk(":", isForeign ? normalFont_8_italic : normalFont_10));
+            invoiceInfo_table.AddCell(new PdfPCell(p) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 5 });
             invoiceInfo_table.AddCell(new PdfPCell(new Phrase("IG", normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 5, });
 
-            invoiceInfo_table.AddCell(new PdfPCell(new Phrase("Način plaćanja:", normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 5 });
-            invoiceInfo_table.AddCell(new PdfPCell(new Phrase("Transakcijski račun", normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 5, });
+            p = new Paragraph();
+            p.Add(new Chunk("Način plaćanja", normalFont));
+            if (isForeign) { p.Add(new Chunk(" / payment method", normalFont_8_italic)); }
+            p.Add(new Chunk(":", isForeign ? normalFont_8_italic : normalFont_10));
+            invoiceInfo_table.AddCell(new PdfPCell(p) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 5 });
+            p = new Paragraph();
+            p.Add(new Chunk("Transakcijski račun", normalFont));
+            if (isForeign) { p.Add(new Chunk(" / transaction occount", normalFont_8_italic)); }
+            invoiceInfo_table.AddCell(new PdfPCell(p) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 5, });
 
-            invoiceInfo_table.AddCell(new PdfPCell(new Phrase("Mjesto isporuke:", normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 0,  PaddingTop = 5 });
+            p = new Paragraph();
+            p.Add(new Chunk("Mjesto isporuke", normalFont));
+            if (isForeign) { p.Add(new Chunk(" / place of issue", normalFont_8_italic)); }
+            p.Add(new Chunk(":", isForeign ? normalFont_8_italic : normalFont_10));
+            invoiceInfo_table.AddCell(new PdfPCell(p) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 5 });
             invoiceInfo_table.AddCell(new PdfPCell(new Phrase("Rijeka", normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 5, });
 
             invoiceInfo_table.WidthPercentage = 100f;
             float[] invoiceInfo_widths = new float[] { 1f, 4f };
+            if(isForeign) { invoiceInfo_widths = new float[] { 2f, 4f }; }
             invoiceInfo_table.SetWidths(invoiceInfo_widths);
             doc.Add(invoiceInfo_table);
 
@@ -838,6 +852,7 @@ IBAN HR8423400091160342496
                 doc.Add(title);
                 spacing = spacing - 40f;
             }
+            if(isForeign) { spacing = spacing - 40f; }
 
             PdfPTable sign_table = new PdfPTable(2);
             sign_table.SpacingBefore = spacing;
