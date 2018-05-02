@@ -544,7 +544,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + webService + '/GetSchedulerByRoom',
             method: 'POST',
-            data: { userId: $rootScope.user.userId, room: $scope.room }
+            data: { userGroupId: $rootScope.user.userGroupId, userId: $rootScope.user.userId, room: $scope.room }
         })
        .then(function (response) {
 
@@ -605,29 +605,35 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     var addEvent = function (x, event) {
         $rootScope.events.push({
             //'yuid': event.details[0].newSchedulerEvent._yuid,
-            'room': $scope.room,
-            'clientId': '0',  // << TODO
-            'content': event.details[0].newSchedulerEvent.changed.content,
-            'endDate': x.endDate,
-            'startDate': x.startDate,
+            //'room': $scope.room,
+            //'clientId': '0',  // << TODO
+            //'content': event.details[0].newSchedulerEvent.changed.content,
+            //'endDate': x.endDate,
+            //'startDate': x.startDate,
+
+            room: $scope.room,
+            clientId: angular.isDefined($rootScope.client) ? $rootScope.client.clientId : null, //  null,  // << TODO
+            content: event.details[0].newSchedulerEvent.changed.content,
+            endDate: x.endDate,
+            startDate: x.startDate,
+            userId: $rootScope.user.userId
             
         });
         var eventObj = {};
         eventObj.room = $scope.room;
-        eventObj.clientId = '0';
+        eventObj.clientId = angular.isDefined($rootScope.client) ? $rootScope.client.clientId : null;
         eventObj.content = event.details[0].newSchedulerEvent.changed.content == null ? x.content : event.details[0].newSchedulerEvent.changed.content;
         eventObj.endDate = x.endDate;
         eventObj.startDate = x.startDate;
-
+        eventObj.userId = $rootScope.user.userId;
         saveEvent(eventObj);
-
     }
 
     var saveEvent = function (x) {
         $http({
             url: $sessionStorage.config.backend + webService + '/Delete', // '../Scheduler.asmx/Delete',
             method: "POST",
-            data: { userId: $rootScope.user.userId, x: x }  // '{x:' + JSON.stringify(x) + '}'
+            data: { userGroupId: $rootScope.user.userGroupId, userId: $rootScope.user.userId, x: x }  // '{x:' + JSON.stringify(x) + '}'
         })
         .then(function (response) {
             save(x);
@@ -641,7 +647,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + webService + '/Save',
             method: "POST",
-            data: { userId: $rootScope.user.userId, x: x }
+            data: { userGroupId: $rootScope.user.userGroupId, userId: $rootScope.user.userId, x: x }
         })
         .then(function (response) {
         },
@@ -657,6 +663,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         eventObj.content = x.content;
         eventObj.endDate = x.endDate;
         eventObj.startDate = x.startDate;
+        eventObj.userId = $rootScope.user.userId;
         remove(eventObj);
     }
 
@@ -664,15 +671,20 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + webService + '/Delete',
             method: "POST",
-            data: { userId: $rootScope.user.userId, x: x }
+            data: { userGroupId: $rootScope.user.userGroupId, userId: $rootScope.user.userId, x: x }
         })
         .then(function (response) {
-            $scope.getSchedulerByRoom();
+            alert(response.data.d);
+           // $scope.getSchedulerByRoom();
         },
         function (response) {
-            alert(response.data.d)
+            alert(response.data.d);
         });
     }
+
+    $scope.toggleTpl = function (x) {
+        $rootScope.currTpl = './assets/partials/' + x;
+    };
 
 }])
 

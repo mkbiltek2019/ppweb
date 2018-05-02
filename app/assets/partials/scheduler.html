@@ -1,17 +1,20 @@
 ﻿<div class="" ng-controller="schedulerCtrl">
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-sm-6">
             <h3 class="page-header">Kalendar</h3>
         </div>
+        <div class="col-sm-6 text-right">
+            <a href=""  class="btn btn-default" ng-click="toggleTpl('dashboard.html')"><i class="fa fa-dashboard"></i> {{'application' | translate}}</a>
+        </div>
     </div>
-    <md-input-container>
+    <!--<md-input-container>
         <label>Odjeljenje</label>
-        <!--<md-select ng-model="room" ng-change="getSchedulerByRoom()" >
+        <md-select ng-model="room" ng-change="getSchedulerByRoom()" >
             <md-option ng-value="x.id" ng-repeat="x in rooms">
                 {{x.school}} - {{x.schoolClass}}
             </md-option>
-        </md-select>-->
-    </md-input-container>
+        </md-select>
+    </md-input-container>-->
     <div id="wrapper">
         <div id="myScheduler"></div>
         <!--<div ng-if="room==x.id" id="{{x.id}}" ng-repeat="x in rooms"></div>-->

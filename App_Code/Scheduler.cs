@@ -18,7 +18,7 @@ using Igprog;
 [System.Web.Script.Services.ScriptService]
 public class Scheduler : System.Web.Services.WebService {
     // SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString);
-    public string dataBase = "data.ddb";
+    string dataBase = ConfigurationManager.AppSettings["UserDataBase"];
     DataBase db = new DataBase();
 
     public Scheduler() {
@@ -27,10 +27,11 @@ public class Scheduler : System.Web.Services.WebService {
     public class Event {
         public int? id { get; set; }
         public int room { get; set; }
-        public int? clientId { get; set; }
+        public string clientId { get; set; }
         public string content { get; set; }
         public long startDate { get; set; }
         public long endDate { get; set; }
+        public string userId { get; set; }
     }
 
     [WebMethod]
@@ -42,6 +43,7 @@ public class Scheduler : System.Web.Services.WebService {
         x.content = "";
         x.startDate = Convert.ToInt64(DateTime.UtcNow.Ticks);
         x.endDate = Convert.ToInt64(DateTime.UtcNow.Ticks);
+        x.userId = null;
         string json = JsonConvert.SerializeObject(x, Formatting.Indented);
         return json;
     }
@@ -49,25 +51,25 @@ public class Scheduler : System.Web.Services.WebService {
 
 
     [WebMethod]
-    public string Load(string userId) {
-       // string path = db.GetDataBasePath(userId, dataBase); // GetDataBasePath(userId);
-
+    public string Load(string userGroupId, string userId) {
+        // string path = db.GetDataBasePath(userId, dataBase); // GetDataBasePath(userId);
+        db.CreateDataBase(userGroupId, db.scheduler);
         try {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
+            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userGroupId, dataBase));
             connection.Open();
-            string sql = "SELECT rowid, room, clientId, content, startDate, endDate FROM scheduler";
+            string sql = "SELECT rowid, room, clientId, content, startDate, endDate, userId FROM scheduler";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             SQLiteDataReader reader = command.ExecuteReader();
             List<Event> events = new List<Event>();
             while (reader.Read()) {
                 Event x = new Event();
-                x.id = reader.GetInt32(0);
-                x.room = reader.GetInt32(1);
-                x.clientId = reader.GetInt32(2);
-                x.content = reader.GetString(3);
-                x.startDate = reader.GetInt64(4);
-                x.endDate = reader.GetInt64(5);
-               
+                x.id = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                x.room = reader.GetValue(1) == DBNull.Value ? 0 : reader.GetInt32(1);
+                x.clientId = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+                x.content = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
+                x.startDate = reader.GetValue(4) == DBNull.Value ? 0 : reader.GetInt64(4);
+                x.endDate = reader.GetValue(5) == DBNull.Value ? 0 : reader.GetInt64(5);
+                x.userId = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
                 events.Add(x);
             }
             connection.Close();
@@ -77,19 +79,21 @@ public class Scheduler : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string Save(string userId, Event x) {
-      //  string path = GetDataBasePath(userId);
+    public string Save(string userGroupId, string userId, Event x) {
+        //  string path = GetDataBasePath(userId);
+        db.CreateDataBase(userGroupId, db.scheduler);
         try {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
+            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userGroupId, dataBase));
             connection.Open();
-            string sql = @"INSERT INTO scheduler (room, clientId, content, startDate, endDate)
-                        VALUES (@room, @clientId, @content, @startDate, @endDate)";
+            string sql = @"INSERT INTO scheduler (room, clientId, content, startDate, endDate, userId)
+                        VALUES (@room, @clientId, @content, @startDate, @endDate, @userId)";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             command.Parameters.Add(new SQLiteParameter("clientId", x.clientId));
             command.Parameters.Add(new SQLiteParameter("room", x.room));
             command.Parameters.Add(new SQLiteParameter("content", x.content));
             command.Parameters.Add(new SQLiteParameter("startDate", x.startDate));
             command.Parameters.Add(new SQLiteParameter("endDate", x.endDate));
+            command.Parameters.Add(new SQLiteParameter("userId", x.userId));
 
             command.ExecuteNonQuery();
             connection.Close();
@@ -98,17 +102,19 @@ public class Scheduler : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string Delete(string userId, Event x) {
-      //  string path = GetDataBasePath(userId);
+    public string Delete(string userGroupId, string userId, Event x) {
+        //  string path = GetDataBasePath(userId);
+        db.CreateDataBase(userGroupId, db.scheduler);
         try {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
+            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userGroupId, dataBase));
             connection.Open();
             //string sql = @"DELETE scheduler WHERE scheduler.content = @Content AND startDate = @StartDate AND room = @Room";
-            string sql = @"DELETE FROM scheduler WHERE [content] = @Content AND [startDate] = @StartDate AND [room] = @Room";
+            string sql = @"DELETE FROM scheduler WHERE [content] = @Content AND [startDate] = @StartDate AND [room] = @Room AND [userId] = @userId";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             command.Parameters.Add(new SQLiteParameter("Content", x.content));
             command.Parameters.Add(new SQLiteParameter("StartDate", x.startDate));
             command.Parameters.Add(new SQLiteParameter("Room", x.room));
+            command.Parameters.Add(new SQLiteParameter("userId", x.userId));
             command.ExecuteNonQuery();
             connection.Close();
             return ("OK.");
@@ -116,10 +122,11 @@ public class Scheduler : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string GetSchedulerByRoom(string userId, int room) {
+    public string GetSchedulerByRoom(string userGroupId, string userId, int room) {
         //string path = GetDataBasePath(userId);
+        db.CreateDataBase(userGroupId, db.scheduler);
         try {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
+            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userGroupId, dataBase));
             connection.Open();
             string sql = @"SELECT rowid, room, clientId, content, startDate, endDate FROM scheduler WHERE room = @Room";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
@@ -128,13 +135,12 @@ public class Scheduler : System.Web.Services.WebService {
             List<Event> xx = new List<Event>();
             while (reader.Read()) {
                 Event x = new Event();
-                x.id = reader.GetInt32(0);
-                x.room = reader.GetInt32(1);
-                x.clientId = reader.GetInt32(2);
-                x.content = reader.GetString(3);
-                x.startDate = reader.GetInt64(4);
-                x.endDate = reader.GetInt64(5);
-
+                x.id = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                x.room = reader.GetValue(1) == DBNull.Value ? 0 : reader.GetInt32(1);
+                x.clientId = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+                x.content = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
+                x.startDate = reader.GetValue(4) == DBNull.Value ? 0 : reader.GetInt64(4);
+                x.endDate = reader.GetValue(5) == DBNull.Value ? 0 : reader.GetInt64(5);
                 xx.Add(x);
             }
             connection.Close();

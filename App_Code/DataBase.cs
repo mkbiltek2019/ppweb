@@ -192,9 +192,10 @@ namespace Igprog {
             string sql = @"CREATE TABLE IF NOT EXISTS scheduler
                 (room INTEGER,
                 clientId VARCHAR(50),
-                content NVARCHAR(100),
+                content NVARCHAR(200),
                 startDate INTEGER,
-                endDate INTEGER)";
+                endDate INTEGER,
+                userId VARCHAR(50))";
             CreateTable(path, sql);
         }
         #endregion

@@ -185,7 +185,7 @@
                 setter: function (val) {
                     return A.merge({
                         'delete': 'Briši',
-                        'description-hint': 'Aktivnost...',
+                        'description-hint': 'Klijent...',
                         cancel: 'Zatvori',
                         description: 'Opis',
                         edit: 'Uredi',
