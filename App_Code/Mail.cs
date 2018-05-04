@@ -144,7 +144,7 @@ public class Mail : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string SendMenu(string email, string messageSubject, Menues.NewMenu currentMenu) {
+    public string SendMenu(string email, Menues.NewMenu currentMenu, Users.NewUser user) {
         try {
             StringBuilder sb = new StringBuilder();
             StringBuilder meal1 = new StringBuilder();
@@ -154,7 +154,11 @@ public class Mail : System.Web.Services.WebService {
             StringBuilder meal5 = new StringBuilder();
             StringBuilder meal6 = new StringBuilder();
 
-            sb.AppendLine(string.Format(@"<h3>{0}</h3><hr />", messageSubject));
+            sb.AppendLine(string.Format(@"<h3>{0}</h3>", currentMenu.title));
+            if (!string.IsNullOrWhiteSpace(currentMenu.note)) {
+                sb.AppendLine(string.Format(@"<p>{0}</p>", currentMenu.note));
+            }
+            sb.AppendLine("<hr />");
 
             foreach (Meals.NewMeal x in currentMenu.data.meals) {
                 switch (x.code) {
@@ -188,7 +192,9 @@ public class Mail : System.Web.Services.WebService {
             sb.AppendLine(meal5.ToString());
             sb.AppendLine(meal6.ToString());
 
-            SendMail(email, messageSubject, sb.ToString());
+            string subject = string.Format("{0}", !string.IsNullOrWhiteSpace(user.companyName) ? user.companyName : string.Format("{0} {1}", user.firstName, user.lastName));
+
+            SendMail(email, subject, sb.ToString());
             return "menu sent successfully";
         } catch (Exception e) { return ("error: " + e); }
     }

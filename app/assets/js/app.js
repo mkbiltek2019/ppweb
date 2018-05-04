@@ -2724,7 +2724,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             templateUrl: 'assets/partials/popup/sendmenu.html',
             parent: angular.element(document.body),
             clickOutsideToClose: true,
-            d: { currentMenu: $rootScope.currentMenu, client: $rootScope.client }
+            d: { currentMenu: $rootScope.currentMenu, client: $rootScope.client, user: $rootScope.user }
         })
        .then(function (x) {
        }, function () {
@@ -2749,7 +2749,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $http({
                 url: $sessionStorage.config.backend + 'Mail.asmx/SendMenu',
                 method: "POST",
-                data: { email: x.client.email, messageSubject: x.currentMenu.title, currentMenu: x.currentMenu }
+                data: { email: x.client.email, currentMenu: x.currentMenu, user: $scope.d.user }
             })
             .then(function (response) {
                 functions.alert($translate.instant(response.data.d), '');
