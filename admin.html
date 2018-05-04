@@ -305,6 +305,7 @@
                             <th>Tvrtka</th>
                             <th>Proizvod</th>
                             <th class="nowrap">Uplaćeno (kn)</th>
+                            <th>Datum uplate</th>
                         </tr>
                         <tr ng-repeat="x in invoices.data">
                             <td class="nowrap">
@@ -318,11 +319,10 @@
                             <td>{{x.lastName}}</td>
                             <td class="nowrap">{{x.companyName}}</td>
                             <td>
-                                <ul>
-                                    <li ng-repeat="y in x.items">{{y.title}}, {{y.qty}} kom., {{y.unitPrice}} kn</li>
-                                </ul>
+                                <div ng-repeat="y in x.items"><span>{{$index+1}}.</span> {{y.title}}, {{y.qty}} kom., {{y.unitPrice}} kn</div>
                             </td>
                             <td class="text-right">{{x.paidAmount | currency : ""}}</td>
+                            <td>{{x.paidDate}}</td>
                         </tr>
                     </table>
                 </div>
