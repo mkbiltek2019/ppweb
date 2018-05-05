@@ -1592,7 +1592,8 @@
   "menu title is required": "назив менија je обазвезан",
   "email is required": "емаил je обазвезан",
   "landscape": "хоризонтално",
-  "portrait": "вертикално"
-
+  "portrait": "вертикално",
+  "take pdf": "преузми ПДФ",
+  "pdf": "ПДФ"
 
 }

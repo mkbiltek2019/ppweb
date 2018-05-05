@@ -1,0 +1,26 @@
+﻿<md-dialog flex="30" layout-margin>
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2 class="text-capitalize">{{'create pdf' | translate}}</h2>
+                <span flex></span>
+                <a href="" ng-click="cancel()" class="btn btn-primary">x</a>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label class="text-capitalize">{{'number of consumers' | translate}}</label>
+                    <input ng-model="consumers" type="number" min="1">
+                </md-input-container>
+                <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" ng-click="printMenuPdf(consumers)" class="btn btn-primary text-capitalize"><i class="fa fa-file-pdf-o"></i> <span class="hidden-xs">{{'menu' | translate}}</span></a>
+                <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" ng-click="printMenuDetailsPdf()" class="btn btn-primary text-capitalize"><i class="fa fa-bar-chart"></i> <span class="hidden-xs">{{'manu analysis' | translate}}</span></a>
+                <div class="mt10 text-center">
+                    <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success btn-block text-capitalize" download ng-click="hidePdfLink()">
+                        <i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}
+                    </a>
+                </div>
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>

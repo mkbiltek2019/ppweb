@@ -1598,6 +1598,8 @@
   "menu title is required": "menu title is required",
   "email is required": "email is required",
   "landscape": "landscape",
-  "portrait": "portrait"
+  "portrait": "portrait",
+  "take pdf": "take PDF",
+  "pdf": "PDF"
 
 }
