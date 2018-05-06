@@ -1394,7 +1394,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.pdfLink = null;
+    $scope.creatingPdf = false;
     $scope.printClientPdf = function () {
+        if ($scope.creatingPdf == true) {
+            return false;
+        }
+        $scope.creatingPdf = true;
             $http({
                 url: $sessionStorage.config.backend + 'ClientsData.asmx/GetClientLog',
                 method: "POST",
@@ -1409,15 +1414,18 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                         data: { userId: $sessionStorage.usergroupid, client: $rootScope.client, clientData: $rootScope.clientData, clientLog: $rootScope.clientLog, lang: $rootScope.config.language }
                     })
                   .then(function (response) {
+                      $scope.creatingPdf = false;
                       var fileName = response.data.d;
                       $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
                       //   $scope.openPdf();
                   },
                   function (response) {
+                      $scope.creatingPdf = false;
                       alert(response.data.d)
                   });
             },
             function (response) {
+                $scope.creatingPdf = false;
                 alert(response.data.d)
             });
     }
@@ -3608,6 +3616,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.toggleMenu('dailyMenuTpl');
 
     var openPrintPdfPopup = function () {
+        if ($rootScope.currentMenu.data.selectedFoods.length == 0) {
+            return false;
+        }
         $mdDialog.show({
             controller: printPdfCtrl,
             templateUrl: 'assets/partials/popup/pdf.html',
@@ -3629,11 +3640,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         };
         $scope.pdfLink == null;
         $scope.consumers = 1;
+        $scope.creatingPdf = false;
         $scope.printMenuPdf = function (consumers) {
-            if ($rootScope.currentMenu.data.selectedFoods.length == 0) {
-                return false;
-            }
             if (angular.isDefined($rootScope.currentMenu)) {
+                $scope.creatingPdf = true;
                 $http({
                     url: $sessionStorage.config.backend + 'Foods.asmx/ChangeNumberOfConsumers',
                     method: "POST",
@@ -3641,7 +3651,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 })
                 .then(function (response) {
                     var foods = JSON.parse(response.data.d);
-
                     var currentMenu = angular.copy($rootScope.currentMenu);
                     currentMenu.data.selectedFoods = foods;
                     $http({
@@ -3651,9 +3660,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     })
                       .then(function (response) {
                           var fileName = response.data.d;
+                          $scope.creatingPdf = false;
                           $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
                       },
                       function (response) {
+                          $scope.creatingPdf = false;
                           alert(response.data.d)
                       });
                 },
@@ -3663,10 +3674,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             }
         }
 
+        $scope.creatingPdf1 = false;
         $scope.printMenuDetailsPdf = function () {
             if ($rootScope.currentMenu.data.selectedFoods.length == 0) {
                 return false;
             }
+            $scope.creatingPdf1 = true;
             if (angular.isDefined($rootScope.currentMenu)) {
                 var currentMenu = angular.copy($rootScope.currentMenu);
                 $http({
@@ -3676,10 +3689,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 })
                   .then(function (response) {
                       var fileName = response.data.d;
+                      $scope.creatingPdf1 = false;
                       $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
                   },
                   function (response) {
-                      alert(response.data.d)
+                      $scope.creatingPdf1 = false;
+                      alert(response.data.d);
                   });
             }
         }
@@ -4425,7 +4440,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     }
 
+    $scope.creatingPdf = false;
     var printClientPdf = function () {
+        $scope.creatingPdf = true;
         $http({
             url: $sessionStorage.config.backend + 'PrintPdf.asmx/ClientPdf',
             method: "POST",
@@ -4433,10 +4450,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
           .then(function (response) {
               var fileName = response.data.d;
+              $scope.creatingPdf = false;
               $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
            //   $scope.openPdf();
           },
           function (response) {
+              $scope.creatingPdf = false;
               alert(response.data.d)
           });
     }
@@ -4762,7 +4781,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 
     $scope.pdfLink = null;
+    $scope.creatingPdf = false;
     var printMenuPdf = function () {
+        $scope.creatingPdf = true;
         if (angular.isDefined($rootScope.currentMenu)) {
             var currentMenu = angular.copy($rootScope.currentMenu);
             currentMenu.data.selectedFoods = $scope.foods;
@@ -4773,9 +4794,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             })
               .then(function (response) {
                   var fileName = response.data.d;
+                  $scope.creatingPdf = false;
                   $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
               },
               function (response) {
+                  $scope.creatingPdf = false;
                   alert(response.data.d)
               });
         }

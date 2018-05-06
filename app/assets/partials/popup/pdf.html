@@ -13,8 +13,8 @@
                     <label class="text-capitalize">{{'number of consumers' | translate}}</label>
                     <input ng-model="consumers" type="number" min="1">
                 </md-input-container>
-                <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" ng-click="printMenuPdf(consumers)" class="btn btn-primary text-capitalize"><i class="fa fa-file-pdf-o"></i> <span class="hidden-xs">{{'menu' | translate}}</span></a>
-                <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" ng-click="printMenuDetailsPdf()" class="btn btn-primary text-capitalize"><i class="fa fa-bar-chart"></i> <span class="hidden-xs">{{'manu analysis' | translate}}</span></a>
+                <a href="" ng-click="printMenuPdf(consumers)" class="btn btn-primary text-capitalize" ng-disabled="creatingPdf==true"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> <span class="hidden-xs">{{'menu' | translate}}</span></a>
+                <a href="" ng-click="printMenuDetailsPdf()" class="btn btn-primary text-capitalize" ng-disabled="creatingPdf1==true"><i class="fa fa-{{creatingPdf1==true?'spinner fa-spin':'bar-chart'}}"></i> <span class="hidden-xs">{{'manu analysis' | translate}}</span></a>
                 <div class="mt10 text-center">
                     <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success btn-block text-capitalize" download ng-click="hidePdfLink()">
                         <i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}

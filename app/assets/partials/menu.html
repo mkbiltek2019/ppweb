@@ -4,6 +4,9 @@
         <li ng-class="menuTpl=='dailyMenuTpl'?'active':''"><a href="#" ng-click="toggleMenu('dailyMenuTpl')"><i class="fa fa-cutlery"></i> <span class="hidden-xs text-capitalize">{{'daily menu' | translate}}</span></a></li>
         <li ng-class="menuTpl=='weeklyMenuTpl'?'active':''" ng-click="toggleMenu('weeklyMenuTpl')"><a href="#"><i class="fa fa-files-o"></i> <span class="hidden-xs text-capitalize">{{'weekly menu' | translate}}</span></a></li>
     </ul>
+    <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around" class="mt20">
+        <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
+    </div>
     <div ng-include="menuTpl" style="padding-top:20px"></div>
 
 </div>
@@ -16,34 +19,8 @@
                     <a href="" class="btn btn-default" ng-click="new()"><i class="fa fa-file-o"></i> <span class="hidden-xs"> {{'new' | translate}}</span></a>
                     <a href="" class="btn btn-default" ng-click="get()"><i class="fa fa-folder-open-o"></i> <span class="hidden-xs"> {{'open' | translate}}</span></a>
                     <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" ng-click="save()"><i class="fa fa-floppy-o"></i> <span class="hidden-xs">{{'save' | translate}}</span></a>
-                    
-                    <a ng-if="pdfLink==null&&config.debug" ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" ng-click="openPrintPdfPopup()"><i class="fa fa-file-pdf-o"></i> <span class="hidden-xs">{{'pdf' | translate}}</span></a>
-
-                    <!--<div ng-if="pdfLink==null&&config.debug" ng-disabled="currentMenu.data.selectedFoods.length==0" class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-                            {{'print pdf' | translate}}
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" ng-click="printMenuPdf(consumers)"><i class="fa fa-file-pdf-o"></i> <span class="hidden-xs">{{'menu' | translate}}</span></a>
-                            </li>
-                            <li>
-                                <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" ng-click="printMenuDetailsPdf()"><i class="fa fa-bar-chart"></i> <span class="hidden-xs">{{'manu analysis' | translate}}</span></a>
-                            </li>
-                        </ul>
-                    </div>
-                    <a ng-if="pdfLink==null&&config.debug" ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" ng-click="printMenuPdf(consumers)"><i class="fa fa-file-pdf-o"></i> <span class="hidden-xs">{{'create pdf' | translate}}</span></a>-->
-                    
-                    <!--<a ng-if="pdfLink!=null&&config.debug" href="{{pdfLink}}" class="btn btn-success" download ng-click="hidePdfLink()">
-                        <i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}
-                    </a>-->
-
-                    
-
-
+                    <a ng-if="pdfLink==null" ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" ng-click="openPrintPdfPopup()"><i class="fa fa-file-pdf-o"></i> <span class="hidden-xs">{{'pdf' | translate}}</span></a>
                     <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" ng-click="send()"><i class="fa fa-paper-plane-o"></i> <span class="hidden-xs">{{'send' | translate}}</span></a>
-                    <!--<span ng-if="config.debug">{{currentMenu.id}}</span>-->
                 </div>
                 <div class="panel-body">
                     <div>
@@ -56,10 +33,6 @@
                                 <label class="text-capitalize">{{'note' | translate}}</label>
                                 <input ng-model="currentMenu.note" type="text">
                             </md-input-container>
-                            <!--<md-input-container class="md-block" flex-gt-sm>
-                                <label>{{'number of consumers' | translate}}</label>
-                                <input ng-model="consumers" type="number" min="1">
-                            </md-input-container>-->
                         </div>
                         <div>
                             <select ng-model="currentMeal" ng-change="toggleMeals(currentMeal)" class="form-control visible-xs">
@@ -401,7 +374,7 @@
                 <div class="row">
                     <hr />
                     <div class="col-sm-4 mt10">
-                        <a ng-click="printWeeklyMenu(pageSize, consumers, showQty, showMass, showDescription, orientation)" class="btn btn-default btn-block" download ng-disabled="creatingPdf==true"><span class="text-danger"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> <span>{{'create pdf' | translate}}</span></span></a>
+                        <a ng-click="printWeeklyMenu(pageSize, consumers, showQty, showMass, showDescription, orientation)" class="btn btn-default btn-block" ng-disabled="creatingPdf==true"><span class="text-danger"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> <span>{{'create pdf' | translate}}</span></span></a>
                     </div>
                     <div class="col-sm-8 mt10">
                         <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success btn-block" download ng-click="hidePdfLink()">
