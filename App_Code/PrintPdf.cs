@@ -550,7 +550,7 @@ public class PrintPdf : System.Web.Services.WebService {
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.folate.ui.ToString(), normalFont)) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.folate.rda.ToString(), normalFont)) { Border = 0 });
 
-            tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("pantothenicAcid", lang), normalFont)) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("pantothenic acid", lang), normalFont)) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase("mg", normalFont)) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(totals.pantothenicAcid.ToString(), normalFont_bold)) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.pantothenicAcid.mda.ToString(), normalFont)) { Border = 0 });

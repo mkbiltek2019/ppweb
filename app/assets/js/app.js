@@ -1393,6 +1393,39 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             }
     }
 
+    $scope.pdfLink = null;
+    $scope.printClientPdf = function () {
+            $http({
+                url: $sessionStorage.config.backend + 'ClientsData.asmx/GetClientLog',
+                method: "POST",
+                data: { userId: $sessionStorage.usergroupid, clientId: $rootScope.client.clientId }
+            })
+            .then(function (response) {
+                $rootScope.clientLog = JSON.parse(response.data.d);
+                //$rootScope.setClientLogGraphData($scope.type);
+                    $http({
+                        url: $sessionStorage.config.backend + 'PrintPdf.asmx/ClientPdf',
+                        method: "POST",
+                        data: { userId: $sessionStorage.usergroupid, client: $rootScope.client, clientData: $rootScope.clientData, clientLog: $rootScope.clientLog, lang: $rootScope.config.language }
+                    })
+                  .then(function (response) {
+                      var fileName = response.data.d;
+                      $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
+                      //   $scope.openPdf();
+                  },
+                  function (response) {
+                      alert(response.data.d)
+                  });
+            },
+            function (response) {
+                alert(response.data.d)
+            });
+    }
+
+    $scope.hidePdfLink = function () {
+        $scope.pdfLink = null;
+    }
+
 
 }])
 
@@ -1402,37 +1435,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             duration: 0
         }
 
-
-
-    //var get = function () {
-    //    $http({
-    //        url: $sessionStorage.config.backend + 'DetailEnergyExpenditure.asmx/Get',
-    //        method: "POST",
-    //        data: { userId: $rootScope.user.userGroupId, clientId: $rootScope.client.clientId }
-    //    })
-    //  .then(function (response) {
-    //      if (response.data.d != '') {
-    //          $scope.dailyActivities = JSON.parse(response.data.d);
-    //          $rootScope.totalDailyEnergyExpenditure.value = totalEnergy();
-    //          var lastActivity = $scope.dailyActivities[$scope.dailyActivities.length - 1];
-    //          $scope.from = {
-    //              hour: lastActivity.to.hour,
-    //              min: lastActivity.to.min
-    //          };
-    //          $scope.to = {
-    //              hour: lastActivity.to.hour,
-    //              min: lastActivity.to.min
-    //          }
-    //          setTime(lastActivity.to.hour);
-    //      } else {
-    //          $scope.clearDailyActivities();
-    //      }
-    //  },
-    //  function (response) {
-    //      functions.alert($translate.instant(response.data.d), '');
-    //  });
-    //}
-
     var init = function () {
         $http({
             url: $sessionStorage.config.backend + 'DetailEnergyExpenditure.asmx/Init',
@@ -1441,7 +1443,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
       .then(function (response) {
           $scope.dailyActivity = JSON.parse(response.data.d);
-         // get();
       },
       function (response) {
           functions.alert($translate.instant(response.data.d), '');
@@ -4773,7 +4774,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
               .then(function (response) {
                   var fileName = response.data.d;
                   $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
-                  // $scope.openPdf();
               },
               function (response) {
                   alert(response.data.d)
@@ -4781,110 +4781,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     }
 
-    //var printMenuDetailsPdf = function () {
-    //    if (angular.isDefined($rootScope.currentMenu)) {
-    //        var currentMenu = angular.copy($rootScope.currentMenu);
-    //        $http({
-    //            url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuDetailsPdf',
-    //            method: "POST",
-    //            data: { userId: $sessionStorage.usergroupid, currentMenu: currentMenu, calculation: $rootScope.calculation, totals: $rootScope.totals, recommendations: $rootScope.recommendations, lang: $rootScope.config.language }
-    //        })
-    //          .then(function (response) {
-    //              var fileName = response.data.d;
-    //              $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
-    //          },
-    //          function (response) {
-    //              alert(response.data.d)
-    //          });
-    //    }
-    //}
-
-    //var printClientPdf = function () {
-    //    $http({
-    //        url: $sessionStorage.config.backend + 'PrintPdf.asmx/ClientPdf',
-    //        method: "POST",
-    //        data: { userId: $sessionStorage.usergroupid, client: $rootScope.client, clientData: $rootScope.clientData, clientLog: $rootScope.clientLog, lang: $rootScope.config.language }
-    //    })
-    //      .then(function (response) {
-    //          var fileName = response.data.d;
-    //          $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
-    //          //   $scope.openPdf();
-    //      },
-    //      function (response) {
-    //          alert(response.data.d)
-    //      });
-    //}
-
-    //$scope.printPdf = function () {
-    //    if ($scope.printTpl == 'menuTpl') { printMenuPdf(); }
-    //    if ($scope.printTpl == 'menuAnalysisTpl') { printMenuDetailsPdf(); }
-    //    if ($scope.printTpl == 'clientTpl') { printClientPdf(); }
-    //}
-
     $scope.openPdf = function () {
         if ($scope.pdfLink != null) {
             window.open($scope.pdfLink, window.innerWidth <= 800 && window.innerHeight <= 600 ? '_self' : '_blank');
         }
     }
-
-    //$scope.type = 0;
-    //$scope.setType = function (x) {
-    //    $scope.type = x;
-    //    $rootScope.setClientLogGraphData($scope.type);
-    //}
-
-    //var getClientLog = function (x) {
-    //    $http({
-    //        url: $sessionStorage.config.backend + 'ClientsData.asmx/GetClientLog',
-    //        method: "POST",
-    //        data: { userId: $sessionStorage.usergroupid, clientId: x.clientId }
-    //    })
-    //    .then(function (response) {
-    //        $rootScope.clientLog = JSON.parse(response.data.d);
-    //        $rootScope.setClientLogGraphData($scope.type);
-    //    },
-    //    function (response) {
-    //        alert(response.data.d)
-    //    });
-    //}
-
-    //var getClient = function () {
-    //    $http({
-    //        url: $sessionStorage.config.backend + 'Clients.asmx/Get',
-    //        method: "POST",
-    //        data: { userId: $sessionStorage.userid, clientId: $rootScope.client.clientId }
-    //    })
-    //      .then(function (response) {
-    //          $scope.client = JSON.parse(response.data.d);
-    //          getClientLog($scope.client);
-    //      },
-    //      function (response) {
-    //          alert(response.data.d)
-    //      });
-    //}
-    //if ($rootScope.client != undefined) { getClient(); }
-
-    //$scope.toggleTpl = function (x) {
-    //    $scope.pdfLink = null;
-    //    $scope.printTpl = x;
-    //    $scope.printPdf();
-    //    if (x == 'weeklyMenuTpl') {
-    //        $scope.loading = true;
-    //        $http({
-    //            url: $sessionStorage.config.backend + 'Menues.asmx/Load',
-    //            method: "POST",
-    //            data: { userId: $rootScope.user.userGroupId }
-    //        })
-    //       .then(function (response) {
-    //           $scope.menues = JSON.parse(response.data.d);
-    //           $scope.loading = false;
-    //       },
-    //       function (response) {
-    //           $scope.loading = false;
-    //           alert(response.data.d);
-    //       });
-    //    }
-    //};
 
     var getMenues = function () {
         $scope.loading = true;
@@ -4903,23 +4804,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
        });
     }
     getMenues();
-
-    //$scope.changeNumberOfConsumers = function (x) {
-    //    $scope.consumers = x;
-    //    $http({
-    //        url: $sessionStorage.config.backend + 'Foods.asmx/ChangeNumberOfConsumers',
-    //        method: "POST",
-    //        data: { foods: $rootScope.currentMenu.data.selectedFoods, number: x }
-    //    })
-    //   .then(function (response) {
-    //       $scope.foods = JSON.parse(response.data.d);
-    //       $scope.toggleTpl('menuTpl');
-    //   },
-    //   function (response) {
-    //          alert(response.data.d)
-    //   });
-    //}
-    //if (angular.isDefined($rootScope.currentMenu)) { $scope.changeNumberOfConsumers($scope.consumers); }
 
     $scope.menuList = [];
     $scope.getMenuList = function (id1, id2, id3, id4, id5, id6, id7) {
