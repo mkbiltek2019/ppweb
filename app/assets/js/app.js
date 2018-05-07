@@ -536,29 +536,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 }])
 
-.controller("schedulerCtrl", ['$scope', '$localStorage', '$http', '$rootScope', '$timeout', '$sessionStorage', 'functions', function ($scope, $localStorage, $http, $rootScope, $timeout, $sessionStorage, functions) {
+
+.controller("schedulerCtrl", ['$scope', '$localStorage', '$http', '$rootScope', '$timeout', '$sessionStorage', function ($scope, $localStorage, $http, $rootScope, $timeout, $sessionStorage) {
     var webService = 'Scheduler.asmx';
 
     $scope.room = 0;
-    $scope.getSchedulerByRoom = function () {
-        $http({
-            url: $sessionStorage.config.backend + webService + '/GetSchedulerByRoom',
-            method: 'POST',
-            data: { userGroupId: $rootScope.user.userGroupId, userId: $rootScope.user.userId, room: $scope.room }
-        })
-       .then(function (response) {
-
-           $rootScope.events = JSON.parse(response.data.d);
-          // $timeout(function () {
-               showScheduler();
-         //  }, 50);
-
-       },
-       function (response) {
-           alert(response.data.d)
-       });
-    };
-    $scope.getSchedulerByRoom();
 
     var showScheduler = function () {
         YUI().use('aui-scheduler', function (Y) {
@@ -570,18 +552,18 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 on: {
                     save: function (event) {
                         addEvent(this.getTemplateData(), event);
-                      //  alert('Save Event:' + this.isNew() + ' --- ' + this.getContentNode().val());
+                        //  alert('Save Event:' + this.isNew() + ' --- ' + this.getContentNode().val());
                     },
                     edit: function (event) {
                         addEvent(this.getTemplateData(), event);
-                       // editEvent(this.getTemplateData(), event);
-                      //  alert('Edit Event:' + this.isNew() + ' --- ' + this.getContentNode().val() + ' --- ' + this.getTemplateData());
+                        // editEvent(this.getTemplateData(), event);
+                        //  alert('Edit Event:' + this.isNew() + ' --- ' + this.getContentNode().val() + ' --- ' + this.getTemplateData());
                     },
                     delete: function (event) {
                         removeEvent(this.getTemplateData(), event);
-                       // alert('Delete Event:' + this.isNew() + ' --- ' + this.getContentNode().val());
-                       //  Note: The cancel event seems to be buggy and occurs at the wrong times, so I commented it out.
-                              },
+                        // alert('Delete Event:' + this.isNew() + ' --- ' + this.getContentNode().val());
+                        //  Note: The cancel event seems to be buggy and occurs at the wrong times, so I commented it out.
+                    },
                     //          cancel: function(event) {
                     //              alert('Cancel Event:' + this.isNew() + ' --- ' + this.getContentNode().val());
                     //}
@@ -602,6 +584,28 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         });
     }
 
+
+    $scope.getSchedulerByRoom = function () {
+        $http({
+            url: $sessionStorage.config.backend + webService + '/GetSchedulerByRoom',
+            method: 'POST',
+            data: { userGroupId: $rootScope.user.userGroupId, userId: $rootScope.user.userId, room: $scope.room }
+        })
+       .then(function (response) {
+
+           $rootScope.events = JSON.parse(response.data.d);
+           $timeout(function () {
+               showScheduler();
+           }, 50);
+
+       },
+       function (response) {
+           alert(response.data.d)
+       });
+    };
+    $scope.getSchedulerByRoom();
+
+    
     var addEvent = function (x, event) {
         $rootScope.events.push({
             //'yuid': event.details[0].newSchedulerEvent._yuid,
@@ -626,7 +630,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         eventObj.endDate = x.endDate;
         eventObj.startDate = x.startDate;
         eventObj.userId = $rootScope.user.userId;
-        saveEvent(eventObj);
+        //saveEvent(eventObj);
+        remove(eventObj);
+        save(eventObj);
     }
 
     var saveEvent = function (x) {
@@ -665,6 +671,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         eventObj.startDate = x.startDate;
         eventObj.userId = $rootScope.user.userId;
         remove(eventObj);
+        $scope.getSchedulerByRoom();
     }
 
     var remove = function (x) {

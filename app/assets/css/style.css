@@ -161,9 +161,9 @@ navbar-brand {
     font-weight:600 !important;
 }
 
-table td {
-  vertical-align: middle !important;
-}
+/*table td {
+  vertical-align: middle !important;  not working with sheduler
+}*/
 
 hr.bold {
 	border-top: 2px solid;
