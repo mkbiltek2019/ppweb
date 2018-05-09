@@ -1600,6 +1600,14 @@
   "landscape": "landscape",
   "portrait": "portrait",
   "take pdf": "take PDF",
-  "pdf": "PDF"
+  "pdf": "PDF",
+  "agenda": "Agenda",
+  "day_": "Day",
+  "month": "Month",
+  "today": "Today",
+  "week": "Week",
+  "calendar": "calendar",
+  "all users": "all users"
+
 
 }

@@ -537,10 +537,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 }])
 
 
-.controller("schedulerCtrl", ['$scope', '$localStorage', '$http', '$rootScope', '$timeout', '$sessionStorage', function ($scope, $localStorage, $http, $rootScope, $timeout, $sessionStorage) {
+.controller("schedulerCtrl", ['$scope', '$localStorage', '$http', '$rootScope', '$timeout', '$sessionStorage', 'functions', '$translate', function ($scope, $localStorage, $http, $rootScope, $timeout, $sessionStorage, functions, $translate) {
     var webService = 'Scheduler.asmx';
-
+    $scope.id = '#myScheduler';
     $scope.room = 0;
+    $scope.uid = null;
 
     var showScheduler = function () {
         YUI().use('aui-scheduler', function (Y) {
@@ -570,76 +571,92 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 }
             });
 
+            $scope.id = $scope.uid == null ? 'myScheduler' : $scope.uid;
+
             new Y.Scheduler({
                 activeView: weekView,
-                boundingBox: '#myScheduler',  //'#' + $scope.room, 
+                boundingBox: '#' + $scope.id,
                 date: new Date(),
                 eventRecorder: eventRecorder,
                 items: $rootScope.events,
                 render: true,
                 views: [dayView, weekView, monthView, agendaView],
-                strings: { agenda: 'Dnevni red', day: 'Dan', month: 'Mjesec', table: 'Tablica', today: 'Danas', week: 'Tjedan', year: 'Godina' },
+                strings: {
+                    agenda: $translate.instant('agenda'),
+                    day: $translate.instant('day_'),
+                    month: $translate.instant('month'),
+                    table: $translate.instant('table'),
+                    today: $translate.instant('today'),
+                    week: $translate.instant('week'),
+                    year: $translate.instant('year')
+                },
             }
           );
         });
     }
 
-
-    $scope.getSchedulerByRoom = function () {
+    var getUsers = function () {
         $http({
-            url: $sessionStorage.config.backend + webService + '/GetSchedulerByRoom',
+            url: $sessionStorage.config.backend +'Users.asmx/GetUsersByUserGroup',
             method: 'POST',
-            data: { userGroupId: $rootScope.user.userGroupId, userId: $rootScope.user.userId, room: $scope.room }
+            data: { userGroupId: $rootScope.user.userGroupId }
+        })
+      .then(function (response) {
+          $scope.users = JSON.parse(response.data.d);
+          $scope.getSchedulerEvents(null);
+      },
+      function (response) {
+          functions.alert($translate.instant(response.data.d));
+      });
+    };
+
+    $scope.getSchedulerEvents = function (uid) {
+        if (uid==0) {
+            alert(uid);
+            return false;
+        }
+        $http({
+            url: $sessionStorage.config.backend + webService + '/GetSchedulerEvents',
+            method: 'POST',
+            data: { user: $rootScope.user, room: $scope.room, uid: uid }
         })
        .then(function (response) {
-
            $rootScope.events = JSON.parse(response.data.d);
            $timeout(function () {
                showScheduler();
            }, 50);
-
        },
        function (response) {
            alert(response.data.d)
        });
     };
-    $scope.getSchedulerByRoom();
+    getUsers();
 
-    
     var addEvent = function (x, event) {
         $rootScope.events.push({
-            //'yuid': event.details[0].newSchedulerEvent._yuid,
-            //'room': $scope.room,
-            //'clientId': '0',  // << TODO
-            //'content': event.details[0].newSchedulerEvent.changed.content,
-            //'endDate': x.endDate,
-            //'startDate': x.startDate,
-
             room: $scope.room,
-            clientId: angular.isDefined($rootScope.client) ? $rootScope.client.clientId : null, //  null,  // << TODO
+            clientId: angular.isDefined($rootScope.client) && $rootScope.client != null ? $rootScope.client.clientId : null, //  null,  // << TODO
             content: event.details[0].newSchedulerEvent.changed.content,
             endDate: x.endDate,
             startDate: x.startDate,
             userId: $rootScope.user.userId
-            
         });
         var eventObj = {};
         eventObj.room = $scope.room;
-        eventObj.clientId = angular.isDefined($rootScope.client) ? $rootScope.client.clientId : null;
+        eventObj.clientId = angular.isDefined($rootScope.client) && $rootScope.client != null ? $rootScope.client.clientId : null;
         eventObj.content = event.details[0].newSchedulerEvent.changed.content == null ? x.content : event.details[0].newSchedulerEvent.changed.content;
         eventObj.endDate = x.endDate;
         eventObj.startDate = x.startDate;
         eventObj.userId = $rootScope.user.userId;
-        //saveEvent(eventObj);
         remove(eventObj);
         save(eventObj);
     }
 
     var saveEvent = function (x) {
         $http({
-            url: $sessionStorage.config.backend + webService + '/Delete', // '../Scheduler.asmx/Delete',
+            url: $sessionStorage.config.backend + webService + '/Delete', 
             method: "POST",
-            data: { userGroupId: $rootScope.user.userGroupId, userId: $rootScope.user.userId, x: x }  // '{x:' + JSON.stringify(x) + '}'
+            data: { userGroupId: $rootScope.user.userGroupId, userId: $rootScope.user.userId, x: x }
         })
         .then(function (response) {
             save(x);
@@ -681,8 +698,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { userGroupId: $rootScope.user.userGroupId, userId: $rootScope.user.userId, x: x }
         })
         .then(function (response) {
-            alert(response.data.d);
-           // $scope.getSchedulerByRoom();
         },
         function (response) {
             alert(response.data.d);

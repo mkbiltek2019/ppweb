@@ -52,7 +52,6 @@ public class Scheduler : System.Web.Services.WebService {
 
     [WebMethod]
     public string Load(string userGroupId, string userId) {
-        // string path = db.GetDataBasePath(userId, dataBase); // GetDataBasePath(userId);
         db.CreateDataBase(userGroupId, db.scheduler);
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userGroupId, dataBase));
@@ -60,7 +59,7 @@ public class Scheduler : System.Web.Services.WebService {
             string sql = "SELECT rowid, room, clientId, content, startDate, endDate, userId FROM scheduler";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             SQLiteDataReader reader = command.ExecuteReader();
-            List<Event> events = new List<Event>();
+            List<Event> xx = new List<Event>();
             while (reader.Read()) {
                 Event x = new Event();
                 x.id = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
@@ -70,17 +69,15 @@ public class Scheduler : System.Web.Services.WebService {
                 x.startDate = reader.GetValue(4) == DBNull.Value ? 0 : reader.GetInt64(4);
                 x.endDate = reader.GetValue(5) == DBNull.Value ? 0 : reader.GetInt64(5);
                 x.userId = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
-                events.Add(x);
+                xx.Add(x);
             }
             connection.Close();
-            string json = JsonConvert.SerializeObject(events, Formatting.Indented);
-            return json;
-        } catch (Exception e) { return ("Error: " + e); }
+            return JsonConvert.SerializeObject(xx, Formatting.Indented);
+        } catch (Exception e) { return (e.Message); }
     }
 
     [WebMethod]
     public string Save(string userGroupId, string userId, Event x) {
-        //  string path = GetDataBasePath(userId);
         db.CreateDataBase(userGroupId, db.scheduler);
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userGroupId, dataBase));
@@ -122,15 +119,15 @@ public class Scheduler : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string GetSchedulerByRoom(string userGroupId, string userId, int room) {
-        //string path = GetDataBasePath(userId);
-        db.CreateDataBase(userGroupId, db.scheduler);
+    public string GetSchedulerEvents(Users.NewUser user, int room, string uid) {
         try {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userGroupId, dataBase));
+            db.CreateDataBase(user.userGroupId, db.scheduler);
+            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(user.userGroupId, dataBase));
             connection.Open();
-            string sql = @"SELECT rowid, room, clientId, content, startDate, endDate FROM scheduler WHERE room = @Room";
+            string sql = string.Format(@"
+                            SELECT rowid, room, clientId, content, startDate, endDate, userId FROM scheduler WHERE room = {0} {1}"
+                            , room, uid == null ? "" : string.Format(" AND userId = '{0}'", uid));
             SQLiteCommand command = new SQLiteCommand(sql, connection);
-            command.Parameters.Add(new SQLiteParameter("Room", room));
             SQLiteDataReader reader = command.ExecuteReader();
             List<Event> xx = new List<Event>();
             while (reader.Read()) {
@@ -141,6 +138,7 @@ public class Scheduler : System.Web.Services.WebService {
                 x.content = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
                 x.startDate = reader.GetValue(4) == DBNull.Value ? 0 : reader.GetInt64(4);
                 x.endDate = reader.GetValue(5) == DBNull.Value ? 0 : reader.GetInt64(5);
+                x.userId = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
                 xx.Add(x);
             }
             connection.Close();
@@ -148,11 +146,5 @@ public class Scheduler : System.Web.Services.WebService {
             return json;
         } catch (Exception e) { return ("Error: " + e); }
     }
-
-    //#region Methods
-    //private string GetDataBasePath(string userId) {
-    //    return Server.MapPath("~/App_Data/users/" + userId + "/" + dataBase);
-    //}
-    //#endregion Methods
 
 }

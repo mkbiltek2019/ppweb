@@ -1595,6 +1595,13 @@
   "landscape": "horizontalno",
   "portrait": "vertikalno",
   "take pdf": "preuzmi PDF",
-  "pdf": "PDF"
+  "pdf": "PDF",
+  "agenda": "Dnevni red",
+  "day_": "Dan",
+  "month": "Mesec",
+  "today": "Danas",
+  "week": "Nedelja",
+  "calendar": "Kalendar",
+  "all users": "svi korisnici"
 
 }
