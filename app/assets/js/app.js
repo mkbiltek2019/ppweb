@@ -1085,12 +1085,16 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $http({
                 url: $sessionStorage.config.backend + webService + '/Save',
                 method: 'POST',
-                data: { userId: $sessionStorage.usergroupid, x: x }
+                data: { userId: $sessionStorage.usergroupid, x: x, lang: $rootScope.config.language }
             })
            .then(function (response) {
+               if (JSON.parse(response.data.d).message != null) {
+                   functions.alert($translate.instant(JSON.parse(response.data.d).message), '');
+                   return false;
+               }
                getClients();
                $timeout(function () {
-                   $mdDialog.hide(JSON.parse(response.data.d));
+                   $mdDialog.hide(JSON.parse(response.data.d).data);
                }, 500);
            },
            function (response) {

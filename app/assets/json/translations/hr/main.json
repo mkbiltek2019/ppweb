@@ -1601,11 +1601,13 @@
   "take pdf": "preuzmi PDF",
   "pdf": "PDF",
   "agenda": "Dnevni red",
-  "day_":  "Dan",
+  "day_": "Dan",
   "month": "Mjesec",
   "today": "Danas",
   "week": "Tjedan",
   "calendar": "Kalendar",
-  "all users": "svi korisnici"
+  "all users": "svi korisnici",
+  "client was not saved. the maximum number of clients in one month is": "Klijent nije spremljen. Maksimalan broj klijenata u jednom mjesecu je"
+
 
 }

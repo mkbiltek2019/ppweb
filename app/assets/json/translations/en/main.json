@@ -1607,7 +1607,8 @@
   "today": "Today",
   "week": "Week",
   "calendar": "calendar",
-  "all users": "all users"
+  "all users": "all users",
+  "client was not saved. the maximum number of clients in one month is": "Client was not saved. The maximum number of clients in one month is"
 
 
 }

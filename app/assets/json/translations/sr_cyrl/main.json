@@ -1601,6 +1601,7 @@
   "today": "Данас",
   "week": "Недеља",
   "calendar": "Календар",
-  "all users": "сви корисници"
+  "all users": "сви корисници",
+  "client was not saved. the maximum number of clients in one month is": "Клијент није сачуван. Максималан број клијената у једном месецу је"
 
 }
