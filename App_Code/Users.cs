@@ -562,7 +562,7 @@ public class Users : System.Web.Services.WebService {
         x.userType = 0;
         x.firstName = "Igor";
         x.lastName = "Gašparović";
-        x.companyName = "IGPROG";
+        x.companyName = "IG PROG";
         x.address = "Ludvetov breg 5";
         x.postalCode = "51000";
         x.city = "Rijeka";

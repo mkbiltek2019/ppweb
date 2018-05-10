@@ -126,19 +126,19 @@ public class Clients : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string Save(string userId, NewClient x, string lang) {
+    public string Save(Users.NewUser user, NewClient x, string lang) {
         try {
-            db.CreateDataBase(userId, db.clients);
+            db.CreateDataBase(user.userGroupId, db.clients);
             SaveResponse r = new SaveResponse();
-            if (x.clientId == null && Check(userId, x) == false) {
+            if (x.clientId == null && Check(user.userGroupId, x) == false) {
                 r.data = null;
                 r.message = t.Tran("client is already registered", lang);
                 return JsonConvert.SerializeObject(r, Formatting.Indented);
             } else {
                 if (x.clientId == null) {
                     //************TODO***************
-                    int clientsLimit = 500;  //GetNumberOfClientsByUserType(userId)   <== userId == usergroupid;
-                    if (NumberOfClientsPerMonth(userId) > clientsLimit) {
+                    int clientsLimit = GetClientsLimitByUserType(user.userType);
+                    if (NumberOfClientsPerMonth(user.userGroupId) > clientsLimit) {
                         r.data = null;
                         r.message = string.Format("{0} {1}.", t.Tran("client was not saved. the maximum number of clients in one month is", lang), clientsLimit);
                         return JsonConvert.SerializeObject(r, Formatting.Indented);
@@ -146,7 +146,7 @@ public class Clients : System.Web.Services.WebService {
                         x.clientId = Convert.ToString(Guid.NewGuid());
                     }
                 }
-                SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
+                SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(user.userGroupId, dataBase));
                 connection.Open();
                 string sql = @"INSERT OR REPLACE INTO clients VALUES
                             (@clientId, @firstName, @lastName, @birthDate, @gender, @phone, @email, @userId, @date, @isActive)";
@@ -283,13 +283,15 @@ public class Clients : System.Web.Services.WebService {
         return xx;
     }
 
-    public int NumberOfClientsPerMonth(string userId) {
+    private int NumberOfClientsPerMonth(string userId) {
         try {
             int count = 0;
             int month = DateTime.Now.Month;
+            int year = DateTime.Now.Year;
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
-            string sql = string.Format("SELECT COUNT(rowid) FROM clients WHERE userId = '{0}' AND CAST(strftime('%m',date) AS int) = {1}", userId, month);
+            string sql = string.Format(@"
+                    SELECT COUNT(rowid) FROM clients WHERE userId = '{0}' AND CAST(strftime('%m',date) AS int) = {1} AND CAST(strftime('%Y',date) AS int) = {2}", userId, month, year);
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read()) {
@@ -298,6 +300,17 @@ public class Clients : System.Web.Services.WebService {
             connection.Close();
             return count;
         } catch (Exception e) { return 0; }
+    }
+
+    private int GetClientsLimitByUserType(int userType) {
+        int c = 0;
+        switch (userType) {
+            case 0: c = 5; break;
+            case 1: c = 20; break;
+            case 2: c = 1000; break;
+            default: c = 5; break;
+        }
+        return c;
     }
     #endregion
 

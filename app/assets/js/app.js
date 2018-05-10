@@ -1075,8 +1075,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     $scope.birthDateRequiredMsq = null;
                 }
             }
-            
-            
             if ($rootScope.user.licenceStatus == 'demo' && $rootScope.clients.length > 0) {
                 functions.demoAlert('in demo version you can enter only one client');
                 return false;
@@ -1085,7 +1083,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $http({
                 url: $sessionStorage.config.backend + webService + '/Save',
                 method: 'POST',
-                data: { userId: $sessionStorage.usergroupid, x: x, lang: $rootScope.config.language }
+                data: { user: $rootScope.user, x: x, lang: $rootScope.config.language }
             })
            .then(function (response) {
                if (JSON.parse(response.data.d).message != null) {

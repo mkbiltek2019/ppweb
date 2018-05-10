@@ -62,7 +62,7 @@
                 <div class="col-sm-4">
                     <div class="input-group" style="margin:5px 0px 0px 0px">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input ng-model="user.username" type="text" class="form-control" name="email" placeholder="Email">
+                        <input ng-init="user.username='igprog@yahoo.com'" ng-model="user.username" type="text" class="form-control" name="email" placeholder="Email">
                     </div>
                     <div class="input-group" style="margin:5px 0px 0px 0px">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
@@ -146,6 +146,7 @@
                         <th class="nowrap">Istek aktivacije</th>
                         <th>Aktivan</th>
                         <th class="nowrap">Status</th>
+                        <th>Tip korisnika</th>
                         <th colspan="2"></th>
                     </tr>
                     <!--<tr ng-if="$index>=idxStart && $index<idxEnd" ng-repeat="x in d | filter:searchsignup" ng-class="x.userId!=x.userGroupId?'text-muted':''">-->
@@ -169,8 +170,9 @@
                         <td><input ng-disabled="!showDetails" ng-model="x.expirationDate" type="text" /></td>
                         <td><input ng-disabled="!showDetails" ng-model="x.isActive" type="checkbox" class="form-control" /></td>
                         <td>{{x.licenceStatus}}</td>
+                        <td><input ng-disabled="!showDetails" ng-model="x.userType" type="number" style="width:50px" /></td>
                         <td><button ng-disabled="!showDetails" ng-click="update(x)" class="btn btn-success"><i class="fa fa-floppy-o"></i> Spremi</button></td>
-                        <td ng-if="config.debug"><button ng-disabled="!showDetails" ng-click="remove(x)" class="btn btn-danger"><i class="fa fa-thrash-o"></i> Delete</button></td>
+                        <td ng-if="config.debug"><button ng-disabled="!showDetails" ng-click="remove(x)" class="btn btn-danger"><i class="fa fa-thrash-o"></i> Briši</button></td>
                     </tr>
                 </table>
             </div>
