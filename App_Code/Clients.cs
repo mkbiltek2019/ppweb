@@ -137,7 +137,7 @@ public class Clients : System.Web.Services.WebService {
             } else {
                 if (x.clientId == null) {
                     //************TODO***************
-                    int clientsLimit = GetClientsLimitByUserType(user.userType);
+                    int clientsLimit = MonthlyLimitOfClients(user.userType);
                     if (NumberOfClientsPerMonth(user.userGroupId) > clientsLimit) {
                         r.data = null;
                         r.message = string.Format("{0} {1}.", t.Tran("client was not saved. the maximum number of clients in one month is", lang), clientsLimit);
@@ -302,7 +302,7 @@ public class Clients : System.Web.Services.WebService {
         } catch (Exception e) { return 0; }
     }
 
-    private int GetClientsLimitByUserType(int userType) {
+    private int MonthlyLimitOfClients(int userType) {
         int c = 0;
         switch (userType) {
             case 0: c = 5; break;
