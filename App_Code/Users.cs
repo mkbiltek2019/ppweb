@@ -18,6 +18,7 @@ using Igprog;
 [System.Web.Script.Services.ScriptService]
 public class Users : System.Web.Services.WebService {
     string dataBase = ConfigurationManager.AppSettings["UsersDataBase"];
+    string userDataBase = ConfigurationManager.AppSettings["UserDataBase"];
     DataBase db = new DataBase();
     string EncryptionKey = ConfigurationManager.AppSettings["EncryptionKey"];
     string supervisorUserName = ConfigurationManager.AppSettings["SupervisorUserName"];
@@ -47,6 +48,9 @@ public class Users : System.Web.Services.WebService {
         public string licenceStatus { get; set; }
         public string ipAddress { get; set; }
         public int rowid { get; set; }
+        public int subusers { get; set; }
+
+        public DataSum datasum = new DataSum();
     }
 
     public string demo = "demo";
@@ -62,6 +66,13 @@ public class Users : System.Web.Services.WebService {
         public int total { get; set; }
         public double licencepercentage { get; set; }
 
+    }
+
+    public class DataSum {
+        public int clients { get; set; }
+        public int menues { get; set; }
+        public int myfoods {get;set;}
+        public int recipes { get; set; }
     }
 
     public class CheckUser {
@@ -113,7 +124,8 @@ public class Users : System.Web.Services.WebService {
             x.licenceStatus = demo;
             x.ipAddress = HttpContext.Current.Request.UserHostAddress;
             x.rowid = 0;
-
+            x.subusers = 0;
+            x.datasum = new DataSum();
         string json = JsonConvert.SerializeObject(x, Formatting.Indented);
         return json;
     }
@@ -374,6 +386,7 @@ public class Users : System.Web.Services.WebService {
                 x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
             }
             connection.Close();
+            x.datasum = GetDataSum(userId);
             string json = JsonConvert.SerializeObject(x, Formatting.Indented);
             return json;
         } catch (Exception e) { return (e.Message); }
@@ -501,6 +514,15 @@ public class Users : System.Web.Services.WebService {
             string json = JsonConvert.SerializeObject(response, Formatting.Indented);
             return json;
         } catch (Exception e) { return ("error: " + e); }
+    }
+
+    [WebMethod]
+    public string GetUserSum(string userId) {
+        try {
+            return JsonConvert.SerializeObject(GetDataSum(userId), Formatting.Indented);
+        } catch (Exception e) {
+            return (e.Message);
+        }
     }
     #endregion
 
@@ -642,7 +664,6 @@ public class Users : System.Web.Services.WebService {
         if (limit !=null && page != null) {
             limitSql = string.Format("LIMIT {0} OFFSET {1}", limit, (page - 1) * limit);
         }
-
         string sql = string.Format(@"
                     SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress, rowid FROM users
                     ORDER BY rowid DESC {0}", limitSql);
@@ -676,6 +697,40 @@ public class Users : System.Web.Services.WebService {
             xx.Add(x);
         }
         return xx;
+    }
+
+    private DataSum GetDataSum(string userId) {
+        DataSum x = new DataSum();
+        try {
+            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, userDataBase));
+            connection.Open();
+            string sql = "SELECT COUNT(rowid) FROM clients";
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read()) {
+                x.clients = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+            }
+            sql = "SELECT COUNT(id) FROM menues";
+            command = new SQLiteCommand(sql, connection);
+            reader = command.ExecuteReader();
+            while (reader.Read()) {
+                x.menues = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+            }
+            sql = "SELECT COUNT(id) FROM myfoods";
+            command = new SQLiteCommand(sql, connection);
+            reader = command.ExecuteReader();
+            while (reader.Read()) {
+                x.myfoods = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+            }
+            sql = "SELECT COUNT(id) FROM recipes";
+            command = new SQLiteCommand(sql, connection);
+            reader = command.ExecuteReader();
+            while (reader.Read()) {
+                x.recipes = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+            }
+            connection.Close();
+            return x;
+        } catch (Exception e) { return x; }
     }
     #endregion
 
