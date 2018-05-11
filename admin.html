@@ -62,7 +62,7 @@
                 <div class="col-sm-4">
                     <div class="input-group" style="margin:5px 0px 0px 0px">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input ng-init="user.username='igprog@yahoo.com'" ng-model="user.username" type="text" class="form-control" name="email" placeholder="Email">
+                        <input ng-model="user.username" type="text" class="form-control" name="email" placeholder="Email">
                     </div>
                     <div class="input-group" style="margin:5px 0px 0px 0px">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
@@ -147,7 +147,7 @@
                         <th>Aktivan</th>
                         <th class="nowrap">Status</th>
                         <th>Tip korisnika</th>
-                        <th colspan="2"></th>
+                        <th colspan="3"></th>
                     </tr>
                     <!--<tr ng-if="$index>=idxStart && $index<idxEnd" ng-repeat="x in d | filter:searchsignup" ng-class="x.userId!=x.userGroupId?'text-muted':''">-->
                     <tr ng-class="x.userId!=x.userGroupId?'text-muted':''"  ng-repeat="x in d track by $index">
@@ -173,6 +173,7 @@
                         <td><input ng-disabled="!showDetails" ng-model="x.userType" type="number" style="width:50px" /></td>
                         <td><button ng-disabled="!showDetails" ng-click="update(x)" class="btn btn-success"><i class="fa fa-floppy-o"></i> Spremi</button></td>
                         <td ng-if="config.debug"><button ng-disabled="!showDetails" ng-click="remove(x)" class="btn btn-danger"><i class="fa fa-thrash-o"></i> Briši</button></td>
+                        <td ng-if="config.debug"><button ng-disabled="!showDetails" ng-click="info(x.userId)" class="btn btn-info" data-toggle="modal" data-target="#myModal"><i class="fa fa-info"></i> Info</button></td>
                     </tr>
                 </table>
             </div>
@@ -181,15 +182,40 @@
                 <span class="badge">{{page}}</span>
                 <button class="btn btn-default" ng-click="nextPage()">Next <i class="fa fa-arrow-right"></i></button>
             </div>
-            <!--<ul class="pagination">
-                <li ng-if="d.length>0"><a href="#" ng-click="setPage(0)">1</a></li>
-                <li ng-if="d.length>10"><a href="#" ng-click="setPage(10)">2</a></li>
-                <li ng-if="d.length>20"><a href="#" ng-click="setPage(20)">4</a></li>
-                <li ng-if="d.length>30"><a href="#" ng-click="setPage(30)">5</a></li>
-                <li ng-if="d.length>40"><a href="#" ng-click="setPage(40)">6</a></li>
-                <li><a href="#" ng-click="showAllPages()">All ({{d.length}})</a></li>
-            </ul>-->
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Ukupno</h4>
+                        </div>
+                        <div class="modal-body">
+                            <ul>
+                                <li>Klijenti: <span class="badge">{{userTotal.clients}}</span></li>
+                                <li>Jelovnici: <span class="badge">{{userTotal.menues}}</span></li>
+                                <li>Moje namirnice: <span class="badge">{{userTotal.myfoods}}</span></li>
+                                <li>Recepti: <span class="badge">{{userTotal.recipes}}</span></li>
+                            </ul>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Zatvori</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
+
+
+       
+
+
+
     </script>
 
     <script type="text/ng-template" id="programPrehrane5">
@@ -470,6 +496,12 @@
 
    
     <script src="../assets/js/admin.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="popover"]').popover();
+        });
+    </script>
   
    
 </body>

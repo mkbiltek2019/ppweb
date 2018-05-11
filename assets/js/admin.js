@@ -146,14 +146,28 @@ angular.module('app', [])
             method: 'POST',
             data: { x: user }
         })
-            .then(function (response) {
-                load();
-                total();
-                alert(response.data.d);
-            },
-            function (response) {
-                alert(response.data.d);
-            });
+        .then(function (response) {
+            load();
+            total();
+            alert(response.data.d);
+        },
+        function (response) {
+            alert(response.data.d);
+        });
+    }
+
+    $scope.info = function (userId) {
+        $http({
+            url: $rootScope.config.backend + 'Users.asmx/GetUserSum',
+            method: 'POST',
+            data: { userId: userId }
+        })
+        .then(function (response) {
+            $scope.userTotal = JSON.parse(response.data.d);
+        },
+        function (response) {
+            alert(response.data.d);
+        });
     }
 
     $scope.remove = function(user) {
