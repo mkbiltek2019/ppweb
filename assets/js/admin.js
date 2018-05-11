@@ -1,6 +1,6 @@
 ﻿/*!
 admin.js
-(c) 2017 IG PROG, www.igprog.hr
+(c) 2018 IG PROG, www.igprog.hr
 */
 angular.module('app', [])
 
