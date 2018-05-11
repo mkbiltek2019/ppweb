@@ -307,7 +307,7 @@ public class Users : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string Search(string query, int? limit, int? page) {
+    public string Search(string query, int? limit, int? page, bool activeUsers) {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
             connection.Open();
@@ -315,10 +315,15 @@ public class Users : System.Web.Services.WebService {
             if (limit != null && page != null) {
                 limitSql = string.Format("LIMIT {0} OFFSET {1}", limit, (page - 1) * limit);
             }
+            string aciveUsersSql = "";
+            if (activeUsers == true) {
+                aciveUsersSql = "AND isActive = 1";
+            }
             string sql = string.Format(@"
-                        SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress, rowid FROM users
-                        WHERE firstName LIKE '%{0}%' OR lastName LIKE '%{0}%' OR companyName LIKE '%{0}%' OR email LIKE '%{0}%'
-                        ORDER BY rowid DESC {1}", query, limitSql);
+                        SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress, rowid
+                        FROM users                       
+                        WHERE (firstName LIKE '%{0}%' OR lastName LIKE '%{0}%' OR companyName LIKE '%{0}%' OR email LIKE '%{0}%') {2}
+                        ORDER BY rowid DESC {1}", query, limitSql, aciveUsersSql);
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             List<NewUser> xx = new List<NewUser>();
             SQLiteDataReader reader = command.ExecuteReader();
@@ -346,6 +351,7 @@ public class Users : System.Web.Services.WebService {
                 x.licenceStatus = GetLicenceStatus(x);
                 x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
                 x.rowid = reader.GetValue(20) == DBNull.Value ? 0 : reader.GetInt32(20);
+                x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection);
                 xx.Add(x);
             }
             connection.Close();
@@ -665,7 +671,8 @@ public class Users : System.Web.Services.WebService {
             limitSql = string.Format("LIMIT {0} OFFSET {1}", limit, (page - 1) * limit);
         }
         string sql = string.Format(@"
-                    SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress, rowid FROM users
+                    SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress, rowid
+                    FROM users
                     ORDER BY rowid DESC {0}", limitSql);
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         SQLiteDataReader reader = command.ExecuteReader();
@@ -694,8 +701,10 @@ public class Users : System.Web.Services.WebService {
             x.licenceStatus = GetLicenceStatus(x);
             x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
             x.rowid = reader.GetValue(20) == DBNull.Value ? 0 : reader.GetInt32(20);
+            x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection); // todo getsubuserscount  reader.GetValue(21) == DBNull.Value ? 0 : reader.GetInt32(21);
             xx.Add(x);
         }
+        connection.Close();
         return xx;
     }
 
@@ -731,6 +740,18 @@ public class Users : System.Web.Services.WebService {
             connection.Close();
             return x;
         } catch (Exception e) { return x; }
+    }
+
+    private int GetUsersCountByUserGroup(string userGroupId, SQLiteConnection connection) {
+        int x = 0;
+        string sql = string.Format("SELECT COUNT(userId) FROM users WHERE userGroupId = '{0}'", userGroupId);
+        SQLiteCommand command = new SQLiteCommand(sql, connection);
+        SQLiteDataReader reader = command.ExecuteReader();
+        List<NewUser> xx = new List<NewUser>();
+        while (reader.Read()) {
+            x = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+        }
+        return x;
     }
     #endregion
 

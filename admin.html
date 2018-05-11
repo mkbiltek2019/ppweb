@@ -56,7 +56,7 @@
     </footer>-->
 
     <script type="text/ng-template" id="login">
-        <div class="container">
+        <div class="container" style="padding-bottom:20px">
             <h3>Login</h3>
             <div class="row">
                 <div class="col-sm-4">
@@ -118,16 +118,23 @@
                     <!--<input ng-model="searchsignup" class="form-control" placeholder="Pretraži..." />-->
                 </div>
                 <div class="col-sm-4 checkbox">
-                    <label><input type="checkbox" ng-model="showDetails" />Prikaži detalje / uredi</label>
+                    <label class="p5"><input type="checkbox" ng-model="showDetails" />Prikaži detalje / uredi</label>
+                    <label class="p5"><input type="checkbox" ng-model="showActive" ng-click="search()" />Prikaži aktivne</label>
                 </div>
             </div>
             <div ng-if="loading" class="text-center text-primary">
                 <label class="lead text-primary">Učitavanje...</label>
                 <div><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>
             </div>
+            <div ng-if="!loading">
+                <button class="btn btn-default" ng-click="prevPage()"><i class="fa fa-arrow-left"></i> Prev</button>
+                <span class="badge">{{page}}</span>
+                <button class="btn btn-default" ng-click="nextPage()">Next <i class="fa fa-arrow-right"></i></button>
+            </div>
             <div ng-if="!loading" class="table-responsive">
                 <table class="table table-condensed text-small">
                     <tr>
+                        <th></th>
                         <th>Br.</th>
                         <th ng-if="showDetails">UserId</th>
                         <th ng-if="showDetails">UserGroupId</th>
@@ -147,11 +154,13 @@
                         <th>Aktivan</th>
                         <th class="nowrap">Status</th>
                         <th>Tip korisnika</th>
-                        <th colspan="3"></th>
+                        <th>Broj korisnika</th>
+                        <th colspan="2"></th>
                     </tr>
                     <!--<tr ng-if="$index>=idxStart && $index<idxEnd" ng-repeat="x in d | filter:searchsignup" ng-class="x.userId!=x.userGroupId?'text-muted':''">-->
                     <tr ng-class="x.userId!=x.userGroupId?'text-muted':''"  ng-repeat="x in d track by $index">
                         <!--<td>{{d.length - $index}}</td>-->
+                        <td><button ng-click="info(x.userId)" class="btn btn-info" data-toggle="modal" data-target="#myModal"><i class="fa fa-info"></i></button></td>
                         <td>{{x.rowid}}</td>
                         <td ng-if="showDetails" class="novrap">{{x.userId}}</td>
                         <td ng-if="showDetails" class="novrap">{{x.userGroupId}}</td>
@@ -171,9 +180,9 @@
                         <td><input ng-disabled="!showDetails" ng-model="x.isActive" type="checkbox" class="form-control" /></td>
                         <td>{{x.licenceStatus}}</td>
                         <td><input ng-disabled="!showDetails" ng-model="x.userType" type="number" style="width:50px" /></td>
+                        <td>{{x.subusers}}</td>
                         <td><button ng-disabled="!showDetails" ng-click="update(x)" class="btn btn-success"><i class="fa fa-floppy-o"></i> Spremi</button></td>
                         <td ng-if="config.debug"><button ng-disabled="!showDetails" ng-click="remove(x)" class="btn btn-danger"><i class="fa fa-thrash-o"></i> Briši</button></td>
-                        <td ng-if="config.debug"><button ng-disabled="!showDetails" ng-click="info(x.userId)" class="btn btn-info" data-toggle="modal" data-target="#myModal"><i class="fa fa-info"></i> Info</button></td>
                     </tr>
                 </table>
             </div>
@@ -184,7 +193,7 @@
             </div>
 
             <!-- Modal -->
-            <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal fade" id="myModal" role="dialog" style="margin-top:150px">
                 <div class="modal-dialog">
 
                     <!-- Modal content-->

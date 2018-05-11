@@ -80,6 +80,7 @@ angular.module('app', [])
 
 .controller('webAppCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
     $scope.showDetails = false;
+    $scope.showActive = false;
     $scope.loading = false;
     $scope.limit = 10;
     $scope.page = 1;
@@ -127,7 +128,7 @@ angular.module('app', [])
         $http({
             url: $rootScope.config.backend + 'Users.asmx/Search',
             method: 'POST',
-            data: { query: $scope.searchQuery, limit: $scope.limit, page: $scope.page }
+            data: { query: $scope.searchQuery, limit: $scope.limit, page: $scope.page, activeUsers: $scope.showActive }
         })
         .then(function (response) {
             $scope.d = JSON.parse(response.data.d);
