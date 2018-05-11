@@ -4,8 +4,17 @@
             <h3 class="page-header text-capitalize">{{'calendar' | translate}}</h3>
         </div>
         <div class="col-sm-6 text-right">
-            <a href=""  class="btn btn-default" ng-click="toggleTpl('dashboard.html')"><i class="fa fa-dashboard"></i> {{'application' | translate}}</a>
+            <a href="" class="btn btn-default" ng-click="toggleTpl('dashboard.html')"><i class="fa fa-dashboard"></i> {{'application' | translate}}</a>
         </div>
+    </div>
+    <div ng-if="user.licenceStatus == 'demo' || user.userType < 1" class="alert alert-success alert-dismissable text-center m10" style="height:auto !important">
+        <strong>
+            <i class="fa fa-info-circle fa-2x" aria-hidden="true"></i>
+            <span class="text-uppercase ml5">{{'save events is available only in standard and premium version' | translate}}</span>
+            <strong class="btn btn-success ml10" ng-click="toggleTpl('order.html'); hideMsg()"><i class="fa fa-hand-o-right fa-2x" aria-hidden="true"></i>
+            <span class="text-uppercase ml5">{{'order now' | translate}}</span>
+            </strong>
+        </strong>
     </div>
     <md-input-container>
         <label>{{'users' | translate}}</label>

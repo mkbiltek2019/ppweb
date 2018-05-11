@@ -1,6 +1,6 @@
 ﻿/*!
 app.js
-(c) 2017 IG PROG, www.igprog.hr
+(c) 2018 IG PROG, www.igprog.hr
 */
 angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'chart.js', 'ngStorage', 'functions', 'charts'])
 
@@ -652,21 +652,27 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         save(eventObj);
     }
 
-    var saveEvent = function (x) {
-        $http({
-            url: $sessionStorage.config.backend + webService + '/Delete', 
-            method: "POST",
-            data: { userGroupId: $rootScope.user.userGroupId, userId: $rootScope.user.userId, x: x }
-        })
-        .then(function (response) {
-            save(x);
-        },
-        function (response) {
-            alert(response.data.d)
-        });
-    }
+    //var saveEvent = function (x) {
+    //    if ($rootScope.user.licenceStatus == 'demo' || $rootScope.user.userType < 1) {
+    //        functions.demoAlert('this function is not available in premium version');
+    //    }
+    //    $http({
+    //        url: $sessionStorage.config.backend + webService + '/Delete', 
+    //        method: "POST",
+    //        data: { userGroupId: $rootScope.user.userGroupId, userId: $rootScope.user.userId, x: x }
+    //    })
+    //    .then(function (response) {
+    //        save(x);
+    //    },
+    //    function (response) {
+    //        alert(response.data.d)
+    //    });
+    //}
 
     var save = function (x) {
+        if ($rootScope.user.licenceStatus == 'demo' || $rootScope.user.userType < 1) {
+            return false;
+        }
         $http({
             url: $sessionStorage.config.backend + webService + '/Save',
             method: "POST",
@@ -688,7 +694,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         eventObj.startDate = x.startDate;
         eventObj.userId = $rootScope.user.userId;
         remove(eventObj);
-        $scope.getSchedulerByRoom();
+        //$scope.getSchedulerByRoom();
     }
 
     var remove = function (x) {
@@ -713,27 +719,26 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 .controller('userCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
     var webService = 'Users.asmx';
 
-    $scope.adminTypes = [
-       {
-           'value': '0',
-           'text': 'Supervizor'
+    $scope.adminTypes = [ {
+           value: 0,
+           text: 'Supervizor'
        },
        {
-           'value': '1',
-           'text': 'Admin'
+           value: 1,
+           text: 'Admin'
        }
     ];
 
-    $scope.userTypes = [
-      {
-          'value': '0',
-          'text': 'Tip korisnika'
-      },
-      {
-          'value': '1',
-          'text': 'Tip korisnika'
-      }
-    ];
+    //$scope.userTypes = [
+    //  {
+    //      'value': '0',
+    //      'text': 'Tip korisnika'
+    //  },
+    //  {
+    //      'value': '1',
+    //      'text': 'Tip korisnika'
+    //  }
+    //];
 
     var init = function () {
         $http({
@@ -781,13 +786,30 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     }
 
+    var maxnumberofusers = function () {
+        var usertype = $rootScope.user.userType;
+        switch (usertype) {
+            case 0:
+                return 1;
+                break;
+            case 1:
+                return 2;
+                break;
+            case 2:
+                return 5;
+                break;
+            default:
+                return 1;
+        }
+    }
+
     $scope.signup = function () {
         if ($rootScope.user.licenceStatus == 'demo' && $rootScope.users.length > 0) {
             functions.demoAlert('this function is not available in demo version');
             return false;
         }
-        if ($scope.users.length >= $sessionStorage.config.maxnumberofusers) {
-            functions.alert($translate.instant('max number of users is') + ' ' + $sessionStorage.config.maxnumberofusers, '');
+        if ($scope.users.length >= maxnumberofusers()) {
+            functions.alert($translate.instant('max number of users is') + ' ' + maxnumberofusers(), '');
             return false;
         }
 

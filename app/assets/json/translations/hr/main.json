@@ -1607,7 +1607,9 @@
   "week": "Tjedan",
   "calendar": "Kalendar",
   "all users": "svi korisnici",
-  "client was not saved. the maximum number of clients in one month is": "Klijent nije spremljen. Maksimalan broj klijenata u jednom mjesecu je"
+  "client was not saved. the maximum number of clients in one month is": "Klijent nije spremljen. Maksimalan broj klijenata u jednom mjesecu je",
+  "save events is available only in standard and premium version": "spremanje termina je dostupno samo u standard i premium verziji",
+  "order now": "nauči"
 
 
 }
