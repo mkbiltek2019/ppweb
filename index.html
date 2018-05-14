@@ -54,25 +54,25 @@
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#about"><i class="fa fa-info"></i> O aplikaciji</a></li>
                     <li><a href="#pricing"><i class="fa fa-usd"></i> Cijene</a></li>
                     <li><a href="#registration"><i class="fa fa-user-plus"></i> Registracija</a></li>
                     <li><a href="#order"><i class="fa fa-shopping-cart"></i> Narudžba</a></li>
+                    <li><a href="#about"><i class="fa fa-info"></i> O aplikaciji</a></li>
+                    <li><a href="#contact"><i class="fa fa-comment"></i> Kontakt</a></li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-book"></i> Dokumentacija<span class="caret"></span></a>
-                        <ul class="dropdown-menu" style="background-color:#337ab7">
+                        <ul class="dropdown-menu" style="background-color:#4e4e4f">
                             <li style="padding:5px"><a href="uputa.html"><i class="fa fa-question-circle"></i> Uputa</a></li>
                             <li style="padding:5px"><a href="izrada-uravnotezenog-jelovnika.html"><i class="fa fa-cutlery"></i> Izrada uravnoteženog jelovnika</a></li>
                         </ul>
                     </li>
-                    <li><a href="#contact"><i class="fa fa-comment"></i> Kontakt</a></li>
                     <li><a href="{{config.appurl}}" title="Prijava"><i class="fa fa-sign-in"></i> App</a></li>
                 </ul>
             </div>
         </div>
     </nav>
     <div class="jumbotron text-center" style="padding-top:180px">
-        <a href="#about" style="text-decoration:none">
+        <!--<a href="#about" style="text-decoration:none">
             <h1 style="text-shadow: 2px 2px darkgray" class="text-capitalize main-text">web aplikacija</h1>
             <h1 style="text-shadow: 2px 2px darkgray" class="text-uppercase main-text">program prehrane</h1>
             <h2 style="color:black !important" class="text-lowercase hidden-xs">profesionalni alat za izradu uravnoteženih jelovnika i plana tjelesne aktivnost</h2>
@@ -84,7 +84,7 @@
         <div class="visible-xs text-center">
             <a href="{{config.appurl}}" class="btn btn-success m10"><i class="fa fa-cloud fa-4x"></i> Web App</a>
             <a href="{{config.apk}}" class="btn btn-danger m10"><i class="fa fa-android fa-4x"></i> Android App</a>
-        </div>
+        </div>-->
     </div>
     <!--<div id="PPWebCarousel" class="carousel slide text-center" data-ride="carousel" style="padding:60px 50px 20px 50px; margin:10px 5px 20px 5px; border:solid 1px #428bca">
         <ol class="carousel-indicators">
@@ -287,7 +287,7 @@
     <div id="registration" class="container text-left pt60">
         <h2 class="text-center">Registracija</h2>
         <p>Za pristup aplikaciji potrebno je ispuniti <em>registracijsku formu</em>. Upišite Vaše ime i prezime, email adresu te lozinku koju želite koristiti za pristup aplikciji.</p>
-        <div id="webapp" class="col-md-6 col-md-offset-3">
+        <div id="webapp" class="col-md-8 col-md-offset-2">
             <div ng-include="'./assets/partials/signup.html'"></div>
         </div>
     </div>

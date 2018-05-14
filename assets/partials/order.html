@@ -1,14 +1,11 @@
-﻿<div id="orderform" ng-controller="orderCtrl">
-    <div class="well text-left">
+﻿<div id="orderform" ng-controller="orderCtrl" class="well text-left">
         <h4>Narudžbenica</h4>
-
         <ol class="breadcrumb">
-            <li ng-class="user.application=='Program Prehrane Web' && !showUserDetails?'bg-info':''" style="padding:10px; border-radius: 25px"><span class="badge">1</span><span ng-if=""></span> {{user.application=='Program Prehrane Web'?'Prijava':'Verzija'}}</li>
-            <li ng-class="showUserDetails==true&&showAlert==false?'bg-info':''" style="padding:10px; border-radius: 25px"><span class="badge">2</span> Narudžba</li>
-            <li ng-class="showAlert==true?'bg-info':''" style="padding:10px; border-radius: 25px"><span class="badge">3</span> Plaćanje</li>
+            <li ng-class="user.application=='Program Prehrane Web' && !showUserDetails?'main':''" style="padding:10px; border-radius: 25px"><span class="badge">1</span><span ng-if=""></span> {{user.application=='Program Prehrane Web'?'Prijava':'Verzija'}}</li>
+            <li ng-class="showUserDetails==true&&showAlert==false?'main':''" style="padding:10px; border-radius: 25px"><span class="badge">2</span> Narudžba</li>
+            <li ng-class="showAlert==true?'main':''" style="padding:10px; border-radius: 25px"><span class="badge">3</span> Plaćanje</li>
         </ol>
         <hr />
-
         <div ng-if="!showAlert">
             <div ng-if="user.application=='Program Prehrane 5.0' && !showUserDetails">
                 <div ng-if="user.application=='Program Prehrane 5.0'" class="form-group">
@@ -183,7 +180,7 @@
         </div>
 
 
-        <div ng-if="showAlert" class="alert alert-success">
+        <div ng-if="showAlert" class="alert alert-success main">
             <strong>Narudžba je uspješno poslana!</strong>
             <p ng-if="user.application!='Program Prehrane Web'">Nakon primitka uplate ili nakon što nam pošaljete potvrdu o uplati <strong>aktivacijki kod</strong> šaljemo na Vašu email adresu.</p>
             <p ng-if="user.application=='Program Prehrane Web'">Vaš korisnički račun će biti aktivan unutar 24 sata od primitka uplate ili nakon što nam pošaljete potvrdu o uplati na email: <strong><a href="mailto:program.prehrane@yahoo.com@yahoo.com"><span class="fa fa-envelope-o"></span> program.prehrane@yahoo.com</a></strong></p>
@@ -223,8 +220,4 @@ Iznos: <span>{{user.priceEur | number:0}}</span> €
                <i class="fa fa-sign-in"></i> Pokreni aplikaciju
             </a>
         </div>
-
-    </div>
-
-  
 </div>
