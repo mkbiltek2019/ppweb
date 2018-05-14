@@ -59,8 +59,10 @@ angular.module('app', ['ngMaterial'])
 }])
 
 .controller('webAppCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
-     $rootScope.application = 'Program Prehrane';
-     $rootScope.version = 'WEB';
+     //$rootScope.application = 'Program Prehrane';
+    //$rootScope.version = 'WEB';
+    $rootScope.application = 'Program Prehrane Web';
+    $rootScope.version = 'STANDARD';
 }])
 
 .controller('pp5Ctrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
@@ -138,7 +140,7 @@ angular.module('app', ['ngMaterial'])
 .controller('orderCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
     $scope.application = $rootScope.application;
     $scope.version = $rootScope.version;
-    $scope.userType = 0;
+    $scope.userType = 1;
     $scope.showAlert = false;
     $scope.sendicon = 'fa fa-angle-double-right';
     $scope.sendicontitle = 'Dalje';
@@ -155,9 +157,10 @@ angular.module('app', ['ngMaterial'])
      .then(function (response) {
          $scope.user = JSON.parse(response.data.d);
          $scope.user.application = $scope.application;
-         $scope.user.version = 'PREMIUM';
-         $scope.user.licence = $rootScope.application == 'Program Prehrane' ? '1' : '0';
-         $scope.user.licenceNumber = '1';
+         $scope.user.version = $rootScope.application == 'Program Prehrane' ? 'PREMIUM' : 'STANDARD';
+         $scope.user.licence = 1; // $rootScope.application == 'Program Prehrane' ? '1' : '0';
+         $scope.user.licenceNumber = 1;
+         $scope.user.userType = $scope.userType;
          $scope.calculatePrice();
      },
      function (response) {
@@ -186,11 +189,18 @@ angular.module('app', ['ngMaterial'])
         var unitprice = 0;
         var totalprice = 0;
 
-        if ($scope.user.application == 'Program Prehrane') {
+        //if ($scope.user.application == 'Program Prehrane') {
+        if ($scope.user.application == 'Program Prehrane Web') {
             $scope.user.version = $scope.version;
-            if ($scope.user.licence == '1') { unitprice = 550; }
-            if ($scope.user.licence == '2') { unitprice = 750; }
-            $scope.user.licenceNumber = '1';
+
+            if ($scope.user.userType == 0) { unitprice = 550; }
+            if ($scope.user.userType == 1) { unitprice = 950; }
+            if ($scope.user.userType == 2) { unitprice = 1850; }
+
+            unitprice = unitprice * 1 * ($scope.user.licence == 1 ? 1 : 1.80);
+           // if ($scope.user.licence == 1) { unitprice = 550; }
+           // if ($scope.user.licence == 2) { unitprice = 750; }
+            $scope.user.licenceNumber = 1;
         } else {
             $scope.user.version = $scope.user.version == '' ? 'PREMIUM' : $scope.user.version;
             if ($scope.user.version == 'START') {

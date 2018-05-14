@@ -82,7 +82,7 @@ body {
   }
   .navbar {
       margin-bottom: 0;
-      background-color: #337ab7;
+      background-color: #5a5b5b;
       z-index: 9999;
       border: 0;
       font-size: 12px !important;
@@ -95,8 +95,8 @@ body {
       color: #fff !important;
   }
   .navbar-nav li a:hover, .navbar-nav li.active a {
-      color: #f4511e !important;
-      background-color: #fff !important;
+      color: #fff !important;
+      background-color: #65ccb8 !important;
   }
   .navbar-default .navbar-toggle {
       border-color: transparent;
@@ -237,6 +237,21 @@ body {
 .mt10 {
     margin-top: 10px;
 }
+
+.main {
+    background-color: #65ccb8 !important;
+    color: white !important;
+}
+
+.main-text, a {
+    color: #65ccb8 !important;
+}
+
+.main-border {
+    border: 1px solid #65ccb8 !important;
+    color: #65ccb8 !important;
+}
+
 
 
 

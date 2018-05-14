@@ -3,10 +3,11 @@
         <h4>Narudžbenica</h4>
 
         <ol class="breadcrumb">
-            <li ng-class="user.version=='WEB' && !showUserDetails?'bg-info':''" style="padding:10px; border-radius: 25px"><span class="badge">1</span><span ng-if=""></span> {{user.version=='WEB'?'Prijava':'Verzija'}}</li>
+            <li ng-class="user.application=='Program Prehrane Web' && !showUserDetails?'bg-info':''" style="padding:10px; border-radius: 25px"><span class="badge">1</span><span ng-if=""></span> {{user.application=='Program Prehrane Web'?'Prijava':'Verzija'}}</li>
             <li ng-class="showUserDetails==true&&showAlert==false?'bg-info':''" style="padding:10px; border-radius: 25px"><span class="badge">2</span> Narudžba</li>
             <li ng-class="showAlert==true?'bg-info':''" style="padding:10px; border-radius: 25px"><span class="badge">3</span> Plaćanje</li>
         </ol>
+        <hr />
 
         <div ng-if="!showAlert">
             <div ng-if="user.application=='Program Prehrane 5.0' && !showUserDetails">
@@ -38,11 +39,12 @@
                     <label>Cijena: <strong>{{user.price}} kn</strong></label>
                 </div>
                 <div class="text-right">
-                    <button class="btn btn-primary" ng-click="gotoForm()">Dalje <i class="fa fa-angle-double-right"></i></button>
+                    <button class="btn btn-default main" ng-click="gotoForm()">Dalje <i class="fa fa-angle-double-right"></i></button>
                 </div>
             </div>
 
-            <div ng-if="user.version=='WEB' && !showUserDetails" >
+            <!--<div ng-if="user.version=='WEB' && !showUserDetails" >-->
+            <div ng-if="user.application=='Program Prehrane Web' && !showUserDetails">
                 <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Email</label>
@@ -56,27 +58,72 @@
                     </md-input-container>
                 </div>
                 <div class="text-right">
-                    <button class="btn btn-primary" ng-click="login(user.email, password)">Dalje <i class="fa fa-angle-double-right"></i></button>
+                    <button class="btn btn-default main" ng-click="login(user.email, password)">Dalje <i class="fa fa-angle-double-right"></i></button>
                 </div>
-               <div class="text-left">
-                   Nemate korisničko ime i lozinku? <a href="#app" ng-click="registration()">Registrirajte se...</a>
-               </div>
+                <div class="text-left">
+                    Nemate korisničko ime i lozinku? <a href="#app" ng-click="registration()">Registrirajte se...</a>
+                </div>
             </div>
             <div ng-if="showErrorAlert" class="alert alert-danger">
                 <strong>{{errorMesage}}</strong>
             </div>
             <div ng-if="showUserDetails">
-                <div ng-if="user.version=='WEB'" class="row m10">
-                    <label class="col-sm-4 text-right">Pretplata: </label>
+                <div ng-if="user.application=='Program Prehrane Web'" class="row m10">
+                    <div class="row m2">
+                        <label class="col-sm-2 text-right"></label>
+                        <div class="col-sm-6">
+                            <label>{{user.application}}</label>
+                        </div>
+                    </div>
+                    <div class="row m2">
+                        <div class="col-sm-2 text-right">Paket: </div>
+                        <div class="col-sm-6">
+                            <select ng-model="user.userType" class="form-control" ng-change="calculatePrice()">
+                                <option ng-value="0" ng-selected="user.userType==0?true:false">START</option>
+                                <option ng-value="1" ng-selected="user.userType==1?true:false">STANDARD</option>
+                                <option ng-value="2" ng-selected="user.userType==2?true:false">PREMIUM</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row m2">
+                        <div class="col-sm-2 text-right">Pretplata: </div>
+                        <div class="col-sm-6">
+                            <select ng-model="user.licence" class="form-control" ng-change="calculatePrice()">
+                                <option ng-value="1" ng-selected="user.licence==1?true:false">1 godina</option>
+                                <option ng-value="2" ng-selected="user.licence==2?true:false">2 godine (-20%)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row m2">
+                        <div class="col-sm-2 text-right">Cijena: </div>
+                        <div class="col-sm-6">
+                            <label>{{user.price}} kn ({{user.priceEur | number:0}} €)</label>
+                        </div>
+                    </div>
+                    
+
+                    
+
+
+                    <!--<div class="input-group col-sm-6">
+                        <select ng-model="user.userType" class="form-control" ng-change="calculatePrice()">
+                            <option ng-value="0" ng-selected="user.userType==0?true:false">START</option>
+                            <option ng-value="1" ng-selected="user.userType==1?true:false">STANDARD</option>
+                            <option ng-value="2" ng-selected="user.userType==2?true:false">PREMIUM</option>
+                        </select>
+                        <span class="input-group-addon">{{user.price}} kn ({{user.priceEur | number:0}} €)</span>
+                    </div>
+                    <label class="col-sm-2 text-right">Pretplata: </label>
                     <div class="input-group col-sm-6">
                         <select ng-model="user.licence" class="form-control" ng-change="calculatePrice()">
                             <option ng-value="1" ng-selected="user.licence==1?true:false">1 godina</option>
                             <option ng-value="2" ng-selected="user.licence==2?true:false">2 godine</option>
                         </select>
                         <span class="input-group-addon">{{user.price}} kn ({{user.priceEur | number:0}} €)</span>
-                    </div>
+                    </div>-->
                 </div>
-                <h4 class="lead">Vaši podaci</h4>
+                <hr />
+                <h5 class="lead">Vaši podaci</h5>
                 <div class="mt20">
                     <label class="radio-inline">
                         <input ng-model="userType" value="0" type="radio" name="usertype" ng-change="changeUserType(0)">Fizička osoba
@@ -129,7 +176,7 @@
                         </md-input-container>
                     </div>
                     <div class="text-right">
-                        <button class="btn btn-primary" ng-disabled="isSendButtonDisabled" ng-click="sendOrder(user)">{{sendicontitle}} <span ng-class="sendicon"></span></button>
+                        <button class="btn btn-default main" ng-disabled="isSendButtonDisabled" ng-click="sendOrder(user)">{{sendicontitle}} <span ng-class="sendicon"></span></button>
                     </div>
                 </div>
             </div>
@@ -138,8 +185,8 @@
 
         <div ng-if="showAlert" class="alert alert-success">
             <strong>Narudžba je uspješno poslana!</strong>
-            <p ng-if="user.version!='WEB'">Nakon primitka uplate ili nakon što nam pošaljete potvrdu o uplati <strong>aktivacijki kod</strong> šaljemo na Vašu email adresu.</p>
-            <p ng-if="user.version=='WEB'">Vaš korisnički račun će biti aktivan unutar 24 sata od primitka uplate ili nakon što nam pošaljete potvrdu o uplati na email: <strong><a href="mailto:program.prehrane@yahoo.com@yahoo.com"><span class="fa fa-envelope-o"></span> program.prehrane@yahoo.com</a></strong></p>
+            <p ng-if="user.application!='Program Prehrane Web'">Nakon primitka uplate ili nakon što nam pošaljete potvrdu o uplati <strong>aktivacijki kod</strong> šaljemo na Vašu email adresu.</p>
+            <p ng-if="user.application=='Program Prehrane Web'">Vaš korisnički račun će biti aktivan unutar 24 sata od primitka uplate ili nakon što nam pošaljete potvrdu o uplati na email: <strong><a href="mailto:program.prehrane@yahoo.com@yahoo.com"><span class="fa fa-envelope-o"></span> program.prehrane@yahoo.com</a></strong></p>
         </div>
 
         <div ng-if="showPaymentDetails" class="well text-left">
@@ -166,13 +213,13 @@ Iznos: <span>{{user.priceEur | number:0}}</span> €
             </pre>
                 </div>
             </div>
-            <div ng-if="user.version=='WEB'" ng-include="'./app/assets/partials/paypal.html'"></div>
-            <div ng-if="user.version!='WEB'" ng-include="'./assets/partials/paypal.html'"></div>
+            <div ng-if="user.application=='Program Prehrane Web'" ng-include="'./app/assets/partials/paypal.html'"></div>
+            <div ng-if="user.application!='Program Prehrane Web'" ng-include="'./assets/partials/paypal.html'"></div>
         </div>
 
 
         <div ng-if="showPaymentDetails" class="text-center">
-            <a href="{{config.appurl}}" target="_blank" class="btn btn-primary btn-lg">
+            <a href="{{config.appurl}}" target="_blank" class="btn btn-default main btn-lg">
                <i class="fa fa-sign-in"></i> Pokreni aplikaciju
             </a>
         </div>
