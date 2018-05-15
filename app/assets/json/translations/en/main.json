@@ -1611,7 +1611,8 @@
   "client was not saved. the maximum number of clients in one month is": "Client was not saved. The maximum number of clients in one month is",
   "save events is available only in standard and premium version": "save events is available only in standard and premium version",
   "order now": "order now",
-  "package": "package"
+  "package": "package",
+  "this function is available only in standard and premium package": "this function is available only in STANDARD and PREMIUM package"
 
 
 }

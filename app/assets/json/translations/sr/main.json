@@ -1606,6 +1606,7 @@
   "client was not saved. the maximum number of clients in one month is": "Klijent nije sačuvan. Maksimalan broj klijenata u jednom mesecu je",
   "save events is available only in standard and premium version": "spremanje termina je dostupno samo u standard i premium verziji",
   "order now": "nauči",
-  "package": "paket"
+  "package": "paket",
+  "this function is available only in standard and premium package": "Ova funkcija je dostupna samo u paketu STANDARD i PREMIUM"
 
 }

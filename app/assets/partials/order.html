@@ -3,12 +3,6 @@
         <a href="" class="btn btn-default pull-right text-capitalize" ng-click="toggleTpl('login.html')"><i class="fa fa-times"></i><span class="hidden-xs"> {{'cancel' | translate}}</span></a>
         <h4 class="text-uppercase">{{'order' | translate}}</h4>
         <hr />
-        <!--<ol class="breadcrumb">
-            <li ng-if="!isLogin" ng-class="!showUserDetails?'bg-info':''"><span class="badge">1</span> {{'login' | translate}}</li>
-            <li ng-class="showUserDetails==true&&showAlert==false?'bg-info':''"><span class="badge">{{isLogin?1:2}}</span> <span class="text-capitalize">{{'order' | translate }}</span></li>
-            <li ng-class="showAlert==true?'bg-info':''"><span class="badge">{{isLogin?2:3}}</span> <span class="text-capitalize">{{'purchase' | translate}}</span></li>
-        </ol>-->
-
         <div ng-if="!showAlert">
             <div ng-if="!showUserDetails">
                 <div layout-gt-sm="row">
@@ -47,8 +41,8 @@
                     <div class="col-sm-2 text-right text-capitalize">{{'subscribe' | translate}}: </div>
                     <div class="col-sm-6">
                         <select ng-model="user.licence" class="form-control" ng-change="calculatePrice()">
-                            <option ng-value="1" ng-selected="user.licence==1?true:false">{{'1 year' | translate}}</option>
-                            <option ng-value="2" ng-selected="user.licence==2?true:false">{{'2 years' | translate}} (-20%)</option>
+                            <option value="1" ng-selected="user.licence==1?true:false">{{'1 year' | translate}}</option>
+                            <option value="2" ng-selected="user.licence==2?true:false">{{'2 years' | translate}} (-20%)</option>
                         </select>
                     </div>
                 </div>
@@ -144,7 +138,7 @@ Iznos: <span>{{user.priceEur | number:0}}</span> €
             </pre>
                 </div>
             </div>
-            <div ng-include="'./assets/partials/paypal.html'"></div>
+            <!--<div ng-include="'./assets/partials/paypal.html'"></div>-->
         </div>
 
         <div ng-if="showPaymentDetails" class="text-center">

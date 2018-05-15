@@ -54,39 +54,22 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <!--<a class="navbar-brand text-capitalize" href="{{config.webpageurl}}" target="_blank">{{config.webpage}}</a>-->
                     <a class="navbar-brand" href="{{config.webpageurl}}" target="_blank" style="padding-top:2px !important"><img src="assets/img/logo.svg"></a>
                 </div>
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav navbar-right text-right">
-                        <!--<li>
-                        <a href="#" ng-click="toggleTpl('assets/partials/dashboard.html')"><i class="fa fa-tachometer fa-fw"></i> <span>{{'application' | translate}}</span></a>
-                    </li>-->
                         <li ng-if="isLogin&&config.debug">
                             <a href="#" ng-click="toggleTpl('scheduler.html')"><i class="fa fa-calendar fa-fw"></i> <span class="text-capitalize">{{'scheduler' | translate}}</span></a>
                         </li>
                         <li ng-if="isLogin&&config.debug">
                             <a href="#" ng-click="toggleTpl('settings.html')"><i class="fa fa-cogs fa-fw"></i> <span class="text-capitalize">{{'settings' | translate}}</span></a>
                         </li>
-                        <!--<li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-language fa-fw"></i> {{'language' | translate}}</a>
-                        <ul class="dropdown-menu  dropdown-user text-right">
-                            <li>
-                                <ul style="list-style-type: none; background-color:white; padding-top:10px">
-                                    <li ng-repeat="x in config.languages">
-                                        <md-checkbox ng-checked="x.code==config.language" class="md-primary" aria-label="language" ng-click="setLanguage(x.code)"><a href="">{{x.title | translate}}</a></md-checkbox>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>-->
                         <li>
                             <a href="../uputa.html" target="_blank"><i class="fa fa-question fa-fw"></i> <span class="text-capitalize">{{'help' | translate}}</span></a>
                         </li>
                         <li>
                             <a href="#" ng-click="toggleTpl('info.html')"><i class="fa fa-info fa-fw"></i> <span class="text-capitalize">{{'info' | translate}}</span></a>
                         </li>
-
                         <li ng-if="isLogin" class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 <i class="fa fa-user fa-fw"></i> <span class="text-capitalize">{{'user' | translate}}: {{loginUser.firstName}} {{loginUser.lastName}}</span> <i class="fa fa-caret-down"></i>
@@ -116,7 +99,6 @@
                 <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
             </div>
             <div ng-if="mainMessage && isLogin" class="alert alert-success alert-dismissable text-center m10" style="height:auto !important">
-                <!--<div ng-if="showTabs() && mainMessage && isLogin" class="alert alert-success alert-dismissable text-center m10" style="height:auto !important">-->
                 <strong>
                     <i class="fa fa-info-circle fa-2x" aria-hidden="true"></i><span class="text-uppercase ml5">{{mainMessage}}</span>
                     <strong class="btn btn-success ml10" ng-click="toggleTpl('order.html'); hideMsg()"><i class="fa fa-hand-o-right fa-2x" aria-hidden="true"></i><span class="text-uppercase ml5">{{mainMessageBtn}}</span></strong>

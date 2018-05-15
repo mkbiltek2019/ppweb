@@ -701,7 +701,7 @@ public class Users : System.Web.Services.WebService {
             x.licenceStatus = GetLicenceStatus(x);
             x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
             x.rowid = reader.GetValue(20) == DBNull.Value ? 0 : reader.GetInt32(20);
-            x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection); // todo getsubuserscount  reader.GetValue(21) == DBNull.Value ? 0 : reader.GetInt32(21);
+            x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection);
             xx.Add(x);
         }
         connection.Close();

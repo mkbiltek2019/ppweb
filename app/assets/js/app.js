@@ -2774,9 +2774,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
         if ($rootScope.user.licenceStatus == 'demo') {
             functions.demoAlert('this function is not available in demo version');
-        } else {
-            openSendMenuPopup();
+            return false;
         }
+        if ($rootScope.user.userType < 1) {
+            functions.demoAlert('this function is available only in standard and premium package');
+            return false;
+        }
+        openSendMenuPopup();
     }
 
     var openSendMenuPopup = function () {
@@ -4695,6 +4699,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
          $scope.user.version = $scope.version;
          $scope.user.licence = 1;
          $scope.user.licenceNumber = 1;
+         $scope.user.userType = $scope.userType;
          $scope.login($scope.user.userName, $scope.user.password);
      },
      function (response) {
@@ -4725,9 +4730,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         if ($scope.user.userType == 2) { unitprice = 1850; }
         unitprice = unitprice * 1 * ($scope.user.licence == 1 ? 1 : 1.80);
 
-        //if ($scope.user.licence == '1') { unitprice = 550; }
-        //if ($scope.user.licence == '2') { unitprice = 750; }
-        $scope.user.licenceNumber = '1';
+        $scope.user.licenceNumber = 1;
 
         totalprice = $scope.user.licenceNumber > 1 ? unitprice * $scope.user.licenceNumber - (unitprice * $scope.user.licenceNumber * 0.1) : unitprice;
         $scope.user.price = totalprice;

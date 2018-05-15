@@ -84,8 +84,8 @@
                         <div class="col-sm-2 text-right">Pretplata: </div>
                         <div class="col-sm-6">
                             <select ng-model="user.licence" class="form-control" ng-change="calculatePrice()">
-                                <option ng-value="1" ng-selected="user.licence==1?true:false">1 godina</option>
-                                <option ng-value="2" ng-selected="user.licence==2?true:false">2 godine (-20%)</option>
+                                <option value="1" ng-selected="user.licence==1?true:false">1 godina</option>
+                                <option value="2" ng-selected="user.licence==2?true:false">2 godine (-20%)</option>
                             </select>
                         </div>
                     </div>
@@ -95,25 +95,6 @@
                             <label>{{user.price}} kn ({{user.priceEur | number:0}} €)</label>
                         </div>
                     </div>
-                    
-
-
-                    <!--<div class="input-group col-sm-6">
-                        <select ng-model="user.userType" class="form-control" ng-change="calculatePrice()">
-                            <option ng-value="0" ng-selected="user.userType==0?true:false">START</option>
-                            <option ng-value="1" ng-selected="user.userType==1?true:false">STANDARD</option>
-                            <option ng-value="2" ng-selected="user.userType==2?true:false">PREMIUM</option>
-                        </select>
-                        <span class="input-group-addon">{{user.price}} kn ({{user.priceEur | number:0}} €)</span>
-                    </div>
-                    <label class="col-sm-2 text-right">Pretplata: </label>
-                    <div class="input-group col-sm-6">
-                        <select ng-model="user.licence" class="form-control" ng-change="calculatePrice()">
-                            <option ng-value="1" ng-selected="user.licence==1?true:false">1 godina</option>
-                            <option ng-value="2" ng-selected="user.licence==2?true:false">2 godine</option>
-                        </select>
-                        <span class="input-group-addon">{{user.price}} kn ({{user.priceEur | number:0}} €)</span>
-                    </div>-->
                 </div>
                 <hr />
                 <h5 class="lead">Vaši podaci</h5>
@@ -206,8 +187,8 @@ Iznos: <span>{{user.priceEur | number:0}}</span> €
             </pre>
                 </div>
             </div>
-            <div ng-if="user.application=='Program Prehrane Web'" ng-include="'./app/assets/partials/paypal.html'"></div>
-            <div ng-if="user.application!='Program Prehrane Web'" ng-include="'./assets/partials/paypal.html'"></div>
+            <!--<div ng-if="user.application=='Program Prehrane Web'" ng-include="'./app/assets/partials/paypal.html'"></div>
+            <div ng-if="user.application!='Program Prehrane Web'" ng-include="'./assets/partials/paypal.html'"></div>-->
         </div>
 
 
