@@ -29,10 +29,12 @@ body {
       color: black;
       padding: 100px 25px;
       font-family: Montserrat, sans-serif;
-      background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('../img/main.jpg');
+      background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url('../img/main.jpg');
       background-repeat:no-repeat;
-      background-position: center top;
-      background-size: cover; 
+      background-position: right center;
+      background-size: cover;
+     /*  background-position: center top;
+      background-size: cover; */
       height:100vh;
   }
   .container-fluid {
@@ -82,7 +84,7 @@ body {
   }
   .navbar {
       margin-bottom: 0;
-      background-color: #4e4e4f;
+      background-color: #353535;
       z-index: 9999;
       border: 0;
       font-size: 12px !important;

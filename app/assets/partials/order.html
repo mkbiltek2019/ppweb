@@ -33,16 +33,32 @@
             <div ng-if="showErrorAlert" class="alert alert-danger">
                 <strong>{{errorMesage}}</strong>
             </div>
-            <div class="row m10">
-                <span class="col-sm-2 text-right text-capitalize">{{'subscribe' | translate}}: </span>
-                <div class="input-group col-sm-3">
-                    <select ng-model="user.licence" class="form-control" ng-change="calculatePrice()">
-                        <option value="1" ng-selected="user.licence==1?true:false">{{'1 year' | translate}}</option>
-                        <option value="2" ng-selected="user.licence==2?true:false">{{'2 years' | translate}}</option>
-                    </select>
-                    <span class="input-group-addon">{{user.price}} kn ({{user.priceEur | number:0}} €)</span>
+                <div class="row m2">
+                    <div class="col-sm-2 text-right text-capitalize">{{'package' | translate}}: </div>
+                    <div class="col-sm-6">
+                        <select ng-model="user.userType" class="form-control" ng-change="calculatePrice()">
+                            <option ng-value="0" ng-selected="user.userType==0?true:false">START</option>
+                            <option ng-value="1" ng-selected="user.userType==1?true:false">STANDARD</option>
+                            <option ng-value="2" ng-selected="user.userType==2?true:false">PREMIUM</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
+                <div class="row m2">
+                    <div class="col-sm-2 text-right text-capitalize">{{'subscribe' | translate}}: </div>
+                    <div class="col-sm-6">
+                        <select ng-model="user.licence" class="form-control" ng-change="calculatePrice()">
+                            <option ng-value="1" ng-selected="user.licence==1?true:false">{{'1 year' | translate}}</option>
+                            <option ng-value="2" ng-selected="user.licence==2?true:false">{{'2 years' | translate}} (-20%)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row m2">
+                    <div class="col-sm-2 text-right text-capitalize"><h3>{{'price' | translate}}: </h3></div>
+                    <div class="col-sm-6">
+                        <h3>{{user.price}} kn ({{user.priceEur | number:0}} €)</h3>
+                    </div>
+                </div>
+            <hr />
             <div ng-if="showUserDetails">
                 <div>
                     <label class="radio-inline">

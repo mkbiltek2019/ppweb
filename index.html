@@ -61,7 +61,7 @@
                     <li><a href="#contact"><i class="fa fa-comment"></i> Kontakt</a></li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-book"></i> Dokumentacija<span class="caret"></span></a>
-                        <ul class="dropdown-menu" style="background-color:#4e4e4f">
+                        <ul class="dropdown-menu" style="background-color:#353535">
                             <li style="padding:5px"><a href="uputa.html"><i class="fa fa-question-circle"></i> Uputa</a></li>
                             <li style="padding:5px"><a href="izrada-uravnotezenog-jelovnika.html"><i class="fa fa-cutlery"></i> Izrada uravnoteženog jelovnika</a></li>
                         </ul>
@@ -71,8 +71,30 @@
             </div>
         </div>
     </nav>
-    <div class="jumbotron text-center" style="padding-top:180px">
-        <!--<a href="#about" style="text-decoration:none">
+    <div class="jumbotron text-left" style="padding-top:180px">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-2">
+                <a href="#about" style="text-decoration:none" class="text-center">
+                    <!--<img src="assets/img/logo_green.png" style="height:100px">-->
+                    <h1 class="main-text">Program Prehrane</h1>
+                    <h2 style="color:black !important" class="text-lowercase hidden-xs">Web aplikacija za izradu uravnoteženih jelovnika i plana tjelesne aktivnost</h2>
+                </a>
+            </div>
+        </div>
+        <div class="hidden-xs row">
+            <div class="col-md-4 col-md-offset-2">
+                <a href="{{config.appurl}}" class="btn btn-default btn-lg btn-block m10 main"><i class="fa fa-sign-in fa-2x"></i> <strong style="font-size:xx-large"> Ulaz za Korisnike</strong></a>
+                <a href="#registration" class="btn btn-default btn-lg btn-block m10 main-border"><i class="fa fa-user-plus fa-2x"></i> <strong style="font-size:xx-large"> Postani Korisnik</strong></a>
+            </div>
+         </div>
+        <div class="visible-xs text-center">
+            <a href="{{config.appurl}}" class="btn btn-success m10"><i class="fa fa-cloud fa-4x"></i> Web App</a>
+            <a href="{{config.apk}}" class="btn btn-danger m10"><i class="fa fa-android fa-4x"></i> Android App</a>
+        </div>
+    </div>
+
+    <!--<div class="jumbotron text-center" style="padding-top:180px">
+        <a href="#about" style="text-decoration:none">
             <h1 style="text-shadow: 2px 2px darkgray" class="text-capitalize main-text">web aplikacija</h1>
             <h1 style="text-shadow: 2px 2px darkgray" class="text-uppercase main-text">program prehrane</h1>
             <h2 style="color:black !important" class="text-lowercase hidden-xs">profesionalni alat za izradu uravnoteženih jelovnika i plana tjelesne aktivnost</h2>
@@ -84,8 +106,8 @@
         <div class="visible-xs text-center">
             <a href="{{config.appurl}}" class="btn btn-success m10"><i class="fa fa-cloud fa-4x"></i> Web App</a>
             <a href="{{config.apk}}" class="btn btn-danger m10"><i class="fa fa-android fa-4x"></i> Android App</a>
-        </div>-->
-    </div>
+        </div>
+    </div>-->
     <!--<div id="PPWebCarousel" class="carousel slide text-center" data-ride="carousel" style="padding:60px 50px 20px 50px; margin:10px 5px 20px 5px; border:solid 1px #428bca">
         <ol class="carousel-indicators">
             <li data-target="#PPWebCarousel" data-slide-to="0" class="active"></li>
@@ -141,7 +163,7 @@
 
     <div id="pricing" class="container bg-grey pt60">
         <div class="text-center">
-            <h2>Program Prehrane Web</h2>
+            <h2>Program Prehrane Web - Paketi</h2>
         </div>
 
         <div class="row slideanim">

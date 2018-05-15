@@ -4633,81 +4633,15 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 .controller('orderCtrl', ['$scope', '$http', '$rootScope', '$translate', function ($scope, $http, $rootScope, $translate) {
   //  $rootScope.isLogin = false;
-    $scope.application = 'Program Prehrane';
-    $scope.version = 'WEB';
-    $scope.userType = 0;
+    $scope.application = 'Program Prehrane Web';
+    $scope.version = 'STANDARD';
+    $scope.userType = 1;
     $scope.showAlert = false;
     $scope.sendicon = 'fa fa-angle-double-right';
     $scope.sendicontitle = $translate.instant('send order');
     $scope.showUserDetails = $rootScope.user.userName != '' ? false : true;
     $scope.showErrorAlert = false;
     $scope.showPaymentDetails = false;
-
-    var init = function () {
-        $http({
-            url: $rootScope.config.backend + 'Orders.asmx/Init',
-            method: 'POST',
-            data: ''
-        })
-     .then(function (response) {
-         $scope.user = JSON.parse(response.data.d);
-         $scope.user.userName = $rootScope.user.userName;
-         $scope.user.password = $rootScope.user.password;
-         $scope.user.application = $scope.application;
-         $scope.user.version = 'WEB';
-         $scope.user.licence = '1';
-         $scope.user.licenceNumber = '1';
-         $scope.login($scope.user.userName, $scope.user.password);
-         $scope.calculatePrice();
-     },
-     function (response) {
-         alert(response.data.d);
-     });
-    }
-
-    var getConfig = function () {
-        $http.get('./config/config.json')
-          .then(function (response) {
-              $rootScope.config = response.data;
-              init();
-          });
-    };
-    if ($rootScope.config == undefined) {
-        getConfig();
-    } else {
-        init();
-    }
-
-    $scope.changeUserType = function (x) {
-        $scope.userType = x;
-    }
-
-    $scope.calculatePrice = function () {
-        var unitprice = 0;
-        var totalprice = 0;
-
-        $scope.user.version = $scope.version;
-        if ($scope.user.licence == '1') { unitprice = 550; }
-        if ($scope.user.licence == '2') { unitprice = 750; }
-        $scope.user.licenceNumber = '1';
-
-        totalprice = $scope.user.licenceNumber > 1 ? unitprice * $scope.user.licenceNumber - (unitprice * $scope.user.licenceNumber * 0.1) : unitprice;
-        $scope.user.price = totalprice;
-        $scope.user.priceEur = totalprice / $rootScope.config.eur;
-    }
-
-    $scope.order = function (application, version) {
-        init();
-        window.location.hash = 'orderform';
-        $scope.user.application = application;
-        $scope.user.version = version;
-        $scope.calculatePrice();
-    }
-
-    $scope.setApplication = function (x) {
-        $scope.user.application = x;
-        $scope.calculatePrice();
-    }
 
     $scope.login = function (u, p) {
         $http({
@@ -4730,8 +4664,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 $scope.user.country = user.country;
                 $scope.user.pin = user.pin;
                 $scope.user.email = user.email;
+                $scope.user.userType = user.userType;
                 $scope.showUserDetails = true;
                 $scope.showErrorAlert = false;
+                $scope.calculatePrice();
             } else {
                 $scope.showErrorAlert = true;
                 $scope.errorMesage = 'Korisnik nije pronađen.'
@@ -4744,6 +4680,79 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $scope.showUserDetails = false;
         });
     }
+
+    var init = function () {
+        $http({
+            url: $rootScope.config.backend + 'Orders.asmx/Init',
+            method: 'POST',
+            data: ''
+        })
+     .then(function (response) {
+         $scope.user = JSON.parse(response.data.d);
+         $scope.user.userName = $rootScope.user.userName;
+         $scope.user.password = $rootScope.user.password;
+         $scope.user.application = $scope.application;
+         $scope.user.version = $scope.version;
+         $scope.user.licence = 1;
+         $scope.user.licenceNumber = 1;
+         $scope.login($scope.user.userName, $scope.user.password);
+     },
+     function (response) {
+         alert(response.data.d);
+     });
+    }
+
+    var getConfig = function () {
+        $http.get('./config/config.json')
+          .then(function (response) {
+              $rootScope.config = response.data;
+              init();
+          });
+    };
+
+    $scope.changeUserType = function (x) {
+        $scope.userType = x;
+    }
+
+    $scope.calculatePrice = function () {
+        var unitprice = 0;
+        var totalprice = 0;
+
+        $scope.user.version = $scope.version;
+
+        if ($scope.user.userType == 0) { unitprice = 550; }
+        if ($scope.user.userType == 1) { unitprice = 950; }
+        if ($scope.user.userType == 2) { unitprice = 1850; }
+        unitprice = unitprice * 1 * ($scope.user.licence == 1 ? 1 : 1.80);
+
+        //if ($scope.user.licence == '1') { unitprice = 550; }
+        //if ($scope.user.licence == '2') { unitprice = 750; }
+        $scope.user.licenceNumber = '1';
+
+        totalprice = $scope.user.licenceNumber > 1 ? unitprice * $scope.user.licenceNumber - (unitprice * $scope.user.licenceNumber * 0.1) : unitprice;
+        $scope.user.price = totalprice;
+        $scope.user.priceEur = totalprice / $rootScope.config.eur;
+    }
+
+    if ($rootScope.config == undefined) {
+        getConfig();
+    } else {
+        init();
+    }
+
+    $scope.order = function (application, version) {
+        init();
+        window.location.hash = 'orderform';
+        $scope.user.application = application;
+        $scope.user.version = version;
+        $scope.calculatePrice();
+    }
+
+    $scope.setApplication = function (x) {
+        $scope.user.application = x;
+        $scope.calculatePrice();
+    }
+
 
     $scope.sendOrder = function (user) {
         $scope.showErrorAlert = false;
