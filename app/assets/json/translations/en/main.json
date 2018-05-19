@@ -1612,7 +1612,10 @@
   "save events is available only in standard and premium version": "save events is available only in standard and premium version",
   "order now": "order now",
   "package": "package",
-  "this function is available only in standard and premium package": "this function is available only in STANDARD and PREMIUM package"
+  "this function is available only in standard and premium package": "this function is available only in STANDARD and PREMIUM package",
+  "lower limit": "lower limit",
+  "upper limit": "upper limit",
+  "chart": "chart"
 
 
 }

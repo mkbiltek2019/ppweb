@@ -58,9 +58,6 @@
                 </div>
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav navbar-right text-right">
-                        <li ng-if="isLogin&&config.debug">
-                            <a href="#" ng-click="toggleTpl('saveimg_test.html')"><i class="fa fa-cube fa-fw"></i> <span class="text-capitalize">Test</span></a>
-                        </li>
                         <li ng-if="isLogin">
                             <a href="#" ng-click="toggleTpl('scheduler.html')"><i class="fa fa-calendar fa-fw"></i> <span class="text-capitalize">{{'scheduler' | translate}}</span></a>
                         </li>

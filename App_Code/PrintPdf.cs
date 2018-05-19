@@ -599,7 +599,7 @@ public class PrintPdf : System.Web.Services.WebService {
             CreateFolder(path);
             string fileName = Guid.NewGuid().ToString();
             string filePath = Path.Combine(path, string.Format("{0}.pdf", fileName));
-            PdfWriter.GetInstance(doc, new FileStream(filePath, FileMode.Create));
+            PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(filePath, FileMode.Create));
 
             doc.Open();
 
@@ -638,7 +638,6 @@ public class PrintPdf : System.Web.Services.WebService {
                 table.AddCell(new PdfPCell(new Phrase(t.Tran("waist", lang) + " (cm)", normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
                 table.AddCell(new PdfPCell(new Phrase(t.Tran("hip", lang) + " (cm)", normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
 
-              //  StringBuilder sb = new StringBuilder();
                 foreach (ClientsData.NewClientData cl in clientLog) {
                     PdfPCell cell1 = new PdfPCell(new Phrase(cl.date.ToString("dd.MM.yyyy"), courier));
                     cell1.Border = 0;
@@ -657,20 +656,16 @@ public class PrintPdf : System.Web.Services.WebService {
                     table.AddCell(cell5);
                 }
                 doc.Add(table);
-            }
+                doc.Add(new Paragraph(t.Tran("chart", lang), normalFont));
 
-            if (!string.IsNullOrEmpty(imageData)) {
-                string imgPath = UploadImg(userId, imageData);
-                Image clientChart = Image.GetInstance(Server.MapPath(string.Format("~{0}", imgPath)));
-                clientChart.Alignment = Image.ALIGN_CENTER;
-                float width = 140f;
-                if (clientLog.Count > 0 && clientLog.Count <= 10) { width = 95f; }
-                if (clientLog.Count > 10 && clientLog.Count <= 20) { width = 85f; }
-                if (clientLog.Count > 20 && clientLog.Count <= 30) { width = 75f; }
-                if (clientLog.Count > 30 && clientLog.Count <= 40) { width = 65f; }
-                if (clientLog.Count > 40 && clientLog.Count <= 50) { width = 55f; }
-                clientChart.ScalePercent(width);
-                doc.Add(clientChart);
+                if (!string.IsNullOrEmpty(imageData)) {
+                    string imgPath = UploadImg(userId, imageData);
+                    Image clientChart = Image.GetInstance(Server.MapPath(string.Format("~{0}", imgPath)));
+                    clientChart.Alignment = Image.ALIGN_CENTER;
+                    float width = 52f;
+                    clientChart.ScalePercent(width);
+                    doc.Add(clientChart);
+                }
             }
 
             doc.Close();

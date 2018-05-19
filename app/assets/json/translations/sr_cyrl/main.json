@@ -1606,6 +1606,9 @@
   "save events is available only in standard and premium version": "спремање термина је доступно само у стандард и премиум верзији",
   "order now": "научи",
   "package": "пакет",
-  "this function is available only in standard and premium package": "Ова функција је доступна само у пакету СТАНДАРД и ПРЕМИУМ"
+  "this function is available only in standard and premium package": "Ова функција је доступна само у пакету СТАНДАРД и ПРЕМИУМ",
+  "lower limit": "доња граница",
+  "upper limit": "горња граница",
+  "chart": "граф"
 
 }
