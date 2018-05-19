@@ -591,7 +591,7 @@ public class PrintPdf : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string ClientPdf(string userId, Clients.NewClient client, ClientsData.NewClientData clientData, List<ClientsData.NewClientData> clientLog, string lang) {
+    public string ClientPdf(string userId, Clients.NewClient client, ClientsData.NewClientData clientData, List<ClientsData.NewClientData> clientLog, string lang, string imageData) {
         try {
             var doc = new Document();
             string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
@@ -659,6 +659,19 @@ public class PrintPdf : System.Web.Services.WebService {
                 doc.Add(table);
             }
 
+            if (!string.IsNullOrEmpty(imageData)) {
+                string imgPath = UploadImg(userId, imageData);
+                Image clientChart = Image.GetInstance(Server.MapPath(string.Format("~{0}", imgPath)));
+                clientChart.Alignment = Image.ALIGN_CENTER;
+                float width = 140f;
+                if (clientLog.Count > 0 && clientLog.Count <= 10) { width = 95f; }
+                if (clientLog.Count > 10 && clientLog.Count <= 20) { width = 85f; }
+                if (clientLog.Count > 20 && clientLog.Count <= 30) { width = 75f; }
+                if (clientLog.Count > 30 && clientLog.Count <= 40) { width = 65f; }
+                if (clientLog.Count > 40 && clientLog.Count <= 50) { width = 55f; }
+                clientChart.ScalePercent(width);
+                doc.Add(clientChart);
+            }
 
             doc.Close();
 
@@ -837,7 +850,7 @@ IBAN HR8423400091160342496
             invoiceInfo_table.SetWidths(invoiceInfo_widths);
             doc.Add(invoiceInfo_table);
 
-            Single spacing = 140f;
+            float spacing = 140f;
             if (row == 1) { spacing = 160f; }
             if (row == 2) { spacing = 140f; }
             if (row == 3) { spacing = 100f; }
@@ -979,6 +992,22 @@ IBAN HR8423400091160342496
             }
             table.AddCell(new PdfPCell(new Phrase(sb.ToString(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, MinimumHeight = 30, PaddingTop = 15, PaddingRight = 2, PaddingBottom = 5, PaddingLeft = 2 });
         }
+    }
+
+    private string UploadImg(string userId, string imageData) {
+        string path = Server.MapPath(string.Format("~/upload/users/{0}/img/", userId));
+        DeleteFolder(path);
+        CreateFolder(path);
+        string fileName = Guid.NewGuid().ToString();
+        string filePath = Path.Combine(path, string.Format("{0}.png", fileName));
+        using (FileStream fs = new FileStream(filePath, FileMode.Create)) {
+            using (BinaryWriter bw = new BinaryWriter(fs)) {
+                byte[] data = Convert.FromBase64String(imageData);
+                bw.Write(data);
+                bw.Close();
+            }
+        }
+        return string.Format("/upload/users/{0}/img/{1}.png", userId, fileName);
     }
     #endregion Methods
 

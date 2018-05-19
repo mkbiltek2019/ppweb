@@ -1446,6 +1446,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             return false;
         }
         $scope.creatingPdf = true;
+        var img = null;
+        if (document.getElementById("clientDataChart") != null && $rootScope.config.debug) {
+            img = document.getElementById("clientDataChart").toDataURL("image/png").replace(/^data:image\/(png|jpg);base64,/, "");
+        }
             $http({
                 url: $sessionStorage.config.backend + 'ClientsData.asmx/GetClientLog',
                 method: "POST",
@@ -1457,7 +1461,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     $http({
                         url: $sessionStorage.config.backend + 'PrintPdf.asmx/ClientPdf',
                         method: "POST",
-                        data: { userId: $sessionStorage.usergroupid, client: $rootScope.client, clientData: $rootScope.clientData, clientLog: $rootScope.clientLog, lang: $rootScope.config.language }
+                        data: { userId: $sessionStorage.usergroupid, client: $rootScope.client, clientData: $rootScope.clientData, clientLog: $rootScope.clientLog, lang: $rootScope.config.language, imageData: img }
                     })
                   .then(function (response) {
                       $scope.creatingPdf = false;
@@ -4925,6 +4929,53 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.hidePdfLink = function () {
         $scope.pdfLink = null;
+    }
+
+}])
+
+.controller('saveImgCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
+
+    $scope.DrawPic = function () {
+        // Get the canvas element and its 2d context
+        var Cnv = document.getElementById('myCanvas');
+        var Cntx = Cnv.getContext('2d');
+
+        // Create gradient
+        var Grd = Cntx.createRadialGradient(100, 100, 20, 140, 100, 230);
+        Grd.addColorStop(0, "red");
+        Grd.addColorStop(1, "black");
+
+        // Fill with gradient
+        Cntx.fillStyle = Grd;
+        Cntx.fillRect(0, 0, 300, 200);
+
+        // Write some text
+        for (i = 1; i < 10 ; i++) {
+            Cntx.fillStyle = "white";
+            Cntx.font = "36px Verdana";
+            Cntx.globalAlpha = (i - 1) / 9;
+            Cntx.fillText("Codicode.com", i * 3, i * 20);
+        }
+    }
+
+    $scope.UploadPic = function () {
+        // Generate the image data
+        var Pic = document.getElementById("myCanvas").toDataURL("image/png");
+        Pic = Pic.replace(/^data:image\/(png|jpg);base64,/, "")
+        $http({
+            url: $sessionStorage.config.backend + 'SaveImg.asmx/UploadPic',
+            method: "POST",
+            data: { userId: $sessionStorage.usergroupid, imageData: Pic }
+        })
+       .then(function (response) {
+           $scope.imgPath = response.data.d;
+       },
+       function (response) {
+           alert(response.data.d);
+       });
+
+
+
     }
 
 }])
