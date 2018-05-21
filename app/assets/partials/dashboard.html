@@ -18,7 +18,7 @@
                 </a>
             </div>
         </div>
-        <div ng-include="'./assets/partials/newversion.html'"></div>
+        <div ng-if="config.showupdatedes" ng-include="'./assets/partials/newversion.html'"></div>
     </div>
     <div ng-if="client.clientId" class="noprint">
         <ul class="nav nav-tabs">
