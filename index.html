@@ -53,10 +53,10 @@
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#pricing"><i class="fa fa-usd"></i> Cijene</a></li>
-                    <li><a href="#registration"><i class="fa fa-user-plus"></i> Registracija</a></li>
-                    <li><a href="#order"><i class="fa fa-shopping-cart"></i> Narudžba</a></li>
                     <li><a href="#about"><i class="fa fa-info"></i> O aplikaciji</a></li>
+                    <li><a href="#registration"><i class="fa fa-user-plus"></i> Registracija</a></li>
+                    <li><a href="#pricing"><i class="fa fa-usd"></i> Cijene</a></li>
+                    <li><a href="#order"><i class="fa fa-shopping-cart"></i> Narudžba</a></li>
                     <li><a href="#contact"><i class="fa fa-comment"></i> Kontakt</a></li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-book"></i> Dokumentacija<span class="caret"></span></a>
@@ -119,6 +119,44 @@
                 <h4 style="margin-bottom:0px">Pacijenti</h4>
                 <h3 class="small" style="margin:5px">Baza pacijenata. Praćenje antropometrijskih parametara</h3>
             </div>
+        </div>
+    </div>
+
+    <div id="about" class="container pt60">
+        <div class="row">
+            <div class="col-sm-8">
+                <h2>O aplikaciji</h2><br>
+                <h4><a href="{{config.appurl}}"><strong>Program Prehrane Web</strong></a> je web aplikacija za izradu raznovrsnih i uravnoteženih jelovnika i plana tjelesne aktivnosti.</h4><br>
+                <p class="text-justify">
+                    Web aplikacija <a href="{{config.appurl}}"><strong>Program Prehrane Web</strong></a> nasljednica je <a href="#awards">višestruko nagrađivanog</a> računalnog programa <a href="program-prehrane-5.html" target="_blank"><strong>Program Prehrane 5.0</strong></a>,
+                    a nastala je iz potrebe za izradom alata koji će nutricionistima i zdravstvenim djelatnicima ali
+                    i svima ostalima koji vode računa zdravoj i uravnoteženoj prehrani omogućiti brzu i jednostavnu izradu jelovnika te plana tjelesne aktivnosti.
+                </p>
+            </div>
+            <div class="col-sm-4 hidden-xs">
+                <img src="./assets/img/nutrition.jpg" alt="Program Prehrane" class="img-responsive m10">
+            </div>
+        </div>
+        <div>
+            <p class="text-justify">
+                Aplikacija <a href="{{config.appurl}}"><strong>Program Prehrane Web</strong></a> omogućava utvrđivanje stanja uhranjenosti i energetske potrošnje pojedinca te izradu jelovnika utemeljenu na znanstvenim spoznajama na polju nutriconizma.
+                Osmišljavanjem jelovnika korištenjem ove aplikacije, prehrana krajnjih korisnika postaje uravnotežena i raznolika
+                što se može zahvaliti činjenici da se izrada jelovnika bazira na preporučenom broju jediničnih serviranja svih skupina namirnica te njihovih energetskih, makro i mikronutiritivnih vrijednost.
+                S obzirom da web aplikacija <a href="{{config.appurl}}"><strong>Program Prehrane Web</strong></a> sadrži bazu od preko 660 namirnica i jela moguće je zadovoljiti zahtjeve većine korisnika po pitanju izbora namirnica.
+                Osim toga aplikacija pruža mogućnost unosa vlastitih namirnica i njihovih makro i mikronutirtivnih vrijednosti.
+                Nadalje, kad se govori o problemu prekomjerne tjelesne mase, preporuča se uz promjenu prehrambenih navika, u svakodnevicu uključiti i dodatnu tjelesnu aktivnost,
+                pa tako <a href="{{config.appurl}}"><strong>Program Prehrane Web</strong></a> nudi podatke o energetskoj potrošnji za preko 400 tjelesnih aktivnosti. <br />
+                Više o karakteristikama i funkcijama aplikacije pogledajte <a href="#pricing"><strong>ovdje...</strong></a>
+            </p>
+            <p>Osim hrvatskom verzije, dostupna je verzija i na srpskom jeziku <a href="http://www.plan-ishrane.com">www.plan-ishrane.com</a>.</p>
+        </div>
+    </div>
+
+    <div id="registration" class="container text-left pt60">
+        <h2 class="text-center">Registracija</h2>
+        <p>Za pristup aplikaciji potrebno je ispuniti <em>registracijsku formu</em>. Upišite Vaše ime i prezime, email adresu te lozinku koju želite koristiti za pristup aplikciji.</p>
+        <div id="webapp" class="col-md-8 col-md-offset-2">
+            <div ng-include="'./assets/partials/signup.html'"></div>
         </div>
     </div>
 
@@ -234,14 +272,6 @@
 
     <div id="details" ng-include="'./assets/partials/details.html'"></div>
 
-    <div id="registration" class="container text-left pt60">
-        <h2 class="text-center">Registracija</h2>
-        <p>Za pristup aplikaciji potrebno je ispuniti <em>registracijsku formu</em>. Upišite Vaše ime i prezime, email adresu te lozinku koju želite koristiti za pristup aplikciji.</p>
-        <div id="webapp" class="col-md-8 col-md-offset-2">
-            <div ng-include="'./assets/partials/signup.html'"></div>
-        </div>
-    </div>
-
     <div id="order" ng-controller="webAppCtrl" class="container text-left pt60">
         <h2 class="text-center">NARUDŽBA</h2>
         <div>
@@ -261,38 +291,8 @@
     </div>
 
 
-    <!-- Container (About Section) -->
-    <div id="about" class="container pt60">
-        <div class="row">
-            <div class="col-sm-8">
-                <h2>O aplikaciji</h2><br>
-                <h4><a href="{{config.appurl}}"><strong>Program Prehrane Web</strong></a> je web aplikacija za izradu raznovrsnih i uravnoteženih jelovnika i plana tjelesne aktivnosti.</h4><br>
-                <p class="text-justify">
-                    Web aplikacija <a href="{{config.appurl}}"><strong>Program Prehrane Web</strong></a> nasljednica je <a href="#awards">višestruko nagrađivanog</a> računalnog programa <a href="program-prehrane-5.html" target="_blank"><strong>Program Prehrane 5.0</strong></a>,
-                    a nastala je iz potrebe za izradom alata koji će nutricionistima i zdravstvenim djelatnicima ali
-                    i svima ostalima koji vode računa zdravoj i uravnoteženoj prehrani omogućiti brzu i jednostavnu izradu jelovnika te plana tjelesne aktivnosti.
-                </p>
-            </div>
-            <div class="col-sm-4 hidden-xs">
-                <img src="./assets/img/nutrition.jpg" alt="Program Prehrane" class="img-responsive m10">
-            </div>
-        </div>
-        <div>
-            <p class="text-justify">
-                Aplikacija <a href="{{config.appurl}}"><strong>Program Prehrane Web</strong></a> omogućava utvrđivanje stanja uhranjenosti i energetske potrošnje pojedinca te izradu jelovnika utemeljenu na znanstvenim spoznajama na polju nutriconizma.
-                Osmišljavanjem jelovnika korištenjem ove aplikacije, prehrana krajnjih korisnika postaje uravnotežena i raznolika
-                što se može zahvaliti činjenici da se izrada jelovnika bazira na preporučenom broju jediničnih serviranja svih skupina namirnica te njihovih energetskih, makro i mikronutiritivnih vrijednost.
-                S obzirom da web aplikacija <a href="{{config.appurl}}"><strong>Program Prehrane Web</strong></a> sadrži bazu od preko 660 namirnica i jela moguće je zadovoljiti zahtjeve većine korisnika po pitanju izbora namirnica.
-                Osim toga aplikacija pruža mogućnost unosa vlastitih namirnica i njihovih makro i mikronutirtivnih vrijednosti.
-                Nadalje, kad se govori o problemu prekomjerne tjelesne mase, preporuča se uz promjenu prehrambenih navika, u svakodnevicu uključiti i dodatnu tjelesnu aktivnost,
-                pa tako <a href="{{config.appurl}}"><strong>Program Prehrane Web</strong></a> nudi podatke o energetskoj potrošnji za preko 400 tjelesnih aktivnosti. <br />
-                Više o karakteristikama i funkcijama aplikacije pogledajte <a href="#pricing"><strong>ovdje...</strong></a>
-            </p>
-            <p>Osim hrvatskom verzije, dostupna je verzija i na srpskom jeziku <a href="http://www.plan-ishrane.com">www.plan-ishrane.com</a>.</p>
-        </div>
-    </div>
-
-    <div class="container mt20">
+    <div class="container mt20 pt60">
+        <hr />
         <div class="row">
             <div class="col-sm-2">
                 <img src="./assets/img/responsive.jpg" alt="Program Prehrane" class="img-responsive">
@@ -345,7 +345,6 @@
     <div ng-include="'./assets/partials/awards.html'"></div>
 
     <div ng-include="'./assets/partials/customers.html'"></div>
-
 
     <div ng-include="'./assets/partials/info.html'"></div>
 

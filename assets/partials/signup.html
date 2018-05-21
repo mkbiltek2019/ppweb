@@ -38,9 +38,18 @@
                 <input ng-model="passwordConfirm" type="password" required>
             </md-input-container>
         </div>
-        <button class="btn btn-default main" ng-click="signup(user)" ng-dblclick="return false"><i class="fa fa-sign-in"></i> REGISTRACIJA</button>
-        <p>Registracijom prihvaćate <a href="{{config.appurl}}licence.txt" target="_blank">uvjete korištenja</a></p>
-
+        <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm>
+                <md-checkbox md-no-ink aria-label="uvjeti koristenja" ng-model="accept" class="md-primary">
+                    Prihvaćam
+                </md-checkbox>
+                <a href="{{config.appurl}}licence.txt" target="_blank">uvjete korištenja</a>
+            </md-input-container>
+        </div>
+        <div ng-if="msg.title" class="alert alert-{{msg.css}}">
+            <i class="fa fa-{{msg.icon}}"></i> {{msg.title}}
+        </div>
+        <button ng-if="!hidebutton" class="btn btn-default main" ng-click="signup(user)" ng-dblclick="return false"><i class="fa fa-sign-in"></i> REGISTRACIJA</button>
     </div>
 </div>
 

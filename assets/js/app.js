@@ -77,6 +77,9 @@ angular.module('app', ['ngMaterial'])
 
 
 .controller('signupCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
+    $scope.accept = false;
+    $scope.msg = { title: null, css: null, icon: null }
+    $scope.hidebutton = false;
 
     var init = function () {
         $http({
@@ -109,29 +112,55 @@ angular.module('app', ['ngMaterial'])
     }
 
     $scope.signup = function (user) {
+        $scope.msg = { title: null, css: null, icon: null }
         user.userName = user.email;
         if (user.firstName == "" || user.lastName == "" || user.email == "" || user.password == "" || $scope.passwordConfirm == "" || $scope.emailConfirm == "") {
-            alert('Sva polja su obavezna.');
-            return false;
-        }
-        if (user.password != $scope.passwordConfirm) {
-            alert('Lozinke moraju biti jednake.');
+            $scope.msg.title = 'Sva polja su obavezna.';
+            $scope.msg.css = 'danger';
+            $scope.msg.icon = 'exclamation';
             return false;
         }
         if (user.email != $scope.emailConfirm) {
-            alert('Email adrese moraju biti jednake.');
+            $scope.msg.title = 'Email adrese moraju biti jednake.';
+            $scope.msg.css = 'danger';
+            $scope.msg.icon = 'exclamation';
             return false;
         }
+        if (user.password != $scope.passwordConfirm) {
+            $scope.msg.title = 'Lozinke moraju biti jednake.';
+            $scope.msg.css = 'danger';
+            $scope.msg.icon = 'exclamation';
+            return false;
+        }
+        if ($scope.accept == false) {
+            $scope.msg.title = 'Morate prihvatiti uvjete korištenja.';
+            $scope.msg.css = 'danger';
+            $scope.msg.icon = 'exclamation';
+            return false;
+        }
+        $scope.hidebutton = true;
         $http({
             url: $rootScope.config.backend + 'Users.asmx/Signup',
             method: 'POST',
             data: { x: user }
         })
        .then(function (response) {
-           alert(response.data.d);
+           if (response.data.d == 'the email address you have entered is already registered') {
+               $scope.msg.title = 'E-mail adresa koju ste upisali je već registriran';
+               $scope.msg.css = 'danger';
+               $scope.msg.icon = 'exclamation';
+               $scope.hidebutton = false;
+           }
+           if (response.data.d == 'registration completed successfully') {
+               $scope.msg.title = 'Registracija upješno završena';
+               $scope.msg.css = 'success';
+               $scope.msg.icon = 'check';
+               $scope.hidebutton = true;
+           }
        },
        function (response) {
            alert(response.data.d);
+           $scope.hidebutton = false;
        });
     }
    
