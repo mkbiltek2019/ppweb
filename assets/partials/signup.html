@@ -1,55 +1,66 @@
-﻿<div class="well text-left">
-    <h4>Registracijska forma</h4>
-    <hr />
-    <div ng-controller="signupCtrl" class="text-left">
-        <div layout-gt-sm="row">
-            <md-input-container class="md-block" flex-gt-sm>
-                <label>Ime</label>
-                <input ng-model="user.firstName" type="text" required>
-            </md-input-container>
+﻿<div ng-controller="signupCtrl" class="well text-left" >
+    <div ng-show="!signupok">
+        <h4>Registracijska forma</h4>
+        <hr />
+        <div class="text-left">
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Ime</label>
+                    <input ng-model="user.firstName" type="text" required>
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Prezime</label>
+                    <input ng-model="user.lastName" type="text" required>
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Email</label>
+                    <input name="email" ng-model="user.email" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" required />
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Potvrdite Email</label>
+                    <input ng-model="emailConfirm" type="text" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" required>
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Lozinka</label>
+                    <input ng-model="user.password" type="password" required>
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Potvrdite lozinku</label>
+                    <input ng-model="passwordConfirm" type="password" required>
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <md-checkbox md-no-ink aria-label="uvjeti koristenja" ng-model="accept" class="md-primary">
+                        Prihvaćam
+                    </md-checkbox>
+                    <a href="{{config.appurl}}licence.txt" target="_blank">uvjete korištenja</a>
+                </md-input-container>
+            </div>
+            <div ng-if="msg.title" class="alert alert-{{msg.css}}">
+                <i class="fa fa-{{msg.icon}}"></i> {{msg.title}}
+            </div>
+            <button ng-if="!hidebutton" class="btn btn-default main" ng-click="signup(user)" ng-dblclick="return false"><i class="fa fa-sign-in"></i> REGISTRACIJA</button>
         </div>
-        <div layout-gt-sm="row">
-            <md-input-container class="md-block" flex-gt-sm>
-                <label>Prezime</label>
-                <input ng-model="user.lastName" type="text" required>
-            </md-input-container>
-        </div>
-        <div layout-gt-sm="row">
-            <md-input-container class="md-block" flex-gt-sm>
-                <label>Email</label>
-                <input name="email" ng-model="user.email" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" required />
-            </md-input-container>
-        </div>
-        <div layout-gt-sm="row">
-            <md-input-container class="md-block" flex-gt-sm>
-                <label>Potvrdite Email</label>
-                <input ng-model="emailConfirm" type="text" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" required>
-            </md-input-container>
-        </div>
-        <div layout-gt-sm="row">
-            <md-input-container class="md-block" flex-gt-sm>
-                <label>Lozinka</label>
-                <input ng-model="user.password" type="password" required>
-            </md-input-container>
-        </div>
-        <div layout-gt-sm="row">
-            <md-input-container class="md-block" flex-gt-sm>
-                <label>Potvrdite lozinku</label>
-                <input ng-model="passwordConfirm" type="password" required>
-            </md-input-container>
-        </div>
-        <div layout-gt-sm="row">
-            <md-input-container class="md-block" flex-gt-sm>
-                <md-checkbox md-no-ink aria-label="uvjeti koristenja" ng-model="accept" class="md-primary">
-                    Prihvaćam
-                </md-checkbox>
-                <a href="{{config.appurl}}licence.txt" target="_blank">uvjete korištenja</a>
-            </md-input-container>
-        </div>
+    </div>
+    <div ng-show="signupok" class="pt60">
         <div ng-if="msg.title" class="alert alert-{{msg.css}}">
             <i class="fa fa-{{msg.icon}}"></i> {{msg.title}}
         </div>
-        <button ng-if="!hidebutton" class="btn btn-default main" ng-click="signup(user)" ng-dblclick="return false"><i class="fa fa-sign-in"></i> REGISTRACIJA</button>
+        <div class="text-center">
+            <a href="{{config.appurl}}" class="btn btn-default btn-lg main text-uppercase" title="Ulaz u aplikaciju"><i class="fa fa-sign-in"></i> Ulaz u aplikaciju</a>
+        </div>
     </div>
+    
 </div>
 

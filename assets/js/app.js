@@ -80,6 +80,7 @@ angular.module('app', ['ngMaterial'])
     $scope.accept = false;
     $scope.msg = { title: null, css: null, icon: null }
     $scope.hidebutton = false;
+    $scope.signupok = false;
 
     var init = function () {
         $http({
@@ -139,6 +140,7 @@ angular.module('app', ['ngMaterial'])
             return false;
         }
         $scope.hidebutton = true;
+        $scope.signupok = false;
         $http({
             url: $rootScope.config.backend + 'Users.asmx/Signup',
             method: 'POST',
@@ -150,17 +152,20 @@ angular.module('app', ['ngMaterial'])
                $scope.msg.css = 'danger';
                $scope.msg.icon = 'exclamation';
                $scope.hidebutton = false;
+               $scope.signupok = false;
            }
            if (response.data.d == 'registration completed successfully') {
                $scope.msg.title = 'Registracija upješno završena';
                $scope.msg.css = 'success';
                $scope.msg.icon = 'check';
                $scope.hidebutton = true;
+               $scope.signupok = true;
            }
        },
        function (response) {
            alert(response.data.d);
            $scope.hidebutton = false;
+           $scope.signupok = false;
        });
     }
    
