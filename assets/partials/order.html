@@ -183,10 +183,12 @@ Model: <span ng-if="user.pin">HR00</span><span ng-if="!user.pin">HR99</span>
                     <pre>
 IBAN računa: {{config.iban}}
 SWIFT CODE: {{config.swift}}
-Iznos: <span>{{user.priceEur | number:0}}</span> €
+Iznos: <span>{{user.priceEur | number:2}}</span> €
             </pre>
                 </div>
             </div>
+            <b>Plaćanje putem PayPal-a:</b>
+            <div ng-include="'./app/assets/partials/paypal.html'"></div>
             <!--<div ng-if="user.application=='Program Prehrane Web'" ng-include="'./app/assets/partials/paypal.html'"></div>
             <div ng-if="user.application!='Program Prehrane Web'" ng-include="'./assets/partials/paypal.html'"></div>-->
         </div>
