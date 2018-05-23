@@ -1,6 +1,6 @@
 ﻿ /*!
 style.css
-(c) 2017 IG PROG, www.igprog.hr
+(c) 2017-2018 IG PROG, www.igprog.hr
 */
  html {
       height:auto;
@@ -89,20 +89,21 @@ body {
       border: 0;
       font-size: 12px !important;
       line-height: 1.42857143 !important;
-      letter-spacing: 4px;
+      letter-spacing: 1px;
       border-radius: 0;
       font-family: Montserrat, sans-serif;
+      opacity: 0.9 !important;
   }
   .navbar li a, .navbar .navbar-brand {
-      color: #65ccb8 !important;
+      color: #B5E196 !important;
   }
   .navbar-nav li a:hover, .navbar-nav li.active a {
       color: #fff !important;
-      background-color: #65ccb8 !important;
+      background-color: #85BC5E !important;
   }
   .navbar-default .navbar-toggle {
       border-color: transparent;
-      color: #65ccb8 !important;
+      color: #85BC5E !important;
   }
   footer .glyphicon {
       font-size: 20px;
@@ -249,17 +250,17 @@ body {
 }
 
 .main {
-    background-color: #65ccb8 !important;
+    background-color: #3A7113 !important;
     color: white !important;
 }
 
 .main-text, a {
-    color: #65ccb8 !important;
+    color: #85BC5E !important;
 }
 
 .main-border {
-    border: 1px solid #65ccb8 !important;
-    color: #65ccb8 !important;
+    border: 1px solid #3A7113 !important;
+    color: #3A7113 !important;
 }
 
 
