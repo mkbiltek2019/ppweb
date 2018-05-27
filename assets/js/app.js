@@ -223,17 +223,12 @@ angular.module('app', ['ngMaterial'])
         var unitprice = 0;
         var totalprice = 0;
 
-        //if ($scope.user.application == 'Program Prehrane') {
         if ($scope.user.application == 'Program Prehrane Web') {
-            $scope.user.version = $scope.version;
-
-            if ($scope.user.userType == 0) { unitprice = 550; }
-            if ($scope.user.userType == 1) { unitprice = 950; }
-            if ($scope.user.userType == 2) { unitprice = 1850; }
+            if ($scope.user.userType == 0) { unitprice = 550; $scope.user.version = 'START'; }
+            if ($scope.user.userType == 1) { unitprice = 950; $scope.user.version = 'STANDARD'; }
+            if ($scope.user.userType == 2) { unitprice = 1850; $scope.user.version = 'PREMIUM'; }
 
             unitprice = unitprice * 1 * ($scope.user.licence == 1 ? 1 : 1.80);
-           // if ($scope.user.licence == 1) { unitprice = 550; }
-           // if ($scope.user.licence == 2) { unitprice = 750; }
             $scope.user.licenceNumber = 1;
         } else {
             $scope.user.version = $scope.user.version == '' ? 'PREMIUM' : $scope.user.version;
