@@ -286,7 +286,7 @@
                             <th>Napomena</th>
                         </tr>
                         <tr ng-repeat="x in orders | filter:searchOrders">
-                            <td><a href="" class="btn btn-success" ng-click="createInvoice(x, 'invoices')"><i class="fa fa-file-text-o"></i> Račun</a></td>
+                            <td><button class="btn btn-success" ng-click="createInvoice(x, 'invoices')"><i class="fa fa-file-text-o"></i> Račun</button></td>
                             <td>{{x.id}}</td>
                             <td style="white-space: nowrap">{{x.orderDate}}</td>
                             <td>{{x.firstName}}</td>
@@ -347,9 +347,9 @@
                         </tr>
                         <tr ng-repeat="x in invoices.data">
                             <td class="nowrap">
-                                <a href="" class="btn btn-primary m2" ng-click="get(x)" title="Uredi"><i class="fa fa-eye"></i></a>
+                                <button class="btn btn-primary m2" ng-click="get(x)" title="Uredi"><i class="fa fa-eye"></i></button>
                                 <a href="{{config.backend + 'upload/invoice/' + x.year + '/'+ x.fileName + '.pdf'}}" class="btn btn-danger m2" download title="PDF"><i class="fa fa-file-pdf-o"></i></a>
-                                <a href="" class="btn btn-warning m2" ng-click="copy(x)" title="Kopiraj"><i class="fa fa-copy"></i></a>
+                                <button class="btn btn-warning m2" ng-click="copy(x)" title="Kopiraj"><i class="fa fa-copy"></i></button>
                             </td>
                             <td>{{x.number}}</td>
                             <td>{{x.dateAndTime}}</td>
@@ -436,13 +436,13 @@
                                     <th class="nowrap">Jedinična cijena (kn)</th>
                                 </tr>
                                 <tr ng-repeat="x in i.items">
-                                    <td><a href="" class="btn btn-danger" ng-click="remove($index)"><i class="fa fa-minus"></i></a></td>
+                                    <td><button class="btn btn-danger" ng-click="remove($index)"><i class="fa fa-minus"></i></button></td>
                                     <td><input ng-model="x.title" type="text" class="form-control" ng-change="getTotal(i.items)" /></td>
                                     <td><input ng-model="x.qty" type="number" min="0" class="form-control" ng-change="getTotal(i.items)" /></td>
                                     <td><input ng-model="x.unitPrice" type="text" class="form-control text-right" ng-change="getTotal(i.items)" /></td>
                                 </tr>
                                 <tr>
-                                    <td><a href="" class="btn btn-success" ng-click="add()"><i class="fa fa-plus"></i></a></td>
+                                    <td><button class="btn btn-success" ng-click="add()"><i class="fa fa-plus"></i></button></td>
                                     <td colspan="2" class="text-right">Ukupno:</td>
                                     <td><input ng-model="total" type="text" class="form-control text-right" readonly /></td>
                                 </tr>
@@ -461,7 +461,7 @@
                                 </tr>
                             </table>
                             <div class="text-right">
-                                <a href="" class="btn btn-success" ng-click="saveDb(i)"><i class="fa fa-{{loading_2==true?'spinner fa-spin':'floppy-o'}}"></i> Spremi</a>
+                                <button class="btn btn-success" ng-click="saveDb(i)"><i class="fa fa-{{loading_2==true?'spinner fa-spin':'floppy-o'}}"></i> Spremi</button>
                             </div>
                         </div>
                         <div style="margin-bottom:100px">
@@ -475,7 +475,7 @@
                                 </div>
                             </div>
                             <div>
-                                <a href="" class="btn btn-danger" ng-click="createPdf(i, isForeign, totPrice_eur)"><i class="fa fa-{{loading==true?'spinner fa-spin':'file-pdf-o'}}"></i> Kreiraj PDF</a>
+                                <button class="btn btn-danger" ng-click="createPdf(i, isForeign, totPrice_eur)"><i class="fa fa-{{loading==true?'spinner fa-spin':'file-pdf-o'}}"></i> Kreiraj PDF</button>
                             </div>
                             <div class="m10">
                                 <a ng-if="pdfTempLink" href="{{pdfTempLink}}" download><i class="fa fa-file-pdf-o"></i> {{pdfTempLink}}</a>
