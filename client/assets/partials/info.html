@@ -1,0 +1,15 @@
+﻿<div>
+    <a href="" class="btn btn-default pull-right text-capitalize m10" ng-click="toggleTpl('clientdata.html')"><i class="fa fa-times"></i><span class="hidden-xs"> {{'cancel' | translate}}</span></a>
+    <div class="well">
+        <h3 class="text-uppercase"><i class="fa fa-info-circle"></i> {{'info' | translate}}</h3>
+        <hr />
+        <h4 class="text-capitalize">{{config.title | translate}} <i class="small">{{'client' | translate}}</i></h4>
+        <ul>
+            <li><span>{{'version' | translate}}: </span>{{config.version}}</li>
+            <li>&copy {{today | date:'yyyy'}} {{config.copyright}}</li>
+            <li><span>{{'author' | translate}}: </span>{{config.author}}</li>
+            <li><span>{{'web' | translate}}: </span><a href="{{config.webpageurl}}" target="_blank">{{config.webpage}}</a></li>
+            <li><span>{{'email' | translate}}: </span><a href="mailto:{{config.email}}" target="_blank">{{config.email}}</a></li>
+        </ul>
+    </div>
+</div>

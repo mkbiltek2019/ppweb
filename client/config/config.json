@@ -1,0 +1,55 @@
+﻿{
+  "backend": "../",
+  "title": "nutrition plan web",
+  "shortDescription": "meal planning web app",
+  "apppage": "app.programprehrane.com",
+  "apppageurl": "/app/",
+  "webpage": "programprehrane.com",
+  "webpageurl": "../",
+  "author": "Igor Gašparović",
+  "copyright": "IG PROG",
+  "email": "program.prehrane@yahoo.com",
+  "language": "hr",
+  "languages": [
+    {
+      "code": "hr",
+      "title": "croatian"
+    },
+    {
+      "code": "sr",
+      "title": "serbian (latin)"
+    },
+    {
+      "code": "sr_cyrl",
+      "title": "serbian (cyrillic)"
+    },
+    {
+      "code": "en",
+      "title": "english"
+    }
+  ],
+  "debug": true,
+  "version": "1.0.0",
+  "date":  "06.05.2018",
+  "eur": 7.4,
+  "currency": "hrk",
+  "currencies": [
+    {
+      "code": "hrk",
+      "title": "kuna"
+    },
+    {
+      "code": "rsd",
+      "title": "srpski dinar"
+    },
+    {
+      "code": "€",
+      "title": "euro"
+    },
+    {
+      "code": "$",
+      "title": "dollar"
+    }
+  ],
+  "showupdatedes": false
+}

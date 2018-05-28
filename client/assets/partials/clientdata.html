@@ -1,0 +1,181 @@
+﻿ <div>
+     <div class="panel panel-default">
+         <div class="panel-body">
+             <div ng-if="config.debug">
+                 <div class="row m2">
+                     <div class="col-sm-2">user Id:</div>
+                     <div class="col-sm-6"><input ng-model="userId" class="form-control" /></div>
+                 </div>
+                 <div class="row m2">
+                     <div class="col-sm-2">client Id:</div>
+                     <div class="col-sm-6"><input ng-model="clientId" class="form-control" /></div>
+                 </div>
+             </div>
+             <div ng-include="'client'" style="padding-top:20px"></div>
+             <div ng-include="'inputData'" style="padding-top:20px"></div>
+
+             <div>
+                 <div>{{'tracking of anthropometric measures' | translate}}</div>
+                 <ul class="nav nav-tabs">
+                     <li ng-class="tpl=='clientLog'?'active':''" ng-click="toggleSubTpl('clientLog')"><a href="#"><i class="fa fa-table"></i> <span class="hidden-xs">{{'table' | translate}}</span></a></li>
+                     <li ng-class="tpl=='clientLogChart'?'active':''" ng-click="toggleSubTpl('clientLogChart')"><a href="#"><i class="fa fa-line-chart"></i> <span class="hidden-xs">{{'chart' | translate}}</span></a></li>
+                 </ul>
+             </div>
+
+             <div ng-include="tpl" style="padding-top:20px"></div>
+
+             <!--<div class="mt10">
+                 <a href="" ng-if="showTabs()" class="btn btn-primary pull-right" ng-click="toggleNewTpl('calculation')"><span>{{'forward' | translate}} </span><i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+             </div>-->
+         </div>
+     </div>
+</div>
+
+
+
+<div ng-if="config.debug" class="bg-info">
+    pal: <pre>{{pal}}</pre>
+    client:
+    <pre>{{client | json}}</pre>
+    clientData:
+  <pre>{{clientData | json}}</pre>
+</div>
+
+<script type="text/ng-template" id="client">
+    <div class="text-right p5">{{client.firstName}} {{client.lastName}}, {{client.gender.title | translate}}, {{'age' | translate}}: {{clientData.age}}</div>
+    <hr />
+</script>
+
+<script type="text/ng-template" id="inputData">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="p20">
+                <div class="row">
+                    <span class="col-sm-6">{{'measurement date' | translate}}:</span>
+                    <div class="col-sm-6">
+                        <div style="width:160px">
+                            <input ng-model="clientData.date" type="date" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt10">
+                    <span class="col-sm-6">{{'weight' | translate}} <em>(kg)</em>:</span>
+                    <div class="col-sm-6">
+                        <div class="input-group" style="width:160px; border:solid 2px green; border-radius:5px">
+                            <span class="input-group-addon pointer" ng-click="change(-1, 'weight')">-</span>
+                            <input type="number" ng-model="clientData.weight" ng-change="calculate()" class="form-control input-lg" min="20" max="300" step="1" required>
+                            <span class="input-group-addon pointer" ng-click="change(1, 'weight')">+</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-small">
+                    <hr />
+                    <div class="row mt10">
+                        <span class="col-sm-6">{{'height' | translate}} <em>(cm)</em>:</span>
+                        <div class="col-sm-6">
+                            <div class="input-group" style="width:160px">
+                                <span class="input-group-addon pointer" ng-click="change(-1, 'height')">-</span>
+                                <input type="number" ng-model="clientData.height" class="form-control" min="120" max="220" step="1" required>
+                                <span class="input-group-addon pointer" ng-click="change(1, 'height')">+</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt10">
+                        <span class="col-sm-6">{{'waist' | translate}} <em>(cm)</em>:</span>
+                        <div class="col-sm-6">
+                            <div class="input-group" style="width:160px">
+                                <span class="input-group-addon pointer" ng-click="change(-1, 'waist')">-</span>
+                                <input type="number" ng-model="clientData.waist" class="form-control" min="80" max="220" step="1">
+                                <span class="input-group-addon pointer" ng-click="change(1, 'waist')">+</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt10">
+                        <span class="col-sm-6">{{'hip' | translate}} <em>(cm)</em>:</span>
+                        <div class="col-sm-6">
+                            <div class="input-group" style="width:160px">
+                                <span class="input-group-addon pointer" ng-click="change(-1, 'hip')">-</span>
+                                <input type="number" ng-model="clientData.hip" class="form-control" min="80" max="220" step="1">
+                                <span class="input-group-addon pointer" ng-click="change(1, 'hip')">+</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt10">
+                    <span class="col-sm-6"></span>
+                    <div class="col-sm-6">
+                        <button class="btn btn-success btn-block" style="width:160px" ng-click="save(clientData)">{{'save' | translate}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="alert alert-info">{{calculation.bmi.title | translate}}</div>
+            <div id="bmiChart" class="pull-left" style="height:200px"></div>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="clientLog">
+    <div ng-if="clientData.clientId">
+        
+        <!--<div>
+            <md-radio-group ng-model="displayType" ng-click="changeDisplayType(displayType)" layout="row">
+                <md-radio-button value=0 class="md-primary">{{'weight' | translate}}</md-radio-button>
+                <md-radio-button value=1 class="md-primary">{{'waist' | translate}}</md-radio-button>
+                <md-radio-button value=2 class="md-primary">{{'hip' | translate}}</md-radio-button>
+            </md-radio-group>
+            <div class="p10">
+                <canvas id="clientDataChart" class="chart-bar" chart-data="clientLogGraphData.data" chart-colors="clientLogGraphData.colors" height="80"
+                        chart-labels="clientLogGraphData.labels" chart-series="clientLogGraphData.series" chart-options="clientLogGraphData.options" chart-dataset-override="clientLogGraphData.datasetOverride"></canvas>
+            </div>
+        </div>-->
+
+        <div class="table-responsive" style="height:500px; overflow-y: scroll; -webkit-overflow-scrolling: touch;">
+            <table class="table table-condensed text-small">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>{{'number' | translate}}</th>
+                        <th>{{'date' | translate}}</th>
+                        <th>{{'height' | translate}}</th>
+                        <th>{{'weight' | translate}}</th>
+                        <th>{{'waist' | translate}}</th>
+                        <th>{{'hip' | translate}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="x in clientLog | orderBy: '-id'">
+                        <td class="borderNone" style="width:100px">
+                            <a href="" style="color:red" ng-click="removeClientLog(x)" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-trash-o"></i></a>
+                            <a href="" style="color:green" ng-click="updateClientLog(x)" class="btn btn-default" title="{{'save' | translate}}"><i class="fa fa-floppy-o"></i></a>
+                        </td>
+                        <td>{{clientLog.length - $index}}</td>
+                        <td>{{getDateFormat(x.date) | date:'dd.MM.yyyy'}}</td>
+                        <td style="min-width: 100px"><input ng-model="x.height" type="number" class="form-control" min="120" max="220" step="1" /></td>
+                        <td style="min-width: 100px"><input ng-model="x.weight" type="number" class="form-control" min="20" max="300" step="1" /></td>
+                        <td style="min-width: 100px"><input ng-model="x.waist" type="number" class="form-control" min="80" max="220" step="1" /></td>
+                        <td style="min-width: 100px"><input ng-model="x.hip" type="number" class="form-control" min="80" max="220" step="1" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div ng-if="config.debug" class="bg-info">
+            Client Log:
+            <pre>{{clientLog}}</pre>
+
+            Calculation:
+            <pre>{{calculation}}</pre>
+        </div>
+
+    </div>
+</script>
+
+<script type="text/ng-template" id="clientLogChart">
+    <div class="p10">
+        <canvas id="clientDataChart" class="chart-bar" chart-data="clientLogGraphData.data" chart-colors="clientLogGraphData.colors" height="150"
+                chart-labels="clientLogGraphData.labels" chart-series="clientLogGraphData.series" chart-options="clientLogGraphData.options" chart-dataset-override="clientLogGraphData.datasetOverride"></canvas>
+    </div>
+</script>
+
