@@ -1,7 +1,7 @@
 ﻿ <div>
      <div class="panel panel-default">
          <div class="panel-body">
-             <div ng-if="config.debug">
+             <!--<div ng-if="config.debug">
                  <div class="row m2">
                      <div class="col-sm-2">user Id:</div>
                      <div class="col-sm-6"><input ng-model="userId" class="form-control" /></div>
@@ -10,18 +10,13 @@
                      <div class="col-sm-2">client Id:</div>
                      <div class="col-sm-6"><input ng-model="clientId" class="form-control" /></div>
                  </div>
-             </div>
+             </div>-->
              <div ng-include="'client'" style="padding-top:20px"></div>
-             <div ng-include="'inputData'" style="padding-top:20px"></div>
-
-             <div>
-                 <div>{{'tracking of anthropometric measures' | translate}}</div>
-                 <ul class="nav nav-tabs">
-                     <li ng-class="tpl=='clientLog'?'active':''" ng-click="toggleSubTpl('clientLog')"><a href="#"><i class="fa fa-table"></i> <span class="hidden-xs">{{'table' | translate}}</span></a></li>
-                     <li ng-class="tpl=='clientLogChart'?'active':''" ng-click="toggleSubTpl('clientLogChart')"><a href="#"><i class="fa fa-line-chart"></i> <span class="hidden-xs">{{'chart' | translate}}</span></a></li>
-                 </ul>
-             </div>
-
+             <ul class="nav nav-tabs">
+                 <li ng-class="tpl=='inputData'?'active':''" ng-click="toggleTpl('inputData')"><a href="#"><i class="fa fa-table"></i> <span>{{'input data' | translate}}</span></a></li>
+                 <li ng-class="tpl=='clientMenues'||tpl=='menu'?'active':''" ng-click="toggleTpl('clientMenues'); loadMenues()"><a href="#"><i class="fa fa-cutlery"></i> <span>{{'menues' | translate}}</span></a></li>
+             </ul>
+             
              <div ng-include="tpl" style="padding-top:20px"></div>
 
              <!--<div class="mt10">
@@ -42,7 +37,7 @@
 </div>
 
 <script type="text/ng-template" id="client">
-    <div class="text-right p5">{{client.firstName}} {{client.lastName}}, {{client.gender.title | translate}}, {{'age' | translate}}: {{clientData.age}}</div>
+    <div class="p5"><i class="fa fa-user-o fa-2x"></i> {{client.firstName}} {{client.lastName}}</div>
     <hr />
 </script>
 
@@ -114,6 +109,14 @@
             <div id="bmiChart" class="pull-left" style="height:200px"></div>
         </div>
     </div>
+    <div>
+        <div>{{'tracking of anthropometric measures' | translate}}</div>
+        <ul class="nav nav-tabs">
+            <li ng-class="subTpl=='clientLog'?'active':''" ng-click="toggleSubTpl('clientLog')"><a href="#"><i class="fa fa-table"></i> <span>{{'table' | translate}}</span></a></li>
+            <li ng-class="subTpl=='clientLogChart'?'active':''" ng-click="toggleSubTpl('clientLogChart')"><a href="#"><i class="fa fa-line-chart"></i> <span>{{'chart' | translate}}</span></a></li>
+        </ul>
+    </div>
+    <div ng-include="subTpl" style="padding-top:20px"></div>
 </script>
 
 <script type="text/ng-template" id="clientLog">
@@ -174,8 +177,74 @@
 
 <script type="text/ng-template" id="clientLogChart">
     <div class="p10">
+        <div>{{'weight' | translate}} (kg)</div>
         <canvas id="clientDataChart" class="chart-bar" chart-data="clientLogGraphData.data" chart-colors="clientLogGraphData.colors" height="150"
                 chart-labels="clientLogGraphData.labels" chart-series="clientLogGraphData.series" chart-options="clientLogGraphData.options" chart-dataset-override="clientLogGraphData.datasetOverride"></canvas>
     </div>
 </script>
+
+<script type="text/ng-template" id="clientMenues">
+    <div class="p10">
+       <p>{{'menues' | translate}}</p>
+        <div class="table-responsive">
+            <table class="table table-condensed table-hover">
+                <tr>
+                    <th></th>
+                    <th>{{'number' | translate}}</th>
+                    <th>{{'title' | translate}}</th>
+                    <th>{{'date' | translate}}</th>
+                    <th>{{'energy' | translate}} kcal</th>
+                </tr>
+                <tr ng-repeat="x in menues" ng-click="getMenu(x)" class="pointer">
+                    <td><button class="btn btn-primary"><i class="fa fa-eye"></i></button></td>
+                    <td>{{$index+1}}</td>
+                    <td>{{x.title}}</td>
+                    <td>{{x.date}}</td>
+                    <td>{{x.energy}}</td>
+                </tr>
+            </table>
+
+        </div>
+        
+        <pre>{{menu | json}}</pre>
+    </div>
+</script>
+
+<script type="text/ng-template" id="menu">
+    <div class="p10">
+        <button class="btn btn-primary pull-right" ng-click="toggleTpl('clientMenues')"><i class="fa fa-list"></i> {{'menues' | translate}}</button>
+        <div>
+            <button ng-if="!pdfLink" class="btn btn-danger" ng-click="createMenuPdf()" ng-disabled="creatingPdf==true"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</button>
+            <a ng-if="pdfLink" href="{{pdfLink}}" class="btn btn-success" download>{{'take pdf' | translate}}</a>
+            <hr />
+        </div>
+        <div class="well">
+            <strong>{{menu.title}}</strong>
+            <p>{{menu.note}}</p>
+            <hr />
+            <div ng-if="x.isSelected" ng-repeat="x in menu.data.meals track by $index">
+                <label class="text-uppercase">{{getMealTitle(x.code) | translate}}</label>
+                <div ng-if="x.description">
+                    <em class="text-justify">{{x.description}}</em>
+                </div>
+                <div class="p10">
+                    <p ng-if="y.meal.code==x.code" ng-repeat="y in menu.data.selectedFoods track by $index" >- {{y.food | translate}}, {{y.quantity}} {{y.unit | translate}}, ({{y.mass}} g)</p>
+                </div>
+                <hr />
+            </div>
+            <div>
+                <label><span class="text-uppercase">{{'total' | translate}}</span></label>
+                <p>{{'energy' | translate}}: <span>{{totals.energy}} kcal</span></p>
+                <p>{{'carbohydrates' | translate}}: <span>{{totals.carbohydrates | number:1}} g, ({{totals.carbohydratesPercentage | number:1}} %)</span></p>
+                <p>{{'proteins' | translate}}: <span>{{totals.proteins | number:1}} g, ({{totals.proteinsPercentage | number:1}} %)</span></p>
+                <p>{{'fats' | translate}}: <span>{{totals.fats | number:1}} g, ({{totals.fatsPercentage | number:1}} %)</span></p>
+            </div>
+        </div>
+
+
+        <pre>{{menu | json}}</pre>
+    </div>
+</script>
+
+
 

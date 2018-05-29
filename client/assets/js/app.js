@@ -31,13 +31,16 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
 .controller('AppCtrl', ['$scope', '$timeout', '$q', '$log', '$rootScope', '$localStorage', '$sessionStorage', '$window', '$http', '$translate', '$translatePartialLoader', 'functions', 'charts', function ($scope, $timeout, $q, $log, $rootScope, $localStorage, $sessionStorage, $window, $http, $translate, $translatePartialLoader, functions, charts) {
 
-    if (location.search.split('&')[0].substring(1, 4) == 'uid') {
-        $scope.userId = location.search.split('&')[0].substring(5);
+    var querystring = location.search;
+    if (!functions.isNullOrEmpty(querystring)) {
+        if (querystring.split('&')[0].substring(1, 4) == 'uid') {
+            $scope.userId = querystring.split('&')[0].substring(5);
+        }
+        if (querystring.split('&')[1].substring(0, 3) == 'cid') {
+            $scope.clientId = querystring.split('&')[1].substring(4);
+        }
     }
-    if (location.search.split('&')[1].substring(0, 3) == 'cid') {
-        $scope.clientId = location.search.split('&')[1].substring(4);
-    }
-
+    
     $scope.today = new Date();
 
     var getConfig = function () {
@@ -75,13 +78,18 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         $rootScope.loadPals();
     }
 
-    $scope.toggleTpl = function (x) {
+    $scope.toggleCurrTpl = function (x) {
         $rootScope.currTpl = './assets/partials/' + x;
     };
-    $scope.toggleTpl('clientdata');
+    $scope.toggleCurrTpl('clientdata');
+
+    $scope.toggleTpl = function (x) {
+        $scope.tpl = x;
+    };
+    $scope.toggleTpl('inputData');
 
     $scope.toggleSubTpl = function (x) {
-        $scope.tpl = x;
+        $scope.subTpl = x;
     };
     $scope.toggleSubTpl('clientLog');
 
@@ -363,7 +371,85 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
     getConfig();
 
-    //********* New *****************
+    $scope.loading = false;
+    $scope.loadMenues = function () {
+        $scope.loading = true;
+        $http({
+            url: $sessionStorage.config.backend + 'Menues.asmx/LoadClientMenues',
+            method: "POST",
+            data: { userId: $scope.userId, clientId: $scope.clientId }
+        })
+       .then(function (response) {
+           $scope.menues = JSON.parse(response.data.d);
+           $scope.loading = false;
+       },
+       function (response) {
+           $scope.loading = false;
+           alert(response.data.d);
+       });
+    }
+
+    $scope.getMenu = function (x) {
+        $http({
+            url: $sessionStorage.config.backend + 'Menues.asmx/Get',
+            method: "POST",
+            data: { userId: $scope.userId, id: x.id, }
+        })
+        .then(function (response) {
+            $scope.menu = JSON.parse(response.data.d);
+            getTotals($scope.menu);
+            $scope.toggleTpl('menu');
+        },
+        function (response) {
+            alert(response.data.d)
+        });
+    }
+
+    $scope.getMealTitle = function (x) {
+        if (x == 'B') { return 'breakfast'; }
+        if (x == 'MS') { return 'morning snack'; }
+        if (x == 'L') { return 'lunch'; }
+        if (x == 'AS') { return 'afternoon snack'; }
+        if (x == 'D') { return 'dinner'; }
+        if (x == 'MBS') { return 'meal before sleep'; }
+    }
+
+    var getTotals = function (x) {
+        $http({
+            url: $sessionStorage.config.backend + 'Foods.asmx/GetTotals',
+            method: "POST",
+            data: { selectedFoods: x.data.selectedFoods, meals: x.data.meals }
+        })
+       .then(function (response) {
+           $scope.totals = JSON.parse(response.data.d);
+           $scope.totals.price.currency = $rootScope.config.currency;
+       },
+       function (response) {
+           alert(response.data.d)
+       });
+    }
+
+    $scope.pdfLink = null;
+    $scope.creatingPdf = false;
+    $scope.createMenuPdf = function () {
+        $scope.pdfLink = null;
+        $scope.creatingPdf = true;
+        $http({
+            url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
+            method: "POST",
+            data: { userId: $scope.userId, currentMenu: $scope.menu, clientData: $scope.clientData, totals: $scope.totals, consumers: 1, lang: $rootScope.config.language }
+        })
+        .then(function (response) {
+            var fileName = response.data.d;
+            $scope.creatingPdf = false;
+            $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $scope.userId + '/pdf/' + fileName + '.pdf';
+        },
+        function (response) {
+            $scope.creatingPdf = false;
+            alert(response.data.d)
+        });
+    }
+   
 
     $scope.change = function (step, scope) {
         if (scope === 'height') {
@@ -383,6 +469,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
             $scope.calculate();
         }
     }
+
+
+    //********* New *****************
 
 
 
