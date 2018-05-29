@@ -31,6 +31,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
 .controller('AppCtrl', ['$scope', '$timeout', '$q', '$log', '$rootScope', '$localStorage', '$sessionStorage', '$window', '$http', '$translate', '$translatePartialLoader', 'functions', 'charts', function ($scope, $timeout, $q, $log, $rootScope, $localStorage, $sessionStorage, $window, $http, $translate, $translatePartialLoader, functions, charts) {
 
+    if (location.search.split('&')[0].substring(1, 4) == 'uid') {
+        $scope.userId = location.search.split('&')[0].substring(5);
+    }
+    if (location.search.split('&')[1].substring(0, 3) == 'cid') {
+        $scope.clientId = location.search.split('&')[1].substring(4);
+    }
 
     $scope.today = new Date();
 
@@ -90,18 +96,18 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
     
     $rootScope.saveClientData = function (x) {
-        if ($rootScope.clientData.meals.length > 0) {
-            if ($rootScope.clientData.meals[1].isSelected == false && $rootScope.clientData.meals[5].isSelected == true) {
-                $rootScope.newTpl = 'assets/partials/meals.html';
-                functions.alert($translate.instant('the selected meal combination is not allowed in the menu') + '!', $rootScope.clientData.meals[5].title + ' ' + $translate.instant('in this combination must be turned off') + '.');
-                return false;
-            }
-            if ($rootScope.clientData.meals[3].isSelected == false && $rootScope.clientData.meals[5].isSelected == true) {
-                $rootScope.newTpl = 'assets/partials/meals.html';
-                functions.alert($translate.instant('the selected meal combination is not allowed in the menu') + '!', $rootScope.clientData.meals[5].title + ' ' + $translate.instant('in this combination must be turned off') + '.');
-                return false;
-            }
-        }
+        //if ($rootScope.clientData.meals.length > 0) {
+        //    if ($rootScope.clientData.meals[1].isSelected == false && $rootScope.clientData.meals[5].isSelected == true) {
+        //        $rootScope.newTpl = 'assets/partials/meals.html';
+        //        functions.alert($translate.instant('the selected meal combination is not allowed in the menu') + '!', $rootScope.clientData.meals[5].title + ' ' + $translate.instant('in this combination must be turned off') + '.');
+        //        return false;
+        //    }
+        //    if ($rootScope.clientData.meals[3].isSelected == false && $rootScope.clientData.meals[5].isSelected == true) {
+        //        $rootScope.newTpl = 'assets/partials/meals.html';
+        //        functions.alert($translate.instant('the selected meal combination is not allowed in the menu') + '!', $rootScope.clientData.meals[5].title + ' ' + $translate.instant('in this combination must be turned off') + '.');
+        //        return false;
+        //    }
+        //}
         saveClientData(x);
     }
 
@@ -114,7 +120,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
             data: { userId: $sessionStorage.usergroupid, x: x }
         })
        .then(function (response) {
-           $rootScope.clientData.date = new Date($rootScope.clientData.date);
+           $scope.clientData.date = new Date($rootScope.clientData.date);
        },
        function (response) {
            alert(response.data.d)
@@ -123,7 +129,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
     $scope.showTabs = function () {
         if(angular.isUndefined($rootScope.clientData)){return false;}
-        var x = $rootScope.clientData;
+        var x = $scope.clientData;
         if (x.clientId != null && x.height > 0 && x.weight > 0 && x.pal.value > 0) {
             return true;
         } else {
@@ -137,8 +143,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
 
     //********** New *****************
-    $scope.userId = 'c67066a9-f3c1-432d-88c4-7f6e3278f616';  //TODO
-    $scope.clientId = 'b01ce6b4-c566-4e6f-8382-23d5bf635497';  //TODO
+    //$scope.userId = 'c67066a9-f3c1-432d-88c4-7f6e3278f616';  //TODO
+    //$scope.clientId = 'b01ce6b4-c566-4e6f-8382-23d5bf635497';  //TODO
 
     var getClient = function () {
         $http({
@@ -151,7 +157,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
             getClientData();
         },
         function (response) {
-            functions.alert($translate.instant(response.data.d), '');
+            alert(response.data.d)
+          //  functions.alert($translate.instant(response.data.d), '');
         });
     }
 
@@ -168,7 +175,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
             getClientLog();
         },
         function (response) {
-            functions.alert($translate.instant(response.data.d), '');
+            alert(response.data.d)
+          //  functions.alert($translate.instant(response.data.d), '');
         });
     }
 

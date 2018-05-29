@@ -1,6 +1,6 @@
 ﻿ /*!
 style.css
-(c) 2017 IG PROG, www.igprog.hr
+(c) 2017-2018 IG PROG, www.igprog.hr
 */
 
 .dashboardBox {
@@ -130,7 +130,7 @@ color:black !important;
 }
 
 .navbar{
-    background-color: #337ab7 !important; /*/midnightblue !important;*/
+    background-color: #337ab7; /*/midnightblue !important;*/
     border:none !important;
     border-radius:0 !important;
 
@@ -206,5 +206,24 @@ hr.bold {
 }
 
 
+
+/************ main colors ***************/
+/*.text-primary, a {
+    color:#487413 !important;
+}
+
+.navbar, .btn-primary, .bg-subpanel {
+    background-color: #96C161 !important;
+    color: white !important; 
+}
+
+.btn-primary {
+    border: 1px solid #C0E699 !important;
+}
+
+.bg-subpanel {
+    background-color: #C0E699 !important;
+}*/
+/************ main colors ***************/
 
 
