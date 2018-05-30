@@ -1615,7 +1615,9 @@
   "this function is available only in standard and premium package": "this function is available only in STANDARD and PREMIUM package",
   "lower limit": "lower limit",
   "upper limit": "upper limit",
-  "chart": "chart"
+  "chart": "chart",
+  "you must agree to the terms and conditions": "You must agree to the terms and conditions",
+  "mail sent successfully": "mail sent successfully"
 
 
 }

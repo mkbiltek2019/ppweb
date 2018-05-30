@@ -52,56 +52,59 @@
                 <a href="" ng-controller="loginCtrl" class="btn btn-success btn-lg" ng-click="login(newUser.userName, newUser.password)"><i class="fa fa-sign-in"></i> <span class="text-uppercase">{{'enter' | translate}}</span></a>
             </div>
         </div>
-        <div ng-show="!showAlert" >
+        <div ng-show="!showAlert" class="pt10">
             <div layout-gt-sm="row">
-                <md-input-container class="md-block" flex-gt-sm>
+                <md-input-container class="md-block m2" flex-gt-sm>
                     <label>{{'first name' | translate}}</label>
                     <input ng-model="newUser.firstName" type="text" required>
                 </md-input-container>
             </div>
             <div layout-gt-sm="row">
-                <md-input-container class="md-block" flex-gt-sm>
+                <md-input-container class="md-block m2" flex-gt-sm>
                     <label>{{'last name' | translate}}</label>
                     <input ng-model="newUser.lastName" type="text" required>
                 </md-input-container>
             </div>
             <div layout-gt-sm="row">
-                <md-input-container class="md-block" flex-gt-sm>
+                <md-input-container class="md-block m2" flex-gt-sm>
                     <label>{{'email' | translate}}</label>
                     <input name="email" ng-model="newUser.email" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" required />
                 </md-input-container>
             </div>
             <div layout-gt-sm="row">
-                <md-input-container class="md-block" flex-gt-sm>
+                <md-input-container class="md-block m2" flex-gt-sm>
                     <label>{{'confirm email' | translate}}</label>
                     <input ng-model="emailConfirm" type="text" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" required>
                 </md-input-container>
             </div>
             <div layout-gt-sm="row">
-                <md-input-container class="md-block" flex-gt-sm>
+                <md-input-container class="md-block m2" flex-gt-sm>
                     <label>{{'password' | translate}}</label>
                     <input ng-model="newUser.password" type="password" required>
                 </md-input-container>
             </div>
             <div layout-gt-sm="row">
-                <md-input-container class="md-block" flex-gt-sm>
+                <md-input-container class="md-block m2" flex-gt-sm>
                     <label>{{'confirm password' | translate}}</label>
                     <input ng-model="passwordConfirm" type="password" required>
                 </md-input-container>
             </div>
-
-            <div>
-                <p>{{'i agree to the' | translate}}<a href="licence.txt" target="_blank"> {{'terms and conditions' | translate}}</a></p>
-                <div class="mt10">
-                    <a href="" class="btn btn-primary" ng-click="signup()" ng-disabeld="signupdisabled==true" ng-dblclick="return false"><i class="fa fa-check"></i> {{'register' | translate}}</a>
-                </div>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block m2" flex-gt-sm>
+                    <md-checkbox md-no-ink aria-label={{'terms and conditions' | translate}} ng-model="accept" class="md-primary">
+                        {{'i agree to the' | translate}}
+                    </md-checkbox>
+                    <a href="{{config.appurl}}licence.txt" target="_blank">{{'terms and conditions' | translate}}</a>
+                </md-input-container>
+            </div>
+            <div class="m2">
+                <a href="" class="btn btn-primary btn-block" ng-click="signup()" ng-disabeld="signupdisabled==true" ng-dblclick="return false"><i class="fa fa-check"></i> {{'register' | translate}}</a>
             </div>
         </div>
-
-            <div ng-if="config.debug" class="bg-info debugBox">
-                newUser:
-                <pre>{{newUser | json}}</pre>
-            </div>
+        <div ng-if="config.debug" class="bg-info debugBox">
+            newUser:
+            <pre>{{newUser | json}}</pre>
+        </div>
 
     </div>
 

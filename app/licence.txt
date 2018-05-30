@@ -33,7 +33,7 @@ Dodatne odredbe
 
 Način zaštite povjerljivih podataka i Izjava o prikupljanju i korištenju osobnih podataka
 
-Kako bi mogli korisniti WEB PLIKAIJCU sa nama dijelite povjerljive informacije. Povjerljive informacije mogu uključivati: Vaše ime i prezime, naziv tvrtke, OIB tvrtke, adresu, broJ telefona, adresU elektroničke pošte, lozinke i ostale podatke koje podijelite sa nama. VLASNIK se obavezuje čuvati vaše podatke tajnima.
+Kako bi mogli korisniti WEB APLIKACIJU sa nama dijelite povjerljive informacije. Povjerljive informacije mogu uključivati: Vaše ime i prezime, naziv tvrtke, OIB tvrtke, adresu, broj telefona, adresu elektroničke pošte, lozinke i ostale podatke koje podijelite sa nama. VLASNIK se obavezuje čuvati vaše podatke tajnima.
 VLASNIK nikada neće dijeliti vaše podatke sa trećom stranom. VLASNIK može koristiti vaše podatke za slanje promotivnih materijala, ali isključivo sa vašim prethodnim odobrenjem.
 Vaše podatke sigurno spremamo u našu bazu podataka te koristimo sve dostupne tehnologije kako bi vaši podaci ostali sačuvani.
 Kupac ima pravo da u svakom trenutku zatraži prestanak obrade svojih korisničkih podataka od strane VLASNIK-a.
@@ -43,7 +43,7 @@ Prilikom registracije na www.programprehrane.com biti ćete dužni kreirati lozi
 Preporučujemo da koristite jedinstvenu lozinku za pristup našem sustavu. Ako znate ili sumnjate da još netko zna Vašu lozinku, ljubazno Vas molimo da nas kontaktirate putem e-maila program.prehrane@yahoo.com, a kako bismo Vam dali upute za izmjenu Vaše lozinke.
 Ukoliko postoji bilo kakva sumnja da postoji propust u sigurnosti, VLASNIK ima pravo od Vas tražiti da promijenite lozinku ili može blokirati Vaš korisnički račun. Sve stranice i podstranice programprehrane.com na kojima se vrši razmjena povjerljivih podataka (lozinka, plaćanje putem interneta..) zaštićene su uporabom SSL sigurnosnog protokola.
 SSL enkripcija je standardna tehnologija zaštite podataka koja omogućava sigurnu razmjenu podataka između Vašeg preglednika i stranica programprehrane.com.
-Ukoliko postoji bilo kakva sumnja da postoji propust u sigurnosti ili su tajni korisnički podaci ugroženi, VLANIK je dužan obavjestiti registrirane korisnike o tim događajima u roku od 48h.
+Ukoliko postoji bilo kakva sumnja da postoji propust u sigurnosti ili su tajni korisnički podaci ugroženi, VLASNIK je dužan obavijestiti registrirane korisnike o tim događajima u roku od 48h.
 
 Vaši osobni podaci
 Vašu e-adresu i ostale podatke ne prodajemo, ne iznajmljujemo i ne stavljamo trećim pravnim i fizičkim osobama na raspolaganje bez vašeg pristanka jer je to protivno našoj politici o privatnosti.

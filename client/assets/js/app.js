@@ -104,18 +104,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
     
     $rootScope.saveClientData = function (x) {
-        //if ($rootScope.clientData.meals.length > 0) {
-        //    if ($rootScope.clientData.meals[1].isSelected == false && $rootScope.clientData.meals[5].isSelected == true) {
-        //        $rootScope.newTpl = 'assets/partials/meals.html';
-        //        functions.alert($translate.instant('the selected meal combination is not allowed in the menu') + '!', $rootScope.clientData.meals[5].title + ' ' + $translate.instant('in this combination must be turned off') + '.');
-        //        return false;
-        //    }
-        //    if ($rootScope.clientData.meals[3].isSelected == false && $rootScope.clientData.meals[5].isSelected == true) {
-        //        $rootScope.newTpl = 'assets/partials/meals.html';
-        //        functions.alert($translate.instant('the selected meal combination is not allowed in the menu') + '!', $rootScope.clientData.meals[5].title + ' ' + $translate.instant('in this combination must be turned off') + '.');
-        //        return false;
-        //    }
-        //}
         saveClientData(x);
     }
 
@@ -332,7 +320,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
                 if (type == 1) { clientData.push(x.waist); goalFrom.push(95); }
                 if (type == 2) { clientData.push(x.hip); goalFrom.push(97); }
                 if (key % (Math.floor($scope.clientLog.length / 31) + 1) === 0) {
-                    labels.push(new Date(x.date).toLocaleDateString());
+                    labels.push(new Date(x.date).toLocaleDateString());  //TODO check with server date time (one day less)
                 } else {
                     labels.push("");
                 }
@@ -347,7 +335,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
     }
 
     $scope.removeClientLog = function (x) {
-       // var txt;
         var r = confirm($translate.instant('delete record') + '?');
         if (r == true) {
             removeClientLog(x);

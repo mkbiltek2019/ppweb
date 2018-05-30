@@ -1609,6 +1609,8 @@
   "this function is available only in standard and premium package": "Ова функција је доступна само у пакету СТАНДАРД и ПРЕМИУМ",
   "lower limit": "доња граница",
   "upper limit": "горња граница",
-  "chart": "граф"
+  "chart": "граф",
+  "you must agree to the terms and conditions": "Морате прихватити услове кориштења",
+  "mail sent successfully": "маил успешно послан"
 
 }

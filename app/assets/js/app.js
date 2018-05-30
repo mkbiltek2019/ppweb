@@ -479,6 +479,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.showAlert = false;
     $scope.passwordConfirm = '';
     $scope.emailConfirm = '';
+    $scope.signupdisabled = false;
+    $scope.accept = false;
 
     var init = function () {
         $http({
@@ -495,7 +497,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
     init();
 
-    $scope.signupdisabled = false;
     $scope.signup = function () {
         $scope.signupdisabled = true;
         $scope.newUser.userName = $scope.newUser.email;
@@ -504,14 +505,19 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $scope.signupdisabled = false;
             return false;
         }
+        if ($scope.newUser.email != $scope.emailConfirm) {
+            $scope.signupdisabled = false;
+            functions.alert($translate.instant('emails are not the same'), '');
+            return false;
+        }
         if ($scope.newUser.password != $scope.passwordConfirm) {
             $scope.signupdisabled = false;
             functions.alert($translate.instant('passwords are not the same'), '');
             return false;
         }
-        if ($scope.newUser.email != $scope.emailConfirm) {
+        if ($scope.accept == false) {
             $scope.signupdisabled = false;
-            functions.alert($translate.instant('emails are not the same'), '');
+            functions.alert($translate.instant('you must agree to the terms and conditions'), '');
             return false;
         }
         $http({
@@ -1487,20 +1493,30 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.pdfLink = null;
     }
 
+    $scope.sendingMail = false;
     $scope.sendAppLinkToClientEmail = function (client) {
+        if ($scope.sendingMail == true) { return false; }
+        $scope.sendingMail = true;
         var link = $rootScope.config.clientapppageurl + '?uid=' + $rootScope.clientData.userId + '&cid=' + $rootScope.clientData.clientId
         var messageSubject = 'Program Prehrane. link za pristup aplikaciji';
-        var messageBody = '<p>Poštovani</p>' +
-            'Link zapristup aplikaciji za prćenje Vaše tjelesne mase i preuzimanje jelovnika je: ' + link;
+        var messageBody = '<p>Poštovani,</p>' +
+            'Link za pristup aplikaciji za prćenje Vaše tjelesne mase i preuzimanje jelovnika je: ' +
+            '<br />' +
+            '<strong><a href="' + link + '">' + link + '</a></strong>' + 
+            '<br />' +
+            '<p>Lijep pozdrav</p>' +
+            '<a href="' + $rootScope.config.webpageurl + '">' + $rootScope.config.webpage + '</a>'
         $http({
             url: $sessionStorage.config.backend + 'Mail.asmx/SendMessage',
             method: "POST",
             data: { sendTo: client.email, messageSubject: messageSubject, messageBody: messageBody }
         })
         .then(function (response) {
+            $scope.sendingMail = false;
             functions.alert($translate.instant(response.data.d), '');
         },
         function (response) {
+            $scope.sendingMail = false;
             functions.alert($translate.instant(response.data.d), '');
         });
     }

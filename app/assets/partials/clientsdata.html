@@ -103,7 +103,7 @@
                     <div>Pošaljite link za pristup aplikaciji na email klijenta:
                         <div class="input-group">
                             <input ng-model="client.email" type="email" class="form-control" placeholder="{{'email' | translate}}"/>
-                            <div class="input-group-addon pointer" ng-click="sendAppLinkToClientEmail(client)"><a href="">{{'send' | translate}}</a></div>
+                            <div class="input-group-addon pointer" ng-click="sendAppLinkToClientEmail(client)" ng-disabled="sendingMail==true"><a href=""><i class="fa fa-{{sendingMail==true?'spinner fa-spin':'paper-plane-o'}}"></i> {{'send' | translate}}</a></div>
                         </div>
                     </div>
                 </div>

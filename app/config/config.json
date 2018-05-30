@@ -4,7 +4,8 @@
   "shortDescription": "meal planning web app",
   "apppage": "app.programprehrane.com",
   "apppageurl": "/app/",
-  "webpage": "programprehrane.com",
+  "clientapppageurl": "https://www.programprehrane.com/client/",
+  "webpage": "www.programprehrane.com",
   "webpageurl": "../",
   "author": "Igor Gašparović",
   "copyright": "IG PROG",
@@ -30,7 +31,7 @@
   ],
   "debug": true,
   "version": "1.0.0",
-  "date":  "06.05.2018",
+  "date": "06.05.2018",
   "eur": 7.4,
   "currency": "hrk",
   "currencies": [
@@ -51,5 +52,5 @@
       "title": "dollar"
     }
   ],
-  "showupdatedes":  true
+  "showupdatedes": false
 }
