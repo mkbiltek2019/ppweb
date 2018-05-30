@@ -1487,6 +1487,24 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.pdfLink = null;
     }
 
+    $scope.sendAppLinkToClientEmail = function (client) {
+        var link = $rootScope.config.clientapppageurl + '?uid=' + $rootScope.clientData.userId + '&cid=' + $rootScope.clientData.clientId
+        var messageSubject = 'Program Prehrane. link za pristup aplikaciji';
+        var messageBody = '<p>Poštovani</p>' +
+            'Link zapristup aplikaciji za prćenje Vaše tjelesne mase i preuzimanje jelovnika je: ' + link;
+        $http({
+            url: $sessionStorage.config.backend + 'Mail.asmx/SendMessage',
+            method: "POST",
+            data: { sendTo: client.email, messageSubject: messageSubject, messageBody: messageBody }
+        })
+        .then(function (response) {
+            functions.alert($translate.instant(response.data.d), '');
+        },
+        function (response) {
+            functions.alert($translate.instant(response.data.d), '');
+        });
+    }
+
 
 }])
 

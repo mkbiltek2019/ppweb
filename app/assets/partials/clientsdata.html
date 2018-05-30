@@ -92,18 +92,18 @@
                         </div>
                     </div>
             </div>
-            <div ng-if="config.debug" class="col-sm-6 p10">
+            <div ng-if="config.debug&&user.userType>0" class="col-sm-6 p10">
                 <div class="well">
-                    <label>{{'client app' | translate}}</label>
+                    <label class="text-uppercase"><i class="fa fa-user-o"></i> aplikacija za klijente</label>
                     <div>
-                        <p>Dozvolite svojim pacijentima (klijentima) da sami prate promjenu svoje tjelesne mase i preuzimaju jelovnike.</p>
+                        <p>Dozvolite svojim klijentima da sami evidentiraju promjenu svoje tjelesne mase i preuzimaju jelovnike putem web aplikacije.</p>
                     </div>
-                    <p>Link za pristup aplikaciji za klijenta: {{client.firstName}} {{client.lastName}}</p>
-                    <a href="{{config.clientapppageurl}}?uid:{{clientData.userId}}&cid?{{clientData.clientId}}" target="_blank">{{config.clientapppageurl}}?uid:{{clientData.userId}}&cid:{{clientData.clientId}}</a>
-                    <div>Pošaljite link na email klijenta:
+                    <!--<p>Link za pristup aplikaciji za klijenta: {{client.firstName}} {{client.lastName}}</p>-->
+                    <a ng-if="config.debug" href="{{config.clientapppageurl}}?uid={{clientData.userId}}&cid={{clientData.clientId}}" target="_blank">{{config.clientapppageurl}}?uid={{clientData.userId}}&cid={{clientData.clientId}}</a>
+                    <div>Pošaljite link za pristup aplikaciji na email klijenta:
                         <div class="input-group">
                             <input ng-model="client.email" type="email" class="form-control" placeholder="{{'email' | translate}}"/>
-                            <span class="input-group-addon"><a href="">{{'send' | translate}}</a></span>
+                            <div class="input-group-addon pointer" ng-click="sendAppLinkToClientEmail(client)"><a href="">{{'send' | translate}}</a></div>
                         </div>
                     </div>
                 </div>

@@ -23,7 +23,88 @@ public class Mail : System.Web.Services.WebService {
     public Mail() {
     }
 
-   
+    #region WebMethods
+    [WebMethod]
+    public string Send(string name, string email, string messageSubject, string message) {
+      //  messageSubject = "Program Prehrane - podaci za uplatu";
+       string messageBody = string.Format(
+@"
+<hr>Novi upit</h3>
+<p>Ime: {0}</p>
+<p>Email: {1}</p>
+<p>Poruka: {2}</p>", name, email, message);
+        try {
+            SendMail(myEmail, messageSubject, messageBody);
+            return "ok";
+        } catch (Exception e) { return ("Error: " + e); }
+    }
+
+    [WebMethod]
+    public string SendMenu(string email, Menues.NewMenu currentMenu, Users.NewUser user) {
+        try {
+            StringBuilder sb = new StringBuilder();
+            StringBuilder meal1 = new StringBuilder();
+            StringBuilder meal2 = new StringBuilder();
+            StringBuilder meal3 = new StringBuilder();
+            StringBuilder meal4 = new StringBuilder();
+            StringBuilder meal5 = new StringBuilder();
+            StringBuilder meal6 = new StringBuilder();
+
+            sb.AppendLine(string.Format(@"<h3>{0}</h3>", currentMenu.title));
+            if (!string.IsNullOrWhiteSpace(currentMenu.note)) {
+                sb.AppendLine(string.Format(@"<p>{0}</p>", currentMenu.note));
+            }
+            sb.AppendLine("<hr />");
+
+            foreach (Meals.NewMeal x in currentMenu.data.meals) {
+                switch (x.code) {
+                    case "B":
+                        meal1.AppendLine(AppendMeal(x, currentMenu.data.selectedFoods));
+                        break;
+                    case "MS":
+                        meal2.AppendLine(AppendMeal(x, currentMenu.data.selectedFoods));
+                        break;
+                    case "L":
+                        meal3.AppendLine(AppendMeal(x, currentMenu.data.selectedFoods));
+                        break;
+                    case "AS":
+                        meal4.AppendLine(AppendMeal(x, currentMenu.data.selectedFoods));
+                        break;
+                    case "D":
+                        meal5.AppendLine(AppendMeal(x, currentMenu.data.selectedFoods));
+                        break;
+                    case "MBS":
+                        meal6.AppendLine(AppendMeal(x, currentMenu.data.selectedFoods));
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            sb.AppendLine(meal1.ToString());
+            sb.AppendLine(meal2.ToString());
+            sb.AppendLine(meal3.ToString());
+            sb.AppendLine(meal4.ToString());
+            sb.AppendLine(meal5.ToString());
+            sb.AppendLine(meal6.ToString());
+
+            string subject = string.Format("{0}", !string.IsNullOrWhiteSpace(user.companyName) ? user.companyName : string.Format("{0} {1}", user.firstName, user.lastName));
+
+            SendMail(email, subject, sb.ToString());
+            return "menu sent successfully";
+        } catch (Exception e) { return ("error: " + e); }
+    }
+
+    [WebMethod]
+    public string SendMessage(string sendTo, string messageSubject, string messageBody) {
+        try {
+            SendMail(sendTo, messageSubject, messageBody);
+            return "mail sent successfully";
+        } catch (Exception e) { return (e.Message); }
+    }
+    #endregion WebMethods
+
+    #region Methods
     public void SendOrder(Orders.NewUser user) {
 
         //-----------Send mail to me---------
@@ -127,78 +208,6 @@ public class Mail : System.Web.Services.WebService {
         } catch (Exception e) {}
     }
 
-
-    [WebMethod]
-    public string Send(string name, string email, string messageSubject, string message) {
-      //  messageSubject = "Program Prehrane - podaci za uplatu";
-       string messageBody = string.Format(
-@"
-<hr>Novi upit</h3>
-<p>Ime: {0}</p>
-<p>Email: {1}</p>
-<p>Poruka: {2}</p>", name, email, message);
-        try {
-            SendMail(myEmail, messageSubject, messageBody);
-            return "ok";
-        } catch (Exception e) { return ("Error: " + e); }
-    }
-
-    [WebMethod]
-    public string SendMenu(string email, Menues.NewMenu currentMenu, Users.NewUser user) {
-        try {
-            StringBuilder sb = new StringBuilder();
-            StringBuilder meal1 = new StringBuilder();
-            StringBuilder meal2 = new StringBuilder();
-            StringBuilder meal3 = new StringBuilder();
-            StringBuilder meal4 = new StringBuilder();
-            StringBuilder meal5 = new StringBuilder();
-            StringBuilder meal6 = new StringBuilder();
-
-            sb.AppendLine(string.Format(@"<h3>{0}</h3>", currentMenu.title));
-            if (!string.IsNullOrWhiteSpace(currentMenu.note)) {
-                sb.AppendLine(string.Format(@"<p>{0}</p>", currentMenu.note));
-            }
-            sb.AppendLine("<hr />");
-
-            foreach (Meals.NewMeal x in currentMenu.data.meals) {
-                switch (x.code) {
-                    case "B":
-                        meal1.AppendLine(AppendMeal(x, currentMenu.data.selectedFoods));
-                        break;
-                    case "MS":
-                        meal2.AppendLine(AppendMeal(x, currentMenu.data.selectedFoods));
-                        break;
-                    case "L":
-                        meal3.AppendLine(AppendMeal(x, currentMenu.data.selectedFoods));
-                        break;
-                    case "AS":
-                        meal4.AppendLine(AppendMeal(x, currentMenu.data.selectedFoods));
-                        break;
-                    case "D":
-                        meal5.AppendLine(AppendMeal(x, currentMenu.data.selectedFoods));
-                        break;
-                    case "MBS":
-                        meal6.AppendLine(AppendMeal(x, currentMenu.data.selectedFoods));
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            sb.AppendLine(meal1.ToString());
-            sb.AppendLine(meal2.ToString());
-            sb.AppendLine(meal3.ToString());
-            sb.AppendLine(meal4.ToString());
-            sb.AppendLine(meal5.ToString());
-            sb.AppendLine(meal6.ToString());
-
-            string subject = string.Format("{0}", !string.IsNullOrWhiteSpace(user.companyName) ? user.companyName : string.Format("{0} {1}", user.firstName, user.lastName));
-
-            SendMail(email, subject, sb.ToString());
-            return "menu sent successfully";
-        } catch (Exception e) { return ("error: " + e); }
-    }
-
     private string AppendMeal(Meals.NewMeal meal, List<Foods.NewFood> selectedFoods) {
         StringBuilder sb = new StringBuilder();
 
@@ -225,7 +234,6 @@ public class Mail : System.Web.Services.WebService {
         return sb.ToString();
     }
 
-
     private string GetLicenceDuration(string licence) {
         switch (licence) {
             case "0":
@@ -238,6 +246,7 @@ public class Mail : System.Web.Services.WebService {
                 return "";
         }
     }
+    #endregion methods
 
 
 }
