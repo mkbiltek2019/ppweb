@@ -1,7 +1,7 @@
 ﻿{
   "body mass index": "indeks telesne mase",
-  "waist–hip ratio": "odnos obima struka i bokova",
-  "waist": "obim struka",
+  "waist–hip ratio": "odnos opsega struka i bokova",
+  "waist": "opseg struka",
   "recommendations": "preporuke",
   "weight": "masa",
   "energy intake": "energetski unos",
@@ -38,5 +38,7 @@
   "meal before sleep": "obrok pred spavanje",
   "carbohydrates": "ugljikohidrati",
   "proteins": "bejlančevine",
-  "fats": "masti"
+  "fats": "masti",
+  "create pdf": "kreiraj PDF",
+  "take pdf": "preuzmi PDF"
 }

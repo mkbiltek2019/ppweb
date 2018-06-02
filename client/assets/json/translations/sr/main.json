@@ -38,5 +38,7 @@
   "meal before sleep": "obrok pred spavanje",
   "carbohydrates": "ugljeni hidrati",
   "proteins": "belančevine",
-  "fats": "masti"
+  "fats": "masti",
+  "create pdf": "kreiraj PDF",
+  "take pdf": "preuzmi PDF"
 }

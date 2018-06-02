@@ -79,9 +79,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
     }
 
     $scope.toggleCurrTpl = function (x) {
-        $rootScope.currTpl = './assets/partials/' + x;
+        $scope.currTpl = './assets/partials/' + x;
     };
-    $scope.toggleCurrTpl('clientdata');
+    $scope.toggleCurrTpl('clientdata.html');
 
     $scope.toggleTpl = function (x) {
         $scope.tpl = x;
@@ -92,13 +92,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         $scope.subTpl = x;
     };
     $scope.toggleSubTpl('clientLog');
-
-    var checkUser = function () {
-        $rootScope.currTpl = './assets/partials/clientdata.html';
-    }
-    checkUser();
-
-  
 
     $scope.showSaveMessage = false;
 
@@ -228,7 +221,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         $timeout(function () {
             bmiChart();
             //setClientLogGraphData();
-        }, 500);
+        }, 1000);
     }
 
     var bmiChart = function () {

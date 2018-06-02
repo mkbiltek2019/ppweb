@@ -40,5 +40,7 @@
   "meal before sleep": "meal before sleep",
   "carbohydrates": "carbohydrates",
   "proteins": "proteins",
-  "fats": "fats"
+  "fats": "fats",
+  "create pdf": "create PDF",
+  "take pdf":  "take PDF"
 }

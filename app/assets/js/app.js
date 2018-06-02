@@ -630,10 +630,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
            $rootScope.events = JSON.parse(response.data.d);
            $timeout(function () {
                showScheduler();
-           }, 50);
+           }, 200);
        },
        function (response) {
-           alert(response.data.d)
+           functions.alert($translate.instant(response.data.d));
        });
     };
     getUsers();
@@ -655,25 +655,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         eventObj.startDate = x.startDate;
         eventObj.userId = $rootScope.user.userId;
         remove(eventObj);
-        save(eventObj);
+        $timeout(function () {
+            save(eventObj);
+        }, 500);
     }
-
-    //var saveEvent = function (x) {
-    //    if ($rootScope.user.licenceStatus == 'demo' || $rootScope.user.userType < 1) {
-    //        functions.demoAlert('this function is not available in premium version');
-    //    }
-    //    $http({
-    //        url: $sessionStorage.config.backend + webService + '/Delete', 
-    //        method: "POST",
-    //        data: { userGroupId: $rootScope.user.userGroupId, userId: $rootScope.user.userId, x: x }
-    //    })
-    //    .then(function (response) {
-    //        save(x);
-    //    },
-    //    function (response) {
-    //        alert(response.data.d)
-    //    });
-    //}
 
     var save = function (x) {
         if ($rootScope.user.licenceStatus == 'demo' || $rootScope.user.userType < 1) {
@@ -685,9 +670,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { userGroupId: $rootScope.user.userGroupId, userId: $rootScope.user.userId, x: x }
         })
         .then(function (response) {
+            functions.alert($translate.instant(response.data.d));
         },
         function (response) {
-            alert(response.data.d)
+            functions.alert($translate.instant(response.data.d));
         });
     }
 
@@ -712,7 +698,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         .then(function (response) {
         },
         function (response) {
-            alert(response.data.d);
+            functions.alert($translate.instant(response.data.d));
         });
     }
 
@@ -1496,6 +1482,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.sendingMail = false;
     $scope.sendAppLinkToClientEmail = function (client) {
         if ($scope.sendingMail == true) { return false; }
+        if (functions.isNullOrEmpty(client.email)) {
+            functions.alert($translate.instant('email is required'), '');
+            return false;
+        }
         $scope.sendingMail = true;
         var link = $rootScope.config.clientapppageurl + '?uid=' + $rootScope.clientData.userId + '&cid=' + $rootScope.clientData.clientId
         var messageSubject = 'Program Prehrane. link za pristup aplikaciji';

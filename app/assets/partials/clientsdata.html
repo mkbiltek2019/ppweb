@@ -92,7 +92,7 @@
                         </div>
                     </div>
             </div>
-            <div ng-if="config.debug&&user.userType>0" class="col-sm-6 p10">
+            <div ng-if="user.userType>0" class="col-sm-6 p10">
                 <div class="well">
                     <label class="text-uppercase"><i class="fa fa-user-o"></i> aplikacija za klijente</label>
                     <div>
@@ -221,9 +221,11 @@
                 <md-radio-button value=2 class="md-primary">{{'hip' | translate}}</md-radio-button>
             </md-radio-group>
             <div class="p10">
-                <canvas id="clientDataChart" class="chart-bar" chart-data="clientLogGraphData.data" chart-colors="clientLogGraphData.colors" height="80"
+                <canvas id="clientDataChart" class="chart-bar hidden-xs" chart-data="clientLogGraphData.data" chart-colors="clientLogGraphData.colors" height="80"
                         chart-labels="clientLogGraphData.labels" chart-series="clientLogGraphData.series" chart-options="clientLogGraphData.options" chart-dataset-override="clientLogGraphData.datasetOverride">
                 </canvas>
+                <canvas id="clientDataChart" class="chart-bar visible-xs" chart-data="clientLogGraphData.data" chart-colors="clientLogGraphData.colors" height="400"
+                        chart-labels="clientLogGraphData.labels" chart-series="clientLogGraphData.series" chart-options="clientLogGraphData.options" chart-dataset-override="clientLogGraphData.datasetOverride"></canvas>
             </div>
         </div>
 

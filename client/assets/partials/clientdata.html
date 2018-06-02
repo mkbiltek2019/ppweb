@@ -13,11 +13,11 @@
              </div>-->
              <div ng-include="'client'" style="padding-top:20px"></div>
              <ul class="nav nav-tabs">
-                 <li ng-class="tpl=='inputData'?'active':''" ng-click="toggleTpl('inputData')"><a href="#"><i class="fa fa-table"></i> <span>{{'input data' | translate}}</span></a></li>
-                 <li ng-class="tpl=='clientMenues'||tpl=='menu'?'active':''" ng-click="toggleTpl('clientMenues'); loadMenues()"><a href="#"><i class="fa fa-cutlery"></i> <span>{{'menues' | translate}}</span></a></li>
+                 <li ng-class="tpl=='inputData'?'active':''" ng-click="toggleTpl('inputData')"><a href="#"><i class="fa fa-table"></i> <span class="text-uppercase">{{'input data' | translate}}</span></a></li>
+                 <li ng-class="tpl=='clientMenues'||tpl=='menu'?'active':''" ng-click="toggleTpl('clientMenues'); loadMenues()"><a href="#"><i class="fa fa-cutlery"></i> <span class="text-uppercase">{{'menues' | translate}}</span></a></li>
              </ul>
              
-             <div ng-include="tpl" style="padding-top:20px"></div>
+             <div ng-include="tpl" style="padding-top:20px; min-height:400px;"></div>
 
              <!--<div class="mt10">
                  <a href="" ng-if="showTabs()" class="btn btn-primary pull-right" ng-click="toggleNewTpl('calculation')"><span>{{'forward' | translate}} </span><i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
@@ -99,21 +99,21 @@
                 <div class="row mt10">
                     <span class="col-sm-6"></span>
                     <div class="col-sm-6">
-                        <button class="btn btn-success btn-block" style="width:160px" ng-click="save(clientData)">{{'save' | translate}}</button>
+                        <button class="btn btn-success btn-block" style="width:160px" ng-click="save(clientData)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</button>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-sm-6">
-            <div class="alert alert-info">{{calculation.bmi.title | translate}}</div>
+            <div class="alert alert-info text-center text-uppercase"><strong>{{calculation.bmi.title | translate}}</strong></div>
             <div id="bmiChart" class="pull-left" style="height:200px"></div>
         </div>
     </div>
     <div>
-        <div>{{'tracking of anthropometric measures' | translate}}</div>
+        <label>{{'tracking of anthropometric measures' | translate}}</label>
         <ul class="nav nav-tabs">
-            <li ng-class="subTpl=='clientLog'?'active':''" ng-click="toggleSubTpl('clientLog')"><a href="#"><i class="fa fa-table"></i> <span>{{'table' | translate}}</span></a></li>
-            <li ng-class="subTpl=='clientLogChart'?'active':''" ng-click="toggleSubTpl('clientLogChart')"><a href="#"><i class="fa fa-line-chart"></i> <span>{{'chart' | translate}}</span></a></li>
+            <li ng-class="subTpl=='clientLog'?'active':''" ng-click="toggleSubTpl('clientLog')"><a href="#"><i class="fa fa-table"></i> <span class="text-capitalize">{{'table' | translate}}</span></a></li>
+            <li ng-class="subTpl=='clientLogChart'?'active':''" ng-click="toggleSubTpl('clientLogChart')"><a href="#"><i class="fa fa-line-chart"></i> <span class="text-capitalize">{{'chart' | translate}}</span></a></li>
         </ul>
     </div>
     <div ng-include="subTpl" style="padding-top:20px"></div>
@@ -150,7 +150,7 @@
                 <tbody>
                     <tr ng-repeat="x in clientLog | orderBy: '-id'">
                         <td class="borderNone" style="width:100px">
-                            <a href="" style="color:red" ng-click="removeClientLog(x)" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-trash-o"></i></a>
+                            <a href="" style="color:red!important" ng-click="removeClientLog(x)" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-trash-o"></i></a>
                             <a href="" style="color:green" ng-click="updateClientLog(x)" class="btn btn-default" title="{{'save' | translate}}"><i class="fa fa-floppy-o"></i></a>
                         </td>
                         <td>{{clientLog.length - $index}}</td>
@@ -178,14 +178,17 @@
 <script type="text/ng-template" id="clientLogChart">
     <div class="p10">
         <div>{{'weight' | translate}} (kg)</div>
-        <canvas id="clientDataChart" class="chart-bar" chart-data="clientLogGraphData.data" chart-colors="clientLogGraphData.colors" height="150"
-                chart-labels="clientLogGraphData.labels" chart-series="clientLogGraphData.series" chart-options="clientLogGraphData.options" chart-dataset-override="clientLogGraphData.datasetOverride"></canvas>
+        <canvas id="clientDataChart" class="chart-bar hidden-xs" chart-data="clientLogGraphData.data" chart-colors="clientLogGraphData.colors" height="80"
+                chart-labels="clientLogGraphData.labels" chart-series="clientLogGraphData.series" chart-options="clientLogGraphData.options" chart-dataset-override="clientLogGraphData.datasetOverride">
+        </canvas>
+        <canvas id="clientDataChart" class="chart-bar visible-xs" chart-data="clientLogGraphData.data" chart-colors="clientLogGraphData.colors" height="400"
+                chart-labels="clientLogGraphData.labels" chart-series="clientLogGraphData.series" chart-options="clientLogGraphData.options" chart-dataset-override="clientLogGraphData.datasetOverride">
+        </canvas>
     </div>
 </script>
 
 <script type="text/ng-template" id="clientMenues">
     <div class="p10">
-       <p>{{'menues' | translate}}</p>
         <div class="table-responsive">
             <table class="table table-condensed table-hover">
                 <tr>
@@ -193,7 +196,7 @@
                     <th>{{'number' | translate}}</th>
                     <th>{{'title' | translate}}</th>
                     <th>{{'date' | translate}}</th>
-                    <th>{{'energy' | translate}} kcal</th>
+                    <th>{{'energy' | translate}} (kcal)</th>
                 </tr>
                 <tr ng-repeat="x in menues" ng-click="getMenu(x)" class="pointer">
                     <td><button class="btn btn-primary"><i class="fa fa-eye"></i></button></td>
@@ -212,10 +215,10 @@
 
 <script type="text/ng-template" id="menu">
     <div class="p10">
-        <button class="btn btn-primary pull-right" ng-click="toggleTpl('clientMenues')"><i class="fa fa-list"></i> {{'menues' | translate}}</button>
+        <button class="btn btn-primary pull-right text-capitalize" ng-click="toggleTpl('clientMenues')"><i class="fa fa-list"></i> {{'menues' | translate}}</button>
         <div>
-            <button ng-if="!pdfLink" class="btn btn-danger" ng-click="createMenuPdf()" ng-disabled="creatingPdf==true"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</button>
-            <a ng-if="pdfLink" href="{{pdfLink}}" class="btn btn-success" download>{{'take pdf' | translate}}</a>
+            <button ng-if="!pdfLink" class="btn btn-danger text-capitalize" ng-click="createMenuPdf()" ng-disabled="creatingPdf==true"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</button>
+            <a ng-if="pdfLink" href="{{pdfLink}}" class="btn btn-primary text-capitalize" download>{{'take pdf' | translate}}</a>
             <hr />
         </div>
         <div class="well">

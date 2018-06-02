@@ -17,7 +17,6 @@ using Igprog;
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [System.Web.Script.Services.ScriptService]
 public class Scheduler : System.Web.Services.WebService {
-    // SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString);
     string dataBase = ConfigurationManager.AppSettings["UserDataBase"];
     DataBase db = new DataBase();
 
@@ -48,8 +47,6 @@ public class Scheduler : System.Web.Services.WebService {
         return json;
     }
 
-
-
     [WebMethod]
     public string Load(string userGroupId, string userId) {
         db.CreateDataBase(userGroupId, db.scheduler);
@@ -73,7 +70,7 @@ public class Scheduler : System.Web.Services.WebService {
             }
             connection.Close();
             return JsonConvert.SerializeObject(xx, Formatting.Indented);
-        } catch (Exception e) { return (e.Message); }
+        } catch (Exception e) { return e.Message; }
     }
 
     [WebMethod]
@@ -94,18 +91,16 @@ public class Scheduler : System.Web.Services.WebService {
 
             command.ExecuteNonQuery();
             connection.Close();
-            return ("OK.");
-        } catch (Exception e) { return ("Error: " + e); }
+            return ("saved");
+        } catch (Exception e) { return e.Message; }
     }
 
     [WebMethod]
     public string Delete(string userGroupId, string userId, Event x) {
-        //  string path = GetDataBasePath(userId);
         db.CreateDataBase(userGroupId, db.scheduler);
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userGroupId, dataBase));
             connection.Open();
-            //string sql = @"DELETE scheduler WHERE scheduler.content = @Content AND startDate = @StartDate AND room = @Room";
             string sql = @"DELETE FROM scheduler WHERE [content] = @Content AND [startDate] = @StartDate AND [room] = @Room AND [userId] = @userId";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             command.Parameters.Add(new SQLiteParameter("Content", x.content));
@@ -114,8 +109,8 @@ public class Scheduler : System.Web.Services.WebService {
             command.Parameters.Add(new SQLiteParameter("userId", x.userId));
             command.ExecuteNonQuery();
             connection.Close();
-            return ("OK.");
-        } catch (Exception e) { return ("Error: " + e); }
+            return ("deleted");
+        } catch (Exception e) { return e.Message; }
     }
 
     [WebMethod]
@@ -144,7 +139,7 @@ public class Scheduler : System.Web.Services.WebService {
             connection.Close();
             string json = JsonConvert.SerializeObject(xx, Formatting.Indented);
             return json;
-        } catch (Exception e) { return ("Error: " + e); }
+        } catch (Exception e) { return e.Message; }
     }
 
 }
