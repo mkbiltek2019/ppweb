@@ -13,7 +13,7 @@
              </div>-->
              <div ng-include="'client'" style="padding-top:20px"></div>
              <ul class="nav nav-tabs">
-                 <li ng-class="tpl=='inputData'?'active':''" ng-click="toggleTpl('inputData')"><a href="#"><i class="fa fa-table"></i> <span class="text-uppercase">{{'input data' | translate}}</span></a></li>
+                 <li ng-class="tpl=='inputData'?'active':''" ng-click="toggleTpl('inputData')"><a href="#"><i class="fa fa-thermometer-empty"></i> <span class="text-uppercase">{{'measures' | translate}}</span></a></li>
                  <li ng-class="tpl=='clientMenues'||tpl=='menu'?'active':''" ng-click="toggleTpl('clientMenues'); loadMenues()"><a href="#"><i class="fa fa-cutlery"></i> <span class="text-uppercase">{{'menues' | translate}}</span></a></li>
              </ul>
              
