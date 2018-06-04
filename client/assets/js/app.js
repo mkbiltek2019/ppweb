@@ -450,7 +450,38 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         }
     }
 
-
+    $scope.clientLogDiff = function (type, clientLog, x, idx) {
+        var diff = 0;
+        switch (type) {
+            case 'weight': diff = (x.weight - clientLog[clientLog.length - idx - 2].weight).toFixed(1);
+                break;
+            case 'waist': diff = (x.waist - clientLog[clientLog.length - idx - 2].waist).toFixed(1);
+                break;
+            case 'hip': diff = (x.hip - clientLog[clientLog.length - idx - 2].hip).toFixed(1);
+                break;
+            default:
+                diff = 0;
+                break;
+        }
+        if (diff > 0) {
+            return {
+                diff: diff,
+                icon: 'fa fa-arrow-up text-danger'
+            }
+        }
+        if (diff < 0) {
+            return {
+                diff: diff,
+                icon: 'fa fa-arrow-down text-info'
+            }
+        }
+        if (diff == 0) {
+            return {
+                diff: diff,
+                icon: 'fa fa-circle text-success'
+            }
+        }
+    }
     //********* New *****************
 
 
