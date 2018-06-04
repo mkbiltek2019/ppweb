@@ -2485,13 +2485,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.printPreview = function () {
         $mdDialog.show({
-            controller: $scope.printPreviewCtrl, // RealizationCtrl,
+            controller: $scope.printPreviewCtrl,
             templateUrl: 'assets/partials/popup/printmenu.html',
             parent: angular.element(document.body),
             targetEvent: '',
             clickOutsideToClose: true,
-            fullscreen: $scope.customFullscreen, // Only for -xs, -sm breakpoints.
-            d: { currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData }
+            fullscreen: $scope.customFullscreen,
+            d: { currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData, totals: $rootScope.totals }
         })
         .then(function () {
         }, function () {
@@ -2499,13 +2499,41 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 
     $scope.printPreviewCtrl = function ($scope, $mdDialog, d, $http) {
-        $scope.d = d.currentMenu.data.selectedFoods;
+        $scope.currentMenu = d.currentMenu;
         $scope.clientData = d.clientData;
-        $scope.meals = d.currentMenu.data.meals;
+        $scope.totals = d.totals;
 
         $scope.cancel = function () {
             $mdDialog.cancel();
         };
+
+        $scope.consumers = 1;
+        $scope.changeNumberOfConsumers = function (x) {
+            $scope.consumers = x;
+            $http({
+                url: $sessionStorage.config.backend + 'Foods.asmx/ChangeNumberOfConsumers',
+                method: "POST",
+                data: { foods: $scope.currentMenu.data.selectedFoods, number: x }
+            })
+           .then(function (response) {
+               $scope.foods = JSON.parse(response.data.d);
+           },
+           function (response) {
+               alert(response.data.d)
+           });
+        }
+        if (angular.isDefined($scope.currentMenu)) { $scope.changeNumberOfConsumers($scope.consumers); }
+
+
+        $scope.copyToClipboard = function (id) {
+            var el = document.getElementById(id);
+            var range = document.createRange();
+            range.selectNodeContents(el);
+            var sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+            document.execCommand('copy');
+        }
 
         //$scope.print = function () {
         //    alert('todo');

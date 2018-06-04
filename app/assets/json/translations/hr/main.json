@@ -1616,7 +1616,8 @@
   "upper limit": "gornja granica",
   "chart": "graf",
   "you must agree to the terms and conditions": "Morate prihvatiti uvjete korištenja",
-  "mail sent successfully": "mail uspješno poslan"
+  "mail sent successfully": "mail uspješno poslan",
+  "copy to clipboard": "kopiraj u clipboard"
 
 
 }

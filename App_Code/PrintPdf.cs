@@ -903,16 +903,18 @@ IBAN HR8423400091160342496
     private string AppendMeal(List<Foods.NewFood> meal, List<Meals.NewMeal> meals, string lang) {
         StringBuilder sb = new StringBuilder();
         if (meal.Count > 0) {
-            sb.AppendLine(string.Format(@"{0}", t.Tran(GetMealTitle(meal[0].meal.code), lang)).ToUpper());
-            string description = meals.Where(a => a.code == meal[0].meal.code).FirstOrDefault().description;
-            if (!string.IsNullOrEmpty(description)) {
-            sb.AppendLine(string.Format(@"{0}
+            if(meals.Find(a => a.code == meal[0].meal.code).isSelected == true) {
+                sb.AppendLine(string.Format(@"{0}", t.Tran(GetMealTitle(meal[0].meal.code), lang)).ToUpper());
+                string description = meals.Where(a => a.code == meal[0].meal.code).FirstOrDefault().description;
+                if (!string.IsNullOrEmpty(description)) {
+                    sb.AppendLine(string.Format(@"{0}
                                             ", description));
-        } 
-        foreach (Foods.NewFood food in meal) {
-            sb.AppendLine(string.Format(@"- {0}, {1} {2}, ({3} g)", food.food, food.quantity, food.unit, food.mass));
-        }
-        sb.AppendLine("________________________________________________________________________");
+                }
+                foreach (Foods.NewFood food in meal) {
+                    sb.AppendLine(string.Format(@"- {0}, {1} {2}, ({3} g)", food.food, food.quantity, food.unit, food.mass));
+                }
+                sb.AppendLine("________________________________________________________________________");
+            }
         }
         return sb.ToString();
     }
