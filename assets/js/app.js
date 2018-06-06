@@ -228,7 +228,10 @@ angular.module('app', ['ngMaterial'])
             if ($scope.user.userType == 1) { unitprice = 950; $scope.user.version = 'STANDARD'; }
             if ($scope.user.userType == 2) { unitprice = 1850; $scope.user.version = 'PREMIUM'; }
 
-            unitprice = unitprice * 1 * ($scope.user.licence == 1 ? 1 : 1.80);
+            if ($scope.user.licence > 1) {
+                unitprice = unitprice * $scope.user.licence - ((unitprice * $scope.user.licence) * ($scope.user.licence / 10))
+            }
+
             $scope.user.licenceNumber = 1;
         } else {
             $scope.user.version = $scope.user.version == '' ? 'PREMIUM' : $scope.user.version;

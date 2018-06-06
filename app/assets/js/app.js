@@ -4819,7 +4819,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         if ($scope.user.userType == 0) { unitprice = 550; }
         if ($scope.user.userType == 1) { unitprice = 950; }
         if ($scope.user.userType == 2) { unitprice = 1850; }
-        unitprice = unitprice * 1 * ($scope.user.licence == 1 ? 1 : 1.80);
+
+        if ($scope.user.licence > 1) {
+            unitprice = unitprice * $scope.user.licence - ((unitprice * $scope.user.licence) * ($scope.user.licence / 10))
+        }
 
         $scope.user.licenceNumber = 1;
 
