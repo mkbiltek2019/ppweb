@@ -692,21 +692,26 @@ public class PrintPdf : System.Web.Services.WebService {
             doc.Open();
 
             Image logo = Image.GetInstance(logoPathIgProg);
-            logo.Alignment = Image.ALIGN_LEFT;
-            logo.ScalePercent(8f);
-
-            doc.Add(logo);
+            logo.ScalePercent(9f);
             string info = string.Format(@"
 Ludvetov breg 5, HR-51000 Rijeka
 OIB 58331314923; MB 97370371
 IBAN HR8423400091160342496
 ");
-            doc.Add(new Paragraph(info, normalFont));
+
+            PdfPTable header_table = new PdfPTable(2);
+            header_table.AddCell(new PdfPCell(logo) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingBottom = 10, VerticalAlignment = PdfCell.ALIGN_BOTTOM });
+            header_table.AddCell(new PdfPCell(new Phrase(info, normalFont)) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingBottom = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+            header_table.WidthPercentage = 100f;
+            float[] header_widths = new float[] { 2f, 1f };
+            header_table.SetWidths(header_widths);
+            doc.Add(header_table);
 
             doc.Add(new Chunk(line));
            // doc.Add(new Paragraph("Naručitelj:", normalFont_10));
 
             string client = string.Format(@"
+
 
 
                                                                                                             {0}

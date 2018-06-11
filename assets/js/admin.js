@@ -411,6 +411,7 @@ angular.module('app', [])
         }
         $scope.loading = true;
         $scope.pdfTempLink = null;
+        $scope.pdfLink = null;
         $scope.tempFileName = null;
         $http({
             url: $rootScope.config.backend + 'PrintPdf.asmx/InvoicePdf',
