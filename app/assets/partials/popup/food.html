@@ -1,7 +1,7 @@
 ﻿<md-dialog flex layout-margin>
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h4>{{'foods' | translate}}</h4>
+                <h4 class="text-capitalize">{{'foods' | translate}}</h4>
                 <span flex></span>
                 <button ng-click="cancel()" class="btn btn-primary">x</button>
             </div>
@@ -32,8 +32,11 @@
                             </div>
                             <div>
                                 <select ng-model="choosenFood" class="form-control" size="22" ng-change="getFoodDetails(choosenFood)">
-                                    <option ng-if="checkIf(x)==true" ng-repeat="x in isShowMyFood == true ? myFoods : foods | filter:{food:searchFood} | limitTo:limit | orderBy:'food'" value="{{x}}">{{x.food}}</option>
+                                    <option ng-if="checkIf(x)==true" ng-repeat="x in isShowMyFood == true ? myFoods : foods | filter:{food:searchFood} | limitTo:limit" value="{{x}}">{{x.food}}</option>
                                 </select>
+                                <!--<select ng-model="choosenFood" class="form-control" size="22" ng-change="getFoodDetails(choosenFood)">
+                                    <option ng-if="checkIf(x)==true" ng-repeat="x in isShowMyFood == true ? myFoods : foods | filter:{food:searchFood} | limitTo:limit | orderBy:'food'" value="{{x}}">{{x.food}}</option>
+                                </select>-->
                             </div>
                             <div class="pull-right m10">
                                 <a href="" ng-if="limit<foods.length+1" class="btn btn-default" ng-click="loadMore()"><i class="fa fa-arrow-down"></i> {{'show all' | translate}}...</a>

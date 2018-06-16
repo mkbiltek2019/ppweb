@@ -16,9 +16,10 @@ using Igprog;
 [System.Web.Script.Services.ScriptService]
 public class Foods : System.Web.Services.WebService {
     string dataBase = ConfigurationManager.AppSettings["AppDataBase"];
-  //  string userDataBase = ConfigurationManager.AppSettings["UserDataBase"];
-
+    string userType0FoodLimit = ConfigurationManager.AppSettings["UserType0FoodLimit"];
     DataBase db = new DataBase();
+    Translate t = new Translate();
+
     public Foods() {
     }
     // id, food, foodGroup, foodGroupVitaminLost, quantity, unit, mass, energy, carbohydrates, proteins, fats, cerealsServ, vegetablesServ, fruitServ, meatServ, milkServ, fatsServ, otherFoodsServ, starch, totalSugar, glucose, fructose, saccharose, maltose, lactose, fibers, saturatedFats, monounsaturatedFats, polyunsaturatedFats, trifluoroaceticAcid, cholesterol, sodium, potassium, calcium, magnesium, phosphorus, iron, copper, zinc, chlorine, manganese, selenium, iodine, retinol, carotene, vitaminD, vitaminE, vitaminB1, vitaminB2, vitaminB3, vitaminB6, vitaminB12, folate, pantothenicAcid, biotin, vitaminC, vitaminK
@@ -373,70 +374,35 @@ public class Foods : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string Load(string userId) {
+    public string Load(string userId, string userType, string lang) {
         try {
-            //SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + lang + "/" + dataBase));
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
             connection.Open();
-            string sql = @"SELECT f.id, f.food, f.foodGroup, fg.title
+            string sql = string.Format(@"SELECT f.id, f.food, f.foodGroup, fg.title
                         FROM foods AS f
                         LEFT OUTER JOIN foodGroups AS fg
-                        ON f.foodGroup = fg.code
-                        ORDER BY food ASC";
-            //string sql = @"SELECT f.id, f.food, f.foodGroup, fg.title, f.foodGroupVitaminLost, f.quantity, f.unit, f.mass, f.energy, f.carbohydrates, f.proteins, f.fats,
-            //            f.cerealsServ, f.vegetablesServ, f.fruitServ, f.meatServ, f.milkServ, f.fatsServ, f.otherFoodsServ,
-            //            f.starch, f.totalSugar, f.glucose, f.fructose, f.saccharose, f.maltose, f.lactose, f.fibers, f.saturatedFats,
-            //            f.monounsaturatedFats, f.polyunsaturatedFats, f.trifluoroaceticAcid, f.cholesterol, f.sodium, f.potassium,
-            //            f.calcium, f.magnesium,f.phosphorus, f.iron, f.copper, f.zinc, f.chlorine, f.manganese, f.selenium, f.iodine,
-            //            f.retinol, f.carotene, f.vitaminD, f.vitaminE, f.vitaminB1, f.vitaminB2,f.vitaminB3, f.vitaminB6, f.vitaminB12,
-            //            f.folate, f.pantothenicAcid, f.biotin, f.vitaminC, f.vitaminK
-            //            FROM foods AS f
-            //            LEFT OUTER JOIN foodGroups AS fg
-            //            ON f.foodGroup = fg.code
-            //            ORDER BY food ASC";
+                        ON f.foodGroup = fg.code {0}", userType=="0"?string.Format("LIMIT {0}", userType0FoodLimit):"");
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             List<NewFood> xx = new List<NewFood>();
             FoodData foodData = new FoodData();
             List<FoodGroup> foodGroups = new List<FoodGroup>();
+            string[] translations = t.Translations(lang);
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read()) {
                 NewFood x = new NewFood();
                 x.id = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
-                x.food = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
+                x.food = reader.GetValue(1) == DBNull.Value ? "" : t.Tran(reader.GetString(1), translations, string.IsNullOrEmpty(lang)?"hr":lang);
                 x.foodGroup.code = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
                 x.foodGroup.title = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
                 x.foodGroup.parent = GetParentGroup(connection, x.foodGroup.code);
-                //x.foodGroupVitaminLost = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
-                //x.thermalTreatments = GetThermalTreatments(connection, x.foodGroupVitaminLost);
-                //x.meal.code = "B";
-                //x.meal.title = lang != null ? Meals.GetMealTitle(lang, x.meal.code, connection) : "";
-                //x.quantity = reader.GetValue(5) == DBNull.Value ? 0 : reader.GetInt32(5);
-                //x.unit = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
-                //x.mass = reader.GetValue(7) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(7));
-                //x.energy = reader.GetValue(8) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(8));
-                //x.carbohydrates = reader.GetValue(9) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(9));
-                //x.proteins = reader.GetValue(10) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(10));
-                //x.fats = reader.GetValue(11) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(11));
-                //x.cerealsServ = reader.GetValue(12) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(12));
-                //x.vegetablesServ = reader.GetValue(13) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(13));
-                //x.fruitServ = reader.GetValue(14) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(14));
-                //x.meatServ = reader.GetValue(15) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(15));
-                //x.milkServ = reader.GetValue(16) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(16));
-                //x.fatsServ = reader.GetValue(17) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(17));
-                //x.otherFoodsServ = reader.GetValue(18) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(18));
-                //x.otherFoodsEnergy = x.otherFoodsServ > 0 ? x.energy : 0;
                 xx.Add(x);
             }
-
-            foodData.foods = xx;
+            foodData.foods = xx.OrderBy(a=>a.food).ToList();
             foodData.foodGroups = GetFoodGroups(connection);
             connection.Close();
 
-           
             MyFoods.Data myf = new MyFoods.Data();
             foodData.myFoods = myf.GetMyFoods(userId);
-           // foodData.foods.AddRange(myf.GetMyFoods(userId));
-           // foodData.myFoods = myf.GetMyFoods(userId);
 
             string json = JsonConvert.SerializeObject(foodData, Formatting.Indented);
             return json;
@@ -447,7 +413,6 @@ public class Foods : System.Web.Services.WebService {
     public string Get(string userId, string id) {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
-            //SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + lang + "/" + dataBase));
             connection.Open();
             string sql = @"SELECT f.id, f.food, f.foodGroup, fg.title, f.foodGroupVitaminLost, f.quantity, f.unit, f.mass, f.energy, f.carbohydrates, f.proteins, f.fats,
                         f.cerealsServ, f.vegetablesServ, f.fruitServ, f.meatServ, f.milkServ, f.fatsServ, f.otherFoodsServ,
@@ -476,7 +441,6 @@ public class Foods : System.Web.Services.WebService {
                 x.thermalTreatments = GetThermalTreatments(connection, x.foodGroupVitaminLost);
                 x.meal.code = "B";
                 x.meal.title = Meals.GetMealTitle(x.meal.code, connection);
-                //x.meal.title = lang != null ? Meals.GetMealTitle(x.meal.code, connection) : "";
                 x.quantity = reader.GetValue(5) == DBNull.Value ? 0 : reader.GetInt32(5);
                 x.unit = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
                 x.mass = reader.GetValue(7) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(7));
@@ -484,9 +448,6 @@ public class Foods : System.Web.Services.WebService {
                 x.carbohydrates = reader.GetValue(9) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(9));
                 x.proteins = reader.GetValue(10) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(10));
                 x.fats = reader.GetValue(11) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(11));
-
-
-                //x.servings = GetServings(connection, x.id);
 
                 x.servings.cerealsServ = reader.GetValue(12) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(12));
                 x.servings.vegetablesServ = reader.GetValue(13) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(13));
@@ -496,7 +457,7 @@ public class Foods : System.Web.Services.WebService {
                 x.servings.fatsServ = reader.GetValue(17) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(17));
                 x.servings.otherFoodsServ = reader.GetValue(18) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(18));
                 x.servings.otherFoodsEnergy = x.servings.otherFoodsServ > 0 ? x.energy : 0;
-                //   x.foodGroupServ = GetFoodGroupServ(connection, x);
+
                 x.starch = reader.GetValue(19) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(19));
                 x.totalSugar = reader.GetValue(20) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(20));
                 x.glucose = reader.GetValue(21) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(21));
@@ -1303,6 +1264,18 @@ public class Foods : System.Web.Services.WebService {
             case "komad":
                 if (qty > 1 && qty < 5) { unit = "komada"; }
                 if (qty >= 5) { unit = "komada"; }
+                break;
+            case "list":
+                if (qty > 1 && qty < 5) { unit = "lista"; }
+                if (qty >= 5) { unit = "listova"; }
+                break;
+            case "filet":
+                if (qty > 1 && qty < 5) { unit = "fileta"; }
+                if (qty >= 5) { unit = "fileta"; }
+                break;
+            case "čašica":
+                if (qty > 1 && qty < 5) { unit = "čašice"; }
+                if (qty >= 5) { unit = "čašica"; }
                 break;
             #endregion hr
             #region sr

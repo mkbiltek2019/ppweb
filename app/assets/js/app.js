@@ -132,15 +132,15 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + 'Foods.asmx/Load',
             method: "POST",
-            data: { userId: $sessionStorage.usergroupid }
+            data: { userId:$sessionStorage.usergroupid, userType:$rootScope.user.userType, lang:$rootScope.config.language }
         })
         .then(function (response) {
             var data = JSON.parse(response.data.d);
             $rootScope.foods = data.foods;
 
-            angular.forEach($rootScope.foods, function (value, key) {
-                $rootScope.foods[key].food = $translate.instant($rootScope.foods[key].food).replace('&gt;', '<').replace('&lt;', '>');
-            })
+            //angular.forEach($rootScope.foods, function (value, key) {
+            //    $rootScope.foods[key].food = $translate.instant($rootScope.foods[key].food).replace('&gt;', '<').replace('&lt;', '>');
+            //})
             $rootScope.myFoods = data.myFoods;
             $rootScope.foodGroups = data.foodGroups;
             $rootScope.loading = false;
