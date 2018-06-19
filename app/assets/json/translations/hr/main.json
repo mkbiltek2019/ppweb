@@ -1349,7 +1349,7 @@
   "user name": "korisničko ime",
   "password": "lozinka",
   "choose language": "odaberi jezik",
-  "forgot your password": "zaboravili ste loziku",
+  "forgot your password": "zaboravili ste lozinku",
   "error": "greška",
   "new": "novi",
   "open": "otvori",
@@ -1677,7 +1677,8 @@
   "chart": "graf",
   "you must agree to the terms and conditions": "Morate prihvatiti uvjete korištenja",
   "mail sent successfully": "mail uspješno poslan",
-  "copy to clipboard": "kopiraj u clipboard"
+  "copy to clipboard": "kopiraj u clipboard",
+  "user data": "korisnički podaci"
 
 
 }

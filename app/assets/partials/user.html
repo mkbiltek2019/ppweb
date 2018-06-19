@@ -1,6 +1,6 @@
 ﻿<div ng-controller="userCtrl">
     <a href="" class="btn btn-default pull-right text-capitalize m10" ng-click="isLogin?toggleTpl('dashboard.html'):toggleTpl('login.html')"><i class="fa fa-times"></i><span class="hidden-xs"> {{'cancel' | translate}}</span></a>
-    <h3 class="text-capitlize">{{'user' | translate}}</h3>
+    <h3 class="text-capitalize">{{'nutrition plan web' | translate}} <span class="text-uppercase">{{package(user.userType)}}</span></h3>
     <hr />
     <div ng-if="showSaveMessage" style="margin-top:100px">
         <div class="alert alert-success alert-dismissable">
@@ -18,7 +18,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="container row">
-                            <b>{{'user data' | translate}}<span class="radioValue"></span> </b>
+                            <label class="text-capitalize">{{'user data' | translate}}<span class="radioValue"></span> </label>
                         </div>
                     </div>
                     <div class="panel-footer">

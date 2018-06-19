@@ -3,13 +3,13 @@
     <div class="well">
         <h3 class="text-uppercase"><i class="fa fa-info-circle"></i> {{'info' | translate}}</h3>
         <hr />
-        <h4 class="text-capitalize">{{config.title | translate}}</h4>
+        <h4 class="text-capitalize">{{config.title | translate}} <span class="text-uppercase">{{package(user.userType)}}</span></h4>
         <ul>
-            <li><span>{{'version' | translate}}: </span>{{config.version}}</li>
+            <li><span class="text-capitalize">{{'version' | translate}}: </span>{{config.version}}</li>
             <li>&copy {{today | date:'yyyy'}} {{config.copyright}}</li>
-            <li><span>{{'author' | translate}}: </span>{{config.author}}</li>
-            <li><span>{{'web' | translate}}: </span><a href="{{config.webpageurl}}" target="_blank">{{config.webpage}}</a></li>
-            <li><span>{{'email' | translate}}: </span><a href="mailto:{{config.email}}" target="_blank">{{config.email}}</a></li>
+            <li><span class="text-capitalize">{{'author' | translate}}: </span>{{config.author}}</li>
+            <li><span class="text-capitalize">{{'web' | translate}}: </span><a href="{{config.webpageurl}}" target="_blank">{{config.webpage}}</a></li>
+            <li><span class="text-capitalize">{{'email' | translate}}: </span><a href="mailto:{{config.email}}" target="_blank">{{config.email}}</a></li>
         </ul>
     </div>
 </div>

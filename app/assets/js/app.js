@@ -61,18 +61,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $rootScope.user = $sessionStorage.user;
 
     $scope.today = new Date();
-    //$scope.getDateDiff = function (x) {
-    //    var today = new Date();
-    //    var date1 = today;
-    //    var date2 = new Date(x);
-    //    var diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24));
-    //    return diffDays;
-    //}
 
-    if (angular.isDefined($rootScope.user)) {
-        if ($rootScope.user != null) {
-            if ($rootScope.user.licenceStatus == 'demo') {
-                $rootScope.mainMessage = $translate.instant('you are currently working in a demo version') + '. ' + $translate.instant('some functions are disabled' + '.');
+    if (angular.isDefined($sessionStorage.user)) {
+        if ($sessionStorage.user != null) {
+            if ($sessionStorage.user.licenceStatus == 'demo') {
+                $rootScope.mainMessage = $translate.instant('you are currently working in a demo version') + '. ' + $translate.instant('some functions are disabled') + '.';
+                $rootScope.mainMessageBtn = $translate.instant('activate full version');
             }
         }
     }
@@ -82,7 +76,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
           .then(function (response) {
               $rootScope.config = response.data;
               $sessionStorage.config = response.data;
-              var queryLang = location.search.substring(6);
               if (angular.isDefined(queryLang)) {
                   if (queryLang == 'hr' || queryLang == 'sr' || queryLang == 'en') {
                       $rootScope.setLanguage(queryLang);
@@ -271,6 +264,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.logout = function () {
         $sessionStorage.loginuser = null;
         $sessionStorage.user = null;
+        $rootScope.user = null;
         $sessionStorage.userid = "";
         $sessionStorage.username = "";
         $rootScope.isLogin = false;
@@ -721,17 +715,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
        }
     ];
 
-    //$scope.userTypes = [
-    //  {
-    //      'value': '0',
-    //      'text': 'Tip korisnika'
-    //  },
-    //  {
-    //      'value': '1',
-    //      'text': 'Tip korisnika'
-    //  }
-    //];
-
     var init = function () {
         $http({
             url: $sessionStorage.config.backend + webService + '/Init',
@@ -772,6 +755,25 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 break;
             case 1:
                 return 'Admin';
+                break;
+            default:
+                return '';
+        }
+    }
+
+    $scope.package = function (x) {
+        if ($rootScope.user.licenceStatus == 'demo') {
+            return 'demo';
+        }
+        switch (x) {
+            case 0:
+                return 'start';
+                break;
+            case 1:
+                return 'standard';
+                break;
+            case 1:
+                return 'premium';
                 break;
             default:
                 return '';
@@ -4903,7 +4905,27 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 //}])
 
 .controller('infoCtrl', ['$scope', '$rootScope', '$translate', function ($scope, $rootScope, $translate) {
-
+    $scope.package = function (x) {
+        if(angular.isUndefined(x)){
+            return '';
+        }
+        if ($rootScope.user.licenceStatus == 'demo') {
+            return 'demo';
+        }
+        switch (x) {
+            case 0:
+                return 'start';
+                break;
+            case 1:
+                return 'standard';
+                break;
+            case 1:
+                return 'premium';
+                break;
+            default:
+                return '';
+        }
+    }
 }])
 
 .controller('settingsCtrl', ['$scope', '$http', '$rootScope', '$translate', '$sessionStorage', 'functions', function ($scope, $http, $rootScope, $translate, $sessionStorage, functions) {
