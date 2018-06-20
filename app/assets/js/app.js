@@ -59,7 +59,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 .controller('AppCtrl', ['$scope', '$mdDialog', '$timeout', '$q', '$log', '$rootScope', '$localStorage', '$sessionStorage', '$window', '$http', '$translate', '$translatePartialLoader', 'functions', function ($scope, $mdDialog, $timeout, $q, $log, $rootScope, $localStorage, $sessionStorage, $window, $http, $translate, $translatePartialLoader, functions) {
     $rootScope.loginUser = $sessionStorage.loginuser;
     $rootScope.user = $sessionStorage.user;
-
     $scope.today = new Date();
 
     if (angular.isDefined($sessionStorage.user)) {
@@ -72,12 +71,15 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
    
     var getConfig = function () {
+        if (location.search.substring(1, 5) == 'lang') {
+            var queryLang = location.search.substring(6);
+        }
         $http.get('./config/config.json')
           .then(function (response) {
               $rootScope.config = response.data;
               $sessionStorage.config = response.data;
               if (angular.isDefined(queryLang)) {
-                  if (queryLang == 'hr' || queryLang == 'sr' || queryLang == 'en') {
+                  if (queryLang == 'hr' || queryLang == 'sr' || queryLang == 'sr_cyrl' || queryLang == 'en') {
                       $rootScope.setLanguage(queryLang);
                   }
               }
@@ -557,8 +559,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     },
                     edit: function (event) {
                         addEvent(this.getTemplateData(), event);
-                        // editEvent(this.getTemplateData(), event);
-                        //  alert('Edit Event:' + this.isNew() + ' --- ' + this.getContentNode().val() + ' --- ' + this.getTemplateData());
+                       //  editEvent(this.getTemplateData(), event);
+                       // alert('Edit Event:' + this.isNew() + ' --- ' + this.getContentNode().val() + ' --- ' + JSON.stringify(this.getTemplateData()));
                     },
                     delete: function (event) {
                         removeEvent(this.getTemplateData(), event);
@@ -611,10 +613,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 
     $scope.getSchedulerEvents = function (uid) {
-        if (uid==0) {
-            alert(uid);
-            return false;
-        }
         $http({
             url: $sessionStorage.config.backend + webService + '/GetSchedulerEvents',
             method: 'POST',
@@ -648,9 +646,18 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         eventObj.endDate = x.endDate;
         eventObj.startDate = x.startDate;
         eventObj.userId = $rootScope.user.userId;
-        remove(eventObj);
+
+        var eventObj_old = {};
+        eventObj_old.room = $scope.room;
+        eventObj_old.clientId = angular.isDefined($rootScope.client) && $rootScope.client != null ? $rootScope.client.clientId : null;
+        eventObj_old.content = angular.isUndefined(event.details[0].newSchedulerEvent.lastChange.content) ? x.content : event.details[0].newSchedulerEvent.lastChange.content.prevVal;
+        eventObj_old.endDate = angular.isUndefined(event.details[0].newSchedulerEvent.lastChange.endDate) ? x.endDate : Date.parse(event.details[0].newSchedulerEvent.lastChange.endDate.prevVal);
+        eventObj_old.startDate = angular.isUndefined(event.details[0].newSchedulerEvent.lastChange.startDate) ? x.startDate : Date.parse(event.details[0].newSchedulerEvent.lastChange.startDate.prevVal);
+        eventObj_old.userId = $rootScope.user.userId;
+        remove(eventObj_old);
+
         $timeout(function () {
-            save(eventObj);
+             save(eventObj);
         }, 500);
     }
 
@@ -664,7 +671,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { userGroupId: $rootScope.user.userGroupId, userId: $rootScope.user.userId, x: x }
         })
         .then(function (response) {
-            functions.alert($translate.instant(response.data.d));
+            //functions.alert($translate.instant(response.data.d));
         },
         function (response) {
             functions.alert($translate.instant(response.data.d));
@@ -690,9 +697,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { userGroupId: $rootScope.user.userGroupId, userId: $rootScope.user.userId, x: x }
         })
         .then(function (response) {
+            //alert($translate.instant(response.data.d))
         },
         function (response) {
-            functions.alert($translate.instant(response.data.d));
+            functions.alert($translate.instant(response.data));
         });
     }
 

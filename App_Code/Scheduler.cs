@@ -33,6 +33,7 @@ public class Scheduler : System.Web.Services.WebService {
         public string userId { get; set; }
     }
 
+    #region WebMethods
     [WebMethod]
     public string Init() {
         Event x = new Event();
@@ -79,9 +80,10 @@ public class Scheduler : System.Web.Services.WebService {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userGroupId, dataBase));
             connection.Open();
-            string sql = @"INSERT INTO scheduler (room, clientId, content, startDate, endDate, userId)
+            string sql = @"INSERT OR REPLACE INTO scheduler (room, clientId, content, startDate, endDate, userId)
                         VALUES (@room, @clientId, @content, @startDate, @endDate, @userId)";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
+            command.Parameters.Add(new SQLiteParameter("id", x.id));
             command.Parameters.Add(new SQLiteParameter("clientId", x.clientId));
             command.Parameters.Add(new SQLiteParameter("room", x.room));
             command.Parameters.Add(new SQLiteParameter("content", x.content));
@@ -101,12 +103,8 @@ public class Scheduler : System.Web.Services.WebService {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userGroupId, dataBase));
             connection.Open();
-            string sql = @"DELETE FROM scheduler WHERE [content] = @Content AND [startDate] = @StartDate AND [room] = @Room AND [userId] = @userId";
+            string sql = string.Format(@"DELETE FROM scheduler WHERE content = '{0}' AND startDate = '{1}' AND endDate = '{2}' AND room = '{3}' AND userId = '{4}'", x.content, x.startDate, x.endDate, x.room, x.userId);
             SQLiteCommand command = new SQLiteCommand(sql, connection);
-            command.Parameters.Add(new SQLiteParameter("Content", x.content));
-            command.Parameters.Add(new SQLiteParameter("StartDate", x.startDate));
-            command.Parameters.Add(new SQLiteParameter("Room", x.room));
-            command.Parameters.Add(new SQLiteParameter("userId", x.userId));
             command.ExecuteNonQuery();
             connection.Close();
             return ("deleted");
@@ -141,5 +139,6 @@ public class Scheduler : System.Web.Services.WebService {
             return json;
         } catch (Exception e) { return e.Message; }
     }
+    #endregion WebMethods
 
 }
