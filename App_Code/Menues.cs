@@ -52,6 +52,8 @@ public class Menues : System.Web.Services.WebService {
     }
 
     #region WebMethods
+
+    #region ClientMenues
     [WebMethod]
     public string Init() {
         NewMenu x = new NewMenu();
@@ -74,7 +76,6 @@ public class Menues : System.Web.Services.WebService {
         return json;
     }
 
-    #region ClientMenues
     [WebMethod]
     public string Load(string userId) {
         try {

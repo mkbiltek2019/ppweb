@@ -41,6 +41,8 @@ public class Recipes : System.Web.Services.WebService {
     #endregion Class
 
     #region WebMethods
+
+    #region ClientRecipes
     [WebMethod]
     public string Init() {
         NewRecipe x = new NewRecipe();
@@ -150,11 +152,63 @@ public class Recipes : System.Web.Services.WebService {
         } catch (Exception e) { return (e.Message); }
         return "OK";
     }
+    #endregion ClientRecipes
+
+    #region AppRecipes
+    [WebMethod]
+    public string LoadAppRecipes(string lang) {
+        try {
+            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath(string.Format("~/App_Data/{0}", appDataBase)));
+            connection.Open();
+            string sql = string.Format(@"SELECT id, title, description, energy FROM recipes
+                        WHERE language = '{0}'
+                        ORDER BY rowid DESC", lang);
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+            List<NewRecipe> xx = new List<NewRecipe>();
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read()) {
+                NewRecipe x = new NewRecipe();
+                x.id = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
+                x.title = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
+                x.description = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+                x.energy = reader.GetValue(3) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(3));
+                xx.Add(x);
+            }
+            connection.Close();
+            return JsonConvert.SerializeObject(xx, Formatting.Indented);
+        } catch (Exception e) { return (e.Message); }
+    }
+
+    [WebMethod]
+    public string GetAppRecipe(string id, string lang) {
+        try {
+            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath(string.Format("~/App_Data/{0}", appDataBase)));
+            connection.Open();
+            string sql = string.Format(@"SELECT id, title, description, energy FROM recipes WHERE id = '{0}'", id);
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+            NewRecipe x = new NewRecipe();
+            Clients.Client client = new Clients.Client();
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read()) {
+                x.id = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
+                x.title = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
+                x.description = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+                x.energy = reader.GetValue(3) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(3));
+                x.data = JsonConvert.DeserializeObject<JsonFile>(GetAppJsonFile(x.id, lang));
+            }
+            connection.Close();
+            return JsonConvert.SerializeObject(x, Formatting.Indented);
+        }
+        catch (Exception e) { return (e.Message); }
+    }
+
+    #endregion AppRecipes
+
     #endregion WebMethods
 
     #region Methods
     public void SaveJsonToFile(string userId, string filename, string json) {
-            string path = string.Format("~/App_Data/users/{0}/recipes", userId);
+        string path = string.Format("~/App_Data/users/{0}/recipes", userId);
         string filepath = string.Format("{0}/{1}.json", path, filename);
             CreateFolder(path);
             WriteFile(filepath, json);
@@ -186,6 +240,14 @@ public class Recipes : System.Web.Services.WebService {
         return json;
     }
 
+    private string GetAppJsonFile(string filename, string lang) {
+        string path = string.Format("~/App_Data/recipes/{0}/{1}.json", lang, filename);
+        string json = "";
+        if (File.Exists(Server.MapPath(path))) {
+            json = File.ReadAllText(Server.MapPath(path));
+        }
+        return json;
+    }
     #endregion Methods
 
 
