@@ -85,6 +85,7 @@ angular.module('app', [])
     $scope.limit = 10;
     $scope.page = 1;
     $scope.searchQuery = '';
+    $scope.showUsers = true;
 
     var total = function () {
         $scope.loading = true;
@@ -104,6 +105,13 @@ angular.module('app', [])
     }
     total();
 
+    $scope.total = function () {
+        $scope.showUsers = false;
+        google.charts.load('current', { 'packages': ['line'] });
+        google.charts.setOnLoadCallback(drawChart);
+        total();
+    }
+
     var load = function () {
         $scope.loading = true;
         $http({
@@ -120,15 +128,15 @@ angular.module('app', [])
             alert(response.data.d);
         });
     }
-    //load();
 
-    $scope.search = function () {
+    $scope.search = function (searchQuery, showActive) {
         $scope.loading = true;
+        $scope.showUsers = true;
         $scope.page = 1;
         $http({
             url: $rootScope.config.backend + 'Users.asmx/Search',
             method: 'POST',
-            data: { query: $scope.searchQuery, limit: $scope.limit, page: $scope.page, activeUsers: $scope.showActive }
+            data: { query: searchQuery, limit: $scope.limit, page: $scope.page, activeUsers: showActive }
         })
         .then(function (response) {
             $scope.d = JSON.parse(response.data.d);
@@ -139,7 +147,7 @@ angular.module('app', [])
             alert(response.data.d);
         });
     }
-    $scope.search();
+    $scope.search(null, false);
 
     $scope.update = function (user) {
         $http({
@@ -185,14 +193,14 @@ angular.module('app', [])
             method: 'POST',
             data: { x: user }
         })
-            .then(function (response) {
-                load();
-                total();
-                alert(response.data.d);
-            },
-            function (response) {
-                alert(response.data.d);
-            });
+        .then(function (response) {
+            load();
+            total();
+            alert(response.data.d);
+        },
+        function (response) {
+            alert(response.data.d);
+        });
     }
 
     $scope.idxStart = 0;
@@ -208,10 +216,11 @@ angular.module('app', [])
     }
 
 
-    google.charts.load('current', { 'packages': ['line'] });
-    google.charts.setOnLoadCallback(drawChart);
+    //google.charts.load('current', { 'packages': ['line'] });
+    //google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
+        $scope.loadingChart = true;
         var data = new google.visualization.DataTable();
         data.addColumn('number', 'Aktivacije');
         data.addColumn('number', 'Postotak licenci');
@@ -236,8 +245,10 @@ angular.module('app', [])
             };
             var chart = new google.charts.Line(document.getElementById('chart_ppweb'));
             chart.draw(data, google.charts.Line.convertOptions(options));
+            $scope.loadingChart = false;
         },
         function (response) {
+            $scope.loadingChart = false;
             alert(response.data.d);
         });
     }

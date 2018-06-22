@@ -73,6 +73,7 @@ public class Users : System.Web.Services.WebService {
         public int menues { get; set; }
         public int myfoods {get;set;}
         public int recipes { get; set; }
+        public int scheduler { get; set; }
     }
 
     public class CheckUser {
@@ -736,6 +737,12 @@ public class Users : System.Web.Services.WebService {
             reader = command.ExecuteReader();
             while (reader.Read()) {
                 x.recipes = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+            }
+            sql = "SELECT COUNT(rowid) FROM scheduler";
+            command = new SQLiteCommand(sql, connection);
+            reader = command.ExecuteReader();
+            while (reader.Read()) {
+                x.scheduler = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
             }
             connection.Close();
             return x;

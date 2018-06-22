@@ -79,54 +79,29 @@
     <script type="text/ng-template" id="programPrehraneWeb">
         <div ng-controller="webAppCtrl" class="container" style="padding-bottom:40px">
             <h2>Program Prehrane Web</h2>
-            <div class="row">
-                <div class="col-sm-4">
-                    <table class="table table-condensed">
-                        <tr>
-                            <td class="text-left">Registriranih korisnika:</td>
-                            <td class="text-left"><strong>{{t.total}}</strong></td>
-                        </tr>
-                        <tr>
-                            <td class="text-left">Aktivnih korisnika:</td>
-                            <td class="text-left"><strong>{{t.active}}</strong></td>
-                        </tr>
-                        <tr>
-                            <td class="text-left">Licence</td>
-                            <td class="text-left"><strong>{{t.licence}}</strong> <span class="badge">{{t.licencepercentage}} %</span></td>
-                        </tr>
-                        <tr>
-                            <td class="text-left">Pod licence:</td>
-                            <td class="text-left"><strong>{{t.subuser}}</strong></td>
-                        </tr>
-                        <tr>
-                            <td class="text-left">Demo:</td>
-                            <td class="text-left"><strong>{{t.demo}}</strong></td>
-                        </tr>
-                        <tr>
-                            <td class="text-left">Istekle licence:</td>
-                            <td class="text-left"><strong>{{t.expired}}</strong></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="col-sm-8">
-                    <div id="chart_ppweb"></div>
-                </div>
+            <div>
+                <ul class="nav nav-tabs">
+                    <li ng-class="showUsers==true?'active':''" ng-click="search(searchQuery, showActive)"><a href=""><i class="fa fa-users"></i> Korisnici</a></li>
+                    <li ng-class="showUsers==false?'active':''" ng-click="total()"><a href=""><i class="fa fa-bar-chart"></i> Analitika</a></li>
+                </ul>
             </div>
+            <div ng-if="showUsers">
+                <h3>Korisnici</h3>
             <div class="row">
                 <div class="col-sm-4">
-                    <input ng-model="searchQuery" class="form-control" placeholder="Pretraži..." ng-change="search()" />
+                        <input ng-model="searchQuery" class="form-control" placeholder="Pretraži..." ng-change="search(searchQuery, showActive)" />
                     <!--<input ng-model="searchsignup" class="form-control" placeholder="Pretraži..." />-->
                 </div>
                 <div class="col-sm-4 checkbox">
                     <label class="p5"><input type="checkbox" ng-model="showDetails" />Prikaži detalje / uredi</label>
-                    <label class="p5"><input type="checkbox" ng-model="showActive" ng-click="search()" />Prikaži aktivne</label>
+                        <label class="p5"><input type="checkbox" ng-model="showActive" ng-click="search(searchQuery, showActive)" />Prikaži aktivne</label>
                 </div>
             </div>
             <div ng-if="loading" class="text-center text-primary">
                 <label class="lead text-primary">Učitavanje...</label>
                 <div><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>
             </div>
-            <div ng-if="!loading">
+                <div ng-if="!loading" style="margin-bottom:2px">
                 <button class="btn btn-default" ng-click="prevPage()"><i class="fa fa-arrow-left"></i> Prev</button>
                 <span class="badge">{{page}}</span>
                 <button class="btn btn-default" ng-click="nextPage()">Next <i class="fa fa-arrow-right"></i></button>
@@ -192,12 +167,51 @@
                     </tr>
                 </table>
             </div>
-            <div ng-if="!loading">
+                <div ng-if="!loading" style="margin-top:2px">
                 <button class="btn btn-default" ng-click="prevPage()"><i class="fa fa-arrow-left"></i> Prev</button>
                 <span class="badge">{{page}}</span>
                 <button class="btn btn-default" ng-click="nextPage()">Next <i class="fa fa-arrow-right"></i></button>
+                </div>
             </div>
 
+            <div ng-if="!showUsers" class="row">
+                <h3>Statistika</h3>
+                <div class="col-sm-4">
+                    <table class="table table-condensed">
+                        <tr>
+                            <td class="text-left">Registriranih korisnika:</td>
+                            <td class="text-left"><strong>{{t.total}}</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="text-left">Aktivnih korisnika:</td>
+                            <td class="text-left"><strong>{{t.active}}</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="text-left">Licence</td>
+                            <td class="text-left"><strong>{{t.licence}}</strong> <span class="badge">{{t.licencepercentage}} %</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-left">Pod licence:</td>
+                            <td class="text-left"><strong>{{t.subuser}}</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="text-left">Demo:</td>
+                            <td class="text-left"><strong>{{t.demo}}</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="text-left">Istekle licence:</td>
+                            <td class="text-left"><strong>{{t.expired}}</strong></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-sm-8">
+                    <div ng-if="loadingChart" class="text-center text-primary">
+                        <label class="lead text-primary">Učitavanje...</label>
+                        <div><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>
+                    </div>
+                    <div id="chart_ppweb"></div>
+                </div>
+            </div>
             <!-- Modal -->
             <div class="modal fade" id="myModal" role="dialog" style="margin-top:150px">
                 <div class="modal-dialog">
@@ -214,6 +228,7 @@
                                 <li>Jelovnici: <span class="badge">{{userTotal.menues}}</span></li>
                                 <li>Moje namirnice: <span class="badge">{{userTotal.myfoods}}</span></li>
                                 <li>Recepti: <span class="badge">{{userTotal.recipes}}</span></li>
+                                <li>Kalendar: <span class="badge">{{userTotal.scheduler}}</span></li>
                             </ul>
                         </div>
                         <div class="modal-footer">
@@ -321,8 +336,10 @@
         <div ng-controller="invoiceCtrl" class="container">
             <h2>Računi</h2>
                 <div>
-                    <a href="" class="btn btn-primary m10" ng-click="init()"><i class="fa fa-file-text-o"></i> Novi račun</a>
-                    <a href="" class="btn btn-primary m10" ng-click="load(year)"><i class="fa fa-files-o"></i> Pregled računa</a>
+                <ul class="nav nav-tabs">
+                    <li ng-class="showInvoices==false?'active':''" ng-click="init()"><a href=""><i class="fa fa-file-text-o"></i> Novi račun</a></li>
+                    <li ng-class="showInvoices==true?'active':''" ng-click="load(year)"><a href=""><i class="fa fa-files-o"></i> Pregled računa</a></li>
+                </ul>
                 </div>
             <div ng-if="showInvoices">
                 <div class="row m10">
@@ -332,7 +349,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="table-responsive">
+                <div class="table-responsive" style="max-height:600px">
                     <table class="table table-condensed">
                         <tr>
                             <td colspan="6"></td>
