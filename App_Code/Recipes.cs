@@ -42,7 +42,7 @@ public class Recipes : System.Web.Services.WebService {
 
     #region WebMethods
 
-    #region ClientRecipes
+    #region UsersRecipes
     [WebMethod]
     public string Init() {
         NewRecipe x = new NewRecipe();
@@ -152,7 +152,7 @@ public class Recipes : System.Web.Services.WebService {
         } catch (Exception e) { return (e.Message); }
         return "OK";
     }
-    #endregion ClientRecipes
+    #endregion UsersRecipes
 
     #region AppRecipes
     [WebMethod]

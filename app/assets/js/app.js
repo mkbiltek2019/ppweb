@@ -556,9 +556,21 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     save: function (event) {
                         addEvent(this.getTemplateData(), event);
                         //  alert('Save Event:' + this.isNew() + ' --- ' + this.getContentNode().val());
+
                     },
                     edit: function (event) {
                         addEvent(this.getTemplateData(), event);
+
+                       /* var startDatePrev = null;
+                        var endDatePrev = null;
+                        event.newSchedulerEvent.on("startDateChange", function (event) {
+                            startDatePrev = event.prevVal;
+                          //  var DateNew = event.newVal;
+                            alert(startDatePrev)
+                            
+                        });
+                        addEvent(this.getTemplateData(), event, startDatePrev, endDatePrev);*/
+
                        //  editEvent(this.getTemplateData(), event);
                        // alert('Edit Event:' + this.isNew() + ' --- ' + this.getContentNode().val() + ' --- ' + JSON.stringify(this.getTemplateData()));
                     },
@@ -566,7 +578,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                         removeEvent(this.getTemplateData(), event);
                         // alert('Delete Event:' + this.isNew() + ' --- ' + this.getContentNode().val());
                         //  Note: The cancel event seems to be buggy and occurs at the wrong times, so I commented it out.
-                    },
+                    }
+                    //endDateChange: function (event) {
+                    //    alert('ok')
+                    //}
                     //          cancel: function(event) {
                     //              alert('Cancel Event:' + this.isNew() + ' --- ' + this.getContentNode().val());
                     //}
@@ -639,6 +654,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             startDate: x.startDate,
             userId: $rootScope.user.userId
         });
+
         var eventObj = {};
         eventObj.room = $scope.room;
         eventObj.clientId = angular.isDefined($rootScope.client) && $rootScope.client != null ? $rootScope.client.clientId : null;
@@ -652,6 +668,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         eventObj_old.clientId = angular.isDefined($rootScope.client) && $rootScope.client != null ? $rootScope.client.clientId : null;
         eventObj_old.content = angular.isUndefined(event.details[0].newSchedulerEvent.lastChange.content) ? x.content : event.details[0].newSchedulerEvent.lastChange.content.prevVal;
         eventObj_old.endDate = angular.isUndefined(event.details[0].newSchedulerEvent.lastChange.endDate) ? x.endDate : Date.parse(event.details[0].newSchedulerEvent.lastChange.endDate.prevVal);
+       // eventObj_old.startDate = startDatePrev == null ? x.startDate : Date.parse(startDatePrev);
         eventObj_old.startDate = angular.isUndefined(event.details[0].newSchedulerEvent.lastChange.startDate) ? x.startDate : Date.parse(event.details[0].newSchedulerEvent.lastChange.startDate.prevVal);
         eventObj_old.userId = $rootScope.user.userId;
         remove(eventObj_old);
@@ -3607,6 +3624,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.toLanguage = '';
         $scope.showDescription = true;
 
+        //$scope.toggleTpl = function (x) {
+        //    $scope.tpl = x;
+        //};
+        //$scope.toggleTpl('myRecipesTpl');
+
+
+
         var load = function () {
             $scope.loading = true;
             $scope.appRecipes = false;
@@ -3662,7 +3686,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $mdDialog.cancel();
         };
 
-        $scope.toogleMyRecipeTpl = function () {
+        $scope.toggleMyRecipeTpl = function () {
             $mdDialog.cancel();
             $rootScope.newTpl = './assets/partials/myrecipes.html';
             $rootScope.selectedNavItem = 'myrecipes';
@@ -3698,7 +3722,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.loadAppRecipes = function () {
             $scope.appRecipes = true;
             $http({
-                url: $sessionStorage.config.backend + 'Menues.asmx/LoadAppRecipes',
+                url: $sessionStorage.config.backend + 'Recipes.asmx/LoadAppRecipes',
                 method: "POST",
                 data: { lang: $rootScope.config.language }
             })
@@ -3710,18 +3734,32 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
            });
         }
 
-        var getAppRecipe = function (x) {
+        var getAppRecipe = function (x, showDescription) {
             $http({
-                url: $sessionStorage.config.backend + 'Menues.asmx/GetAppRecipe',
+                url: $sessionStorage.config.backend + 'Recipes.asmx/GetAppRecipe',
                 method: "POST",
                 data: { id: x.id, lang: $rootScope.config.language, toTranslate: $scope.toTranslate }
             })
             .then(function (response) {
-                var menu = JSON.parse(response.data.d);
-                if ($scope.toTranslate == true) {
-                    translateFoods(menu);
+                $scope.recipe = JSON.parse(response.data.d);
+                if (showDescription == true) {
+                    angular.forEach($rootScope.currentMenu.data.meals, function (value, key) {
+                        if (value.code == $rootScope.currentMeal) {
+                            value.description = value.description == '' ? $scope.recipe.description : value.description + '\n' + $scope.recipe.description;
+                        }
+                    });
                 }
-                $mdDialog.hide(menu);
+                $mdDialog.hide($scope.recipe);
+
+                //**********TODO - translate recipes*****************
+
+                //var menu = JSON.parse(response.data.d);
+                //if ($scope.toTranslate == true) {
+                //    translateFoods(menu);
+                //}
+                //$mdDialog.hide(menu);
+
+                //****************************************************
             },
             function (response) {
                 alert(response.data.d)
@@ -3729,7 +3767,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         $scope.confirm = function (x, showDescription) {
-            $scope.appRecipes == true ? getAppRecipes(x) : get(x, showDescription);
+            $scope.appRecipes == true ? getAppRecipe(x, showDescription) : get(x, showDescription);
         }
 
         $scope.setToTranslate = function (x) {

@@ -1,4 +1,4 @@
-﻿<md-dialog flex="30" layout-margin>
+﻿<md-dialog flex layout-margin>
     <md-toolbar>
         <div class="md-toolbar-tools">
             <h2 class="text-capitalize">{{'recipes' | translate}}</h2>
@@ -10,21 +10,21 @@
         <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around" class="text-center">
             <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
         </div>
+        <div class="text-right text-capitalize">
+            <a href="" class="btn btn-primary" ng-click="toggleMyRecipeTpl()"><i class="fa fa-file-text-o"></i> {{'create recipe' | translate}}</a>
+        </div>
+        <div ng-if="config.debug">
+            <ul class="nav nav-tabs">
+                <li ng-class="appRecipes==false?'active':''" ng-click="load()"><a href="" class="text-capitalize"><i class="fa fa-users"></i> {{'my recipes' | translate}}</a></li>
+                <li ng-class="appRecipes==true?'active':''" ng-click="loadAppRecipes()"><a href="" class="text-capitalize"><i class="fa fa-bar-chart"></i> {{'recipes examples' | translate}}</a></li>
+            </ul>
+        </div>
         <div ng-if="d.length==0">
             <div class="alert alert-danger">
                 {{'you do not have any recipes' | translate}}
             </div>
         </div>
-        <div class="text-right text-capitalize">
-            <a href="" class="btn btn-primary" ng-click="toogleMyRecipeTpl()"><i class="fa fa-file-text-o"></i> {{'create recipe' | translate}}</a>
-        </div>
         <div ng-if="d.length>0" ng-show="!loading" class="md-dialog-content">
-            <!--<div class="row p10">
-                <md-radio-group layout="row" ng-model="loadType">
-                    <md-radio-button value="0" class="md-primary" ng-click="load()"><span class="text-capitalize">{{'my recipes' | translate}}</span></md-radio-button>
-                    <md-radio-button value="1" class="md-primary" ng-click="loadAppRecipes()"><span class="text-capitalize">{{'recipe examples' | translate}}</span></md-radio-button>
-                </md-radio-group>
-            </div>-->
             <div class="row">
                 <div class="col-sm-12 ">
                     <div class="input-group">
@@ -55,6 +55,7 @@
                     <tr ng-if="config.debug">
                         <td><label><input ng-model="toTranslate" type="checkbox" ng-checked="setToTranslate(toTranslate)" /> {{'translate to' | translate}}: </label></td>
                         <td ng-if="toTranslate==true">
+                            <!--TODO-->
                             <select ng-model="toLanguage" ng-change="setToLanguage(toLanguage)" class="form-control">
                                 <option disabled="disabled" ng-selectd="true" value="">{{'choose language' | translate}}</option>
                                 <option ng-repeat="x in config.languages" value="{{x.code}}">
@@ -68,7 +69,7 @@
                         <th>{{'description'| translate}}</th>
                         <th>{{'energy'| translate}}</th>
                     </tr>
-                    <tr ng-repeat="x in d | filter:searchValue" ng-click="confirm(x)">
+                    <tr ng-repeat="x in d | filter:searchValue" ng-click="confirm(x, showDescription)">
                         <td class="novrap">{{x.title}}</td>
                         <td>{{x.description | translate}}</td>
                         <td class="novrap"><span ng-if="x.energy>0">{{x.energy | number:0}} {{'kcal' | translate}}</span></td>
@@ -78,5 +79,3 @@
         </div>
     </md-dialog-content>
 </md-dialog>
-
-
