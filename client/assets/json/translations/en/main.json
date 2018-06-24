@@ -43,5 +43,6 @@
   "fats": "fats",
   "create pdf": "create PDF",
   "take pdf": "take PDF",
-  "measures": "measures"
+  "measures": "measures",
+  "delete record": "delete record"
 }
