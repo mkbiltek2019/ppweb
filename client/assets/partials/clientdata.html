@@ -106,11 +106,11 @@
         </div>
         <div class="col-sm-6">
             <div class="alert alert-info text-center text-uppercase"><strong>{{calculation.bmi.title | translate}}</strong></div>
-            <div id="bmiChart" class="pull-left" style="height:200px"></div>
+            <div id="bmiChart" style="height:250px; width:250px; margin:auto"></div>
         </div>
     </div>
     <div>
-        <label>{{'tracking of anthropometric measures' | translate}}</label>
+        <label class="text-capitalize">{{'tracking of anthropometric measures' | translate}}</label>
         <ul class="nav nav-tabs">
             <li ng-class="subTpl=='clientLog'?'active':''" ng-click="toggleSubTpl('clientLog')"><a href="#"><i class="fa fa-table"></i> <span class="text-capitalize">{{'table' | translate}}</span></a></li>
             <li ng-class="subTpl=='clientLogChart'?'active':''" ng-click="toggleSubTpl('clientLogChart')"><a href="#"><i class="fa fa-line-chart"></i> <span class="text-capitalize">{{'chart' | translate}}</span></a></li>
