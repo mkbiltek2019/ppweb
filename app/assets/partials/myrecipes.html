@@ -1,11 +1,13 @@
 ﻿<div ng-controller="menuCtrl">
     <div class="panel panel-default"  ng-controller="myRecipesCtrl">
-        <div class="panel-heading"><span class="text-uppercase">{{'recipes' | translate}}</span></div>
+        <div class="panel-heading">
+            <span class="text-uppercase">{{'my recipes' | translate}}</span>
+        </div>
         <div class="panel-body">
-            <div ng-if="recipes.length>0" class="row">
-                <div class="col-sm-6">
-                    <md-input-container class="md-block" flex-gt-sm>
-                        <label>{{'recipes' | translate}}</label>
+            <div class="row text-capitalize">
+                <div class="col-sm-4">
+                    <md-input-container ng-if="recipes.length>0" class="md-block" flex-gt-sm>
+                        <label>{{'search' | translate}}</label>
                         <md-select ng-model="currentRecipe" ng-change="get(currentRecipe.id)">
                             <md-option ng-repeat="x in recipes" ng-value="x">
                                 {{x.title}}
@@ -13,10 +15,11 @@
                         </md-select>
                     </md-input-container>
                 </div>
-            </div>
-            <div class="m10 text-capitalize">
-                <a href="" class="btn btn-default m2" ng-click="new()"><i class="fa fa-file-o"></i> {{'new recipe' | translate}}</a>
-                <a href="" class="btn btn-default m2" ng-click="save(recipe, title, description)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</a>
+                <div class="col-sm-8 text-right">
+                    <a href="" class="btn btn-default m2" ng-click="new()"><i class="fa fa-file-o"></i> {{'new recipe' | translate}}</a>
+                    <a href="" class="btn btn-default m2" ng-click="save(recipe, title, description)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</a>
+                    <a href="" class="btn btn-default m2" ng-click="remove(recipe)"><span class="text-danger"><i class="fa fa-trash-o"></i> {{'delete' | translate}}</span></a>
+                </div>
             </div>
             <div class="mt20">
                 <md-input-container>
@@ -36,7 +39,7 @@
                             <th>{{'unit' | translate}}</th>
                             <th>{{'mass' | translate}} (g)</th>
                             <th class="nowrap">{{'thermal treatment' | translate}}</th>
-                            <th class="nowrap">{{'energy' | translate}} (kcal)</th>
+                            <th class="nowrap text-right">{{'energy' | translate}} (kcal)</th>
                         </tr>
                         <tr ng-repeat="x in recipe.data.selectedFoods">
                             <td><a href="" class="btn btn-default" ng-click="removeFood($index)" title="{{'delete' | translate}}"><i class="fa fa-trash-o text-danger"></i></a></td>

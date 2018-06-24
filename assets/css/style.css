@@ -263,6 +263,11 @@ body {
     color: #3A7113 !important;
 }
 
+.table-scroll {
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
 
 
 

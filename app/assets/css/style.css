@@ -205,6 +205,10 @@ hr.bold {
     color:white !important;
 }
 
+.table-scroll {
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
 
 
 /************ main colors ***************/

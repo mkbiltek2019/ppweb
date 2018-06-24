@@ -60,6 +60,10 @@ style.css
     margin-left:5px;
 }
 
+.mb20 {
+    margin-bottom:20px
+}
+
 
 .navbar {
       margin-bottom: 0;
@@ -95,6 +99,10 @@ navbar-brand {
     cursor:pointer;
 }
 
+.table-scroll {
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
 
 /************ main colors ***************/
 

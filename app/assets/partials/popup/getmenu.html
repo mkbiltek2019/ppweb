@@ -12,10 +12,10 @@
         </div>
         <div ng-show="!loading" class="md-dialog-content">
             <div class="row p10">
-                <md-radio-group layout="row" ng-model="loadType">
-                    <md-radio-button value="0" class="md-primary" ng-click="load()"><span class="text-capitalize">{{'my menues' | translate}}</span></md-radio-button>
-                    <md-radio-button value="1" class="md-primary" ng-click="loadAppMenues()"><span class="text-capitalize">{{'menu examples' | translate}}</span></md-radio-button>
-                </md-radio-group>
+                <ul class="nav nav-tabs">
+                    <li ng-class="appMenues==false?'active':''" ng-click="load()"><a href="" class="text-capitalize">{{'my menues' | translate}}</a></li>
+                    <li ng-class="appMenues==true?'active':''" ng-click="loadAppMenues()"><a href="" class="text-capitalize">{{'menu examples' | translate}}</a></li>
+                </ul>
             </div>
             <div class="row">
                 <div class="col-sm-4 ">

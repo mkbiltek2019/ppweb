@@ -1,6 +1,6 @@
 ﻿ <div>
      <div class="panel panel-default">
-         <div class="panel-body">
+         <div class="panel-body mb20">
              <!--<div ng-if="config.debug">
                  <div class="row m2">
                      <div class="col-sm-2">user Id:</div>
@@ -13,8 +13,8 @@
              </div>-->
              <div ng-include="'client'" style="padding-top:20px"></div>
              <ul class="nav nav-tabs">
-                 <li ng-class="tpl=='inputData'?'active':''" ng-click="toggleTpl('inputData')"><a href="#"><i class="fa fa-thermometer-empty"></i> <span class="text-uppercase">{{'measures' | translate}}</span></a></li>
-                 <li ng-class="tpl=='clientMenues'||tpl=='menu'?'active':''" ng-click="toggleTpl('clientMenues'); loadMenues()"><a href="#"><i class="fa fa-cutlery"></i> <span class="text-uppercase">{{'menues' | translate}}</span></a></li>
+                 <li ng-class="tpl=='inputData'?'active':''" ng-click="toggleTpl('inputData')"><a href="#"><i class="fa fa-thermometer-empty"></i> <span class="text-capitalize">{{'measures' | translate}}</span></a></li>
+                 <li ng-class="tpl=='clientMenues'||tpl=='menu'?'active':''" ng-click="toggleTpl('clientMenues'); loadMenues()"><a href="#"><i class="fa fa-cutlery"></i> <span class="text-capitalize">{{'menues' | translate}}</span></a></li>
              </ul>
              
              <div ng-include="tpl" style="padding-top:20px; min-height:400px;"></div>
@@ -134,7 +134,7 @@
             </div>
         </div>-->
 
-        <div class="table-responsive" style="height:500px; overflow-y: scroll; -webkit-overflow-scrolling: touch;">
+        <div class="table-responsive table-scroll" style="height:500px">
             <table class="table table-condensed text-small">
                 <thead>
                     <tr>
@@ -180,15 +180,12 @@
                 </tbody>
             </table>
         </div>
-
         <div ng-if="config.debug" class="bg-info">
             Client Log:
             <pre>{{clientLog}}</pre>
-
             Calculation:
             <pre>{{calculation}}</pre>
         </div>
-
     </div>
 </script>
 
@@ -206,7 +203,7 @@
 
 <script type="text/ng-template" id="clientMenues">
     <div class="p10">
-        <div class="table-responsive">
+        <div class="table-responsive table-scroll" style="max-height:600px">
             <table class="table table-condensed table-hover">
                 <tr>
                     <th></th>
@@ -223,10 +220,8 @@
                     <td>{{x.energy}}</td>
                 </tr>
             </table>
-
         </div>
-        
-        <pre>{{menu | json}}</pre>
+        <pre ng-if="config.debug">{{menu | json}}</pre>
     </div>
 </script>
 
@@ -260,9 +255,7 @@
                 <p>{{'fats' | translate}}: <span>{{totals.fats | number:1}} g, ({{totals.fatsPercentage | number:1}} %)</span></p>
             </div>
         </div>
-
-
-        <pre>{{menu | json}}</pre>
+        <pre ng-if="config.debug">{{menu | json}}</pre>
     </div>
 </script>
 

@@ -3617,19 +3617,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     var getRecipePopupCtrl = function ($scope, $mdDialog, $http, clientData, config, $translate, $translatePartialLoader, $timeout) {
         $scope.clientData = clientData;
         $scope.config = config;
+        $scope.user = $rootScope.user;
         $scope.loadType = 0;
         $scope.type = 0;
         $scope.appRecipes = false;
         $scope.toTranslate = false;
         $scope.toLanguage = '';
         $scope.showDescription = true;
-
-        //$scope.toggleTpl = function (x) {
-        //    $scope.tpl = x;
-        //};
-        //$scope.toggleTpl('myRecipesTpl');
-
-
 
         var load = function () {
             $scope.loading = true;
@@ -4313,176 +4307,174 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 .controller('myRecipesCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
     var webService = 'Recipes.asmx';
-    $scope.currentRecipe = null;
-
-    //$rootScope.loadFoods();
-
-
-        var init = function () {
-            $http({
-                url: $sessionStorage.config.backend + 'Recipes.asmx/Init',
-                method: "POST",
-                data: ''
-            })
-            .then(function (response) {
-                $scope.recipe = JSON.parse(response.data.d);
-                load();
-            },
-            function (response) {
-                alert(response.data.d)
-            });
-        };
-
-        var load = function () {
-            $rootScope.loading = true;
-            $http({
-                url: $sessionStorage.config.backend + 'Recipes.asmx/Load',
-                method: "POST",
-                data: { userId: $sessionStorage.usergroupid }
-            })
-            .then(function (response) {
-                $scope.recipes = JSON.parse(response.data.d);
-                $rootScope.loading = false;
-            },
-            function (response) {
-                $rootScope.loading = false;
-                alert(response.data.d)
-            });
-        };
-
-        init();
-
-        //var getUnits = function () {
-        //    $http({
-        //        url: $sessionStorage.config.backend + 'Foods.asmx/GetUnits',
-        //        method: "POST",
-        //        data: { lang: $rootScope.config.language }
-        //    })
-        //  .then(function (response) {
-        //      $scope.units = JSON.parse(response.data.d);
-        //  },
-        //  function (response) {
-        //      alert(response.data.d)
-        //  });
-        //}
-        //$scope.units = [
-        //    'komad',
-        //    'jušna žljica',
-        //    'porcija'
-        //];
-
-        //$scope.recipe = [];
-        $scope.add = function (x) {
-            $scope.recipe.push(x);
-        }
-
-        $scope.getTotEnergy = function (x) {
-            var sum = 0;
-            angular.forEach(x, function (value, key) {
-                sum += value.energy;
-            })
-            return sum;
-        }
-
-        $scope.openFoodPopup = function () {
-            $mdDialog.show({
-                controller: $rootScope.foodPopupCtrl,
-                templateUrl: 'assets/partials/popup/food.html',
-                parent: angular.element(document.body),
-                clickOutsideToClose: true,
-                d: { foods: $rootScope.foods, myFoods: $rootScope.myFoods, foodGroups: $rootScope.foodGroups, food: null, idx: null, config: $rootScope.config }
-            })
-        .then(function (x) {
-            $scope.food = x;
-            $scope.recipe.data.selectedFoods.push(x.food);
-            $scope.recipe.data.selectedInitFoods.push(x.initFood);
-            //$scope.addFoodBtnIcon = 'fa fa-plus';
-            //$scope.addFoodBtn = false;
-            //$scope.addFoodToMeal(x.food, x.initFood, idx);
-        }, function () {
-            //$scope.addFoodBtnIcon = 'fa fa-plus';
-            //$scope.addFoodBtn = false;
+    var init = function () {
+        $http({
+            url: $sessionStorage.config.backend + 'Recipes.asmx/Init',
+            method: "POST",
+            data: ''
+        })
+        .then(function (response) {
+            $scope.recipe = JSON.parse(response.data.d);
+            $scope.currentRecipe = null;
+            load();
+        },
+        function (response) {
+            alert(response.data.d)
         });
-        }
+    };
+
+    var load = function () {
+        $rootScope.loading = true;
+        $http({
+            url: $sessionStorage.config.backend + 'Recipes.asmx/Load',
+            method: "POST",
+            data: { userId: $sessionStorage.usergroupid }
+        })
+        .then(function (response) {
+            $scope.recipes = JSON.parse(response.data.d);
+            $rootScope.loading = false;
+        },
+        function (response) {
+            $rootScope.loading = false;
+            alert(response.data.d)
+        });
+    };
+
+    init();
+
+    //var getUnits = function () {
+    //    $http({
+    //        url: $sessionStorage.config.backend + 'Foods.asmx/GetUnits',
+    //        method: "POST",
+    //        data: { lang: $rootScope.config.language }
+    //    })
+    //  .then(function (response) {
+    //      $scope.units = JSON.parse(response.data.d);
+    //  },
+    //  function (response) {
+    //      alert(response.data.d)
+    //  });
+    //}
+    //$scope.units = [
+    //    'komad',
+    //    'jušna žljica',
+    //    'porcija'
+    //];
+
+    //$scope.recipe = [];
+    $scope.add = function (x) {
+        $scope.recipe.push(x);
+    }
+
+    $scope.getTotEnergy = function (x) {
+        var sum = 0;
+        angular.forEach(x, function (value, key) {
+            sum += value.energy;
+        })
+        return sum;
+    }
+
+    $scope.openFoodPopup = function () {
+        $mdDialog.show({
+            controller: $rootScope.foodPopupCtrl,
+            templateUrl: 'assets/partials/popup/food.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true,
+            d: { foods: $rootScope.foods, myFoods: $rootScope.myFoods, foodGroups: $rootScope.foodGroups, food: null, idx: null, config: $rootScope.config }
+        })
+    .then(function (x) {
+        $scope.food = x;
+        $scope.recipe.data.selectedFoods.push(x.food);
+        $scope.recipe.data.selectedInitFoods.push(x.initFood);
+        //$scope.addFoodBtnIcon = 'fa fa-plus';
+        //$scope.addFoodBtn = false;
+        //$scope.addFoodToMeal(x.food, x.initFood, idx);
+    }, function () {
+        //$scope.addFoodBtnIcon = 'fa fa-plus';
+        //$scope.addFoodBtn = false;
+    });
+    }
 
 
-        $scope.new = function () {
-            init();
-        }
+    $scope.new = function () {
+        init();
+    }
 
-        $scope.get = function (id) {
-            if (id == null) {
-                return false;
-            }
-            $http({
-                url: $sessionStorage.config.backend + 'Recipes.asmx/Get',
-                method: "POST",
-                data: { userId: $sessionStorage.usergroupid, id: id }
-            })
-            .then(function (response) {
-                $scope.recipe = JSON.parse(response.data.d);
-            },
-            function (response) {
-                // $rootScope.loading = false;
-                alert(response.data.d);
-            });
+    $scope.get = function (id) {
+        if (id == null) {
+            return false;
         }
+        $http({
+            url: $sessionStorage.config.backend + 'Recipes.asmx/Get',
+            method: "POST",
+            data: { userId: $sessionStorage.usergroupid, id: id }
+        })
+        .then(function (response) {
+            $scope.recipe = JSON.parse(response.data.d);
+        },
+        function (response) {
+            // $rootScope.loading = false;
+            alert(response.data.d);
+        });
+    }
 
-        $scope.save = function (recipe) {
-            if (recipe.title == '' || recipe.title == null) {
-                functions.alert($translate.instant('enter recipe title'), '');
-                return false;
-            }
-            $http({
-                url: $sessionStorage.config.backend + 'Recipes.asmx/Save',
-                method: "POST",
-                data: { userId: $sessionStorage.usergroupid, x: recipe }
-            })
-            .then(function (response) {
-                $scope.recipe = JSON.parse(response.data.d);
-                load();
-            },
-            function (response) {
-               // $rootScope.loading = false;
-                alert(response.data.d);
-            });
+    $scope.save = function (recipe) {
+        if (recipe.title == '' || recipe.title == null) {
+            functions.alert($translate.instant('enter recipe title'), '');
+            return false;
         }
+        $http({
+            url: $sessionStorage.config.backend + 'Recipes.asmx/Save',
+            method: "POST",
+            data: { userId: $sessionStorage.usergroupid, x: recipe }
+        })
+        .then(function (response) {
+            $scope.recipe = JSON.parse(response.data.d);
+            load();
+        },
+        function (response) {
+            // $rootScope.loading = false;
+            alert(response.data.d);
+        });
+    }
     
-        $scope.removeFood = function (x, idx) {
-            $scope.recipe.data.selectedFoods.splice(idx, 1);
-            $scope.recipe.data.selectedInitFoods.splice(idx, 1);
-            //$rootScope.currentMenu.data.selectedFoods.splice(idx, 1);
-        }
+    $scope.removeFood = function (x, idx) {
+        $scope.recipe.data.selectedFoods.splice(idx, 1);
+        $scope.recipe.data.selectedInitFoods.splice(idx, 1);
+        //$rootScope.currentMenu.data.selectedFoods.splice(idx, 1);
+    }
 
 
-        //$scope.delete = function (x) {
-        //    var confirm = $mdDialog.confirm()
-        //        .title($translate.instant('delete food') + '?')
-        //        .textContent()
-        //        .targetEvent()
-        //        .ok($translate.instant('yes'))
-        //        .cancel($translate.instant('no'));
-        //    $mdDialog.show(confirm).then(function () {
-        //        remove(x);
-        //    }, function () {
-        //    });
-        //};
+//TODO remove recipes
 
-        //var remove = function (x) {
-        //    $http({
-        //        url: $sessionStorage.config.backend + webService + '/Delete',
-        //        method: "POST",
-        //        data: { userId: $rootScope.user.userGroupId, x: x }
-        //    })
-        // .then(function (response) {
-        //     load();
-        //     init();
-        //     alert(response.data.d);
-        // },
-        // function (response) {
-        //     alert(response.data.d);
-        // });
-        //}
+
+    $scope.remove = function (x) {
+        var confirm = $mdDialog.confirm()
+            .title($translate.instant('delete recipe') + '?')
+            .textContent()
+            .targetEvent()
+            .ok($translate.instant('yes'))
+            .cancel($translate.instant('no'));
+        $mdDialog.show(confirm).then(function () {
+            remove(x);
+        }, function () {
+        });
+    };
+
+    var remove = function (x) {
+        $http({
+            url: $sessionStorage.config.backend + webService + '/Delete',
+            method: "POST",
+            data: { userId: $rootScope.user.userGroupId, id: x.id }
+        })
+        .then(function (response) {
+            init();
+            //alert(response.data.d);
+        },
+        function (response) {
+            alert(response.data.d);
+        });
+    }
 
 
     }])

@@ -1,4 +1,4 @@
-﻿<md-dialog flex layout-margin>
+﻿<md-dialog flex="30" layout-margin>
     <md-toolbar>
         <div class="md-toolbar-tools">
             <h2 class="text-capitalize">{{'recipes' | translate}}</h2>
@@ -13,10 +13,10 @@
         <div class="text-right text-capitalize">
             <a href="" class="btn btn-primary" ng-click="toggleMyRecipeTpl()"><i class="fa fa-file-text-o"></i> {{'create recipe' | translate}}</a>
         </div>
-        <div ng-if="config.debug">
+        <div ng-if="config.debug&&user.userType>0">
             <ul class="nav nav-tabs">
-                <li ng-class="appRecipes==false?'active':''" ng-click="load()"><a href="" class="text-capitalize"><i class="fa fa-users"></i> {{'my recipes' | translate}}</a></li>
-                <li ng-class="appRecipes==true?'active':''" ng-click="loadAppRecipes()"><a href="" class="text-capitalize"><i class="fa fa-bar-chart"></i> {{'recipes examples' | translate}}</a></li>
+                <li ng-class="appRecipes==false?'active':''" ng-click="load()"><a href="" class="text-capitalize">{{'my recipes' | translate}}</a></li>
+                <li ng-class="appRecipes==true?'active':''" ng-click="loadAppRecipes()"><a href="" class="text-capitalize">{{'recipes examples' | translate}}</a></li>
             </ul>
         </div>
         <div ng-if="d.length==0">
@@ -41,7 +41,7 @@
                 </div>
             </div>
             <div class="table-responsive mt10">
-                <table ng-if="appRecipes==false" class="table table-hover table-condensed">
+                <table class="table table-hover table-condensed">
                     <tr>
                         <th>{{'title' | translate}}</th>
                         <th class="text-right">{{'energy'| translate}}</th>
@@ -51,11 +51,10 @@
                         <td class="novrap text-right"><span ng-if="x.energy>0">{{x.energy | number:0}} {{'kcal' | translate}}</span></td>
                     </tr>
                 </table>
-                <table ng-if="appRecipes==true" class="table table-hover table-condensed">
+                <!--<table ng-if="appRecipes==true" class="table table-hover table-condensed">
                     <tr ng-if="config.debug">
                         <td><label><input ng-model="toTranslate" type="checkbox" ng-checked="setToTranslate(toTranslate)" /> {{'translate to' | translate}}: </label></td>
                         <td ng-if="toTranslate==true">
-                            <!--TODO-->
                             <select ng-model="toLanguage" ng-change="setToLanguage(toLanguage)" class="form-control">
                                 <option disabled="disabled" ng-selectd="true" value="">{{'choose language' | translate}}</option>
                                 <option ng-repeat="x in config.languages" value="{{x.code}}">
@@ -74,7 +73,7 @@
                         <td>{{x.description | translate}}</td>
                         <td class="novrap"><span ng-if="x.energy>0">{{x.energy | number:0}} {{'kcal' | translate}}</span></td>
                     </tr>
-                </table>
+                </table>-->
             </div>
         </div>
     </md-dialog-content>

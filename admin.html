@@ -106,7 +106,7 @@
                 <span class="badge">{{page}}</span>
                 <button class="btn btn-default" ng-click="nextPage()">Next <i class="fa fa-arrow-right"></i></button>
             </div>
-            <div ng-if="!loading" class="table-responsive">
+                <div ng-if="!loading" class="table-responsive table-scroll">
                 <table class="table table-condensed text-small">
                     <tr>
                         <th></th>
@@ -252,8 +252,8 @@
         <div ng-controller="applicationCtrl" class="container">
             <h2>Program Prehrane 5.0</h2>
             <h3>Instalacije i aktivacije</h3>
-            <div class="table-responsive" style="max-height:600px">
-                <table class="table table-condensed">
+            <div class="table-responsive table-scroll" style="max-height:400px">
+                <table class="table table-condensed text-small">
                     <tr>
                         <td>Br.</td>
                         <th>Datum</th>
@@ -283,7 +283,7 @@
                         <input ng-model="searchOrders" class="form-control" placeholder="Pretraži..." />
                     </div>
                 </div>
-                <div class="table-responsive" style="max-height:600px">
+                <div class="table-responsive table-scroll" style="max-height:400px">
                     <table class="table table-condensed text-small">
                         <tr>
                             <th></th>
@@ -349,8 +349,8 @@
                         </select>
                     </div>
                 </div>
-                <div class="table-responsive" style="max-height:600px">
-                    <table class="table table-condensed">
+                <div class="table-responsive table-scroll" style="max-height:400px">
+                    <table class="table table-condensed text-small">
                         <tr>
                             <td colspan="6"></td>
                             <td class="text-right">Ukupno:</td>
@@ -371,7 +371,7 @@
                         <tr ng-repeat="x in invoices.data">
                             <td class="nowrap">
                                 <button class="btn btn-primary m2" ng-click="get(x)" title="Uredi"><i class="fa fa-eye"></i></button>
-                                <a href="{{config.backend + 'upload/invoice/' + x.year + '/'+ x.fileName + '.pdf'}}" class="btn btn-danger m2" download title="PDF"><i class="fa fa-file-pdf-o"></i></a>
+                                <a href="{{config.backend + 'upload/invoice/' + x.year + '/'+ x.fileName + '.pdf'}}" class="btn btn-danger m2" download title="PDF"><i class="fa fa-file-pdf-o" style="color:white"></i></a>
                                 <button class="btn btn-warning m2" ng-click="copy(x)" title="Kopiraj"><i class="fa fa-copy"></i></button>
                             </td>
                             <td>{{x.number}}</td>
@@ -391,14 +391,14 @@
             </div>
             <div ng-if="!showInvoices">
                 <div class="row mt20">
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         <div class="table-responsive">
                             <table class="table table-condensed text-small">
                                 <tr>
                                     <td>Broj računa</td>
                                     <td>
                                         <div class="input-group">
-                                            <input ng-model="i.number" type="text" class="form-control" />
+                                            <input ng-model="i.number" type="number" class="form-control text-right" />
                                             <div class="input-group-btn">
                                                 <button class="btn btn-default" type="submit">/1/1</button>
                                             </div>
@@ -448,7 +448,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-8">
                         <label>Stavke:</label>
                         <div class="table-responsive">
                             <table class="table table-condensed table-bordered">

@@ -6,8 +6,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
 .config(['$stateProvider', '$urlRouterProvider', '$translateProvider', '$translatePartialLoaderProvider', '$httpProvider', function ($stateProvider, $urlRouterProvider, $translateProvider, $translatePartialLoaderProvider, $httpProvider) {
 
-    
-
     $translateProvider.useLoader('$translatePartialLoader', {
          urlTemplate: './assets/json/translations/{lang}/{part}.json'
     });
@@ -452,6 +450,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
     $scope.clientLogDiff = function (type, clientLog, x, idx) {
         var diff = 0;
+        if (clientLog.length - idx == 1) return {
+            diff: diff.toFixed(1),
+            icon: 'fa fa-circle text-success'
+        }
         switch (type) {
             case 'weight': diff = (x.weight - clientLog[clientLog.length - idx - 2].weight).toFixed(1);
                 break;
