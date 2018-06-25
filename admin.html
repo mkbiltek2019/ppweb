@@ -354,7 +354,7 @@
                         <tr>
                             <td colspan="6"></td>
                             <td class="text-right">Ukupno:</td>
-                            <td class="text-right"><label>{{invoices.total | currency : ""}} kn</label></td>
+                            <td class="text-right"><label class="main p5">{{invoices.total | currency : ""}} kn</label></td>
                             <td></td>
                         </tr>
                         <tr>
@@ -456,7 +456,7 @@
                                     <th style="width:50px"></th>
                                     <th style="min-width:300px">Naziv proizvoda / usluge</th>
                                     <th style="width:80px">Količina</th>
-                                    <th class="nowrap">Jedinična cijena (kn)</th>
+                                    <th class="nowrap" style="width:80px">Jedinična cijena (kn)</th>
                                 </tr>
                                 <tr ng-repeat="x in i.items">
                                     <td><button class="btn btn-danger" ng-click="remove($index)"><i class="fa fa-minus"></i></button></td>

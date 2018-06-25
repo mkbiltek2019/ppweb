@@ -94,22 +94,22 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             method: "POST",
             data: { foldername: 'users/' + $rootScope.user.userGroupId, filename: 'settings' }
         })
-   .then(function (response) {
-       $rootScope.settings = angular.fromJson(response.data.d);
-       if (response.data.d != null) {
-           if ($rootScope.settings.language != '') { $rootScope.config.language = $rootScope.settings.language; }
-           if ($rootScope.settings.currency != '') { $rootScope.config.currency = $rootScope.settings.currency; }
-       } else {
-           $rootScope.settings = {
-               language: $rootScope.config.language,
-               currency: $rootScope.config.currency
+       .then(function (response) {
+           $rootScope.settings = angular.fromJson(response.data.d);
+           if (response.data.d != null) {
+               if ($rootScope.settings.language != '') { $rootScope.config.language = $rootScope.settings.language; }
+               if ($rootScope.settings.currency != '') { $rootScope.config.currency = $rootScope.settings.currency; }
+           } else {
+               $rootScope.settings = {
+                   language: $rootScope.config.language,
+                   currency: $rootScope.config.currency
+               }
            }
-       }
-       $sessionStorage.settings = $rootScope.settings;
-   },
-   function (response) {
-       functions.alert($translate.instant(response.data.d), '');
-   });
+           $sessionStorage.settings = $rootScope.settings;
+       },
+       function (response) {
+           functions.alert($translate.instant(response.data.d), '');
+       });
     }
 
     $rootScope.setLanguage = function (x) {
@@ -379,8 +379,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 $rootScope.isLogin = true;
                 $rootScope.loadData();
 
-             //   $rootScope.getUserSettings();  //TODO
-
+                //   $rootScope.getUserSettings();  //TODO
 
                 if ($rootScope.user.licenceStatus == 'expired') {
                     $rootScope.isLogin = false;
@@ -400,18 +399,20 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     if ($rootScope.user.licenceStatus == 'demo') {
                         $rootScope.mainMessage = $translate.instant('you are currently working in a demo version') + '. ' + $translate.instant('some functions are disabled') + '.';
                         $rootScope.mainMessageBtn = $translate.instant('activate full version');
-                        // functions.alert($translate.instant('you are currently working in a demo version'), $translate.instant('some options are disabled'));
                     }
                 }
 
-                
-                
+                /**** TODO (QUERY STRING) *****
+                var lang = $sessionStorage.config.language;
+                $window.location.href = lang == 'hr' ? '../app/' : '../app/?lang=' + lang;
+                ***************/
+
              //   $rootScope.loading = false;
             } else {
                 $rootScope.loading = false;
                 $scope.errorLogin = true;
                 $scope.errorMesage = $translate.instant('wrong user name or password');
-               // $rootScope.currTpl = 'assets/partials/signup.html';  //<< Only fo first registration
+               // $rootScope.currTpl = 'assets/partials/signup.html';  //<< Only for first registration
             }
         },
         function (response) {
@@ -424,10 +425,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
          $rootScope.currTpl = 'assets/partials/signup.html';
      }
 
-
      $scope.forgotPasswordPopup = function () {
          $mdDialog.show({
-             controller: $scope.forgotPasswordPopupCtrl, // RealizationCtrl,
+             controller: $scope.forgotPasswordPopupCtrl,
              templateUrl: 'assets/partials/popup/forgotpassword.html',
              parent: angular.element(document.body),
              targetEvent: '',
@@ -463,6 +463,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
          $scope.hide = function () {
              $mdDialog.hide();
          };
+
          $scope.cancel = function () {
              $mdDialog.cancel();
          };
