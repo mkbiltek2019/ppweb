@@ -156,23 +156,23 @@
                         <td>{{clientLog.length - $index}}</td>
                         <td>{{getDateFormat(x.date) | date:'dd.MM.yyyy'}}</td>
                         <td style="min-width:100px">
-                            <input ng-model="x.height" type="number" class="form-control" min="120" max="220" step="0.1" />
+                            <input ng-model="x.height" type="number" class="form-control" min="120" max="220" step="0.1" style="min-width:80px" />
                         </td>
-                        <td style="min-width:100px; max-width:180px">
+                        <td style="max-width:180px">
                             <div class="input-group">
-                                <input ng-model="x.weight" type="number" class="form-control" min="20" max="300" step="0.1" />
+                                <input ng-model="x.weight" type="number" class="form-control" min="20" max="300" step="0.1" style="min-width:80px" />
                                 <span class="input-group-addon" style="min-width:70px"><i class="{{clientLogDiff('weight', clientLog, x, $index).icon}}"></i> {{clientLogDiff('weight', clientLog, x, $index).diff}}</span>
                             </div>
                         </td>
-                        <td style="min-width:100px; max-width:180px">
+                        <td style="max-width:180px">
                             <div class="input-group">
-                                <input ng-model="x.waist" type="number" class="form-control" min="80" max="220" step="0.1" />
+                                <input ng-model="x.waist" type="number" class="form-control" min="80" max="220" step="0.1" style="min-width:80px" />
                                 <span class="input-group-addon" style="min-width:70px"><i class="{{clientLogDiff('waist', clientLog, x, $index).icon}}"></i> {{clientLogDiff('waist', clientLog, x, $index).diff}}</span>
                             </div>
                         </td>
-                        <td style="min-width:100px; max-width:180px">
+                        <td style="max-width:180px">
                             <div class="input-group">
-                                <input ng-model="x.hip" type="number" class="form-control" min="80" max="220" step="0.1" />
+                                <input ng-model="x.hip" type="number" class="form-control" min="80" max="220" step="0.1" style="min-width:80px" />
                                 <span class="input-group-addon" style="min-width:70px"><i class="{{clientLogDiff('hip', clientLog, x, $index).icon}}"></i> {{clientLogDiff('hip', clientLog, x, $index).diff}}</span>
                             </div>
                         </td>
