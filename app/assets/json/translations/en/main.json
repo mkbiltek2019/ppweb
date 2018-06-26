@@ -1672,6 +1672,7 @@
   "copy to clipboard": "copy to clipboard",
   "user data": "user data",
   "recipes examples": "recipes examples",
-  "delete recipe": "delete recipe"
+  "delete recipe": "delete recipe",
+  "recipe title": "recipe title"
 
 }

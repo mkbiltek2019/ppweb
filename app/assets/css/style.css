@@ -123,10 +123,10 @@ a {
 }
 
 .panel-heading {
-/*background-color:mediumaquamarine !important;
-color:white !important;*/
-background-color:#e6e6e6 !important;
-color:black !important;
+    /*background-color:mediumaquamarine !important;
+    color:white !important;*/
+    background-color:#e6e6e6 !important;
+    color:black !important;
 }
 
 .navbar{

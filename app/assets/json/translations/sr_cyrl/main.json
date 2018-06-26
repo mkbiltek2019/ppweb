@@ -1619,6 +1619,7 @@
   "copy to clipboard": "копирај у clipboard",
   "user data": "кориснички подаци",
   "recipes examples": "примери рецепата",
-  "delete recipe": "бриши рецепт"
+  "delete recipe": "бриши рецепт",
+  "recipe title": "назив рецепта"
 
 }

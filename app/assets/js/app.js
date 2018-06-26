@@ -3590,7 +3590,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         openRecipePopup();
     }
 
-
     var openRecipePopup = function () {
         $mdDialog.show({
             controller: getRecipePopupCtrl,
@@ -3605,8 +3604,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 var idx = $rootScope.currentMenu.data.selectedFoods.length;
                 $scope.addFoodToMeal(value, recipe.data.selectedInitFoods[key], idx);
             });
-
-
             //$rootScope.currentMenu = x;
             //$rootScope.clientData.meals = x.data.meals;
             getTotals($rootScope.currentMenu);
@@ -3686,7 +3683,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $rootScope.newTpl = './assets/partials/myrecipes.html';
             $rootScope.selectedNavItem = 'myrecipes';
         }
-
 
         $scope.get = function (x) {
             get(x);
@@ -4396,7 +4392,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     });
     }
 
-
     $scope.new = function () {
         init();
     }
@@ -4448,7 +4443,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 //TODO remove recipes
 
-
     $scope.remove = function (x) {
         var confirm = $mdDialog.confirm()
             .title($translate.instant('delete recipe') + '?')
@@ -4477,8 +4471,69 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         });
     }
 
+    $scope.search = function() {
+        openMyRecipesPopup();
+    }
 
-    }])
+    var openMyRecipesPopup = function () {
+        $mdDialog.show({
+            controller: getMyRecipesPopupCtrl,
+            templateUrl: 'assets/partials/popup/myrecipes.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true,
+        })
+        .then(function (recipe) {
+            $scope.recipe = recipe;
+        }, function () {
+        });
+    };
+
+    var getMyRecipesPopupCtrl = function ($scope, $mdDialog, $http) {
+
+        var load = function () {
+            $scope.loading = true;
+            $http({
+                url: $sessionStorage.config.backend + 'Recipes.asmx/Load',
+                method: "POST",
+                data: { userId: $rootScope.user.userGroupId }
+            })
+           .then(function (response) {
+               $scope.d = JSON.parse(response.data.d);
+               $scope.loading = false;
+           },
+           function (response) {
+               $scope.loading = false;
+               alert(response.data.d);
+           });
+        }
+        load();
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+
+        var get = function (x) {
+            $http({
+                url: $sessionStorage.config.backend + 'Recipes.asmx/Get',
+                method: "POST",
+                data: { userId: $rootScope.user.userGroupId, id: x.id }
+            })
+            .then(function (response) {
+                $scope.recipe = JSON.parse(response.data.d);
+                $mdDialog.hide($scope.recipe);
+            },
+            function (response) {
+                alert(response.data.d)
+            });
+        }
+
+        $scope.confirm = function (x) {
+            get(x);
+        }
+
+    };
+
+}])
 
 .controller('pricesCtrl', ['$scope', '$http', '$sessionStorage', '$rootScope', '$translate', 'functions', '$mdDialog', function ($scope, $http, $sessionStorage, $rootScope, $translate, functions, $mdDialog) {
     var webService = 'Prices.asmx';

@@ -1,35 +1,27 @@
 ﻿<div ng-controller="menuCtrl">
-    <div class="panel panel-default"  ng-controller="myRecipesCtrl">
+    <div class="panel panel-default text-capitalize" ng-controller="myRecipesCtrl">
         <div class="panel-heading">
-            <span class="text-uppercase">{{'my recipes' | translate}}</span>
+            <a href="" class="btn btn-default m2" ng-click="new()"><i class="fa fa-file-o"></i> {{'new recipe' | translate}}</a>
+            <a href="" class="btn btn-default m2" ng-click="search()"><i class="fa fa-search"></i> {{'search' | translate}}</a>
+            <a href="" class="btn btn-default m2" ng-click="save(recipe, title, description)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</a>
+            <a href="" class="btn btn-default m2" ng-click="remove(recipe)"><span class="text-danger"><i class="fa fa-trash-o"></i> {{'delete' | translate}}</span></a>
         </div>
         <div class="panel-body">
-            <div class="row text-capitalize">
-                <div class="col-sm-4">
-                    <md-input-container ng-if="recipes.length>0" class="md-block" flex-gt-sm>
-                        <label>{{'search' | translate}}</label>
-                        <md-select ng-model="currentRecipe" ng-change="get(currentRecipe.id)">
-                            <md-option ng-repeat="x in recipes" ng-value="x">
-                                {{x.title}}
-                            </md-option>
-                        </md-select>
-                    </md-input-container>
-                </div>
-                <div class="col-sm-8 text-right">
-                    <a href="" class="btn btn-default m2" ng-click="new()"><i class="fa fa-file-o"></i> {{'new recipe' | translate}}</a>
-                    <a href="" class="btn btn-default m2" ng-click="save(recipe, title, description)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</a>
-                    <a href="" class="btn btn-default m2" ng-click="remove(recipe)"><span class="text-danger"><i class="fa fa-trash-o"></i> {{'delete' | translate}}</span></a>
-                </div>
-            </div>
             <div class="mt20">
-                <md-input-container>
-                    <label>{{'title' | translate}}</label>
-                    <input ng-model="recipe.title" type="text">
-                </md-input-container>
-                <md-input-container class="md-block" flex-gt-sm>
-                    <label>{{'description' | translate}}</label>
-                    <textarea ng-model="recipe.description" rows="4" placeholder="{{'description, recipe preparation' | translate}}..."></textarea>
-                </md-input-container>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>{{'recipe title' | translate}}</label>
+                            <input ng-model="recipe.title" type="text">
+                        </md-input-container>
+                    </div>
+                    <div class="col-sm-8">
+                        <md-input-container class="md-block" flex-gt-sm >
+                            <label>{{'description, recipe preparation' | translate}}</label>
+                            <textarea ng-model="recipe.description" rows="3" style="border:solid 1px #e6e6e6" ></textarea>
+                        </md-input-container>
+                    </div>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-condensed">
                         <tr>
@@ -37,7 +29,7 @@
                             <th style="width:50%">{{'foods' | translate}}</th>
                             <th>{{'quantity' | translate}}</th>
                             <th>{{'unit' | translate}}</th>
-                            <th>{{'mass' | translate}} (g)</th>
+                            <th>{{'mass' | translate}} <span class="text-lowercase">(g)</span></th>
                             <th class="nowrap">{{'thermal treatment' | translate}}</th>
                             <th class="nowrap text-right">{{'energy' | translate}} (kcal)</th>
                         </tr>

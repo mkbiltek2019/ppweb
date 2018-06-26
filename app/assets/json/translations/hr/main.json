@@ -1680,6 +1680,7 @@
   "copy to clipboard": "kopiraj u clipboard",
   "user data": "korisnički podaci",
   "recipes examples": "primjeri recepata",
-  "delete recipe": "briši recept"
+  "delete recipe": "briši recept",
+  "recipe title": "naziv recepta"
 
 }
