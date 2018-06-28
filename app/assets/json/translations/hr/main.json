@@ -1649,7 +1649,7 @@
   "recipe": "recept",
   "recipes": "recepti",
   "enter recipe title": "upišite naziv recepta",
-  "you do not have any recipes": "nemate izrađene recepate",
+  "you do not have any recipes": "nemate vlastitih recepate",
   "create recipe": "izradite recept",
   "first name is required": "ime je obavezno",
   "birth date is required": "datum rođenja je obavezan",
@@ -1682,6 +1682,7 @@
   "recipes examples": "primjeri recepata",
   "delete recipe": "briši recept",
   "recipe title": "naziv recepta",
-  "analysis": "analiza"
+  "analysis": "analiza",
+  "you do not have any foods": "nemate vlastitih namirnica"
 
 }

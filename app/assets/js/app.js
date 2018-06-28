@@ -4193,25 +4193,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     //    'porcija'
     //];
 
-    var load = function () {
-        $rootScope.loading = true;
-        $http({
-            url: $sessionStorage.config.backend + 'Foods.asmx/Load',
-            method: "POST",
-            data: { userId: $sessionStorage.usergroupid }
-        })
-        .then(function (response) {
-            var data = JSON.parse(response.data.d);
-            $rootScope.myFoods = data.myFoods;
-            $rootScope.loading = false;
-        },
-        function (response) {
-            $rootScope.loading = false;
-            alert(response.data.d)
-        });
-    };
-
-
     $scope.new = function(){
         init();
     }
@@ -4267,7 +4248,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { userId: $rootScope.user.userGroupId, x: x }
         })
         .then(function (response) {
-            load();
             functions.alert($translate.instant(response.data.d), '');
         },
         function (response) {
@@ -4286,19 +4266,69 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             ) { return false; } else { return true; }
     }
 
-    $scope.getMyFoodDetails = function (x) {
-        $http({
-            url: $sessionStorage.config.backend + 'MyFoods.asmx/Get',
-            method: "POST",
-            data: { userId: $rootScope.user.userGroupId, id: x }
-        })
-      .then(function (response) {
-          $scope.myFood = JSON.parse(response.data.d);
-      },
-      function (response) {
-          alert(response.data.d)
-      });
+    $scope.search = function () {
+        openMyFoodsPopup();
     }
+
+    var openMyFoodsPopup = function () {
+        $mdDialog.show({
+            controller: getMyFoodsPopupCtrl,
+            templateUrl: 'assets/partials/popup/myfoods.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true,
+        })
+        .then(function (d) {
+            $scope.myFood = d;
+        }, function () {
+        });
+    };
+
+    var getMyFoodsPopupCtrl = function ($scope, $mdDialog, $http) {
+
+        var load = function () {
+            $scope.loading = true;
+            $http({
+                url: $sessionStorage.config.backend + 'MyFoods.asmx/Load',
+                method: "POST",
+                data: { userId: $sessionStorage.usergroupid }
+            })
+            .then(function (response) {
+                var data = JSON.parse(response.data.d);
+                $scope.d = data.foods;
+                $scope.loading = false;
+            },
+            function (response) {
+                $scope.loading = false;
+                alert(response.data.d)
+            });
+        };
+        load();
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+
+        var get = function (x) {
+            $http({
+                url: $sessionStorage.config.backend + 'MyFoods.asmx/Get',
+                method: "POST",
+                data: { userId: $rootScope.user.userGroupId, id: x.id }
+            })
+          .then(function (response) {
+              var myFood = JSON.parse(response.data.d);
+              $mdDialog.hide(myFood);
+          },
+          function (response) {
+              alert(response.data.d)
+          });
+        }
+
+        $scope.confirm = function (x) {
+            get(x);
+        }
+
+    };
+
 
 }])
 
