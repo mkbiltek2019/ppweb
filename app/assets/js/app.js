@@ -4434,10 +4434,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         });
     }
     
-    $scope.removeFood = function (x, idx) {
+    $scope.removeFood = function (idx) {
         $scope.recipe.data.selectedFoods.splice(idx, 1);
         $scope.recipe.data.selectedInitFoods.splice(idx, 1);
-        //$rootScope.currentMenu.data.selectedFoods.splice(idx, 1);
     }
 
 

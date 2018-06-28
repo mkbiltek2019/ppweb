@@ -15,7 +15,7 @@
                     <table class="table table-bordered text-small table-condensed">
                         <tr>
                             <td class="bg-subpanel"><b class="text-uppercase">BMI</b><em class="text-small text-muted"> ({{'body mass index' | translate}})</em></td>
-                            <td rowspan="3" width="120px"><div id="bmiChart" class="pull-right" style="height:100px"></div></td>
+                            <td rowspan="3" style="width:120px"><div id="bmiChart" class="guage"></div></td>
                         </tr>
                         <tr class="text-center">
                             <td ng-class="getBmiClass(calculation.bmi.value).text"><span style="font-size:24px">{{calculation.bmi.value | number:1}} kg/m&sup2</span></td>
@@ -30,7 +30,7 @@
                     <table ng-if="calculation.whr.value>0" class="table table-bordered text-small table-condensed">
                         <tr>
                             <td class="bg-subpanel"><b class="text-uppercase">WHR</b><em class="text-small text-muted"> ({{'waist–hip ratio' | translate}})</em></td>
-                            <td rowspan="2" width="120px"><div id="whrChart" class="pull-right" style="height:100px"></div></td>
+                            <td rowspan="2" style="width:120px"><div id="whrChart" class="guage"></div></td>
                         </tr>
                         <tr class="text-center">
                             <td ng-class="calculation.whr.value>1?'text-danger':'text-success'"><span style="font-size:24px">{{calculation.whr.value | number:1}}</span></td>
@@ -48,7 +48,7 @@
                     <table ng-if="calculation.waist.value>0" class="table table-bordered text-small table-condensed">
                         <tr>
                             <td class="bg-subpanel"><b class="text-uppercase">{{'waist' | translate}}</b></td>
-                            <td rowspan="2" width="120px"><div id="waistChart" class="pull-right" style="height:100px"></div></td>
+                            <td rowspan="2" style="width:120px"><div id="waistChart" class="guage"></div></td>
                         </tr>
                         <tr class="text-center">
                             <td ng-class="getWaistClass(calculation.waist.value).text"><span style="font-size:24px">{{calculation.waist.value | number:1}} cm</span></td>
@@ -66,7 +66,7 @@
         </div>
         <div class="col-sm-6">
             <div class="panel panel-default">
-                <div class="panel-heading">{{'goal' | translate}}</div>
+                <div class="panel-heading text-uppercase">{{'goal' | translate}}</div>
                 <div class="panel-body">
                     <md-radio-group ng-model="calculation.goal.code" ng-click="getGoal(calculation.goal.code)">
                         <md-radio-button ng-value="x.code" class="md-primary" ng-repeat="x in goals" ng-disabled="x.isDisabled">{{x.title | translate}}</md-radio-button>
@@ -74,7 +74,7 @@
                 </div>
             </div>
             <div class="panel panel-default">
-                <div class="panel-heading">{{'recommendations' | translate}}</div>
+                <div class="panel-heading text-uppercase">{{'recommendations' | translate}}</div>
                 <div class="panel-body">
                     <table class="table table-bordered">
                         <tr>

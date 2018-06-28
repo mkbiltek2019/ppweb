@@ -104,6 +104,12 @@ navbar-brand {
     -webkit-overflow-scrolling: touch;
 }
 
+.guage {
+    height:250px;
+    width:250px;
+    margin:auto;
+}
+
 /************ main colors ***************/
 
 .background {

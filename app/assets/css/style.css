@@ -210,6 +210,16 @@ hr.bold {
     -webkit-overflow-scrolling: touch;
 }
 
+.area {
+    border:solid 1px #e6e6e6 !important;
+}
+
+.guage {
+    height:100px;
+    width:100px;
+    margin:auto;
+}
+
 
 /************ main colors ***************/
 /*.text-primary, a {
