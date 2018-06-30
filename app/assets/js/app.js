@@ -4334,6 +4334,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 .controller('myRecipesCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
     var webService = 'Recipes.asmx';
+    $scope.addFoodBtnIcon = 'fa fa-plus';
+    $scope.addFoodBtn = false;
+
     var init = function () {
         $http({
             url: $sessionStorage.config.backend + 'Recipes.asmx/Init',
@@ -4369,26 +4372,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     init();
 
-    //var getUnits = function () {
-    //    $http({
-    //        url: $sessionStorage.config.backend + 'Foods.asmx/GetUnits',
-    //        method: "POST",
-    //        data: { lang: $rootScope.config.language }
-    //    })
-    //  .then(function (response) {
-    //      $scope.units = JSON.parse(response.data.d);
-    //  },
-    //  function (response) {
-    //      alert(response.data.d)
-    //  });
-    //}
-    //$scope.units = [
-    //    'komad',
-    //    'jušna žljica',
-    //    'porcija'
-    //];
-
-    //$scope.recipe = [];
     $scope.add = function (x) {
         $scope.recipe.push(x);
     }
@@ -4401,24 +4384,30 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         return sum;
     }
 
-    $scope.openFoodPopup = function () {
+    $scope.openFoodPopup = function (food, idx) {
+        $scope.addFoodBtn = true;
+        $scope.addFoodBtnIcon = 'fa fa-spinner fa-spin';
         $mdDialog.show({
             controller: $rootScope.foodPopupCtrl,
             templateUrl: 'assets/partials/popup/food.html',
             parent: angular.element(document.body),
             clickOutsideToClose: true,
-            d: { foods: $rootScope.foods, myFoods: $rootScope.myFoods, foodGroups: $rootScope.foodGroups, food: null, idx: null, config: $rootScope.config }
+            d: { foods:$rootScope.foods, myFoods:$rootScope.myFoods, foodGroups:$rootScope.foodGroups, food:food, idx:idx, config:$rootScope.config }
         })
     .then(function (x) {
         $scope.food = x;
-        $scope.recipe.data.selectedFoods.push(x.food);
-        $scope.recipe.data.selectedInitFoods.push(x.initFood);
-        //$scope.addFoodBtnIcon = 'fa fa-plus';
-        //$scope.addFoodBtn = false;
-        //$scope.addFoodToMeal(x.food, x.initFood, idx);
+        if (idx == null) {
+            $scope.recipe.data.selectedFoods.push(x.food);
+            $scope.recipe.data.selectedInitFoods.push(x.initFood);
+        } else {
+            $scope.recipe.data.selectedFoods[idx] = x.food;
+            $scope.recipe.data.selectedInitFoods[idx] = x.initFood;
+        }
+        $scope.addFoodBtnIcon = 'fa fa-plus';
+        $scope.addFoodBtn = false;
     }, function () {
-        //$scope.addFoodBtnIcon = 'fa fa-plus';
-        //$scope.addFoodBtn = false;
+        $scope.addFoodBtnIcon = 'fa fa-plus';
+        $scope.addFoodBtn = false;
     });
     }
 

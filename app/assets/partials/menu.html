@@ -91,7 +91,6 @@
                                     </tbody>
                                 </table>
                             </div>
-
                             <div>
                                 <div ng-repeat="x in currentMenu.data.meals" >
                                     <md-input-container ng-if="x.code==currentMeal" class="md-block" style="margin:0px" flex-gt-sm>
@@ -100,25 +99,6 @@
                                     </md-input-container>
                                 </div>
                             </div>
-
-                            <!--<div class="row text-capitalize">
-                                <div class="col-sm-6">
-                                    <div ng-repeat="x in currentMenu.data.meals">
-                                        <md-input-container ng-if="x.code==currentMeal" class="md-block" flex-gt-sm>
-                                            <label>{{'description, meal preparation' | translate}}...</label>
-                                            <textarea ng-model="x.description" rows="6" class="area" ></textarea>
-                                        </md-input-container>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    {{'distribution of energy value per meals' | translate}}
-                                    <canvas id="bar" class="chart chart-bar"
-                                            chart-data="mealsGraphData.data" chart-labels="mealsGraphData.labels" chart-colors="mealsGraphData.colors" height="180"
-                                            chart-series="mealsGraphData.series" chart-dataset-override="mealsGraphData.datasetOverride">
-                                    </canvas>
-                                </div>
-                            </div>-->
-
                             <div ng-if="totals.price.value>0" class="text-right m10">
                                 <em class="text-primary">{{'price' | translate}}: <span>{{totals.price.value | number:2}}</span> <span class="text-uppercase">{{config.currency}}</span></em>
                             </div>

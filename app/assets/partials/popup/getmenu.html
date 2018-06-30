@@ -45,11 +45,11 @@
                         <th>{{'client' | translate}}</th>
                     </tr>
                     <tr ng-if="type==1?x.client.clientId==clientData.clientId:x.client.clientId!=null" ng-repeat="x in d | filter:searchValue" ng-click="confirm(x)">
-                        <td class="novrap">{{x.title}}</td>
-                        <td class="novrap">{{x.diet | translate}}</td>
-                        <td class="novrap"><span ng-if="x.energy>0">{{x.energy | number:0}} {{'kcal' | translate}}</span></td>
+                        <td class="nowrap">{{x.title}}</td>
+                        <td class="nowrap">{{x.diet | translate}}</td>
+                        <td class="nowrap"><span ng-if="x.energy>0">{{x.energy | number:0}} {{'kcal' | translate}}</span></td>
                         <td>{{x.date | date:'dd.MM.yyyy'}}</td>
-                        <td class="novrap">{{x.note}}</td>
+                        <td class="nowrap">{{x.note}}</td>
                         <td ng-if="config.debug">{{x.client.clientId}}</td>
                         <td>{{x.client.firstName}} {{x.client.lastName}}</td>
                         <td><a href="" style="color:red" ng-click="remove(x)" class="btn btn-default"><i class="fa fa-trash-o"></i></a></td>
@@ -74,10 +74,10 @@
                         <th>{{'note' | translate}}</th>
                     </tr>
                     <tr ng-repeat="x in d | filter:searchValue" ng-click="confirm(x)">
-                        <td class="novrap">{{x.title}}</td>
-                        <td class="novrap">{{x.diet | translate}}</td>
-                        <td class="novrap"><span ng-if="x.energy>0">{{x.energy | number:0}} {{'kcal' | translate}}</span></td>
-                        <td class="novrap">{{x.note}}</td>
+                        <td class="nowrap">{{x.title}}</td>
+                        <td class="nowrap">{{x.diet | translate}}</td>
+                        <td class="nowrap"><span ng-if="x.energy>0">{{x.energy | number:0}} {{'kcal' | translate}}</span></td>
+                        <td class="nowrap">{{x.note}}</td>
                     </tr>
                 </table>
             </div>

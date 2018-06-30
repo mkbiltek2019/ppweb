@@ -1,61 +1,58 @@
 ﻿<div ng-controller="menuCtrl">
-    <div class="panel panel-default text-capitalize" ng-controller="myRecipesCtrl">
-        <div class="panel-heading">
+    <div class="panel panel-default" ng-controller="myRecipesCtrl">
+        <div class="panel-heading text-capitalize">
             <a href="" class="btn btn-default m2" ng-click="new()"><i class="fa fa-file-o"></i> <span class="hidden-xs">{{'new recipe' | translate}}</span></a>
             <a href="" class="btn btn-default m2" ng-click="search()"><i class="fa fa-search"></i> <span class="hidden-xs">{{'search' | translate}}</span></a>
             <a href="" class="btn btn-default m2" ng-click="save(recipe, title, description)"><i class="fa fa-floppy-o"></i> <span class="hidden-xs">{{'save' | translate}}</span></a>
             <a href="" class="btn btn-default m2" ng-click="remove(recipe)"><span class="text-danger"><i class="fa fa-trash-o"></i> <span class="hidden-xs">{{'delete' | translate}}</span></span></a>
         </div>
         <div class="panel-body">
-            <div class="mt20">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label>{{'recipe title' | translate}}</label>
-                            <input ng-model="recipe.title" type="text">
-                        </md-input-container>
-                    </div>
-                    <div class="col-sm-8">
-                        <md-input-container class="md-block" flex-gt-sm >
-                            <label>{{'description, recipe preparation' | translate}}</label>
-                            <textarea ng-model="recipe.description" rows="3" class="area" ></textarea>
-                        </md-input-container>
-                    </div>
-                </div>
-                <div class="table-responsive">
-                    <table class="table table-condensed">
-                        <tr>
-                            <th></th>
-                            <th style="width:50%">{{'foods' | translate}}</th>
-                            <th>{{'quantity' | translate}}</th>
-                            <th>{{'unit' | translate}}</th>
-                            <th>{{'mass' | translate}} <span class="text-lowercase">(g)</span></th>
-                            <th class="nowrap">{{'thermal treatment' | translate}}</th>
-                            <th class="nowrap text-right">{{'energy' | translate}} (kcal)</th>
-                        </tr>
-                        <tr ng-repeat="x in recipe.data.selectedFoods">
-                            <td><a href="" class="btn btn-default" ng-click="removeFood($index)" title="{{'delete' | translate}}"><i class="fa fa-trash-o text-danger"></i></a></td>
-                            <td><input ng-model="x.food" type="text" class="form-control" /></td>
-                            <td>{{x.quantity}}</td>
-                            <td>{{x.unit}}</td>
-                            <td>{{x.mass}}</td>
-                            <td>
-                                <span ng-if="x.isSelected==true" ng-repeat="x in x.thermalTreatments">{{x.thermalTreatment.title}}</span>
-                            </td>
-                            <td class="text-right">{{x.energy}}</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td colspan="4">
-                                <a href="" class="btn btn-primary" ng-click="openFoodPopup()"><i class="fa fa-plus"></i> {{'add food' | translate}}</a>
-                            </td>
-                            <td class="text-right">
-                                <label>{{'total' | translate}}:</label>
-                            </td>
-                            <td class="text-right"><label>{{getTotEnergy(recipe.data.selectedFoods) | number : 1}}</label></td>
-                        </tr>
-                    </table>
-                </div>
+            <div class="text-capitalize">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>{{'recipe title' | translate}}</label>
+                    <input ng-model="recipe.title" type="text">
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>{{'description, recipe preparation' | translate}}...</label>
+                    <textarea ng-model="recipe.description" rows="3" class="area"></textarea>
+                </md-input-container>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-condensed">
+                    <tr class="text-capitalize">
+                        <th></th>
+                        <th style="width:40%">{{'foods' | translate}}</th>
+                        <th>{{'quantity' | translate}}</th>
+                        <th>{{'unit' | translate}}</th>
+                        <th class="text-right">{{'mass' | translate}}</th>
+                        <th class="nowrap"><span class="pl10">{{'thermal treatment' | translate}}</span></th>
+                        <th class="nowrap text-right">{{'energy' | translate}}</th>
+                    </tr>
+                    <tr ng-repeat="x in recipe.data.selectedFoods">
+                        <td class="nowrap">
+                            <a href="" class="btn btn-default" ng-click="removeFood($index)" title="{{'delete' | translate}}"><i class="fa fa-trash-o text-danger"></i></a>
+                            <a href="" class="btn btn-default" ng-click="openFoodPopup(x, recipe.data.selectedFoods.indexOf(x))" title="{{'edit' | translate}}"><i class="fa fa-pencil text-primary"></i></a>
+                        </td>
+                        <td><input ng-model="x.food" type="text" class="form-control" /></td>
+                        <td>{{x.quantity}}</td>
+                        <td>{{x.unit}}</td>
+                        <td class="text-right">{{x.mass}} {{'g' | translate}}</td>
+                        <td>
+                            <span ng-if="x.isSelected==true" ng-repeat="x in x.thermalTreatments" class="pl10">{{x.thermalTreatment.title}}</span>
+                        </td>
+                        <td class="text-right">{{x.energy}} {{'kcal' | translate}}</td>
+                    </tr>
+                    <tr class="text-capitalize">
+                        <td></td>
+                        <td colspan="4">
+                            <a ng-disabled="addFoodBtn" href="" class="btn btn-primary" ng-click="openFoodPopup(null,null)"><i ng-class="addFoodBtnIcon"></i> {{'add food' | translate}}</a>
+                        </td>
+                        <td class="text-right">
+                            <label>{{'total' | translate}}:</label>
+                        </td>
+                        <td class="text-right"><label>{{getTotEnergy(recipe.data.selectedFoods) | number : 1}} kcal</label></td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>

@@ -47,8 +47,8 @@
                         <th class="text-right">{{'energy'| translate}}</th>
                     </tr>
                     <tr ng-repeat="x in d | filter:searchValue" ng-click="confirm(x, showDescription)">
-                        <td class="novrap">{{x.title}}</td>
-                        <td class="novrap text-right"><span ng-if="x.energy>0">{{x.energy | number:0}} {{'kcal' | translate}}</span></td>
+                        <td class="nowrap">{{x.title}}</td>
+                        <td class="nowrap text-right"><span ng-if="x.energy>0">{{x.energy | number:0}} {{'kcal' | translate}}</span></td>
                     </tr>
                 </table>
                 <!--<table ng-if="appRecipes==true" class="table table-hover table-condensed">
@@ -69,9 +69,9 @@
                         <th>{{'energy'| translate}}</th>
                     </tr>
                     <tr ng-repeat="x in d | filter:searchValue" ng-click="confirm(x, showDescription)">
-                        <td class="novrap">{{x.title}}</td>
+                        <td class="nowrap">{{x.title}}</td>
                         <td>{{x.description | translate}}</td>
-                        <td class="novrap"><span ng-if="x.energy>0">{{x.energy | number:0}} {{'kcal' | translate}}</span></td>
+                        <td class="nowrap"><span ng-if="x.energy>0">{{x.energy | number:0}} {{'kcal' | translate}}</span></td>
                     </tr>
                 </table>-->
             </div>

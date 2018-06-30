@@ -700,7 +700,7 @@
   "bottle": "флаша",
   "half": "половина",
   "leaf": "лист",
-  "fllet": "филет",
+  "fillet": "филет",
   "shot glass": "чашица",
 
   "thermal treatment": "термичка обрада",
@@ -1588,7 +1588,7 @@
   "recipe": "рецепт",
   "recipes": "рецепти",
   "enter recipe title": "унесите назив рецепта",
-  "you do not have any recipes": "немате израђене рецепте",
+  "you do not have any recipes": "немате властитих рецепата",
   "create recipe": "израдите рецепт",
   "first name is required": "име је обавезно",
   "birth date is required": "датум рођења је обавезан",

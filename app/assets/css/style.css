@@ -153,8 +153,9 @@ navbar-brand {
     background-color:#f7eeb2 !important;
 }
 
-.novrap{
+.nowrap{
     white-space: nowrap;
+    width: 1px;
 }
 
 .text-small{
