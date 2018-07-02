@@ -4454,10 +4454,18 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
     
     $scope.removeFood = function (idx) {
-        $scope.recipe.data.selectedFoods.splice(idx, 1);
-        $scope.recipe.data.selectedInitFoods.splice(idx, 1);
+        var confirm = $mdDialog.confirm()
+            .title($translate.instant('delete food') + '?')
+            .textContent()
+            .targetEvent()
+            .ok($translate.instant('yes'))
+            .cancel($translate.instant('no'));
+        $mdDialog.show(confirm).then(function () {
+            $scope.recipe.data.selectedFoods.splice(idx, 1);
+            $scope.recipe.data.selectedInitFoods.splice(idx, 1);
+        }, function () {
+        });
     }
-
 
 //TODO remove recipes
 
