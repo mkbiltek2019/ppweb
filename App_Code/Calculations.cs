@@ -131,10 +131,10 @@ public class Calculations : System.Web.Services.WebService {
     #region Methods
     public int Age(string birthDate) {
         int today = DateTime.UtcNow.Year;
-        return today - Convert.ToDateTime(birthDate).Year;
+        return today - Convert.ToDateTime(birthDate).Year - (Convert.ToDateTime(birthDate).DayOfYear > DateTime.UtcNow.DayOfYear ? 1 : 0);
     }
 
-      public Pal GetPal(double palValue) {
+    public Pal GetPal(double palValue) {
           try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
             connection.Open();

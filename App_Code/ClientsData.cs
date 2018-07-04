@@ -55,16 +55,14 @@ public class ClientsData : System.Web.Services.WebService {
         x.id = null;
         x.clientId = client.clientId;
         x.age = calculation.Age(client.birthDate);
-        //x.gender = new Clients.Gender();
         x.gender = GetGender(client.gender.value);
         x.gender.title = client.gender.title;
         x.height = 0;
         x.weight = 0;
         x.waist = 0;
         x.hip = 0;
-        //x.pal =  0.0;
         x.pal = new Calculations.Pal();
-        x.goal = new Goals.NewGoal();  // null;
+        x.goal = new Goals.NewGoal();
         x.activities = new List<Activities.ClientActivity>();
         x.diet = new Diets.NewDiet();
         x.meals = new List<Meals.NewMeal>();
@@ -123,14 +121,12 @@ public class ClientsData : System.Web.Services.WebService {
     [WebMethod]
     public string Save(string userId, NewClientData x) {
         try {
-          //  if (c.CheckUserId(userId, true) == false) { return JsonConvert.SerializeObject(c.message, Formatting.Indented); }
             db.CreateDataBase(userId, db.clientsData);
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
             string sql = "";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             if (Check(userId, x) != false) {
-              //  x.clientId = Convert.ToString(Guid.NewGuid());
                 sql = @"INSERT INTO clientsdata (clientId, height, weight, waist, hip, pal, goal, activities, diet, meals, date, userId)
                         VALUES (@clientId, @height, @weight, @waist, @hip, @pal, @goal, @activities, @diet, @meals, @date, @userId)";
                 command = new SQLiteCommand(sql, connection);

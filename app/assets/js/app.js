@@ -1024,22 +1024,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
     getClients();
 
-    //Test jsPdf
-    $scope.testPdf = function () {
-        var pdf = new jsPDF('p', 'pt', 'a4');  //One of "portrait" or "landscape" (or shortcuts "p" (Default), "l")
-        var options = {
-            pagesplit: true
-        };
-
-        $("#printr").show();
-        pdf.addHTML($("#printr"), 0, 0, options, function () {
-            $("#printr").hide();
-            //  pdf.save("realizacija.pdf");
-            //  pdf.autoPrint();
-            pdf.output("dataurlnewwindow"); // this opens a new popup,  after this the PDF opens the print window view but there are browser inconsistencies with how this is handled
-        });
-    }
-
     $rootScope.newClient = function () {
         $scope.toggleSubTpl('pal');
         $http({
@@ -1067,7 +1051,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             parent: angular.element(document.body),
             targetEvent: '',
             clickOutsideToClose: true,
-            fullscreen: $scope.customFullscreen,
             d: $scope.d
         })
         .then(function (response) {
@@ -1096,10 +1079,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.cancel = function () {
             $mdDialog.cancel();
         };
-
-        var save = function (x) {
-
-        }
 
         $scope.firstNameRequiredMsq = null;
         $scope.firstNameRequiredMsq = null;
@@ -1173,15 +1152,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
            alert(response.data.d)
        });
     }
-    if ($rootScope.client == undefined) {
-        //if ($scope.clients.length == 0) {
-        //    alert($scope.clients.length);
-        //    $scope.openPopup();
-        //} else {
-      //  $scope.search();
-     //   $rootScope.newClient();  //open first time
-      //  }
-    }
 
     $scope.openSearchPopup = function () {
         $scope.toggleSubTpl('pal');
@@ -1191,7 +1161,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             parent: angular.element(document.body),
             targetEvent: '',
             clickOutsideToClose: true,
-            fullscreen: $scope.customFullscreen, // Only for -xs, -sm breakpoints.
             d: $scope.d
         })
         .then(function (response) {
@@ -1202,7 +1171,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 
     $scope.searchPopupCtrl = function ($scope, $mdDialog, d, $http) {
-
         $scope.d = d;
         $scope.getDateFormat = function (x) {
             return new Date(x);
@@ -1259,7 +1227,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             url: $sessionStorage.config.backend + 'ClientsData.asmx/Get',
             method: "POST",
             data: { userId: $sessionStorage.usergroupid, clientId: x.clientId }
-            //data: {lang: $rootScope.config.language, userId: $sessionStorage.userid, clientId: x.clientId }
         })
         .then(function (response) {
             if (JSON.parse(response.data.d).id != null) {
@@ -1267,7 +1234,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 $rootScope.clientData.date = new Date(new Date().setHours(0, 0, 0, 0));
                 $scope.getPalDetails($rootScope.clientData.pal.value);
                 getCalculation();
-             //   $rootScope.calculation = [];
             } else {
                 init(x);
             }
