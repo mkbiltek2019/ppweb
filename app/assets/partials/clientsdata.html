@@ -47,6 +47,15 @@
                 <md-datepicker ng-model="clientData.date" md-open-on-focus ng-required="true"></md-datepicker>
             </md-input-container>
         </div>
+
+
+        <!--Test
+        Provide Your Mobile Number: <input type="text"
+                                           name="MobileNumber"
+                                           class="form-control"
+                                           allow-only-numbers />-->  
+
+
         <div class="row">
             <div class="col-sm-6">
                     <div class="p20">
@@ -55,7 +64,8 @@
                             <div class="col-sm-4">
                                 <div class="input-group" style="width:160px">
                                     <span class="input-group-addon pointer" ng-click="change(-1, 'height')">-</span>
-                                    <input type="number" ng-model="clientData.height" class="form-control" min="120" max="220" step="1" required>
+                                    <input type="text" ng-model="clientData.height" class="form-control" required allow-only-numbers>
+                                    <!--<input type="number" ng-model="clientData.height" class="form-control" min="120" max="220" step="1" required>-->
                                     <span class="input-group-addon pointer" ng-click="change(1, 'height')">+</span>
                                 </div>
                             </div>
@@ -65,7 +75,8 @@
                             <div class="col-sm-4">
                                 <div class="input-group" style="width:160px">
                                     <span class="input-group-addon pointer" ng-click="change(-1, 'weight')">-</span>
-                                    <input type="number" ng-model="clientData.weight" class="form-control" min="20" max="300" step="1" required>
+                                    <input type="text" ng-model="clientData.weight" class="form-control" required allow-only-numbers>
+                                    <!--<input type="number" ng-model="clientData.weight" class="form-control" min="20" max="300" step="1" required>-->
                                     <span class="input-group-addon pointer" ng-click="change(1, 'weight')">+</span>
                                 </div>
                             </div>
@@ -75,7 +86,8 @@
                             <div class="col-sm-4">
                                 <div class="input-group" style="width:160px">
                                     <span class="input-group-addon pointer" ng-click="change(-1, 'waist')">-</span>
-                                    <input type="number" ng-model="clientData.waist" class="form-control" min="80" max="220" step="1">
+                                    <input type="text" ng-model="clientData.waist" class="form-control" allow-only-numbers>
+                                    <!--<input type="number" ng-model="clientData.waist" class="form-control" min="80" max="220" step="1">-->
                                     <span class="input-group-addon pointer" ng-click="change(1, 'waist')">+</span>
                                 </div>
                             </div>
@@ -85,29 +97,15 @@
                             <div class="col-sm-4">
                                 <div class="input-group" style="width:160px">
                                     <span class="input-group-addon pointer" ng-click="change(-1, 'hip')">-</span>
-                                    <input type="number" ng-model="clientData.hip" class="form-control" min="80" max="220" step="1">
+                                    <input type="text" ng-model="clientData.hip" class="form-control" allow-only-numbers>
+                                    <!--<input type="number" ng-model="clientData.hip" class="form-control" min="80" max="220" step="1">-->
                                     <span class="input-group-addon pointer" ng-click="change(1, 'hip')">+</span>
                                 </div>
                             </div>
                         </div>
                     </div>
             </div>
-            <div ng-if="user.userType>0" class="col-sm-6 p10">
-                <div class="well">
-                    <label class="text-uppercase"><i class="fa fa-user-o"></i> aplikacija za klijente</label>
-                    <div>
-                        <p>Dozvolite svojim klijentima da sami evidentiraju promjenu svoje tjelesne mase i preuzimaju jelovnike putem web aplikacije.</p>
-                    </div>
-                    <!--<p>Link za pristup aplikaciji za klijenta: {{client.firstName}} {{client.lastName}}</p>-->
-                    <a ng-if="config.debug" href="{{config.clientapppageurl}}?uid={{clientData.userId}}&cid={{clientData.clientId}}" target="_blank">{{config.clientapppageurl}}?uid={{clientData.userId}}&cid={{clientData.clientId}}</a>
-                    <div>Pošaljite link za pristup aplikaciji na email klijenta:
-                        <div class="input-group">
-                            <input ng-model="client.email" type="email" class="form-control" placeholder="{{'email' | translate}}"/>
-                            <div class="input-group-addon pointer" ng-click="sendAppLinkToClientEmail(client)" ng-disabled="sendingMail==true"><a href=""><i class="fa fa-{{sendingMail==true?'spinner fa-spin':'paper-plane-o'}}"></i> {{'send' | translate}}</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
             <!--<div ng-if="config.debug" class="col-sm-6">
                 <a href="assets/3d/body.html?bmi:25" target="_blank" class="btn btn-default"><span class="text-primary"><i class="fa fa-arrows-alt"></i> {{'full screen' | translate}}</span></a>
                 <div class="embed-responsive embed-responsive-16by9">

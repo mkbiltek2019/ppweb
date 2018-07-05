@@ -1,0 +1,28 @@
+﻿<div>
+    <div class="pull-right">
+        <a href="" class="btn btn-default text-right" ng-click="toggleTpl('dashboard.html')"><i class="fa fa-dashboard"></i> {{'back to app' | translate}}</a>
+    </div>
+    <div class="row mt20">
+        <div class="col-md-offset-3 col-sm-6">
+            <div class="well">
+                <label class="text-uppercase"><i class="fa fa-user-o"></i> {{'client app' | translate}}</label>
+                <div>
+                    <p>{{'allow your clients to track their anthropometric parameters and download menus through a web app' | translate}}.</p>
+                </div>
+                <div ng-if="user.userType==0" class="alert alert-danger">
+                    {{'this function is available only in standard and premium package' | translate}}
+                </div>
+                <a ng-if="client==null || client.clientId==null" href="" class="btn btn-primary text-capitalize" ng-click="toggleTpl('dashboard.html')"><i class="fa fa-search"></i> {{'search clients' | translate}}</a>
+                <a ng-if="config.debug" href="{{config.clientapppageurl}}?uid={{clientData.userId}}&cid={{clientData.clientId}}" target="_blank">{{config.clientapppageurl}}?uid={{clientData.userId}}&cid={{clientData.clientId}}</a>
+                <div ng-if="user.userType>0 && client!=null || client.clientId!=null">
+                    <div class="text-capitalize">{{'client' | translate}}: {{client.firstName}} {{client.lastName}}</div>
+                    {{"send access link to the client's email" | translate}}
+                    <div class="input-group">
+                        <input ng-model="client.email" type="email" class="form-control" placeholder="{{'email' | translate}}" />
+                        <div class="input-group-addon pointer text-capitalize" ng-click="sendAppLinkToClientEmail(client)" ng-disabled="sendingMail==true"><a href=""><i class="fa fa-{{sendingMail==true?'spinner fa-spin':'paper-plane-o'}}"></i> {{'send' | translate}}</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1622,6 +1622,9 @@
   "delete recipe": "бриши рецепт",
   "recipe title": "назив рецепта",
   "analysis": "анализа",
-  "you do not have any foods": "немате властитих намирница"
+  "you do not have any foods": "немате властитих намирница",
+  "client app": "апликација за клијенте",
+  "allow your clients to track their anthropometric parameters and download menus through a web app": "омогућите својим клијентима да самостално прате своје антропометријске параметре и преузимају јеловнике путем веб апликације",
+  "send access link to the client's email": "пошаљи приступни линк на е-маил клијента"
 
 }

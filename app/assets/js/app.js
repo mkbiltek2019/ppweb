@@ -54,7 +54,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $mdDateLocaleProvider.formatDate = function(date) {
             return moment(date).format("DD.MM.YYYY");
         }
-    })
+})
 
 .controller('AppCtrl', ['$scope', '$mdDialog', '$timeout', '$q', '$log', '$rootScope', '$localStorage', '$sessionStorage', '$window', '$http', '$translate', '$translatePartialLoader', 'functions', function ($scope, $mdDialog, $timeout, $q, $log, $rootScope, $localStorage, $sessionStorage, $window, $http, $translate, $translatePartialLoader, functions) {
     $rootScope.loginUser = $sessionStorage.loginuser;
@@ -538,7 +538,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
 }])
-
 
 .controller("schedulerCtrl", ['$scope', '$localStorage', '$http', '$rootScope', '$timeout', '$sessionStorage', 'functions', '$translate', function ($scope, $localStorage, $http, $rootScope, $timeout, $sessionStorage, functions, $translate) {
     var webService = 'Scheduler.asmx';
@@ -1412,16 +1411,16 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.change = function (x, scope) {
         switch (scope) {
             case 'height':
-                return $rootScope.clientData.height = $rootScope.clientData.height + x;
+                return $rootScope.clientData.height = $rootScope.clientData.height * 1 + x;
                     break;
             case 'weight':
-                return $rootScope.clientData.weight = $rootScope.clientData.weight + x;
+                return $rootScope.clientData.weight = $rootScope.clientData.weight * 1 + x;
                 break;
             case 'waist':
-                return $rootScope.clientData.waist = $rootScope.clientData.waist + x;
+                return $rootScope.clientData.waist = $rootScope.clientData.waist * 1 + x;
                 break;
             case 'hip':
-                return $rootScope.clientData.hip = $rootScope.clientData.hip + x;
+                return $rootScope.clientData.hip = $rootScope.clientData.hip * 1 + x;
                 break;
                 default:
                     return '';
@@ -2247,7 +2246,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 })
                 .then(function (response) {
                     $rootScope.currentMenu.data.selectedFoods[idx] = JSON.parse(response.data.d);
-
                     getTotals($rootScope.currentMenu);
                 },
                 function (response) {
@@ -2260,11 +2258,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.change = function (x, type, idx) {
         if ($rootScope.currentMenu.data.selectedFoods[idx].quantity + x > 0) {
                 if (type == 'quantity') {
-                    $rootScope.currentMenu.data.selectedFoods[idx].quantity = $rootScope.currentMenu.data.selectedFoods[idx].quantity + x;
+                    $rootScope.currentMenu.data.selectedFoods[idx].quantity = $rootScope.currentMenu.data.selectedFoods[idx].quantity * 1 + x;
                     $scope.changeQuantity($rootScope.currentMenu.data.selectedFoods[idx], 'quantity', idx);
                 }
                 if (type == 'mass') {
-                    $rootScope.currentMenu.data.selectedFoods[idx].mass = $rootScope.currentMenu.data.selectedFoods[idx].mass + x;
+                    $rootScope.currentMenu.data.selectedFoods[idx].mass = $rootScope.currentMenu.data.selectedFoods[idx].mass * 1  + x;
                     $scope.changeQuantity($rootScope.currentMenu.data.selectedFoods[idx], 'mass', idx);
                 }
             }
@@ -5139,4 +5137,47 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 //-------------end Program Prehrane Controllers--------------------
 
+
+//TODO
+.directive('allowOnlyNumbers', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, elm, attrs, ctrl) {
+            elm.on('keydown', function (event) {
+                var $input = $(this);
+                var value = $input.val();
+                //value = value.replace(/[^0-9]/g, '')
+                value = value.replace(',', '.');
+                $input.val(value);
+                if (event.which == 64 || event.which == 16) {
+                    // to allow numbers  
+                    return false;
+                } else if (event.which >= 48 && event.which <= 57) {
+                    // to allow numbers  
+                    return true;
+                } else if (event.which >= 96 && event.which <= 105) {
+                    // to allow numpad number  
+                    return true;
+                } else if ([8, 13, 27, 37, 38, 39, 40].indexOf(event.which) > -1) {
+                    // to allow backspace, enter, escape, arrows  
+                    return true;
+                }
+                else if (event.which == 110 || event.which == 190) {
+                    // to allow ',' and '.'
+                    return true;
+               
+                } else {
+                    event.preventDefault();
+                    // to stop others  
+                    return false;
+                }
+            });
+        }
+    }
+});
+
+
 ;
+
+
+
