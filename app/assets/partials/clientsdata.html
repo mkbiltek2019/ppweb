@@ -11,7 +11,7 @@
                  </div>
                  <div class="text-right text-small col-sm-6">
                      <div ng-if="client.clientId" class="p10">
-                         <strong><i class="fa fa-user-o"></i> {{'client' | translate}}: </strong> <a href="" ng-if="client.clientId!=null" ng-click="edit(client)" style="color:gray">{{client.firstName}} {{client.lastName}}, {{client.gender.title | translate}}, {{'age' | translate}}: {{clientData.age}}</a>
+                         <strong><i class="fa fa-user-o"></i> <span class="text-capitalize">{{'client' | translate}}:</span> </strong> <a href="" ng-if="client.clientId!=null" ng-click="edit(client)" style="color:gray">{{client.firstName}} {{client.lastName}}, {{client.gender.title | translate}}, {{'age' | translate}}: {{clientData.age}}</a>
                      </div>
                  </div>
              </div>
@@ -55,7 +55,7 @@
                             <div class="col-sm-4">
                                 <div class="input-group" style="width:160px">
                                     <span class="input-group-addon pointer" ng-click="change(-1, 'height')">-</span>
-                                    <input type="text" ng-model="clientData.height" class="form-control" required allow-only-numbers>
+                                    <input ng-model="clientData.height" class="form-control" required allow-only-numbers>
                                     <span class="input-group-addon pointer" ng-click="change(1, 'height')">+</span>
                                 </div>
                             </div>
@@ -65,7 +65,7 @@
                             <div class="col-sm-4">
                                 <div class="input-group" style="width:160px">
                                     <span class="input-group-addon pointer" ng-click="change(-1, 'weight')">-</span>
-                                    <input type="text" ng-model="clientData.weight" class="form-control" required allow-only-numbers>
+                                    <input ng-model="clientData.weight" class="form-control" required allow-only-numbers>
                                     <span class="input-group-addon pointer" ng-click="change(1, 'weight')">+</span>
                                 </div>
                             </div>
@@ -75,7 +75,7 @@
                             <div class="col-sm-4">
                                 <div class="input-group" style="width:160px">
                                     <span class="input-group-addon pointer" ng-click="change(-1, 'waist')">-</span>
-                                    <input type="text" ng-model="clientData.waist" class="form-control" allow-only-numbers>
+                                    <input ng-model="clientData.waist" class="form-control" allow-only-numbers>
                                     <span class="input-group-addon pointer" ng-click="change(1, 'waist')">+</span>
                                 </div>
                             </div>
@@ -85,7 +85,7 @@
                             <div class="col-sm-4">
                                 <div class="input-group" style="width:160px">
                                     <span class="input-group-addon pointer" ng-click="change(-1, 'hip')">-</span>
-                                    <input type="text" ng-model="clientData.hip" class="form-control" allow-only-numbers>
+                                    <input ng-model="clientData.hip" class="form-control" allow-only-numbers>
                                     <span class="input-group-addon pointer" ng-click="change(1, 'hip')">+</span>
                                 </div>
                             </div>
@@ -237,26 +237,22 @@
                         <td>{{getDateFormat(x.date) | date:'dd.MM.yyyy'}}</td>
                         <td>
                             <input type="text" ng-model="x.height" class="form-control" style="min-width:70px" allow-only-numbers>
-                            <!--<input ng-model="x.height" type="number" class="form-control" min="120" max="220" step="1" style="min-width:80px" />-->
                         </td>
                         <td style="max-width:180px">
                             <div class="input-group">
                                 <input type="text" ng-model="x.weight" class="form-control" style="min-width:70px" allow-only-numbers>
-                                <!--<input ng-model="x.weight" type="number" class="form-control" min="20" max="300" step="1" style="min-width:80px" />-->
                                 <span class="input-group-addon" style="min-width:70px"><i class="{{clientLogDiff('weight', clientLog, x, $index).icon}}"></i> {{clientLogDiff('weight', clientLog, x, $index).diff}}</span>
                             </div>
                         </td>
                         <td style="max-width:180px">
                             <div class="input-group">
                                 <input type="text" ng-model="x.waist" class="form-control" style="min-width:70px" allow-only-numbers>
-                                <!--<input ng-model="x.waist" type="number" class="form-control" min="80" max="220" step="1" style="min-width:80px" />-->
                                 <span class="input-group-addon" style="min-width:70px"><i class="{{clientLogDiff('waist', clientLog, x, $index).icon}}"></i> {{clientLogDiff('waist', clientLog, x, $index).diff}}</span>
                             </div>
                         </td>
                         <td style="max-width:180px">
                             <div class="input-group">
                                 <input type="text" ng-model="x.hip" class="form-control" style="min-width:70px" allow-only-numbers>
-                                <!--<input ng-model="x.hip" type="number" class="form-control" min="80" max="220" step="1" style="min-width:80px" />-->
                                 <span class="input-group-addon" style="min-width:70px"><i class="{{clientLogDiff('hip', clientLog, x, $index).icon}}"></i> {{clientLogDiff('hip', clientLog, x, $index).diff}}</span>
                             </div>
                         </td>

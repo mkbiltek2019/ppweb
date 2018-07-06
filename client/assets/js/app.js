@@ -130,9 +130,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
 
     //********** New *****************
-    //$scope.userId = 'c67066a9-f3c1-432d-88c4-7f6e3278f616';  //TODO
-    //$scope.clientId = 'b01ce6b4-c566-4e6f-8382-23d5bf635497';  //TODO
-
     var getClient = function () {
         $http({
             url: $sessionStorage.config.backend + 'Clients.asmx/Get',
@@ -145,7 +142,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         },
         function (response) {
             alert(response.data.d)
-          //  functions.alert($translate.instant(response.data.d), '');
         });
     }
 
@@ -163,7 +159,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         },
         function (response) {
             alert(response.data.d)
-          //  functions.alert($translate.instant(response.data.d), '');
         });
     }
 
@@ -244,6 +239,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
     $scope.displayType = 0;
     var getCalculation = function () {
+        if (isNaN($scope.clientData.weight) == true || isNaN($scope.clientData.height) == true || isNaN($scope.clientData.waist) == true || isNaN($scope.clientData.hip) == true) { return false; }
         $http({
             url: $sessionStorage.config.backend + 'Calculations.asmx/GetCalculation',
             method: "POST",
@@ -260,7 +256,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
     $scope.calculate = function () {
         getCalculation();
-       // $scope.bmi = ($scope.clientData.weight * 10000 / ($scope.clientData.height * $scope.clientData.height)).toFixed(1);
         getCharts();
 
     }
@@ -490,9 +485,48 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
 }])
 
-
-
-
 //-------------end Program Prehrane Controllers--------------------
+
+.directive('allowOnlyNumbers', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, elm, attrs, ctrl) {
+            elm.on('keydown', function (event) {
+                var $input = $(this);
+                var value = $input.val();
+                //value = value.replace(/[^0-9]/g, '')
+                value = value.replace(',', '.');
+                $input.val(value);
+                if (event.which == 64 || event.which == 16) {
+                    // to allow numbers  
+                    return false;
+                } else if (event.which >= 48 && event.which <= 57) {
+                    // to allow numbers  
+                    return true;
+                } else if (event.which >= 96 && event.which <= 105) {
+                    // to allow numpad number  
+                    return true;
+                } else if ([8, 13, 27, 37, 38, 39, 40].indexOf(event.which) > -1) {
+                    // to allow backspace, enter, escape, arrows  
+                    return true;
+                }
+                else if (event.which == 110 || event.which == 188 || event.which == 190) {
+                    // to allow ',' and '.'
+                    return true;
+                } else if (event.which == 46) {
+                    // to allow delete
+                    return true;
+                }
+                else {
+                    event.preventDefault();
+                    // to stop others  
+                    return false;
+                }
+            });
+        }
+    }
+});
+
+
 
 ;

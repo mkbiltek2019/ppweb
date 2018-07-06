@@ -14,7 +14,7 @@
                 </md-input-container>
                 <md-input-container>
                     <label>{{'quantity' | translate}}</label>
-                    <input ng-model="myFood.quantity" type="number" step="0.1" min="0.1" disabled="disabled" required>
+                    <input ng-model="myFood.quantity" disabled="disabled" allow-only-numbers required>
                 </md-input-container>
                 <md-input-container>
                     <label>{{'unit' | translate}}</label>
@@ -46,27 +46,27 @@
                         <div layout-gt-sm="row">
                             <md-input-container ng-if="myFood.foodGroup.code == 'C' || myFood.foodGroup.code == 'MF' || myFood.foodGroup.code == 'PM'">
                                 <label>{{'cereals' | translate}} {{'serv' | translate}}.</label>
-                                <input ng-model="myFood.servings.cerealsServ" type="number" step="0.1" min="0.1">
+                                <input ng-model="myFood.servings.cerealsServ" allow-only-numbers>
                             </md-input-container>
                             <md-input-container ng-if="myFood.foodGroup.code == 'V' || myFood.foodGroup.code == 'PM'">
                                 <label>{{'vegetables' | translate}} {{'serv' | translate}}.</label>
-                                <input ng-model="myFood.servings.vegetablesServ" type="number" step="0.1" min="0.1">
+                                <input ng-model="myFood.servings.vegetablesServ" allow-only-numbers>
                             </md-input-container>
                             <md-input-container ng-if="myFood.foodGroup.code == 'F' || myFood.foodGroup.code == 'PM'">
                                 <label>{{'fruit' | translate}} {{'serv' | translate}}.</label>
-                                <input ng-model="myFood.servings.fruitServ" type="number" step="0.1" min="0.1">
+                                <input ng-model="myFood.servings.fruitServ" allow-only-numbers>
                             </md-input-container>
                             <md-input-container ng-if="myFood.foodGroup.code == 'M'  || myFood.foodGroup.code == 'MF' || myFood.foodGroup.code == 'PM'">
                                 <label>{{'meat' | translate}} {{'serv' | translate}}.</label>
-                                <input ng-model="myFood.servings.meatServ" type="number" step="0.1" min="0.1">
+                                <input ng-model="myFood.servings.meatServ" allow-only-numbers>
                             </md-input-container>
                             <md-input-container ng-if="myFood.foodGroup.code == 'MI' || myFood.foodGroup.code == 'PM'">
                                 <label>{{'milk' | translate}} {{'serv' | translate}}.</label>
-                                <input ng-model="myFood.servings.milkServ" type="number" step="0.1" min="0.1">
+                                <input ng-model="myFood.servings.milkServ" allow-only-numbers>
                             </md-input-container>
                             <md-input-container ng-if="myFood.foodGroup.code == 'FA' || myFood.foodGroup.code == 'PM'">
                                 <label>{{'fats' | translate}} {{'serv' | translate}}.</label>
-                                <input ng-model="myFood.servings.fatsServ" type="number" step="0.1" min="0.1">
+                                <input ng-model="myFood.servings.fatsServ" allow-only-numbers>
                             </md-input-container>
                         </div>
                     </div>
@@ -91,23 +91,23 @@
                 <div layout-gt-sm="row">
                     <md-input-container>
                         <label>{{'mass' | translate}} (g)</label>
-                        <input ng-model="myFood.mass" type="number" step="0.1" min="0.1" required>
+                        <input ng-model="myFood.mass" allow-only-numbers required>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'energy' | translate}} (kcal)</label>
-                        <input ng-model="myFood.energy" type="number" step="0.1" min="0.1" required>
+                        <input ng-model="myFood.energy" allow-only-numbers required>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'carbohydrates' | translate}} (g)</label>
-                        <input ng-model="myFood.carbohydrates" type="number" step="0.1" min="0" required>
+                        <input ng-model="myFood.carbohydrates" allow-only-numbers required>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'proteins' | translate}} (g)</label>
-                        <input ng-model="myFood.proteins" type="number" step="0.1" min="0" required>
+                        <input ng-model="myFood.proteins" allow-only-numbers required>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'fats' | translate}} (g)</label>
-                        <input ng-model="myFood.fats" type="number" step="0.1" min="0" required>
+                        <input ng-model="myFood.fats" allow-only-numbers required>
                     </md-input-container>
                 </div>
             </div>
@@ -120,171 +120,171 @@
                 <div layout-gt-sm="row">
                     <md-input-container>
                         <label>{{'starch' | translate}} (g)</label>
-                        <input ng-model="myFood.starch" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.starch" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'total sugar' | translate}} (g)</label>
-                        <input ng-model="myFood.totalSugar" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.totalSugar" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'glucose' | translate}} (g)</label>
-                        <input ng-model="myFood.glucose" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.glucose" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'fructose' | translate}} (g)</label>
-                        <input ng-model="myFood.fructose" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.fructose" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'saccharose' | translate}} (g)</label>
-                        <input ng-model="myFood.saccharose" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.saccharose" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'maltose' | translate}} (g)</label>
-                        <input ng-model="myFood.maltose" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.maltose" allow-only-numbers>
                     </md-input-container>
                 </div>
                 <div layout-gt-sm="row">
                     <md-input-container>
                         <label>{{'lactose' | translate}} (g)</label>
-                        <input ng-model="myFood.lactose" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.lactose" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'fibers' | translate}} (g)</label>
-                        <input ng-model="myFood.fibers" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.fibers" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'saturated fats' | translate}} (g)</label>
-                        <input ng-model="myFood.saturatedFats" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.saturatedFats" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'mono u/f' | translate}} (g)</label>
-                        <input ng-model="myFood.monounsaturatedFats" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.monounsaturatedFats" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'poly u/f' | translate}} (g)</label>
-                        <input ng-model="myFood.polyunsaturatedFats" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.polyunsaturatedFats" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'trifluoroacetic acid' | translate}} (g)</label>
-                        <input ng-model="myFood.trifluoroaceticAcid" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.trifluoroaceticAcid" allow-only-numbers>
                     </md-input-container>
                 </div>
                 <div layout-gt-sm="row">
                     <md-input-container>
                         <label>{{'cholesterol' | translate}} (mg)</label>
-                        <input ng-model="myFood.cholesterol" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.cholesterol" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'sodium' | translate}} (mg)</label>
-                        <input ng-model="myFood.sodium" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.sodium" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'potassium' | translate}} (mg)</label>
-                        <input ng-model="myFood.potassium" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.potassium" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'calcium' | translate}} (mg)</label>
-                        <input ng-model="myFood.calcium" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.calcium" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'magnesium' | translate}} (mg)</label>
-                        <input ng-model="myFood.magnesium" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.magnesium" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'phosphorus' | translate}} (mg)</label>
-                        <input ng-model="myFood.phosphorus" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.phosphorus" allow-only-numbers>
                     </md-input-container>
                 </div>
                 <div layout-gt-sm="row">
                     <md-input-container>
                         <label>{{'iron' | translate}} (mg)</label>
-                        <input ng-model="myFood.iron" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.iron" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'copper' | translate}} (mg)</label>
-                        <input ng-model="myFood.copper" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.copper" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'zinc' | translate}} (mg)</label>
-                        <input ng-model="myFood.zinc" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.zinc" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'chlorine' | translate}} (mg)</label>
-                        <input ng-model="myFood.chlorine" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.chlorine" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'manganese' | translate}} (mg)</label>
-                        <input ng-model="myFood.manganese" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.manganese" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'selenium' | translate}} (<span>&#181;</span>g)</label>
-                        <input ng-model="myFood.selenium" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.selenium" allow-only-numbers>
                     </md-input-container>
                 </div>
                 <div layout-gt-sm="row">
                     <md-input-container>
                         <label>{{'iodine' | translate}} (<span>&#181;</span>g)</label>
-                        <input ng-model="myFood.iodine" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.iodine" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'retinol' | translate}} (<span>&#181;</span>g)</label>
-                        <input ng-model="myFood.retinol" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.retinol" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'carotene' | translate}} (<span>&#181;</span>g)</label>
-                        <input ng-model="myFood.carotene" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.carotene" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'vitamin D' | translate}} (<span>&#181;</span>g)</label>
-                        <input ng-model="myFood.vitaminD" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.vitaminD" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'vitamin E' | translate}} (mg)</label>
-                        <input ng-model="myFood.vitaminE" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.vitaminE" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'vitamin B1' | translate}} (mg)</label>
-                        <input ng-model="myFood.vitaminB1" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.vitaminB1" allow-only-numbers>
                     </md-input-container>
                 </div>
                 <div layout-gt-sm="row">
                     <md-input-container>
                         <label>{{'vitamin B2' | translate}} (mg)</label>
-                        <input ng-model="myFood.vitaminB2" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.vitaminB2" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'vitamin B3' | translate}} (mg)</label>
-                        <input ng-model="myFood.vitaminB3" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.vitaminB3" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'vitamin B6' | translate}} (mg)</label>
-                        <input ng-model="myFood.vitaminB6" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.vitaminB6" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'vitamin B12' | translate}} (<span>&#181;</span>g)</label>
-                        <input ng-model="myFood.vitaminB12" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.vitaminB12" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'folate' | translate}} (<span>&#181;</span>g)</label>
-                        <input ng-model="myFood.folate" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.folate" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'pantothenic acid' | translate}} (mg)</label>
-                        <input ng-model="myFood.pantothenicAcid" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.pantothenicAcid" allow-only-numbers>
                     </md-input-container>
                 </div>
                 <div layout-gt-sm="row">
                     <md-input-container>
                         <label>{{'biotin' | translate}} (mg)</label>
-                        <input ng-model="myFood.biotin" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.biotin" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'vitamin C' | translate}} (mg)</label>
-                        <input ng-model="myFood.vitaminC" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.vitaminC" allow-only-numbers>
                     </md-input-container>
                     <md-input-container>
                         <label>{{'vitamin k' | translate}} (<span>&#181;</span>g)</label>
-                        <input ng-model="myFood.vitaminK" type="number" step="0.1" min="0">
+                        <input ng-model="myFood.vitaminK" allow-only-numbers>
                     </md-input-container>
                 </div>
             </div>

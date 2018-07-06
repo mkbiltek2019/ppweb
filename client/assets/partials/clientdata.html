@@ -58,7 +58,7 @@
                     <div class="col-sm-6">
                         <div class="input-group" style="width:160px; border:solid 2px green; border-radius:5px">
                             <span class="input-group-addon pointer" ng-click="change(-1, 'weight')">-</span>
-                            <input type="number" ng-model="clientData.weight" ng-change="calculate()" class="form-control input-lg" min="20" max="300" step="1" required>
+                            <input ng-model="clientData.weight" class="form-control input-lg" ng-change="calculate()" allow-only-numbers required>
                             <span class="input-group-addon pointer" ng-click="change(1, 'weight')">+</span>
                         </div>
                     </div>
@@ -70,7 +70,7 @@
                         <div class="col-sm-6">
                             <div class="input-group" style="width:160px">
                                 <span class="input-group-addon pointer" ng-click="change(-1, 'height')">-</span>
-                                <input type="number" ng-model="clientData.height" class="form-control" min="120" max="220" step="1" required>
+                                <input ng-model="clientData.height" class="form-control" ng-change="calculate()" allow-only-numbers required>
                                 <span class="input-group-addon pointer" ng-click="change(1, 'height')">+</span>
                             </div>
                         </div>
@@ -80,7 +80,7 @@
                         <div class="col-sm-6">
                             <div class="input-group" style="width:160px">
                                 <span class="input-group-addon pointer" ng-click="change(-1, 'waist')">-</span>
-                                <input type="number" ng-model="clientData.waist" class="form-control" min="80" max="220" step="1">
+                                <input ng-model="clientData.waist" class="form-control" ng-change="calculate()" allow-only-numbers>
                                 <span class="input-group-addon pointer" ng-click="change(1, 'waist')">+</span>
                             </div>
                         </div>
@@ -90,7 +90,7 @@
                         <div class="col-sm-6">
                             <div class="input-group" style="width:160px">
                                 <span class="input-group-addon pointer" ng-click="change(-1, 'hip')">-</span>
-                                <input type="number" ng-model="clientData.hip" class="form-control" min="80" max="220" step="1">
+                                <input ng-model="clientData.hip" class="form-control" ng-change="calculate()" allow-only-numbers>
                                 <span class="input-group-addon pointer" ng-click="change(1, 'hip')">+</span>
                             </div>
                         </div>
@@ -156,23 +156,23 @@
                         <td>{{clientLog.length - $index}}</td>
                         <td>{{getDateFormat(x.date) | date:'dd.MM.yyyy'}}</td>
                         <td style="min-width:100px">
-                            <input ng-model="x.height" type="number" class="form-control" min="120" max="220" step="0.1" style="min-width:80px" />
+                            <input ng-model="x.height" class="form-control" style="min-width:80px" allow-only-numbers />
                         </td>
                         <td style="max-width:180px">
                             <div class="input-group">
-                                <input ng-model="x.weight" type="number" class="form-control" min="20" max="300" step="0.1" style="min-width:80px" />
+                                <input ng-model="x.weight" class="form-control" style="min-width:80px" allow-only-numbers />
                                 <span class="input-group-addon" style="min-width:70px"><i class="{{clientLogDiff('weight', clientLog, x, $index).icon}}"></i> {{clientLogDiff('weight', clientLog, x, $index).diff}}</span>
                             </div>
                         </td>
                         <td style="max-width:180px">
                             <div class="input-group">
-                                <input ng-model="x.waist" type="number" class="form-control" min="80" max="220" step="0.1" style="min-width:80px" />
+                                <input ng-model="x.waist" class="form-control" style="min-width:80px" allow-only-numbers />
                                 <span class="input-group-addon" style="min-width:70px"><i class="{{clientLogDiff('waist', clientLog, x, $index).icon}}"></i> {{clientLogDiff('waist', clientLog, x, $index).diff}}</span>
                             </div>
                         </td>
                         <td style="max-width:180px">
                             <div class="input-group">
-                                <input ng-model="x.hip" type="number" class="form-control" min="80" max="220" step="0.1" style="min-width:80px" />
+                                <input ng-model="x.hip" class="form-control" style="min-width:80px" allow-only-numbers />
                                 <span class="input-group-addon" style="min-width:70px"><i class="{{clientLogDiff('hip', clientLog, x, $index).icon}}"></i> {{clientLogDiff('hip', clientLog, x, $index).diff}}</span>
                             </div>
                         </td>

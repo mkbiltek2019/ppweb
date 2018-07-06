@@ -2237,8 +2237,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.toggleAnalytics('chartsTpl');
 
     $scope.changeQuantity = function (x, type, idx) {
-        if (isNaN(x.quantity) == true) { return false; }
-        if (x.quantity > 0) {
+        if (x.quantity > 0 && isNaN(x.quantity) == false) {
             $timeout(function () {
                 $http({
                     url: $sessionStorage.config.backend + webService + '/ChangeFoodQuantity',
@@ -2384,8 +2383,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         $scope.changeQuantity = function (x, type) {
-            if (isNaN(x.quantity) == true) { return false; }
-            if (x.quantity > 0) {
+            if (x.quantity > 0 && isNaN(x.quantity) == false) {
                 var currentFood = $scope.food.food;  // << in case where user change food title
                 $timeout(function () {
                     $http({
@@ -5139,8 +5137,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 //-------------end Program Prehrane Controllers--------------------
 
-
-//TODO
 .directive('allowOnlyNumbers', function () {
     return {
         restrict: 'A',
