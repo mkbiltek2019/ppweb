@@ -2237,6 +2237,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.toggleAnalytics('chartsTpl');
 
     $scope.changeQuantity = function (x, type, idx) {
+        if (isNaN(x.quantity) == true) { return false; }
         if (x.quantity > 0) {
             $timeout(function () {
                 $http({
@@ -2249,7 +2250,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     getTotals($rootScope.currentMenu);
                 },
                 function (response) {
-                    alert(response.data.d)
+                    //alert(response.data.d)
                 });
             }, 1000);
         }
@@ -2383,6 +2384,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         $scope.changeQuantity = function (x, type) {
+            if (isNaN(x.quantity) == true) { return false; }
             if (x.quantity > 0) {
                 var currentFood = $scope.food.food;  // << in case where user change food title
                 $timeout(function () {
@@ -5162,11 +5164,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     // to allow backspace, enter, escape, arrows  
                     return true;
                 }
-                else if (event.which == 110 || event.which == 190) {
+                else if (event.which == 110 || event.which == 188 || event.which == 190) {
                     // to allow ',' and '.'
                     return true;
-               
-                } else {
+                } else if (event.which == 46) {
+                    // to allow delete
+                    return true;
+                }
+                else {
                     event.preventDefault();
                     // to stop others  
                     return false;

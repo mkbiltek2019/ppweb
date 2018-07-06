@@ -14,7 +14,8 @@
                     <div class="col-sm-3">
                         <div class="input-group">
                             <span class="input-group-addon">{{'duration' | translate}}</span>
-                            <input ng-model="duration" class="form-control" type="number" step="1" min="0" style="min-width:80px">
+                            <input type="text" ng-model="duration" class="form-control" style="min-width:80px" allow-only-numbers>
+                            <!--<input ng-model="duration" class="form-control" type="number" step="1" min="0" style="min-width:80px">-->
                             <span class="input-group-addon">{{'min' | translate}}</span>
                         </div>
                     </div>

@@ -57,7 +57,8 @@
                                             <td class="borderNone text-right" style="min-width:140px">
                                                 <div class="input-group">
                                                     <span class="input-group-addon pointer" ng-click="change(-1, 'quantity', currentMenu.data.selectedFoods.indexOf(x))">-</span>
-                                                    <input ng-model="x.quantity" type="number" class="form-control" min="0.1" step="0.1" ng-change="changeQuantity(x, 'quantity', currentMenu.data.selectedFoods.indexOf(x))" />
+                                                    <input type="text" ng-model="x.quantity" class="form-control" ng-change="changeQuantity(x, 'quantity', currentMenu.data.selectedFoods.indexOf(x))" allow-only-numbers>
+                                                    <!--<input ng-model="x.quantity" type="number" class="form-control" min="0.1" step="0.1" ng-change="changeQuantity(x, 'quantity', currentMenu.data.selectedFoods.indexOf(x))" />-->
                                                     <span class="input-group-addon pointer" ng-click="change(1, 'quantity', currentMenu.data.selectedFoods.indexOf(x))">+</span>
                                                 </div>
                                             </td>
@@ -65,7 +66,8 @@
                                             <td class="borderNone text-right" style="min-width:160px">
                                                 <div class="input-group">
                                                     <span class="input-group-addon pointer" ng-click="change(-1, 'mass', currentMenu.data.selectedFoods.indexOf(x))">-</span>
-                                                    <input ng-model="x.mass" type="number" class="form-control" min="0.1" step="0.1" ng-change="changeQuantity(x, 'mass', currentMenu.data.selectedFoods.indexOf(x))" />
+                                                    <input type="text" ng-model="x.mass" class="form-control" ng-change="changeQuantity(x, 'mass', currentMenu.data.selectedFoods.indexOf(x))" allow-only-numbers>
+                                                    <!--<input ng-model="x.mass" type="number" class="form-control" min="0.1" step="0.1" ng-change="changeQuantity(x, 'mass', currentMenu.data.selectedFoods.indexOf(x))" />-->
                                                     <span class="input-group-addon pointer" ng-click="change(1, 'mass', currentMenu.data.selectedFoods.indexOf(x))">+</span>
                                                 </div>
                                             </td>
