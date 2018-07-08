@@ -132,10 +132,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         .then(function (response) {
             var data = JSON.parse(response.data.d);
             $rootScope.foods = data.foods;
-
-            //angular.forEach($rootScope.foods, function (value, key) {
-            //    $rootScope.foods[key].food = $translate.instant($rootScope.foods[key].food).replace('&gt;', '<').replace('&lt;', '>');
-            //})
             $rootScope.myFoods = data.myFoods;
             $rootScope.foodGroups = data.foodGroups;
             $rootScope.loading = false;
@@ -297,9 +293,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var saveClientData = function (x) {
-        //angular.forEach(x.meals, function (value, key) {
-        //    x.meals[key].title = $translate.instant(value.title);
-        //})
         x.userId = $rootScope.user.userId;
         x.clientId = x.clientId == null ? $rootScope.client.clientId : x.clientId;
         $http({
@@ -447,7 +440,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
          var forgotPassword = function (x) {
              $http({
-                 url: $sessionStorage.config.backend + webService + '/ForgotPassword', // '../Users.asmx/Init',
+                 url: $sessionStorage.config.backend + webService + '/ForgotPassword',
                  method: "POST",
                  data: { email: x }
              })
@@ -764,9 +757,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
       .then(function (response) {
           $scope.users = JSON.parse(response.data.d);
-        //  angular.forEach($scope.users, function (x, key) {
-          //    x.expirationDate = $rootScope.user.expirationDate;
-       //   });
       },
       function (response) {
           functions.alert($translate.instant(response.data.d));
@@ -864,7 +854,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         .then(function (response) {
             load();
             functions.alert($translate.instant(response.data.d));
-           // functions.alert($translate.instant('registration completed successfully'), '');
         },
         function (response) {
             functions.alert($translate.instant(response.data.d));
@@ -981,12 +970,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             functions.alert($translate.instant(response.data.d), '');
         });
     }
-
-    //if ($rootScope.clientData == undefined || null) {
-    //    if ($rootScope.client != undefined) {
-    //        init($rootScope.client);
-    //    }
-    //}
 
     var initClient = function () {
         $http({
@@ -1325,13 +1308,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             $rootScope.calculation = JSON.parse(response.data.d);
-            //$rootScope.appCalculation = JSON.parse(response.data.d);
-            //if ($rootScope.clientData.goal.code == undefined || $rootScope.clientData.goal.code == null || $rootScope.clientData.goal.code == 0) {
-            //    $rootScope.clientData.goal.code = $rootScope.calculation.goal.code;
-            //}
-
-            //getCharts();
-            //getGoals();
             setClientLogGraphData($scope.displayType);
         },
         function (response) {
