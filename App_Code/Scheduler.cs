@@ -103,7 +103,7 @@ public class Scheduler : System.Web.Services.WebService {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userGroupId, dataBase));
             connection.Open();
-            string sql = string.Format(@"DELETE FROM scheduler WHERE content = '{0}' AND startDate = '{1}' AND endDate = '{2}' AND room = '{3}' AND userId = '{4}'", x.content, x.startDate, x.endDate, x.room, x.userId);
+            string sql = string.Format(@"DELETE FROM scheduler WHERE content = '{0}' AND startDate = '{1}' AND room = '{2}' AND userId = '{3}'", x.content, x.startDate, x.room, x.userId);
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             command.ExecuteNonQuery();
             connection.Close();
