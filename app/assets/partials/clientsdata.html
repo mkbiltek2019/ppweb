@@ -32,6 +32,7 @@
 </div>
 
 <div ng-if="config.debug" class="bg-info">
+    standard: <pre>{{standard | json}}</pre>
     pal: <pre>{{pal}}</pre>
     client:
     <pre>{{client | json}}</pre>
@@ -44,13 +45,13 @@
         <div class="row">
             <div class="col-sm-4">
                 <md-input-container class="md-block" flex-gt-sm>
-                    <label>{{'measurement date' | translate}}</label>
+                    <label class="text-capitalize">{{'measurement date' | translate}}</label>
                     <md-datepicker ng-model="clientData.date" md-open-on-focus ng-required="true"></md-datepicker>
                 </md-input-container>
             </div>
-            <div ng-if="config.language=='en'" class="col-sm-8">
-                <fieldset>
-                    <legelnd>{{'units' | translate}}</legelnd>
+            <div ng-if="config.language=='en'" class="col-sm-4">
+                <fieldset class="scheduler-border">
+                    <legend class="scheduler-border text-capitalize">{{'units' | translate}}:</legend>
                     <md-radio-group ng-model="unitSystem" layout="row" flex-gt-sm ng-click="changeUnitSystem(unitSystem)">
                         <md-radio-button value="0" class="md-primary text-capitalize">{{'standard' | translate}}</md-radio-button>
                         <md-radio-button value="1" class="md-primary text-capitalize">{{'metric' | translate}}</md-radio-button>
@@ -121,7 +122,7 @@
                             <td class="p5">
                                 <div class="input-group">
                                     <select ng-model="standard.height_feet" class="form-control" ng-click="convertToMetricSystem(standard)" style="width:70px">
-                                        <option ng-repeat="x in populateDdl(4,7)">{{x}}</option>
+                                        <option ng-repeat="x in populateDdl(4,7)" ng-selected="x==standard.height_feet?true:false" ng-value="x">{{x}}</option>
                                     </select>
                                     <span class="input-group-addon" style="width:70px">{{'foot' | translate}}</span>
                                 </div>
@@ -129,7 +130,7 @@
                             <td class="p5">
                                 <div class="input-group">
                                     <select ng-model="standard.height_inches" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:70px">
-                                        <option ng-repeat="x in populateDdl(0,11)">{{x}}</option>
+                                        <option ng-repeat="x in populateDdl(0,11)" ng-selected="x==standard.height_inches?true:false" ng-value="x">{{x}}</option>
                                     </select>
                                     <span class="input-group-addon" style="width:70px">{{'inches' | translate}}</span>
                                 </div>
@@ -140,7 +141,7 @@
                             <td class="p5" colspan="2">
                                 <div class="input-group">
                                     <select ng-model="standard.weight" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:70px">
-                                        <option ng-repeat="x in populateDdl(150,220)">{{x}}</option>
+                                        <option ng-repeat="x in populateDdl(150,220)" ng-selected="x==standard.weight?true:false" ng-value="x">{{x}}</option>
                                     </select>
                                     <span class="input-group-addon" style="width:70px">{{'pounds' | translate}}</span>
                                 </div>
@@ -151,7 +152,7 @@
                             <td class="p5" colspan="2">
                                 <div class="input-group">
                                     <select ng-model="standard.waist" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:70px">
-                                        <option ng-repeat="x in populateDdl(23,51)">{{x}}</option>
+                                        <option ng-repeat="x in populateDdl(23,51)" ng-selected="x==standard.waist?true:false" ng-value="x">{{x}}</option>
                                     </select>
                                     <span class="input-group-addon" style="width:70px">{{'inches' | translate}}</span>
                                 </div>
@@ -162,7 +163,7 @@
                             <td class="p5" colspan="2">
                                 <div class="input-group">
                                     <select ng-model="standard.hip" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:70px">
-                                        <option ng-repeat="x in populateDdl(35,50)">{{x}}</option>
+                                        <option ng-repeat="x in populateDdl(35,50)" ng-selected="x==standard.hip?true:false" ng-value="x">{{x}}</option>
                                     </select>
                                     <span class="input-group-addon" style="width:70px">{{'inches' | translate}}</span>
                                 </div>

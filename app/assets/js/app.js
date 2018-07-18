@@ -84,11 +84,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                       $rootScope.setLanguage(queryLang);
                   }
               }
-              if (response.data.language == 'en') {
-                  $rootScope.unitSystem = 0;
-              } else {
-                  $rootScope.unitSystem = 1;
-              }
               if ($sessionStorage.islogin == true) { $rootScope.loadData(); }
           });
     };
@@ -241,7 +236,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.toggleNewTpl = function (x) {
         if ($rootScope.clientData != undefined) {
-
             if (x == 'menu' && $rootScope.clientData.meals.length > 0) {
                 if ($rootScope.clientData.meals[1].isSelected == false && $rootScope.clientData.meals[5].isSelected == true) {
                     $rootScope.newTpl = './assets/partials/meals.html';
@@ -254,9 +248,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     return false;
                 }
             }
-
             $rootScope.saveClientData($rootScope.clientData);
-
         }
         $rootScope.newTpl = './assets/partials/' + x + '.html';
         $rootScope.selectedNavItem = x;
@@ -277,10 +269,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $sessionStorage.islogin = false;
         $sessionStorage.usergroupid = null;
         $rootScope.mainMessage = null;
-
         $rootScope.currTpl = 'assets/partials/login.html';
     }
-
 
     $rootScope.saveClientData = function (x) {
         if ($rootScope.clientData.meals.length > 0) {
@@ -339,6 +329,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.changeUnitSystem = function (x) {
         $rootScope.unitSystem = x;
+        $rootScope.convertToStandardSystem();
     }
 
     $scope.standard = {
@@ -348,6 +339,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         waist: 0,
         hip: 0
     }
+
     $scope.convertToMetricSystem = function (x) {
         $rootScope.clientData.height = (x.height_feet * 30.48 + x.height_inches * 2.54).toFixed(1);
         $rootScope.clientData.weight = (x.weight * 0.45349237).toFixed(1);
@@ -359,6 +351,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         Hip_cm.Text = Format(Hip_inches * 2.54, "0")  'opseg bokova cm */
     }
 
+    $rootScope.convertToStandardSystem = function () {
+        // $scope.standard.height_feet = cd. //TODO
+        // $scope.standard.height_inches = cd. //TODO
+        $scope.standard.weight = ($rootScope.clientData.weight / 0.45349237).toFixed(0);
+        $scope.standard.waist = ($rootScope.clientData.waist / 2.54).toFixed(0);
+        $scope.standard.hip = ($rootScope.clientData.hip / 2.54).toFixed(0);
+    }
+
     $scope.populateDdl = function (from, to) {
         var list = [];
         for (var i = from; i <= to; i++) {
@@ -366,7 +366,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
         return list;
     }
-
 
 }])
 
@@ -429,6 +428,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     if ($rootScope.user.licenceStatus == 'demo') {
                         $rootScope.mainMessage = $translate.instant('you are currently working in a demo version') + '. ' + $translate.instant('some functions are disabled') + '.';
                         $rootScope.mainMessageBtn = $translate.instant('activate full version');
+                    }
+                    if ($rootScope.config.language == 'en') {
+                        $rootScope.unitSystem = 0;
+                    } else {
+                        $rootScope.unitSystem = 1;
                     }
                 }
 
@@ -1238,7 +1242,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                alert(response.data.d)
            });
         }
-
     }
 
     $scope.get = function (x) {
@@ -1253,6 +1256,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 $rootScope.clientData.date = new Date(new Date().setHours(0, 0, 0, 0));
                 $scope.getPalDetails($rootScope.clientData.pal.value);
                 getCalculation();
+                if ($rootScope.unitSystem == 0 && $rootScope.config.language == 'en') {
+                    $rootScope.convertToStandardSystem();
+                }
             } else {
                 init(x);
             }
@@ -2574,6 +2580,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             sel.removeAllRanges();
             sel.addRange(range);
             document.execCommand('copy');
+        }
+
+        $scope.getMealTitle = function (x) {
+            return $rootScope.getMealTitle(x);
         }
 
         //$scope.print = function () {
