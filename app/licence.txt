@@ -1,9 +1,9 @@
 ﻿**************** KORISNIČKA LICENCA ****************
 
-KORISNIČKA LICENCA definira prava KORISNIKA koja se odnose na upotrebu WEB APLIKACIJE PROGRAM PREHRANE WEB (https://www.programprehrane.com/app), ćiji je nositelj autorskih prava IG PROG, obrt za računalno programiranje, vl. Igor Gašparović (VLASNIK).
+KORISNIČKA LICENCA definira prava KORISNIKA koja se odnose na upotrebu WEB APLIKACIJE PROGRAM PREHRANE WEB (https://www.programprehrane.com/app), čiji je nositelj autorskih prava IG PROG, obrt za računalno programiranje, vl. Igor Gašparović (VLASNIK).
 Predmetna licenca nije ekskluzivna, odnosno KORISNIKU daje samo točno definirana prava, ovdje opisana.
 PROGRAM PREHRANE WEB je WEB APLIKACIJA za izradu uravnoteženih jelovnika i plana tjelesne aktivnosti.
-Registracijom i uporabom WEB APLIKACIJE KORISNIK se obvezuje poštivati odredbe koje određuje KORISNIČKA LICENCA. PROGRAM PREHRANE WEB je kao autorski rad s podrućja intelektualnog vlasništva zaštićn Zakonom o zaštiti autorskih prava i međunarodnim ugovorima o autorskim pravima, te Kaznenim zakonom RH.
+Registracijom i uporabom WEB APLIKACIJE KORISNIK se obvezuje poštivati odredbe koje određuje KORISNIČKA LICENCA. PROGRAM PREHRANE WEB je kao autorski rad s područja intelektualnog vlasništva zaštićen Zakonom o zaštiti autorskih prava i međunarodnim ugovorima o autorskim pravima, te Kaznenim zakonom RH.
 WEB APLIKACIJA PROGRAM PREHRANE WEB se ne prodaje, već se licencira.
 
     
@@ -13,20 +13,20 @@ Ova KORISNIČKA LICENCA vam daje slijedeća prava:
                 
 Pravo korištenja
 
-KORISNIK ima pravo KORISTITI APLIKACIJU na proizvoljnom broju raćunala, s time da WEB APLIKACIJU može istovremeno UPOTREBLJAVATI onoliko KORISNIKA, za koliko ima pridobivenih licenci.
-Korisnik nema pravo prijenosa prava iz i u svezi ovog ugovora na treće osobe, kao što nema pravo odustati ili prenijeti taj ugovor, djelomićno ili u cijelosti, na treće osobe, ili im ustupiti pravo korištenja predmeta licence (podlicenca).
+KORISNIK ima pravo KORISTITI APLIKACIJU na proizvoljnom broju računala, s time da WEB APLIKACIJU može istovremeno UPOTREBLJAVATI onoliko KORISNIKA, za koliko ima pridobivenih licenci.
+Korisnik nema pravo prijenosa prava iz i u svezi ovog ugovora na treće osobe, kao što nema pravo odustati ili prenijeti taj ugovor, djelomično ili u cijelosti, na treće osobe, ili im ustupiti pravo korištenja predmeta licence (podlicenca).
 
 Pravo na podršku
 
 Kao korisnik imate pravo na podršku, koju vrši sam VLASNIK ili preko ovlaštenih osoba. Za podršku, VLASNIK ili ovlaštena osoba imaju pravo na povrat troškova nastalih pružanjem iste, a visina kojih je određena važečim cjenikom.
-Podatke, koje VLASNIK ili ovlaštena osoba prime u okviru podrške, VLASNIK može upotrebljavati za svoje poslovne svrhe, vezano na podršku, dijagnostiku ili daljnji razvoj. VLASNIK ili ovlaštena osoba neće upotrebljavati te podatke na naćin, koji bi identificirao korisnika.
+Podatke, koje VLASNIK ili ovlaštena osoba prime u okviru podrške, VLASNIK može upotrebljavati za svoje poslovne svrhe, vezano na podršku, dijagnostiku ili daljnji razvoj. VLASNIK ili ovlaštena osoba neće upotrebljavati te podatke na način, koji bi identificirao korisnika.
 
 Pravo na otklanjanje GREŠAKA
 
-GREŠKA u programskom kodu je samo ono ponašanje WEB APLIKACIJE, koje je u suprotnosti s naćinom djelovanja, opisanim u uputstvima za upotrebu.
-U slućaju otkrića GREŠKE u WEB APLIKACIJI, VLASNIK ju je dužan otkloniti.
+GREŠKA u programskom kodu je samo ono ponašanje WEB APLIKACIJE, koje je u suprotnosti s načinom djelovanja, opisanim u uputstvima za upotrebu.
+U slučaju otkrića GREŠKE u WEB APLIKACIJI, VLASNIK ju je dužan otkloniti.
 Otklanjanje grešaka je uređeno AUTOMATSKIM OSVJEŽAVANJEM.
-U slućaju da VLASNIK ne otkloni GREŠKU i ako ista u znatnoj mjeri utjeće na funkcionalnost APLIKACIJE, KORISNIK može zahtijevati raskid UGOVORA i plaćanje ODŠTETE.
+U slučaju da VLASNIK ne otkloni GREŠKU i ako ista u znatnoj mjeri utječe na funkcionalnost APLIKACIJE, KORISNIK može zahtijevati raskid UGOVORA i plaćanje ODŠTETE.
 
     
 Dodatne odredbe
@@ -38,7 +38,7 @@ VLASNIK nikada neće dijeliti vaše podatke sa trećom stranom. VLASNIK može ko
 Vaše podatke sigurno spremamo u našu bazu podataka te koristimo sve dostupne tehnologije kako bi vaši podaci ostali sačuvani.
 Kupac ima pravo da u svakom trenutku zatraži prestanak obrade svojih korisničkih podataka od strane VLASNIK-a.
 VLASNIK će zatim u cijelosti prestati sa obradom korisničkih podataka i ukloniti korisnika iz baze podataka.
-KORINIK može na vlastiti zahtjev zatražiti brisanje svojih osobnih podataka iz baze VLASNIK-a trgovine putem naših web stranica, telefonskim putem ili putem e-maila.
+KORISNIK može na vlastiti zahtjev zatražiti brisanje svojih osobnih podataka iz baze VLASNIK-a trgovine putem naših web stranica, telefonskim putem ili putem e-maila.
 Prilikom registracije na www.programprehrane.com biti ćete dužni kreirati lozinku koju morate zadržati samo za sebe i ne dijeliti je s drugim osobama.
 Preporučujemo da koristite jedinstvenu lozinku za pristup našem sustavu. Ako znate ili sumnjate da još netko zna Vašu lozinku, ljubazno Vas molimo da nas kontaktirate putem e-maila program.prehrane@yahoo.com, a kako bismo Vam dali upute za izmjenu Vaše lozinke.
 Ukoliko postoji bilo kakva sumnja da postoji propust u sigurnosti, VLASNIK ima pravo od Vas tražiti da promijenite lozinku ili može blokirati Vaš korisnički račun. Sve stranice i podstranice programprehrane.com na kojima se vrši razmjena povjerljivih podataka (lozinka, plaćanje putem interneta..) zaštićene su uporabom SSL sigurnosnog protokola.
@@ -60,7 +60,7 @@ Autorska prava
 Sva autorska prava pripadaju VLASNIKU.
 Zbog toga, korisnik se prema WEB APLIKACIJI mora odnositi kao prema svakom drugom autorskim pravima zaštićenom materijalu, s jedinom iznimkom, da može upotrebljavati WEB APLIKACIJU na onoliko uređaja, koliko ima pridobivenih licenci.
 KORISNIK ne smije kopirati tiskanu dokumentaciju koja prati ili je dio WEB APLIKACIJE ili dijelove izvornog KOD-a bez pisanog odobrenja VLASNIKA.
-U slućaju da treča osoba prisvaja bilo kakva autorska prava nad WEB APLIKACIJOM, odnosno KORISNIKU onemogučava mirno korištenje licence, KORISNIK o tome mora neodgodivo obavijestiti VLASNIKA i zahtijevati od njega da mu u primjerenom roku omogući mirno korištenje licence.
+U slučaju da treća osoba prisvaja bilo kakva autorska prava nad WEB APLIKACIJOM, odnosno KORISNIKU onemogućava mirno korištenje licence, KORISNIK o tome mora neodgodivo obavijestiti VLASNIKA i zahtijevati od njega da mu u primjerenom roku omogući mirno korištenje licence.
 To pravo se ukida nakon jedne godine od dana kada je saznao za prava treće osobe.
 
 
@@ -68,13 +68,13 @@ Ograničena garancija
 
 VLASNIK jamči da:
 
-WEB APLIKACIJA djeluje u okviru specifikacija i namjene programa, na naćin koji je sa strane VLASNIKA opisan u uputstvima za upotrebu, U slučaju otkrića GREŠKE, računa se da je VLASNIK omogućio njeno otklanjanje samim omogućavanjem besplatnog osvježavanja.
+WEB APLIKACIJA djeluje u okviru specifikacija i namjene programa, na način koji je sa strane VLASNIKA opisan u uputstvima za upotrebu, U slučaju otkrića GREŠKE, računa se da je VLASNIK omogućio njeno otklanjanje samim omogućavanjem besplatnog osvježavanja.
 
 Ograničenje i isključenje odgovornosti, NAKNADA ŠTETE
 
-VLASNIKOVA cjelokupna odgovornost i korisnikovo jedino pravo na NAKNADU ŠTETE je da u slućaju iz »Ogranićene garancije« po prosudbi VLASNIKA:
+VLASNIKOVA cjelokupna odgovornost i korisnikovo jedino pravo na NAKNADU ŠTETE je da u slučaju iz »Ograničene garancije« po prosudbi VLASNIKA:
 VLASNIK ne može popraviti RAČUNALNI PROGRAM nakon što ju je KORISNIK reklamirao VLASNIKU
-Odštetni zahtjev nema osnove ako je do greške, koja je dovela do uvažavanja »Ogranićene garancije« došlo zbog nesreće, zloupotrebe, pogrešne upotrebe ili više sile, na što VLASNIK nije imao utjecaja.
+Odštetni zahtjev nema osnove ako je do greške, koja je dovela do uvažavanja »Ograničene garancije« došlo zbog nesreće, zloupotrebe, pogrešne upotrebe ili više sile, na što VLASNIK nije imao utjecaja.
 IZNOS NAKANADE ŠTETE ne može biti viši od vrijednosti kupljene licence.
 
 Bez drugih garancija
@@ -83,7 +83,7 @@ VLASNIK, sukladno odredbama Zakona, korisniku i/ili trećim osobama ne odgovara 
 
 Bez odgovornosti za štetu
 
-U svakom slućaju, VLASNIK i njegovi dobavljaći, te su-ugovorne strane, sukladno odredbama Zakona, iskljućuju svaku odgovornost za štetu (uključno, a ne ograničeno s nastalom poslovnom štetom, gubitkom dobiti, prekidom poslovanja, gubitkom poslovnih podataka i slićno) nastalu s ili iz upotrebe WEB APLIKACIJE, te za bilo kakvu drugu poslovnu, neposlovnu, neposrednu ili posrednu imovinsku ili neimovinsku štetu, koja može nastati korisniku i/ili trečim osobama.
+U svakom slućaju, VLASNIK i njegovi dobavljači, te su-ugovorne strane, sukladno odredbama Zakona, isključuju svaku odgovornost za štetu (uključno, a ne ograničeno s nastalom poslovnom štetom, gubitkom dobiti, prekidom poslovanja, gubitkom poslovnih podataka i slično) nastalu s ili iz upotrebe WEB APLIKACIJE, te za bilo kakvu drugu poslovnu, neposlovnu, neposrednu ili posrednu imovinsku ili neimovinsku štetu, koja može nastati korisniku i/ili trečim osobama.
 
 
 

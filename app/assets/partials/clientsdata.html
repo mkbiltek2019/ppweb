@@ -25,7 +25,7 @@
              </div>
              <div ng-include="clientDataTpl" style="padding-top:20px"></div>
              <div class="mt10">
-                 <a href="" ng-if="showTabs()" class="btn btn-primary pull-right" ng-click="toggleNewTpl('calculation')"><span class="text-capitalize">{{'forward' | translate}} </span><i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+                 <a href="" ng-if="showTabs()" class="btn btn-primary btn-lg pull-right" ng-click="toggleNewTpl('calculation')"><span class="text-capitalize">{{'forward' | translate}} </span><i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
              </div>
          </div>
      </div>
@@ -41,17 +41,28 @@
 
 <script type="text/ng-template" id="inputData">
     <div ng-if="client.clientId">
-        <div>
-            <md-input-container class="md-block" flex-gt-sm>
-                <label>{{'measurement date' | translate}}</label>
-                <md-datepicker ng-model="clientData.date" md-open-on-focus ng-required="true"></md-datepicker>
-            </md-input-container>
-        </div>
         <div class="row">
+            <div class="col-sm-4">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>{{'measurement date' | translate}}</label>
+                    <md-datepicker ng-model="clientData.date" md-open-on-focus ng-required="true"></md-datepicker>
+                </md-input-container>
+            </div>
+            <div ng-if="config.language=='en'" class="col-sm-8">
+                <fieldset>
+                    <legelnd>{{'units' | translate}}</legelnd>
+                    <md-radio-group ng-model="unitSystem" layout="row" flex-gt-sm ng-click="changeUnitSystem(unitSystem)">
+                        <md-radio-button value="0" class="md-primary text-capitalize">{{'standard' | translate}}</md-radio-button>
+                        <md-radio-button value="1" class="md-primary text-capitalize">{{'metric' | translate}}</md-radio-button>
+                    </md-radio-group>
+                </fieldset>
+            </div>
+        </div>
+        <div ng-if="unitSystem==1" class="row">
             <div class="col-sm-6">
                     <div class="p20">
                         <div class="row">
-                            <span class="col-sm-6">*{{'height' | translate}} <em>(cm)</em>:</span>
+                            <span class="col-sm-6">*<span class="text-capitalize">{{'height' | translate}}</span> <em>(cm)</em>:</span>
                             <div class="col-sm-4">
                                 <div class="input-group" style="width:160px">
                                     <span class="input-group-addon pointer" ng-click="change(-1, 'height')">-</span>
@@ -61,7 +72,7 @@
                             </div>
                         </div>
                         <div class="row mt10">
-                            <span class="col-sm-6">*{{'weight' | translate}} <em>(kg)</em>:</span>
+                            <span class="col-sm-6">*<span class="text-capitalize">{{'weight' | translate}}</span> <em>(kg)</em>:</span>
                             <div class="col-sm-4">
                                 <div class="input-group" style="width:160px">
                                     <span class="input-group-addon pointer" ng-click="change(-1, 'weight')">-</span>
@@ -71,7 +82,7 @@
                             </div>
                         </div>
                         <div class="row mt10">
-                            <span class="col-sm-6">{{'waist' | translate}} <em>(cm)</em>:</span>
+                            <span class="col-sm-6"><span class="text-capitalize">{{'waist' | translate}}</span> <em>(cm)</em>:</span>
                             <div class="col-sm-4">
                                 <div class="input-group" style="width:160px">
                                     <span class="input-group-addon pointer" ng-click="change(-1, 'waist')">-</span>
@@ -81,7 +92,7 @@
                             </div>
                         </div>
                         <div class="row mt10">
-                            <span class="col-sm-6">{{'hip' | translate}} <em>(cm)</em>:</span>
+                            <span class="col-sm-6"><span class="text-capitalize">{{'hip' | translate}}</span> <em>(cm)</em>:</span>
                             <div class="col-sm-4">
                                 <div class="input-group" style="width:160px">
                                     <span class="input-group-addon pointer" ng-click="change(-1, 'hip')">-</span>
@@ -100,6 +111,69 @@
                 </div>
             </div>-->
         </div>
+
+        <div ng-if="unitSystem==0" class="row">
+            <div class="col-sm-6">
+                <div class="p20">
+                    <table>
+                        <tr>
+                            <td class="p5 text-capitalize">{{'height' | translate}}:</td>
+                            <td class="p5">
+                                <div class="input-group">
+                                    <select ng-model="standard.height_feet" class="form-control" ng-click="convertToMetricSystem(standard)" style="width:70px">
+                                        <option ng-repeat="x in populateDdl(4,7)">{{x}}</option>
+                                    </select>
+                                    <span class="input-group-addon" style="width:70px">{{'foot' | translate}}</span>
+                                </div>
+                            </td>
+                            <td class="p5">
+                                <div class="input-group">
+                                    <select ng-model="standard.height_inches" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:70px">
+                                        <option ng-repeat="x in populateDdl(0,11)">{{x}}</option>
+                                    </select>
+                                    <span class="input-group-addon" style="width:70px">{{'inches' | translate}}</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="p5 text-capitalize">{{'weight' | translate}}:</td>
+                            <td class="p5" colspan="2">
+                                <div class="input-group">
+                                    <select ng-model="standard.weight" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:70px">
+                                        <option ng-repeat="x in populateDdl(150,220)">{{x}}</option>
+                                    </select>
+                                    <span class="input-group-addon" style="width:70px">{{'pounds' | translate}}</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="p5 text-capitalize">{{'waist' | translate}}:</td>
+                            <td class="p5" colspan="2">
+                                <div class="input-group">
+                                    <select ng-model="standard.waist" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:70px">
+                                        <option ng-repeat="x in populateDdl(23,51)">{{x}}</option>
+                                    </select>
+                                    <span class="input-group-addon" style="width:70px">{{'inches' | translate}}</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="p5 text-capitalize">{{'hip' | translate}}:</td>
+                            <td class="p5" colspan="2">
+                                <div class="input-group">
+                                    <select ng-model="standard.hip" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:70px">
+                                        <option ng-repeat="x in populateDdl(35,50)">{{x}}</option>
+                                    </select>
+                                    <span class="input-group-addon" style="width:70px">{{'inches' | translate}}</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
         <ul class="nav nav-tabs">
             <li ng-class="subTpl=='pal'?'active':''" ng-click="toggleSubTpl('pal')"><a href="#" ng-click="toggleSubTpl('pal')"><i class="fa fa-bicycle"></i> <span class="hidden-xs">{{'physical activity level' | translate}}</span></a></li>
             <li ng-class="subTpl=='detailCalculationOfEnergyExpenditure'?'active':''"><a href="#" ng-click="toggleSubTpl('detailCalculationOfEnergyExpenditure')"><i class="fa fa-info"></i> <span class="hidden-xs">{{'detail calculation of energy expenditure' | translate}}</span></a></li>
@@ -110,12 +184,22 @@
 
 <script type="text/ng-template" id="pal">
     <div class="row p20">
-        <div class="col-sm-2">
+        <div class="col-sm-4">
             <md-radio-group ng-model="clientData.pal.value" ng-change="getPalDetails(clientData.pal.value)">
                 <md-radio-button ng-repeat="x in pals" value="{{x.value}}" class="md-primary" >{{x.title | translate}}</md-radio-button>
             </md-radio-group>
+
+            <!--<md-input-container class="md-block" flex-gt-xs>
+                <label>{{'physical activity level' | translate}}</label>
+                <md-select ng-model="clientData.pal.value" ng-change="getPalDetails(clientData.pal.value)">
+                    <md-radio-group ng-value="x.value">
+                        <md-radio-button ng-repeat="x in pals" value="{{x.value}}" class="md-primary">{{x.title | translate}}</md-radio-button>
+                    </md-radio-group>
+                </md-select>
+            </md-input-container>-->
+
         </div>
-        <div ng-if="clientData.pal.value" class="col-sm-10 p20">
+        <div ng-if="clientData.pal.value" class="col-sm-8 p20">
             <div class="alert alert-success">
                 {{pal.description | translate}}.
                 <div><a href="#" ng-click="toggleSubTpl('detailCalculationOfEnergyExpenditure')"><i class="fa fa-info"></i> <span>{{'detail calculation' | translate}}</span></a></div>

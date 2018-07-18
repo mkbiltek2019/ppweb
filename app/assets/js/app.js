@@ -60,6 +60,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $rootScope.loginUser = $sessionStorage.loginuser;
     $rootScope.user = $sessionStorage.user;
     $scope.today = new Date();
+    $rootScope.unitSystem = 1;
 
     if (angular.isDefined($sessionStorage.user)) {
         if ($sessionStorage.user != null) {
@@ -82,6 +83,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                   if (queryLang == 'hr' || queryLang == 'sr' || queryLang == 'sr_cyrl' || queryLang == 'en') {
                       $rootScope.setLanguage(queryLang);
                   }
+              }
+              if (response.data.language == 'en') {
+                  $rootScope.unitSystem = 0;
+              } else {
+                  $rootScope.unitSystem = 1;
               }
               if ($sessionStorage.islogin == true) { $rootScope.loadData(); }
           });
@@ -330,6 +336,37 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         if (x == 'D') { return 'dinner'; }
         if (x == 'MBS') { return 'meal before sleep'; }
     }
+
+    $scope.changeUnitSystem = function (x) {
+        $rootScope.unitSystem = x;
+    }
+
+    $scope.standard = {
+        height_feet: 0,
+        height_inches: 0,
+        weight: 0,
+        waist: 0,
+        hip: 0
+    }
+    $scope.convertToMetricSystem = function (x) {
+        $rootScope.clientData.height = (x.height_feet * 30.48 + x.height_inches * 2.54).toFixed(1);
+        $rootScope.clientData.weight = (x.weight * 0.45349237).toFixed(1);
+        $rootScope.clientData.waist = (x.waist * 2.54).toFixed(1);
+        $rootScope.clientData.hip = (x.hip * 2.54).toFixed(1);
+      /*  Cm.Text = Format(Feet * 30.48 + Inches * 2.54, "0")   'visina cm
+        Kg.Text = Format(Pounds * 0.45349237, "0")   'masa kg
+        Waist_cm.Text = Format(Waist_inches * 2.54, "0")  'opseg struka cm
+        Hip_cm.Text = Format(Hip_inches * 2.54, "0")  'opseg bokova cm */
+    }
+
+    $scope.populateDdl = function (from, to) {
+        var list = [];
+        for (var i = from; i <= to; i++) {
+            list.push(i);
+        }
+        return list;
+    }
+
 
 }])
 

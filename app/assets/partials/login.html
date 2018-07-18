@@ -97,7 +97,7 @@
                     <md-checkbox md-no-ink aria-label={{'terms and conditions' | translate}} ng-model="accept" class="md-primary">
                         {{'i agree to the' | translate}}
                     </md-checkbox>
-                    <a href="{{config.appurl}}licence.txt" target="_blank">{{'terms and conditions' | translate}}</a>
+                    <a href="{{config.appurl}}{{config.language=='en'?'eula.html':'licence.txt'}}" target="_blank">{{'terms and conditions' | translate}}</a>
                 </md-input-container>
             </div>
             <div class="m2">
@@ -108,9 +108,7 @@
             newUser:
             <pre>{{newUser | json}}</pre>
         </div>
-
     </div>
-
 </script>
 
 
