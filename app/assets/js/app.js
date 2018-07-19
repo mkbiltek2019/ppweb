@@ -998,7 +998,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.toggleSubTpl = function (x) {
         $scope.subTpl = x;
     };
-    //$scope.toggleSubTpl('pal');
 
     var init = function (x) {
         $http({
@@ -1033,7 +1032,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
   
     var getClients = function () {
         $rootScope.loading = true;
-        //$scope.toggleSubTpl('pal');
         $http({
             url: $sessionStorage.config.backend + webService + '/Load',
             method: 'POST',
@@ -1051,7 +1049,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     getClients();
 
     $rootScope.newClient = function () {
-        $scope.toggleSubTpl('pal');
         $http({
             url: $sessionStorage.config.backend + webService + '/Init',
             method: "POST",
@@ -1180,7 +1177,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.openSearchPopup = function () {
-        //$scope.toggleSubTpl('pal');
         $mdDialog.show({
             controller: $scope.searchPopupCtrl,
             templateUrl: 'assets/partials/popup/searchclients.html',
@@ -2259,7 +2255,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.toggleAnalytics('chartsTpl');
 
     $scope.changeQuantity = function (x, type, idx) {
-        if (x.quantity > 0 && isNaN(x.quantity) == false && x.mass > 0 && isNaN(x.mass) == false) {
+        if (x.quantity > 0.0001 && isNaN(x.quantity) == false && x.mass > 0.0001 && isNaN(x.mass) == false) {
             $timeout(function () {
                 $http({
                     url: $sessionStorage.config.backend + webService + '/ChangeFoodQuantity',
@@ -2351,7 +2347,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 url: $sessionStorage.config.backend + 'Foods.asmx/Get',
                 method: "POST",
                 data: {userId: $rootScope.user.userId, id: JSON.parse(x).id }
-                //data: { lang: $rootScope.config.databaselanguage, id: JSON.parse(x).id }
             })
             .then(function (response) {
                 $scope.food = JSON.parse(response.data.d);
@@ -2364,7 +2359,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     $scope.food.thermalTreatments[key].thermalTreatment.title = $translate.instant($scope.food.thermalTreatments[key].thermalTreatment.title);
                 })
 
-                initFood = angular.copy($scope.food); // JSON.parse(response.data.d);
+                initFood = angular.copy($scope.food);
               //  showServings($scope.food);
             },
             function (response) {
@@ -2405,7 +2400,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         $scope.changeQuantity = function (x, type) {
-            if (x.quantity > 0 && isNaN(x.quantity) == false && x.mass > 0 && isNaN(x.mass) == false) {
+            if (x.quantity > 0.0001 && isNaN(x.quantity) == false && x.mass > 0.0001 && isNaN(x.mass) == false) {
                 var currentFood = $scope.food.food;  // << in case where user change food title
                 $timeout(function () {
                     $http({

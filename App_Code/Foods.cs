@@ -513,66 +513,66 @@ public class Foods : System.Web.Services.WebService {
     [WebMethod]
     public string GetTotals(List<NewFood> selectedFoods, List<Meals.NewMeal> meals) {
         Totals x = new Totals();
-        x.mass = Math.Round(selectedFoods.Sum(a => a.mass), 1);
-        x.energy = Math.Round(selectedFoods.Sum(a => a.energy), 1);
-        x.carbohydrates = Math.Round(selectedFoods.Sum(a => a.carbohydrates), 1);
-        x.carbohydratesPercentage = Math.Round(GetNutrientPercentage(selectedFoods, x.carbohydrates), 1);
-        x.proteins = Math.Round(selectedFoods.Sum(a => a.proteins), 1);
-        x.proteinsPercentage = Math.Round(GetNutrientPercentage(selectedFoods, x.proteins), 1);
-        x.fats = Math.Round(selectedFoods.Sum(a => a.fats), 1);
-        x.fatsPercentage = Math.Round(GetNutrientPercentage(selectedFoods, x.fats), 1);
+        x.mass = Math.Round(selectedFoods.Sum(a => a.mass), DecimalPlace(selectedFoods.Sum(a => a.mass)));
+        x.energy = Math.Round(selectedFoods.Sum(a => a.energy), DecimalPlace(selectedFoods.Sum(a => a.energy)));
+        x.carbohydrates = Math.Round(selectedFoods.Sum(a => a.carbohydrates), DecimalPlace(selectedFoods.Sum(a => a.carbohydrates)));
+        x.carbohydratesPercentage = Math.Round(GetNutrientPercentage(selectedFoods, x.carbohydrates), DecimalPlace(GetNutrientPercentage(selectedFoods, x.carbohydrates)));
+        x.proteins = Math.Round(selectedFoods.Sum(a => a.proteins), DecimalPlace(selectedFoods.Sum(a => a.proteins)));
+        x.proteinsPercentage = Math.Round(GetNutrientPercentage(selectedFoods, x.proteins), DecimalPlace(GetNutrientPercentage(selectedFoods, x.proteins)));
+        x.fats = Math.Round(selectedFoods.Sum(a => a.fats), DecimalPlace(selectedFoods.Sum(a => a.fats)));
+        x.fatsPercentage = Math.Round(GetNutrientPercentage(selectedFoods, x.fats), DecimalPlace(GetNutrientPercentage(selectedFoods, x.fats)));
 
-        x.servings.cerealsServ = Math.Round(selectedFoods.Sum(a => a.servings.cerealsServ),1);
-        x.servings.vegetablesServ = Math.Round(selectedFoods.Sum(a => a.servings.vegetablesServ),1);
-        x.servings.fruitServ = Math.Round(selectedFoods.Sum(a => a.servings.fruitServ),1);
-        x.servings.meatServ = Math.Round(selectedFoods.Sum(a => a.servings.meatServ),1);
-        x.servings.milkServ = Math.Round(selectedFoods.Sum(a => a.servings.milkServ),1);
-        x.servings.fatsServ = Math.Round(selectedFoods.Sum(a => a.servings.fatsServ),1);
-        x.servings.otherFoodsServ = Math.Round(selectedFoods.Sum(a => a.servings.otherFoodsServ),1);
-        x.servings.otherFoodsEnergy = Math.Round(selectedFoods.Where(a => a.servings.otherFoodsServ > 0).Sum(a => a.energy),1);
+        x.servings.cerealsServ = Math.Round(selectedFoods.Sum(a => a.servings.cerealsServ), DecimalPlace(selectedFoods.Sum(a => a.servings.cerealsServ)));
+        x.servings.vegetablesServ = Math.Round(selectedFoods.Sum(a => a.servings.vegetablesServ), DecimalPlace(selectedFoods.Sum(a => a.servings.vegetablesServ)));
+        x.servings.fruitServ = Math.Round(selectedFoods.Sum(a => a.servings.fruitServ), DecimalPlace(selectedFoods.Sum(a => a.servings.fruitServ)));
+        x.servings.meatServ = Math.Round(selectedFoods.Sum(a => a.servings.meatServ), DecimalPlace(selectedFoods.Sum(a => a.servings.meatServ)));
+        x.servings.milkServ = Math.Round(selectedFoods.Sum(a => a.servings.milkServ), DecimalPlace(selectedFoods.Sum(a => a.servings.milkServ)));
+        x.servings.fatsServ = Math.Round(selectedFoods.Sum(a => a.servings.fatsServ), DecimalPlace(selectedFoods.Sum(a => a.servings.fatsServ)));
+        x.servings.otherFoodsServ = Math.Round(selectedFoods.Sum(a => a.servings.otherFoodsServ), DecimalPlace(selectedFoods.Sum(a => a.servings.otherFoodsServ)));
+        x.servings.otherFoodsEnergy = Math.Round(selectedFoods.Where(a => a.servings.otherFoodsServ > 0).Sum(a => a.energy), DecimalPlace(selectedFoods.Where(a => a.servings.otherFoodsServ > 0).Sum(a => a.energy)));
 
         x.mealsTotalEnergy = GetMealsTotalEnergy(selectedFoods, meals);
-        x.starch = Math.Round(selectedFoods.Sum(a => a.starch), 1);
-        x.totalSugar = Math.Round(selectedFoods.Sum(a => a.totalSugar), 1);
-        x.glucose = Math.Round(selectedFoods.Sum(a => a.glucose), 1);
-        x.fructose = Math.Round(selectedFoods.Sum(a => a.fructose), 1);
-        x.saccharose = Math.Round(selectedFoods.Sum(a => a.saccharose), 1);
-        x.maltose = Math.Round(selectedFoods.Sum(a => a.maltose), 1);
-        x.lactose = Math.Round(selectedFoods.Sum(a => a.lactose), 1);
-        x.fibers = Math.Round(selectedFoods.Sum(a => a.fibers), 1);
-        x.saturatedFats = Math.Round(selectedFoods.Sum(a => a.saturatedFats), 1);
-        x.monounsaturatedFats = Math.Round(selectedFoods.Sum(a => a.monounsaturatedFats), 1);
-        x.polyunsaturatedFats = Math.Round(selectedFoods.Sum(a => a.polyunsaturatedFats), 1);
-        x.trifluoroaceticAcid = Math.Round(selectedFoods.Sum(a => a.trifluoroaceticAcid), 1);
-        x.cholesterol = Math.Round(selectedFoods.Sum(a => a.cholesterol), 1);
-        x.sodium = Math.Round(selectedFoods.Sum(a => a.sodium), 1);
-        x.potassium = Math.Round(selectedFoods.Sum(a => a.potassium), 1);
-        x.calcium = Math.Round(selectedFoods.Sum(a => a.calcium), 1);
-        x.magnesium = Math.Round(selectedFoods.Sum(a => a.magnesium), 1);
-        x.phosphorus = Math.Round(selectedFoods.Sum(a => a.phosphorus), 1);
-        x.iron = Math.Round(selectedFoods.Sum(a => a.iron), 1);
-        x.copper = Math.Round(selectedFoods.Sum(a => a.copper), 1);
-        x.zinc = Math.Round(selectedFoods.Sum(a => a.zinc), 1);
-        x.chlorine = Math.Round(selectedFoods.Sum(a => a.chlorine), 1);
-        x.manganese = Math.Round(selectedFoods.Sum(a => a.manganese), 1);
-        x.selenium = Math.Round(selectedFoods.Sum(a => a.selenium), 1);
-        x.iodine = Math.Round(selectedFoods.Sum(a => a.iodine), 1);
-        x.retinol = Math.Round(selectedFoods.Sum(a => a.retinol), 1);
-        x.carotene = Math.Round(selectedFoods.Sum(a => a.carotene), 1);
-        x.vitaminD = Math.Round(selectedFoods.Sum(a => a.vitaminD), 1);
-        x.vitaminE = Math.Round(selectedFoods.Sum(a => a.vitaminE), 1);
-        x.vitaminB1 = Math.Round(selectedFoods.Sum(a => a.vitaminB1), 1);
-        x.vitaminB2 = Math.Round(selectedFoods.Sum(a => a.vitaminB2), 1);
-        x.vitaminB3 = Math.Round(selectedFoods.Sum(a => a.vitaminB3), 1);
-        x.vitaminB6 = Math.Round(selectedFoods.Sum(a => a.vitaminB6), 1);
-        x.vitaminB12 = Math.Round(selectedFoods.Sum(a => a.vitaminB12), 1);
-        x.folate = Math.Round(selectedFoods.Sum(a => a.folate), 1);
-        x.pantothenicAcid = Math.Round(selectedFoods.Sum(a => a.pantothenicAcid), 1);
-        x.biotin = Math.Round(selectedFoods.Sum(a => a.biotin), 1);
-        x.vitaminC = Math.Round(selectedFoods.Sum(a => a.vitaminC), 1);
-        x.vitaminK = Math.Round(selectedFoods.Sum(a => a.vitaminK), 1);
+        x.starch = Math.Round(selectedFoods.Sum(a => a.starch), DecimalPlace(selectedFoods.Sum(a => a.starch)));
+        x.totalSugar = Math.Round(selectedFoods.Sum(a => a.totalSugar), DecimalPlace(selectedFoods.Sum(a => a.totalSugar)));
+        x.glucose = Math.Round(selectedFoods.Sum(a => a.glucose), DecimalPlace(selectedFoods.Sum(a => a.glucose)));
+        x.fructose = Math.Round(selectedFoods.Sum(a => a.fructose), DecimalPlace(selectedFoods.Sum(a => a.fructose)));
+        x.saccharose = Math.Round(selectedFoods.Sum(a => a.saccharose), DecimalPlace(selectedFoods.Sum(a => a.saccharose)));
+        x.maltose = Math.Round(selectedFoods.Sum(a => a.maltose), DecimalPlace(selectedFoods.Sum(a => a.maltose)));
+        x.lactose = Math.Round(selectedFoods.Sum(a => a.lactose), DecimalPlace(selectedFoods.Sum(a => a.lactose)));
+        x.fibers = Math.Round(selectedFoods.Sum(a => a.fibers), DecimalPlace(selectedFoods.Sum(a => a.fibers)));
+        x.saturatedFats = Math.Round(selectedFoods.Sum(a => a.saturatedFats), DecimalPlace(selectedFoods.Sum(a => a.saturatedFats)));
+        x.monounsaturatedFats = Math.Round(selectedFoods.Sum(a => a.monounsaturatedFats), DecimalPlace(selectedFoods.Sum(a => a.monounsaturatedFats)));
+        x.polyunsaturatedFats = Math.Round(selectedFoods.Sum(a => a.polyunsaturatedFats), DecimalPlace(selectedFoods.Sum(a => a.polyunsaturatedFats)));
+        x.trifluoroaceticAcid = Math.Round(selectedFoods.Sum(a => a.trifluoroaceticAcid), DecimalPlace(selectedFoods.Sum(a => a.trifluoroaceticAcid)));
+        x.cholesterol = Math.Round(selectedFoods.Sum(a => a.cholesterol), DecimalPlace(selectedFoods.Sum(a => a.cholesterol)));
+        x.sodium = Math.Round(selectedFoods.Sum(a => a.sodium), DecimalPlace(selectedFoods.Sum(a => a.sodium)));
+        x.potassium = Math.Round(selectedFoods.Sum(a => a.potassium), DecimalPlace(selectedFoods.Sum(a => a.potassium)));
+        x.calcium = Math.Round(selectedFoods.Sum(a => a.calcium), DecimalPlace(selectedFoods.Sum(a => a.calcium)));
+        x.magnesium = Math.Round(selectedFoods.Sum(a => a.magnesium), DecimalPlace(selectedFoods.Sum(a => a.magnesium)));
+        x.phosphorus = Math.Round(selectedFoods.Sum(a => a.phosphorus), DecimalPlace(selectedFoods.Sum(a => a.phosphorus)));
+        x.iron = Math.Round(selectedFoods.Sum(a => a.iron), DecimalPlace(selectedFoods.Sum(a => a.iron)));
+        x.copper = Math.Round(selectedFoods.Sum(a => a.copper), DecimalPlace(selectedFoods.Sum(a => a.copper)));
+        x.zinc = Math.Round(selectedFoods.Sum(a => a.zinc), DecimalPlace(selectedFoods.Sum(a => a.zinc)));
+        x.chlorine = Math.Round(selectedFoods.Sum(a => a.chlorine), DecimalPlace(selectedFoods.Sum(a => a.chlorine)));
+        x.manganese = Math.Round(selectedFoods.Sum(a => a.manganese), DecimalPlace(selectedFoods.Sum(a => a.manganese)));
+        x.selenium = Math.Round(selectedFoods.Sum(a => a.selenium), DecimalPlace(selectedFoods.Sum(a => a.selenium)));
+        x.iodine = Math.Round(selectedFoods.Sum(a => a.iodine), DecimalPlace(selectedFoods.Sum(a => a.iodine)));
+        x.retinol = Math.Round(selectedFoods.Sum(a => a.retinol), DecimalPlace(selectedFoods.Sum(a => a.retinol)));
+        x.carotene = Math.Round(selectedFoods.Sum(a => a.carotene), DecimalPlace(selectedFoods.Sum(a => a.carotene)));
+        x.vitaminD = Math.Round(selectedFoods.Sum(a => a.vitaminD), DecimalPlace(selectedFoods.Sum(a => a.vitaminD)));
+        x.vitaminE = Math.Round(selectedFoods.Sum(a => a.vitaminE), DecimalPlace(selectedFoods.Sum(a => a.vitaminE)));
+        x.vitaminB1 = Math.Round(selectedFoods.Sum(a => a.vitaminB1), DecimalPlace(selectedFoods.Sum(a => a.vitaminB1)));
+        x.vitaminB2 = Math.Round(selectedFoods.Sum(a => a.vitaminB2), DecimalPlace(selectedFoods.Sum(a => a.vitaminB2)));
+        x.vitaminB3 = Math.Round(selectedFoods.Sum(a => a.vitaminB3), DecimalPlace(selectedFoods.Sum(a => a.vitaminB3)));
+        x.vitaminB6 = Math.Round(selectedFoods.Sum(a => a.vitaminB6), DecimalPlace(selectedFoods.Sum(a => a.vitaminB6)));
+        x.vitaminB12 = Math.Round(selectedFoods.Sum(a => a.vitaminB12), DecimalPlace(selectedFoods.Sum(a => a.vitaminB12)));
+        x.folate = Math.Round(selectedFoods.Sum(a => a.folate), DecimalPlace(selectedFoods.Sum(a => a.folate)));
+        x.pantothenicAcid = Math.Round(selectedFoods.Sum(a => a.pantothenicAcid), DecimalPlace(selectedFoods.Sum(a => a.pantothenicAcid)));
+        x.biotin = Math.Round(selectedFoods.Sum(a => a.biotin), DecimalPlace(selectedFoods.Sum(a => a.biotin)));
+        x.vitaminC = Math.Round(selectedFoods.Sum(a => a.vitaminC), DecimalPlace(selectedFoods.Sum(a => a.vitaminC)));
+        x.vitaminK = Math.Round(selectedFoods.Sum(a => a.vitaminK), DecimalPlace(selectedFoods.Sum(a => a.vitaminK)));
 
-        x.price.value = Math.Round(selectedFoods.Sum(a => a.price.value), 1);
+        x.price.value = Math.Round(selectedFoods.Sum(a => a.price.value), 2);
         //TODO price currency
        // if (selectedFoods.Count > 0) {
            // x.price.currency = selectedFoods.Select(a => a.price.currency = "");
@@ -681,72 +681,74 @@ public class Foods : System.Web.Services.WebService {
             case "quantity":
                 k = newQuantity / initFood.quantity;
                 x.quantity = newQuantity;
-                x.mass = Math.Round(initFood.mass * k, 1);
+                x.mass = Math.Round(initFood.mass * k, DecimalPlace(initFood.mass * k));
+                //x.mass = Math.Round(initFood.mass * k, 3);
                 break;
             case "mass":
                 k = (newMass / initFood.mass);
                 x.mass = newMass;
-                x.quantity = Math.Round(initFood.quantity * k, 1);
+                x.quantity = Math.Round(initFood.quantity * k, DecimalPlace(initFood.quantity * k));
+                //x.quantity = Math.Round(initFood.quantity * k, 3);
                 break;
             default:
                 break;
         }
 
         x.unit = GetUnit(x.quantity, initFood.unit);
-        x.energy = Math.Round(initFood.energy * k, 1);
-        x.carbohydrates = Math.Round(initFood.carbohydrates * k, 1);
-        x.proteins = Math.Round(initFood.proteins * k, 1);
-        x.fats = Math.Round(initFood.fats * k, 1);
-        x.servings.cerealsServ = Math.Round(initFood.servings.cerealsServ * k, 3);
-        x.servings.vegetablesServ = Math.Round(initFood.servings.vegetablesServ * k, 3);
-        x.servings.fruitServ = Math.Round(initFood.servings.fruitServ * k, 3);
-        x.servings.meatServ = Math.Round(initFood.servings.meatServ * k, 3);
-        x.servings.milkServ = Math.Round(initFood.servings.milkServ * k, 3);
-        x.servings.fatsServ = Math.Round(initFood.servings.fatsServ * k, 3);
-        x.servings.otherFoodsServ = Math.Round(initFood.servings.otherFoodsServ * k, 3);
-        x.servings.otherFoodsEnergy = Math.Round(initFood.servings.otherFoodsEnergy * k, 3);
-        x.starch = Math.Round(initFood.starch * k, 1);
-        x.totalSugar = Math.Round(initFood.totalSugar * k, 1);
-        x.glucose = Math.Round(initFood.glucose * k, 1);
-        x.fructose = Math.Round(initFood.fructose * k, 1);
-        x.saccharose = Math.Round(initFood.saccharose * k, 1);
-        x.maltose = Math.Round(initFood.maltose * k, 1);
-        x.lactose = Math.Round(initFood.lactose * k, 1);
-        x.fibers = Math.Round(initFood.fibers * k, 1);
-        x.saturatedFats = Math.Round(initFood.saturatedFats * k, 1);
-        x.monounsaturatedFats = Math.Round(initFood.monounsaturatedFats * k, 1);
-        x.polyunsaturatedFats = Math.Round(initFood.polyunsaturatedFats * k, 1);
-        x.trifluoroaceticAcid = Math.Round(initFood.trifluoroaceticAcid * k, 1);
-        x.cholesterol = Math.Round(initFood.cholesterol * k, 1);
-        x.sodium = Math.Round(initFood.sodium * k, 1);
-        x.potassium = Math.Round(initFood.potassium * k, 1);
-        x.calcium = Math.Round(initFood.calcium * k, 1);
-        x.magnesium = Math.Round(initFood.magnesium * k, 1);
-        x.phosphorus = Math.Round(initFood.phosphorus * k, 1);
-        x.iron = Math.Round(initFood.iron * k, 1);
-        x.copper = Math.Round(initFood.copper * k, 1);
-        x.zinc = Math.Round(initFood.zinc * k, 1);
-        x.chlorine = Math.Round(initFood.chlorine * k, 1);
-        x.manganese = Math.Round(initFood.manganese * k, 1);
-        x.selenium = Math.Round(initFood.selenium * k, 1);
-        x.iodine = Math.Round(initFood.iodine * k, 1);
-        x.retinol = Math.Round(initFood.retinol * k, 1);
-        x.carotene = Math.Round(initFood.carotene * k, 1);
-        x.vitaminD = Math.Round(initFood.vitaminD * k, 1);
-        x.vitaminE = Math.Round(initFood.vitaminE * k, 1);
-        x.vitaminB1 = Math.Round(initFood.vitaminB1 * k, 1);
-        x.vitaminB2 = Math.Round(initFood.vitaminB2 * k, 1);
-        x.vitaminB3 = Math.Round(initFood.vitaminB3 * k, 1);
-        x.vitaminB6 = Math.Round(initFood.vitaminB6 * k, 1);
-        x.vitaminB12 = Math.Round(initFood.vitaminB12 * k, 1);
-        x.folate = Math.Round(initFood.folate * k, 1);
-        x.pantothenicAcid = Math.Round(initFood.pantothenicAcid * k, 1);
-        x.biotin = Math.Round(initFood.biotin * k, 1);
-        x.vitaminC = Math.Round(initFood.vitaminC * k, 1);
-        x.vitaminK = Math.Round(initFood.vitaminK * k, 1);
+        x.energy = Math.Round(initFood.energy * k, DecimalPlace(initFood.energy * k));
+        x.carbohydrates = Math.Round(initFood.carbohydrates * k, DecimalPlace(initFood.carbohydrates * k));
+        x.proteins = Math.Round(initFood.proteins * k, DecimalPlace(initFood.proteins * k));
+        x.fats = Math.Round(initFood.fats * k, DecimalPlace(initFood.fats * k));
+        x.servings.cerealsServ = Math.Round(initFood.servings.cerealsServ * k, DecimalPlace(initFood.servings.cerealsServ * k));
+        x.servings.vegetablesServ = Math.Round(initFood.servings.vegetablesServ * k, DecimalPlace(initFood.servings.vegetablesServ * k));
+        x.servings.fruitServ = Math.Round(initFood.servings.fruitServ * k, DecimalPlace(initFood.servings.fruitServ * k));
+        x.servings.meatServ = Math.Round(initFood.servings.meatServ * k, DecimalPlace(initFood.servings.meatServ * k));
+        x.servings.milkServ = Math.Round(initFood.servings.milkServ * k, DecimalPlace(initFood.servings.milkServ * k));
+        x.servings.fatsServ = Math.Round(initFood.servings.fatsServ * k, DecimalPlace(initFood.servings.fatsServ * k));
+        x.servings.otherFoodsServ = Math.Round(initFood.servings.otherFoodsServ * k, DecimalPlace(initFood.servings.otherFoodsServ * k));
+        x.servings.otherFoodsEnergy = Math.Round(initFood.servings.otherFoodsEnergy * k, DecimalPlace(initFood.servings.otherFoodsEnergy * k));
+        x.starch = Math.Round(initFood.starch * k, DecimalPlace(initFood.starch * k));
+        x.totalSugar = Math.Round(initFood.totalSugar * k, DecimalPlace(initFood.totalSugar * k));
+        x.glucose = Math.Round(initFood.glucose * k, DecimalPlace(initFood.glucose * k));
+        x.fructose = Math.Round(initFood.fructose * k, DecimalPlace(initFood.fructose * k));
+        x.saccharose = Math.Round(initFood.saccharose * k, DecimalPlace(initFood.saccharose * k));
+        x.maltose = Math.Round(initFood.maltose * k, DecimalPlace(initFood.maltose * k));
+        x.lactose = Math.Round(initFood.lactose * k, DecimalPlace(initFood.lactose * k));
+        x.fibers = Math.Round(initFood.fibers * k, DecimalPlace(initFood.fibers * k));
+        x.saturatedFats = Math.Round(initFood.saturatedFats * k, DecimalPlace(initFood.saturatedFats * k));
+        x.monounsaturatedFats = Math.Round(initFood.monounsaturatedFats * k, DecimalPlace(initFood.monounsaturatedFats * k));
+        x.polyunsaturatedFats = Math.Round(initFood.polyunsaturatedFats * k, DecimalPlace(initFood.polyunsaturatedFats * k));
+        x.trifluoroaceticAcid = Math.Round(initFood.trifluoroaceticAcid * k, DecimalPlace(initFood.trifluoroaceticAcid * k));
+        x.cholesterol = Math.Round(initFood.cholesterol * k, DecimalPlace(initFood.cholesterol * k));
+        x.sodium = Math.Round(initFood.sodium * k, DecimalPlace(initFood.sodium * k));
+        x.potassium = Math.Round(initFood.potassium * k, DecimalPlace(initFood.potassium * k));
+        x.calcium = Math.Round(initFood.calcium * k, DecimalPlace(initFood.calcium * k));
+        x.magnesium = Math.Round(initFood.magnesium * k, DecimalPlace(initFood.magnesium * k));
+        x.phosphorus = Math.Round(initFood.phosphorus * k, DecimalPlace(initFood.phosphorus * k));
+        x.iron = Math.Round(initFood.iron * k, DecimalPlace(initFood.iron * k));
+        x.copper = Math.Round(initFood.copper * k, DecimalPlace(initFood.copper * k));
+        x.zinc = Math.Round(initFood.zinc * k, DecimalPlace(initFood.zinc * k));
+        x.chlorine = Math.Round(initFood.chlorine * k, DecimalPlace(initFood.chlorine * k));
+        x.manganese = Math.Round(initFood.manganese * k, DecimalPlace(initFood.manganese * k));
+        x.selenium = Math.Round(initFood.selenium * k, DecimalPlace(initFood.selenium * k));
+        x.iodine = Math.Round(initFood.iodine * k, DecimalPlace(initFood.iodine * k));
+        x.retinol = Math.Round(initFood.retinol * k, DecimalPlace(initFood.retinol * k));
+        x.carotene = Math.Round(initFood.carotene * k, DecimalPlace(initFood.carotene * k));
+        x.vitaminD = Math.Round(initFood.vitaminD * k, DecimalPlace(initFood.vitaminD * k));
+        x.vitaminE = Math.Round(initFood.vitaminE * k, DecimalPlace(initFood.vitaminE * k));
+        x.vitaminB1 = Math.Round(initFood.vitaminB1 * k, DecimalPlace(initFood.vitaminB1 * k));
+        x.vitaminB2 = Math.Round(initFood.vitaminB2 * k, DecimalPlace(initFood.vitaminB2 * k));
+        x.vitaminB3 = Math.Round(initFood.vitaminB3 * k, DecimalPlace(initFood.vitaminB3 * k));
+        x.vitaminB6 = Math.Round(initFood.vitaminB6 * k, DecimalPlace(initFood.vitaminB6 * k));
+        x.vitaminB12 = Math.Round(initFood.vitaminB12 * k, DecimalPlace(initFood.vitaminB12 * k));
+        x.folate = Math.Round(initFood.folate * k, DecimalPlace(initFood.folate * k));
+        x.pantothenicAcid = Math.Round(initFood.pantothenicAcid * k, DecimalPlace(initFood.pantothenicAcid * k));
+        x.biotin = Math.Round(initFood.biotin * k, DecimalPlace(initFood.biotin * k));
+        x.vitaminC = Math.Round(initFood.vitaminC * k, DecimalPlace(initFood.vitaminC * k));
+        x.vitaminK = Math.Round(initFood.vitaminK * k, DecimalPlace(initFood.vitaminK * k));
 
         //TODO
-        x.price.value = Math.Round(initFood.price.value * k, 1);
+        x.price.value = Math.Round(initFood.price.value * k, 2);
 
         string json = JsonConvert.SerializeObject(x, Formatting.Indented);
         return json;
@@ -2088,6 +2090,16 @@ public class Foods : System.Web.Services.WebService {
         return xx;
     }
 
+    private int DecimalPlace(double value) {
+        int i = 1;
+        if (value >= 1) { i = 1; }
+        if (value < 1 && value >= 0.1) { i = 2; }
+        if (value < 0.1 && value >=0.01) { i = 3; }
+        if (value < 0.01 && value >= 0.001) { i = 4; }
+        if (value < 0.001 && value >= 0.0001) { i = 5; }
+        if (value < 0.0001) { i = 10; }
+        return i;
+    }
     #endregion
 
 }

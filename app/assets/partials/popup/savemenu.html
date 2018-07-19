@@ -2,26 +2,26 @@
     <form ng-cloak>
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2>{{'save menu' | translate}}</h2>
+                <h2 class="text-capitalize">{{'save menu' | translate}}</h2>
                 <span flex></span>
                 <a href="" ng-click="cancel()" class="btn btn-primary">x</a>
             </div>
         </md-toolbar>
         <md-dialog-content>
             <div class="md-dialog-content">
-                <div layout-gt-sm="row">
-                    <md-input-container>
-                        <label>{{'menu title' | translate}}</label>
+                <div>
+                    <md-input-container style="margin:2px">
+                        <label class="text-capitalize">{{'menu title' | translate}}</label>
                         <input id="txtMenuTitle" ng-model="d.currentMenu.title" type="text" maxlength="50" ng-required="true">
                     </md-input-container>
                 </div>
-                <div layout-gt-sm="row">
-                    <md-input-container class="md-block" flex-gt-sm>
-                        <label>{{'note' | translate}}...</label>
+                <div>
+                    <md-input-container class="md-block" style="margin:2px" flex-gt-sm>
+                        <label class="text-capitalize">{{'note' | translate}}...</label>
                         <input ng-model="d.currentMenu.note" type="text" maxlength="200">
                     </md-input-container>
                 </div>
-                <div class="row pull-right">
+                <div class="row pull-right text-capitalize">
                     <a href="" class="btn btn-primary m10" ng-click="confirm(d.currentMenu, false)"><i class="fa fa-floppy-o"></i> <span>{{'save' | translate}}</span></a>
                     <a href="" class="btn btn-primary m10" ng-click="confirm(d.currentMenu, true)"><i class="fa fa-plus"></i> <span>{{'save as new' | translate}}</span></a>
                     <a ng-if="d.config.debug" href="" class="btn btn-danger m10" ng-click="saveAppMenu(d.currentMenu, false)"><i class="fa fa-floppy-o"></i> <span>{{'save as app menu' | translate}}</span></a>

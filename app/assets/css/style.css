@@ -231,9 +231,6 @@ fieldset.fieldset-border {
 
 legend.fieldset-border {
     font-size: 1em !important;
-    /*font-size: 1.2em !important;
-    font-weight: bold !important;
-    text-align: left !important;*/
     width:auto;
     padding:0 10px;
     border-bottom:none;
@@ -258,11 +255,4 @@ legend.fieldset-border {
     background-color: #C0E699 !important;
 }*/
 /************ main colors ***************/
-
-
-
-
-
-
-
 

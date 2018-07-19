@@ -147,7 +147,7 @@
                                 <td class="p5" colspan="2">
                                     <div class="input-group">
                                         <select ng-model="standard.weight" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:75px">
-                                            <option ng-repeat="x in populateDdl(150,220)" ng-selected="x==standard.weight?true:false" ng-value="x">{{x}}</option>
+                                            <option ng-repeat="x in populateDdl(22,440)" ng-selected="x==standard.weight?true:false" ng-value="x">{{x}}</option>
                                         </select>
                                         <span class="input-group-addon" style="width:70px">{{'pounds' | translate}}</span>
                                     </div>
@@ -158,7 +158,7 @@
                                 <td class="p5" colspan="2">
                                     <div class="input-group">
                                         <select ng-model="standard.waist" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:75px">
-                                            <option ng-repeat="x in populateDdl(23,51)" ng-selected="x==standard.waist?true:false" ng-value="x">{{x}}</option>
+                                            <option ng-repeat="x in populateDdl(23,70)" ng-selected="x==standard.waist?true:false" ng-value="x">{{x}}</option>
                                         </select>
                                         <span class="input-group-addon" style="width:70px">{{'inches' | translate}}</span>
                                     </div>
@@ -169,7 +169,7 @@
                                 <td class="p5" colspan="2">
                                     <div class="input-group">
                                         <select ng-model="standard.hip" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:75px">
-                                            <option ng-repeat="x in populateDdl(35,50)" ng-selected="x==standard.hip?true:false" ng-value="x">{{x}}</option>
+                                            <option ng-repeat="x in populateDdl(35,70)" ng-selected="x==standard.hip?true:false" ng-value="x">{{x}}</option>
                                         </select>
                                         <span class="input-group-addon" style="width:70px">{{'inches' | translate}}</span>
                                     </div>
@@ -184,52 +184,22 @@
         <fieldset class="fieldset-border">
             <legend class="fieldset-border text-capitalize">{{'physical activity level' | translate}}</legend>
             <div class="row p20">
-                <div class="col-sm-3">
+                <div class="col-sm-12">
                     <md-radio-group ng-model="clientData.pal.value" ng-change="getPalDetails(clientData.pal.value)">
-                        <md-radio-button ng-repeat="x in pals" value="{{x.value}}" class="md-primary">{{x.title | translate}}</md-radio-button>
+                        <md-radio-button ng-repeat="x in pals" value="{{x.value}}" class="md-primary">{{x.title | translate}}
+
+                            <span ng-if="clientData.pal.value==x.value" class="p10">
+                                <span style="font-size:1.1em" class="bg-primary">{{pal.description | translate}}</span>
+                            </span>
+
+                        </md-radio-button>
                     </md-radio-group>
                 </div>
-                <div ng-if="clientData.pal.value" class="col-sm-12 p20">
-                    <div class="alert alert-success">
-                        {{pal.description | translate}}.
-                    </div>
-                    <div class="pt10"><a href="#" ng-click="toggleSubTpl(subTpl=='detailCalculationOfEnergyExpenditure'?'':'detailCalculationOfEnergyExpenditure')"><i class="fa fa-chevron-{{subTpl=='detailCalculationOfEnergyExpenditure'?'up':'down'}}"></i> <span>{{'detail calculation of energy expenditure' | translate}}</span></a></div>
-                    <div ng-include="subTpl" class="well p20"></div>
-                </div>
             </div>
+            <div class="pl10"><a href="#" ng-click="toggleSubTpl(subTpl=='detailCalculationOfEnergyExpenditure'?'':'detailCalculationOfEnergyExpenditure')"><i class="fa fa-chevron-{{subTpl=='detailCalculationOfEnergyExpenditure'?'up':'down'}}"></i> <span>{{'detail calculation of energy expenditure' | translate}}</span></a></div>
+            <div ng-include="subTpl" class="well p20"></div>
         </fieldset>
 
-        <!--<ul class="nav nav-tabs">
-            <li ng-class="subTpl=='pal'?'active':''" ng-click="toggleSubTpl('pal')"><a href="#" ng-click="toggleSubTpl('pal')"><i class="fa fa-bicycle"></i> <span class="hidden-xs">{{'physical activity level' | translate}}</span></a></li>
-            <li ng-class="subTpl=='detailCalculationOfEnergyExpenditure'?'active':''"><a href="#" ng-click="toggleSubTpl('detailCalculationOfEnergyExpenditure')"><i class="fa fa-info"></i> <span class="hidden-xs">{{'detail calculation of energy expenditure' | translate}}</span></a></li>
-        </ul>
-        <div ng-include="subTpl" class="p20"></div>-->
-    </div>
-</script>
-
-<script type="text/ng-template" id="pal">
-    <div class="row p20">
-        <div class="col-sm-4">
-            <md-radio-group ng-model="clientData.pal.value" ng-change="getPalDetails(clientData.pal.value)">
-                <md-radio-button ng-repeat="x in pals" value="{{x.value}}" class="md-primary" >{{x.title | translate}}</md-radio-button>
-            </md-radio-group>
-
-            <!--<md-input-container class="md-block" flex-gt-xs>
-                <label>{{'physical activity level' | translate}}</label>
-                <md-select ng-model="clientData.pal.value" ng-change="getPalDetails(clientData.pal.value)">
-                    <md-radio-group ng-value="x.value">
-                        <md-radio-button ng-repeat="x in pals" value="{{x.value}}" class="md-primary">{{x.title | translate}}</md-radio-button>
-                    </md-radio-group>
-                </md-select>
-            </md-input-container>-->
-
-        </div>
-        <div ng-if="clientData.pal.value" class="col-sm-8 p20">
-            <div class="alert alert-success">
-                {{pal.description | translate}}.
-                <div><a href="#" ng-click="toggleSubTpl('detailCalculationOfEnergyExpenditure')"><i class="fa fa-info"></i> <span>{{'detail calculation of energy expenditure' | translate}}</span></a></div>
-            </div>
-        </div>
     </div>
 </script>
 
