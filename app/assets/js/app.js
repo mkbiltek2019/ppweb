@@ -352,8 +352,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $rootScope.convertToStandardSystem = function () {
-        // $scope.standard.height_feet = cd. //TODO
-        // $scope.standard.height_inches = cd. //TODO
+        var height_inches = $rootScope.clientData.height * 0.3937;
+        $scope.standard.height_feet = (parseInt(height_inches / 12)).toFixed(0);
+        var rest_height_feet = (height_inches / 12) - parseInt(height_inches / 12);
+        var rest_height_inches = (rest_height_feet * 12);
+        $scope.standard.height_inches = (rest_height_inches).toFixed(0);
         $scope.standard.weight = ($rootScope.clientData.weight / 0.45349237).toFixed(0);
         $scope.standard.waist = ($rootScope.clientData.waist / 2.54).toFixed(0);
         $scope.standard.hip = ($rootScope.clientData.hip / 2.54).toFixed(0);
@@ -995,7 +998,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.toggleSubTpl = function (x) {
         $scope.subTpl = x;
     };
-    $scope.toggleSubTpl('pal');
+    //$scope.toggleSubTpl('pal');
 
     var init = function (x) {
         $http({
@@ -1030,7 +1033,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
   
     var getClients = function () {
         $rootScope.loading = true;
-        $scope.toggleSubTpl('pal');
+        //$scope.toggleSubTpl('pal');
         $http({
             url: $sessionStorage.config.backend + webService + '/Load',
             method: 'POST',
@@ -1177,7 +1180,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.openSearchPopup = function () {
-        $scope.toggleSubTpl('pal');
+        //$scope.toggleSubTpl('pal');
         $mdDialog.show({
             controller: $scope.searchPopupCtrl,
             templateUrl: 'assets/partials/popup/searchclients.html',
@@ -2256,7 +2259,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.toggleAnalytics('chartsTpl');
 
     $scope.changeQuantity = function (x, type, idx) {
-        if (x.quantity > 0 && isNaN(x.quantity) == false) {
+        if (x.quantity > 0 && isNaN(x.quantity) == false && x.mass > 0 && isNaN(x.mass) == false) {
             $timeout(function () {
                 $http({
                     url: $sessionStorage.config.backend + webService + '/ChangeFoodQuantity',
@@ -2402,7 +2405,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         $scope.changeQuantity = function (x, type) {
-            if (x.quantity > 0 && isNaN(x.quantity) == false) {
+            if (x.quantity > 0 && isNaN(x.quantity) == false && x.mass > 0 && isNaN(x.mass) == false) {
                 var currentFood = $scope.food.food;  // << in case where user change food title
                 $timeout(function () {
                     $http({
