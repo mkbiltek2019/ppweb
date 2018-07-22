@@ -677,7 +677,7 @@ public class PrintPdf : System.Web.Services.WebService {
     }
     
     [WebMethod]
-    public string InvoicePdf(Invoice.NewInvoice invoice, bool isForeign, double totPrice_eur) {
+    public string InvoicePdf(Invoice.NewInvoice invoice, bool isForeign, double totPrice_eur, int clientLeftSpacing) {
         try {
             normalFont_8_italic.SetColor(255, 122, 56);
             Paragraph p = new Paragraph();
@@ -708,29 +708,29 @@ IBAN HR8423400091160342496
             doc.Add(header_table);
 
             doc.Add(new Chunk(line));
-           // doc.Add(new Paragraph("Naručitelj:", normalFont_10));
-
+ 
             string client = string.Format(@"
+{0}
+{1}
+{2} {3}
+{4}
 
-
-
-                                                                                                            {0}
-                                                                                                            {1}
-                                                                                                            {2} {3}
-                                                                                                            {4}
-
-                                                                                                            {5}
-
-
-",
-            !string.IsNullOrWhiteSpace(invoice.companyName) ? invoice.companyName : string.Format("{0} {1}", invoice.firstName, invoice.lastName),
+{5}",
+          !string.IsNullOrWhiteSpace(invoice.companyName) ? invoice.companyName : string.Format("{0} {1}", invoice.firstName, invoice.lastName),
             invoice.address,
             invoice.postalCode,
             invoice.city,
             invoice.country,
             !string.IsNullOrWhiteSpace(invoice.pin) ? string.Format("OIB: {0}", invoice.pin): "");
 
-            doc.Add(new Paragraph(client, normalFont_10));
+            Paragraph client_paragrapf = new Paragraph();
+            float clientLeftSpacing_float = Convert.ToSingle(clientLeftSpacing);
+            client_paragrapf.SpacingBefore = 20f;
+            client_paragrapf.SpacingAfter = 20f;
+            client_paragrapf.IndentationLeft = clientLeftSpacing_float;
+            client_paragrapf.Font = normalFont_10;
+            client_paragrapf.Add(client);
+            doc.Add(client_paragrapf);
 
             p = new Paragraph();
             p.Add(new Chunk("RAČUN R2", normalFont_12));

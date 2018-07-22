@@ -488,17 +488,23 @@
                             </div>
                         </div>
                         <div style="margin-bottom:100px">
+                            <div class="row">
+                                <span class="col-sm-9 text-right">Poravnanje - klijent (300 desno, 0 lijevo):</span>
+                                <div class="col-sm-3">
+                                    <input ng-model="clientLeftSpacing" type="number" min="0" max="350" class="form-control text-right" />
+                                </div>
+                            </div>
                             <div class="checkbox">
                                 <label><input ng-model="isForeign" type="checkbox" /> Inozemni račun</label>
                             </div>
                             <div ng-show="isForeign" class="row well">
-                                <span class="col-sm-4" for="email">Ukupno (€): {{totPrice_eur}}</span>
+                                <span class="col-sm-4" for="email">Ukupno (€):</span>
                                 <div class="col-sm-8">
-                                    <input ng-model="totPrice_eur" class="form-control" tyoe="number" />
+                                    <input ng-model="totPrice_eur" class="form-control" type="number" />
                                 </div>
                             </div>
                             <div>
-                                <button class="btn btn-danger" ng-click="createPdf(i, isForeign, totPrice_eur)"><i class="fa fa-{{loading==true?'spinner fa-spin':'file-pdf-o'}}"></i> Kreiraj PDF</button>
+                                <button class="btn btn-danger" ng-click="createPdf(i, isForeign, totPrice_eur, clientLeftSpacing)"><i class="fa fa-{{loading==true?'spinner fa-spin':'file-pdf-o'}}"></i> Kreiraj PDF</button>
                             </div>
                             <div class="m10">
                                 <a ng-if="pdfTempLink" href="{{pdfTempLink}}" download><i class="fa fa-file-pdf-o"></i> {{pdfTempLink}}</a>

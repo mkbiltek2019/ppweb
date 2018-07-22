@@ -326,6 +326,7 @@ angular.module('app', [])
         $scope.total = angular.isDefined($rootScope.i) ? $scope.getTotal($rootScope.i.items) : 0;
         $scope.year = new Date().getFullYear();
         $scope.isForeign = false;
+        $scope.clientLeftSpacing = 300;
         //$scope.totPrice_eur = 0;
     }
     initForm();
@@ -395,7 +396,6 @@ angular.module('app', [])
      });
     }
 
-
     $scope.add = function () {
         $rootScope.i.items.push({
             title: '',
@@ -411,7 +411,7 @@ angular.module('app', [])
     }
 
     $scope.totPrice_eur = 0;
-    $scope.createPdf = function (i, isForeign, totPrice_eur) {
+    $scope.createPdf = function (i, isForeign, totPrice_eur, clientLeftSpacing) {
         if ($rootScope.i.firstName == null && $rootScope.i.lastName == null && $rootScope.i.companyName == null) {
             alert('Upiši ime ili naziv');
             return false;
@@ -427,7 +427,7 @@ angular.module('app', [])
         $http({
             url: $rootScope.config.backend + 'PrintPdf.asmx/InvoicePdf',
             method: 'POST',
-            data: { invoice: i, isForeign: isForeign, totPrice_eur: totPrice_eur }
+            data: { invoice: i, isForeign: isForeign, totPrice_eur: totPrice_eur, clientLeftSpacing: clientLeftSpacing }
         })
      .then(function (response) {
          $scope.loading = false;
