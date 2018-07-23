@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Configuration;
 using System.Text;
+using Igprog;
 
 /// <summary>
 /// SendMail
@@ -15,32 +16,40 @@ using System.Text;
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [System.Web.Script.Services.ScriptService]
 public class Mail : System.Web.Services.WebService {
-    string myEmail = ConfigurationManager.AppSettings["myEmail"]; // "program.prehrane@yahoo.com";
-    string myPassword = ConfigurationManager.AppSettings["myPassword"]; // "Tel546360";
-    int myServerPort = Convert.ToInt32(ConfigurationManager.AppSettings["myServerPort"]); // 587;
-    string myServerHost = ConfigurationManager.AppSettings["myServerHost"]; // "smtp.mail.yahoo.com";
+    string myEmail = ConfigurationManager.AppSettings["myEmail"];
+    string myPassword = ConfigurationManager.AppSettings["myPassword"];
+    string myEmail_en = ConfigurationManager.AppSettings["myEmail_en"];
+    string myPassword_en = ConfigurationManager.AppSettings["myPassword_en"];
+    int myServerPort = Convert.ToInt32(ConfigurationManager.AppSettings["myServerPort"]);
+    string myServerHost = ConfigurationManager.AppSettings["myServerHost"];
+    Translate t = new Translate();
 
     public Mail() {
     }
 
     #region WebMethods
     [WebMethod]
-    public string Send(string name, string email, string messageSubject, string message) {
+    public string Send(string name, string email, string messageSubject, string message, string lang) {
       //  messageSubject = "Program Prehrane - podaci za uplatu";
        string messageBody = string.Format(
-@"
-<hr>Novi upit</h3>
-<p>Ime: {0}</p>
-<p>Email: {1}</p>
-<p>Poruka: {2}</p>", name, email, message);
+           @"
+<hr>{0}</h3>
+<p>{1}: {2}</p>
+<p>{3}: {4}</p>
+<p>{5}: {6}</p>", t.Tran("new inquiry", lang), t.Tran("name", lang), name, t.Tran("email", lang), email, t.Tran("message", lang), message);
+//@"
+//<hr>Novi upit</h3>
+//<p>Ime: {0}</p>
+//<p>Email: {1}</p>
+//<p>Poruka: {2}</p>", name, email, message);
         try {
-            SendMail(myEmail, messageSubject, messageBody);
+            SendMail(myEmail, messageSubject, messageBody, lang);
             return "ok";
         } catch (Exception e) { return ("Error: " + e); }
     }
 
     [WebMethod]
-    public string SendMenu(string email, Menues.NewMenu currentMenu, Users.NewUser user) {
+    public string SendMenu(string email, Menues.NewMenu currentMenu, Users.NewUser user, string lang) {
         try {
             StringBuilder sb = new StringBuilder();
             StringBuilder meal1 = new StringBuilder();
@@ -90,22 +99,22 @@ public class Mail : System.Web.Services.WebService {
 
             string subject = string.Format("{0}", !string.IsNullOrWhiteSpace(user.companyName) ? user.companyName : string.Format("{0} {1}", user.firstName, user.lastName));
 
-            SendMail(email, subject, sb.ToString());
+            SendMail(email, subject, sb.ToString(), lang);
             return "menu sent successfully";
         } catch (Exception e) { return ("error: " + e); }
     }
 
     [WebMethod]
-    public string SendMessage(string sendTo, string messageSubject, string messageBody) {
+    public string SendMessage(string sendTo, string messageSubject, string messageBody, string lang) {
         try {
-            SendMail(sendTo, messageSubject, messageBody);
+            SendMail(sendTo, messageSubject, messageBody, lang);
             return "mail sent successfully";
         } catch (Exception e) { return (e.Message); }
     }
     #endregion WebMethods
 
     #region Methods
-    public void SendOrder(Orders.NewUser user) {
+    public void SendOrder(Orders.NewUser user, string lang) {
 
         //-----------Send mail to me---------
         string messageSubject = "Nova narudžba";
@@ -136,10 +145,10 @@ public class Mail : System.Web.Services.WebService {
         , user.licenceNumber
         , GetLicenceDuration(user.licence));
 
-        SendMail(myEmail, messageSubject, messageBody);
+        SendMail(myEmail, messageSubject, messageBody, lang);
         // ---------------------------------------
 
-        //------ Send mailo to customer-------
+        //------ Send mail to customer-------
         messageSubject = "Program Prehrane - podaci za uplatu";
         messageBody = string.Format(
 @"
@@ -185,22 +194,24 @@ public class Mail : System.Web.Services.WebService {
 , Math.Round(user.priceEur,0)
 , string.IsNullOrWhiteSpace(user.pin) ? "HR99" : "HR00");
 
-        SendMail(user.email, messageSubject, messageBody);
+        SendMail(user.email, messageSubject, messageBody, lang);
         //-----------------------------------------
 
     }
 
-    public void SendMail(string sendTo, string messageSubject, string messageBody) {
+    public void SendMail(string sendTo, string messageSubject, string messageBody, string lang) {
         try {
+            string my_email = lang == "en" ? myEmail_en : myEmail;
+            string my_password = lang == "en" ? myPassword_en : myPassword;
             MailMessage mailMessage = new MailMessage();
             SmtpClient Smtp_Server = new SmtpClient();
             Smtp_Server.UseDefaultCredentials = false;
-            Smtp_Server.Credentials = new NetworkCredential(myEmail, myPassword);
+            Smtp_Server.Credentials = new NetworkCredential(my_email, my_password);
             Smtp_Server.Port = myServerPort;
             Smtp_Server.EnableSsl = true;
             Smtp_Server.Host = myServerHost;
             mailMessage.To.Add(sendTo);
-            mailMessage.From = new MailAddress(myEmail);
+            mailMessage.From = new MailAddress(my_email);
             mailMessage.Subject = messageSubject;
             mailMessage.Body = messageBody;
             mailMessage.IsBodyHtml = true;

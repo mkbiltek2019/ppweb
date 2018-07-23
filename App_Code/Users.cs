@@ -174,7 +174,7 @@ public class Users : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string Signup(NewUser x) {
+    public string Signup(NewUser x, string lang) {
         string path = HttpContext.Current.Server.MapPath("~/App_Data/" + dataBase);
         db.CreateGlobalDataBase(path, db.users);
         if (Check(x) != false) {
@@ -212,7 +212,7 @@ public class Users : System.Web.Services.WebService {
                 command.Parameters.Add(new SQLiteParameter("IPAddress", x.ipAddress));
                 command.ExecuteNonQuery();
                 connection.Close();
-                SendMail(x);
+                SendMail(x, lang);
                 return ("registration completed successfully");
             } catch (Exception e) { return ("error: " + e); }
         }
@@ -455,7 +455,7 @@ public class Users : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string ForgotPassword(string email) {
+    public string ForgotPassword(string email, string lang) {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
             connection.Open();
@@ -514,7 +514,7 @@ public class Users : System.Web.Services.WebService {
                 response = "wrong e-mail";
             }
             else {
-                mail.SendMail(x.email, messageSubject, messageBody);
+                mail.SendMail(x.email, messageSubject, messageBody, lang);
                 response = "password has been sent to your e-mail";
             }
 
@@ -613,7 +613,7 @@ public class Users : System.Web.Services.WebService {
         return json;
     }
 
-    private void SendMail(NewUser x) {
+    private void SendMail(NewUser x, string lang) {
         Mail mail = new Mail();
         string messageSubject = "Program Prehrane - Registracija";
         string messageBody = string.Format(
@@ -636,7 +636,7 @@ public class Users : System.Web.Services.WebService {
 </div>"
 , x.userName
 , Decrypt(x.password));
-            mail.SendMail(x.email, messageSubject, messageBody);
+            mail.SendMail(x.email, messageSubject, messageBody, lang);
     }
 
     private string GetLicenceStatus(NewUser x) {

@@ -112,7 +112,7 @@ public class Orders : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string SendOrder(NewUser x) {
+    public string SendOrder(NewUser x, string lang) {
             try {
             string path = HttpContext.Current.Server.MapPath("~/App_Data/" + dataBase);
             db.CreateGlobalDataBase(path, db.orders);
@@ -143,7 +143,7 @@ public class Orders : System.Web.Services.WebService {
             command.ExecuteNonQuery();
             connection.Close();
             Mail m = new Mail();
-            m.SendOrder(x);
+            m.SendOrder(x, lang);
             return ("OK");
             } catch (Exception e) { return ("Error: " + e); }
         }

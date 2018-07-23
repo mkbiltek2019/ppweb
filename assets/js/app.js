@@ -4,6 +4,16 @@ app.js
 */
 angular.module('app', ['ngMaterial'])
 
+.config(['$httpProvider', function ($httpProvider) {
+    //--------------disable catche---------------------
+    if (!$httpProvider.defaults.headers.get) {
+        $httpProvider.defaults.headers.get = {};
+    }
+    $httpProvider.defaults.headers.get['If-Modified-Since'] = 'Mon, 26 Jul 1997 05:00:00 GMT';
+    $httpProvider.defaults.headers.get['Cache-Control'] = 'no-cache';
+    $httpProvider.defaults.headers.get['Pragma'] = 'no-cache';
+    //-------------------------------------------------
+}])
 
 .controller('appCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
 
@@ -43,7 +53,7 @@ angular.module('app', ['ngMaterial'])
         $http({
             url: $rootScope.config.backend + 'Mail.asmx/Send',
             method: 'POST',
-            data: { name: g.name, email: g.email, phone: g.phone, address: g.address, type: g.type, message: g.message }
+            data: { name: g.name, email: g.email, phone: g.phone, address: g.address, type: g.type, message: g.message, lang: $rootScope.config.language }
         })
      .then(function (response) {
          $scope.sendicon = 'fa fa-check';
@@ -59,8 +69,6 @@ angular.module('app', ['ngMaterial'])
 }])
 
 .controller('webAppCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
-     //$rootScope.application = 'Program Prehrane';
-    //$rootScope.version = 'WEB';
     $rootScope.application = 'Program Prehrane Web';
     $rootScope.version = 'STANDARD';
 }])
@@ -144,7 +152,7 @@ angular.module('app', ['ngMaterial'])
         $http({
             url: $rootScope.config.backend + 'Users.asmx/Signup',
             method: 'POST',
-            data: { x: user }
+            data: { x: user, lang: $rootScope.config.language }
         })
        .then(function (response) {
            if (response.data.d == 'the email address you have entered is already registered') {
@@ -290,7 +298,7 @@ angular.module('app', ['ngMaterial'])
         $http({
             url: $rootScope.config.backend + 'Orders.asmx/SendOrder',
             method: 'POST',
-            data: { x: user }
+            data: { x: user, lang: $rootScope.config.language }
         })
        .then(function (response) {
            $scope.showAlert = true;
@@ -372,7 +380,7 @@ angular.module('app', ['ngMaterial'])
         $http({
             url: $rootScope.config.backend + 'Mail.asmx/Send',
             method: 'POST',
-            data: { name: d.name, email: d.email, messageSubject: 'Program Prehrane - Upit', message: d.message }
+            data: { name: d.name, email: d.email, messageSubject: 'Program Prehrane - Upit', message: d.message, lang: $rootScope.config.language }
         })
        .then(function (response) {
            $scope.showAlert = true;

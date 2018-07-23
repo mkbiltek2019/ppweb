@@ -8,7 +8,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $urlRouterProvider.otherwise('/index');
 
-    $stateProvider
+    /*$stateProvider
         .state('index', {
             url: '/index',
             templateUrl: 'assets/partials/index.html',
@@ -28,7 +28,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             url: '/calculation',
             templateUrl: 'assets/partials/calculation.html',
             controller: 'calculationCtrl'
-        });
+        });*/
 
 
     $translateProvider.useLoader('$translatePartialLoader', {
@@ -486,7 +486,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
              $http({
                  url: $sessionStorage.config.backend + webService + '/ForgotPassword',
                  method: "POST",
-                 data: { email: x }
+                 data: { email: x, lang: $rootScope.config.language }
              })
            .then(function (response) {
                $mdDialog.hide();
@@ -557,7 +557,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + webService + '/Signup',
             method: "POST",
-            data: { x: $scope.newUser }
+            data: { x: $scope.newUser, lang: $rootScope.config.language }
         })
         .then(function (response) {
             if (response.data.d == 'registration completed successfully') {
@@ -893,7 +893,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + webService + '/Signup',
             method: "POST",
-            data: { x: $scope.newUser }
+            data: { x: $scope.newUser, lang: $rootScope.config.language }
         })
         .then(function (response) {
             load();
@@ -1510,7 +1510,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + 'Mail.asmx/SendMessage',
             method: "POST",
-            data: { sendTo: client.email, messageSubject: messageSubject, messageBody: messageBody }
+            data: { sendTo: client.email, messageSubject: messageSubject, messageBody: messageBody, lang: $rootScope.config.language }
         })
         .then(function (response) {
             $scope.sendingMail = false;
@@ -2924,7 +2924,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $http({
                 url: $sessionStorage.config.backend + 'Mail.asmx/SendMenu',
                 method: "POST",
-                data: { email: x.client.email, currentMenu: x.currentMenu, user: $scope.d.user }
+                data: { email: x.client.email, currentMenu: x.currentMenu, user: $scope.d.user, lang: $rootScope.config.language }
             })
             .then(function (response) {
                 functions.alert($translate.instant(response.data.d), '');

@@ -1686,6 +1686,9 @@
   "you do not have any foods": "nemate vlastitih namirnica",
   "client app": "aplikacija za klijente",
   "allow your clients to track their anthropometric parameters and download menus through a web app": "omogućite svojim klijentima da samostalno prate svoje antropometrijske parametre i preuzimaju jelovnike putem web aplikacije",
-  "send access link to the client's email": "pošalji pristupni link na e-mail klijenta"
+  "send access link to the client's email": "pošalji pristupni link na e-mail klijenta",
+  "new inquiry": "novi upit",
+  "name": "ime",
+  "message": "poruka"
 
 }

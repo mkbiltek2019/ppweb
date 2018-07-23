@@ -1678,6 +1678,9 @@
   "you do not have any foods": "you do not have any foods",
   "client app": "client app",
   "allow your clients to track their anthropometric parameters and download menus through a web app": "allow your clients to track their anthropometric parameters and download menus through a web app",
-  "send access link to the client's email": "send access link to the client's email"
+  "send access link to the client's email": "send access link to the client's email",
+  "new inquiry": "new inquiry",
+  "name": "name",
+  "message":  "message"
 
 }
