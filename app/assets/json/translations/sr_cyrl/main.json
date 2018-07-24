@@ -1628,6 +1628,7 @@
   "send access link to the client's email": "пошаљи приступни линк на е-маил клијента",
   "new inquiry": "нови упит",
   "name": "име",
-  "message": "порука"
+  "message": "порука",
+  "user not found": "корисник није пронађен"
 
 }

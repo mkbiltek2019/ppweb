@@ -490,10 +490,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
              })
            .then(function (response) {
                $mdDialog.hide();
-               functions.alert($translate.instant(JSON.parse(response.data.d)), '');
+               functions.alert(JSON.parse(response.data.d), '');
            },
            function (response) {
-               functions.alert($translate.instant(response.data.d), '');
+               functions.alert(response.data.d, '');
            });
          }
 

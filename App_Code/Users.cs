@@ -20,6 +20,7 @@ public class Users : System.Web.Services.WebService {
     string dataBase = ConfigurationManager.AppSettings["UsersDataBase"];
     string userDataBase = ConfigurationManager.AppSettings["UserDataBase"];
     DataBase db = new DataBase();
+    Translate t = new Translate();
     string EncryptionKey = ConfigurationManager.AppSettings["EncryptionKey"];
     string supervisorUserName = ConfigurationManager.AppSettings["SupervisorUserName"];
     string supervisorPassword = ConfigurationManager.AppSettings["SupervisorPassword"];
@@ -495,7 +496,7 @@ public class Users : System.Web.Services.WebService {
 <p>Podaci za prijavu u aplikaciju <strong>Program Prehrane Web</strong>:</p>
 <p>Korisničko ime: <strong>{0}</strong></p>
 <p>Lozinka: <strong>{1}</strong></p>
-<p>Prijava u aplikaciju: <a href=""http://www.programprehrane.com"">www.programprehrane.com</a></p>
+<p>Prijava u aplikaciju: <a href=""http://www.programprehrane.com/app"">www.programprehrane.com/app</a></p>
 <br />
 <br />
 <div style=""color:gray"">
@@ -511,11 +512,11 @@ public class Users : System.Web.Services.WebService {
 
             string response = "";
             if (x.userName == null) {
-                response = "wrong e-mail";
+                response = t.Tran("user not found",lang);
             }
             else {
                 mail.SendMail(x.email, messageSubject, messageBody, lang);
-                response = "password has been sent to your e-mail";
+                response = t.Tran("password has been sent to your e-mail",lang);
             }
 
             string json = JsonConvert.SerializeObject(response, Formatting.Indented);

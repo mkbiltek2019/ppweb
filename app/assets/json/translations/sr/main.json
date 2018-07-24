@@ -1629,6 +1629,7 @@
   "send access link to the client's email": "pošalji pristupni link na e-mail klijenta",
   "new inquiry": "novi upit",
   "name": "ime",
-  "message": "poruka"
+  "message": "poruka",
+  "user not found": "korisnik nije pronađen"
 
 }

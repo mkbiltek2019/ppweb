@@ -1681,6 +1681,7 @@
   "send access link to the client's email": "send access link to the client's email",
   "new inquiry": "new inquiry",
   "name": "name",
-  "message":  "message"
+  "message": "message",
+  "user not found": "user not found"
 
 }

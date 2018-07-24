@@ -36,13 +36,13 @@
                     <label>Cijena: <strong>{{user.price}} kn</strong></label>
                 </div>
                 <div class="text-right">
-                    <button class="btn btn-default main" ng-click="gotoForm()">Dalje <i class="fa fa-angle-double-right"></i></button>
+                    <button class="btn btn-default btn-lg main" ng-click="gotoForm()">Dalje <i class="fa fa-angle-double-right"></i></button>
                 </div>
             </div>
             <div ng-if="user.application=='Program Prehrane Web' && !showUserDetails">
                 <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
-                        <label>Email</label>
+                        <label>Korisničko ime (E-mail)</label>
                         <input ng-model="user.email" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" type="text" />
                     </md-input-container>
                 </div>
@@ -53,14 +53,20 @@
                     </md-input-container>
                 </div>
                 <div class="text-right">
-                    <button class="btn btn-default main" ng-click="login(user.email, password)">Dalje <i class="fa fa-angle-double-right"></i></button>
+                    <button class="btn btn-default btn-lg main" ng-click="login(user.email, password)">Dalje <i class="fa fa-angle-double-right"></i></button>
+                </div>
+                <div class="text-left">
+                    Zaboravili ste lozinku? <a href="#app" ng-click="forgotPassword(user.email)">Pošalji mi lozinku na E-mail</a>
                 </div>
                 <div class="text-left">
                     Nemate korisničko ime i lozinku? <a href="#app" ng-click="registration()">Registrirajte se...</a>
                 </div>
             </div>
             <div ng-if="showErrorAlert" class="alert alert-danger">
-                <strong>{{errorMesage}}</strong>
+                <strong>{{errorMessage}}</strong>
+            </div>
+            <div ng-if="showSuccessAlert" class="alert alert-success">
+                <strong>{{successMessage}}</strong>
             </div>
             <div ng-if="showUserDetails">
                 <div ng-if="user.application=='Program Prehrane Web'" class="row m10">
@@ -150,7 +156,7 @@
                         </md-input-container>
                     </div>
                     <div class="text-right">
-                        <button class="btn btn-default main" ng-disabled="isSendButtonDisabled" ng-click="sendOrder(user)">{{sendicontitle}} <span ng-class="sendicon"></span></button>
+                        <button class="btn btn-default btn-lg main" ng-disabled="isSendButtonDisabled" ng-click="sendOrder(user)">{{sendicontitle}} <span ng-class="sendicon"></span></button>
                     </div>
                 </div>
             </div>

@@ -281,13 +281,13 @@ angular.module('app', ['ngMaterial'])
         $scope.showErrorAlert = false;
         if (user.email == '' || user.firstName == '' || user.lastName == '' || user.address == '' || user.postalCode == '' || user.city == '' || user.country == '') {
             $scope.showErrorAlert = true;
-            $scope.errorMesage = 'Sva polja su obavezna.';
+            $scope.errorMessage = 'Sva polja su obavezna.';
             return false;
         }
         if ($scope.userType == 1) {
             if (user.companyName == '' || user.pin == '') {
                 $scope.showErrorAlert = true;
-                $scope.errorMesage = 'Sva polja su obavezna.';
+                $scope.errorMessage = 'Sva polja su obavezna.';
                 return false;
             }
         }
@@ -339,13 +339,13 @@ angular.module('app', ['ngMaterial'])
                 $scope.showErrorAlert = false;
             } else {
                 $scope.showErrorAlert = true;
-                $scope.errorMesage = 'Korisnik nije pronađen.'
+                $scope.errorMessage = 'Pogrešna kombinacija korisničkog imena i lozinke'
             }
         },
         function (response) {
             $scope.errorLogin = true;
             $scope.showErrorAlert = true;
-            $scope.errorMesage = 'Korisnik nije pronađen.'
+            $scope.errorMessage = 'Pogrešna kombinacija korisničkog imena i lozinke'
             $scope.showUserDetails = false;
         });
     }
@@ -356,6 +356,29 @@ angular.module('app', ['ngMaterial'])
 
     $scope.gotoForm = function () {
         $scope.showUserDetails = true;
+    }
+
+    $scope.forgotPassword = function (x) {
+        $scope.showErrorAlert = false;
+        $scope.showSuccessAlert = false;
+        if (x == null || x == '') {
+            $scope.showErrorAlert = true;
+            $scope.errorMessage = 'Upišite E-mail koji ste koristili za registraciju.'
+        } else {
+            $http({
+                url: $rootScope.config.backend + 'Users.asmx/ForgotPassword',
+                method: "POST",
+                data: { email: x, lang: $rootScope.config.language }
+            })
+          .then(function (response) {
+              $scope.showSuccessAlert = true;
+              $scope.successMessage = JSON.parse(response.data.d);
+          },
+          function (response) {
+              $scope.showErrorAlert = true;
+              $scope.errorMessage = JSON.parse(response.data.d);
+          });
+        }
     }
 
 
