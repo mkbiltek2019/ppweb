@@ -66,7 +66,7 @@ public class Users : System.Web.Services.WebService {
         public int subuser { get; set; }
         public int total { get; set; }
         public double licencepercentage { get; set; }
-
+        public Object city { get; set; } 
     }
 
     public class DataSum {
@@ -227,8 +227,8 @@ public class Users : System.Web.Services.WebService {
             connection.Open();
 
             string sql = @"UPDATE Users SET  
-                             UserType = @UserType, FirstName = @FirstName, LastName = @LastName, CompanyName = @CompanyName, Address = @Address, PostalCode = @PostalCode, City = @City, Country = @Country, Pin = @Pin, Phone = @Phone, Email = @Email, UserName = @UserName, Password = @Password, AdminType = @AdminType, UserGroupId = @UserGroupId, ActivationDate = @ActivationDate, ExpirationDate = @ExpirationDate, IsActive = @IsActive, IPAddress = @IPAddress
-                             WHERE UserId = @UserId";
+                            UserType = @UserType, FirstName = @FirstName, LastName = @LastName, CompanyName = @CompanyName, Address = @Address, PostalCode = @PostalCode, City = @City, Country = @Country, Pin = @Pin, Phone = @Phone, Email = @Email, UserName = @UserName, Password = @Password, AdminType = @AdminType, UserGroupId = @UserGroupId, ActivationDate = @ActivationDate, ExpirationDate = @ExpirationDate, IsActive = @IsActive, IPAddress = @IPAddress
+                            WHERE UserId = @UserId";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             command.Parameters.Add(new SQLiteParameter("UserId", x.userId));
             command.Parameters.Add(new SQLiteParameter("UserType", x.userType));
@@ -278,6 +278,7 @@ public class Users : System.Web.Services.WebService {
             x.subuser = users.Where(a => a.isActive == true && a.userId != a.userGroupId).Count();
             x.total = users.Count();
             x.licencepercentage = x.total == x.subuser ? 0 : Math.Round((Convert.ToDouble(x.licence) / (x.total - x.subuser) * 100), 1);
+            x.city = GetCityCount(users);
             return JsonConvert.SerializeObject(x, Formatting.Indented);
         } catch (Exception e) {
             return (e.Message);
@@ -760,6 +761,15 @@ public class Users : System.Web.Services.WebService {
             x = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
         }
         return x;
+    }
+
+    public Object GetCityCount(List<NewUser> users) {
+        var aa = from r in users
+                 orderby r.city
+                 group r by r.city into g
+                 select new { name = g.Key, count = g.Count() };
+        aa = aa.OrderByDescending(a => a.count);
+        return aa.ToList();
     }
     #endregion
 
