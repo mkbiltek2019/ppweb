@@ -265,6 +265,20 @@ angular.module('app', [])
         }
     }
 
+    $scope.updateInfo = function (x) {
+        $http({
+            url: $rootScope.config.backend + 'Users.asmx/UpdateUserInfoFromOrdersTbl',
+            method: 'POST',
+            data: { email: x }
+        })
+        .then(function (response) {
+            alert(response.data.d);
+        },
+        function (response) {
+            alert(response.data.d);
+        });
+    }
+
 }])
 
 .controller('ordersCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {

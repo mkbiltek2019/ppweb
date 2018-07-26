@@ -211,11 +211,16 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 
     $rootScope.loadData = function () {
-        $rootScope.loadFoods();
-        $rootScope.loadPals();
-        $rootScope.loadGoals();
-        $rootScope.loadActivities();
-        $rootScope.loadDiets();
+        if ($sessionStorage.user == null) {
+            $scope.toggleTpl('login.html');
+            $rootScope.isLogin = false;
+        } else {
+            $rootScope.loadFoods();
+            $rootScope.loadPals();
+            $rootScope.loadGoals();
+            $rootScope.loadActivities();
+            $rootScope.loadDiets();
+        }
     }
 
     $scope.toggleTpl = function (x) {
@@ -223,7 +228,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 
     var checkUser = function () {
-        if ($sessionStorage.userid == "" || $sessionStorage.userid == undefined || $sessionStorage.user.licenceStatus == 'expired') {
+        if ($sessionStorage.userid == "" || $sessionStorage.userid == undefined || $sessionStorage.user == null || $sessionStorage.user.licenceStatus == 'expired') {
             $scope.toggleTpl('login.html');
             $rootScope.isLogin = false;
         } else {
@@ -797,7 +802,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + webService + '/GetUsersByUserGroup',
             method: 'POST',
-            data: { userGroupId: $rootScope.user.userGroupId }
+            data: { userGroupId: $sessionStorage.usergroupid }
         })
       .then(function (response) {
           $scope.users = JSON.parse(response.data.d);
@@ -821,22 +826,27 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.package = function (x) {
-        if ($rootScope.user.licenceStatus == 'demo') {
-            return 'demo';
+        if (angular.isDefined($rootScope.user) && $rootScope.user != null) {
+            if ($rootScope.user.licenceStatus == 'demo') {
+                return 'demo';
+            }
+            switch (x) {
+                case 0:
+                    return 'start';
+                    break;
+                case 1:
+                    return 'standard';
+                    break;
+                case 1:
+                    return 'premium';
+                    break;
+                default:
+                    return '';
+            }
+        } else {
+            return '';
         }
-        switch (x) {
-            case 0:
-                return 'start';
-                break;
-            case 1:
-                return 'standard';
-                break;
-            case 1:
-                return 'premium';
-                break;
-            default:
-                return '';
-        }
+        
     }
 
     var maxnumberofusers = function () {
@@ -904,11 +914,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         });
     }
 
-    $scope.update = function () {
+    $scope.update = function (user) {
         $http({
             url: $sessionStorage.config.backend + webService + '/Update',
             method: 'POST',
-            data: {x: $rootScope.user}
+            data: {x: user}
 
         })
        .then(function (response) {
@@ -920,18 +930,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.showUser = function (x) {
-        $http({
-            url: $sessionStorage.config.backend + webService + '/Get',
-            method: 'POST',
-            data: {userId: x}
-        })
-     .then(function (response) {
-         $rootScope.user = JSON.parse(response.data.d);
-         $rootScope.currTpl = 'assets/partials/user.html';
-     },
-     function (response) {
-         alert(response.data.d)
-     });
+        $rootScope.user = x;
+        $rootScope.currTpl = 'assets/partials/user.html';
     };
 
     $scope.updateUser = function (user) {
@@ -973,6 +973,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
        });
     }
 
+    $scope.showpass = false;
     $scope.showPassword = function () {
         $scope.showpass = $scope.showpass == true ? false : true;
     }
@@ -4983,7 +4984,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $rootScope.config.backend + 'Orders.asmx/SendOrder',
             method: 'POST',
-            data: { x: user }
+            data: { x: user, lang: $rootScope.config.language }
         })
        .then(function (response) {
            $scope.showAlert = true;

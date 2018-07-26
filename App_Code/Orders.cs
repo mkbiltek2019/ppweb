@@ -147,10 +147,11 @@ public class Orders : System.Web.Services.WebService {
             connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + usersDataBase));
             connection.Open();
             string sql1 = string.Format(@"UPDATE Users SET  
-                            FirstName = '{0}', LastName = '{1}', CompanyName = '{2}', Address = '{3}', PostalCode = '{4}', City = '{5}', Country = '{6}', Pin = '{7}'
-                            WHERE email = '{8}'", x.firstName, x.lastName, x.companyName, x.address, x.postalCode, x.city, x.country, x.pin, x.email);
+                            CompanyName='{0}', Address='{1}', PostalCode='{2}', City='{3}', Country='{4}', Pin='{5}'
+                            WHERE email='{6}'", x.companyName, x.address, x.postalCode, x.city, x.country, x.pin, x.email);
             command = new SQLiteCommand(sql1, connection);
             command.ExecuteNonQuery();
+            connection.Close();
 
             Mail m = new Mail();
             m.SendOrder(x, lang);

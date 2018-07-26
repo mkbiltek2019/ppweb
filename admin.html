@@ -136,7 +136,10 @@
                     <!--<tr ng-if="$index>=idxStart && $index<idxEnd" ng-repeat="x in d | filter:searchsignup" ng-class="x.userId!=x.userGroupId?'text-muted':''">-->
                     <tr ng-class="x.userId!=x.userGroupId?'text-muted':''"  ng-repeat="x in d track by $index">
                         <!--<td>{{d.length - $index}}</td>-->
-                        <td><button ng-click="info(x.userId)" class="btn btn-info" data-toggle="modal" data-target="#myModal"><i class="fa fa-info"></i></button></td>
+                        <td>
+                            <button ng-click="info(x.userId)" class="btn btn-info" data-toggle="modal" data-target="#myModal"><i class="fa fa-info"></i></button>
+                            <button ng-if="showDetails" ng-click="updateInfo(x.email)" class="btn btn-warning" ><i class="fa fa-wrench"></i></button>
+                        </td>
                         <td>{{x.rowid}}</td>
                         <td ng-if="showDetails" class="nowrap">{{x.userId}}</td>
                         <td ng-if="showDetails" class="nowrap">{{x.userGroupId}}</td>

@@ -37,11 +37,9 @@
                             </md-input-container>
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label style="margin-bottom: 30px">{{'admin type' | translate}}</label>
-                                <!--<input ng-model="adminType(user.adminType)">-->
                                 <select ng-disabled="loginUser.adminType==0?false:true" ng-model="user.adminType" class="form-control">
                                     <option ng-selected="user.adminType==0?true:false" value="0">{{'supervisor' | translate}}</option>
                                     <option ng-selected="user.adminType==1?true:false" value="1">{{'admin' | translate}}</option>
-                                    <!--<option ng-selected="user.adminType==2?true:false" value="2">{{'demo' | translate}}</option>-->
                                 </select>
                             </md-input-container>
                         </div>
@@ -49,6 +47,10 @@
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>{{'company name' | translate}}</label>
                                 <input ng-model="user.companyName">
+                            </md-input-container>
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label class="text-uppercase">{{'pin' | translate}}</label>
+                                <input ng-model="user.pin">
                             </md-input-container>
                         </div>
                         <div layout-gt-sm="row">
@@ -69,19 +71,19 @@
                                 <input ng-model="user.country">
                             </md-input-container>
                         </div>
-                        <div layout-gt-sm="row">
-                            <md-input-container class="md-block" flex-gt-sm>
-                                <label>{{'pin' | translate}}</label>
-                                <input ng-model="user.pin">
-                            </md-input-container>
-                            <md-input-container class="md-block" flex-gt-sm>
-                                <label>{{'phone' | translate}}</label>
-                                <input ng-model="user.phone">
-                            </md-input-container>
-                            <md-input-container class="md-block" flex-gt-sm>
-                                <label>{{'email' | translate}}</label>
-                                <input name="email" ng-model="user.email" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" disabled/>
-                            </md-input-container>
+                        <div class="row">
+                            <label class="col-sm-2 text-right">
+                                {{'phone' | translate}}
+                            </label>
+                            <div class="col-sm-4 text-right">
+                                <input ng-model="user.phone" class="form-control">
+                            </div>
+                            <label class="col-sm-2">
+                                {{'email' | translate}}
+                            </label>
+                            <div class="col-sm-4">
+                                <input ng-model="user.email" type="email" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" disabled class="form-control" />
+                            </div>
                         </div>
                         <hr />
                         <div layout-gt-sm="row">

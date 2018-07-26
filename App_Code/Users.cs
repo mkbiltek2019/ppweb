@@ -19,6 +19,7 @@ using Igprog;
 public class Users : System.Web.Services.WebService {
     string dataBase = ConfigurationManager.AppSettings["UsersDataBase"];
     string userDataBase = ConfigurationManager.AppSettings["UserDataBase"];
+    string webDataBase = ConfigurationManager.AppSettings["WebDataBase"];
     DataBase db = new DataBase();
     Translate t = new Translate();
     string EncryptionKey = ConfigurationManager.AppSettings["EncryptionKey"];
@@ -533,6 +534,44 @@ public class Users : System.Web.Services.WebService {
             return (e.Message);
         }
     }
+
+    //******** Only for correcting User tbl ******************
+    [WebMethod]
+    public string UpdateUserInfoFromOrdersTbl(string email) {
+        try {
+            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + webDataBase));
+            connection.Open();
+            string sql = string.Format(@"SELECT companyName, address, postalCode, city, country, pin, email
+                        FROM orders where email='{0}' ORDER BY rowid DESC LIMIT 1", email);
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+            Orders.NewUser x = new Orders.NewUser();
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read()) {
+                x.companyName = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
+                x.address = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
+                x.postalCode = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+                x.city = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
+                x.country = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
+                x.pin = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
+                x.email = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
+            }
+            connection.Close();
+
+            connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
+            connection.Open();
+            string sql1 = string.Format(@"UPDATE Users SET  
+                            CompanyName='{0}', Address='{1}', PostalCode='{2}', City='{3}', Country='{4}', Pin='{5}'
+                            WHERE email='{6}'", x.companyName, x.address, x.postalCode, x.city, x.country, x.pin, x.email);
+            command = new SQLiteCommand(sql1, connection);
+            command.ExecuteNonQuery();
+            connection.Close();
+
+            return JsonConvert.SerializeObject("OK", Formatting.Indented);
+        } catch (Exception e) {
+            return (e.Message);
+        }
+    }
+    //*****************************************************
     #endregion
 
     #region Methods
@@ -764,9 +803,10 @@ public class Users : System.Web.Services.WebService {
     }
 
     public Object GetCityCount(List<NewUser> users) {
+        
         var aa = from r in users
                  orderby r.city
-                 group r by r.city into g
+                 group r by r.city.ToUpper() into g
                  select new { name = g.Key, count = g.Count() };
         aa = aa.OrderByDescending(a => a.count);
         return aa.ToList();
