@@ -218,16 +218,18 @@
                 </div>
             </div>
                 <div class="row">
-                    <div class="col-sm-4 pt20">
+                    <div class="col-sm-6 pt20">
                         <label>Statistika po gradovima</label>
                         <table class="table table-condensed">
                             <tr>
                                 <th class="text-left">Grad</th>
-                                <th class="text-left">Broj korisnika</th>
+                                <th class="text-left">Licence</th>
+                                <th style="width:30%"></th>
                             </tr>
                             <tr ng-repeat="x in t.city">
                                 <td class="text-left">{{x.name}}</td>
                                 <td class="text-left"><strong class="badge">{{x.count}}</strong></td>
+                                <td class="text-left"><div style="width:{{x.count*10}}px; height:20px" class="bg-primary"></div></td>
                             </tr>
                         </table>
                     </div>
@@ -389,7 +391,7 @@
                             <th class="nowrap">Uplaćeno (kn)</th>
                             <th>Datum uplate</th>
                         </tr>
-                        <tr ng-repeat="x in invoices.data">
+                        <tr ng-repeat="x in invoices.data" class="{{x.isPaid==0?'bg-danger':''}}">
                             <td class="nowrap">
                                 <button class="btn btn-primary m2" ng-click="get(x)" title="Uredi"><i class="fa fa-eye"></i></button>
                                 <a href="{{config.backend + 'upload/invoice/' + x.year + '/'+ x.fileName + '.pdf'}}" class="btn btn-danger m2" download title="PDF"><i class="fa fa-file-pdf-o" style="color:white"></i></a>

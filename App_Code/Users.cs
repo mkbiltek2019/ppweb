@@ -803,8 +803,8 @@ public class Users : System.Web.Services.WebService {
     }
 
     public Object GetCityCount(List<NewUser> users) {
-        
         var aa = from r in users
+                 where r.isActive == true
                  orderby r.city
                  group r by r.city.ToUpper() into g
                  select new { name = g.Key, count = g.Count() };
