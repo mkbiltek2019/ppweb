@@ -4927,17 +4927,15 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         var totalprice = 0;
 
         $scope.user.version = $scope.version;
-
-        if ($scope.user.userType == 0) { unitprice = 550; }
-        if ($scope.user.userType == 1) { unitprice = 950; }
-        if ($scope.user.userType == 2) { unitprice = 1850; }
+        if ($scope.user.userType == 0) { unitprice = 550; $scope.user.version = 'START'; }
+        if ($scope.user.userType == 1) { unitprice = 950; $scope.user.version = 'STANDARD'; }
+        if ($scope.user.userType == 2) { unitprice = 1850; $scope.user.version = 'PREMIUM'; }
 
         if ($scope.user.licence > 1) {
             unitprice = unitprice * $scope.user.licence - ((unitprice * $scope.user.licence) * ($scope.user.licence / 10))
         }
 
         $scope.user.licenceNumber = 1;
-
         totalprice = $scope.user.licenceNumber > 1 ? unitprice * $scope.user.licenceNumber - (unitprice * $scope.user.licenceNumber * 0.1) : unitprice;
         $scope.user.price = totalprice;
         $scope.user.priceEur = totalprice / $rootScope.config.eur;
@@ -4961,7 +4959,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.user.application = x;
         $scope.calculatePrice();
     }
-
 
     $scope.sendOrder = function (user) {
         $scope.showErrorAlert = false;
