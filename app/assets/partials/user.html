@@ -72,15 +72,15 @@
                             </md-input-container>
                         </div>
                         <div class="row">
-                            <label class="col-sm-2 text-right">
+                            <span class="col-sm-2 text-right">
                                 {{'phone' | translate}}
-                            </label>
-                            <div class="col-sm-4 text-right">
+                            </span>
+                            <div class="col-sm-4">
                                 <input ng-model="user.phone" class="form-control">
                             </div>
-                            <label class="col-sm-2">
+                            <span class="col-sm-2 text-right">
                                 {{'email' | translate}}
-                            </label>
+                            </span>
                             <div class="col-sm-4">
                                 <input ng-model="user.email" type="email" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" disabled class="form-control" />
                             </div>

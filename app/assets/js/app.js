@@ -34,7 +34,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $translateProvider.useLoader('$translatePartialLoader', {
          urlTemplate: './assets/json/translations/{lang}/{part}.json'
     });
-    $translateProvider.preferredLanguage('hr');
+    $translateProvider.preferredLanguage('en');
     $translatePartialLoaderProvider.addPart('main');
     $translateProvider.useSanitizeValueStrategy('escape');
 
@@ -79,6 +79,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
           .then(function (response) {
               $rootScope.config = response.data;
               $sessionStorage.config = response.data;
+              $rootScope.setLanguage($rootScope.config.language);
               if (angular.isDefined(queryLang)) {
                   if (queryLang == 'hr' || queryLang == 'sr' || queryLang == 'sr_cyrl' || queryLang == 'en') {
                       $rootScope.setLanguage(queryLang);
