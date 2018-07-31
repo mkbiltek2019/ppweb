@@ -40,7 +40,6 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="index.html" style="padding-top:2px !important"><img src="assets/img/logo.svg"></a>
-                <!--<a class="navbar-brand" href="#myPage"><i class="fa fa-cutlery"></i> <span class="hidden-xs">Program Prehrane</span></a>-->
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-right">
@@ -54,40 +53,22 @@
         </div>
     </nav>
 
-    <div class="jumbotron text-center hidden-xs">
-        <div class="row text-center">
-            <div class="col-sm-3"></div>
-            <div class="col-sm-6 well" style="opacity: 0.90; filter: alpha(opacity=95); border-radius: 50%; padding:50px">
-                <h2 style="color:#1fe27e !important; text-shadow: 2px 2px darkgray">Program Prehrane 5.0</h2>
-                <p>Softver za izradu uravnoteženih jelovnika i plana tjelesne aktivnost</p>
-                <a href="#desktopapp" class="btn btn-primary m10"><span class="fa fa-download fa-4x"></span> Download</a>
-                <a href="#order" class="btn btn-success m10"><i class="fa fa-shopping-cart fa-4x"></i> Narudžba</a>
+    <div class="jumbotron text-left" style="padding-top:15vh; margin-bottom:10px">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-1">
+                <a href="#about" style="text-decoration:none" class="text-center">
+                    <h1 class="main-text" style="font-size:50px; text-shadow: 2px 2px 3px #1F4B00;">Program Prehrane 5.0</h1>
+                    <h2 class="lead hidden-xs">Softver za izradu uravnoteženih jelovnika i plana tjelesne aktivnost</h2>
+                </a>
             </div>
-            <div class="col-sm-3"></div>
         </div>
-
-
-        <!--<h1 style="color:#1fe27e !important; text-shadow: 2px 2px darkgray">Program Prehrane 5.0</h1>
-        <p> Softver za izradu uravnoteženih jelovnika i plana tjelesne aktivnost</p>
-        <div class="row text-center">
-            <div class="col-sm-3"></div>
-            <div class="col-sm-6 well" style="opacity: 0.95; filter: alpha(opacity=95); border-radius: 50%;" ng-click="hashId('desktopapp')">
-                <a href="#desktopapp" class="btn btn-primary m10"><span class="fa fa-download fa-4x"></span> Download</a>
-                <a href="#order" class="btn btn-success m10"><i class="fa fa-shopping-cart fa-4x"></i> Narudžba</a>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-2 text-center">
+                <a href="#desktopapp" class="btn btn-default m10 main-border" style="width:260px"><span class="fa fa-download fa-2x"></span> Download</a>
+                <a href="#order" class="btn btn-default m10 main" style="width:260px"><i class="fa fa-shopping-cart fa-2x"></i> Narudžba</a>
             </div>
-        </div>-->
+        </div>
     </div>
-
-    <div class="visible-xs pt60 text-center">
-        <h2 style="color:#1fe27e !important; text-shadow: 2px 2px darkgray">Program Prehrane 5.0</h2>
-        <p>Softver za izradu uravnoteženih jelovnika i plana tjelesne aktivnost</p>
-        <a href="#desktopapp" class="btn btn-primary m10"><span class="fa fa-download fa-4x"></span> Download</a>
-        <a href="#order" class="btn btn-success m10"><i class="fa fa-shopping-cart fa-4x"></i> Narudžba</a>
-        <hr />
-        <a href={{config.appurl}} class="btn btn-primary m10"><i class="fa fa-cloud fa-4x"></i>Web Aplikacija</a>
-        <a href="{{config.apk}}" class="btn btn-success m10"><i class="fa fa-android fa-4x"></i> Android aplikacija</a>
-    </div>
-
     <div id="PP5Carousel" class="carousel slide text-center" data-ride="carousel" style="padding:60px 50px 20px 50px; margin:10px 5px 20px 5px; border:solid 1px #428bca">
         <ol class="carousel-indicators">
             <li data-target="#PP5Carousel" data-slide-to="0" class="active"></li>
@@ -218,7 +199,7 @@
                             <label><input ng-model="pp5lang" value="rs" type="radio" name="optradiolang" ng-click="setDownloadLink(pp5lang)">Verzija na Srpskom jeziku</label>
                         </div>
 
-                        <a href="{{pp5downloadlink}}" class="btn btn-primary"><i class="fa fa-download"></i> DOWNLOAD</a>
+                        <a href="{{pp5downloadlink}}" class="btn btn-default main"><i class="fa fa-download"></i> DOWNLOAD</a>
                         <p> Instalacijom programa prihvaćate <a href="./download/hr/licence.txt" target="_blank">uvjete korištenja</a></p>
 
                     </div>
@@ -255,7 +236,7 @@
                 <div class="panel panel-success text-center">
                     <div class="panel-heading">
                         <p>Program Prehrane 5.0</p>
-                        <h1>Start</h1>
+                        <h3>Start</h3>
                     </div>
                     <div class="panel-body">
                         <ul class="list-group">
@@ -289,8 +270,8 @@
                         <h4>godišnje</h4>
                         <h3>750.00 kn</h3>
                         <h4>trajna licenca</h4>
-                        <a href="#desktopapp" class="btn btn-primary"><i class="fa fa-download"></i> Download</a>
-                        <a href="#orderform" class="btn btn-success"><i class="fa fa-shopping-cart"></i> Narudžba</a>
+                        <a href="#desktopapp" class="btn btn-default main-border"><i class="fa fa-download"></i> Download</a>
+                        <a href="#orderform" class="btn btn-default main"><i class="fa fa-shopping-cart"></i> Narudžba</a>
                     </div>
                 </div>
             </div>
@@ -299,7 +280,7 @@
                 <div class="panel panel-primary text-center">
                     <div class="panel-heading">
                         <p>Program Prehrane 5.0</p>
-                        <h1>Premium</h1>
+                        <h3>Premium</h3>
                     </div>
                     <div class="panel-body">
                         <ul class="list-group">
@@ -334,8 +315,8 @@
                         <h4>godišnje</h4>
                         <h3>950.00 kn</h3>
                         <h4>trajna licenca</h4>
-                        <a href="#desktopapp" class="btn btn-primary"><i class="fa fa-download"></i> Download</a>
-                        <a href="#orderform" class="btn btn-success"><i class="fa fa-shopping-cart"></i> Narudžba</a>
+                        <a href="#desktopapp" class="btn btn-default main-border"><i class="fa fa-download"></i> Download</a>
+                        <a href="#orderform" class="btn btn-default main"><i class="fa fa-shopping-cart"></i> Narudžba</a>
                     </div>
                 </div>
             </div>
@@ -369,7 +350,6 @@
         <p>Program Prehrane je deponiran u Hrvatskoj autorskoj agenciji - Centru za intelektualno vlasništvo d.o.o. u Zagrebu.</p>
         <div>
             <span class="pull-left">Copyright © {{year}} IG PROG</span>
-            <a class="pull-right" href="admin.html" target="_blank"><i class="fa fa-user-o"></i> admin</a>
         </div>
     </footer>
 

@@ -26,7 +26,7 @@
                 <span class="input-group-addon"><i class="fa fa-unlock-alt"></i></span>
                 <input ng-model="password" type="password" class="form-control" name="password" placeholder="{{'password' | translate}}">
             </div>
-            <div class="form group mt10">
+            <div ng-if="config.showlanguages" class="form group mt10">
                 <select ng-model="config.language" ng-change="setLanguage(config.language)" class="form-control">
                     <option disabled="disabled" ng-selected="true" value="">{{'choose language' | translate}}</option>
                     <option ng-repeat="x in config.languages" value="{{x.code}}">

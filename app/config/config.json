@@ -52,5 +52,6 @@
       "title": "dollar"
     }
   ],
-  "showupdatedes": false
+  "showupdatedes": false,
+  "showlanguages": true
 }
