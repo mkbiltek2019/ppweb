@@ -4840,7 +4840,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 }])
 
 .controller('orderCtrl', ['$scope', '$http', '$rootScope', '$translate', function ($scope, $http, $rootScope, $translate) {
-    $scope.application = $rootScope.config.language == 'en' ? 'Nutrition Plan' : 'Program Prehrane Web';
+    $scope.application = $translate.instant('nutrition plan');
     $scope.version = 'STANDARD';
     $scope.userType = 1;
     $scope.showAlert = false;
