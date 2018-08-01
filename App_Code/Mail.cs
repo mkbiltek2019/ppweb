@@ -22,6 +22,7 @@ public class Mail : System.Web.Services.WebService {
     string myPassword_en = ConfigurationManager.AppSettings["myPassword_en"];
     int myServerPort = Convert.ToInt32(ConfigurationManager.AppSettings["myServerPort"]);
     string myServerHost = ConfigurationManager.AppSettings["myServerHost"];
+    double usd = Convert.ToDouble(ConfigurationManager.AppSettings["USD"]);
     Translate t = new Translate();
 
     public Mail() {
@@ -116,7 +117,7 @@ public class Mail : System.Web.Services.WebService {
     #region Methods
     public void SendOrder(Orders.NewUser user, string lang) {
 
-        //-----------Send mail to me---------
+        //*****************Send mail to me****************
         string messageSubject = "Nova narudžba";
         string messageBody = string.Format(
 @"
@@ -146,56 +147,13 @@ public class Mail : System.Web.Services.WebService {
         , GetLicenceDuration(user.licence));
 
         SendMail(myEmail, messageSubject, messageBody, lang);
-        // ---------------------------------------
+        //**************************************************
 
-        //------ Send mail to customer-------
-        messageSubject = "Program Prehrane - podaci za uplatu";
-        messageBody = string.Format(
-@"
-<p>Poštovani/a,</p>
-<p>Zahvaljujemo na Vašem interesu za {0} {1}.
-<br />
-<p>Aplikacija će biti aktivna nakon primitka uplate ili nakon što nam pošaljete potvrdu o uplati.</p> 
-<br />
-<b>Podaci za uplatu na žiro račun:</b>
-<hr/>
-<p>IBAN: HR84 2340 0091 1603 4249 6</p>
-<p>Banka : Privredna banka Zagreb d.d. , Račkoga 6, 10000 Zagreb, Hrvatska</p>
-<p>Primatelj: IG PROG, vl. Igor Gašparović</p>
-<p>Adresa: Ludvetov breg 5, 51000 Rijeka</p>
-<p>Opis plaćanja: {0} {1}</p>
-<p>Iznos: {2} kn</p>
-<p>Model: {5}</p>
-<p>{3}</p>
-<hr/>
-<br />
-<b>Podaci za uplatu izvan hrvatske:</b>
-<hr/>
-<p>IBAN: HR84 2340 0091 1603 4249 6</p>
-<p>SWIFT CODE: PBZGHR2X</p>
-<p>Iznos: {4} €</p>
-<hr/>
-<br />
-<p>Lijep pozdrav</p>
-<br />
-<br />
-<div style=""color:gray"">
-<p>IG PROG - obrt za racunalno programiranje</p>
-<p>Ludvetov breg 5, 51000 Rijeka, HR</p>
-<p>+385 98 330 966</p>
-<a href=""mailto:program.prehrane@yahoo.com"">program.prehrane@yahoo.com</a>
-<br />
-<a href=""http://www.programprehrane.com"">www.programprehrane.com</a>
-</div>"
-, user.application
-, user.version
-, user.price
-, string.IsNullOrWhiteSpace(user.pin) ? "" : string.Format("Poziv na broj: {0}", user.pin)
-, Math.Round(user.priceEur,0)
-, string.IsNullOrWhiteSpace(user.pin) ? "HR99" : "HR00");
-
+        //************ Send mail to customer****************
+        messageSubject = t.Tran("nutrition plan", lang).ToUpper() + " - " + t.Tran("payment details", lang);
+        messageBody = PaymentDetails(user, lang);
         SendMail(user.email, messageSubject, messageBody, lang);
-        //-----------------------------------------
+        //**************************************************
 
     }
 
@@ -255,6 +213,101 @@ public class Mail : System.Web.Services.WebService {
                 return "dvogodišnja";
             default:
                 return "";
+        }
+    }
+
+    private string PaymentDetails(Orders.NewUser user, string lang) {
+        switch (lang){
+            case "en":
+                return
+                    string.Format(
+@"
+<p>{0},</p>
+<p>{1} <b>{2} {3}</b>.</p>
+<p>{4}: <a href=""mailto:nutrition.plan@yahoo.com"">nutrition.plan@yahoo.com</a></p> 
+<br />
+<b>{5}:</b>
+<hr/>
+<p>IBAN: HR84 2340 0091 1603 4249 6</p>
+<p>SWIFT CODE: PBZGHR2X</p>
+<p>{6}: Privredna banka Zagreb d.d., Račkoga 6, 10000 Zagreb, {7}</p>
+<p>{8}: IG PROG, vl. Igor Gasparovic</p>
+<p>{9}: Ludvetov breg 5, 51000 Rijeka, {7}</p>
+<p>{10}: {2} {3}</p>
+<p>{11}: <b>{12} {13}</b></p>
+<hr/>
+<a href=""https://www.nutrition-plan.com/paypal.html""><img alt=""PayPal"" src=""https://www.programprehrane.com/assets/img/paypal.jpg""></a>
+<hr/>
+<br />
+<br />
+<p>{14}</p>
+<br />
+<div style=""color:gray"">
+<p>IG PROG</p>
+<p>Ludvetov breg 5, 51000 Rijeka, {7}</p>
+<a href=""mailto:nutrition.plan@yahoo.com"">nutrition.plan@yahoo.com</a>
+<br />
+<a href=""https://www.nutrition-plan.com/"">www.nutrition-plan.com</a>
+</div>"
+, t.Tran("dear", lang)
+, t.Tran("thank you for your interest in", lang)
+, user.application
+, user.version
+, t.Tran("your account will be active within 24 hours of your payment receipt or after you send us a payment confirmation to email", lang)
+, t.Tran("payment details", lang)
+, t.Tran("bank", lang)
+, t.Tran("croatia", lang)
+, t.Tran("recipient", lang)
+, "Address"
+, t.Tran("payment description", lang)
+, t.Tran("amount", lang)
+, Math.Round(user.price / usd, 2)
+, "$"
+, t.Tran("best regards", lang));
+            default:
+                return
+                    string.Format(
+@"
+<p>Poštovani/a,</p>
+<p>Zahvaljujemo na Vašem interesu za <b>{0} {1}</b>.</p>
+<p>Aplikacija će biti aktivna nakon primitka uplate ili nakon što nam pošaljete potvrdu o uplati.</p> 
+<br />
+<b>Podaci za uplatu na žiro račun:</b>
+<hr/>
+<p>IBAN: HR84 2340 0091 1603 4249 6</p>
+<p>Banka : Privredna banka Zagreb d.d., Račkoga 6, 10000 Zagreb, Hrvatska</p>
+<p>Primatelj: IG PROG, vl. Igor Gašparović</p>
+<p>Adresa: Ludvetov breg 5, 51000 Rijeka, Hrvatska</p>
+<p>Opis plaćanja: {0} {1}</p>
+<p>Iznos: <b>{2} kn</b></p>
+<p>Model: {5}</p>
+<p>{3}</p>
+<hr/>
+<br />
+<b>Podaci za uplatu izvan hrvatske:</b>
+<hr/>
+<p>IBAN: HR84 2340 0091 1603 4249 6</p>
+<p>SWIFT CODE: PBZGHR2X</p>
+<p>Iznos: <b>{4} €</b></p>
+<a href=""https://www.programprehrane.com/paypal.html""><img alt=""PayPal"" src=""https://www.programprehrane.com/assets/img/paypal.jpg""></a>
+<hr/>
+<br />
+<p>Srdačan pozdrav</p>
+<br />
+<div style=""color:gray"">
+<p>IG PROG - obrt za računalno programiranje</p>
+<p>Ludvetov breg 5, 51000 Rijeka, HR</p>
+<p>+385 98 330 966</p>
+<a href=""mailto:program.prehrane@yahoo.com"">program.prehrane@yahoo.com</a>
+<br />
+<a href=""http://www.programprehrane.com"">www.programprehrane.com</a>
+</div>"
+, user.application
+, user.version
+, user.price
+, string.IsNullOrWhiteSpace(user.pin) ? "" : string.Format("Poziv na broj: {0}", user.pin)
+, Math.Round(user.priceEur, 2)
+, string.IsNullOrWhiteSpace(user.pin) ? "HR99" : "HR00");
         }
     }
     #endregion methods

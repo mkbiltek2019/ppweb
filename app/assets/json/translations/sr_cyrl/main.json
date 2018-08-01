@@ -1371,9 +1371,9 @@
   "order": "наруџба",
   "purchase": "куповина",
   "your account will be active within 24 hours of your payment or after you send payment confirmation": "ваш кориснички рачун ће бити активан унутар 24 сата од примитка уплате или након што нам пошаљете потврду о уплати",
-  "payment details": "подаци за уплату на жиро рачун",
+  "payment details": "Подаци за уплату",
   "iban": "ибан",
-  "bank": "банка",
+  "bank": "Банка",
   "order form": "образац за науџбу",
   "natural person": "физицко лице",
   "legal person": "правно лице",
@@ -1397,7 +1397,7 @@
   "send menu": "пошаљи јеловник",
   "client email": "е-маил клијента",
   "menu sent successfully": "мени је успешно послат",
-  "nutrition plan": "програм исхране",
+  "nutrition plan": "план исхране",
   "help": "упута",
   "info": "инфо",
   "copyright": "цопиригхт",
@@ -1629,6 +1629,14 @@
   "new inquiry": "нови упит",
   "name": "име",
   "message": "порука",
-  "user not found": "корисник није пронађен"
+  "user not found": "корисник није пронађен",
+  "dear": "Поштовани",
+  "thank you for your interest in": "Хвала на интересовању за",
+  "your account will be active within 24 hours of your payment receipt or after you send us a payment confirmation to email": "Ваш кориснички рачун ће бити активан унутар 24 сата од примитка уплате или након што нам пошаљете потврду о уплати на Е-маил",
+  "amount": "Износ",
+  "best regards": "Срдачан поздрав",
+  "recipient": "Прималац",
+  "croatia": "Хрватска",
+  "payment description": "Опис плаћања"
 
 }

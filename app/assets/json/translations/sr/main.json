@@ -1372,9 +1372,9 @@
   "order": "narudžba",
   "purchase": "kupovina",
   "your account will be active within 24 hours of your payment or after you send payment confirmation": "vaš korisnički račun će biti aktivan unutar 24 sata od primitka uplate ili nakon što nam pošaljete potvrdu o uplati",
-  "payment details": "podaci za uplatu na žiro račun",
+  "payment details": "Podaci za uplatu",
   "iban": "iban",
-  "bank": "banka",
+  "bank": "Banka",
   "order form": "obrazac za naudžbu",
   "natural person": "fizicko lice",
   "legal person": "pravno lice",
@@ -1398,7 +1398,7 @@
   "send menu": "pošalji jelovnik",
   "client email": "e-mail klijenta",
   "menu sent successfully": "meni je uspešno poslat",
-  "nutrition plan": "program ishrane",
+  "nutrition plan": "plan ishrane",
   "help": "uputa",
   "info": "info",
   "copyright": "copiright",
@@ -1630,6 +1630,14 @@
   "new inquiry": "novi upit",
   "name": "ime",
   "message": "poruka",
-  "user not found": "korisnik nije pronađen"
+  "user not found": "korisnik nije pronađen",
+  "dear": "Poštovani",
+  "thank you for your interest in": "Hvala na interesovanju za",
+  "your account will be active within 24 hours of your payment receipt or after you send us a payment confirmation to email": "Vaš korisnički račun će biti aktivan unutar 24 sata od primitka uplate ili nakon što nam pošaljete potvrdu o uplati na E-mail",
+  "amount": "Iznos",
+  "best regards": "Srdačan pozdrav",
+  "recipient": "Primalac",
+  "croatia": "Hrvatska",
+  "payment description": "Opis plaćanja"
 
 }

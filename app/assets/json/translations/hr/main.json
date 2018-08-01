@@ -1433,9 +1433,9 @@
   "order": "narudžba",
   "purchase": "kupnja",
   "your account will be active within 24 hours of your payment or after you send payment confirmation on email": "vaš korisnički račun će biti aktivan unutar 24 sata od primitka uplate ili nakon što nam pošaljete potvrdu o uplati na email",
-  "payment details": "podaci za uplatu na žiro račun",
+  "payment details": "Podaci za uplatu",
   "iban": "iban",
-  "bank": "banka",
+  "bank": "Banka",
   "order form": "forma za naudžbu",
   "natural person": "fizička osoba",
   "legal person": "pravna osoba",
@@ -1690,6 +1690,14 @@
   "new inquiry": "novi upit",
   "name": "ime",
   "message": "poruka",
-  "user not found": "korisnik nije pronađen"
+  "user not found": "korisnik nije pronađen",
+  "dear": "Poštovani",
+  "thank you for your interest in": "Zahvaljujemo na Vašem interesu za",
+  "your account will be active within 24 hours of your payment receipt or after you send us a payment confirmation to email": "Vaš korisnički račun će biti aktivan unutar 24 sata od primitka uplate ili nakon što nam pošaljete potvrdu o uplati na E-mail",
+  "amount": "Iznos",
+  "best regards": "Srdačan pozdrav",
+  "recipient": "Primatelj",
+  "croatia": "Hrvatska",
+  "payment description": "Opis plaćanja"
 
 }

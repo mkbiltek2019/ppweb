@@ -45,32 +45,23 @@
 
     <div ng-include="tpl" style="padding-top:20px"></div>
 
-    <!--<footer class="footer navbar-fixed-bottom" style="color: white; background-color:gray; padding:10px">
-        <div class="row">
-           <div class="col-sm-6">
-               <p><a href="../index.html" target="_blank"><span style="color: white">www.programprehrane.com</span></a></p>
-           </div>
-            <div class="col-sm-6 text-right">
-                <p>Copyright © {{year}} IG PROG</p>
-            </div>
-        </div>
-    </footer>-->
-
     <script type="text/ng-template" id="login">
         <div class="container" style="padding-bottom:20px">
             <h3>Login</h3>
             <div class="row">
                 <div class="col-sm-4">
-                    <div class="input-group" style="margin:5px 0px 0px 0px">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input ng-model="user.username" type="text" class="form-control" name="email" placeholder="Email">
-                    </div>
-                    <div class="input-group" style="margin:5px 0px 0px 0px">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                        <input ng-model="user.password" type="password" class="form-control" name="password" placeholder="Password">
-                    </div>
+                    <form id="loginform">
+                        <div class="input-group" style="margin:5px 0px 0px 0px">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input ng-model="user.username" type="text" class="form-control" name="email" placeholder="Email">
+                        </div>
+                        <div class="input-group" style="margin:5px 0px 0px 0px">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input ng-model="user.password" type="password" class="form-control" name="password" placeholder="Password">
+                        </div>
+                    </form>
                     <div>
-                        <button ng-click="login(user)" class="btn btn-default pull-right" style="margin:5px 0px 0px 0px"><i class="fa fa-key"></i> Login</button>
+                        <button type="submit" form="loginform" ng-click="login(user)" class="btn btn-default pull-right" style="margin:5px 0px 0px 0px"><i class="fa fa-key"></i> Login</button>
                     </div>
                 </div>
             </div>
@@ -88,135 +79,134 @@
             </div>
             <div ng-if="showUsers">
                 <h3>Korisnici</h3>
-            <div class="row">
-                <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-sm-4">
                         <input ng-model="searchQuery" class="form-control" placeholder="Pretraži..." ng-change="search(searchQuery, showActive)" />
-                    <!--<input ng-model="searchsignup" class="form-control" placeholder="Pretraži..." />-->
-                </div>
-                <div class="col-sm-4 checkbox">
-                    <label class="p5"><input type="checkbox" ng-model="showDetails" />Prikaži detalje / uredi</label>
+                    </div>
+                    <div class="col-sm-4 checkbox">
+                        <label class="p5"><input type="checkbox" ng-model="showDetails" />Prikaži detalje / uredi</label>
                         <label class="p5"><input type="checkbox" ng-model="showActive" ng-click="search(searchQuery, showActive)" />Prikaži aktivne</label>
+                    </div>
                 </div>
-            </div>
-            <div ng-if="loading" class="text-center text-primary">
-                <label class="lead text-primary">Učitavanje...</label>
-                <div><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>
-            </div>
+                <div ng-if="loading" class="text-center text-primary">
+                    <label class="lead text-primary">Učitavanje...</label>
+                    <div><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>
+                </div>
                 <div ng-if="!loading" style="margin-bottom:2px">
-                <button class="btn btn-default" ng-click="prevPage()"><i class="fa fa-arrow-left"></i> Prev</button>
-                <span class="badge">{{page}}</span>
-                <button class="btn btn-default" ng-click="nextPage()">Next <i class="fa fa-arrow-right"></i></button>
-            </div>
+                    <button class="btn btn-default" ng-click="prevPage()"><i class="fa fa-arrow-left"></i> Prev</button>
+                    <span class="badge">{{page}}</span>
+                    <button class="btn btn-default" ng-click="nextPage()">Next <i class="fa fa-arrow-right"></i></button>
+                </div>
                 <div ng-if="!loading" class="table-responsive table-scroll">
-                <table class="table table-condensed text-small">
-                    <tr>
-                        <th></th>
-                        <th>Br.</th>
-                        <th ng-if="showDetails">UserId</th>
-                        <th ng-if="showDetails">UserGroupId</th>
-                        <th>Ime</th>
-                        <th>Prezime</th>
-                        <th ng-if="showDetails">Tvrtka</th>
-                        <th ng-if="showDetails">Adresa</th>
-                        <th ng-if="showDetails" class="nowrap">Poštanski broj</th>
-                        <th ng-if="showDetails">Grad</th>
-                        <th ng-if="showDetails">Država</th>
-                        <th ng-if="showDetails">OIB</th>
-                        <th>Email</th>
-                        <th ng-if="showDetails" class="nowrap">Korisničko ime</th>
-                        <th ng-if="showDetails" class="nowrap">Tip admina</th>
-                        <th class="nowrap">Datum aktivacije</th>
-                        <th class="nowrap">Istek aktivacije</th>
-                        <th>Aktivan</th>
-                        <th class="nowrap">Status</th>
-                        <th class="nowrap" style="min-width:120px">Tip korisnika</th>
-                        <th>Broj korisnika</th>
-                        <th colspan="2"></th>
-                    </tr>
-                    <!--<tr ng-if="$index>=idxStart && $index<idxEnd" ng-repeat="x in d | filter:searchsignup" ng-class="x.userId!=x.userGroupId?'text-muted':''">-->
-                    <tr ng-class="x.userId!=x.userGroupId?'text-muted':''"  ng-repeat="x in d track by $index">
-                        <!--<td>{{d.length - $index}}</td>-->
-                        <td>
-                            <button ng-click="info(x.userId)" class="btn btn-info" data-toggle="modal" data-target="#myModal"><i class="fa fa-info"></i></button>
-                            <button ng-if="showDetails" ng-click="updateInfo(x.email)" class="btn btn-warning" ><i class="fa fa-wrench"></i></button>
-                        </td>
-                        <td>{{x.rowid}}</td>
-                        <td ng-if="showDetails" class="nowrap">{{x.userId}}</td>
-                        <td ng-if="showDetails" class="nowrap">{{x.userGroupId}}</td>
-                        <td>{{x.firstName}}</td>
-                        <td>{{x.lastName}}</td>
-                        <td ng-if="showDetails" class="nowrap">{{x.companyName}}</td>
-                        <td ng-if="showDetails" class="nowrap">{{x.address}}</td>
-                        <td ng-if="showDetails">{{x.postalCode}}</td>
-                        <td ng-if="showDetails">{{x.city}}</td>
-                        <td ng-if="showDetails">{{x.country}}</td>
-                        <td ng-if="showDetails">{{x.pin}}</td>
-                        <td>{{x.email}}</td>
-                        <td ng-if="showDetails">{{x.userName}}</td>
-                        <td ng-if="showDetails">{{x.adminType}}</td>
-                        <td><input ng-disabled="!showDetails" ng-model="x.activationDate" type="text" /></td>
-                        <td><input ng-disabled="!showDetails" ng-model="x.expirationDate" type="text" /></td>
-                        <td><input ng-disabled="!showDetails" ng-model="x.isActive" type="checkbox" class="form-control" /></td>
-                        <td>{{x.licenceStatus}}</td>
-                        <td>
-                            <select ng-disabled="!showDetails" ng-model="x.userType" class="form-control">
-                                <option value="0" ng-selected="x.userType==0?true:false">Start</option>
-                                <option value="1" ng-selected="x.userType==1?true:false">Standard</option>
-                                <option value="2" ng-selected="x.userType==2?true:false">Premium</option>
-                            </select>
-                        </td>
-                        <td>{{x.subusers}}</td>
-                        <td><button ng-disabled="!showDetails" ng-click="update(x)" class="btn btn-success"><i class="fa fa-floppy-o"></i> Spremi</button></td>
-                        <td ng-if="config.debug"><button ng-disabled="!showDetails" ng-click="remove(x)" class="btn btn-danger"><i class="fa fa-thrash-o"></i> Briši</button></td>
-                    </tr>
-                </table>
-            </div>
+                    <table class="table table-condensed text-small">
+                        <tr>
+                            <th></th>
+                            <th>Br.</th>
+                            <th ng-if="showDetails">UserId</th>
+                            <th ng-if="showDetails">UserGroupId</th>
+                            <th>Ime</th>
+                            <th>Prezime</th>
+                            <th ng-if="showDetails">Tvrtka</th>
+                            <th ng-if="showDetails">Adresa</th>
+                            <th ng-if="showDetails" class="nowrap">Poštanski broj</th>
+                            <th ng-if="showDetails">Grad</th>
+                            <th ng-if="showDetails">Država</th>
+                            <th ng-if="showDetails">OIB</th>
+                            <th>Email</th>
+                            <th ng-if="showDetails" class="nowrap">Korisničko ime</th>
+                            <th ng-if="showDetails" class="nowrap">Tip admina</th>
+                            <th class="nowrap">Datum aktivacije</th>
+                            <th class="nowrap">Istek aktivacije</th>
+                            <th>Aktivan</th>
+                            <th class="nowrap">Status</th>
+                            <th class="nowrap" style="min-width:120px">Tip korisnika</th>
+                            <th>Broj korisnika</th>
+                            <th colspan="2"></th>
+                        </tr>
+                        <!--<tr ng-if="$index>=idxStart && $index<idxEnd" ng-repeat="x in d | filter:searchsignup" ng-class="x.userId!=x.userGroupId?'text-muted':''">-->
+                        <tr ng-class="x.userId!=x.userGroupId?'text-muted':''" ng-repeat="x in d track by $index">
+                            <!--<td>{{d.length - $index}}</td>-->
+                            <td>
+                                <button ng-click="info(x.userId)" class="btn btn-info" data-toggle="modal" data-target="#myModal"><i class="fa fa-info"></i></button>
+                                <!--<button ng-if="showDetails" ng-click="updateInfo(x.email)" class="btn btn-warning" ><i class="fa fa-wrench"></i></button>-->
+                            </td>
+                            <td>{{x.rowid}}</td>
+                            <td ng-if="showDetails" class="nowrap">{{x.userId}}</td>
+                            <td ng-if="showDetails" class="nowrap">{{x.userGroupId}}</td>
+                            <td>{{x.firstName}}</td>
+                            <td>{{x.lastName}}</td>
+                            <td ng-if="showDetails" class="nowrap">{{x.companyName}}</td>
+                            <td ng-if="showDetails" class="nowrap">{{x.address}}</td>
+                            <td ng-if="showDetails">{{x.postalCode}}</td>
+                            <td ng-if="showDetails">{{x.city}}</td>
+                            <td ng-if="showDetails">{{x.country}}</td>
+                            <td ng-if="showDetails">{{x.pin}}</td>
+                            <td>{{x.email}}</td>
+                            <td ng-if="showDetails">{{x.userName}}</td>
+                            <td ng-if="showDetails">{{x.adminType}}</td>
+                            <td><input ng-disabled="!showDetails" ng-model="x.activationDate" type="text" /></td>
+                            <td><input ng-disabled="!showDetails" ng-model="x.expirationDate" type="text" /></td>
+                            <td><input ng-disabled="!showDetails" ng-model="x.isActive" type="checkbox" class="form-control" /></td>
+                            <td>{{x.licenceStatus}}</td>
+                            <td>
+                                <select ng-disabled="!showDetails" ng-model="x.userType" class="form-control">
+                                    <option value="0" ng-selected="x.userType==0?true:false">Start</option>
+                                    <option value="1" ng-selected="x.userType==1?true:false">Standard</option>
+                                    <option value="2" ng-selected="x.userType==2?true:false">Premium</option>
+                                </select>
+                            </td>
+                            <td>{{x.subusers}}</td>
+                            <td><button ng-disabled="!showDetails" ng-click="update(x)" class="btn btn-success"><i class="fa fa-floppy-o"></i> Spremi</button></td>
+                            <td ng-if="config.debug"><button ng-disabled="!showDetails" ng-click="remove(x)" class="btn btn-danger"><i class="fa fa-thrash-o"></i> Briši</button></td>
+                        </tr>
+                    </table>
+                </div>
                 <div ng-if="!loading" style="margin-top:2px">
-                <button class="btn btn-default" ng-click="prevPage()"><i class="fa fa-arrow-left"></i> Prev</button>
-                <span class="badge">{{page}}</span>
-                <button class="btn btn-default" ng-click="nextPage()">Next <i class="fa fa-arrow-right"></i></button>
+                    <button class="btn btn-default" ng-click="prevPage()"><i class="fa fa-arrow-left"></i> Prev</button>
+                    <span class="badge">{{page}}</span>
+                    <button class="btn btn-default" ng-click="nextPage()">Next <i class="fa fa-arrow-right"></i></button>
                 </div>
             </div>
 
             <div ng-if="!showUsers">
                 <h3>Statistika</h3>
                 <div class="row">
-                <div class="col-sm-4">
-                    <table class="table table-condensed">
-                        <tr>
-                            <td class="text-left">Registriranih korisnika:</td>
-                            <td class="text-left"><strong>{{t.total}}</strong></td>
-                        </tr>
-                        <tr>
-                            <td class="text-left">Aktivnih korisnika:</td>
-                            <td class="text-left"><strong>{{t.active}}</strong></td>
-                        </tr>
-                        <tr>
-                            <td class="text-left">Licence</td>
-                            <td class="text-left"><strong>{{t.licence}}</strong> <span class="badge">{{t.licencepercentage}} %</span></td>
-                        </tr>
-                        <tr>
-                            <td class="text-left">Pod licence:</td>
-                            <td class="text-left"><strong>{{t.subuser}}</strong></td>
-                        </tr>
-                        <tr>
-                            <td class="text-left">Demo:</td>
-                            <td class="text-left"><strong>{{t.demo}}</strong></td>
-                        </tr>
-                        <tr>
-                            <td class="text-left">Istekle licence:</td>
-                            <td class="text-left"><strong>{{t.expired}}</strong></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="col-sm-8">
-                    <div ng-if="loadingChart" class="text-center text-primary">
-                        <label class="lead text-primary">Učitavanje...</label>
-                        <div><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>
+                    <div class="col-sm-4">
+                        <table class="table table-condensed">
+                            <tr>
+                                <td class="text-left">Registriranih korisnika:</td>
+                                <td class="text-left"><strong>{{t.total}}</strong></td>
+                            </tr>
+                            <tr>
+                                <td class="text-left">Aktivnih korisnika:</td>
+                                <td class="text-left"><strong>{{t.active}}</strong></td>
+                            </tr>
+                            <tr>
+                                <td class="text-left">Licence</td>
+                                <td class="text-left"><strong>{{t.licence}}</strong> <span class="badge">{{t.licencepercentage}} %</span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-left">Pod licence:</td>
+                                <td class="text-left"><strong>{{t.subuser}}</strong></td>
+                            </tr>
+                            <tr>
+                                <td class="text-left">Demo:</td>
+                                <td class="text-left"><strong>{{t.demo}}</strong></td>
+                            </tr>
+                            <tr>
+                                <td class="text-left">Istekle licence:</td>
+                                <td class="text-left"><strong>{{t.expired}}</strong></td>
+                            </tr>
+                        </table>
                     </div>
-                    <div id="chart_ppweb"></div>
+                    <div class="col-sm-8">
+                        <div ng-if="loadingChart" class="text-center text-primary">
+                            <label class="lead text-primary">Učitavanje...</label>
+                            <div><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>
+                        </div>
+                        <div id="chart_ppweb"></div>
+                    </div>
                 </div>
-            </div>
                 <div class="row">
                     <div class="col-sm-6 pt20">
                         <label>Statistika po gradovima</label>
@@ -235,10 +225,10 @@
                     </div>
                 </div>
             </div>
+            
             <!-- Modal -->
             <div class="modal fade" id="myModal" role="dialog" style="margin-top:150px">
                 <div class="modal-dialog">
-
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
@@ -258,17 +248,9 @@
                             <button type="button" class="btn btn-default" data-dismiss="modal">Zatvori</button>
                         </div>
                     </div>
-
                 </div>
             </div>
-
         </div>
-
-
-       
-
-
-
     </script>
 
     <script type="text/ng-template" id="programPrehrane5">
@@ -300,70 +282,70 @@
 
     <script type="text/ng-template" id="orders">
         <div ng-controller="ordersCtrl" class="container">
-                <h2>Narudžbe</h2>
-                <div class="row" style="padding-bottom:10px">
-                    <div class="col-sm-4">
-                        <input ng-model="searchOrders" class="form-control" placeholder="Pretraži..." />
-                    </div>
+            <h2>Narudžbe</h2>
+            <div class="row" style="padding-bottom:10px">
+                <div class="col-sm-4">
+                    <input ng-model="searchOrders" class="form-control" placeholder="Pretraži..." />
                 </div>
+            </div>
             <div class="table-responsive table-scroll" style="max-height:600px">
-                    <table class="table table-condensed text-small">
-                        <tr>
-                            <th></th>
-                            <th>Br.</th>
-                            <th>Datum</th>
-                            <th>Ime</th>
-                            <th>Prezime</th>
-                            <th>Tvrtka</th>
-                            <th>Adresa</th>
-                            <th class="nowrap">Poštanski broj</th>
-                            <th>Grad</th>
-                            <th>Država</th>
-                            <th>OIB</th>
-                            <th>Email</th>
-                            <th>IP adresa</th>
-                            <th>Verzija</th>
-                            <th>Licenca</th>
-                            <th>Broj licenci</th>
-                            <th>Cijena</th>
-                            <th>Dodatna usluga</th>
-                            <th>Napomena</th>
-                        </tr>
-                        <tr ng-repeat="x in orders | filter:searchOrders">
-                            <td><button class="btn btn-success" ng-click="createInvoice(x, 'invoices')"><i class="fa fa-file-text-o"></i> Račun</button></td>
-                            <td>{{x.id}}</td>
-                            <td style="white-space: nowrap">{{x.orderDate}}</td>
-                            <td>{{x.firstName}}</td>
-                            <td>{{x.lastName}}</td>
-                            <td>{{x.companyName}}</td>
-                            <td class="nowrap">{{x.address}}</td>
-                            <td>{{x.postalCode}}</td>
-                            <td>{{x.city}}</td>
-                            <td>{{x.country}}</td>
-                            <td>{{x.pin}}</td>
-                            <td>{{x.email}}</td>
-                            <td>{{x.ipAddress}}</td>
-                            <td>{{x.version}}</td>
-                            <td>{{x.licence}}</td>
-                            <td>{{x.licenceNumber}}</td>
-                            <td>{{x.price}}</td>
-                            <td>{{x.additionalService}}</td>
-                            <td>{{x.note}}</td>
-                        </tr>
-                    </table>
-                </div>
+                <table class="table table-condensed text-small">
+                    <tr>
+                        <th></th>
+                        <th>Br.</th>
+                        <th>Datum</th>
+                        <th>Ime</th>
+                        <th>Prezime</th>
+                        <th>Tvrtka</th>
+                        <th>Adresa</th>
+                        <th class="nowrap">Poštanski broj</th>
+                        <th>Grad</th>
+                        <th>Država</th>
+                        <th>OIB</th>
+                        <th>Email</th>
+                        <th>IP adresa</th>
+                        <th>Verzija</th>
+                        <th>Licenca</th>
+                        <th>Broj licenci</th>
+                        <th>Cijena</th>
+                        <th>Dodatna usluga</th>
+                        <th>Napomena</th>
+                    </tr>
+                    <tr ng-repeat="x in orders | filter:searchOrders">
+                        <td><button class="btn btn-success" ng-click="createInvoice(x, 'invoices')"><i class="fa fa-file-text-o"></i> Račun</button></td>
+                        <td>{{x.id}}</td>
+                        <td style="white-space: nowrap">{{x.orderDate}}</td>
+                        <td>{{x.firstName}}</td>
+                        <td>{{x.lastName}}</td>
+                        <td>{{x.companyName}}</td>
+                        <td class="nowrap">{{x.address}}</td>
+                        <td>{{x.postalCode}}</td>
+                        <td>{{x.city}}</td>
+                        <td>{{x.country}}</td>
+                        <td>{{x.pin}}</td>
+                        <td>{{x.email}}</td>
+                        <td>{{x.ipAddress}}</td>
+                        <td>{{x.version}}</td>
+                        <td>{{x.licence}}</td>
+                        <td>{{x.licenceNumber}}</td>
+                        <td>{{x.price}}</td>
+                        <td>{{x.additionalService}}</td>
+                        <td>{{x.note}}</td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </script>
 
     <script type="text/ng-template" id="invoices">
         <div ng-controller="invoiceCtrl" class="container">
             <h2>Računi</h2>
-                <div>
+            <div>
                 <ul class="nav nav-tabs">
                     <li ng-class="showInvoices==false?'active':''" ng-click="init()"><a href=""><i class="fa fa-file-text-o"></i> Novi račun</a></li>
                     <li ng-class="showInvoices==true?'active':''" ng-click="load(year)"><a href=""><i class="fa fa-files-o"></i> Pregled računa</a></li>
                 </ul>
-                </div>
+            </div>
             <div ng-if="showInvoices">
                 <div class="row m10">
                     <div class="col-sm-2">
@@ -410,7 +392,6 @@
                         </tr>
                     </table>
                 </div>
-                <!--<pre>{{invoices | json}}</pre>-->
             </div>
             <div ng-if="!showInvoices">
                 <div class="row mt20">

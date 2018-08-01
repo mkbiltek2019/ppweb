@@ -49,7 +49,8 @@
                 <div class="row m2">
                     <div class="col-sm-2 text-right text-capitalize"><h3>{{'price' | translate}}: </h3></div>
                     <div class="col-sm-6">
-                        <h3>{{user.price}} kn ({{user.priceEur | number:0}} €)</h3>
+                        <h3 ng-if="config.language!='en'" class="lead">{{user.price}} kn ({{user.priceEur | number:2}} €)</h3>
+                        <h3 ng-if="config.language=='en'" class="lead">{{user.price / config.usd | number:2}} €</h3>
                     </div>
                 </div>
             <hr />
@@ -102,51 +103,64 @@
                         </md-input-container>
                     </div>
                     <div class="text-right">
-                        <a href="" class="btn btn-primary" ng-disabled="isSendButtonDisabled" ng-click="sendOrder(user)">{{sendicontitle}} <span ng-class="sendicon"></span></a>
+                        <a href="" class="btn btn-primary text-capitalize" ng-disabled="isSendButtonDisabled" ng-click="sendOrder(user)">{{sendicontitle}} <span ng-class="sendicon"></span></a>
                     </div>
                 </div>
             </div>
         </div>
 
-
         <div ng-if="showAlert" class="alert alert-success">
             <strong><span class="fa fa-smile-o fa-lg"></span> {{'the order have been sent successfully' | translate}}</strong>
-            <p>{{'your account will be active within 24 hours of your payment or after you send payment confirmation on email' | translate}}: <strong><a href="{{config.email}}"><span class="fa fa-envelope-o"></span> {{config.email}}</a></strong></p>
+            <p>{{'your account will be active within 24 hours of your payment or after you send payment confirmation on email' | translate}}: <strong><a href="{{config.language=='en'?config.email_en:config.email}}"><span class="fa fa-envelope-o"></span> {{config.language=='en'?config.email_en:config.email}}</a></strong></p>
         </div>
 
         <div ng-if="showPaymentDetails" class="well text-left">
-            <div>
+            <div ng-if="config.language!='en'">
                 <b>{{'payment details' | translate}}:</b>
                 <div>
                     <pre>
 <span class="text-uppercase">{{'iban' | translate}}</span>: HR84 2340 0091 1603 4249 6
-<span>{{'bank' | translate}}</span>: Privredna banka Zagreb d.d. , Račkoga 6, 10000 Zagreb, Hrvatska
-Primatelj: IG PROG, vl. Igor Gašparović
-Adresa: Ludvetov breg 5, 51000 Rijeka
-Opis plaćanja: {{user.application}} {{user.version}}
-Iznos: <span>{{user.price}}</span> kn
+<span class="text-capitalize">{{'bank' | translate}}</span>: Privredna banka Zagreb d.d., Račkoga 6, 10000 Zagreb, {{config.language=='en'?'Croatia':'Hrvatska'}}
+<span class="text-capitalize">{{'recipient' | translate}}</span>: IG PROG, vl. Igor Gašparović
+<span class="text-capitalize">adresa</span>: Ludvetov breg 5, 51000 Rijeka, {{config.language=='en'?'Croatia':'Hrvatska'}}
+<span class="text-capitalize">{{'payment description' | translate}}</span>: {{user.application}} {{user.version}}
+<span class="text-capitalize">{{'amount' | translate}}</span>: <span>{{user.price}}</span> kn
 Model: <span ng-if="user.pin">HR00</span><span ng-if="!user.pin">HR99</span>
 <span ng-if="user.pin">Poziv na broj: {{user.pin}}</span> 
-            </pre>
+                    </pre>
                 </div>
                 <b>Podaci za uplatu izvan hrvatske:</b>
                 <div>
                     <pre>
 IBAN računa: HR84 2340 0091 1603 4249 6
 SWIFT CODE: PBZGHR2X
-Iznos: <span>{{user.priceEur | number:0}}</span> €
+{{'amount' | translate}}: <span>{{user.priceEur | number:0}}</span> €
             </pre>
                 </div>
             </div>
-            <!--<div ng-include="'./assets/partials/paypal.html'"></div>-->
+            <div ng-if="config.language=='en'">
+                <b class="text-capitalize">{{'payment details' | translate}}:</b>
+                <div>
+                    <pre>
+<span class="text-uppercase">{{'iban' | translate}}</span>: HR84 2340 0091 1603 4249 6
+<span class="text-uppercase">swift code</span>: PBZGHR2X
+<span class="text-capitalize">{{'bank' | translate}}</span>: Privredna banka Zagreb d.d., Račkoga 6, 10000 Zagreb, {{config.language=='en'?'Croatia':'Hrvatska'}}
+<span class="text-capitalize">{{'recipient' | translate}}</span>: IG PROG, vl. Igor Gašparović
+<span class="text-capitalize">{{'address' | translate}}</span>: Ludvetov breg 5, 51000 Rijeka, {{config.language=='en'?'Croatia':'Hrvatska'}}
+<span class="text-capitalize">{{'payment description' | translate}}</span>: {{user.application}} {{user.version}}
+<span class="text-capitalize">{{'amount' | translate}}</span>: <span>{{(user.price / config.usd) | number:2}}</span> $
+                    </pre>
+                </div>
+            </div>
+            <div ng-if="config.language!='en'" ng-include="'./assets/partials/paypal.html'"></div>
+            <div ng-if="config.language=='en'" ng-include="'./assets/partials/paypal_usd.html'"></div>
         </div>
 
         <div ng-if="showPaymentDetails" class="text-center">
-            <a href="{{config.appurl}}" target="_blank" class="btn btn-primary btn-lg">
+            <a href="{{config.appurl}}" target="_blank" class="btn btn-primary btn-lg text-capitalize">
                 <i class="fa fa-sign-in"></i> {{'back to app' | translate}}
             </a>
         </div>
-
     </div>
 
 

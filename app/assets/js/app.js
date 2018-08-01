@@ -1507,7 +1507,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             '<br />' +
             '<strong><a href="' + link + '">' + link + '</a></strong>' + 
             '<br />' +
-            '<p>Lijep pozdrav</p>' +
+            '<p>Srdačan pozdrav</p>' +
             '<a href="' + $rootScope.config.webpageurl + '">' + $rootScope.config.webpage + '</a>'
         $http({
             url: $sessionStorage.config.backend + 'Mail.asmx/SendMessage',
@@ -4840,8 +4840,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 }])
 
 .controller('orderCtrl', ['$scope', '$http', '$rootScope', '$translate', function ($scope, $http, $rootScope, $translate) {
-  //  $rootScope.isLogin = false;
-    $scope.application = 'Program Prehrane Web';
+    $scope.application = $rootScope.config.language == 'en' ? 'Nutrition Plan' : 'Program Prehrane Web';
     $scope.version = 'STANDARD';
     $scope.userType = 1;
     $scope.showAlert = false;

@@ -1428,7 +1428,7 @@
   "your account will be active within 24 hours of your payment or after you send payment confirmation on email": "your account will be active within 24 hours of your payment or after you send payment confirmation on email",
   "payment details": "payment details",
   "iban": "iban",
-  "bank": "bank",
+  "bank": "Bank",
   "order form": "order form",
   "natural person": "natural person",
   "legal person": "legal person",
@@ -1682,6 +1682,14 @@
   "new inquiry": "new inquiry",
   "name": "name",
   "message": "message",
-  "user not found": "user not found"  
+  "user not found": "user not found",
+  "dear": "Dear",
+  "thank you for your interest in": "Thank you for your interest in",
+  "your account will be active within 24 hours of your payment receipt or after you send us a payment confirmation to email": "Your account will be active within 24 hours of your payment receipt or after you send us a payment confirmation to email",
+  "amount": "Amount",
+  "best regards": "Best regards",
+  "recipient": "Recipient",
+  "croatia": "Croatia",
+  "payment description": "Payment description"
 
 }
