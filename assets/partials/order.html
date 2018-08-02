@@ -162,20 +162,19 @@
             </div>
         </div>
 
-
-        <div ng-if="showAlert" class="alert alert-success main">
+        <div ng-if="showAlert" class="alert alert-default main-border">
             <strong>Narudžba je uspješno poslana!</strong>
             <p ng-if="user.application!='Program Prehrane Web'">Nakon primitka uplate ili nakon što nam pošaljete potvrdu o uplati <strong>aktivacijki kod</strong> šaljemo na Vašu email adresu.</p>
-            <p ng-if="user.application=='Program Prehrane Web'">Vaš korisnički račun će biti aktivan unutar 24 sata od primitka uplate ili nakon što nam pošaljete potvrdu o uplati na email: <strong><a href="mailto:program.prehrane@yahoo.com"><span class="fa fa-envelope-o"></span> program.prehrane@yahoo.com</a></strong></p>
+            <p ng-if="user.application=='Program Prehrane Web'">Vaš korisnički račun će biti aktivan unutar 24 sata od primitka uplate ili nakon što nam pošaljete potvrdu o uplati na email: <strong><a href="mailto:{{config.email}}"><span class="fa fa-envelope-o"></span> {{config.email}}</a></strong></p>
         </div>
 
         <div ng-if="showPaymentDetails" class="well text-left">
             <div>
-                <b>Podaci za uplatu na žiro račun:</b>
+                <b>Podaci za uplatu:</b>
                 <div>
                     <pre>
 IBAN računa: {{config.iban}}
-Banka : {{config.bank}}
+Banka: {{config.bank}}
 Primatelj: {{config.company}}
 Adresa: {{config.address}}
 Opis plaćanja: {{user.application}} {{user.version}}
@@ -184,7 +183,7 @@ Model: <span ng-if="user.pin">HR00</span><span ng-if="!user.pin">HR99</span>
 <span ng-if="user.pin">Poziv na broj: {{user.pin}}</span> 
             </pre>
                 </div>
-                <b>Podaci za uplatu izvan hrvatske:</b>
+                <b>Podaci za uplatu izvan Hrvatske:</b>
                 <div>
                     <pre>
 IBAN računa: {{config.iban}}
@@ -195,10 +194,7 @@ Iznos: <span>{{user.priceEur | number:2}}</span> €
             </div>
             <b>Plaćanje putem PayPal-a:</b>
             <div ng-include="'./app/assets/partials/paypal.html'"></div>
-            <!--<div ng-if="user.application=='Program Prehrane Web'" ng-include="'./app/assets/partials/paypal.html'"></div>
-            <div ng-if="user.application!='Program Prehrane Web'" ng-include="'./assets/partials/paypal.html'"></div>-->
         </div>
-
 
         <div ng-if="showPaymentDetails" class="text-center">
             <a href="{{config.appurl}}" target="_blank" class="btn btn-default main btn-lg">

@@ -4,32 +4,7 @@ app.js
 */
 angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'chart.js', 'ngStorage', 'functions', 'charts'])
 
-.config(['$stateProvider', '$urlRouterProvider', '$translateProvider', '$translatePartialLoaderProvider', '$httpProvider', function ($stateProvider, $urlRouterProvider, $translateProvider, $translatePartialLoaderProvider, $httpProvider) {
-
-    $urlRouterProvider.otherwise('/index');
-
-    /*$stateProvider
-        .state('index', {
-            url: '/index',
-            templateUrl: 'assets/partials/index.html',
-            controller: 'appCtrl',
-        })
-        .state('dashboard', {
-            url: '/dashboard',
-            templateUrl: 'assets/partials/dashboard.html',
-            controller: 'dashboardCtrl'
-        })
-        .state('clientsdata', {
-            url: '/clientsdata',
-            templateUrl: 'assets/partials/clientsdata.html',
-            controller: 'clientsCtrl'
-        })
-        .state('calculation', {
-            url: '/calculation',
-            templateUrl: 'assets/partials/calculation.html',
-            controller: 'calculationCtrl'
-        });*/
-
+.config(['$translateProvider', '$translatePartialLoaderProvider', '$httpProvider', function ($translateProvider, $translatePartialLoaderProvider, $httpProvider) {
 
     $translateProvider.useLoader('$translatePartialLoader', {
          urlTemplate: './assets/json/translations/{lang}/{part}.json'
@@ -38,15 +13,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $translatePartialLoaderProvider.addPart('main');
     $translateProvider.useSanitizeValueStrategy('escape');
 
-
-    //--------------disable catche---------------------
+    //*******************disable catche**********************
     if (!$httpProvider.defaults.headers.get) {
         $httpProvider.defaults.headers.get = {};
     }
     $httpProvider.defaults.headers.get['If-Modified-Since'] = 'Mon, 26 Jul 1997 05:00:00 GMT';
     $httpProvider.defaults.headers.get['Cache-Control'] = 'no-cache';
     $httpProvider.defaults.headers.get['Pragma'] = 'no-cache';
-    //-------------------------------------------------
+    //*******************************************************
 
 }])
 
@@ -4415,7 +4389,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $scope.recipe = JSON.parse(response.data.d);
         },
         function (response) {
-            // $rootScope.loading = false;
             alert(response.data.d);
         });
     }
@@ -4435,7 +4408,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             load();
         },
         function (response) {
-            // $rootScope.loading = false;
             alert(response.data.d);
         });
     }

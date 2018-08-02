@@ -129,12 +129,12 @@ Model: <span ng-if="user.pin">HR00</span><span ng-if="!user.pin">HR99</span>
 <span ng-if="user.pin">Poziv na broj: {{user.pin}}</span> 
                     </pre>
                 </div>
-                <b>Podaci za uplatu izvan hrvatske:</b>
+                <b>Podaci za uplatu izvan Hrvatske:</b>
                 <div>
                     <pre>
 IBAN računa: HR84 2340 0091 1603 4249 6
 SWIFT CODE: PBZGHR2X
-{{'amount' | translate}}: <span>{{user.priceEur | number:0}}</span> €
+{{'amount' | translate}}: <span>{{user.priceEur | number:2}}</span> €
             </pre>
                 </div>
             </div>
@@ -162,7 +162,6 @@ SWIFT CODE: PBZGHR2X
             </a>
         </div>
     </div>
-
 
     <pre ng-if="config.debug">{{user | json}}</pre>
 

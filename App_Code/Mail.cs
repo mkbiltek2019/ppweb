@@ -272,7 +272,7 @@ public class Mail : System.Web.Services.WebService {
 <p>Zahvaljujemo na Vašem interesu za <b>{0} {1}</b>.</p>
 <p>Aplikacija će biti aktivna nakon primitka uplate ili nakon što nam pošaljete potvrdu o uplati.</p> 
 <br />
-<b>Podaci za uplatu na žiro račun:</b>
+<b>Podaci za uplatu:</b>
 <hr/>
 <p>IBAN: HR84 2340 0091 1603 4249 6</p>
 <p>Banka : Privredna banka Zagreb d.d., Račkoga 6, 10000 Zagreb, Hrvatska</p>
@@ -284,7 +284,7 @@ public class Mail : System.Web.Services.WebService {
 <p>{3}</p>
 <hr/>
 <br />
-<b>Podaci za uplatu izvan hrvatske:</b>
+<b>Podaci za uplatu izvan Hrvatske:</b>
 <hr/>
 <p>IBAN: HR84 2340 0091 1603 4249 6</p>
 <p>SWIFT CODE: PBZGHR2X</p>
