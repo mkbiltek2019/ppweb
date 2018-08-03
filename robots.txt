@@ -1,4 +1,13 @@
 User-agent: *
-Disallow: admin.html
-Disallow: instal.html
+Disallow: /error.html
+Disallow: /admin.html
+Disallow: /instal.html
+Disallow: /index1.html
+Disallow: /app/eula.html
+Disallow: /app/licence.txt
+Disallow: /aplikacija/
+Disallow: /4da35544-91f6-4206-9c33-47ad44379a3b/PP5Uputa.pdf
+Disallow: /4da35544-91f6-4206-9c33-47ad44379a3b/SamSvojNutricionist.pdf
+Disallow: /client/
+
 
