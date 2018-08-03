@@ -1638,6 +1638,9 @@
   "best regards": "Srdačan pozdrav",
   "recipient": "Primalac",
   "croatia": "Hrvatska",
-  "payment description": "Opis plaćanja"
+  "payment description": "Opis plaćanja",
+  "app access link": "Link za pristup aplikaciji",
+  "the app access link to track your body weight and download menues is": "Link za pristup aplikaciji za prćenje Vaše telesne mase i preuzimanje menija je",
+  "this is an automatically generated email – please do not reply to it": "Ovo je automatski generirana poruka - molimo ne odgovarajte na nju"
 
 }

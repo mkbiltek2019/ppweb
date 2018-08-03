@@ -98,6 +98,9 @@ public class Mail : System.Web.Services.WebService {
             sb.AppendLine(meal5.ToString());
             sb.AppendLine(meal6.ToString());
 
+            sb.AppendLine("<hr />");
+            sb.AppendLine(string.Format(@"<i>* {0}</i>", t.Tran("this is an automatically generated email – please do not reply to it", lang)));
+
             string subject = string.Format("{0}", !string.IsNullOrWhiteSpace(user.companyName) ? user.companyName : string.Format("{0} {1}", user.firstName, user.lastName));
 
             SendMail(email, subject, sb.ToString(), lang);

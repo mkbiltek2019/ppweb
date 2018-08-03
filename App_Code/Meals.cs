@@ -55,7 +55,6 @@ public class Meals : System.Web.Services.WebService {
 
     public static string GetMealTitle(string code, SQLiteConnection connection) {
         string title = "";
-      //  SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + lang + "/" + dataBase));
         try {
             string sql = @"SELECT title
                         FROM codeBook 

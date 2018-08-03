@@ -7,7 +7,7 @@
             <a href="" class="btn btn-default" ng-click="toggleTpl('dashboard.html')"><i class="fa fa-dashboard"></i> {{'back to app' | translate}}</a>
         </div>
     </div>
-    <div ng-if="user.licenceStatus == 'demo' || user.userType < 1" class="alert alert-success alert-dismissable text-center m10" style="height:auto !important">
+    <div ng-if="user.licenceStatus == 'demo' || user.userType < 1" class="alert alert-danger text-center m10" style="height:auto !important">
         <strong>
             <i class="fa fa-info-circle fa-2x" aria-hidden="true"></i>
             <span class="text-uppercase ml5">{{'save events is available only in standard and premium version' | translate}}</span>

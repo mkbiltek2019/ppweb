@@ -1474,14 +1474,17 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             return false;
         }
         $scope.sendingMail = true;
-        var link = $rootScope.config.clientapppageurl + '?uid=' + $rootScope.clientData.userId + '&cid=' + $rootScope.clientData.clientId
-        var messageSubject = 'Program Prehrane. link za pristup aplikaciji';
-        var messageBody = '<p>Poštovani,</p>' +
-            'Link za pristup aplikaciji za prćenje Vaše tjelesne mase i preuzimanje jelovnika je: ' +
+        var link = $rootScope.config.clientapppageurl + '?uid=' + client.userId + '&cid=' + client.clientId
+        var messageSubject = $translate.instant('nutrition plan') + '. ' + $translate.instant('app access link')   //'Program Prehrane. link za pristup aplikaciji';
+        var messageBody = '<p>' + $translate.instant('dear') + ',' + '</p>' +
+            $translate.instant('the app access link to track your body weight and download menues is') + ': ' +
             '<br />' +
             '<strong><a href="' + link + '">' + link + '</a></strong>' + 
             '<br />' +
-            '<p>Srdačan pozdrav</p>' +
+            '<br />' +
+            '<i>* ' + $translate.instant('this is an automatically generated email – please do not reply to it') + '</i>' +
+            '<br />' +
+            '<p>' + $translate.instant('best regards') + '</p>' +
             '<a href="' + $rootScope.config.webpageurl + '">' + $rootScope.config.webpage + '</a>'
         $http({
             url: $sessionStorage.config.backend + 'Mail.asmx/SendMessage',
