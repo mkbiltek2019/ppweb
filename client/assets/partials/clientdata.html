@@ -1,29 +1,29 @@
-﻿ <div>
-     <div class="panel panel-default">
-         <div class="panel-body mb20">
-             <!--<div ng-if="config.debug">
-                 <div class="row m2">
-                     <div class="col-sm-2">user Id:</div>
-                     <div class="col-sm-6"><input ng-model="userId" class="form-control" /></div>
-                 </div>
-                 <div class="row m2">
-                     <div class="col-sm-2">client Id:</div>
-                     <div class="col-sm-6"><input ng-model="clientId" class="form-control" /></div>
-                 </div>
-             </div>-->
-             <div ng-include="'client'" style="padding-top:20px"></div>
-             <ul class="nav nav-tabs">
-                 <li ng-class="tpl=='inputData'?'active':''" ng-click="toggleTpl('inputData')"><a href="#"><i class="fa fa-thermometer-empty"></i> <span class="text-capitalize">{{'measures' | translate}}</span></a></li>
-                 <li ng-class="tpl=='clientMenues'||tpl=='menu'?'active':''" ng-click="toggleTpl('clientMenues'); loadMenues()"><a href="#"><i class="fa fa-cutlery"></i> <span class="text-capitalize">{{'menues' | translate}}</span></a></li>
-             </ul>
-             
-             <div ng-include="tpl" style="padding-top:20px; min-height:400px;"></div>
+﻿<div>
+    <div class="panel panel-default">
+        <div class="panel-body mb20">
+            <!--<div ng-if="config.debug">
+                <div class="row m2">
+                    <div class="col-sm-2">user Id:</div>
+                    <div class="col-sm-6"><input ng-model="userId" class="form-control" /></div>
+                </div>
+                <div class="row m2">
+                    <div class="col-sm-2">client Id:</div>
+                    <div class="col-sm-6"><input ng-model="clientId" class="form-control" /></div>
+                </div>
+            </div>-->
+            <div ng-include="'client'" style="padding-top:20px"></div>
+            <ul class="nav nav-tabs">
+                <li ng-class="tpl=='inputData'?'active':''" ng-click="toggleTpl('inputData')"><a href="#"><i class="fa fa-thermometer-empty"></i> <span class="text-capitalize">{{'measures' | translate}}</span></a></li>
+                <li ng-class="tpl=='clientMenues'||tpl=='menu'?'active':''" ng-click="toggleTpl('clientMenues'); loadMenues()"><a href="#"><i class="fa fa-cutlery"></i> <span class="text-capitalize">{{'menues' | translate}}</span></a></li>
+            </ul>
 
-             <!--<div class="mt10">
-                 <a href="" ng-if="showTabs()" class="btn btn-primary pull-right" ng-click="toggleNewTpl('calculation')"><span>{{'forward' | translate}} </span><i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
-             </div>-->
-         </div>
-     </div>
+            <div ng-include="tpl" style="padding-top:20px; min-height:400px;"></div>
+
+            <!--<div class="mt10">
+                <a href="" ng-if="showTabs()" class="btn btn-primary pull-right" ng-click="toggleNewTpl('calculation')"><span>{{'forward' | translate}} </span><i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+            </div>-->
+        </div>
+    </div>
 </div>
 
 
@@ -33,7 +33,7 @@
     client:
     <pre>{{client | json}}</pre>
     clientData:
-  <pre>{{clientData | json}}</pre>
+    <pre>{{clientData | json}}</pre>
 </div>
 
 <script type="text/ng-template" id="client">
@@ -46,59 +46,55 @@
         <div class="col-sm-6">
             <div class="p20">
                 <div class="row">
-                    <span class="col-sm-6">{{'measurement date' | translate}}:</span>
-                    <div class="col-sm-6">
+                    <span class="col-sm-5 text-capitalize">{{'measurement date' | translate}}:</span>
+                    <div class="col-sm-5">
                         <div style="width:160px">
                             <input ng-model="clientData.date" type="date" class="form-control">
                         </div>
                     </div>
                 </div>
                 <div class="row mt10">
-                    <span class="col-sm-6">{{'weight' | translate}} <em>(kg)</em>:</span>
-                    <div class="col-sm-6">
-                        <div class="input-group" style="width:160px; border:solid 2px green; border-radius:5px">
-                            <span class="input-group-addon pointer" ng-click="change(-1, 'weight')">-</span>
+                    <span class="col-sm-5 text-capitalize">{{'weight' | translate}}:</span>
+                    <div class="col-sm-5">
+                        <div class="input-group" style="width:160px; border:solid 2px green; border-radius:8px">
                             <input ng-model="clientData.weight" class="form-control input-lg" ng-change="calculate()" allow-only-numbers required>
-                            <span class="input-group-addon pointer" ng-click="change(1, 'weight')">+</span>
+                            <span class="input-group-addon"><em>kg</em></span>
                         </div>
                     </div>
                 </div>
                 <div class="text-small">
                     <hr />
                     <div class="row mt10">
-                        <span class="col-sm-6">{{'height' | translate}} <em>(cm)</em>:</span>
-                        <div class="col-sm-6">
+                        <span class="col-sm-5 text-capitalize">{{'height' | translate}}:</span>
+                        <div class="col-sm-5">
                             <div class="input-group" style="width:160px">
-                                <span class="input-group-addon pointer" ng-click="change(-1, 'height')">-</span>
                                 <input ng-model="clientData.height" class="form-control" ng-change="calculate()" allow-only-numbers required>
-                                <span class="input-group-addon pointer" ng-click="change(1, 'height')">+</span>
+                                <span class="input-group-addon"><em>cm</em></span>
                             </div>
                         </div>
                     </div>
                     <div class="row mt10">
-                        <span class="col-sm-6">{{'waist' | translate}} <em>(cm)</em>:</span>
-                        <div class="col-sm-6">
+                        <span class="col-sm-5 text-capitalize">{{'waist' | translate}}:</span>
+                        <div class="col-sm-5">
                             <div class="input-group" style="width:160px">
-                                <span class="input-group-addon pointer" ng-click="change(-1, 'waist')">-</span>
                                 <input ng-model="clientData.waist" class="form-control" ng-change="calculate()" allow-only-numbers>
-                                <span class="input-group-addon pointer" ng-click="change(1, 'waist')">+</span>
+                                <span class="input-group-addon"><em>cm</em></span>
                             </div>
                         </div>
                     </div>
                     <div class="row mt10">
-                        <span class="col-sm-6">{{'hip' | translate}} <em>(cm)</em>:</span>
-                        <div class="col-sm-6">
+                        <span class="col-sm-5 text-capitalize">{{'hip' | translate}}:</span>
+                        <div class="col-sm-5">
                             <div class="input-group" style="width:160px">
-                                <span class="input-group-addon pointer" ng-click="change(-1, 'hip')">-</span>
                                 <input ng-model="clientData.hip" class="form-control" ng-change="calculate()" allow-only-numbers>
-                                <span class="input-group-addon pointer" ng-click="change(1, 'hip')">+</span>
+                                <span class="input-group-addon"><em>cm</em></span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row mt10">
-                    <span class="col-sm-6"></span>
-                    <div class="col-sm-6">
+                    <span class="col-sm-5"></span>
+                    <div class="col-sm-5">
                         <button class="btn btn-success btn-block" style="width:160px" ng-click="save(clientData)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</button>
                     </div>
                 </div>
@@ -121,7 +117,7 @@
 
 <script type="text/ng-template" id="clientLog">
     <div ng-if="clientData.clientId">
-        
+
         <!--<div>
             <md-radio-group ng-model="displayType" ng-click="changeDisplayType(displayType)" layout="row">
                 <md-radio-button value=0 class="md-primary">{{'weight' | translate}}</md-radio-button>
@@ -193,11 +189,9 @@
     <div class="p10">
         <div>{{'weight' | translate}} (kg)</div>
         <canvas id="clientDataChart" class="chart-bar hidden-xs" chart-data="clientLogGraphData.data" chart-colors="clientLogGraphData.colors" height="80"
-                chart-labels="clientLogGraphData.labels" chart-series="clientLogGraphData.series" chart-options="clientLogGraphData.options" chart-dataset-override="clientLogGraphData.datasetOverride">
-        </canvas>
+                chart-labels="clientLogGraphData.labels" chart-series="clientLogGraphData.series" chart-options="clientLogGraphData.options" chart-dataset-override="clientLogGraphData.datasetOverride"></canvas>
         <canvas id="clientDataChart" class="chart-bar visible-xs" chart-data="clientLogGraphData.data" chart-colors="clientLogGraphData.colors" height="400"
-                chart-labels="clientLogGraphData.labels" chart-series="clientLogGraphData.series" chart-options="clientLogGraphData.options" chart-dataset-override="clientLogGraphData.datasetOverride">
-        </canvas>
+                chart-labels="clientLogGraphData.labels" chart-series="clientLogGraphData.series" chart-options="clientLogGraphData.options" chart-dataset-override="clientLogGraphData.datasetOverride"></canvas>
     </div>
 </script>
 
@@ -243,7 +237,7 @@
                     <em class="text-justify">{{x.description}}</em>
                 </div>
                 <div class="p10">
-                    <p ng-if="y.meal.code==x.code" ng-repeat="y in menu.data.selectedFoods track by $index" >- {{y.food | translate}}, {{y.quantity}} {{y.unit | translate}}, ({{y.mass}} g)</p>
+                    <p ng-if="y.meal.code==x.code" ng-repeat="y in menu.data.selectedFoods track by $index">- {{y.food | translate}}, {{y.quantity}} {{y.unit | translate}}, ({{y.mass}} g)</p>
                 </div>
                 <hr />
             </div>
