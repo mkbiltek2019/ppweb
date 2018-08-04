@@ -31,18 +31,12 @@ public class Mail : System.Web.Services.WebService {
     #region WebMethods
     [WebMethod]
     public string Send(string name, string email, string messageSubject, string message, string lang) {
-      //  messageSubject = "Program Prehrane - podaci za uplatu";
        string messageBody = string.Format(
            @"
 <hr>{0}</h3>
 <p>{1}: {2}</p>
 <p>{3}: {4}</p>
 <p>{5}: {6}</p>", t.Tran("new inquiry", lang), t.Tran("name", lang), name, t.Tran("email", lang), email, t.Tran("message", lang), message);
-//@"
-//<hr>Novi upit</h3>
-//<p>Ime: {0}</p>
-//<p>Email: {1}</p>
-//<p>Poruka: {2}</p>", name, email, message);
         try {
             SendMail(myEmail, messageSubject, messageBody, lang);
             return "ok";
@@ -153,7 +147,7 @@ public class Mail : System.Web.Services.WebService {
         //**************************************************
 
         //************ Send mail to customer****************
-        messageSubject = t.Tran("nutrition plan", lang).ToUpper() + " - " + t.Tran("payment details", lang);
+        messageSubject = (user.application == "Program Prehrane 5.0" ? user.application : t.Tran("nutrition plan", lang).ToUpper()) + " - " + t.Tran("payment details", lang);
         messageBody = PaymentDetails(user, lang);
         SendMail(user.email, messageSubject, messageBody, lang);
         //**************************************************
@@ -273,12 +267,12 @@ public class Mail : System.Web.Services.WebService {
 @"
 <p>Poštovani/a,</p>
 <p>Zahvaljujemo na Vašem interesu za <b>{0} {1}</b>.</p>
-<p>Aplikacija će biti aktivna nakon primitka uplate ili nakon što nam pošaljete potvrdu o uplati.</p> 
+<p>{6}.</p> 
 <br />
 <b>Podaci za uplatu:</b>
 <hr/>
 <p>IBAN: HR84 2340 0091 1603 4249 6</p>
-<p>Banka : Privredna banka Zagreb d.d., Račkoga 6, 10000 Zagreb, Hrvatska</p>
+<p>Banka: Privredna banka Zagreb d.d., Račkoga 6, 10000 Zagreb, Hrvatska</p>
 <p>Primatelj: IG PROG, vl. Igor Gašparović</p>
 <p>Adresa: Ludvetov breg 5, 51000 Rijeka, Hrvatska</p>
 <p>Opis plaćanja: {0} {1}</p>
@@ -310,7 +304,8 @@ public class Mail : System.Web.Services.WebService {
 , user.price
 , string.IsNullOrWhiteSpace(user.pin) ? "" : string.Format("Poziv na broj: {0}", user.pin)
 , Math.Round(user.priceEur, 2)
-, string.IsNullOrWhiteSpace(user.pin) ? "HR99" : "HR00");
+, string.IsNullOrWhiteSpace(user.pin) ? "HR99" : "HR00"
+, user.application == "Program Prehrane 5.0" ? "Nakon primitka Vaše uplate ili nakon što nam pošaljete potvrdu o uplati, aktivacijski kod šaljemo na Vašu E-mail adresu" : "Aplikacija će biti aktivna nakon primitka Vaše uplate ili nakon što nam pošaljete potvrdu o uplati");
         }
     }
     #endregion methods

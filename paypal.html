@@ -1,15 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="hr">
 <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-43413032-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'UA-43413032-1');
-    </script>
-
     <title>Program Prehrane - PayPal</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -36,10 +27,8 @@
             font-size: 16px;
         }
     </style>
-
 </head>
 <body id="home" ng-app="app" ng-controller="appCtrl" data-spy="scroll" data-target=".navbar" data-offset="60" ng-cloak>
-
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -56,16 +45,15 @@
             </div>
         </div>
     </nav>
-
-    <div class="row" style="margin-top:150px">
+    <div class="row" style="margin-top:100px">
+        <h1 class="text-center">Program Prehrane - Plaćanje putem PayPal-a</h1>
         <div class="col-sm-offset-2">
-            <div ng-include="'./app/assets/partials/paypal.html'"></div>
+            <div ng-include="'./app/assets/partials/paypal.html'" style="padding:40px"></div>
+            <hr />
+            <div ng-include="'./assets/partials/paypal.html'" style="padding:40px"></div>
         </div>
     </div>
-
-
     <script src="assets/js/app.js"></script>
     <script src="assets/js/main.js"></script>
-
 </body>
 </html>
