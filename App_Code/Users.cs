@@ -567,7 +567,7 @@ public class Users : System.Web.Services.WebService {
                 connection.Close();
                 response = t.Tran("user not found", lang);
             } else {
-                sql = string.Format(@"UPDATE Users SET ExpirationDate = '{0}', IsActive = '1' WHERE UserId = '{1}'", DateTime.Now.AddYears(2), userId);
+                sql = string.Format(@"UPDATE Users SET ExpirationDate = '{0}', IsActive = '1' WHERE UserId = '{1}' AND IsActive = '0'", DateTime.Now.AddYears(2), userId);
                 command = new SQLiteCommand(sql, connection);
                 command.ExecuteNonQuery();
                 connection.Close();
