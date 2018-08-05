@@ -492,25 +492,40 @@ public class Users : System.Web.Services.WebService {
             connection.Close();
 
             Mail mail = new Mail();
-            string messageSubject = "Program Prehrane - lozinka";
+            string messageSubject = t.Tran("nutrition plan", lang).ToUpper() + " - " + t.Tran("password", lang); // "Program Prehrane - lozinka";
             string messageBody = string.Format(
                 @"
-<p>Podaci za prijavu u aplikaciju <strong>Program Prehrane Web</strong>:</p>
-<p>Korisničko ime: <strong>{0}</strong></p>
-<p>Lozinka: <strong>{1}</strong></p>
-<p>Prijava u aplikaciju: <a href=""http://www.programprehrane.com/app"">www.programprehrane.com/app</a></p>
+<p>{0}</p>
+<p><i>{1}:</i></p>
+<hr/>
+<p>{2}: <strong>{3}</strong></p>
+<p>{4}: <strong>{5}</strong></p>
+<p>{6}: {7}</p>
+<hr/>
+{8}
 <br />
 <br />
 <div style=""color:gray"">
-<p>IG PROG - obrt za računalno programiranje</p>
+<p>{9}</p>
 <p>Ludvetov breg 5, 51000 Rijeka, HR</p>
-<p>+385 98 330 966</p>
-<a href=""mailto:program.prehrane@yahoo.com"">program.prehrane@yahoo.com</a>
+{10}
+{11}
 <br />
-<a href=""http://www.programprehrane.com"">www.programprehrane.com</a>
+{12}
 </div>"
+, t.Tran("nutrition plan", lang).ToUpper()
+, t.Tran("login details", lang)
+, t.Tran("user name", lang)
 , x.userName
-, x.password);
+, t.Tran("password", lang)
+, x.password
+, t.Tran("app access link", lang)
+, string.Format("<a href='https://www.{0}/app'>https://www.{0}/app</a>", GetWebPage(lang))
+, string.Format(@"<i>* {0}</i>", t.Tran("this is an automatically generated email – please do not reply to it", lang))
+, lang == "en" ? "IG PROG" : "IG PROG - obrt za računalno programiranje"
+, lang == "en" ? "" : string.Format("<p>{0}</p>", "+385 98 330 966")
+, string.Format("<a href='mailto:{0}'>{0}</a>", GetEmail(lang))
+, string.Format("<a href='https://www.{0}'>www.{0}</a>", GetWebPage(lang)));
 
             string response = "";
             if (x.userName == null) {
@@ -656,27 +671,44 @@ public class Users : System.Web.Services.WebService {
 
     private void SendMail(NewUser x, string lang) {
         Mail mail = new Mail();
-        string messageSubject = "Program Prehrane - Registracija";
+        string messageSubject = t.Tran("nutrition plan", lang).ToUpper() + " - " + t.Tran("registration", lang);
         string messageBody = string.Format(
-            @"
-<p>Uspješno ste se registrirali u aplikaciju <strong>Program Prehrane Web</strong></p>
+                @"
+<p>{0}</p>
+<p>{13}</p>
 <br />
-<p>Korisničko ime: <strong>{0}</strong></p>
-<p>Lozinka: <strong>{1}</strong></p>
-<br />
-<p>Prijava u aplikaciju: <a href=""http://www.programprehrane.com/app"">www.programprehrane.com</a>.</p>
+<p><i>{1}:</i></p>
+<hr/>
+<p>{2}: <strong>{3}</strong></p>
+<p>{4}: <strong>{5}</strong></p>
+<p>{6}: {7}</p>
+<hr/>
+{8}
 <br />
 <br />
 <div style=""color:gray"">
-<p>IG PROG - obrt za računalno programiranje</p>
+<p>{9}</p>
 <p>Ludvetov breg 5, 51000 Rijeka, HR</p>
-<p>+385 98 330 966</p>
-<a href=""mailto:program.prehrane@yahoo.com"">program.prehrane@yahoo.com</a>
+{10}
+{11}
 <br />
-<a href=""http://www.programprehrane.com"">www.programprehrane.com</a>
+{12}
 </div>"
+, t.Tran("nutrition plan", lang).ToUpper()
+, t.Tran("login details", lang)
+, t.Tran("user name", lang)
 , x.userName
-, Decrypt(x.password));
+, t.Tran("password", lang)
+, Decrypt(x.password)
+, t.Tran("app access link", lang)
+, string.Format("<a href='https://www.{0}/app'>https://www.{0}/app</a>", GetWebPage(lang))
+, string.Format(@"<i>* {0}</i>", t.Tran("this is an automatically generated email – please do not reply to it", lang))
+, lang == "en" ? "IG PROG" : "IG PROG - obrt za računalno programiranje"
+, lang == "en" ? "" : string.Format("<p>{0}</p>", "+385 98 330 966")
+, string.Format("<a href='mailto:{0}'>{0}</a>", GetEmail(lang))
+, string.Format("<a href='https://www.{0}'>www.{0}</a>", GetWebPage(lang))
+, t.Tran("registration completed successfully", lang).ToUpper());
+
             mail.SendMail(x.email, messageSubject, messageBody, lang);
     }
 
@@ -810,6 +842,28 @@ public class Users : System.Web.Services.WebService {
                  select new { name = g.Key, count = g.Count() };
         aa = aa.OrderByDescending(a => a.count);
         return aa.ToList();
+    }
+
+    private string GetWebPage(string lang) {
+        switch (lang) {
+            case "en":
+                return "nutrition-plan.com";
+            case "hr":
+                return "programprehrane.com";
+            case "sr": case "sr_cyrl":
+                return "plan-ishrane.com";
+            default:
+                return "programprehrane.com";
+        }
+    }
+      
+    private string GetEmail(string lang) {
+        switch (lang) {
+            case "en":
+                return "nutrition.plan@yahoo.com";
+            default:
+                return "program.prehrane@yahoo.com";
+        }
     }
     #endregion
 

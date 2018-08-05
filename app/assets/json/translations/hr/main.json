@@ -1701,6 +1701,8 @@
   "payment description": "Opis plaćanja",
   "app access link": "Link za pristup aplikaciji",
   "the app access link to track your body weight and download menues is": "Link za pristup aplikaciji za prćenje Vaše tjelesne mase i preuzimanje jelovnika je",
-  "this is an automatically generated email – please do not reply to it": "Ovo je automatski generirana poruka - molimo ne odgovarajte na nju"
+  "this is an automatically generated email – please do not reply to it": "Ovo je automatski generirana poruka - molimo ne odgovarajte na nju",
+  "login details": "Podaci za prijavu u aplikaciju",
+  "registration": "registracija"
 
 }

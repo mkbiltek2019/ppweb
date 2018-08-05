@@ -233,7 +233,7 @@ public class Mail : System.Web.Services.WebService {
 <p>{10}: {2} {3}</p>
 <p>{11}: <b>{12} {13}</b></p>
 <hr/>
-<a href=""https://www.nutrition-plan.com/paypal.html""><img alt=""PayPal"" src=""https://www.programprehrane.com/assets/img/paypal.jpg""></a>
+<a href=""https://www.nutrition-plan.com/paypal.html""><img alt=""PayPal"" src=""https://www.nutrition-plan.com/assets/img/paypal.jpg""></a>
 <hr/>
 <br />
 <br />
