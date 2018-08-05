@@ -226,7 +226,6 @@ public class Users : System.Web.Services.WebService {
             x.password = Encrypt(x.password);
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
             connection.Open();
-
             string sql = @"UPDATE Users SET  
                             UserType = @UserType, FirstName = @FirstName, LastName = @LastName, CompanyName = @CompanyName, Address = @Address, PostalCode = @PostalCode, City = @City, Country = @Country, Pin = @Pin, Phone = @Phone, Email = @Email, UserName = @UserName, Password = @Password, AdminType = @AdminType, UserGroupId = @UserGroupId, ActivationDate = @ActivationDate, ExpirationDate = @ExpirationDate, IsActive = @IsActive, IPAddress = @IPAddress
                             WHERE UserId = @UserId";
@@ -492,7 +491,7 @@ public class Users : System.Web.Services.WebService {
             connection.Close();
 
             Mail mail = new Mail();
-            string messageSubject = t.Tran("nutrition plan", lang).ToUpper() + " - " + t.Tran("password", lang); // "Program Prehrane - lozinka";
+            string messageSubject = t.Tran("nutrition plan", lang).ToUpper() + " - " + t.Tran("password", lang);
             string messageBody = string.Format(
                 @"
 <p>{0}</p>
@@ -548,6 +547,36 @@ public class Users : System.Web.Services.WebService {
         } catch (Exception e) {
             return (e.Message);
         }
+    }
+
+    [WebMethod]
+    public string ConfirmPayPal(string userName, string password, string lang) {
+        try {
+            string userId = null;
+            string response = "";
+            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
+            connection.Open();
+            string sql = string.Format("SELECT userId FROM users WHERE userName = '{0}' AND password = '{1}'", userName, Encrypt(password));
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+            NewUser x = new NewUser();
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read()) {
+                userId = reader.GetString(0);
+            }
+            if (string.IsNullOrEmpty(userId)) {
+                connection.Close();
+                response = t.Tran("user not found", lang);
+            } else {
+                sql = string.Format(@"UPDATE Users SET ExpirationDate = '{0}', IsActive = '1' WHERE UserId = '{1}'", DateTime.Now.AddYears(2), userId);
+                command = new SQLiteCommand(sql, connection);
+                command.ExecuteNonQuery();
+                connection.Close();
+                response = "your account has been successfully activated";
+            }
+            connection.Close();
+            string json = JsonConvert.SerializeObject(response, Formatting.Indented);
+            return json;
+        } catch (Exception e) { return ("Error: " + e); }
     }
 
     //******** Only for correcting User tbl ******************
