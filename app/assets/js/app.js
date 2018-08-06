@@ -812,7 +812,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 case 1:
                     return 'standard';
                     break;
-                case 1:
+                case 2:
                     return 'premium';
                     break;
                 default:
@@ -865,6 +865,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.newUser.expirationDate = $rootScope.user.expirationDate;
         $scope.newUser.isActive = true;
         $scope.newUser.adminType = 1;
+        $scope.newUser.userType = $rootScope.user.userType;
 
         if ($scope.newUser.password == "" || $scope.passwordConfirm == "") {
             functions.alert($translate.instant('enter password'), '');
@@ -4190,6 +4191,21 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
      });
     }
 
+    var loadMyFoods = function () {
+        $http({
+            url: $sessionStorage.config.backend + 'MyFoods.asmx/Load',
+            method: "POST",
+            data: { userId: $sessionStorage.usergroupid }
+        })
+        .then(function (response) {
+            var data = JSON.parse(response.data.d);
+            $rootScope.myFoods = data.foods;
+        },
+        function (response) {
+            functions.alert($translate.instant(response.data.d), '');
+        });
+    }
+
     $scope.save = function (x) {
         if ($rootScope.user.licenceStatus == 'demo' && $rootScope.clients.length > 0) {
             functions.demoAlert('this function is not available in demo version');
@@ -4213,6 +4229,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             functions.alert($translate.instant(response.data.d), '');
+            loadMyFoods();
         },
         function (response) {
             functions.alert($translate.instant(response.data.d), '');
@@ -4997,7 +5014,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             case 1:
                 return 'standard';
                 break;
-            case 1:
+            case 2:
                 return 'premium';
                 break;
             default:
