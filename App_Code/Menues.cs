@@ -79,6 +79,7 @@ public class Menues : System.Web.Services.WebService {
     [WebMethod]
     public string Load(string userId) {
         try {
+            db.CreateDataBase(userId, db.menues);
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
             string sql = @"SELECT id, title, diet, date, note, userId, clientId, userGroupId, energy

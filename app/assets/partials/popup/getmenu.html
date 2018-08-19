@@ -1,7 +1,7 @@
 ﻿<md-dialog flex layout-margin>
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2 class="text-capitalize">{{'menues' | translate}}</h2>
+                <h2 class="text-capitalize">{{'menus' | translate}}</h2>
                 <span flex></span>
                 <button ng-click="cancel()" class="btn btn-primary">x</button>
             </div>
@@ -13,7 +13,7 @@
         <div ng-show="!loading" class="md-dialog-content">
             <div class="row p10">
                 <ul class="nav nav-tabs">
-                    <li ng-class="appMenues==false?'active':''" ng-click="load()"><a href="" class="text-capitalize">{{'my menues' | translate}}</a></li>
+                    <li ng-class="appMenues==false?'active':''" ng-click="load()"><a href="" class="text-capitalize">{{'my menus' | translate}}</a></li>
                     <li ng-class="appMenues==true?'active':''" ng-click="loadAppMenues()"><a href="" class="text-capitalize">{{'menu examples' | translate}}</a></li>
                 </ul>
             </div>
@@ -28,8 +28,8 @@
                 </div>
                 <div class="col-sm-4">
                     <md-radio-group ng-show="appMenues==false" ng-model="type" layout="row">
-                        <md-radio-button value="0" class="md-primary">{{'all menues' | translate}}</md-radio-button>
-                        <md-radio-button value="1" class="md-primary">{{'client menues' | translate}}</md-radio-button>
+                        <md-radio-button value="0" class="md-primary">{{'all menus' | translate}}</md-radio-button>
+                        <md-radio-button value="1" class="md-primary">{{'client menus' | translate}}</md-radio-button>
                     </md-radio-group>
                 </div>
             </div>

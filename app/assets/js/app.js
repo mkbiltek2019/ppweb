@@ -1478,7 +1478,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         var link = $rootScope.config.clientapppageurl + '?uid=' + client.userId + '&cid=' + client.clientId
         var messageSubject = $translate.instant('nutrition plan') + '. ' + $translate.instant('app access link')   //'Program Prehrane. link za pristup aplikaciji';
         var messageBody = '<p>' + $translate.instant('dear') + ',' + '</p>' +
-            $translate.instant('the app access link to track your body weight and download menues is') + ': ' +
+            $translate.instant('the app access link to track your body weight and download menus is') + ': ' +
             '<br />' +
             '<strong><a href="' + link + '">' + link + '</a></strong>' + 
             '<br />' +
@@ -1537,6 +1537,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 icon: 'fa fa-circle text-success'
             }
         }
+    }
+
+    $scope.backToApp = function () {
+        $rootScope.currTpl = './assets/partials/dashboard.html';
     }
 
 }])
@@ -4131,32 +4135,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 style: 'btn-default',
                 size: 4
             });
-           // getUnits();
         },
         function (response) {
             alert(response.data.d)
         });
     };
     init();
-
-    //var getUnits = function () {
-    //    $http({
-    //        url: $sessionStorage.config.backend + 'Foods.asmx/GetUnits',
-    //        method: "POST",
-    //        data: { lang: $rootScope.config.language }
-    //    })
-    //  .then(function (response) {
-    //      $scope.units = JSON.parse(response.data.d);
-    //  },
-    //  function (response) {
-    //      alert(response.data.d)
-    //  });
-    //}
-    //$scope.units = [
-    //    'komad',
-    //    'jušna žljica',
-    //    'porcija'
-    //];
 
     $scope.new = function(){
         init();
@@ -4182,12 +4166,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { userId: $rootScope.user.userGroupId, x: x }
         })
      .then(function (response) {
-         load();
+         loadMyFoods();
          init();
-         alert(response.data.d);
      },
      function (response) {
-         alert(response.data.d);
+         functions.alert($translate.instant(response.data.d), '');
      });
     }
 
@@ -4808,7 +4791,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.orientation = "L";  //Landscape
     $scope.printWeeklyMenu = function (pageSize, consumers, showQty, showMass, showDescription, orientation) {
         if ($scope.menuList.length == 0) {
-            functions.alert($translate.instant('select menues'), '');
+            functions.alert($translate.instant('select menus'), '');
             return false;
         }
         $scope.pdfLink = null;
@@ -5092,6 +5075,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
        .then(function (response) {
            $scope.menues = JSON.parse(response.data.d);
+           if ($scope.menues.length == 0) {
+               functions.alert($translate.instant('first you need to create daily menus'), '');
+           }
            $scope.loading = false;
        },
        function (response) {
@@ -5117,7 +5103,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.printWeeklyMenu = function (pageSize, consumers, showQty, showMass, showDescription, orientation) {
         if ($scope.menuList.length == 0) {
-            functions.alert($translate.instant('select menues'), '');
+            functions.alert($translate.instant('select menus'), '');
             return false;
         }
         $scope.pdfLink = null;
