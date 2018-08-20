@@ -2355,12 +2355,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $http({
                 url: $sessionStorage.config.backend + 'MyFoods.asmx/Get',
                 method: "POST",
-                data: { userId: $rootScope.user.userId, id: JSON.parse(x).id }
+                data: { userId: $rootScope.user.userGroupId, id: JSON.parse(x).id }
             })
           .then(function (response) {
               $scope.food = JSON.parse(response.data.d);
               initFood = angular.copy(JSON.parse(response.data.d));
-            //  showServings($scope.food);
           },
           function (response) {
               alert(response.data.d)

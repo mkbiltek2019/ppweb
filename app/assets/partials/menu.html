@@ -43,11 +43,11 @@
                         <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around">
                             <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
                         </div>
-                        <div ng-show="!loading" style="min-height:50%;">
+                        <div ng-show="!loading" style="min-height:50%">
                             <div class="table-responsive">
                                 <table class="table table-condensed table-hover">
                                     <tbody class="text-small">
-                                        <tr ng-repeat="x in currentMenu.data.selectedFoods | filter:filterMeal track by $index">
+                                        <tr ng-repeat="x in currentMenu.data.selectedFoods | filter:filterMeal track by $index" title="{{x.foodGroup.title}}">
                                             <td class="borderNone"><a href="" style="color:red" ng-click="removeFood(x, currentMenu.data.selectedFoods.indexOf(x))" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-trash-o"></i></a></td>
                                             <td class="borderNone">
                                                 <button class="fa fa-arrow-up text-primary" ng-click="moveUp(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move up' | translate}}"></button><br />
@@ -70,7 +70,7 @@
                                                 </div>
                                             </td>
                                             <td class="borderNone" style="width:10px">g</td>
-                                            <td class="borderNone text-right" style="width:150px">{{x.energy}} kcal</td>
+                                            <td class="borderNone text-right nowrap" style="width:150px">{{x.energy}} kcal</td>
                                         </tr>
                                         <tr>
                                             <td colspan="5" class="text-capitalize">
