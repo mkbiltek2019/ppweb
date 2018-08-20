@@ -47,13 +47,13 @@
                             <div class="table-responsive">
                                 <table class="table table-condensed table-hover">
                                     <tbody class="text-small">
-                                        <tr ng-repeat="x in currentMenu.data.selectedFoods | filter:filterMeal track by $index" title="{{x.foodGroup.title}}">
+                                        <tr ng-repeat="x in currentMenu.data.selectedFoods | filter:filterMeal track by $index">
                                             <td class="borderNone"><a href="" style="color:red" ng-click="removeFood(x, currentMenu.data.selectedFoods.indexOf(x))" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-trash-o"></i></a></td>
                                             <td class="borderNone">
                                                 <button class="fa fa-arrow-up text-primary" ng-click="moveUp(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move up' | translate}}"></button><br />
                                                 <button class="fa fa-arrow-down text-primary" ng-click="moveDown(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move down' | translate}}"></button>
                                             </td>
-                                            <td class="borderNone" style="width:400px" ng-click="openFoodPopup(x, currentMenu.data.selectedFoods.indexOf(x))"><span>{{x.food}}</span></td>
+                                            <td class="borderNone" style="width:400px" ng-click="openFoodPopup(x, currentMenu.data.selectedFoods.indexOf(x))" title="{{x.foodGroup.title}}"><span>{{x.food}}</span></td>
                                             <td class="borderNone text-right" style="min-width:140px">
                                                 <div class="input-group">
                                                     <span class="input-group-addon pointer" ng-click="change(-1, 'quantity', currentMenu.data.selectedFoods.indexOf(x))">-</span>

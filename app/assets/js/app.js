@@ -2567,34 +2567,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             return $rootScope.getMealTitle(x);
         }
 
-        //$scope.print = function () {
-        //    alert('todo');
-        //    window.print();
-        //}
-
-        //$scope.pdf = function () {
-        //    printPdf();
-        //}
-
-        //var printPdf = function () {
-        //    var fileName = 'jelovnik';
-        //    $http({
-        //        url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
-        //        method: "POST",
-        //        data: { userId: $rootScope.user.userId, fileName: fileName, currentMenu: d.currentMenu, clientData: d.clientData, totals: $rootScope.totals, lang: $rootScope.config.language }
-        //    })
-        //      .then(function (response) {
-        //       //   alert(response.data.d);
-        //          //window.open($sessionStorage.config.backend + '/App_Data/users/' + $rootScope.user.userId + '/pdf/' + fileName + '.pdf', + '_blank');
-        //          //  window.open($sessionStorage.config.backend + 'pdf/users/' + $rootScope.user.userId + '/pdf/' + fileName + '.pdf');
-        //       //   $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userId + '/pdf/' + fileName + '.pdf';
-        //      },
-        //      function (response) {
-        //          alert(response.data.d)
-        //      });
-        //}
-        //printPdf();
-
     };
   
     $scope.get = function () {
@@ -2954,7 +2926,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 $scope.mealsTotals.push($rootScope.totals.mealsTotalEnergy.length > 0 ? $rootScope.totals.mealsTotalEnergy[key].meal.energy : 0);
                 $scope.mealsMin.push($rootScope.recommendations.mealsRecommendationEnergy[key].meal.energyMin);
                 $scope.mealsMax.push($rootScope.recommendations.mealsRecommendationEnergy[key].meal.energyMax);
-                $scope.mealsTitles.push(value.title);
+                $scope.mealsTitles.push($translate.instant($rootScope.getMealTitle(value.code)));
             }
         })
 
@@ -2970,23 +2942,21 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         var t = $rootScope.totals;
         var r = $rootScope.recommendations
         $rootScope.servGraphData = charts.createGraph(
-                $translate.instant('unit servings'), //['jedinična serviranja'],
+                $translate.instant('unit servings'),
                 [
                     [t.servings.cerealsServ, t.servings.vegetablesServ, t.servings.fruitServ, t.servings.meatServ, t.servings.milkServ, t.servings.fatsServ],
                     [r.servings.cerealsServ, r.servings.vegetablesServ, r.servings.fruitServ, r.servings.meatServ, r.servings.milkServ, r.servings.fatsServ]
                 ],
                 [$translate.instant('cereals'), $translate.instant('vegetables'), $translate.instant('fruit'), $translate.instant('meat'), $translate.instant('milk'), $translate.instant('fats')],
-
-               // ['ugljikohidrati', 'povrče', 'voće', 'meso', 'mlijeko', 'masti'],
                 ['#45b7cd', '#33cc33', '#33cc33'],
                 [
                      {
-                         label: $translate.instant('choosen'), // "Odabrano",
+                         label: $translate.instant('choosen'),
                          borderWidth: 1,
                          type: 'bar'
                      },
                      {
-                         label: $translate.instant('recommended'), // "Preporučeno",
+                         label: $translate.instant('recommended'),
                          borderWidth: 3,
                          hoverBackgroundColor: "rgba(255,99,132,0.4)",
                          hoverBorderColor: "rgba(255,99,132,1)",
