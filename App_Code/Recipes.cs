@@ -30,6 +30,7 @@ public class Recipes : System.Web.Services.WebService {
         public string title { get; set; }
         public string description { get; set; }
         public double energy { get; set; }
+
         public JsonFile data = new JsonFile();
     }
 

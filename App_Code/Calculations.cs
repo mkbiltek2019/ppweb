@@ -202,8 +202,17 @@ public class Calculations : System.Web.Services.WebService {
         Moderate exercise (3–5 days per week)	Daily kilocalories needed = BMR x 1.55
         Heavy exercise (6–7 days per week)	Daily kilocalories needed = BMR x 1.725
         Very heavy exercise (twice per day, extra heavy workouts)	Daily kilocalories needed = BMR x 1.9
+        
+        Both BMR, and RMR, estimate the number of calories you burn at rest,
+        but RMR takes additional factors into consideration when determining needs.
+        BMR measures your basal energy expenditure, or BEE.
+        The BEE is a 24 hour estimation of the number of calories you burn maintaining your most basic bodily functions,
+        such as breathing, circulating blood and growing and repairing cells.
+        RMR measures your resting energy expenditure.
+        REE determines the number of calories you burn in a 24 hour period maintaining basic bodily functions,
+        but also includes the number of calories burned eating and conducting small amounts of activity. 
+         */
 
-        */
         int a = client.gender.value == 0 ? 5 : -161;
         double BMR = 10 * client.weight + 6.25 * client.height - 5 * client.age + a;
         double DIT = 0.1 * (client.pal.value * BMR);
