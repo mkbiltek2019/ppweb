@@ -1590,7 +1590,7 @@
   "recipes": "recepti",
   "enter recipe title": "upišite naziv recepta",
   "you do not have any recipes": "nemate vlastitih recepata",
-  "create recipe": "izradite recept",
+  "create recipe": "izradi recept",
   "first name is required": "ime je obavezno",
   "birth date is required": "datum rođenja je obavezan",
   "description, recipe preparation": "opis, priprema recepta",
@@ -1645,6 +1645,8 @@
   "login details": "Podaci za prijavu u aplikaciju",
   "registration": "registracija",
   "your account has been successfully activated": "Vaš račun je uspešno aktivisan",
-  "first you need to create daily menus": "Prvo morate da izradite dnevne menije"
+  "first you need to create daily menus": "Prvo morate da izradite dnevne menije",
+  "basal metabolic rate": "bazalni metabolizam",
+  "save recipe": "spremi recept"
 
 }

@@ -3832,6 +3832,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
     //----------------------------------------
 
+    $scope.saveRecipeFromMenu = function (data, currentMeal) {
+        $rootScope.newTpl = './assets/partials/myrecipes.html';
+        $rootScope.selectedNavItem = 'myrecipes';
+        $rootScope.recipeData = data;
+        $rootScope.currentMealForRecipe = currentMeal;
+    }
 
 }])
 
@@ -4279,6 +4285,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         .then(function (response) {
             $scope.recipe = JSON.parse(response.data.d);
             $scope.currentRecipe = null;
+            recipeFromMenu();
             load();
         },
         function (response) {
@@ -4302,6 +4309,21 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             alert(response.data.d)
         });
     };
+
+    var recipeFromMenu = function () {
+        if (angular.isDefined($rootScope.recipeData)) {
+            if ($rootScope.recipeData != null) {
+                if (angular.isDefined($rootScope.recipeData.selectedFoods)) {
+                    angular.forEach($rootScope.recipeData.selectedFoods, function (value, key) {
+                        if (value.meal.code == $rootScope.currentMealForRecipe) {
+                            $scope.recipe.data.selectedFoods.push(value);
+                            $scope.recipe.data.selectedInitFoods.push($rootScope.recipeData.selectedFoods[key]);
+                        }
+                    })
+                }
+            }
+        }
+    }
 
     init();
 
@@ -4338,13 +4360,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
         $scope.addFoodBtnIcon = 'fa fa-plus';
         $scope.addFoodBtn = false;
-    }, function () {
-        $scope.addFoodBtnIcon = 'fa fa-plus';
-        $scope.addFoodBtn = false;
-    });
+        }, function () {
+            $scope.addFoodBtnIcon = 'fa fa-plus';
+            $scope.addFoodBtn = false;
+        });
     }
 
     $scope.new = function () {
+        $rootScope.recipeData = null;
         init();
     }
 

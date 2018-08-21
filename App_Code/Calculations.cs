@@ -25,6 +25,7 @@ public class Calculations : System.Web.Services.WebService {
         public ValueTitle bmi { get; set; }
         public ValueTitleDescription whr { get; set; }
         public ValueTitle waist { get; set; }
+        public double bmr { get; set; }
         public double tee { get; set; }
         public int recommendedEnergyIntake { get; set; }
         public int recommendedEnergyExpenditure { get; set; }
@@ -67,6 +68,7 @@ public class Calculations : System.Web.Services.WebService {
         x.bmi = new ValueTitle();
         x.whr = new ValueTitleDescription();
         x.waist = new ValueTitle();
+        x.bmr = 0.0;
         x.tee = 0.0;
         x.recommendedEnergyIntake = 0;
         x.recommendedEnergyExpenditure = 0;
@@ -81,6 +83,7 @@ public class Calculations : System.Web.Services.WebService {
         x.bmi = Bmi(client);
         x.whr = Whr(client);
         x.waist = Waist(client);
+        x.bmr = Bmr(client);
         x.tee = Tee(client);
         x.recommendedEnergyIntake = RecommendedEnergyIntake(client);
         x.recommendedEnergyExpenditure = RecommendedEnergyExpenditure(client);
@@ -170,9 +173,10 @@ public class Calculations : System.Web.Services.WebService {
     private ValueTitleDescription Whr(ClientsData.NewClientData client) {
         ValueTitleDescription x = new ValueTitleDescription();
         x.value = Convert.ToDouble(client.waist) / Convert.ToDouble(client.hip);
-        if (x.value <= 1 ) {
+        if (x.value <= 1 ) {    
             x.title = "android fat distribution";
             x.description = "in the case of fatty tissue accumulation, it accumulates in the area of the waist";
+            //TODO x.reccommandation min max    
         }
         if (x.value > 1) {
             x.title = "gynoid fat distribution";
@@ -189,6 +193,12 @@ public class Calculations : System.Web.Services.WebService {
         if (x.value >= 94 && x.value <= 102) { x.title = "the waist circumference between 94 and 102 cm represents an increased risk of various diseases (eg diabetes and heart disease)"; }
         if (x.value > 102) { x.title = "the waist circumference above 102 cm represents a very high risk of various diseases (eg diabetes and heart disease)"; }
         return x;
+    }
+
+    private double Bmr(ClientsData.NewClientData client) {
+        int a = client.gender.value == 0 ? 5 : -161;
+        double BMR = 10 * client.weight + 6.25 * client.height - 5 * client.age + a;
+        return BMR;
     }
 
     private double Tee(ClientsData.NewClientData client) {
@@ -213,8 +223,13 @@ public class Calculations : System.Web.Services.WebService {
         but also includes the number of calories burned eating and conducting small amounts of activity. 
          */
 
-        int a = client.gender.value == 0 ? 5 : -161;
-        double BMR = 10 * client.weight + 6.25 * client.height - 5 * client.age + a;
+        //int a = client.gender.value == 0 ? 5 : -161;
+        //double BMR = 10 * client.weight + 6.25 * client.height - 5 * client.age + a;
+
+        double BMR = Bmr(client);
+
+
+
         double DIT = 0.1 * (client.pal.value * BMR);
         double TEE = client.pal.value * BMR + DIT;
         return Math.Round(TEE, 2);
@@ -273,7 +288,6 @@ public class Calculations : System.Web.Services.WebService {
         x.isDisabled = false;
         return x;
     }
-
     #endregion
 
 }

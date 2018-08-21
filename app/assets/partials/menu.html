@@ -76,6 +76,7 @@
                                             <td colspan="5" class="text-capitalize">
                                                 <a ng-disabled="addFoodBtn" href="" class="btn btn-primary" ng-click="openFoodPopup(food)"><i ng-class="addFoodBtnIcon"></i> {{'add food' | translate}}</a>
                                                 <a href="" class="btn btn-default ml5" ng-click="openRecipePopup()"><i class="fa fa-file-text-o"></i> {{'add recipe' | translate}}</a>
+                                                <a ng-if="config.debug" href="" class="btn btn-default ml5" ng-click="saveRecipeFromMenu(currentMenu.data, currentMeal)"><i class="fa fa-floppy-o"></i> {{'save recipe' | translate}}</a>
                                             </td>
                                             <td colspan="3" class="text-right">
                                                 {{'meal' | translate}} {{'total' | translate}}:

@@ -8,6 +8,12 @@
                 <div class="panel-body">
                     <table class="table table-bordered text-small table-condensed">
                         <tr>
+                            <td class="bg-subpanel"><strong>BMR</strong><em class="text-small text-muted"> ({{'basal metabolic rate' | translate}})</em></td>
+                            <td width=120px class="text-center"><span class="text-primary" style="font-size:24px">{{calculation.bmr | number:0}} kcal</span></td>
+                        </tr>
+                    </table>
+                    <table class="table table-bordered text-small table-condensed">
+                        <tr>
                             <td class="bg-subpanel"><strong>TEE</strong><em class="text-small text-muted"> ({{'total energy expenditure' | translate}})</em></td>
                             <td width=120px class="text-center"><span class="text-primary" style="font-size:24px">{{calculation.tee | number:0}} kcal</span></td>
                         </tr>
