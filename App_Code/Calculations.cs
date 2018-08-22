@@ -24,7 +24,7 @@ public class Calculations : System.Web.Services.WebService {
     public class NewCalculation {
         public ValueTitle bmi { get; set; }
         public ValueTitleDescription whr { get; set; }
-        public ValueTitle waist { get; set; }
+        public WaistValue waist { get; set; }
         public double bmr { get; set; }
         public double tee { get; set; }
         public int recommendedEnergyIntake { get; set; }
@@ -39,10 +39,12 @@ public class Calculations : System.Web.Services.WebService {
         public string title { get; set; }
     }
 
-      public class ValueTitleDescription {
+    public class ValueTitleDescription {
         public double value { get; set; }
         public string title { get; set; }
         public string description { get; set; }
+        public double max { get; set; }
+
     }
 
     public class Pal {
@@ -59,6 +61,14 @@ public class Calculations : System.Web.Services.WebService {
         public double min { get; set; }
         public double max { get; set; }
     }
+
+    public class WaistValue {
+        public double value { get; set; }
+        public string title { get; set; }
+        public string description { get; set; }
+        public int increasedRisk { get; set; }
+        public int highRisk { get; set; }
+    }
     #endregion
 
     #region WebMethods
@@ -67,7 +77,7 @@ public class Calculations : System.Web.Services.WebService {
         NewCalculation x = new NewCalculation();
         x.bmi = new ValueTitle();
         x.whr = new ValueTitleDescription();
-        x.waist = new ValueTitle();
+        x.waist = new WaistValue();
         x.bmr = 0.0;
         x.tee = 0.0;
         x.recommendedEnergyIntake = 0;
@@ -173,6 +183,10 @@ public class Calculations : System.Web.Services.WebService {
     private ValueTitleDescription Whr(ClientsData.NewClientData client) {
         ValueTitleDescription x = new ValueTitleDescription();
         x.value = Convert.ToDouble(client.waist) / Convert.ToDouble(client.hip);
+
+        //U dodatnoj procjeni kardiovaskularnog rizika koristimo omjer opsega struka i opsega bokova (WHR - Waist - Hip ratio) koji za žene mora biti viši od 1.0, a za muškarce 1.1.,
+        // The WHO states that abdominal obesity is defined as a waist-hip ratio above 0.90 for males and above 0.85 for females, or a body mass index (BMI) above 30.0.[5] The National Institute of Diabetes, Digestive and Kidney Diseases (NIDDK) states that women with waist-hip ratios of more than 0.8, and men with more than 1.0, are at increased health risk because of their fat distribution
+
         if (x.value <= 1 ) {    
             x.title = "android fat distribution";
             x.description = "in the case of fatty tissue accumulation, it accumulates in the area of the waist";
@@ -182,16 +196,59 @@ public class Calculations : System.Web.Services.WebService {
             x.title = "gynoid fat distribution";
             x.description = "in the case of fatty tissue accumulation, it accumulates in the area of the hips";
         }
+        if (client.gender.value == 0) { x.max = 1.1; }  // male
+        if (client.gender.value == 1) { x.max = 1; }  // female
+
         return x;
     }
 
-    private ValueTitle Waist(ClientsData.NewClientData client) {
-        ValueTitle x = new ValueTitle();
+    private WaistValue Waist(ClientsData.NewClientData client) {
+        WaistValue x = new WaistValue();
+        //TODO
+        // Pri tom se služimo opsegom struka koji za bijelu rasu za žene ne smije prelaziti 88 cm, a za muškarce 102 cm.
+
         x.value = client.waist;
         //opseg struka između 94 i 102 cm predstavlja povećan rizik od pojave različitih bolesti (npr. šećerne bolesti i bolesti srca)
         //opseg struka iznad 102 cm predstavlja vrlo visok rizik od pojave različitih bolesti (npr. šećerne bolesti i bolesti srca)
-        if (x.value >= 94 && x.value <= 102) { x.title = "the waist circumference between 94 and 102 cm represents an increased risk of various diseases (eg diabetes and heart disease)"; }
-        if (x.value > 102) { x.title = "the waist circumference above 102 cm represents a very high risk of various diseases (eg diabetes and heart disease)"; }
+
+        //A waist circumference of 102 centimetres(40 inches) or more in men, or 88 centimetres(35 inches) or more in women,
+        //is associated with health problems such as type 2 diabetes, heart disease and high blood pressure.
+
+        // ***** male *****
+        if (client.gender.value == 0) {
+            x.increasedRisk = 94;
+            x.highRisk = 102;
+        }
+
+        // ***** female *****
+        if (client.gender.value == 1) {
+            x.increasedRisk = 80;
+            x.highRisk = 88;
+        }  
+
+        if (x.value >= x.increasedRisk && x.value < x.highRisk) {
+            x.title = "increased risk of various diseases";
+            x.description = string.Format("the waist circumference between {0} and {1} cm represents an increased risk of various diseases (eg diabetes and heart disease)", x.increasedRisk, x.highRisk);
+        }
+        if (x.value >= x.highRisk) {
+            x.title = "very high risk of various diseases";
+            x.description = string.Format("the waist circumference above {0} cm represents a very high risk of various diseases (eg diabetes and heart disease)", x.highRisk);
+        }
+
+
+        /****** OLD   **********
+          if (x.value >= 94 && x.value <= 102) {
+             x.title = "increased risk of various diseases";
+             x.description = "the waist circumference between 94 and 102 cm represents an increased risk of various diseases (eg diabetes and heart disease)";
+         }
+         if (x.value > 102) {
+             x.title = "very high risk of various diseases";
+             x.description = "the waist circumference above 102 cm represents a very high risk of various diseases (eg diabetes and heart disease)";
+         }
+         if (client.gender.value == 0) { x.max = 102; }  // male
+         if (client.gender.value == 1) { x.max = 88; }  // female
+         **************/
+
         return x;
     }
 

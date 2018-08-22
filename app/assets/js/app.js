@@ -1737,9 +1737,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.getWaistClass = function (x) {
-        if (x < 94) { return { text: 'text-success', icon: 'fa fa-check' }; }
-        if (x >= 94 && x <= 102) { return { text: 'text-warning', icon: 'fa fa-exclamation' }; }
-        if (x > 102) { return { text: 'text-danger', icon: 'fa fa-exclamation' }; }
+        if (x.value < x.increasedRisk) { return { text: 'text-success', icon: 'fa fa-check' }; }
+        if (x.value >= x.increasedRisk && x.value < x.highRisk) { return { text: 'text-warning', icon: 'fa fa-exclamation' }; }
+        if (x.value >= x.highRisk) { return { text: 'text-danger', icon: 'fa fa-exclamation' }; }
     }
 
     var getCharts = function () {
@@ -1774,15 +1774,16 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         var id = 'whrChart';
         var value = $rootScope.calculation.whr.value.toFixed(1);
         var unit = 'WHR';
+        var max = $rootScope.calculation.whr.max;
         var options = {
             title: 'WHR',
             min: 0,
             max: 2,
             greenFrom: 0,
-            greenTo: 1,
-            yellowFrom: 1,
-            yellowTo: 1.1,
-            redFrom: 1.1,
+            greenTo: max - 0.1, // 1,
+            yellowFrom: max - 0.1, // 1,
+            yellowTo: max, // 1.1,
+            redFrom: max, // 1.1,
             redTo: 2,
             minorTicks: 0.1
         };
@@ -1792,16 +1793,18 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     var waistChart = function () {
         var id = 'waistChart';
         var value = $rootScope.calculation.waist.value.toFixed(1);
+        var increasedRisk = $rootScope.calculation.waist.increasedRisk;
+        var highRisk = $rootScope.calculation.waist.highRisk;
         var unit = 'cm';
         var options = {
             title: 'WHR',
             min: 60,
             max: 160,
             greenFrom: 60,
-            greenTo: 94,
-            yellowFrom: 94,
-            yellowTo: 102,
-            redFrom: 102,
+            greenTo: increasedRisk,  //TODO max
+            yellowFrom: increasedRisk,  //TODO max
+            yellowTo: highRisk,
+            redFrom: highRisk,
             redTo: 160,
             minorTicks: 5
         };
@@ -4318,6 +4321,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                         if (value.meal.code == $rootScope.currentMealForRecipe) {
                             $scope.recipe.data.selectedFoods.push(value);
                             $scope.recipe.data.selectedInitFoods.push($rootScope.recipeData.selectedFoods[key]);
+                        }
+                    })
+                    angular.forEach($rootScope.recipeData.meals, function (value, key) {
+                        if (value.code == $rootScope.currentMealForRecipe) {
+                            $scope.recipe.description = value.description;
                         }
                     })
                 }

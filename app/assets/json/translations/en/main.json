@@ -1475,7 +1475,9 @@
   "gynoid fat distribution": "gynoid fat distribution",
   "in the case of fatty tissue accumulation, it accumulates in the area of the hips": "in the case of fatty tissue accumulation, it accumulates in the area of the hips",
   "the waist circumference between 94 and 102 cm represents an increased risk of various diseases (eg diabetes and heart disease)": "the waist circumference between 94 and 102 cm represents an increased risk of various diseases (eg diabetes and heart disease)",
+  "the waist circumference between 80 and 88 cm represents an increased risk of various diseases (eg diabetes and heart disease)": "the waist circumference between 80 and 88 cm represents an increased risk of various diseases (eg diabetes and heart disease)",
   "the waist circumference above 102 cm represents a very high risk of various diseases (eg diabetes and heart disease)": "the waist circumference above 102 cm represents a very high risk of various diseases (eg diabetes and heart disease)",
+  "the waist circumference above 88 cm represents a very high risk of various diseases (eg diabetes and heart disease)": "the waist circumference above 88 cm represents a very high risk of various diseases (eg diabetes and heart disease)",
   "client is already registered": "client is already registered",
   "man": "man",
   "woman": "woman",
@@ -1698,6 +1700,8 @@
   "registration": "registration",
   "your account has been successfully activated": "Your account has been successfully activated",
   "first you need to create daily menus": "First you need to create daily menus",
-  "basal metabolic rate": "basal metabolic rate"
+  "basal metabolic rate": "basal metabolic rate",
+  "increased risk of various diseases": "increased risk of various diseases",
+  "very high risk of various diseases": "very high risk of various diseases"
 
 }

@@ -1421,7 +1421,9 @@
   "gynoid fat distribution": "ginoidni tip",
   "in the case of fatty tissue accumulation, it accumulates in the area of the hips": "u slučaju nakupljanja masnog tkiva, ono se nakuplja u području bokova",
   "the waist circumference between 94 and 102 cm represents an increased risk of various diseases (eg diabetes and heart disease)": "obim struka izmedu 94 i 102 cm predstavlja povećni rizik od razlicitih bolesti (npr. dijabetesa i bolesti srca)",
+  "the waist circumference between 80 and 88 cm represents an increased risk of various diseases (eg diabetes and heart disease)": "obim struka izmedu 80 i 88 cm predstavlja povećni rizik od razlicitih bolesti (npr. dijabetesa i bolesti srca)",
   "the waist circumference above 102 cm represents a very high risk of various diseases (eg diabetes and heart disease)": "obim struka iznad 102 cm predstavlja visok rizik od razlicitih bolesti (npr. dijabetes i bolesti srca)",
+  "the waist circumference above 88 cm represents a very high risk of various diseases (eg diabetes and heart disease)": "obim struka iznad 88 cm predstavlja visok rizik od razlicitih bolesti (npr. dijabetes i bolesti srca)",
   "client is already registered": "klijent je već registriran",
   "man": "muškarac",
   "woman": "žena",
@@ -1647,6 +1649,8 @@
   "your account has been successfully activated": "Vaš račun je uspešno aktivisan",
   "first you need to create daily menus": "Prvo morate da izradite dnevne menije",
   "basal metabolic rate": "bazalni metabolizam",
-  "save recipe": "spremi recept"
+  "save recipe": "spremi recept",
+  "increased risk of various diseases": "povećan rizik od pojave različitih bolesti",
+  "very high risk of various diseases": "vrlo visok rizik od pojave različitih bolesti"
 
 }

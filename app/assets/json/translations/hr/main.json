@@ -1311,7 +1311,7 @@
   "calculation": "izračun",
   "total energy expenditure": "ukupna energetska potrošnja",
   "body mass index": "indeks tjelesne mase",
-  "waist–hip ratio": "odnos opsega struka I bokova",
+  "waist–hip ratio": "odnos opsega struka i bokova",
   "waist": "opseg struka",
   "recommendations": "preporuke",
   "weight": "masa",
@@ -1482,7 +1482,9 @@
   "gynoid fat distribution": "ginoidni tip",
   "in the case of fatty tissue accumulation, it accumulates in the area of the hips": "u slučaju nakupljanja masnog tkiva, ono se nakuplja u području bokova",
   "the waist circumference between 94 and 102 cm represents an increased risk of various diseases (eg diabetes and heart disease)": "opseg struka između 94 i 102 cm predstavlja povećan rizik od pojave različitih bolesti (npr. šećerne bolesti i bolesti srca)",
+  "the waist circumference between 80 and 88 cm represents an increased risk of various diseases (eg diabetes and heart disease)": "opseg struka između 80 i 88 cm predstavlja povećan rizik od pojave različitih bolesti (npr. šećerne bolesti i bolesti srca)",
   "the waist circumference above 102 cm represents a very high risk of various diseases (eg diabetes and heart disease)": "opseg struka iznad 102 cm predstavlja vrlo visok rizik od pojave različitih bolesti (npr. šećerne bolesti i bolesti srca)",
+  "the waist circumference above 88 cm represents a very high risk of various diseases (eg diabetes and heart disease)": "opseg struka iznad 88 cm predstavlja vrlo visok rizik od pojave različitih bolesti (npr. šećerne bolesti i bolesti srca)",
   "client is already registered": "klijent je već registriran",
   "man": "muškarac",
   "woman": "žena",
@@ -1707,6 +1709,8 @@
   "your account has been successfully activated": "Vaš račun je uspješno aktiviran",
   "first you need to create daily menus": "Prvo morate izraditi dnevne jelovnike",
   "basal metabolic rate": "bazalni metabolizam",
-  "save recipe": "spremi recept"
+  "save recipe": "spremi recept",
+  "increased risk of various diseases": "povećan rizik od pojave različitih bolesti",
+  "very high risk of various diseases": "vrlo visok rizik od pojave različitih bolesti"
 
 }
