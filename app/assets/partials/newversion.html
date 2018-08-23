@@ -10,11 +10,13 @@
             </div>
         </div>
         <hr />
-        <h3>Što je novo u verziji {{config.version}}</h3>
+        <a href="" ng-click="toggleNewVersionDetails()">Što je novo u verziji {{config.version}} <i class="fa fa-chevron-{{showNewVersionDetails==false?'down':'up'}}" aria-hidden="true"></i></a>
+        <div ng-if="showNewVersionDetails==true">
             <div>
                 <div class="p10">
-                    <label>1. Spremanje recepata.</label>
-                    Dodana je nova funkcionalnost. Od sada je moguće spremati recepte izravno iz jelovnika. <br />
+                    <label>1. Spremanje recepata</label>
+                    <p>Dodana je nova funkcionalnost. Od sada je moguće spremati recepte izravno iz jelovnika.</p>
+                    <p><em>* Napomena: U recept se spremaju samo namirnice koje se nalaze u trenutno selektiranom obroku.</em></p>
                 </div>
                 <div class="p10">
                     <img src="./assets/img/newversion/saverecipe1.png" class="img-responsive center-block" />
@@ -23,22 +25,34 @@
                     <img src="./assets/img/newversion/saverecipe2.png" class="img-responsive center-block" />
                 </div>
             </div>
-
-    <!--<h3>Što je novo u verziji {{config.version}}</h3>
-        <div>
             <div>
                 <div class="p10">
-                    <label>1. Unos decimalnih brojeva.</label>
-                    Od sada kao decimalni razdjelnik osim točke možete koristiti i zarez. <br />
-                    To se odnosi na sva polja u koja je moguće unositi decimalne brojeve (atropometrijski parametri, količine namirnica, moje namirnice itd.) <br />
+                    <label>2. Izračun</label>
+                    <p>Dodane su nove vrijednosti u izračunu:</p>
+                    <ul>
+                        <li>BMR (bazalni metabolizam)</li>
+                        <li>Preporučene vrijednosti za WHR (odnos opsega struka i bokova) i opseg struka ovisno o spolu</li>
+                    </ul>
                 </div>
                 <div class="p10">
-                    <img src="./assets/img/newversion/decimalpoint.png" class="img-responsive center-block" />
+                    <img src="./assets/img/newversion/calculation.png" class="img-responsive center-block" />
                 </div>
             </div>
-        </div>-->
 
-        <!--<div>
+            <!--<h3>Što je novo u verziji {{config.version}}</h3>
+            <div>
+                <div>
+                    <div class="p10">
+                        <label>1. Unos decimalnih brojeva.</label>
+                        Od sada kao decimalni razdjelnik osim točke možete koristiti i zarez. <br />
+                        To se odnosi na sva polja u koja je moguće unositi decimalne brojeve (atropometrijski parametri, količine namirnica, moje namirnice itd.) <br />
+                    </div>
+                    <div class="p10">
+                        <img src="./assets/img/newversion/decimalpoint.png" class="img-responsive center-block" />
+                    </div>
+                </div>
+            </div>-->
+            <!--<div>
             <div>
                 <div class="p10">
                     <label>1. Izmjene u dizajnu prozora "JELOVNIK"</label>
@@ -76,7 +90,7 @@
                 </div>
             </div>
         </div>-->
-        <!--<div>
+            <!--<div>
             <div>
                 <div class="p10">
                     <label>1. Proširena baza namirnica</label>
@@ -100,7 +114,7 @@
                 </div>
             </div>
         </div>-->
-        <!--<div>
+            <!--<div>
             <div class="p10">
                 <label>1. Kopiranje jelovnika u Word</label>
                 (pogledaj video)
@@ -118,7 +132,7 @@
                 <img src="./assets/img/newversion/clientlogdiff.png" class="img-responsive center-block" />
             </div>
         </div>-->
-        <!--<div>
+            <!--<div>
             <div class="p10">
                 <label>1. U ispis podataka o klijentu dodan graf (praćenje antropometrijskih parametara)</label>
             </div>
@@ -129,7 +143,7 @@
                 <img src="./assets/img/newversion/clientlogpdf.png" class="img-responsive center-block" />
             </div>
         </div>-->
-        <!--<div>
+            <!--<div>
             <div class="p10">
                 <label>1. Izbačen je prozor "ISPIS". Ispis jelovnika u PDF je prebačen iz prozora "ISPIS" u prozor "JELOVNIK"</label>
             </div>
@@ -156,6 +170,6 @@
 
 
 
-    </div>
+        </div>
     </div>
 </div>

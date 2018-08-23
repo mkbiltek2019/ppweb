@@ -1702,6 +1702,12 @@
   "first you need to create daily menus": "First you need to create daily menus",
   "basal metabolic rate": "basal metabolic rate",
   "increased risk of various diseases": "increased risk of various diseases",
-  "very high risk of various diseases": "very high risk of various diseases"
+  "very high risk of various diseases": "very high risk of various diseases",
+  "save current meal as recipe": "save current meal as recipe",
+  "save as recipe": "save as recipe",
+  "new menu": "new menu",
+  "open menu": "open menu",
+  "show menu preview": "show menu preview",
+  "send menu to the clients e-mail": "send menu to the client's email"
 
 }

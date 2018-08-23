@@ -23,8 +23,8 @@ public class Calculations : System.Web.Services.WebService {
     #region Classes
     public class NewCalculation {
         public ValueTitle bmi { get; set; }
-        public ValueTitleDescription whr { get; set; }
-        public WaistValue waist { get; set; }
+        public WaistHip whr { get; set; }
+        public WaistHip waist { get; set; }
         public double bmr { get; set; }
         public double tee { get; set; }
         public int recommendedEnergyIntake { get; set; }
@@ -37,14 +37,6 @@ public class Calculations : System.Web.Services.WebService {
     public class ValueTitle {
         public double value { get; set; }
         public string title { get; set; }
-    }
-
-    public class ValueTitleDescription {
-        public double value { get; set; }
-        public string title { get; set; }
-        public string description { get; set; }
-        public double max { get; set; }
-
     }
 
     public class Pal {
@@ -62,12 +54,13 @@ public class Calculations : System.Web.Services.WebService {
         public double max { get; set; }
     }
 
-    public class WaistValue {
+    public class WaistHip {
         public double value { get; set; }
         public string title { get; set; }
         public string description { get; set; }
-        public int increasedRisk { get; set; }
-        public int highRisk { get; set; }
+        public double increasedRisk { get; set; }
+        public double highRisk { get; set; }
+        public double optimal { get; set; }
     }
     #endregion
 
@@ -76,8 +69,8 @@ public class Calculations : System.Web.Services.WebService {
     public string Init() {
         NewCalculation x = new NewCalculation();
         x.bmi = new ValueTitle();
-        x.whr = new ValueTitleDescription();
-        x.waist = new WaistValue();
+        x.whr = new WaistHip();
+        x.waist = new WaistHip();
         x.bmr = 0.0;
         x.tee = 0.0;
         x.recommendedEnergyIntake = 0;
@@ -180,39 +173,39 @@ public class Calculations : System.Web.Services.WebService {
         return x;
     }
 
-    private ValueTitleDescription Whr(ClientsData.NewClientData client) {
-        ValueTitleDescription x = new ValueTitleDescription();
+    private WaistHip Whr(ClientsData.NewClientData client) {
+        WaistHip x = new WaistHip();
         x.value = Convert.ToDouble(client.waist) / Convert.ToDouble(client.hip);
 
-        //U dodatnoj procjeni kardiovaskularnog rizika koristimo omjer opsega struka i opsega bokova (WHR - Waist - Hip ratio) koji za žene mora biti viši od 1.0, a za muškarce 1.1.,
-        // The WHO states that abdominal obesity is defined as a waist-hip ratio above 0.90 for males and above 0.85 for females, or a body mass index (BMI) above 30.0.[5] The National Institute of Diabetes, Digestive and Kidney Diseases (NIDDK) states that women with waist-hip ratios of more than 0.8, and men with more than 1.0, are at increased health risk because of their fat distribution
-
-        if (x.value <= 1 ) {    
-            x.title = "android fat distribution";
-            x.description = "in the case of fatty tissue accumulation, it accumulates in the area of the waist";
-            //TODO x.reccommandation min max    
+        // ***** male *****
+        if (client.gender.value == 0) {
+            x.increasedRisk = 0.95;
+            x.highRisk = 1;
+            x.optimal = 0.9;
         }
-        if (x.value > 1) {
+
+        // ***** female *****
+        if (client.gender.value == 1) {
+            x.increasedRisk = 0.80;
+            x.highRisk = 0.85;
+            x.optimal = 0.7;
+        }
+
+        if (x.value < 1) {
             x.title = "gynoid fat distribution";
             x.description = "in the case of fatty tissue accumulation, it accumulates in the area of the hips";
         }
-        if (client.gender.value == 0) { x.max = 1.1; }  // male
-        if (client.gender.value == 1) { x.max = 1; }  // female
+        if (x.value >= 1) {
+            x.title = "android fat distribution";
+            x.description = "in the case of fatty tissue accumulation, it accumulates in the area of the waist";
+        }
 
         return x;
     }
 
-    private WaistValue Waist(ClientsData.NewClientData client) {
-        WaistValue x = new WaistValue();
-        //TODO
-        // Pri tom se služimo opsegom struka koji za bijelu rasu za žene ne smije prelaziti 88 cm, a za muškarce 102 cm.
-
+    private WaistHip Waist(ClientsData.NewClientData client) {
+        WaistHip x = new WaistHip();
         x.value = client.waist;
-        //opseg struka između 94 i 102 cm predstavlja povećan rizik od pojave različitih bolesti (npr. šećerne bolesti i bolesti srca)
-        //opseg struka iznad 102 cm predstavlja vrlo visok rizik od pojave različitih bolesti (npr. šećerne bolesti i bolesti srca)
-
-        //A waist circumference of 102 centimetres(40 inches) or more in men, or 88 centimetres(35 inches) or more in women,
-        //is associated with health problems such as type 2 diabetes, heart disease and high blood pressure.
 
         // ***** male *****
         if (client.gender.value == 0) {
@@ -234,20 +227,6 @@ public class Calculations : System.Web.Services.WebService {
             x.title = "very high risk of various diseases";
             x.description = string.Format("the waist circumference above {0} cm represents a very high risk of various diseases (eg diabetes and heart disease)", x.highRisk);
         }
-
-
-        /****** OLD   **********
-          if (x.value >= 94 && x.value <= 102) {
-             x.title = "increased risk of various diseases";
-             x.description = "the waist circumference between 94 and 102 cm represents an increased risk of various diseases (eg diabetes and heart disease)";
-         }
-         if (x.value > 102) {
-             x.title = "very high risk of various diseases";
-             x.description = "the waist circumference above 102 cm represents a very high risk of various diseases (eg diabetes and heart disease)";
-         }
-         if (client.gender.value == 0) { x.max = 102; }  // male
-         if (client.gender.value == 1) { x.max = 88; }  // female
-         **************/
 
         return x;
     }
@@ -284,8 +263,6 @@ public class Calculations : System.Web.Services.WebService {
         //double BMR = 10 * client.weight + 6.25 * client.height - 5 * client.age + a;
 
         double BMR = Bmr(client);
-
-
 
         double DIT = 0.1 * (client.pal.value * BMR);
         double TEE = client.pal.value * BMR + DIT;

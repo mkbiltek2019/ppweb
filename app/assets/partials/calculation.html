@@ -39,14 +39,14 @@
                             <td rowspan="3" style="width:120px"><div id="whrChart" class="guage"></div></td>
                         </tr>
                         <tr class="text-center">
-                            <td ng-class="calculation.whr.value>1?'text-danger':'text-success'"><span style="font-size:24px">{{calculation.whr.value | number:1}}</span></td>
+                            <td ng-class="getWaistClass(calculation.whr).text"><span style="font-size:24px">{{calculation.whr.value | number:2}}</span></td>
                         </tr>
                         <tr class="text-center">
-                            <td class="text-primary"><em>{{'recommended' | translate}}: (< {{calculation.whr.max}})</em></td>
+                            <td class="text-primary"><em>{{'recommended' | translate}}: (< {{calculation.whr.increasedRisk}})</em></td>
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <span ng-class="calculation.whr.value>calculation.whr.max?'text-danger fa fa-exclamation':'text-success'">
+                                <span ng-class="getWaistClass(calculation.whr).text">
                                     <strong class="text-uppercase">{{calculation.whr.title | translate}}</strong>
                                     <br />
                                     <span> {{calculation.whr.description | translate}}</span>

@@ -14,12 +14,13 @@
         <div class="col-md-8" style="min-height:70vh">
             <div class="panel panel-default">
                 <div class="panel-heading text-capitalize">
-                    <a href="" class="btn btn-default" ng-click="new()"><i class="fa fa-file-o"></i> <span class="hidden-xs"> {{'new' | translate}}</span></a>
-                    <a href="" class="btn btn-default" ng-click="get()"><i class="fa fa-folder-open-o"></i> <span class="hidden-xs"> {{'open' | translate}}</span></a>
-                    <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" ng-click="save()"><i class="fa fa-floppy-o"></i> <span class="hidden-xs">{{'save' | translate}}</span></a>
-                    <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" ng-click="printPreview()"><i class="fa fa-file-text-o"></i> <span class="hidden-xs">{{'print' | translate}}</span></a>
-                    <a ng-if="pdfLink==null" ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" ng-click="openPrintPdfPopup()"><i class="fa fa-file-pdf-o"></i> <span class="hidden-xs">{{'pdf' | translate}}</span></a>
-                    <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" ng-click="send()"><i class="fa fa-paper-plane-o"></i> <span class="hidden-xs">{{'send' | translate}}</span></a>
+                    <a href="" class="btn btn-default" title="{{'new menu' | translate}}" ng-click="new()"><i class="fa fa-file-o"></i> <span class="hidden-xs"> {{'new' | translate}}</span></a>
+                    <a href="" class="btn btn-default" title="{{'open menu' | translate}}" ng-click="get()"><i class="fa fa-folder-open-o"></i> <span class="hidden-xs"> {{'open' | translate}}</span></a>
+                    <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" title="{{'save menu' | translate}}" ng-click="save()"><i class="fa fa-floppy-o"></i> <span class="hidden-xs">{{'save' | translate}}</span></a>
+                    <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" ng-click="saveRecipeFromMenu(currentMenu.data, currentMeal)" title="{{'save current meal as recipe' | translate}}"><i class="fa fa-floppy-o"></i> <span class="hidden-xs">{{'save as recipe' | translate}}</span></a>
+                    <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" title="{{'show menu preview' | translate}}" ng-click="printPreview()"><i class="fa fa-file-text-o"></i> <span class="hidden-xs">{{'print' | translate}}</span></a>
+                    <a ng-if="pdfLink==null" ng-disabled="currentMenu.data.selectedFoods.length==0" href="" title="{{'create pdf' | translate}}" class="btn btn-default" ng-click="openPrintPdfPopup()"><i class="fa fa-file-pdf-o"></i> <span class="hidden-xs">{{'pdf' | translate}}</span></a>
+                    <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" title="{{'send menu to the clients email' | translate}}" ng-click="send()"><i class="fa fa-paper-plane-o"></i> <span class="hidden-xs">{{'send' | translate}}</span></a>
                 </div>
                 <div class="panel-body">
                         <div layout-gt-sm="row" style="height:60px; margin:0px">
@@ -76,7 +77,6 @@
                                             <td colspan="5" class="text-capitalize">
                                                 <a ng-disabled="addFoodBtn" href="" class="btn btn-primary" ng-click="openFoodPopup(food)"><i ng-class="addFoodBtnIcon"></i> {{'add food' | translate}}</a>
                                                 <a href="" class="btn btn-default ml5" ng-click="openRecipePopup()"><i class="fa fa-file-text-o"></i> {{'add recipe' | translate}}</a>
-                                                <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default ml5" ng-click="saveRecipeFromMenu(currentMenu.data, currentMeal)"><i class="fa fa-floppy-o"></i> {{'save recipe' | translate}}</a>
                                             </td>
                                             <td colspan="3" class="text-right">
                                                 {{'meal' | translate}} {{'total' | translate}}:

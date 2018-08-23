@@ -350,6 +350,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         return list;
     }
 
+    $scope.showNewVersionDetails = false;
+    $scope.toggleNewVersionDetails = function () {
+        $scope.showNewVersionDetails = $scope.showNewVersionDetails == false ? true : false;
+    };
+
 }])
 
 .controller('loginCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', 'functions', '$translate', '$mdDialog', function ($scope, $http, $sessionStorage, $window, $rootScope, functions, $translate, $mdDialog) {
@@ -1774,17 +1779,19 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         var id = 'whrChart';
         var value = $rootScope.calculation.whr.value.toFixed(1);
         var unit = 'WHR';
-        var max = $rootScope.calculation.whr.max;
+        var increasedRisk = $rootScope.calculation.whr.increasedRisk;
+        var highRisk = $rootScope.calculation.whr.highRisk;
+        var optimal = $rootScope.calculation.whr.optimal;
         var options = {
             title: 'WHR',
             min: 0,
-            max: 2,
-            greenFrom: 0,
-            greenTo: max - 0.1, // 1,
-            yellowFrom: max - 0.1, // 1,
-            yellowTo: max, // 1.1,
-            redFrom: max, // 1.1,
-            redTo: 2,
+            max: 1.6,
+            greenFrom: optimal - 0.1,
+            greenTo: increasedRisk,
+            yellowFrom: increasedRisk,
+            yellowTo: highRisk,
+            redFrom: highRisk,
+            redTo: 1.6,
             minorTicks: 0.1
         };
         google.charts.setOnLoadCallback(charts.guageChart(id, value, unit, options));
@@ -1798,14 +1805,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         var unit = 'cm';
         var options = {
             title: 'WHR',
-            min: 60,
-            max: 160,
-            greenFrom: 60,
-            greenTo: increasedRisk,  //TODO max
-            yellowFrom: increasedRisk,  //TODO max
+            min: 0,
+            max: 140,
+            greenFrom: 70,
+            greenTo: increasedRisk,
+            yellowFrom: increasedRisk,
             yellowTo: highRisk,
             redFrom: highRisk,
-            redTo: 160,
+            redTo: 140,
             minorTicks: 5
         };
         google.charts.setOnLoadCallback(charts.guageChart(id, value, unit, options));

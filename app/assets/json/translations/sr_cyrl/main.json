@@ -1650,6 +1650,12 @@
   "basal metabolic rate": "базални метаболизам",
   "save recipe": "спреми рецепт",
   "increased risk of various diseases": "повећан ризик од појаве различитих болести",
-  "very high risk of various diseases": "врло висок ризик од појаве различитих болести"
+  "very high risk of various diseases": "врло висок ризик од појаве различитих болести",
+  "save current meal as recipe": "спреми тренутни оброк као рецепт",
+  "save as recipe": "спреми као рецепт",
+  "new menu": "нови мени",
+  "open menu": "отвори мени",
+  "show menu preview": "прикажи испис менија",
+  "send menu to the clients email": "пошаљи јеловник на клијентов е-маил"
 
 }
