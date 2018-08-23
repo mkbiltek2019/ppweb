@@ -156,7 +156,7 @@ angular.module('app', ['ngMaterial'])
         })
        .then(function (response) {
            if (response.data.d == 'the email address you have entered is already registered') {
-               $scope.msg.title = 'E-mail adresa koju ste upisali je već registriran';
+               $scope.msg.title = 'E-mail adresa koju ste upisali je već registrirana';
                $scope.msg.css = 'danger';
                $scope.msg.icon = 'exclamation';
                $scope.hidebutton = false;
