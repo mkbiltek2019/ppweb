@@ -62,7 +62,7 @@
                                                     <span class="input-group-addon pointer" ng-click="change(1, 'quantity', currentMenu.data.selectedFoods.indexOf(x))">+</span>
                                                 </div>
                                             </td>
-                                            <td class="borderNone" style="min-width:100px">{{x.unit}}</td>
+                                            <td class="borderNone" style="min-width:100px">{{x.unit | translate}}</td>
                                             <td class="borderNone text-right" style="min-width:160px">
                                                 <div class="input-group">
                                                     <span class="input-group-addon pointer" ng-click="change(-1, 'mass', currentMenu.data.selectedFoods.indexOf(x))">-</span>

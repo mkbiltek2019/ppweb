@@ -2263,7 +2263,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 function (response) {
                     //alert(response.data.d)
                 });
-            }, 1000);
+            }, 600);
         }
     }
 
@@ -2407,7 +2407,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     },
                     function (response) {
                     });
-                }, 1000);
+                }, 600);
             }
         }
 

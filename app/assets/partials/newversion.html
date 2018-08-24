@@ -12,6 +12,7 @@
         <hr />
         <a href="" ng-click="toggleNewVersionDetails()">Što je novo u verziji {{config.version}} <i class="fa fa-chevron-{{showNewVersionDetails==false?'down':'up'}}" aria-hidden="true"></i></a>
         <div ng-if="showNewVersionDetails==true">
+
             <div>
                 <div class="p10">
                     <label>1. Spremanje recepata</label>
@@ -36,6 +37,16 @@
                 </div>
                 <div class="p10">
                     <img src="./assets/img/newversion/calculation.png" class="img-responsive center-block" />
+                </div>
+            </div>
+            <div>
+                <div class="p10">
+                    <label>3. Poboljšane performanse kod promjene količine namirnice</label>
+                </div>
+            </div>
+            <div>
+                <div class="p10">
+                    <label>4. Ispravak BUG-a kod spremanja jelovnika</label>
                 </div>
             </div>
 

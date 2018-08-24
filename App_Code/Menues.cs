@@ -179,18 +179,23 @@ public class Menues : System.Web.Services.WebService {
         } else {
             try {
                 string sql = "";
-                if (x.id == null) {
-                    x.id = Convert.ToString(Guid.NewGuid());
-                }
                 SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
                 connection.Open();
                 SQLiteCommand command = new SQLiteCommand(sql, connection);
-                sql = @"BEGIN;
-                    INSERT OR REPLACE INTO menues (id, title, diet, date, note, userId, clientId, userGroupId, energy)
+                if (x.id == null) {
+                    x.id = Convert.ToString(Guid.NewGuid());
+                    sql = @"BEGIN;
+                    INSERT INTO menues (id, title, diet, date, note, userId, clientId, userGroupId, energy)
                     VALUES (@id, @title, @diet, @date, @note, @userId, @clientId, @userGroupId, @energy);
                     COMMIT;";
+                } else {
+                    sql = @"BEGIN;
+                    UPDATE menues SET
+                    id = @id, title = @title, diet = @diet, date = @date, note = @note, userId = @userId, clientId = @clientId, userGroupId = @userGroupId, energy = @energy
+                    WHERE id = @id;
+                    COMMIT;";
+                }
                 command = new SQLiteCommand(sql, connection);
-
                 command.Parameters.Add(new SQLiteParameter("id", x.id));
                 command.Parameters.Add(new SQLiteParameter("title", x.title));
                 command.Parameters.Add(new SQLiteParameter("diet", x.diet));

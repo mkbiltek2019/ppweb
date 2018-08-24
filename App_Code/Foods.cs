@@ -682,13 +682,11 @@ public class Foods : System.Web.Services.WebService {
                 k = newQuantity / initFood.quantity;
                 x.quantity = newQuantity;
                 x.mass = Math.Round(initFood.mass * k, DecimalPlace(initFood.mass * k));
-                //x.mass = Math.Round(initFood.mass * k, 3);
                 break;
             case "mass":
                 k = (newMass / initFood.mass);
                 x.mass = newMass;
                 x.quantity = Math.Round(initFood.quantity * k, DecimalPlace(initFood.quantity * k));
-                //x.quantity = Math.Round(initFood.quantity * k, 3);
                 break;
             default:
                 break;
@@ -1196,7 +1194,7 @@ public class Foods : System.Web.Services.WebService {
         } catch (Exception e) { return new List<string>(); }
     }
 
-    private string GetUnit(double qty, string unit) {
+    public string GetUnit(double qty, string unit) {
         switch (unit){
             #region hr
             case "jušna žlica":
@@ -2032,7 +2030,7 @@ public class Foods : System.Web.Services.WebService {
             x.thermalTreatments = f.thermalTreatments;
             x.meal = f.meal;
             x.quantity = Math.Round(f.quantity * number, 1);
-            x.unit = GetUnit(x.quantity, f.unit); // f.unit;
+            x.unit = GetUnit(x.quantity, f.unit);
             x.mass = Math.Round(f.mass * number, 1);
             x.energy = Math.Round(f.energy * number, 1);
             x.carbohydrates = Math.Round(f.carbohydrates * number, 1);
