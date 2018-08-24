@@ -1194,7 +1194,7 @@ public class Foods : System.Web.Services.WebService {
         } catch (Exception e) { return new List<string>(); }
     }
 
-    public string GetUnit(double qty, string unit) {
+    private string GetUnit(double qty, string unit) {
         switch (unit){
             #region hr
             case "jušna žlica":
