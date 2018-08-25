@@ -2331,12 +2331,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 return false;
             }
 
-            //var obj = JSON.parse(x);
-            //if (obj.foodGroup.code == 'MYF') {
-            //    getMyFoodDetails(x);
-            //    return false;
-            //}
-
             $http({
                 url: $sessionStorage.config.backend + 'Foods.asmx/Get',
                 method: "POST",
@@ -2354,7 +2348,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 })
 
                 initFood = angular.copy($scope.food);
-              //  showServings($scope.food);
             },
             function (response) {
                 alert(response.data.d)
@@ -2369,7 +2362,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             })
           .then(function (response) {
               $scope.food = JSON.parse(response.data.d);
-              initFood = angular.copy(JSON.parse(response.data.d));
+              $scope.food.unit = $translate.instant($scope.food.unit);
+              initFood = angular.copy($scope.food);
           },
           function (response) {
               alert(response.data.d)
