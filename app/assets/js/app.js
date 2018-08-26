@@ -900,7 +900,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             url: $sessionStorage.config.backend + webService + '/Update',
             method: 'POST',
             data: {x: user}
-
         })
        .then(function (response) {
            functions.alert($translate.instant('saved'), '');

@@ -236,11 +236,7 @@ legend.fieldset-border {
     border-bottom:none;
 }
 
-.text-capitalize-first::first-letter {
-    text-transform: uppercase !important;
-}
-
-/*a::first-letter {
+/*.text-capitalize-first::first-letter {
     text-transform: uppercase !important;
 }*/
 

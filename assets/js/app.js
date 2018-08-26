@@ -168,6 +168,7 @@ angular.module('app', ['ngMaterial'])
                $scope.msg.icon = 'check';
                $scope.hidebutton = true;
                $scope.signupok = true;
+               window.location.hash = 'registration';
            }
        },
        function (response) {

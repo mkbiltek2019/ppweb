@@ -704,26 +704,28 @@ public class Users : System.Web.Services.WebService {
         string messageBody = string.Format(
                 @"
 <p>{0}</p>
-<p>{13}</p>
+<p>{1}</p>
 <br />
-<p><i>{1}:</i></p>
+<p><i>{2}:</i></p>
 <hr/>
-<p>{2}: <strong>{3}</strong></p>
-<p>{4}: <strong>{5}</strong></p>
-<p>{6}: {7}</p>
+<p>{3}: <strong>{4}</strong></p>
+<p>{5}: <strong>{6}</strong></p>
+<p>{7}: {8}</p>
+<p>({9})</p>
 <hr/>
-{8}
+{10}
 <br />
 <br />
 <div style=""color:gray"">
-<p>{9}</p>
+<p>{11}</p>
 <p>Ludvetov breg 5, 51000 Rijeka, HR</p>
-{10}
-{11}
-<br />
 {12}
+{13}
+<br />
+{14}
 </div>"
 , t.Tran("nutrition plan", lang).ToUpper()
+, t.Tran("registration completed successfully", lang).ToUpper()
 , t.Tran("login details", lang)
 , t.Tran("user name", lang)
 , x.userName
@@ -731,12 +733,12 @@ public class Users : System.Web.Services.WebService {
 , Decrypt(x.password)
 , t.Tran("app access link", lang)
 , string.Format("<a href='https://www.{0}/app'>https://www.{0}/app</a>", GetWebPage(lang))
+, string.Format(@"<i>{0}</i>", t.Tran("for a better experience in using the application, please use some of the modern browsers such as google chrome, mozilla firefox, microsoft edge etc.", lang))
 , string.Format(@"<i>* {0}</i>", t.Tran("this is an automatically generated email – please do not reply to it", lang))
 , lang == "en" ? "IG PROG" : "IG PROG - obrt za računalno programiranje"
 , lang == "en" ? "" : string.Format("<p>{0}</p>", "+385 98 330 966")
 , string.Format("<a href='mailto:{0}'>{0}</a>", GetEmail(lang))
-, string.Format("<a href='https://www.{0}'>www.{0}</a>", GetWebPage(lang))
-, t.Tran("registration completed successfully", lang).ToUpper());
+, string.Format("<a href='https://www.{0}'>www.{0}</a>", GetWebPage(lang)));
 
             mail.SendMail(x.email, messageSubject, messageBody, lang);
     }
