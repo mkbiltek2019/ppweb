@@ -371,8 +371,8 @@ public class Menues : System.Web.Services.WebService {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
             SQLiteCommand command = new SQLiteCommand(
-                "SELECT EXISTS (SELECT id FROM menues WHERE title = @title AND clientId = @clientId)", connection);
-            command.Parameters.Add(new SQLiteParameter("title", x.title));
+                "SELECT EXISTS (SELECT id FROM menues WHERE LOWER(title) = @title AND clientId = @clientId)", connection);
+            command.Parameters.Add(new SQLiteParameter("title", x.title.ToLower()));
             command.Parameters.Add(new SQLiteParameter("clientId", x.client.clientId));
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read()) {

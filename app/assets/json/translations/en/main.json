@@ -1481,7 +1481,7 @@
   "client is already registered": "client is already registered",
   "man": "man",
   "woman": "woman",
-  "there is already a menu with the same name": "there is already a menu with the same name",
+  "there is already a menu with the same name": "There is already a menu with the same name",
   "you do not have permission to open this file": "you do not have permission to open this file",
   "the email address you have entered is already registered": "the email address you have entered is already registered",
   "registration completed successfully": "registration completed successfully",
@@ -1708,6 +1708,8 @@
   "new menu": "new menu",
   "open menu": "open menu",
   "show menu preview": "show menu preview",
-  "send menu to the clients e-mail": "send menu to the client's email"
+  "send menu to the clients e-mail": "send menu to the client's email",
+  "there is already a recipe with the same name": "There is already a recipe with the same name",
+  "there is already a food with the same name": "There is already a food with the same name"
 
 }

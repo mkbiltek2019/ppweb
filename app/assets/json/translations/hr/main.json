@@ -1488,7 +1488,7 @@
   "client is already registered": "klijent je već registriran",
   "man": "muškarac",
   "woman": "žena",
-  "there is already a menu with the same name": "već postoji jelovnik sa istim nazivom",
+  "there is already a menu with the same name": "Već postoji jelovnik sa istim nazivom",
   "you do not have permission to open this file": "nemate dozvolu za otvarnje ovog fajla",
   "the email address you have entered is already registered": "e-mail adresa koju ste upisali je već registrirana",
   "registration completed successfully": "registracija uspješno završena",
@@ -1717,6 +1717,8 @@
   "new menu": "novi jelovnik",
   "open menu": "otvori jelovnik",
   "show menu preview": "prikaži ispis jelovnika",
-  "send menu to the clients email": "pošalji jelovnik na klijentov e-mail"
+  "send menu to the clients email": "pošalji jelovnik na klijentov e-mail",
+  "there is already a recipe with the same name": "Već postoji recept sa istim nazivom",
+  "there is already a food with the same name": "Već postoji namirnica sa istim nazivom"
 
 }

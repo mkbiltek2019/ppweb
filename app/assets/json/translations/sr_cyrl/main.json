@@ -870,7 +870,6 @@
   "Cello, playing": "Свирање виолончела",
   "Chambermaid": "Посао собарице",
   "Child care": "ситтинг/кнеелинг-дрессинг, батхинг, грооминг, феединг, оццасионал лифтинг оф цхилд, лигхт еффорт",
-  "Child care": "стандинг-дрессинг, батхинг, грооминг, феединг, оццасионал лифтинг оф цхилд, лигхт еффорт",
   "Children s games (hopscotch, 4-square, dodgeball, playground apparatus, t-ball, tetherball, marbles, jacks, arcade games)": "Играње дечјих игара",
   "Chopping wood, splitting logs": "Сјеча дрва, цепање трупаца",
   "Circuit training, general": "Тренинг, кружни, уопштено",
@@ -1426,7 +1425,7 @@
   "client is already registered": "клијент је већ регистриран",
   "man": "мушкарац",
   "woman": "жена",
-  "there is already a menu with the same name": "већ постоји јеловник са истим називом",
+  "there is already a menu with the same name": "Bећ постоји јеловник са истим називом",
   "you do not have permission to open this file": "немате дозволу да отворање ове датотеке",
   "the email address you have entered is already registered": "е-маил адреса коју сте уписали је већ регистрована",
   "registration completed successfully": "регистрација успешно завршена",
@@ -1656,6 +1655,8 @@
   "new menu": "нови мени",
   "open menu": "отвори мени",
   "show menu preview": "прикажи испис менија",
-  "send menu to the clients email": "пошаљи јеловник на клијентов е-маил"
+  "send menu to the clients email": "пошаљи јеловник на клијентов е-маил",
+  "there is already a recipe with the same name": "Већ постоји рецепт са истим називом",
+  "there is already a food with the same name": "Već postoji namirnica sa istim nazivom"
 
 }

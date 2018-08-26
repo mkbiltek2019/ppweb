@@ -4155,7 +4155,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     var loadMyFoods = function () {
         $http({
-            url: $sessionStorage.config.backend + 'MyFoods.asmx/Load',
+            url: $sessionStorage.config.backend + webService + '/Load',
             method: "POST",
             data: { userId: $sessionStorage.usergroupid }
         })
@@ -4190,8 +4190,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { userId: $rootScope.user.userGroupId, x: x }
         })
         .then(function (response) {
-            functions.alert($translate.instant(response.data.d), '');
-            loadMyFoods();
+            if (response.data.d != 'there is already a food with the same name') {
+                functions.alert($translate.instant(response.data.d), '');
+                loadMyFoods();
+            } else {
+                functions.alert($translate.instant('there is already a food with the same name'), '');
+            }
         },
         function (response) {
             functions.alert($translate.instant(response.data.d), '');
@@ -4408,8 +4412,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { userId: $sessionStorage.usergroupid, x: recipe }
         })
         .then(function (response) {
-            $scope.recipe = JSON.parse(response.data.d);
-            load();
+            if (response.data.d != 'there is already a recipe with the same name') {
+                $scope.recipe = JSON.parse(response.data.d);
+                load();
+            } else {
+                functions.alert($translate.instant('there is already a recipe with the same name'), '');
+            }
         },
         function (response) {
             alert(response.data.d);

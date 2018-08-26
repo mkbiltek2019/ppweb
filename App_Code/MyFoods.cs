@@ -187,6 +187,9 @@ public class MyFoods : System.Web.Services.WebService {
     public string Save(string userId, Foods.NewFood x) {
         try {
             db.CreateDataBase(userId, db.myFoods);
+            if (Check(userId, x) != false) {
+                return "there is already a food with the same name";
+            }
             x.id = x.id != null ? x.id : Guid.NewGuid().ToString();
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
@@ -277,6 +280,24 @@ public class MyFoods : System.Web.Services.WebService {
             return "ok";
         } catch (Exception e) { return ("Error: " + e); }
     }
+
+    #region Methods
+    private bool Check(string userId, Foods.NewFood x) {
+        try {
+            bool result = false;
+            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
+            connection.Open();
+            string sql = string.Format("SELECT EXISTS(SELECT id FROM myfoods WHERE LOWER(food) = '{0}')", x.food.ToLower());
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read()) {
+                result = reader.GetBoolean(0);
+            }
+            connection.Close();
+            return result;
+        } catch (Exception e) { return false; }
+    }
+    #endregion Methods
 
 
 }

@@ -3,8 +3,8 @@
         <div class="panel-heading text-capitalize">
             <a href="" class="btn btn-default m2" ng-click="new()"><i class="fa fa-file-o"></i> <span class="hidden-xs">{{'new recipe' | translate}}</span></a>
             <a href="" class="btn btn-default m2" ng-click="search()"><i class="fa fa-search"></i> <span class="hidden-xs">{{'search' | translate}}</span></a>
-            <a href="" class="btn btn-default m2" ng-click="save(recipe)"><i class="fa fa-floppy-o"></i> <span class="hidden-xs">{{'save' | translate}}</span></a>
-            <a href="" class="btn btn-default m2" ng-click="remove(recipe)"><span class="text-danger"><i class="fa fa-trash-o"></i> <span class="hidden-xs">{{'delete' | translate}}</span></span></a>
+            <a ng-disabled="recipe.data.selectedFoods.length==0" href="" class="btn btn-default m2" ng-click="save(recipe)"><i class="fa fa-floppy-o"></i> <span class="hidden-xs">{{'save' | translate}}</span></a>
+            <a ng-disabled="recipe.id==null" href="" class="btn btn-default m2" ng-click="remove(recipe)"><span class="text-danger"><i class="fa fa-trash-o"></i> <span class="hidden-xs">{{'delete' | translate}}</span></span></a>
         </div>
         <div class="panel-body">
             <div class="text-capitalize">

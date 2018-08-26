@@ -113,30 +113,33 @@ public class Recipes : System.Web.Services.WebService {
     [WebMethod]
     public string Save(string userId, NewRecipe x) {
         db.CreateDataBase(userId, db.recipes);
-            try {
-                string sql = "";
-                if (x.id == null) {
-                    x.id = Convert.ToString(Guid.NewGuid());
-                }
-                x.energy = x.data.selectedFoods.Sum(a => a.energy);
-                SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
-                connection.Open();
-                SQLiteCommand command = new SQLiteCommand(sql, connection);
-                sql = @"BEGIN;
+        try {
+            if (Check(userId, x) != false) {
+                return "there is already a recipe with the same name";
+            }
+            string sql = "";
+            if (x.id == null) {
+                x.id = Convert.ToString(Guid.NewGuid());
+            }
+            x.energy = x.data.selectedFoods.Sum(a => a.energy);
+            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
+            connection.Open();
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+            sql = @"BEGIN;
                     INSERT OR REPLACE INTO recipes (id, title, description, energy)
                     VALUES (@id, @title, @description, @energy);
                     COMMIT;";
-                command = new SQLiteCommand(sql, connection);
-                command.Parameters.Add(new SQLiteParameter("id", x.id));
-                command.Parameters.Add(new SQLiteParameter("title", x.title));
-                command.Parameters.Add(new SQLiteParameter("description", x.description));
-                command.Parameters.Add(new SQLiteParameter("energy", x.energy));
-                command.ExecuteNonQuery();
-                connection.Close();
-                SaveJsonToFile(userId, x.id, JsonConvert.SerializeObject(x.data, Formatting.Indented));
+            command = new SQLiteCommand(sql, connection);
+            command.Parameters.Add(new SQLiteParameter("id", x.id));
+            command.Parameters.Add(new SQLiteParameter("title", x.title));
+            command.Parameters.Add(new SQLiteParameter("description", x.description));
+            command.Parameters.Add(new SQLiteParameter("energy", x.energy));
+            command.ExecuteNonQuery();
+            connection.Close();
+            SaveJsonToFile(userId, x.id, JsonConvert.SerializeObject(x.data, Formatting.Indented));
 
-                return JsonConvert.SerializeObject(x, Formatting.Indented);
-            } catch (Exception e) { return (e.Message); }
+            return JsonConvert.SerializeObject(x, Formatting.Indented);
+        } catch (Exception e) { return (e.Message); }
     }
 
     [WebMethod]
@@ -248,6 +251,22 @@ public class Recipes : System.Web.Services.WebService {
             json = File.ReadAllText(Server.MapPath(path));
         }
         return json;
+    }
+
+    private bool Check(string userId, NewRecipe x) {
+        try {
+            bool result = false;
+            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
+            connection.Open();
+            string sql = string.Format("SELECT EXISTS(SELECT id FROM recipes WHERE LOWER(title) = '{0}')", x.title.ToLower());
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read()) {
+                result = reader.GetBoolean(0);
+            }
+            connection.Close();
+            return result;
+        } catch (Exception e) { return false; }
     }
     #endregion Methods
 
