@@ -83,7 +83,6 @@ angular.module('app', ['ngMaterial'])
 
 }])
 
-
 .controller('signupCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
     $scope.accept = false;
     $scope.msg = { title: null, css: null, icon: null }
@@ -422,5 +421,35 @@ angular.module('app', ['ngMaterial'])
 
 }])
 
+.controller('foodCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
+    var getConfig = function () {
+        $http.get('./config/config.json')
+          .then(function (response) {
+              $scope.config = response.data;
+              load(null);
+          });
+    };
+
+    $scope.loading = false;
+    var load = function (x) {
+        $scope.loading = true;
+        $http({
+            url: $scope.config.backend + 'Foods.asmx/LoadFoods',
+            method: 'POST',
+            data: { lang: 'hr' }
+        })
+       .then(function (response) {
+           $scope.loading = false;
+           $scope.foods = JSON.parse(response.data.d);
+       },
+       function (response) {
+           $scope.loading = false;
+           alert(response.data.d);
+       });
+    };
+
+    getConfig();
+
+}])
 
 ;

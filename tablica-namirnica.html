@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <title>Tablica namirnica</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Kalorijska tablica. Prikaz energetske vrijednosti namirnica iz web aplikacije Program Prehrane Web">
+    <meta name="author" content="IG PROG, obrt za računalno programiranje">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="assets/js/vendor/jquery.min.js"></script>
+    <script src="assets/js/vendor/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="assets/css/vendor/angular-material.min.css">
+    <script src="../assets/js/vendor/angular.min.js"></script>
+    <script src="../assets/js/vendor/angular-animate.min.js"></script>
+    <script src="../assets/js/vendor/angular-aria.min.js"></script>
+    <script src="../assets/js/vendor/angular-messages.min.js"></script>
+    <script src="assets/js/vendor/angular-material.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=1" />
+    <link href='https://fonts.googleapis.com/css?family=Encode Sans Expanded' rel='stylesheet'>
+    <style>
+        body {
+            font-family: 'Encode Sans Expanded';
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body ng-app="app" ng-controller="foodCtrl" id="home" data-spy="scroll" data-target=".navbar" data-offset="60" style="background-color:transparent">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html" style="padding-top:2px !important"><img src="assets/img/logo.svg"></a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="index.html"><i class="fa fa-home"></i> Početna</a></li>
+                    <li><a href="/app" target="_blank"><i class="fa fa-cog"></i> Aplikacija</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container pt60">
+        <h1>Tablica namirnica</h1>
+        <div>
+            <h2 class="small">Popis namirnica iz Web aplikacije <a href="app" title="Web aplikacija Program Prehrane">Program Prehrane Web</a></h2>
+            <p class="text-justify">Baza sadrži više od 700 namirnica i pripremljenih jela. U ovoj tablici je prikazana samo energetska vrijednost namirnica. Detaljne informacije o namirnicama (mako i mikronutritivne vrijednosti) su dostupne u <a href="app" title="Web aplikacija Program Prehrane">aplikaciji</a>.</p>
+            <hr />
+            <div ng-if="loading" class="text-center text-primary">
+                <i class="fa fa-spinner fa-spin fa-4x"></i>
+                <p>Pričekajte trenutak. Tablica se učitava...</p>
+            </div>
+            <div ng-if="!loading" class="well">
+                <div class="table-responsive">
+                    <table class="table table-condensed table-bordered">
+                        <tr>
+                            <td></td>
+                            <td>
+                                <form>
+                                    <div class="input-group">
+                                        <input ng-model="search" type="text" class="form-control" placeholder="Pretraži...">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default" type="submit">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </td>
+                            <td colspan="5"></td>
+                        </tr>
+                        <tr>
+                            <th>br.</th>
+                            <th>Namirnica</th>
+                            <th class="nowrap text-center">Masa (g)</th>
+                            <th class="text-center">Količina</th>
+                            <th>Jedinica</th>
+                            <th class="nowrap text-center">Energija (Kcal)</th>
+                            <th class="text-center">Detalji</th>
+                        </tr>
+                        <tr ng-repeat="x in foods | filter: search">
+                            <td>{{$index+1}}</td>
+                            <td>{{x.food}}</td>
+                            <td class="text-right">{{x.mass}}</td>
+                            <td class="text-right">{{x.quantity}}</td>
+                            <td class="nowrap">{{x.unit}}</td>
+                            <td class="text-right">{{x.energy | number:1}}</td>
+                            <td class="text-center"><a href="app" title="Makro i mikro nutritivne vrijednosti namirnice" class="btn btn-default" style="border-radius:45%"><i class="fa fa-info fa-2x"></i></a></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="container text-center pt60">
+        <div class="navbar-fixed-bottom m10">
+            <a href="#home" title="Na vrh">
+                <span class="fa fa-chevron-up fa-2x"></span>
+            </a>
+        </div>
+        <hr />
+        <div>
+            <span class="pull-left">Copyright © 2018 IG PROG</span>
+        </div>
+    </footer>
+
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/main.js"></script>
+
+</body>
+</html>

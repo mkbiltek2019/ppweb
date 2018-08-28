@@ -605,23 +605,6 @@ public class Foods : System.Web.Services.WebService {
         x.fatsPercentageMax = client.diet.fatsMax;  //TODO
 
         x.servings = GetRecommendedServings(client, x.energy);
-
-        //x.servings.cerealsServ = GetCerealsServ(client, x.energy); // Convert.ToInt32(x.energy * 0.0047);
-        //x.servings.vegetablesServ = Convert.ToInt32((x.energy * 0.0029) - (x.energy / 1100 - 1) - (x.energy / 4500) + 0.65);
-        //x.servings.fruitServ = Convert.ToInt32(x.energy * 0.00196);
-        //x.servings.meatServ = Convert.ToInt32(x.energy * 0.0025 - (x.energy / 1700 - 2.1));
-        //x.servings.milkServ = Convert.ToInt32(x.energy * 0.0015 - (x.energy / 1800 - 1));
-        //x.servings.fatsServ = Convert.ToInt32(x.energy * 0.004 + x.energy / 1800 - 1);
-        //x.servings.otherFoodsEnergy = Convert.ToInt32((x.energy * 0.107) * (x.energy / 1800));  //max
-
-        //x.cerealsServ =  Convert.ToInt32(x.energy * 0.0047);
-        //x.vegetablesServ = Convert.ToInt32((x.energy * 0.0029) - (x.energy / 1100 - 1) - (x.energy / 4500) + 0.65);
-        //x.fruitServ = Convert.ToInt32(x.energy * 0.00196);
-        //x.meatServ = Convert.ToInt32(x.energy * 0.0025 - (x.energy / 1700 - 2.1));
-        //x.milkServ = Convert.ToInt32(x.energy * 0.0015 - (x.energy / 1800 - 1));
-        //x.fatsServ = Convert.ToInt32(x.energy * 0.004 + x.energy / 1800 - 1);
-        //x.otherFoodsEnergyMax = Convert.ToInt32((x.energy * 0.107) * (x.energy / 1800));
-
         x.mealsRecommendationEnergy = GetMealsRecommendations(client.meals, x.energy);
 
         //TODO - presons from 18, children from 9-10, 10-14, 14-18
@@ -758,7 +741,6 @@ public class Foods : System.Web.Services.WebService {
       return JsonConvert.SerializeObject(Units(), Formatting.Indented);
     }
 
-    //TODO multile consumers
     [WebMethod]
     public string ChangeNumberOfConsumers(List<NewFood> foods, int number){
         try {
@@ -766,90 +748,33 @@ public class Foods : System.Web.Services.WebService {
         } catch (Exception e) {
             return e.Message;
         }
-
-
-        //List<NewFood> xx = new List<NewFood>();
-        //foreach(var f in foods) {
-        //    NewFood x = new NewFood();
-
-
-        //    //          public string id { get; set; }
-        //    //public string food { get; set; }
-
-        //    //public Group foodGroup = new Group();
-        //    //public string foodGroupVitaminLost { get; set; }
-        //    //public List<ThermalTreatment> thermalTreatments { get; set; }
-
-        //    //public CodeTitle meal = new CodeTitle();
-
-        //    x.id = f.id;
-        //    x.food = f.food;
-        //    x.foodGroup = f.foodGroup;
-        //    x.foodGroupVitaminLost = f.foodGroupVitaminLost;
-        //    x.thermalTreatments = f.thermalTreatments;
-        //    x.meal = f.meal;
-        //    x.quantity = Math.Round(f.quantity * number, 1);
-        //    x.unit = f.unit;
-        //    x.mass = Math.Round(f.mass * number, 1);
-        //    x.energy = Math.Round(f.energy * number, 1);
-        //    x.carbohydrates = Math.Round(f.carbohydrates * number, 1);
-        //    x.proteins = Math.Round(f.proteins * number, 1);
-        //    x.fats = Math.Round(f.fats * number, 1);
-        //    x.servings.cerealsServ = Math.Round(f.servings.cerealsServ * number, 1);
-        //    x.servings.vegetablesServ = Math.Round(f.servings.vegetablesServ * number, 1);
-        //    x.servings.fruitServ = Math.Round(f.servings.fruitServ * number, 1);
-        //    x.servings.meatServ = Math.Round(f.servings.meatServ * number, 1);
-        //    x.servings.milkServ = Math.Round(f.servings.milkServ * number, 1);
-        //    x.servings.fatsServ = Math.Round(f.servings.fatsServ * number, 1);
-        //    x.servings.otherFoodsServ = Math.Round(f.servings.otherFoodsServ * number, 1);
-        //    x.servings.otherFoodsEnergy = Math.Round(f.servings.otherFoodsEnergy * number, 1);
-        //    x.starch = Math.Round(f.starch * number, 1);
-        //    x.totalSugar = Math.Round(f.totalSugar * number, 1);
-        //    x.glucose = Math.Round(f.glucose * number, 1);
-        //    x.fructose = Math.Round(f.fructose * number, 1);
-        //    x.saccharose = Math.Round(f.saccharose * number, 1);
-        //    x.maltose = Math.Round(f.maltose * number, 1);
-        //    x.lactose = Math.Round(f.lactose * number, 1);
-        //    x.fibers = Math.Round(f.fibers * number, 1);
-        //    x.saturatedFats = Math.Round(f.saturatedFats * number, 1);
-        //    x.monounsaturatedFats = Math.Round(f.monounsaturatedFats * number, 1);
-        //    x.polyunsaturatedFats = Math.Round(f.polyunsaturatedFats * number, 1);
-        //    x.trifluoroaceticAcid = Math.Round(f.trifluoroaceticAcid * number, 1);
-        //    x.cholesterol = Math.Round(f.cholesterol * number, 1);
-        //    x.sodium = Math.Round(f.sodium * number, 1);
-        //    x.potassium = Math.Round(f.potassium * number, 1);
-        //    x.calcium = Math.Round(f.calcium * number, 1);
-        //    x.magnesium = Math.Round(f.magnesium * number, 1);
-        //    x.phosphorus = Math.Round(f.phosphorus * number, 1);
-        //    x.iron = Math.Round(f.iron * number, 1);
-        //    x.copper = Math.Round(f.copper * number, 1);
-        //    x.zinc = Math.Round(f.zinc * number, 1);
-        //    x.chlorine = Math.Round(f.chlorine * number, 1);
-        //    x.manganese = Math.Round(f.manganese * number, 1);
-        //    x.selenium = Math.Round(f.selenium * number, 1);
-        //    x.iodine = Math.Round(f.iodine * number, 1);
-        //    x.retinol = Math.Round(f.retinol * number, 1);
-        //    x.carotene = Math.Round(f.carotene * number, 1);
-        //    x.vitaminD = Math.Round(f.vitaminD * number, 1);
-        //    x.vitaminE = Math.Round(f.vitaminE * number, 1);
-        //    x.vitaminB1 = Math.Round(f.vitaminB1 * number, 1);
-        //    x.vitaminB2 = Math.Round(f.vitaminB2 * number, 1);
-        //    x.vitaminB3 = Math.Round(f.vitaminB3 * number, 1);
-        //    x.vitaminB6 = Math.Round(f.vitaminB6 * number, 1);
-        //    x.vitaminB12 = Math.Round(f.vitaminB12 * number, 1);
-        //    x.folate = Math.Round(f.folate * number, 1);
-        //    x.pantothenicAcid = Math.Round(f.pantothenicAcid * number, 1);
-        //    x.biotin = Math.Round(f.biotin * number, 1);
-        //    x.vitaminC = Math.Round(f.vitaminC * number, 1);
-        //    x.vitaminK = Math.Round(f.vitaminK * number, 1);
-        //    xx.Add(x);
-        //}
-
-        //string json = JsonConvert.SerializeObject(xx, Formatting.Indented);
-        //return json;
-
     }
 
+    [WebMethod]
+    public string LoadFoods(string lang) {
+        try {
+            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
+            connection.Open();
+            string sql = "SELECT id, food, quantity, unit, mass, energy FROM foods";
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+            string[] translations = t.Translations(lang);
+            SQLiteDataReader reader = command.ExecuteReader();
+            var xx = new List<object>();
+            while (reader.Read()) {
+                xx.Add(new {
+                    id = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0),
+                    food = reader.GetValue(1) == DBNull.Value ? "" : t.Tran(reader.GetString(1), translations, string.IsNullOrEmpty(lang) ? "hr" : lang),
+                    quantity = reader.GetValue(2) == DBNull.Value ? 0 : reader.GetInt32(2),
+                    unit = reader.GetValue(3) == DBNull.Value ? "" : t.Tran(reader.GetString(3), translations, string.IsNullOrEmpty(lang) ? "hr" : lang),
+                    mass = reader.GetValue(4) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(4)),
+                    energy = reader.GetValue(5) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(5))
+                });
+            }
+            connection.Close();
+            string json = JsonConvert.SerializeObject(xx, Formatting.Indented);
+            return json;
+        } catch (Exception e) { return ("Error: " + e); }
+    }
     #endregion
 
     #region Methods
