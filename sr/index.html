@@ -1,25 +1,26 @@
 ﻿<!DOCTYPE html>
-<html lang="hr">
+<html lang="sr">
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <!--<script async src="https://www.googletagmanager.com/gtag/js?id=UA-43413032-1"></script>
+    <!--<script async src="https://www.googletagmanager.com/gtag/js?id=UA-43413032-20"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-        gtag('config', 'UA-43413032-1');
+        gtag('config', 'UA-43413032-20');
     </script>-->
-    <title>Program Prehrane - Web Aplikacija za Nutricioniste</title>
+
+    <title>Program Ishrane</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Program Prehrane - Profesionalni alat za izradu uravnoteženih jelovnika i plana tjelesne aktivnosti. Aplikacija omogućava utvrđivanje stanja uhranjenosti i energetske potrošnje pojedinca te izradu plana prehrane utemeljenu na znanstvenim spoznajama na polju nutriconizma.">
+    <meta name="description" content="Program ishrane - Profesionalna veb aplikacija za izradu uravnoteženih jelovnika i plana fizičke aktivnosti.">
     <meta name="author" content="IG PROG, obrt za računalno programiranje">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/vendor/angular-material.min.css">
-    <link rel="stylesheet" href="assets/css/style.css?v=1.0.0">
+    <link rel="stylesheet" href="assets/css/style.css">
     <script src="assets/js/vendor/jquery.min.js"></script>
     <script src="assets/js/vendor/bootstrap.min.js"></script>
     <script src="assets/js/vendor/angular.min.js"></script>
@@ -35,6 +36,7 @@
             font-size: 16px;
         }
     </style>
+
 </head>
 <body id="home" ng-app="app" ng-controller="appCtrl" data-spy="scroll" data-target=".navbar" data-offset="60" ng-cloak>
 
@@ -46,29 +48,29 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html" style="padding-top:2px !important"><img src="assets/img/logo.svg" alt="Program Prehrane"></a>
+                <a class="navbar-brand" href="index.html" style="padding-top:2px !important" ><img src="assets/img/logo.svg" alt="Program Ishrane"></a>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#about"><i class="fa fa-info"></i> O aplikaciji</a></li>
-                    <li><a href="#registration"><i class="fa fa-user-plus"></i> Registracija</a></li>
-                    <li><a href="#pricing"><i class="fa fa-usd"></i> Cijene</a></li>
+					<li><a href="#about"><i class="fa fa-info"></i> O aplikaciji</a></li>
+					<li><a href="#registration"><i class="fa fa-user-plus"></i> Registracija</a></li>
+                    <li><a href="#pricing"><i class="fa fa-usd"></i> Cene</a></li>
                     <li><a href="#order"><i class="fa fa-shopping-cart"></i> Narudžba</a></li>
                     <li><a href="#contact"><i class="fa fa-comment"></i> Kontakt</a></li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-book"></i> Dokumentacija<span class="caret"></span></a>
                         <ul class="dropdown-menu" style="background-color:#353535">
-                            <li style="padding:5px"><a href="uputa.html" title="uputa"><i class="fa fa-question-circle"></i> Uputa</a></li>
-                            <li style="padding:5px"><a href="izrada-uravnotezenog-jelovnika.html" title="Izrada uravnoteženog jelovnika"><i class="fa fa-cutlery"></i> Izrada uravnoteženog jelovnika</a></li>
+                            <li style="padding:5px"><a href="uputstva.html"><i class="fa fa-question-circle"></i> Uputstva</a></li>
+                            <li style="padding:5px"><a href="https://www.programprehrane.com/izrada-uravnotezenog-jelovnika.html"><i class="fa fa-cutlery"></i> Izrada uravnoteženog jelovnika</a></li>
                             <li style="padding:5px"><a href="plan-prehrane.html" title="Plan prehrane"><i class="fa fa-cutlery"></i> Plan Prehrane</a></li>
-                            <li style="padding:5px"><a href="tablica-namirnica.html" title="Tablic namirnica"><i class="fa fa-apple"></i> Tablica namirnica</a></li>
+                            <li style="padding:5px"><a href="tablica-namirnica.html" title="Tablica namirnica"><i class="fa fa-apple"></i> Tablica namirnica</a></li>
                         </ul>
                     </li>
                     <li><a href="{{config.appurl}}" title="Prijava"><i class="fa fa-sign-in"></i> App</a></li>
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" title="Hrvatski" href="#"><i class="fa fa-globe"></i> Hr<span class="caret"></span></a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" title="Srpski" href="#"><i class="fa fa-globe"></i> Sr<span class="caret"></span></a>
                         <ul class="dropdown-menu" style="background-color:#353535">
-                            <li style="padding:5px"><a href="/sr" title="Srpski"><i class="fa fa-globe"></i> Sr</a></li>
+                            <li style="padding:5px"><a href="../" title="Hrvatski"><i class="fa fa-globe"></i> Hr</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -79,8 +81,8 @@
         <div class="hidden-xs row">
             <div class="col-md-6 col-md-offset-1">
                 <a href="#about" style="text-decoration:none" class="text-center">
-                    <h1 class="main-text" style="font-size:50px; text-shadow: 2px 2px 3px #1F4B00;">Program Prehrane</h1>
-                    <h2 class="lead">Web aplikacija za izradu uravnoteženih jelovnika i plana tjelesne aktivnost</h2>
+                    <h1 class="main-text" style="text-shadow: 2px 2px 7px #000000;">Program Ishrane</h1>
+                    <h2 class="lead">Veb aplikacija za izrada uravnoteženih jelovnika i plana fizičke aktivnost</h2>
                 </a>
             </div>
         </div>
@@ -89,7 +91,7 @@
                 <a href="{{config.appurl}}" class="btn btn-default m10 main-border" style="width:260px"><i class="fa fa-sign-in fa-2x"></i> <span class="lead"> Ulaz za Korisnike</span></a>
                 <a href="#registration" class="btn btn-default m10 main" style="width:260px"><i class="fa fa-user-plus fa-2x"></i> <span class="lead"> Postani Korisnik</span></a>
             </div>
-        </div>
+         </div>
         <!--<div class="visible-xs text-center">
             <a href="{{config.apk}}" class="btn btn-danger m10" style="width:260px"><i class="fa fa-android fa-2x"></i> Android App</a>
         </div>-->
@@ -99,22 +101,22 @@
             <div class="col-sm-3 p10">
                 <i class="fa fa-calculator main-text fa-3x"></i>
                 <h4 style="margin-bottom:0px">Izračun</h4>
-                <h3 class="small" style="margin:5px">Izračun indeksa tjelesne mase i energetske potrošnje</h3>
+                <h3 class="small" style="margin:5px">Izračun BMI i energetske potrošnje</h3>
             </div>
             <div class="col-sm-3 p10">
                 <i class="fa fa-bicycle main-text fa-3x"></i>
-                <h4 style="margin-bottom:0px">Tjelesna aktivnost</h4>
-                <h3 class="small" style="margin:5px">Odabir dodatne tjelesne aktivnosti</h3>
+                <h4 style="margin-bottom:0px">Fizička aktivnost</h4>
+                <h3 class="small" style="margin:5px">Odabir dodatne fizičke aktivnosti</h3>
             </div>
             <div class="col-sm-3 p10">
                 <i class="fa fa-heartbeat main-text fa-3x"></i>
                 <h4 style="margin-bottom:0px">Preporuke</h4>
-                <h3 class="small" style="margin:5px">Preporuke za razne dobne skupine i više vrsta dijeta</h3>
+                <h3 class="small" style="margin:5px">Preporuke za razne starosne grupe i više vrsta dijeta</h3>
             </div>
             <div class="col-sm-3 p10">
                 <i class="fa fa-cutlery main-text fa-3x"></i>
-                <h4 style="margin-bottom:0px">Plan prehrane</h4>
-                <h3 class="small" style="margin:5px">Izrada dnevnih i tjednih jelovnika</h3>
+                <h4 style="margin-bottom:0px">Plan ishrane</h4>
+                <h3 class="small" style="margin:5px">Izrada dnevnih i nedeljnih jelovnika</h3>
             </div>
         </div>
         <div class="row pt10">
@@ -131,12 +133,12 @@
             <div class="col-sm-3 p10">
                 <i class="fa fa-mobile main-text fa-3x"></i>
                 <h4 style="margin-bottom:0px">Klijent App</h4>
-                <h3 class="small" style="margin:5px">Dozvolite svojim pacijentima da sami prate svoje mjere i preuzimaju jelovnike</h3>
+                <h3 class="small" style="margin:5px">Dozvolite svojim pacijentima da sami prate svoje mere i preuzimaju jelovnike</h3>
             </div>
             <div class="col-sm-3 p10">
                 <i class="fa fa-usd main-text fa-3x"></i>
-                <h4 style="margin-bottom:0px">Cjenik jelovnika</h4>
-                <h3 class="small" style="margin:5px">Izrada cjenika jelovnika</h3>
+                <h4 style="margin-bottom:0px">Cenik jelovnika</h4>
+                <h3 class="small" style="margin:5px">Izrada cenika jelovnika</h3>
             </div>
         </div>
     </div>
@@ -145,11 +147,12 @@
         <div class="row">
             <div class="col-sm-6">
                 <h2>O aplikaciji</h2><br>
-                <h4><a href="{{config.appurl}}"><strong>Program Prehrane Web</strong></a> je web aplikacija za izradu raznovrsnih i uravnoteženih jelovnika i plana tjelesne aktivnosti.</h4><br>
+                <h2>Program Ishrane <em>Veb</em></h2>
+                <label><a href="{{config.appurl}}" title="Program ishrane Veb"><strong>Program ishrane Veb</strong></a> je veb aplikacija za izradu raznovrsnih i uravnoteženih jelovnika i plana fizičke aktivnosti na srpskom jeziku (latinica i čirilica).</label><br>
                 <p class="text-justify">
-                    Web aplikacija <a href="{{config.appurl}}"><strong>Program Prehrane Web</strong></a> nasljednica je <a href="#awards">višestruko nagrađivanog</a> računalnog programa <a href="program-prehrane-5.html" target="_blank" rel="noopener"><strong>Program Prehrane 5.0</strong></a>,
-                    a nastala je iz potrebe za izradom alata koji će nutricionistima i zdravstvenim djelatnicima ali
-                    i svima ostalima koji vode računa zdravoj i uravnoteženoj prehrani omogućiti brzu i jednostavnu izradu plana prehrane i tjelesne aktivnosti.
+                    Veb aplikacija <a href="{{config.appurl}}" title="Program ishrane Veb"><strong>Program Ishrane Veb</strong></a> (u originalu <a href="../" target="_blank" rel="noopener" title="Program Prehrane Web"><strong>Program Prehrane Web</strong></a>) naslednica je <a href="#awards">višestruko nagrađivanog</a> kompjuterskog programa <a href="{{config.backend}}program-prehrane-5.html" target="_blank" rel="noopener"><strong>Program Prehrane 5.0</strong></a>,
+                    a nastala je iz potrebe za izradom alata koji će nutricionistima i zdravstvenim radnicima ali
+                    i svima ostalima koji vode računa zdravoj i uravnoteženoj ishrani omogućiti brzu i jednostavnu izradu jelovnika te plana fizičke aktivnosti.
                 </p>
             </div>
             <div class="col-sm-6" style="padding-top:80px">
@@ -158,16 +161,15 @@
         </div>
         <div>
             <p class="text-justify">
-                Aplikacija <a href="{{config.appurl}}"><strong>Program Prehrane Web</strong></a> omogućava utvrđivanje stanja uhranjenosti i energetske potrošnje pojedinca te izradu jelovnika utemeljenu na znanstvenim spoznajama na polju nutriconizma.
-                Osmišljavanjem jelovnika korištenjem ove aplikacije, prehrana krajnjih korisnika postaje uravnotežena i raznolika
-                što se može zahvaliti činjenici da se izrada jelovnika bazira na preporučenom broju jediničnih serviranja svih skupina namirnica te njihovih energetskih, makro i mikronutiritivnih vrijednost.
-                S obzirom da web aplikacija <a href="{{config.appurl}}"><strong>Program Prehrane Web</strong></a> sadrži bazu od preko 700 namirnica i jela moguće je zadovoljiti zahtjeve većine korisnika po pitanju izbora namirnica.
-                Osim toga aplikacija pruža mogućnost unosa vlastitih namirnica i njihovih makro i mikronutirtivnih vrijednosti.
-                Nadalje, kad se govori o problemu prekomjerne tjelesne mase, preporuča se uz promjenu prehrambenih navika, u svakodnevicu uključiti i dodatnu tjelesnu aktivnost,
-                pa tako <a href="{{config.appurl}}"><strong>Program Prehrane Web</strong></a> nudi podatke o energetskoj potrošnji za preko 400 tjelesnih aktivnosti. <br />
-                Više o karakteristikama i funkcijama aplikacije pogledajte <a href="#pricing"><strong>ovdje...</strong></a>
+                <a href="{{config.appurl}}" title="Program Ishrane Veb"><strong>Program ishrane Veb</strong></a> omogućava utvrđivanje stanja uhranjenosti i energetske potrošnje pojedinca te izradu jelovnika utemeljenu na znanstvenim saznanjima na polju nutriconizma.
+                Osmišljavanjem jelovnika korišćenjem ove aplikacije, ishrana krajnjih korisnika postaje uravnotežena i raznolika
+                što se može zahvaliti činjenici da se izrada jelovnika bazira na preporučenom broju jediničnih serviranja svih skupina namirnica te njihovih energetskih, makro i mikronutiritivnih vrednost.
+                S obzirom da aplikacija <a href="{{config.appurl}}" title="Program Ishrane Veb"><strong>Program ishrane Veb</strong></a> sadrži bazu od preko 700 namirnica i jela moguće je zadovoljiti zahtjeve većine korisnika po pitanju izbora namirnica.
+                Osim toga aplikacija pruža mogućnost unosa vlastitih namirnica i njihovih makro i mikronutirtivnih vrednosti.
+                Nadalje, kad se govori o problemu prekomerne telesne mase, preporučuje se uz promenu prehrambenih navika, u svakodnevicu uključiti i dodatnu fizičku aktivnost.
+                Pa tako <a href="{{config.appurl}}" title="Program Ishrane Veb"><strong>Program ishrane Veb</strong></a> nudi podatke o energetskoj potrošnji za preko 400 telesnih aktivnosti.
             </p>
-            <p>Osim hrvatske verzije, dostupna je verzija na <a href="https://www.plan-ishrane.com">srpskom</a> i na <a href="https://www.nutrition-plan.com">engleskom</a> jeziku.</p>
+            <p>Više o karakteristikama i funkcijama aplikacije pogledajte <a href="#pricing"><strong>ovde...</strong></a></p>
         </div>
     </div>
 
@@ -180,7 +182,7 @@
 
     <div id="pricing" class="container bg-grey pt60">
         <div class="text-center">
-            <h2>Program Prehrane Web - Paketi</h2>
+            <h2>Program Ishrane Veb - Paketi</h2>
         </div>
         <div class="row slideanim">
             <div class="col-sm-4">
@@ -189,8 +191,8 @@
                         <h3>START</h3>
                     </div>
                     <div class="panel-body">
-                        <h4><strong>550.00 kn</strong> / 1 godina</h4>
-                        <h5><strong>880.00 kn</strong> / 2 godine</h5>
+                        <h4><strong><!--550.00 kn-->{{550/config.eur | number:2}} €</strong> / 1 godina</h4>
+                        <h5><strong><!--880.00 kn-->{{880/config.eur | number:2}} €</strong> / 2 godine</h5>
                         <hr />
                         <ul class="list-group">
                             <li class="list-group-item">Broj korisnika: <strong>1</strong></li>
@@ -198,25 +200,24 @@
                             <li class="list-group-item">Broj namirnica: <strong>668</strong></li>
                             <li class="list-group-item"><s>Kalendar termina</s></li>
                             <li class="list-group-item"><s>Slanje jelovnika na e-mail klijenta</s></li>
-                            <li class="list-group-item"><s>Aplikacija za klijente</s></li>
                         </ul>
                     </div>
                     <div class="panel-footer">
                         <div class="p5">
-                            <a href="#details" class="btn btn-default btn-block btn-lg m2"><i class="fa fa-info"></i> Saznaj više</a>
+                            <a href="#details" class="btn btn-default btn-block m2"><i class="fa fa-info"></i> Saznaj više</a>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-sm-4">
-                <div class="ribbon"><span>Preporuka</span></div>
-                <div class="panel panel-default text-center" style="padding:0; box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)">
+			<div class="ribbon"><span>Preporuka</span></div>
+                <div class="panel panel-default text-center" style="padding:0">
                     <div class="panel-heading main">
                         <h3>STANDARD</h3>
                     </div>
                     <div class="panel-body">
-                        <h4><strong>950.00 kn</strong> / 1 godina</h4>
-                        <h5><strong>1,520.00 kn</strong> / 2 godine</h5>
+                        <h4><strong><!--950.00 kn-->{{950/config.eur | number:2}} €</strong> / 1 godina</h4>
+                        <h5><strong><!--1,520.00 kn-->{{1520/config.eur | number:2}} €</strong> / 2 godine</h5>
                         <hr />
                         <ul class="list-group">
                             <li class="list-group-item">Broj korisnika: <strong>2</strong></li>
@@ -224,12 +225,11 @@
                             <li class="list-group-item">Broj namirnica: <strong>724</strong></li>
                             <li class="list-group-item">Kalendar termina</li>
                             <li class="list-group-item">Slanje jelovnika na e-mail klijenta</li>
-                            <li class="list-group-item">Aplikacija za klijente</li>
                         </ul>
                     </div>
                     <div class="panel-footer">
                         <div class="p5">
-                            <a href="#details" class="btn btn-default btn-block btn-lg m2"><i class="fa fa-info"></i> Saznaj više</a>
+                            <a href="#details" class="btn btn-default btn-block m2"><i class="fa fa-info"></i> Saznaj više</a>
                         </div>
                     </div>
                 </div>
@@ -240,8 +240,8 @@
                         <h3>PREMIUM</h3>
                     </div>
                     <div class="panel-body">
-                        <h4><strong>1,850.00 kn</strong> / 1 godina</h4>
-                        <h5><strong>2,960.00 kn</strong> / 2 godine</h5>
+                        <h4><strong><!--1,850.00 kn-->{{1850/config.eur | number:2}} €</strong> / 1 godina</h4>
+                        <h5><strong><!--2,960.00 kn-->{{2960/config.eur | number:2}} €</strong> / 2 godine</h5>
                         <hr />
                         <ul class="list-group">
                             <li class="list-group-item">Broj korisnika: <strong>5</strong></li>
@@ -249,12 +249,11 @@
                             <li class="list-group-item">Broj namirnica: <strong>724</strong></li>
                             <li class="list-group-item">Kalendar termina</li>
                             <li class="list-group-item">Slanje jelovnika na e-mail klijenta</li>
-                            <li class="list-group-item">Aplikacija za klijente</li>
                         </ul>
                     </div>
                     <div class="panel-footer">
                         <div class="p5">
-                            <a href="#details" class="btn btn-default btn-block btn-lg m2"><i class="fa fa-info"></i> Saznaj više</a>
+                            <a href="#details" class="btn btn-default btn-block m2"><i class="fa fa-info"></i> Saznaj više</a>
                         </div>
                     </div>
                 </div>
@@ -267,6 +266,7 @@
     <div class="text-center mt10">
         <a href="#registration" class="btn btn-default btn-lg main-border lead"><i class="fa fa-hand-o-right"></i> Isprobaj besplatnu DEMO verziju</a>
     </div>
+
 
     <div id="order" ng-controller="webAppCtrl" class="container text-left pt60">
         <h2 class="text-center">NARUDŽBA</h2>
@@ -286,54 +286,54 @@
         <div ng-include="'./assets/partials/order.html'" class="col-md-8 col-md-offset-2"></div>
     </div>
 
-
-    <div class="container mt20 pt60">
+    <div class="container pt60 mt20">
         <hr />
         <div class="row">
             <div class="col-sm-2">
-                <img src="./assets/img/responsive.jpg" alt="Program Prehrane" class="img-responsive">
+                <img src="./assets/img/responsive.jpg" alt="Program Ishrane" class="img-responsive">
             </div>
             <div class="col-sm-10">
-                <strong>POVIJEST:</strong> <strong>Program Prehrane</strong> se na tržištu nalazi već više od 10 godina, a do sada je doživio 6 verzija.
+                <strong>POVEST:</strong> <strong>Program Ishrane</strong> se na tržištu nalazi već više od 10 godina, a do sada je doživeo 6 verzija.
                 <div class="table-responsive">
                     <table class="table table-condensed">
                         <tr>
                             <th>Verzija</th>
                             <th>Godina izdanja</th>
-                            <th>Tehnologija</th>
-                        </tr>
-                        <tr>
-                            <td>Program Prehrane 1.0</td>
-                            <td>2008</td>
-                            <td>Visual Basic 4.0</td>
-                        </tr>
-                        <tr>
-                            <td>Program Prehrane 2.0</td>
-                            <td>2012</td>
-                            <td>Visual Basic 6.0</td>
-                        </tr>
-                        <tr>
-                            <td>Program Prehrane 3.0</td>
-                            <td>2012</td>
-                            <td>VB Net</td>
-                        </tr>
-                        <tr>
-                            <td>Program Prehrane 4.0</td>
-                            <td>2013</td>
-                            <td>VB Net</td>
-                        </tr>
-                        <tr>
-                            <td><a href="program-prehrane-5.html" target="_blank" rel="noopener"><strong>Program Prehrane 5.0</strong></a></td>
-                            <td>2014</td>
-                            <td>VB Net</td>
-                        </tr>
-                        <tr>
-                            <td>Program Prehrane Web</td>
-                            <td>2017</td>
+                                <th>Tehnologija</th>
+                            </tr>
+                            <tr>
+                                <td>Program Prehrane 1.0</td>
+                                <td>2008</td>
+                                <td>Visual Basic 4.0</td>
+                            </tr>
+                            <tr>
+                                <td>Program Prehrane 2.0</td>
+                                <td>2012</td>
+                                <td>Visual Basic 6.0</td>
+                            </tr>
+                            <tr>
+                                <td>Program Prehrane 3.0</td>
+                                <td>2012</td>
+                                <td>VB Net</td>
+                            </tr>
+                            <tr>
+                                <td>Program Prehrane 4.0</td>
+                                <td>2013</td>
+                                <td>VB Net</td>
+                            </tr>
+                            <tr>
+                                <td><a href="{{config.backend}}program-prehrane-5.html" target="_blank" rel="noopener"><strong>Program Prehrane 5.0</strong></a></td>
+                                <td>2014</td>
+                                <td>VB Net</td>
+                            </tr>
+                            <tr>
+                                <td>Program Prehrane Web</td>
+                                <td>2017</td>
                             <td>AngularJS, C# (ASMX)</td>
-                        </tr>
-                    </table>
-                </div>
+                            </tr>
+                        </table>
+                    </div>
+
             </div>
         </div>
     </div>
@@ -357,8 +357,8 @@
         </div>
     </footer>
 
-    <script src="assets/js/app.js?v=1.0.0"></script>
-    <script src="assets/js/main.js?v=1.0.0"></script>
+    <script src="./assets/js/app.js"></script>
+    <script src="./assets/js/main.js"></script>
 
 </body>
 </html>

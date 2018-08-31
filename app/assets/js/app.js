@@ -53,7 +53,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
           .then(function (response) {
               $rootScope.config = response.data;
               $sessionStorage.config = response.data;
-              $rootScope.setLanguage($rootScope.config.language);
+              if (localStorage.language) {
+                  $rootScope.setLanguage(localStorage.language);
+              } else {
+                  $rootScope.setLanguage($rootScope.config.language);
+              }
               if (angular.isDefined(queryLang)) {
                   if (queryLang == 'hr' || queryLang == 'sr' || queryLang == 'sr_cyrl' || queryLang == 'en') {
                       $rootScope.setLanguage(queryLang);
@@ -92,6 +96,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $translate.use(x);
         $translatePartialLoader.addPart('main');
         $rootScope.config.language = x;
+        if (typeof (Storage) !== "undefined") {
+            localStorage.language = x;
+        }
         $sessionStorage.config.language = x;
         if ($sessionStorage.usergroupid != undefined || $sessionStorage.usergroupid != null) {
             $rootScope.loadData();

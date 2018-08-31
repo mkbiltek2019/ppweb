@@ -879,10 +879,10 @@ public class Users : System.Web.Services.WebService {
         switch (lang) {
             case "en":
                 return "nutrition-plan.com";
-            case "hr":
+          /*  case "hr":
                 return "programprehrane.com";
             case "sr": case "sr_cyrl":
-                return "plan-ishrane.com";
+                return "plan-ishrane.com"; */
             default:
                 return "programprehrane.com";
         }
