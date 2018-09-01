@@ -623,32 +623,32 @@ public class Foods : System.Web.Services.WebService {
         x.polyunsaturatedFats = GetParameterRecommendation(null, Math.Round((x.energy * 0.11)/9, 1), Math.Round((x.energy * 0.8)/9, 1));
         x.trifluoroaceticAcid = GetParameterRecommendation(null, Math.Round((x.energy * 0.02)/9, 1), null);
         x.cholesterol = GetParameterRecommendation(null, 300, null);
-        x.sodium = GetParameterRecommendation(500, 2400, null);
-        x.potassium = GetParameterRecommendation(2000, null, null);
-        x.calcium = GetParameterRecommendation(null, 1500, 800);
-        x.magnesium = GetParameterRecommendation(null, 700, 375);
-        x.phosphorus = GetParameterRecommendation(null, 1400, 700);
-        x.iron = GetParameterRecommendation(null, 30, 14);
-        x.copper = GetParameterRecommendation(null, 3, 1);
-        x.zinc = GetParameterRecommendation(null, 15, 10);
-        x.chlorine = GetParameterRecommendation(800, null, null);
-        x.manganese = GetParameterRecommendation(null, 4, 2);
-        x.selenium = GetParameterRecommendation(null, 100, 55);
-        x.iodine = GetParameterRecommendation(null, 225, 150);
+        x.sodium = SodiumRecommendation(client); // GetParameterRecommendation(500, 2400, null);
+        x.potassium = PotassiumRecommendation(client); // GetParameterRecommendation(2000, null, null);
+        x.calcium = CalciumRecommendation(client); // GetParameterRecommendation(null, 1500, 800);
+        x.magnesium = MagnesiumRecommendation(client); // GetParameterRecommendation(null, 700, 375);
+        x.phosphorus = PhosphorusRecommendation(client); // GetParameterRecommendation(null, 1400, 700);
+        x.iron = IronRecommendation(client); // GetParameterRecommendation(null, 30, 14);
+        x.copper = CopperRecommendation(client); // GetParameterRecommendation(null, 3, 1);
+        x.zinc = ZincRecommendation(client); // GetParameterRecommendation(null, 15, 10);
+        x.chlorine = ChlorineRecommendation(client); // GetParameterRecommendation(800, null, null);
+        x.manganese = ManganeseRecommendation(client); // GetParameterRecommendation(null, 4, 2);
+        x.selenium = SeleniumRecommendation(client); // GetParameterRecommendation(null, 100, 55);
+        x.iodine = IodineRecommendation(client); // GetParameterRecommendation(null, 225, 150);
         x.retinol = GetParameterRecommendation(null, 1500, 800);
         x.carotene = GetParameterRecommendation(null, null, null);
-        x.vitaminD = GetParameterRecommendation(null, 10, 5);
-        x.vitaminE = GetParameterRecommendation(null, 100, 12);
+        x.vitaminD = VitaminDRecommendation(client); // GetParameterRecommendation(null, 10, 5);
+        x.vitaminE = VitaminERecommendation(client); // GetParameterRecommendation(null, 100, 12);
         x.vitaminB1 = GetParameterRecommendation(null, 4, 1.1);
         x.vitaminB2 = GetParameterRecommendation(null, 4, 1.4);
         x.vitaminB3 = GetParameterRecommendation(null, 35, 16);
-        x.vitaminB6 = GetParameterRecommendation(null, 6, 1.4);
-        x.vitaminB12 = GetParameterRecommendation(null, 9, 2.5);
-        x.folate = GetParameterRecommendation(null, 600, 200);
-        x.pantothenicAcid = GetParameterRecommendation(null, 15, 6);
-        x.biotin = GetParameterRecommendation(null, 100, 50);
-        x.vitaminC = GetParameterRecommendation(null, 500, 80);
-        x.vitaminK = GetParameterRecommendation(null, 100, 75);
+        x.vitaminB6 = VitaminB6Recommendation(client); // GetParameterRecommendation(null, 6, 1.4);
+        x.vitaminB12 = VitaminB12Recommendation(client); // GetParameterRecommendation(null, 9, 2.5);
+        x.folate = FolateRecommendation(client); // GetParameterRecommendation(null, 600, 200);
+        x.pantothenicAcid = PantothenicAcidRecommendation(client); // GetParameterRecommendation(null, 15, 6);
+        x.biotin = BiotinRecommendation(client); // GetParameterRecommendation(null, 100, 50);
+        x.vitaminC = VitaminCRecommendation(client); // GetParameterRecommendation(null, 500, 80);
+        x.vitaminK = VitaminKRecommendation(client); // GetParameterRecommendation(null, 100, 75);
 
         string json = JsonConvert.SerializeObject(x, Formatting.Indented);
         return json;
@@ -1097,6 +1097,769 @@ public class Foods : System.Web.Services.WebService {
         x.rda = rda;
         return x;
     }
+
+
+    /********* Food and Nutrition Board, Institute of Medicine, National Academies (www.nap.edu) *********/
+    private ParameterRecommendation SodiumRecommendation(ClientsData.NewClientData client) {
+        ParameterRecommendation x = new ParameterRecommendation();
+        if(client.age >= 1 && client.age < 4) {
+            x.mda = 300;
+            x.ui = 1500;
+            x.rda = 1000;
+        }
+        if (client.age >= 4 && client.age < 9) {
+            x.mda = 400;
+            x.ui = 1900;
+            x.rda = 1200;
+        }
+        if (client.age >= 9 && client.age < 14) {
+            x.mda = 500;
+            x.ui = 2200;
+            x.rda = 1500;
+        }
+        if(client.age >= 14 && client.age < 19) {
+            x.mda = 500;
+            x.ui = 2300;
+            x.rda = 1500;
+        }
+        if(client.age >= 19 && client.age < 31) {
+            x.mda = 500;
+            x.ui = 2300;
+            x.rda = 1500;
+        }
+        if(client.age >= 31 && client.age < 51) {
+            x.mda = 500;
+            x.ui = 2300;
+            x.rda = 1500;
+        }
+        if(client.age >= 51 && client.age < 71) {
+            x.mda = 500;
+            x.ui = 2300;
+            x.rda = 1300;
+        }
+        if(client.age >= 71) {
+            x.mda = 500;
+            x.ui = 2300;
+            x.rda = 1200;
+        }
+        return x;
+    }
+
+    private ParameterRecommendation PotassiumRecommendation(ClientsData.NewClientData client) {
+        ParameterRecommendation x = new ParameterRecommendation();
+        if(client.age >= 1 && client.age < 4) {
+            x.mda = 1600;
+            x.ui = null;
+            x.rda = 3000;
+        }
+        if (client.age >= 4 && client.age < 9) {
+            x.mda = 1800;
+            x.ui = null;
+            x.rda = 3800;
+        }
+        if (client.age >= 9 && client.age < 14) {
+            x.mda = 2000;
+            x.ui = null;
+            x.rda = 4500;
+        }
+        if(client.age >= 14) {
+            x.mda = 2000;
+            x.ui = null;
+            x.rda = 4700;
+        }
+        return x;
+    }
+
+    private ParameterRecommendation CalciumRecommendation(ClientsData.NewClientData client) {
+        ParameterRecommendation x = new ParameterRecommendation();
+        if(client.age >= 1 && client.age < 4) {
+            x.mda = null;
+            x.ui = 2500;
+            x.rda = 700;
+        }
+        if (client.age >= 4 && client.age < 9) {
+            x.mda = null;
+            x.ui = 2500;
+            x.rda = 1000;
+        }
+        if (client.age >= 9 && client.age < 14) {
+            x.mda = null;
+            x.ui = 3000;
+            x.rda = 1300;
+        }
+        if(client.age >= 14 && client.age < 19) {
+            x.mda = null;
+            x.ui = 3000;
+            x.rda = 1300;
+        }
+        if(client.age >= 19 && client.age < 31) {
+            x.mda = null;
+            x.ui = 2500;
+            x.rda = 1000;
+        }
+        if(client.age >= 31 && client.age < 51) {
+            x.mda = null;
+            x.ui = 2500;
+            x.rda = 1000;
+        }
+        if(client.age >= 51 && client.age < 71) {
+            x.mda = null;
+            x.ui = 2000;
+            if (client.gender.value == 0) {
+                x.rda = 1000;
+            } else {
+                x.rda = 1200;
+            }
+        }
+        if(client.age >= 71) {
+            x.mda = null;
+            x.ui = 2000;
+            x.rda = 1200;
+        }
+        return x;
+    }
+
+    private ParameterRecommendation MagnesiumRecommendation(ClientsData.NewClientData client) {
+        ParameterRecommendation x = new ParameterRecommendation();
+        if(client.age >= 1 && client.age < 4) {
+            x.mda = null;
+            x.ui = 300; //??
+            x.rda = 80;
+        }
+        if (client.age >= 4 && client.age < 9) {
+            x.mda = null;
+            x.ui = 350;  //??
+            x.rda = 130;
+        }
+        if (client.age >= 9 && client.age < 14) {
+            x.mda = null;
+            x.ui = 700;
+            x.rda = 240;
+        }
+        if(client.age >= 14 && client.age < 19) {
+            x.mda = null;
+            x.ui = 700;
+           if (client.gender.value == 0) {
+                x.rda = 410;
+            } else {
+                x.rda = 360;
+            }
+        }
+        if(client.age >= 19 && client.age < 31) {
+            x.mda = null;
+            x.ui = 700;
+            if (client.gender.value == 0) {
+                x.rda = 400;
+            } else {
+                x.rda = 310;
+            }
+        }
+        if(client.age >= 31) {
+            x.mda = null;
+            x.ui = 700;
+            if (client.gender.value == 0) {
+                x.rda = 420;
+            } else {
+                x.rda = 320;
+            }
+        }
+        return x;
+    }
+
+    private ParameterRecommendation PhosphorusRecommendation(ClientsData.NewClientData client) {
+        ParameterRecommendation x = new ParameterRecommendation();
+        if(client.age >= 1 && client.age < 4) {
+            x.mda = null;
+            x.ui = 3000;
+            x.rda = 460;
+        }
+        if (client.age >= 4 && client.age < 9) {
+            x.mda = null;
+            x.ui = 3000;
+            x.rda = 500;
+        }
+        if (client.age >= 9 && client.age < 14) {
+            x.mda = null;
+            x.ui = 4000;
+            x.rda = 1250;
+        }
+        if(client.age >= 14 && client.age < 19) {
+            x.mda = null;
+            x.ui = 4000;
+            x.rda = 1250;
+        }
+        if(client.age >= 19 && client.age < 31) {
+            x.mda = null;
+            x.ui = 4000;
+            x.rda = 700;
+        }
+        if(client.age >= 31 && client.age < 51) {
+            x.mda = null;
+            x.ui = 4000;
+            x.rda = 700;
+        }
+        if(client.age >= 51 && client.age < 71) {
+            x.mda = null;
+            x.ui = 4000;
+            x.rda = 700;
+        }
+        if(client.age >= 71) {
+            x.mda = null;
+            x.ui = 3000;
+            x.rda = 700;
+        }
+        return x;
+    }
+
+    private ParameterRecommendation IronRecommendation(ClientsData.NewClientData client) {
+        ParameterRecommendation x = new ParameterRecommendation();
+        if(client.age >= 1 && client.age < 4) {
+            x.mda = null;
+            x.ui = 40;
+            x.rda = 7;
+        }
+        if (client.age >= 4 && client.age < 9) {
+            x.mda = null;
+            x.ui = 40;
+            x.rda = 10;
+        }
+        if (client.age >= 9 && client.age < 14) {
+            x.mda = null;
+            x.ui = 40;
+            x.rda = 8;
+        }
+        if(client.age >= 14 && client.age < 19) {
+            x.mda = null;
+            x.ui = 45;
+           if (client.gender.value == 0) {
+                x.rda = 11;
+            } else {
+                x.rda = 15;
+            }
+        }
+        if(client.age >= 19 && client.age < 31) {
+            x.mda = null;
+            x.ui = 45;
+            if (client.gender.value == 0) {
+                x.rda = 8;
+            } else {
+                x.rda = 18;
+            }
+        }
+        if(client.age >= 31 && client.age < 51) {
+            x.mda = null;
+            x.ui = 45;
+            if (client.gender.value == 0) {
+                x.rda = 8;
+            } else {
+                x.rda = 18;
+            }
+        }
+        if(client.age >= 51) {
+            x.mda = null;
+            x.ui = 45;
+            x.rda = 8;
+        }
+        return x;
+    }
+
+    private ParameterRecommendation CopperRecommendation(ClientsData.NewClientData client) {
+        ParameterRecommendation x = new ParameterRecommendation();
+        if(client.age >= 1 && client.age < 4) {
+            x.mda = null;
+            x.ui = 1;
+            x.rda = 0.34;
+        }
+        if (client.age >= 4 && client.age < 9) {
+            x.mda = null;
+            x.ui = 3;
+            x.rda = 0.44;
+        }
+        if (client.age >= 9 && client.age < 14) {
+            x.mda = null;
+            x.ui = 5;
+            x.rda = 0.7;
+        }
+        if(client.age >= 14 && client.age < 19) {
+            x.mda = null;
+            x.ui = 8;
+            x.rda = 0.89;
+        }
+        if(client.age >= 19 && client.age < 31) {
+            x.mda = null;
+            x.ui = 10;
+            x.rda = 0.9;
+        }
+        if(client.age >= 31 && client.age < 51) {
+            x.mda = null;
+            x.ui = 10;
+            x.rda = 0.9;
+        }
+        if(client.age >= 51 && client.age < 71) {
+            x.mda = null;
+            x.ui = 10;
+            x.rda = 0.9;
+        }
+        if(client.age >= 71) {
+            x.mda = null;
+            x.ui = 10;
+            x.rda = 0.9;
+        }
+        return x;
+    }
+
+    private ParameterRecommendation ZincRecommendation(ClientsData.NewClientData client) {
+        ParameterRecommendation x = new ParameterRecommendation();
+        if(client.age >= 1 && client.age < 4) {
+            x.mda = null;
+            x.ui = 7;
+            x.rda = 3;
+        }
+        if (client.age >= 4 && client.age < 9) {
+            x.mda = null;
+            x.ui = 12;
+            x.rda = 5;
+        }
+        if (client.age >= 9 && client.age < 14) {
+            x.mda = null;
+            x.ui = 23;
+            x.rda = 8;
+        }
+        if(client.age >= 14 && client.age < 19) {
+            x.mda = null;
+            x.ui = 34;
+            if (client.gender.value == 0) {
+                x.rda = 11;
+            } else {
+                x.rda = 9;
+            }
+        }
+        if(client.age >= 19) {
+            x.mda = null;
+            x.ui = 40;
+            if (client.gender.value == 0) {
+                x.rda = 11;
+            } else {
+                x.rda = 8;
+            }
+        }
+        return x;
+    }
+
+    private ParameterRecommendation ChlorineRecommendation(ClientsData.NewClientData client) {
+        ParameterRecommendation x = new ParameterRecommendation();
+        if(client.age >= 1 && client.age < 4) {
+            x.mda = null;
+            x.ui = 2300;
+            x.rda = 1500;
+        }
+        if (client.age >= 4 && client.age < 9) {
+            x.mda = null;
+            x.ui = 2900;
+            x.rda = 1900;
+        }
+        if (client.age >= 9 && client.age < 14) {
+            x.mda = null;
+            x.ui = 3400;
+            x.rda = 2300;
+        }
+        if(client.age >= 14 && client.age < 51) {
+            x.mda = null;
+            x.ui = 3600;
+            x.rda = 2300;
+        }
+        if(client.age >= 51 && client.age < 71) {
+            x.mda = null;
+            x.ui = 3600;
+            x.rda = 2000;
+        }
+        if(client.age >= 71) {
+            x.mda = null;
+            x.ui = 3600;
+            x.rda = 1800;
+        }
+        return x;
+    }
+
+    private ParameterRecommendation ManganeseRecommendation(ClientsData.NewClientData client) {
+        ParameterRecommendation x = new ParameterRecommendation();
+        if(client.age >= 1 && client.age < 4) {
+            x.mda = null;
+            x.ui = 2;
+            x.rda = 1.2;
+        }
+        if (client.age >= 4 && client.age < 9) {
+            x.mda = null;
+            x.ui = 3;
+            x.rda = 1.5;
+        }
+        if (client.age >= 9 && client.age < 14) {
+            x.mda = null;
+            x.ui = 6;
+            if (client.gender.value == 0) {
+                x.rda = 1.9;
+            } else {
+                x.rda = 1.6;
+            }
+        }
+        if(client.age >= 14 && client.age < 19) {
+            x.mda = null;
+            x.ui = 9;
+            if (client.gender.value == 0) {
+                x.rda = 2.2;
+            } else {
+                x.rda = 1.6;
+            }
+        }
+        if(client.age >= 19) {
+            x.mda = null;
+            x.ui = 11;
+            if (client.gender.value == 0) {
+                x.rda = 2.3;
+            } else {
+                x.rda = 1.8;
+            }
+        }
+        return x;
+    }
+
+    private ParameterRecommendation SeleniumRecommendation(ClientsData.NewClientData client) {
+        ParameterRecommendation x = new ParameterRecommendation();
+        if(client.age >= 1 && client.age < 4) {
+            x.mda = null;
+            x.ui = 90;
+            x.rda = 20;
+        }
+        if (client.age >= 4 && client.age < 9) {
+            x.mda = null;
+            x.ui = 150;
+            x.rda = 30;
+        }
+        if (client.age >= 9 && client.age < 14) {
+            x.mda = null;
+            x.ui = 280;
+            x.rda = 40;
+        }
+        if(client.age >= 14) {
+            x.mda = null;
+            x.ui = 400;
+            x.rda = 55;
+        }
+        return x;
+    }
+
+    private ParameterRecommendation IodineRecommendation(ClientsData.NewClientData client) {
+        ParameterRecommendation x = new ParameterRecommendation();
+        if(client.age >= 1 && client.age < 4) {
+            x.mda = null;
+            x.ui = 200;
+            x.rda = 90;
+        }
+        if (client.age >= 4 && client.age < 9) {
+            x.mda = null;
+            x.ui = 300;
+            x.rda = 90;
+        }
+        if (client.age >= 9 && client.age < 14) {
+            x.mda = null;
+            x.ui = 600;
+            x.rda = 120;
+        }
+        if(client.age >= 14 && client.age < 19) {
+            x.mda = null;
+            x.ui = 900;
+            x.rda = 150;
+
+        }
+        if(client.age >= 19) {
+            x.mda = null;
+            x.ui = 1100;
+            x.rda = 150;
+        }
+        return x;
+    }
+
+    private ParameterRecommendation VitaminDRecommendation(ClientsData.NewClientData client) {
+        ParameterRecommendation x = new ParameterRecommendation();
+        if(client.age >= 1 && client.age < 4) {
+            x.mda = null;
+            x.ui = 63;
+            x.rda = 15;
+        }
+        if (client.age >= 4 && client.age < 9) {
+            x.mda = null;
+            x.ui = 75;
+            x.rda = 15;
+        }
+        if (client.age >= 9 && client.age < 71) {
+            x.mda = null;
+            x.ui = 100;
+            x.rda = 15;
+        }
+        if(client.age >= 71) {
+            x.mda = null;
+            x.ui = 100;
+            x.rda = 20;
+        }
+        return x;
+    }
+
+    private ParameterRecommendation VitaminERecommendation(ClientsData.NewClientData client) {
+        ParameterRecommendation x = new ParameterRecommendation();
+        if(client.age >= 1 && client.age < 4) {
+            x.mda = null;
+            x.ui = 200;
+            x.rda = 6;
+        }
+        if (client.age >= 4 && client.age < 9) {
+            x.mda = null;
+            x.ui = 300;
+            x.rda = 7;
+        }
+        if (client.age >= 9 && client.age < 14) {
+            x.mda = null;
+            x.ui = 600;
+            x.rda = 11;
+        }
+        if(client.age >= 14 && client.age < 19) {
+            x.mda = null;
+            x.ui = 800;
+            x.rda = 15;
+        }
+        if(client.age >= 19) {
+            x.mda = null;
+            x.ui = 1000;
+            x.rda = 15;
+        }
+        return x;
+    }
+
+    private ParameterRecommendation VitaminB6Recommendation(ClientsData.NewClientData client) {
+        ParameterRecommendation x = new ParameterRecommendation();
+        if(client.age >= 1 && client.age < 4) {
+            x.mda = null;
+            x.ui = 30;
+            x.rda = 0.5;
+        }
+        if (client.age >= 4 && client.age < 9) {
+            x.mda = null;
+            x.ui = 40;
+            x.rda = 0.6;
+        }
+        if (client.age >= 9 && client.age < 14) {
+            x.mda = null;
+            x.ui = 60;
+            x.rda = 1;
+        }
+        if(client.age >= 14 && client.age < 19) {
+            x.mda = null;
+            x.ui = 80;
+            if (client.gender.value == 0) {
+                x.rda = 1.3;
+            } else {
+                x.rda = 1.2;
+            }
+        }
+        if(client.age >= 19 && client.age < 51) {
+            x.mda = null;
+            x.ui = 100;
+            x.rda = 1.3;
+        }
+        if(client.age >= 51) {
+            x.mda = null;
+            x.ui = 100;
+            if (client.gender.value == 0) {
+                x.rda = 1.7;
+            } else {
+                x.rda = 1.5;
+            }
+        }
+        return x;
+    }
+
+    private ParameterRecommendation VitaminB12Recommendation(ClientsData.NewClientData client) {
+        ParameterRecommendation x = new ParameterRecommendation();
+        if(client.age >= 1 && client.age < 4) {
+            x.mda = null;
+            x.ui = 7;
+            x.rda = 0.9;
+        }
+        if (client.age >= 4 && client.age < 9) {
+            x.mda = null;
+            x.ui = 8;
+            x.rda = 1.2;
+        }
+        if (client.age >= 9 && client.age < 14) {
+            x.mda = null;
+            x.ui = 9;
+            x.rda = 1.8;
+        }
+        if(client.age >= 14) {
+            x.mda = null;
+            x.ui = 9;
+            x.rda = 2.4;
+        }
+        return x;
+    }
+
+    private ParameterRecommendation FolateRecommendation(ClientsData.NewClientData client) {
+        ParameterRecommendation x = new ParameterRecommendation();
+        if(client.age >= 1 && client.age < 4) {
+            x.mda = null;
+            x.ui = 300;
+            x.rda = 150;
+        }
+        if (client.age >= 4 && client.age < 9) {
+            x.mda = null;
+            x.ui = 400;
+            x.rda = 200;
+        }
+        if (client.age >= 9 && client.age < 14) {
+            x.mda = null;
+            x.ui = 600;
+            x.rda = 300;
+        }
+        if(client.age >= 14 && client.age < 19) {
+            x.mda = null;
+            x.ui = 800;
+            x.rda = 400;
+        }
+        if(client.age >= 19) {
+            x.mda = null;
+            x.ui = 1000;
+            x.rda = 400;
+        }
+        return x;
+    }
+
+    private ParameterRecommendation PantothenicAcidRecommendation(ClientsData.NewClientData client) {
+        ParameterRecommendation x = new ParameterRecommendation();
+        if(client.age >= 1 && client.age < 4) {
+            x.mda = null;
+            x.ui = 13;
+            x.rda = 2;
+        }
+        if (client.age >= 4 && client.age < 9) {
+            x.mda = null;
+            x.ui = 14;
+            x.rda = 3;
+        }
+        if (client.age >= 9 && client.age < 14) {
+            x.mda = null;
+            x.ui = 15;
+            x.rda = 4;
+        }
+        if(client.age >= 14) {
+            x.mda = null;
+            x.ui = 15;
+            x.rda = 5;
+        }
+        return x;
+    }
+
+    private ParameterRecommendation BiotinRecommendation(ClientsData.NewClientData client) {
+        ParameterRecommendation x = new ParameterRecommendation();
+        if(client.age >= 1 && client.age < 4) {
+            x.mda = null;
+            x.ui = 60;
+            x.rda = 8;
+        }
+        if (client.age >= 4 && client.age < 9) {
+            x.mda = null;
+            x.ui = 80;
+            x.rda = 12;
+        }
+        if (client.age >= 9 && client.age < 14) {
+            x.mda = null;
+            x.ui = 100;
+            x.rda = 20;
+        }
+        if(client.age >= 14 && client.age < 19) {
+            x.mda = null;
+            x.ui = 100;
+            x.rda = 25;
+        }
+        if(client.age >= 19) {
+            x.mda = null;
+            x.ui = 100;
+            x.rda = 30;
+        }
+        return x;
+    }
+
+    private ParameterRecommendation VitaminCRecommendation(ClientsData.NewClientData client) {
+        ParameterRecommendation x = new ParameterRecommendation();
+        if(client.age >= 1 && client.age < 4) {
+            x.mda = null;
+            x.ui = 400;
+            x.rda = 15;
+        }
+        if (client.age >= 4 && client.age < 9) {
+            x.mda = null;
+            x.ui = 650;
+            x.rda = 25;
+        }
+        if (client.age >= 9 && client.age < 14) {
+            x.mda = null;
+            x.ui = 1200;
+            x.rda = 45;
+        }
+        if(client.age >= 14 && client.age < 19) {
+            x.mda = null;
+            x.ui = 1800;
+            if (client.gender.value == 0) {
+                x.rda = 75;
+            } else {
+                x.rda = 65;
+            }
+        }
+        if(client.age >= 19) {
+            x.mda = null;
+            x.ui = 2000;
+            if (client.gender.value == 0) {
+                x.rda = 90;
+            } else {
+                x.rda = 75;
+            }
+        }
+        return x;
+    }
+
+    private ParameterRecommendation VitaminKRecommendation(ClientsData.NewClientData client) {
+        ParameterRecommendation x = new ParameterRecommendation();
+        if(client.age >= 1 && client.age < 4) {
+            x.mda = null;
+            x.ui = 60;
+            x.rda = 30;
+        }
+        if (client.age >= 4 && client.age < 9) {
+            x.mda = null;
+            x.ui = 80;
+            x.rda = 55;
+        }
+        if (client.age >= 9 && client.age < 14) {
+            x.mda = null;
+            x.ui = 100;
+            x.rda = 60;
+        }
+        if(client.age >= 14 && client.age < 19) {
+            x.mda = null;
+            x.ui = 100;
+            x.rda = 75;
+        }
+        if(client.age >= 19) {
+            x.mda = null;
+            x.ui = 100;
+            if (client.gender.value == 0) {
+                x.rda = 120;
+            } else {
+                x.rda = 90;
+            }
+        }
+        return x;
+    }
+
+    /*****************************************************************************************************/
 
     private List<string> Units() {
         try {
