@@ -12,7 +12,7 @@
             <div ng-include="tpl" class="loginBox"></div>
         </div>
     </div>
-    <div ng-if="config.showupdatedes" ng-include="'./assets/partials/newversion.html'" class="text-center"></div>
+    <div ng-if="config.showupdatedes&&config.language!='en'" ng-include="'./assets/partials/newversion.html'" class="text-center"></div>
 </div>
 
 <script type="text/ng-template" id="loginTpl">

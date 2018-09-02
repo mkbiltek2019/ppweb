@@ -607,7 +607,7 @@ public class Foods : System.Web.Services.WebService {
         x.servings = GetRecommendedServings(client, x.energy);
         x.mealsRecommendationEnergy = GetMealsRecommendations(client.meals, x.energy);
 
-        //TODO - presons from 18, children from 9-10, 10-14, 14-18
+        //TODO - persons from 18, children from 9-10, 10-14, 14-18
 
                                             // MDA,  UI,  RDA  
         x.starch = GetParameterRecommendation(null, null, null);

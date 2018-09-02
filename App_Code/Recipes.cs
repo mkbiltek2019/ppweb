@@ -106,17 +106,13 @@ public class Recipes : System.Web.Services.WebService {
             }
             connection.Close();
             return JsonConvert.SerializeObject(x, Formatting.Indented);
-        }
-        catch (Exception e) { return (e.Message); }
+        } catch (Exception e) { return (e.Message); }
     }
 
     [WebMethod]
     public string Save(string userId, NewRecipe x) {
         db.CreateDataBase(userId, db.recipes);
         try {
-            if (Check(userId, x) != false) {
-                return "there is already a recipe with the same name";
-            }
             string sql = "";
             if (x.id == null) {
                 x.id = Convert.ToString(Guid.NewGuid());
@@ -137,7 +133,6 @@ public class Recipes : System.Web.Services.WebService {
             command.ExecuteNonQuery();
             connection.Close();
             SaveJsonToFile(userId, x.id, JsonConvert.SerializeObject(x.data, Formatting.Indented));
-
             return JsonConvert.SerializeObject(x, Formatting.Indented);
         } catch (Exception e) { return (e.Message); }
     }

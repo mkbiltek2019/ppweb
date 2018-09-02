@@ -1,5 +1,5 @@
 ﻿{
-  "backend": "http://localhost:50691/",
+  "backend": "../",
   "appurl": "/app/",
   "apk": "http://app.appsgeyser.com/5983009/ProgramPrehrane",
   "debug": true,

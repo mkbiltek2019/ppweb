@@ -3518,14 +3518,15 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.filterMeal = function (x) {
-            if (x.meal.code == $rootScope.currentMeal) {
-                return true;
-            } else {
-                return false;
-            }
+        if (x.meal.code == $rootScope.currentMeal) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     $scope.parameterStyle = function (total, r) {
+        if (!angular.isDefined(total) || !angular.isDefined(r)) { return false; }
         if (r.mda != null) {
             if (total < r.mda) { return 'background-color:#9bc1ff; color:white' }
         }
@@ -3552,10 +3553,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 var idx = $rootScope.currentMenu.data.selectedFoods.length;
                 $scope.addFoodToMeal(value, recipe.data.selectedInitFoods[key], idx);
             });
-            //$rootScope.currentMenu = x;
-            //$rootScope.clientData.meals = x.data.meals;
             getTotals($rootScope.currentMenu);
-           // $rootScope.currentMeal = 'B';
         }, function () {
         });
     };
