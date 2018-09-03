@@ -4177,6 +4177,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             functions.demoAlert('this function is not available in demo version');
             return false;
         }
+        if (functions.isNullOrEmpty(x.food)) {
+            functions.alert($translate.instant('food title is required'), '');
+            return false;
+        }
         if (checkIsOtherFood(x) == true) {
             x.servings.cerealsServ = 0;
             x.servings.vegetablesServ = 0;

@@ -1660,7 +1660,8 @@
   "send menu to the clients email": "pošalji jelovnik na klijentov e-mail",
   "there is already a recipe with the same name": "Već postoji recept sa istim nazivom",
   "there is already a food with the same name": "Već postoji namirnica sa istim nazivom",
-  "for a better experience in using the application, please use some of the modern browsers such as google chrome, mozilla firefox, microsoft edge etc.": "Za bolje iskustvo u korišćenju aplikacije koristite savremene veb preglednike kao što su Google Chrome, Mozilla Firefox, Microsoft Edge i sl."
+  "for a better experience in using the application, please use some of the modern browsers such as google chrome, mozilla firefox, microsoft edge etc.": "Za bolje iskustvo u korišćenju aplikacije koristite savremene veb preglednike kao što su Google Chrome, Mozilla Firefox, Microsoft Edge i sl.",
+  "food title is required": "Naziv namirnice je obavezan"
 
 
 }

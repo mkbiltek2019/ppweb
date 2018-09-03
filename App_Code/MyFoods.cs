@@ -284,6 +284,7 @@ public class MyFoods : System.Web.Services.WebService {
     #region Methods
     private bool Check(string userId, Foods.NewFood x) {
         try {
+            bool isExist = false;
             bool result = false;
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
@@ -291,9 +292,14 @@ public class MyFoods : System.Web.Services.WebService {
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read()) {
-                result = reader.GetBoolean(0);
+                isExist = reader.GetBoolean(0);
             }
             connection.Close();
+            if(isExist == true && string.IsNullOrEmpty(x.id)) {
+                result = true;
+            } else {
+                result = false;
+            }
             return result;
         } catch (Exception e) { return false; }
     }
