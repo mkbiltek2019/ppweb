@@ -1712,6 +1712,9 @@
   "there is already a recipe with the same name": "There is already a recipe with the same name",
   "there is already a food with the same name": "There is already a food with the same name",
   "for a better experience in using the application, please use some of the modern browsers such as google chrome, mozilla firefox, microsoft edge etc.": "For a better experience in using the application, please use some of the modern browsers such as Google Chrome, Mozilla Firefox, Microsoft Edge etc.",
-  "food title is required": "Food title is required"
+  "food title is required": "Food title is required",
+  "upload": "upload",
+  "use only png format": "Use only PNG format",
+  "please choose a file to upload": "Please choose a file to upload"
 
 }

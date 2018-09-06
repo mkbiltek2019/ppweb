@@ -56,7 +56,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
             doc.Open();
 
-            AppendHeader(doc);
+            AppendHeader(doc, userId);
 
             doc.Add(new Paragraph(currentMenu.title, normalFont_12));
             doc.Add(new Paragraph(currentMenu.note, normalFont_8));
@@ -136,7 +136,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
             doc.Open();
 
-            AppendHeader(doc);
+            AppendHeader(doc, userId);
             if(consumers > 1) {
                 doc.Add(new Paragraph(t.Tran("number of consumers", lang) + ": " + consumers, normalFont_10));
             }
@@ -198,7 +198,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
             doc.Open();
 
-            AppendHeader(doc);
+            AppendHeader(doc, userId);
 
             doc.Add(new Paragraph(t.Tran("manu analysis", lang).ToUpper(), normalFont_10));
 
@@ -283,7 +283,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
 
             doc.NewPage();
-            AppendHeader(doc);
+            AppendHeader(doc, userId);
             doc.Add(new Paragraph(t.Tran("parameters", lang).ToUpper(), normalFont_10));
 
             string note = string.Format(@"
@@ -603,7 +603,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
             doc.Open();
 
-            AppendHeader(doc);
+            AppendHeader(doc, userId);
             doc.Add(new Paragraph((client.firstName + " " + client.lastName), normalFont_12));
             doc.Add(new Paragraph(((!string.IsNullOrEmpty(client.email) ? t.Tran("email", lang) + ": " + client.email + "   " : "") + (!string.IsNullOrEmpty(client.phone) ? t.Tran("phone", lang) + ": " + client.phone : "")), normalFont_10));
             doc.Add(new Chunk(line));
@@ -924,8 +924,11 @@ IBAN HR8423400091160342496
         return sb.ToString();
     }
 
-    private void AppendHeader(Document doc) {
-        Image logo = Image.GetInstance(logoPPPath);
+    private void AppendHeader(Document doc, string userId) {
+        string logoPath = null;
+        string logoClientPath = Server.MapPath(string.Format("~/upload/users/{0}/logo.png", userId));
+        logoPath = File.Exists(logoClientPath) ? logoClientPath : logoPPPath;
+        Image logo = Image.GetInstance(logoPath);
         logo.Alignment = Image.ALIGN_RIGHT;
         logo.ScalePercent(15f);
         logo.SpacingAfter= 15f;

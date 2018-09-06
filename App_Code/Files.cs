@@ -40,6 +40,31 @@ public class Files : System.Web.Services.WebService {
             }
         } catch (Exception e) { return ("Error: " + e); }
     }
+
+    [WebMethod]
+    public string DeleteLogo(string userId, string filename) {
+        try {
+            string path = string.Format("~/upload/users/{0}/{1}", userId, filename);
+            if (File.Exists(Server.MapPath(path))) {
+                File.Delete(Server.MapPath(path));
+                return "OK";
+            } else {
+                return "no file";
+            }
+        } catch (Exception e) { return (e.Message); }
+    }
+
+    [WebMethod]
+    public string IsLogoExists(string userId, string filename) {
+        try {
+            string path = string.Format("~/upload/users/{0}/{1}", userId, filename);
+            if (File.Exists(Server.MapPath(path))) {
+                return "TRUE";
+            } else {
+                return "FALSE";
+            }
+        } catch (Exception e) { return (e.Message); }
+    }
     #endregion WebMethods
 
     #region Methods

@@ -965,6 +965,67 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.showpass = $scope.showpass == true ? false : true;
     }
 
+    /********* Logo ************/
+    var isLogoExists = function () {
+        $http({
+            url: $sessionStorage.config.backend + 'Files.asmx/IsLogoExists',
+            method: 'POST',
+            data: { userId: $sessionStorage.usergroupid, filename: 'logo.png' },
+        }).then(function (response) {
+            if (response.data.d == 'TRUE') {
+                $scope.showLogo = true;
+            } else {
+                $scope.showLogo = false;
+                $scope.logo = null;
+            }
+        },
+       function (response) {
+           functions.alert($translate.instant(response.data.d));
+       });
+    }
+    isLogoExists();
+
+    $scope.logo = "logo.png?v=" + new Date().getTime();
+    $scope.upload = function () {
+        var content = new FormData(document.getElementById("formUpload"));
+        $http({
+            url: $sessionStorage.config.backend + '/UploadHandler.ashx',
+            method: 'POST',
+            headers: { 'Content-Type': undefined },
+            data: content,
+        }).then(function (response) {
+            $scope.showLogo = true;
+            $scope.logo = "logo.png?v=" + new Date().getTime();
+            if (response.data != 'OK') {
+                functions.alert($translate.instant(response.data));
+            }
+            isLogoExists();
+        },
+       function (response) {
+           functions.alert($translate.instant(response.data));
+       });
+    }
+
+    $scope.removeLogo = function (x) {
+        $http({
+            url: $sessionStorage.config.backend + 'Files.asmx/DeleteLogo',
+            method: 'POST',
+            data: { userId: x.userId, filename: 'logo.png' },
+        }).then(function (response) {
+            $scope.showLogo = false;
+            $scope.logo = null;
+            if (response.data.d != 'OK') {
+                functions.alert($translate.instant(response.data.d));
+            }
+        },
+       function (response) {
+           functions.alert($translate.instant(response.data.d));
+       });
+    }
+    /********* Logo ************/
+
+
+
 }])
 
 //-------------- Program Prehrane Controllers---------------

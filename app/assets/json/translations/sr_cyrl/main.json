@@ -1659,6 +1659,9 @@
   "there is already a recipe with the same name": "Већ постоји рецепт са истим називом",
   "there is already a food with the same name": "Već postoji namirnica sa istim nazivom",
   "for a better experience in using the application, please use some of the modern browsers such as google chrome, mozilla firefox, microsoft edge etc.": "За боље искуство у коришц́ењу апликације користите савремене веб прегледнике као што су Гоогле Цхроме, Мозилла Фирефоџ, Мицрософт Едге и сл.",
-  "food title is required": "Назив намирнице је обавезан"
+  "food title is required": "Назив намирнице је обавезан",
+  "upload": "учитај",
+  "use only png format": "Користи само ПНГ формат",
+  "please choose a file to upload": "Oдаберите датотеку"
 
 }
