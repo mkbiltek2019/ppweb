@@ -1,11 +1,11 @@
+Sitemap: https://www.programprehrane.com/sitemap.xml
 User-agent: *
 Disallow: /error.html
 Disallow: /admin.html
 Disallow: /instal.html
 Disallow: /index1.html
 Disallow: /app/eula.html
-Disallow: /4da35544-91f6-4206-9c33-47ad44379a3b/PP5Uputa.pdf
-Disallow: /4da35544-91f6-4206-9c33-47ad44379a3b/SamSvojNutricionist.pdf
+Disallow: /4da35544-91f6-4206-9c33-47ad44379a3b/
 Disallow: /client/
 
 
