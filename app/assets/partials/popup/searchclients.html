@@ -1,6 +1,6 @@
 ﻿<md-dialog flex layout-margin>
     <md-toolbar>
-        <div class="md-toolbar-tools">
+        <div class="md-toolbar-tools text-capitalize">
             <h2>{{'clients' | translate}}</h2>
             <span flex></span>
             <a href="" ng-click="cancel()" class="btn btn-primary">x</a>
@@ -13,7 +13,7 @@
         <div class="row m10">
             <div class="col-sm-4">
                 <div class="input-group">
-                    <input ng-model="searchValue" class="form-control" type="text" placeholder="{{'search' | translate}}..." autofocus />
+                    <input ng-model="searchValue" class="form-control text-capitalize" type="text" placeholder="{{'search' | translate}}..." autofocus />
                     <span class="input-group-btn">
                         <a href="" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</a>
                     </span>
@@ -23,7 +23,7 @@
         <div class="md-dialog-content table-responsive">
             <table class="table table-hover table-condensed text-small">
                 <thead>
-                    <tr>
+                    <tr class="text-capitalize">
                         <th style="width:20%">{{'number' | translate}}</th>
                         <th class="nowrap" style="width:20%">{{'first name' | translate}}</th>
                         <th class="nowrap" style="width:20%">{{'last name' | translate}}</th>

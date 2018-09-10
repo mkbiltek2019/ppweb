@@ -1,7 +1,7 @@
 ﻿<md-dialog flex="80" flex-gt-sx>
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2>
+                <h2 class="text-capitalize">
                     <span ng-if="d.clientId==null">{{'new client' | translate}}</span>
                     <span ng-if="d.clientId!=null">{{'client' | translate}}</span>
                 </h2>
@@ -9,7 +9,7 @@
                 <button ng-click="cancel()" class="btn btn-primary">x</button>
             </div>
         </md-toolbar>
-        <md-dialog-content>
+        <md-dialog-content class="text-capitalize">
             <div class="md-dialog-content">
                 <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
