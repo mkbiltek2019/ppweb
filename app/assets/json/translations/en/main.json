@@ -1715,6 +1715,10 @@
   "food title is required": "Food title is required",
   "upload": "upload",
   "use only png format": "Use only PNG format",
-  "please choose a file to upload": "Please choose a file to upload"
+  "please choose a file to upload": "Please choose a file to upload",
+  "are you sure you want to delete": "Are you sure you want to delete",
+  "height is required": "Height is required",
+  "weight is required": "Weight is required",
+  "choose physical activity level": "Choose physical activity level"
 
 }

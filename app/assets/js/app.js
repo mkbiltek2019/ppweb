@@ -221,8 +221,30 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
     checkUser();
 
+    var validateForm = function () {
+        if ($rootScope.clientData.clientId == null) {
+            return false;
+        }
+        if ($rootScope.clientData.height <= 0) {
+            functions.alert($translate.instant('height is required'));
+            return false;
+        }
+        if ($rootScope.clientData.weight <= 0) {
+            functions.alert($translate.instant('weight is required'));
+            return false;
+        }
+        if ($rootScope.clientData.pal.value <= 0) {
+            functions.alert($translate.instant('choose physical activity level'));
+            return false;
+        }
+        return true;
+    }
+    
     $scope.toggleNewTpl = function (x) {
         if ($rootScope.clientData != undefined) {
+            if (validateForm() == false) {
+                return false;
+            };
             if (x == 'menu' && $rootScope.clientData.meals.length > 0) {
                 if ($rootScope.clientData.meals[1].isSelected == false && $rootScope.clientData.meals[5].isSelected == true) {
                     $rootScope.newTpl = './assets/partials/meals.html';
@@ -260,6 +282,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $rootScope.saveClientData = function (x) {
+        if (validateForm() == false) {
+            return false;
+        };
         if ($rootScope.clientData.meals.length > 0) {
             if ($rootScope.clientData.meals[1].isSelected == false && $rootScope.clientData.meals[5].isSelected == true) {
                 $rootScope.newTpl = 'assets/partials/meals.html';
@@ -289,16 +314,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
        function (response) {
            alert(response.data.d)
        });
-    }
-
-    $scope.showTabs = function () {
-        if(angular.isUndefined($rootScope.clientData)){return false;}
-        var x = $rootScope.clientData;
-        if (x.clientId != null && x.height > 0 && x.weight > 0 && x.pal.value > 0) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     $scope.hideMsg = function () {
@@ -1264,7 +1279,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         $scope.remove = function (x) {
             var confirm = $mdDialog.confirm()
-                  .title($translate.instant('delete input') + ' ?')
+                  .title($translate.instant('are you sure you want to delete') + '?')
                   .textContent($translate.instant('client') + ': ' + x.firstName + ' ' + x.lastName)
                   .targetEvent(x)
                   .ok($translate.instant('yes'))

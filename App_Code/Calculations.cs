@@ -175,31 +175,29 @@ public class Calculations : System.Web.Services.WebService {
 
     private WaistHip Whr(ClientsData.NewClientData client) {
         WaistHip x = new WaistHip();
-        x.value = Convert.ToDouble(client.waist) / Convert.ToDouble(client.hip);
-
-        // ***** male *****
-        if (client.gender.value == 0) {
-            x.increasedRisk = 0.95;
-            x.highRisk = 1;
-            x.optimal = 0.9;
+        if(Convert.ToDouble(client.waist) > 0 || Convert.ToDouble(client.hip) > 0) {
+            x.value = Convert.ToDouble(client.waist) / Convert.ToDouble(client.hip);
+            // ***** male *****
+            if (client.gender.value == 0) {
+                x.increasedRisk = 0.95;
+                x.highRisk = 1;
+                x.optimal = 0.9;
+            }
+            // ***** female *****
+            if (client.gender.value == 1) {
+                x.increasedRisk = 0.80;
+                x.highRisk = 0.85;
+                x.optimal = 0.7;
+            }
+            if (x.value < 1) {
+                x.title = "gynoid fat distribution";
+                x.description = "in the case of fatty tissue accumulation, it accumulates in the area of the hips";
+            }
+            if (x.value >= 1) {
+                x.title = "android fat distribution";
+                x.description = "in the case of fatty tissue accumulation, it accumulates in the area of the waist";
+            }
         }
-
-        // ***** female *****
-        if (client.gender.value == 1) {
-            x.increasedRisk = 0.80;
-            x.highRisk = 0.85;
-            x.optimal = 0.7;
-        }
-
-        if (x.value < 1) {
-            x.title = "gynoid fat distribution";
-            x.description = "in the case of fatty tissue accumulation, it accumulates in the area of the hips";
-        }
-        if (x.value >= 1) {
-            x.title = "android fat distribution";
-            x.description = "in the case of fatty tissue accumulation, it accumulates in the area of the waist";
-        }
-
         return x;
     }
 

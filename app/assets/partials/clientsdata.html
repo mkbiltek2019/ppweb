@@ -5,7 +5,7 @@
                  <div class="col-sm-6">
                      <a href="" class="btn btn-default text-capitalize" ng-click="newClient()"><i class="fa fa-user-plus"></i> <span class="hidden-xs">{{'new client' | translate}}</span></a>
                      <a href="" ng-if="clients.length>0" class="btn btn-default text-capitalize" ng-click="search()"><i class="fa fa-search"></i> <span class="hidden-xs">{{'search clients' | translate}}</span></a>
-                     <a href="" ng-if="showTabs()" class="btn btn-default text-capitalize" ng-click="saveClientData(clientData)"><i class="fa fa-floppy-o"></i> <span class="hidden-xs">{{'save' | translate}}</span></a>
+                     <a href="" class="btn btn-default text-capitalize" ng-click="saveClientData(clientData)"><i class="fa fa-floppy-o"></i> <span class="hidden-xs">{{'save' | translate}}</span></a>
                      <a ng-if="pdfLink==null" ng-click="printClientPdf()" class="btn btn-default text-capitalize" ng-disabled="creatingPdf"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> <span class="hidden-xs">{{'create pdf' | translate}}</span></a>
                      <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success text-capitalize" download ng-click="hidePdfLink()"><i class="fa fa-file-pdf-o"></i> {{'download' | translate}} {{'PDF' | translate}}</a>
                  </div>
@@ -25,7 +25,7 @@
              </div>
              <div ng-include="clientDataTpl" style="padding-top:20px"></div>
              <div class="mt10">
-                 <a href="" ng-if="showTabs()" class="btn btn-primary btn-lg pull-right" ng-click="toggleNewTpl('calculation')"><span class="text-capitalize">{{'forward' | translate}} </span><i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+                 <a href="" class="btn btn-primary btn-lg pull-right" ng-click="toggleNewTpl('calculation')"><span class="text-capitalize">{{'forward' | translate}} </span><i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
              </div>
          </div>
      </div>
@@ -60,8 +60,8 @@
             </div>
         </div>
 
-        <div ng-if="unitSystem==1" class="row">
-            <div class="col-sm-7">
+        <div class="row">
+            <div ng-if="unitSystem==1" class="col-sm-7">
                 <fieldset class="fieldset-border">
                     <legend class="fieldset-border text-capitalize">{{'anthropometric parameters' | translate}}</legend>
                     <div class="p20">
@@ -109,16 +109,7 @@
                 </fieldset>
             </div>
 
-            <!--<div ng-if="config.debug" class="col-sm-6">
-            <a href="assets/3d/body.html?bmi:25" target="_blank" class="btn btn-default"><span class="text-primary"><i class="fa fa-arrows-alt"></i> {{'full screen' | translate}}</span></a>
-            <div class="embed-responsive embed-responsive-16by9">
-                <iframe class="embed-responsive-item" src="assets/3d/body.html?bmi:25" allowfullscreen></iframe>
-            </div>
-        </div>-->
-        </div>
-
-        <div ng-if="unitSystem==0" class="row">
-            <div class="col-sm-8">
+            <div ng-if="unitSystem==0" class="col-sm-8">
                 <fieldset class="fieldset-border">
                     <legend class="fieldset-border text-capitalize">{{'anthropometric parameters' | translate}}</legend>
                     <div class="p20">
@@ -179,6 +170,13 @@
                     </div>
                 </fieldset>
             </div>
+
+            <!--<div ng-if="config.debug" class="col-sm-4">
+                <a href="assets/3d/body.html?bmi:25" target="_blank" class="btn btn-default"><span class="text-primary"><i class="fa fa-arrows-alt"></i> {{'full screen' | translate}}</span></a>
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="assets/3d/body.html?bmi:25" allowfullscreen></iframe>
+                </div>
+            </div>-->
         </div>
 
         <fieldset class="fieldset-border">

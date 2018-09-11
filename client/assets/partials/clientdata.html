@@ -1,16 +1,6 @@
 ﻿<div>
     <div class="panel panel-default">
         <div class="panel-body mb20">
-            <!--<div ng-if="config.debug">
-                <div class="row m2">
-                    <div class="col-sm-2">user Id:</div>
-                    <div class="col-sm-6"><input ng-model="userId" class="form-control" /></div>
-                </div>
-                <div class="row m2">
-                    <div class="col-sm-2">client Id:</div>
-                    <div class="col-sm-6"><input ng-model="clientId" class="form-control" /></div>
-                </div>
-            </div>-->
             <div ng-include="'client'" style="padding-top:20px"></div>
             <ul class="nav nav-tabs">
                 <li ng-class="tpl=='inputData'?'active':''" ng-click="toggleTpl('inputData')"><a href="#"><i class="fa fa-thermometer-empty"></i> <span class="text-capitalize">{{'measures' | translate}}</span></a></li>
@@ -19,9 +9,6 @@
 
             <div ng-include="tpl" style="padding-top:20px; min-height:400px;"></div>
 
-            <!--<div class="mt10">
-                <a href="" ng-if="showTabs()" class="btn btn-primary pull-right" ng-click="toggleNewTpl('calculation')"><span>{{'forward' | translate}} </span><i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
-            </div>-->
         </div>
     </div>
 </div>
