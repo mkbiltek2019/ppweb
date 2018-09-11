@@ -102,7 +102,7 @@
             <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around" class="text-center">
                 <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
             </div>
-            <div ng-if="mainMessage && isLogin" class="alert alert-success alert-dismissable text-center m10" style="height:auto !important">
+            <div ng-if="mainMessage && isLogin && client.clientId" class="alert alert-success alert-dismissable text-center m10" style="height:auto !important">
                 <strong>
                     <i class="fa fa-info-circle fa-2x" aria-hidden="true"></i><span class="text-uppercase ml5">{{mainMessage}}</span>
                     <strong class="btn btn-success ml10" ng-click="toggleTpl('order.html'); hideMsg()"><i class="fa fa-hand-o-right fa-2x" aria-hidden="true"></i><span class="text-uppercase ml5">{{mainMessageBtn}}</span></strong>
