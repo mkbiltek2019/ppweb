@@ -1063,6 +1063,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.subTpl = x;
     };
 
+    $scope.toggleCurrTpl = function (x) {
+        $rootScope.currTpl = './assets/partials/' + x;
+    };
+
     var init = function (x) {
         $http({
             url: $sessionStorage.config.backend + 'ClientsData.asmx/Init',
