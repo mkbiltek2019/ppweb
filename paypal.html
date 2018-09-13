@@ -45,14 +45,22 @@
             </div>
         </div>
     </nav>
-    <div class="row" style="margin-top:100px">
-        <h1 class="text-center">Program Prehrane - Plaćanje putem PayPal-a</h1>
-        <div class="col-sm-offset-2">
-            <div ng-include="'./app/assets/partials/paypal.html'" style="padding:40px"></div>
+    <div class="container">
+        <div style="margin-top:100px">
+            <h1 class="text-center">Program Prehrane</h1>
+            <h2 class="text-center lead">Plaćanje putem PayPal-a</h2>
             <hr />
-            <div ng-include="'./assets/partials/paypal.html'" style="padding:40px"></div>
+        </div>
+        <div class="row" style="margin-top:50px">
+            <div class="col-sm-6">
+                <div ng-include="'./app/assets/partials/paypal.html'" class="well" style="padding:40px"></div>
+            </div>
+            <div class="col-sm-6">
+                <div ng-include="'./assets/partials/paypal.html'" class="well" style="padding:40px"></div>
+            </div>
         </div>
     </div>
+    
     <script src="assets/js/app.js"></script>
     <script src="assets/js/main.js"></script>
 </body>
