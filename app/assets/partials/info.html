@@ -9,7 +9,7 @@
             <li>&copy {{today | date:'yyyy'}} {{config.copyright}}</li>
             <li><span class="text-capitalize">{{'author' | translate}}: </span>{{config.author}}</li>
             <li><span class="text-capitalize">{{'web' | translate}}: </span><a href="{{config.webpageurl}}" target="_blank">{{config.webpage}}</a></li>
-            <li><span class="text-capitalize">{{'email' | translate}}: </span><a href="mailto:{{config.email}}" target="_blank">{{config.email}}</a></li>
+            <li><span class="text-capitalize">{{'email' | translate}}: </span><a href="mailto:{{config.language=='en'?config.email_en:config.email}}" target="_blank">{{config.language=='en'?config.email_en:config.email}}</a></li>
         </ul>
         <hr />
         <div ng-if="config.language!='en'">

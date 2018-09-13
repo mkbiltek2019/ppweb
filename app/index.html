@@ -55,11 +55,11 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a ng-if="config.language!='en'" class="navbar-brand" href="{{config.webpageurl}}" target="_blank" style="padding-top:2px !important"><img src="assets/img/logo.svg"></a>
-                    <h1 ng-if="config.language=='en'" class="text-capitalize" style="font-size:18px; color:white; font-style: oblique">{{config.title}}</h1>
+                    <h1 ng-if="config.language=='en'" class="text-capitalize" style="font-size:18px; color:white; font-style: oblique"><a href="https://www.nutrition-plan.com" title="HOME PAGE" style="color:white"><i class="fa fa-home"></i> {{config.title}}</a></h1>
                 </div>
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav navbar-right text-right">
-                        <li ng-if="isLogin&&config.language!='en'">
+                        <li ng-if="isLogin">
                             <a href="#" ng-click="toggleTpl('scheduler.html')"><i class="fa fa-calendar fa-fw"></i> <span class="text-capitalize">{{'scheduler' | translate}}</span></a>
                         </li>
                         <li ng-if="isLogin">
