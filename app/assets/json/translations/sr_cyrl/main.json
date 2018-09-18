@@ -1666,6 +1666,7 @@
   "are you sure you want to delete": "Да ли сте сигурни да желите да избришете",
   "height is required": "Висина је обавезна",
   "weight is required": "Маса је обавезна",
-  "choose physical activity level": "Одаберите интензитет физичке активности"
+  "choose physical activity level": "Одаберите интензитет физичке активности",
+  "web application": "веб апликација"
 
 }

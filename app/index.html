@@ -44,9 +44,9 @@
         }
     </style>
 </head>
-<body ng-app="app" ng-controller="AppCtrl" style="height:auto" ng-cloak>
+<body ng-app="app" ng-controller="AppCtrl" style="height:auto">
     <div ng-class="!isLogin?'background':''">
-        <nav class="navbar navbar-inverse noprint">
+        <nav class="navbar navbar-inverse noprint" ng-cloak>
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -97,10 +97,10 @@
                 </div>
             </div>
         </nav>
-        <div>
+        <div ng-cloak>
             <div ng-if="!isLogin" class="text-center" style="padding-top:40px; color:white">
-                <h1 class="text-uppercase" style="font-size:26px">Program Prehrane Web</h1>
-                <h2 style="font-size:18px"><em>Web Aplikacija</em></h2>
+                <h1 class="text-uppercase" style="font-size:26px">{{config.title | translate}}</h1>
+                <h2 style="font-size:18px"><em>{{'web application' | translate}}</em></h2>
             </div>
             <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around" class="text-center">
                 <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
@@ -120,7 +120,6 @@
         </div>
     </div>
    
-
     <script src="assets/js/app.js?v=1.0.0"></script>
     <script src="assets/js/functions.js?v=1.0.0"></script>
     <script src="assets/js/charts.js?v=1.0.0"></script>
