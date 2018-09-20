@@ -47,7 +47,7 @@
 </head>
 <body id="home" ng-app="app" ng-controller="appCtrl" data-spy="scroll" data-target=".navbar" data-offset="60">
 
-    <nav class="navbar navbar-default navbar-fixed-top" ng-cloak>
+    <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -60,8 +60,8 @@
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#about"><i class="fa fa-info"></i> O aplikaciji</a></li>
-                    <li><a href="#registration"><i class="fa fa-user-plus"></i> Registracija</a></li>
                     <li><a href="#pricing"><i class="fa fa-usd"></i> Cijene</a></li>
+                    <li><a href="#registration"><i class="fa fa-user-plus"></i> Registracija</a></li>
                     <li><a href="#order"><i class="fa fa-shopping-cart"></i> Narudžba</a></li>
                     <li><a href="#contact"><i class="fa fa-comment"></i> Kontakt</a></li>
                     <li class="dropdown">
@@ -73,7 +73,7 @@
                             <li style="padding:5px"><a href="tablica-namirnica.html" title="Tablic namirnica"><i class="fa fa-apple"></i> Tablica namirnica</a></li>
                         </ul>
                     </li>
-                    <li><a href="{{config.appurl}}" title="Prijava"><i class="fa fa-sign-in"></i> App</a></li>
+                    <li><a href="../app/" title="Prijava u aplikaciju"><i class="fa fa-sign-in"></i> App</a></li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" title="Hrvatski" href="#"><i class="fa fa-globe"></i> Hr<span class="caret"></span></a>
                         <ul class="dropdown-menu" style="background-color:#353535">
@@ -85,7 +85,7 @@
             </div>
         </div>
     </nav>
-    <div class="jumbotron text-left" style="padding-top:15vh; margin-bottom:10px" ng-cloak>
+    <div class="jumbotron text-left" style="padding-top:15vh; margin-bottom:10px">
         <div class="hidden-xs row">
             <div class="col-md-6 col-md-offset-1">
                 <a href="#about" style="text-decoration:none" class="text-center">
@@ -96,7 +96,7 @@
         </div>
         <div class="row">
             <div class="col-md-4 col-md-offset-2 text-center">
-                <a href="{{config.appurl}}" class="btn btn-default m10 main-border" style="width:260px"><i class="fa fa-sign-in fa-2x"></i> <span class="lead"> Ulaz za Korisnike</span></a>
+                <a href="../app/" class="btn btn-default m10 main-border" style="width:260px"><i class="fa fa-sign-in fa-2x"></i> <span class="lead"> Ulaz za Korisnike</span></a>
                 <a href="#registration" class="btn btn-default m10 main" style="width:260px"><i class="fa fa-user-plus fa-2x"></i> <span class="lead"> Postani Korisnik</span></a>
             </div>
         </div>
@@ -148,14 +148,13 @@
         </div>
     </div>
 
-
     <div id="about" class="container pt60">
         <div class="row">
             <div class="col-sm-6">
                 <h2>O aplikaciji</h2><br>
-                <h4><a href="{{config.appurl}}"><strong>Program Prehrane Web</strong></a> je web aplikacija za izradu raznovrsnih i uravnoteženih jelovnika i plana tjelesne aktivnosti.</h4><br>
+                <h4><a href="../app/"><strong>Program Prehrane Web</strong></a> je web aplikacija za izradu raznovrsnih i uravnoteženih jelovnika i plana tjelesne aktivnosti.</h4><br>
                 <p class="text-justify">
-                    Web aplikacija <a href="{{config.appurl}}"><strong>Program Prehrane Web</strong></a> nasljednica je <a href="#awards">višestruko nagrađivanog</a> računalnog programa <a href="program-prehrane-5.html" target="_blank" rel="noopener"><strong>Program Prehrane 5.0</strong></a>,
+                    Web aplikacija <a href="../app/"><strong>Program Prehrane Web</strong></a> nasljednica je <a href="#awards">višestruko nagrađivanog</a> računalnog programa <a href="program-prehrane-5.html" target="_blank" rel="noopener"><strong>Program Prehrane 5.0</strong></a>,
                     a nastala je iz potrebe za izradom alata koji će nutricionistima i zdravstvenim djelatnicima ali
                     i svima ostalima koji vode računa zdravoj i uravnoteženoj prehrani omogućiti brzu i jednostavnu izradu plana prehrane i tjelesne aktivnosti.
                 </p>
@@ -166,23 +165,16 @@
         </div>
         <div>
             <p class="text-justify">
-                Aplikacija <a href="{{config.appurl}}"><strong>Program Prehrane Web</strong></a> omogućava utvrđivanje stanja uhranjenosti i energetske potrošnje pojedinca te izradu jelovnika utemeljenu na znanstvenim spoznajama na polju nutriconizma.
+                Aplikacija <a href="../app/"><strong>Program Prehrane Web</strong></a> omogućava utvrđivanje stanja uhranjenosti i energetske potrošnje pojedinca te izradu jelovnika utemeljenu na znanstvenim spoznajama na polju nutriconizma.
                 Osmišljavanjem jelovnika korištenjem ove aplikacije, prehrana krajnjih korisnika postaje uravnotežena i raznolika
                 što se može zahvaliti činjenici da se izrada jelovnika bazira na preporučenom broju jediničnih serviranja svih skupina namirnica te njihovih energetskih, makro i mikronutiritivnih vrijednost.
-                S obzirom da web aplikacija <a href="{{config.appurl}}"><strong>Program Prehrane Web</strong></a> sadrži bazu od preko 700 namirnica i jela moguće je zadovoljiti zahtjeve većine korisnika po pitanju izbora namirnica.
+                S obzirom da web aplikacija <a href="../app/"><strong>Program Prehrane Web</strong></a> sadrži bazu od preko 700 namirnica i jela moguće je zadovoljiti zahtjeve većine korisnika po pitanju izbora namirnica.
                 Osim toga aplikacija pruža mogućnost unosa vlastitih namirnica i njihovih makro i mikronutirtivnih vrijednosti.
                 Nadalje, kad se govori o problemu prekomjerne tjelesne mase, preporuča se uz promjenu prehrambenih navika, u svakodnevicu uključiti i dodatnu tjelesnu aktivnost,
-                pa tako <a href="{{config.appurl}}"><strong>Program Prehrane Web</strong></a> nudi podatke o energetskoj potrošnji za preko 400 tjelesnih aktivnosti. <br />
+                pa tako <a href="../app/"><strong>Program Prehrane Web</strong></a> nudi podatke o energetskoj potrošnji za preko 400 tjelesnih aktivnosti. <br />
                 Više o karakteristikama i funkcijama aplikacije pogledajte <a href="#pricing"><strong>ovdje...</strong></a>
             </p>
             <p>Osim hrvatske verzije, dostupna je verzija na <a href="https://www.plan-ishrane.com">srpskom</a> i na <a href="https://www.nutrition-plan.com">engleskom</a> jeziku.</p>
-        </div>
-    </div>
-
-    <div id="registration" class="container text-left pt60">
-        <h2 class="text-center">Registracija</h2>
-        <div id="webapp" class="col-md-8 col-md-offset-2">
-            <div ng-include="'./assets/partials/signup.html'"></div>
         </div>
     </div>
 
@@ -271,6 +263,13 @@
     </div>
 
     <div id="details" ng-include="'./assets/partials/details.html'"></div>
+
+    <div id="registration" class="container text-left pt60">
+        <h2 class="text-center">Registracija</h2>
+        <div id="webapp" class="col-md-8 col-md-offset-2">
+            <div ng-include="'./assets/partials/signup.html'"></div>
+        </div>
+    </div>
 
     <div class="text-center mt10">
         <a href="#registration" class="btn btn-default btn-lg main-border lead"><i class="fa fa-hand-o-right"></i> Isprobaj besplatnu DEMO verziju</a>
@@ -361,7 +360,7 @@
         </div>
         <hr />
         <p>Program Prehrane je deponiran u Hrvatskoj autorskoj agenciji - Centru za intelektualno vlasništvo d.o.o. u Zagrebu.</p>
-        <div>
+        <div ng-cloak>
             <span class="pull-right">Copyright © {{year}} IG PROG</span>
         </div>
     </footer>
