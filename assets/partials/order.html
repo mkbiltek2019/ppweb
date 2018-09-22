@@ -56,10 +56,10 @@
                     <button class="btn btn-default btn-lg main" ng-click="login(user.email, password)">Dalje <i class="fa fa-angle-double-right"></i></button>
                 </div>
                 <div class="text-left">
-                    Zaboravili ste lozinku? <a href="#app" ng-click="forgotPassword(user.email)">Pošalji mi lozinku na E-mail</a>
+                    Zaboravili ste lozinku? <a href="#app" ng-click="forgotPassword(user.email)" title="pošalji lozinku">Pošalji mi lozinku na E-mail</a>
                 </div>
                 <div class="text-left">
-                    Nemate korisničko ime i lozinku? <a href="#app" ng-click="registration()">Registrirajte se...</a>
+                    Nemate korisničko ime i lozinku? <a href="#app" ng-click="registration()" title="registracija">Registrirajte se...</a>
                 </div>
             </div>
             <div ng-if="showErrorAlert" class="alert alert-danger">
@@ -165,7 +165,7 @@
         <div ng-if="showAlert" class="alert alert-default main-border">
             <strong>Narudžba je uspješno poslana!</strong>
             <p ng-if="user.application!='Program Prehrane Web'">Nakon primitka uplate ili nakon što nam pošaljete potvrdu o uplati <strong>aktivacijki kod</strong> šaljemo na Vašu email adresu.</p>
-            <p ng-if="user.application=='Program Prehrane Web'">Vaš korisnički račun će biti aktivan unutar 24 sata od primitka uplate ili nakon što nam pošaljete potvrdu o uplati na email: <strong><a href="mailto:{{config.email}}"><span class="fa fa-envelope-o"></span> {{config.email}}</a></strong></p>
+            <p ng-if="user.application=='Program Prehrane Web'">Vaš korisnički račun će biti aktivan unutar 24 sata od primitka uplate ili nakon što nam pošaljete potvrdu o uplati na email: <strong><a href="mailto:{{config.email}}" title="email"><span class="fa fa-envelope-o"></span> {{config.email}}</a></strong></p>
         </div>
 
         <div ng-if="showPaymentDetails" class="well text-left">
@@ -198,7 +198,7 @@ Iznos: <span>{{user.priceEur | number:2}}</span> €
         </div>
 
         <div ng-if="showPaymentDetails" class="text-center">
-            <a href="{{config.appurl}}" target="_blank" class="btn btn-default main btn-lg">
+            <a href="{{config.appurl}}" title="program prehrane web" target="_blank" class="btn btn-default main btn-lg">
                <i class="fa fa-sign-in"></i> Pokreni aplikaciju
             </a>
         </div>

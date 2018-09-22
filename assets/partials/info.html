@@ -1,4 +1,4 @@
-﻿<div id="contact" class="bg-grey">
+﻿<div id="contact" class="bg-grey" ng-cloak>
     <div class="container pt60">
         <h2 class="text-center">KONTAKT</h2>
         <div ng-controller="contactCtrl" class="row">
@@ -7,9 +7,9 @@
                 <p>OIB {{config.oib}}</p>
                 <p>IBAN {{config.iban}}</p>
                 <p><span class="fa fa-home"></span> Ludvetov breg 5, 51000 Rijeka, Hrvatska</p>
-                <p><a href="tel:+385 98 330 966"><span class="fa fa-phone"></span> +385 98 330 966</a></p>
-                <p><a href="mailto:igprog@yahoo.com"><span class="fa fa-envelope"></span> igprog@yahoo.com</a></p>
-                <p><a href="https://www.programprehrane.com"><span class="fa fa-globe"></span> www.programprehrane.com</a> | <a href="https://www.igprog.hr" target="_blank"> www.igprog.hr</a></p>
+                <p><a href="tel:+385 98 330 966" title="tel"><span class="fa fa-phone"></span> +385 98 330 966</a></p>
+                <p><a href="mailto:igprog@yahoo.com" title="email"><span class="fa fa-envelope"></span> igprog@yahoo.com</a></p>
+                <p><a href="https://www.programprehrane.com" title="web"><span class="fa fa-globe"></span> www.programprehrane.com</a> | <a href="https://www.igprog.hr" title="ig prog" target="_blank"> www.igprog.hr</a></p>
             </div>
             <div class="col-sm-7 slideanim">
                 <div ng-include="'./assets/partials/contact.html'"></div>

@@ -46,7 +46,7 @@
                         <md-checkbox md-no-ink aria-label="uvjeti koristenja" ng-model="accept" class="md-primary">
                             Prihvaćam
                         </md-checkbox>
-                        <a href="{{config.appurl}}licence.txt" target="_blank">uvjete korištenja</a>
+                        <a href="{{config.appurl}}licence.txt" title="uvjeti korištenja" target="_blank">uvjete korištenja</a>
                     </md-input-container>
                 </div>
                 <div ng-if="msg.title" class="alert alert-{{msg.css}}">
@@ -61,7 +61,7 @@
             <i class="fa fa-{{msg.icon}}"></i> {{msg.title}}
         </div>
         <div class="text-center">
-            <a href="{{config.appurl}}" class="btn btn-default btn-lg main text-uppercase" title="Ulaz u aplikaciju"><i class="fa fa-sign-in"></i> Ulaz u aplikaciju</a>
+            <a href="{{config.appurl}}" class="btn btn-default btn-lg main text-uppercase" title="program prehrane web"><i class="fa fa-sign-in"></i> Ulaz u aplikaciju</a>
         </div>
     </div>
 </div>
