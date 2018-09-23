@@ -1,6 +1,6 @@
 ﻿ /*!
 style.css
-(c) 2017 IG PROG, www.igprog.hr
+(c) 2018 IG PROG, www.igprog.hr
 */
  html {
       height:auto;
@@ -35,8 +35,15 @@ body {
       background-size: cover;
      /*  background-position: center top;
       background-size: cover; */
-      height:70vh;
+      height:65vh;
   }
+
+    @media only screen and (max-width: 768px) {
+        .jumbotron {
+            height:100vh;
+        }
+    }
+
   .container-fluid {
      /* padding: 60px 50px;*/
   }
