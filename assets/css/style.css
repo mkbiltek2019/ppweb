@@ -276,6 +276,36 @@ body {
     -webkit-overflow-scrolling: touch;
 }
 
+.sidenav {
+    height: 100%;
+    width: 360px;
+    position: fixed;
+    z-index: 1;
+    top: 50px;
+    left: 0;
+    overflow-x: hidden;
+    padding: 20px 5px 5px 5px;
+}
+
+.list-group-item:hover {
+    background-color: lightgray !important;
+}
+
+li a {
+    display:block;
+}
+
+.main-content {
+    margin-left: 360px; /* Same as the width of the sidenav */
+    padding: 0px 20px 5px 10px;
+}
+
+@media screen and (max-width: 768px) {
+    .main-content {
+        margin-left: 10px;
+    }
+}
+
 
 
 

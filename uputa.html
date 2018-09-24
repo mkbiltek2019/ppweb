@@ -22,7 +22,7 @@
         }
     </style>
 </head>
-<body>
+<body id="home" data-spy="scroll" data-target=".navbar" data-offset="60">
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -66,384 +66,379 @@
             </div>
         </div>
     </nav>
-    <div class="container pt60">
-        <div>
-            <h1>Program Prehrane Web</h1>
-            <h5>Web aplikacija za izradu uravnoteženih jelovnika i plana tjelesne aktivnosti</h5>
-            <h3 class="text-uppercase text-center"><i class="fa fa-question-circle"></i> Uputa</h3>
+    <div class="pt60">
+        <div id="content" class="sidenav hidden-xs">
+            <h4 class="text-center">Sadržaj</h4>
+            <ul class="list-group">
+                <li class="list-group-item"><a href="#signup">Registracija</a></li>
+                <li class="list-group-item"><a href="#login">Prijava</a></li>
+                <li class="list-group-item"><a href="#newclient">Novi klijent</a></li>
+                <li class="list-group-item"><a href="#inputdata">Ulazni podaci</a></li>
+                <li class="list-group-item"><a href="#detailpal">Detaljni izračun energetske potrošnje</a></li>
+                <li class="list-group-item"><a href="#anthropometricmeasures">Praćenje antropometrijskih parametara</a></li>
+                <li class="list-group-item"><a href="#calculation">Izračun</a></li>
+                <li class="list-group-item"><a href="#additionalactivities">Dodatna energetska potrošnja</a></li>
+                <li class="list-group-item"><a href="#diet">Dijeta</a></li>
+                <li class="list-group-item"><a href="#meals">Obroci</a></li>
+                <li class="list-group-item"><a href="#menues">Izrada jelovnika</a></li>
+                <li class="list-group-item"><a href="#print">Ispis</a></li>
+                <li class="list-group-item"><a href="#myfoods">Moje namirnice</a></li>
+                <li class="list-group-item"><a href="#myrecipes">Moji recepti</a></li>
+                <li class="list-group-item"><a href="#prices">Cijene</a></li>
+                <li class="list-group-item"><a href="#newuser">Novi korisnik</a></li>
+                <!--<li class="list-group-item"><a href="#settings">Postavke</a></li>
+                <li class="list-group-item"><a href="#additionaloptions">Dodatne opcije</a></li>-->
+            </ul>
             <hr />
-            <div class="row">
-                <div id="content" class="col-sm-3">
-                    <h4>Sadržaj</h4>
-                    <ul class="list-group">
-                        <li class="list-group-item"><a href="#signup">Registracija</a></li>
-                        <li class="list-group-item"><a href="#login">Prijava</a></li>
-                        <li class="list-group-item"><a href="#newclient">Novi klijent</a></li>
-                        <li class="list-group-item"><a href="#inputdata">Ulazni podaci</a></li>
-                        <li class="list-group-item"><a href="#detailpal">Detaljni izračun energetske potrošnje</a></li>
-                        <li class="list-group-item"><a href="#anthropometricmeasures">Praćenje antropometrijskih parametara</a></li>
-                        <li class="list-group-item"><a href="#calculation">Izračun</a></li>
-                        <li class="list-group-item"><a href="#additionalactivities">Dodatna energetska potrošnja</a></li>
-                        <li class="list-group-item"><a href="#diet">Dijeta</a></li>
-                        <li class="list-group-item"><a href="#meals">Obroci</a></li>
-                        <li class="list-group-item"><a href="#menues">Izrada jelovnika</a></li>
-                        <li class="list-group-item"><a href="#print">Ispis</a></li>
-                        <li class="list-group-item"><a href="#myfoods">Moje namirnice</a></li>
-                        <li class="list-group-item"><a href="#myrecipes">Moji recepti</a></li>
-                        <li class="list-group-item"><a href="#prices">Cijene</a></li>
-                        <li class="list-group-item"><a href="#newuser">Novi korisnik</a></li>
-                        <!--<li class="list-group-item"><a href="#settings">Postavke</a></li>
-                        <li class="list-group-item"><a href="#additionaloptions">Dodatne opcije</a></li>-->
+        </div>
+        <div class="well main-content">
+            <h1>Program Prehrane Web</h1>
+            <h5><em>Web aplikacija za izradu uravnoteženih jelovnika i plana tjelesne aktivnosti</em></h5>
+            <h3 class="text-uppercase"><i class="fa fa-question-circle"></i> Uputa za korištenje</h3>
+            <hr />
+            <div id="signup">
+                <div class="pt60">
+                    <h4 class="text-uppercase">Registracija</h4>
+                    <ul>
+                        <li>Za pristup aplikaciji potrebno je izvršiti registraciju.</li>
+                        <li>Kliknite na <strong>registracija</strong>, ispunite tražene podatke, odaberite lozinku i kliknite na <strong>registracija</strong>.</li>
+                        <li>Nakon uspješne registracije na Vaš meail će stići notifikacija o uspješnoj registraciji.</li>
                     </ul>
-                    <hr />
                 </div>
-                <div class="p20 col-sm-9 well">
-                    <div id="signup">
-                        <div class="pt60">
-                            <h4 class="text-uppercase">Registracija</h4>
-                            <ul>
-                                <li>Za pristup aplikaciji potrebno je izvršiti registraciju.</li>
-                                <li>Kliknite na <strong>registracija</strong>, ispunite tražene podatke, odaberite lozinku i kliknite na <strong>registracija</strong>.</li>
-                                <li>Nakon uspješne registracije na Vaš meail će stići notifikacija o uspješnoj registraciji.</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <img src="./assets/img/ppweb/help/registracija.jpg" class="img-thumbnail m10" />
-                        </div>
-                        <a href="app/index.html">Registracija</a>
-                        <hr />
-                    </div>
-                    <div id="login" class="mt60">
-                        <div class="pt60">
-                            <h4 class="text-uppercase">Prijava (Login)</h4>
-                            <ul>
-                                <li>Za pristup aplikaciji upišite svoje korisničko ime (e-mail) i lozinku koju ste odabrali prilikom registracije i kliknite na <strong>prijava</strong>.</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <img src="./assets/img/ppweb/help/prijava.jpg" class="img-thumbnail m10" />
-                        </div>
-                        <a href="app/index.html">Prijava</a>
-                        <hr />
-                    </div>
-                    <div id="newclient">
-                        <div>
-                            <h4 class="text-uppercase">Novi klijent</h4>
-                            <ul>
-                                <li>Nakon prijave u aplikaciju potrebno je registrirati novog klijenta ili iz baze klijenata odabrati postojećeg.</li>
-                            </ul>
-                            <img src="./assets/img/ppweb/help/start.jpg" class="img-thumbnail m10" />
-                            <ul>
-                                <li>Klikom na <em>dugme</em> <strong>NOVI KLIJENT</strong> otvara se pozor za unos novog klijenta.</li>
-                                <li>Obavezni podaci su Ime, prezime, datum rođenja i spol, dok telefon i e-mail nisu obavezni.</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <img src="./assets/img/ppweb/help/novi_klijent.jpg" class="img-thumbnail m10" />
-                        </div>
-                        <ul>
-                            <li>Klikom na <em>dugme</em> <strong>PRETRAŽI KLIJENTE</strong> moguće je pristupiti klijentima koje ste prethodno spremili u bazu.</li>
-                        </ul>
-                        <div>
-                            <img src="./assets/img/ppweb/help/pretrazi_klijente.jpg" class="img-thumbnail m10" />
-                        </div>
-                        <hr />
-                    </div>
-                    <div id="inputdata">
-                        <div class="pt60">
-                            <h4 class="text-uppercase">Ulazni podaci</h4>
-                            <ul>
-                                <li>Unesite visinu (u cm), masu (u kg) opseg struka i bokova (u cm) i intenzitet tjelesne aktivnosti</li>
-                                <li>* Opseg struka i bokova nisu obavezan</li>
-                                <li>Za nastavak kliknite <strong>naprijed</strong></li>
-                                <li>Ako želite preciznije odrediti dnevnu energetsku potrošnju kliknite na <strong>Detaljni izračun energetske potrošnje</strong></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <img src="./assets/img/ppweb/help/ulazni_podaci.jpg" class="img-thumbnail m10" />
-                        </div>
-                        <hr />
-                    </div>
-                    <div id="detailpal">
-                        <div class="pt60">
-                            <h4 class="text-uppercase">Detaljni izračun energetske potrošnje</h4>
-                            <ul>
-                                <li>Klikom na <strong>Detaljni izračun energetske potrošnje</strong> otvara se prozor u kojemu je moguće napraviti detaljan izračun dnevne potrošnje.</li>
-                                <li>Potrebno je unijeti sve aktivnosti i njihovo trajanje u periodu od 0:00 do 24:00</li>
-                                <li>Za nastavak kliknite <strong>naprijed</strong></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <img src="./assets/img/ppweb/help/detaljni_izracun.jpg" class="img-thumbnail m10" />
-                        </div>
-                        <hr />
-                    </div>
-                    <div id="anthropometricmeasures">
-                        <div class="pt60">
-                            <h4 class="text-uppercase">Praćenje antropometrijskih parametara</h4>
-                            <ul>
-                                <li>Klikom na <em>tab</em> <strong>Praćenje antropometrijskih parametara</strong> otvara se prozor u kojemu se prate antropometrijski parametri u grafičkokm i tabelarnom prikazu.</li>
-                                <li>Prate se masa, opseg struka i opseg bokova</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <img src="./assets/img/ppweb/help/pracenje_antropometrijskih_parametara.jpg" class="img-thumbnail m10" />
-                        </div>
-                        <hr />
-                    </div>
-                    <div id="calculation">
-                        <div class="pt60">
-                            <h4 class="text-uppercase">Izračun</h4>
-                            <ul>
-                                <li>
-                                    Nakon unesenih ulaznih podataka aplikacija daje izračun za indeks tjelesna mase (BMI), dnevnu energetsku potrošnju, omjer opsega struka i bokova
-                                    te preporuke za primjerenu tjelesnu masu, energetsku vrijednost jelovnika i dodatnu tjelesnu potrošnju.
-                                </li>
-                                <li>U istom <em>prozoru</em> moguće je odabrati <span>Cilj:</span> redukciju tjelesne mase, zadržavanje postojeće tjelesne mase, povećanje tjelesne mase ili povećanje mišićne mase.</li>
-                                <li>Za nastavak kliknite <strong>naprijed</strong></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <img src="./assets/img/ppweb/help/izracun.jpg" class="img-thumbnail m10" />
-                        </div>
-                        <hr />
-                    </div>
-                    <div id="additionalactivities">
-                        <div class="pt60">
-                            <h4 class="text-uppercase">Dodatna tjelesna aktivnost</h4>
-                            <ul>
-                                <li>
-                                    Ukoliko aplikacija na osnovu ulaznih podataka da preporuku za dodatnu energetsku potrošnju, u <em>prozoru</em> <strong>Dodatna aktivnost</strong>
-                                    možete odabrati dodatnu željenu aktivnost.
-                                </li>
-                                <li>Klikom na odabranu aktivnosti program izračunava vrijeme potrebno za potrošnju preporučene dodatne energetske potrošnje.</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <img src="./assets/img/ppweb/help/dodatna_aktivnost.jpg" class="img-thumbnail m10" />
-                        </div>
-                        <ul>
-                            <li>Moguće je odabrati i više aktivnosti s time da je potrebno ručno promiijeniti trajanje aktivnosti.</li>
-                        </ul>
-                        <div>
-                            <img src="./assets/img/ppweb/help/dodatna_aktivnost_popup.jpg" class="img-thumbnail m10" />
-                        </div>
-                        <strong>Napomena: </strong><em>Osobe sa zdravstvenim problemima ili sumnjom na njih, prije odabira dijete moraju se posavjetovati sa svojim liječnikom.</em>
-                        <hr />
-                    </div>
-                    <div id="diet">
-                        <div class="pt60">
-                            <h4 class="text-uppercase">Dijeta</h4>
-                            <ul>
-                                <li>U <em>prozoru</em> <strong>Dijeta</strong> aplikacija automatski nudi redukcijsku dijetu ili normalnu prehranu ovisno o indeksu tjelesne mase (BMI).</li>
-                                <li>Moguće je odabrati i druge vrste prehrane i dijete ovisno o potrebama ili zdravstvenom stanju.</li>
-                            </ul>
-                            <strong>Napomena: </strong><em>Osobe sa zdravstvenim problemima ili sumnjom na njih, prije odabira dodatne tjelesne aktivnosti moraju se posavjetovati sa svojim liječnikom.</em>
-                        </div>
-                        <div>
-                            <img src="./assets/img/ppweb/help/dijeta.jpg" class="img-thumbnail m10" />
-                        </div>
-                        <hr />
-                    </div>
-                    <div id="meals">
-                        <div class="pt60">
-                            <h4 class="text-uppercase">Obroci</h4>
-                            <ul>
-                                <li>U <em>prozoru</em> <strong>Obroci</strong> moguće je odabrati željeni broj i kombinaciju obroka.</li>
-                            </ul>
-                            <strong>Napomena: </strong><em>Doručak, ručak i večera su obavezni.</em>
-                        </div>
-                        <div>
-                            <img src="./assets/img/ppweb/help/obroci.jpg" class="img-thumbnail m10" />
-                        </div>
-                        <hr />
-                    </div>
-                    <div id="menues">
-                        <div class="pt60">
-                            <h4 class="text-uppercase">Izrada jelovnika</h4>
-                            <ul>
-                                <li>Za izradu jelovnika kliknite na <em>tab</em> <strong>Jelovnik</strong></li>
-                            </ul>
-                            <div>
-                                <img src="./assets/img/ppweb/help/jelovnik.jpg" class="img-thumbnail m10" />
-                            </div>
-                            <ul>
-                                <li>Za odabir namirnica kliknite na <em>tipku</em> <strong>Dodaj namirnicu</strong></li>
-                            </ul>
-                            <div>
-                                <img src="./assets/img/ppweb/help/dodaj_namirnicu.jpg" class="img-thumbnail m10" />
-                            </div>
-                        </div>
-                        <ul>
-                            <li>U novom prozoru moguće je pretraživati namirnice po nazivu ili po skupinama namirnica</li>
-                            <li>Odabranoj namirnici možete promijeniti količinu, masu i odabrati željenu termičku obradu</li>
-                        </ul>
-                        <div>
-                            <img src="./assets/img/ppweb/help/namirnice_popup.jpg" class="img-thumbnail m10" />
-                        </div>
-                        <ul>
-                            <li>Kikom na <em>dugme</em> <strong>Dodaj</strong> odabrana namirnica se uvrštava od selektirani obrok</li>
-                        </ul>
-                        <div>
-                            <img src="./assets/img/ppweb/help/odabrana_namirnica.jpg" class="img-thumbnail m10" />
-                        </div>
-                        <ul>
-                            <li>Kod izrade jelovnika vodi se računa da odabrane vrijednosti jelovnika budu unutar ili približno preporučenim vrijednostima</li>
-                            <li>
-                                Vrijednosti koje se prate su: energetska vrijednost jelovnika, energetska vrijednost obroka, broj jediničnih serviranja pojedine skupine namirnica
-                                mikro i makronutritivne vrijednosti i eneretska vrijednost ostalih namirnica
-                            </li>
-                            <li>Preporučene i odabrane vrijednosti su prikazane grafički i numerički, sa naznačenim odabranim i preporučenim vrijednostima</li>
-                        </ul>
-                        <div>
-                            <img src="./assets/img/ppweb/help/jedinicna_serviranja.jpg" class="img-thumbnail m10" />
-                        </div>
-                        <div>
-                            <img src="./assets/img/ppweb/help/udio_po_obrocima.jpg" class="img-thumbnail m10" />
-                        </div>
-                        <ul>
-                            <li>Za prikaz mikro-nutrijenata i ostalih parametara  kliknite na <strong>Parametri</strong></li>
-                        </ul>
-                        <div>
-                            <img src="./assets/img/ppweb/help/parametri.jpg" class="img-thumbnail m10" />
-                        </div>
-                        <ul>
-                            <li>Kada su ukupne vrijednosti jelovnika unutar preporučenih, jelovnik je gotov.</li>
-                            <li>Jelovnik je moguće spremiti u bazu i kasnije ga koristiti kao predložak za izradu novog jelovnika</li>
-                        </ul>
-                        <div>
-                            <img src="./assets/img/ppweb/help/spremi_jelovnik.jpg" class="img-thumbnail m10" />
-                        </div>
-                        <ul>
-                            <li>Jelovnik je moguće poslati na e-mail adresu klijenta.</li>
-                        </ul>
-                        <div>
-                            <img src="./assets/img/ppweb/help/posalji_jelovnik.jpg" class="img-thumbnail m10" />
-                        </div>
-                        <ul>
-                            <li>Uz svaki obrok je moguće dodati opis npr. naziv i priprema jela</li>
-                        </ul>
-                        <div>
-                            <img src="./assets/img/ppweb/help/opis_priprema_jela.jpg" class="img-thumbnail" />
-                        </div>
-                        <hr />
-                    </div>
-                    <div id="print">
-                        <div class="pt60">
-                            <h4 class="text-uppercase">Ispis</h4>
-                            <ul>
-                                <li>Klikom na <em>tab</em> <strong>Ispis</strong> otvara se prozor u kojemu možete dobiti ispis jelovnika, podata moguće je ispisati jelovnik, ukupne vrijednosti jelovnika i podatke o korisniku u PDF formatu ili na printer.</li>
-                                <li>
-                                    Kada je jelovnik izrađen za grupu korisnika sa jednakim energetskom potrošnjom, npr učenički domovi,
-                                    moguće je odabrati broj konzumentat tog jelovnika, pri čemu se dobiva ukupna količina namirnica za odabrani broj korisnika.
-                                </li>
-                                <li>Također, moguće je odabrati i velićinu fonta u <em>px</em></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <!--<img src="./assets/img/ppweb/help/dodatna_aktivnost_popup.jpg" class="img-responsive img-thumbnail" />-->
-                        </div>
-                        <hr />
-                    </div>
-                    <div id="myfoods">
-                        <div class="pt60">
-                            <h4 class="text-uppercase">Moje namirnice</h4>
-                            <ul>
-                                <li>Aplikacija daje mogućnost unosa vlastitih namirnice i njihovih makro i mikronutritivnih vrijednosti.</li>
-                                <li>
-                                    Kod izrade jelovnika <strong>Mojim namirnicama</strong> možete pristupiti klikom na skupinu <strong>Moje namirnice</strong>
-                                </li>
-                            </ul>
-                            <strong>Napomena: </strong><em>
-                                Ukoliko prilikom unosa vlastite namirnice ne odaberete vrijednost jediničnog serviranja za tu namirnicu, namirnica će biti svrstana u kategoriju
-                                ostale namirnice.
-                            </em>
-                        </div>
-                        <div>
-                            <img src="./assets/img/ppweb/help/moje_namirnice.jpg" class="img-thumbnail" />
-                        </div>
-                        <hr />
-                    </div>
-                    <div id="myrecipes">
-                        <div class="pt60">
-                            <h4 class="text-uppercase">Moji recepti</h4>
-                            <p>Recepte je moguće unositi na dva načina:</p>
-                            <ul>
-                                <li>Preko prozora za izradu jelovnika <strong>Jelovnik</strong> ili</li>
-                                <li>Preko prozora <strong>Moji recepti</strong>
-                                </li>
-                            </ul>
-                            <p>Kada izrađujemo recept u prozoru za izradu jelovnika, samo namirnice u trenutnom obroku će se spremiti u recept.</p>
-                        </div>
-                        <div class="mt10">
-                            <img src="./assets/img/ppweb/help/moji_recepti1.png" class="img-thumbnail" />
-                        </div>
-                        <div class="mt10">
-                            <img src="./assets/img/ppweb/help/moji_recepti2.png" class="img-thumbnail" />
-                        </div>
-                        <hr />
-                    </div>
-                    <div id="prices">
-                        <div class="pt60">
-                            <h4 class="text-uppercase">Cijene</h4>
-                            <ul>
-                                <li>U <em>prozoru</em> <strong>Cijene</strong> postoji mogućnost je unositi cijene namirnica</li>
-                                <li>Odaberite namirnicu iz izbornika, upišite neto cijenu i masu i kliknite na <em>dugme</em> <strong>spremi</strong></li>
-                            </ul>
-                            <strong>Napomena: </strong><em>
-                                Potrebno je unositi neto cijene. Npr. kod krumpira je potrebno unaprijed ukalkulirati gubitak na masi kod guljenja kore.
-                            </em>
-                        </div>
-                        <div>
-                            <img src="./assets/img/ppweb/help/cijene.jpg" class="img-thumbnail" />
-                        </div>
-                        <hr />
-                    </div>
-                    <div id="newuser">
-                        <div class="pt60">
-                            <h4 class="text-uppercase">Novi korisnik</h4>
-                            <p>
-                                Korisnici STANDARD i  PREMIUM paketa imaju mogučnost registracije dodatnog korisnika.
-                                U STANDARD paketu moguće je dodati jednog dodatnog korisnika, a u PREMIUM paketu 4 dodatna korisnika. <br />
-                                Svi korisnici mogu pristupiti zajedničkoj bazi podataka (bazi klijenata, bazi mojih namirnica, bazi mojih jelovnika i bazi mojih recepata).
-                            </p>
-                        </div>
-                        <div class="mt10">
-                            <img src="./assets/img/ppweb/help/novi_korisnik1.png" class="img-thumbnail" />
-                        </div>
-                        <div class="mt10">
-                            <img src="./assets/img/ppweb/help/novi_korisnik2.png" class="img-thumbnail" />
-                        </div>
-                        <hr />
-                    </div>
-                    <!--<div id="settings">
-                        <div class="pt60">
-                            <h4 class="text-uppercase">Postavke</h4>
-                            <ul>
-                                <li>Postavke jezika</li>
-                                <li>Postavke valute</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <img src="./assets/img/ppweb/help/.jpg" class="img-thumbnail" />
-                        </div>
-                        <hr />
-                    </div>
-                    <div id="additionaloptions">
-                        <div class="pt60">
-                            <h4 class="text-uppercase">Dodatne opcije</h4>
-                        </div>
-                        <div>
-                            <img src="./assets/img/ppweb/help/.jpg" class="img-thumbnail" />
-                        </div>
-                        <hr />
-                    </div>-->
+                <div>
+                    <img src="./assets/img/ppweb/help/registracija.jpg" class="img-thumbnail m10" />
                 </div>
-
+                <a href="app/index.html">Registracija</a>
+                <hr />
             </div>
+            <div id="login" class="mt60">
+                <div class="pt60">
+                    <h4 class="text-uppercase">Prijava (Login)</h4>
+                    <ul>
+                        <li>Za pristup aplikaciji upišite svoje korisničko ime (e-mail) i lozinku koju ste odabrali prilikom registracije i kliknite na <strong>prijava</strong>.</li>
+                    </ul>
+                </div>
+                <div>
+                    <img src="./assets/img/ppweb/help/prijava.jpg" class="img-thumbnail m10" />
+                </div>
+                <a href="app/index.html">Prijava</a>
+                <hr />
+            </div>
+            <div id="newclient">
+                <div>
+                    <h4 class="text-uppercase">Novi klijent</h4>
+                    <ul>
+                        <li>Nakon prijave u aplikaciju potrebno je registrirati novog klijenta ili iz baze klijenata odabrati postojećeg.</li>
+                    </ul>
+                    <img src="./assets/img/ppweb/help/start.jpg" class="img-thumbnail m10" />
+                    <ul>
+                        <li>Klikom na <em>dugme</em> <strong>NOVI KLIJENT</strong> otvara se pozor za unos novog klijenta.</li>
+                        <li>Obavezni podaci su Ime, prezime, datum rođenja i spol, dok telefon i e-mail nisu obavezni.</li>
+                    </ul>
+                </div>
+                <div>
+                    <img src="./assets/img/ppweb/help/novi_klijent.jpg" class="img-thumbnail m10" />
+                </div>
+                <ul>
+                    <li>Klikom na <em>dugme</em> <strong>PRETRAŽI KLIJENTE</strong> moguće je pristupiti klijentima koje ste prethodno spremili u bazu.</li>
+                </ul>
+                <div>
+                    <img src="./assets/img/ppweb/help/pretrazi_klijente.jpg" class="img-thumbnail m10" />
+                </div>
+                <hr />
+            </div>
+            <div id="inputdata">
+                <div class="pt60">
+                    <h4 class="text-uppercase">Ulazni podaci</h4>
+                    <ul>
+                        <li>Unesite visinu (u cm), masu (u kg) opseg struka i bokova (u cm) i intenzitet tjelesne aktivnosti</li>
+                        <li>* Opseg struka i bokova nisu obavezan</li>
+                        <li>Za nastavak kliknite <strong>naprijed</strong></li>
+                        <li>Ako želite preciznije odrediti dnevnu energetsku potrošnju kliknite na <strong>Detaljni izračun energetske potrošnje</strong></li>
+                    </ul>
+                </div>
+                <div>
+                    <img src="./assets/img/ppweb/help/ulazni_podaci.jpg" class="img-thumbnail m10" />
+                </div>
+                <hr />
+            </div>
+            <div id="detailpal">
+                <div class="pt60">
+                    <h4 class="text-uppercase">Detaljni izračun energetske potrošnje</h4>
+                    <ul>
+                        <li>Klikom na <strong>Detaljni izračun energetske potrošnje</strong> otvara se prozor u kojemu je moguće napraviti detaljan izračun dnevne potrošnje.</li>
+                        <li>Potrebno je unijeti sve aktivnosti i njihovo trajanje u periodu od 0:00 do 24:00</li>
+                        <li>Za nastavak kliknite <strong>naprijed</strong></li>
+                    </ul>
+                </div>
+                <div>
+                    <img src="./assets/img/ppweb/help/detaljni_izracun.jpg" class="img-thumbnail m10" />
+                </div>
+                <hr />
+            </div>
+            <div id="anthropometricmeasures">
+                <div class="pt60">
+                    <h4 class="text-uppercase">Praćenje antropometrijskih parametara</h4>
+                    <ul>
+                        <li>Klikom na <em>tab</em> <strong>Praćenje antropometrijskih parametara</strong> otvara se prozor u kojemu se prate antropometrijski parametri u grafičkokm i tabelarnom prikazu.</li>
+                        <li>Prate se masa, opseg struka i opseg bokova</li>
+                    </ul>
+                </div>
+                <div>
+                    <img src="./assets/img/ppweb/help/pracenje_antropometrijskih_parametara.jpg" class="img-thumbnail m10" />
+                </div>
+                <hr />
+            </div>
+            <div id="calculation">
+                <div class="pt60">
+                    <h4 class="text-uppercase">Izračun</h4>
+                    <ul>
+                        <li>
+                            Nakon unesenih ulaznih podataka aplikacija daje izračun za indeks tjelesna mase (BMI), dnevnu energetsku potrošnju, omjer opsega struka i bokova
+                            te preporuke za primjerenu tjelesnu masu, energetsku vrijednost jelovnika i dodatnu tjelesnu potrošnju.
+                        </li>
+                        <li>U istom <em>prozoru</em> moguće je odabrati <span>Cilj:</span> redukciju tjelesne mase, zadržavanje postojeće tjelesne mase, povećanje tjelesne mase ili povećanje mišićne mase.</li>
+                        <li>Za nastavak kliknite <strong>naprijed</strong></li>
+                    </ul>
+                </div>
+                <div>
+                    <img src="./assets/img/ppweb/help/izracun.jpg" class="img-thumbnail m10" />
+                </div>
+                <hr />
+            </div>
+            <div id="additionalactivities">
+                <div class="pt60">
+                    <h4 class="text-uppercase">Dodatna tjelesna aktivnost</h4>
+                    <ul>
+                        <li>
+                            Ukoliko aplikacija na osnovu ulaznih podataka da preporuku za dodatnu energetsku potrošnju, u <em>prozoru</em> <strong>Dodatna aktivnost</strong>
+                            možete odabrati dodatnu željenu aktivnost.
+                        </li>
+                        <li>Klikom na odabranu aktivnosti program izračunava vrijeme potrebno za potrošnju preporučene dodatne energetske potrošnje.</li>
+                    </ul>
+                </div>
+                <div>
+                    <img src="./assets/img/ppweb/help/dodatna_aktivnost.jpg" class="img-thumbnail m10" />
+                </div>
+                <ul>
+                    <li>Moguće je odabrati i više aktivnosti s time da je potrebno ručno promiijeniti trajanje aktivnosti.</li>
+                </ul>
+                <div>
+                    <img src="./assets/img/ppweb/help/dodatna_aktivnost_popup.jpg" class="img-thumbnail m10" />
+                </div>
+                <strong>Napomena: </strong><em>Osobe sa zdravstvenim problemima ili sumnjom na njih, prije odabira dijete moraju se posavjetovati sa svojim liječnikom.</em>
+                <hr />
+            </div>
+            <div id="diet">
+                <div class="pt60">
+                    <h4 class="text-uppercase">Dijeta</h4>
+                    <ul>
+                        <li>U <em>prozoru</em> <strong>Dijeta</strong> aplikacija automatski nudi redukcijsku dijetu ili normalnu prehranu ovisno o indeksu tjelesne mase (BMI).</li>
+                        <li>Moguće je odabrati i druge vrste prehrane i dijete ovisno o potrebama ili zdravstvenom stanju.</li>
+                    </ul>
+                    <strong>Napomena: </strong><em>Osobe sa zdravstvenim problemima ili sumnjom na njih, prije odabira dodatne tjelesne aktivnosti moraju se posavjetovati sa svojim liječnikom.</em>
+                </div>
+                <div>
+                    <img src="./assets/img/ppweb/help/dijeta.jpg" class="img-thumbnail m10" />
+                </div>
+                <hr />
+            </div>
+            <div id="meals">
+                <div class="pt60">
+                    <h4 class="text-uppercase">Obroci</h4>
+                    <ul>
+                        <li>U <em>prozoru</em> <strong>Obroci</strong> moguće je odabrati željeni broj i kombinaciju obroka.</li>
+                    </ul>
+                    <strong>Napomena: </strong><em>Doručak, ručak i večera su obavezni.</em>
+                </div>
+                <div>
+                    <img src="./assets/img/ppweb/help/obroci.jpg" class="img-thumbnail m10" />
+                </div>
+                <hr />
+            </div>
+            <div id="menues">
+                <div class="pt60">
+                    <h4 class="text-uppercase">Izrada jelovnika</h4>
+                    <ul>
+                        <li>Za izradu jelovnika kliknite na <em>tab</em> <strong>Jelovnik</strong></li>
+                    </ul>
+                    <div>
+                        <img src="./assets/img/ppweb/help/jelovnik.jpg" class="img-thumbnail m10" />
+                    </div>
+                    <ul>
+                        <li>Za odabir namirnica kliknite na <em>tipku</em> <strong>Dodaj namirnicu</strong></li>
+                    </ul>
+                    <div>
+                        <img src="./assets/img/ppweb/help/dodaj_namirnicu.jpg" class="img-thumbnail m10" />
+                    </div>
+                </div>
+                <ul>
+                    <li>U novom prozoru moguće je pretraživati namirnice po nazivu ili po skupinama namirnica</li>
+                    <li>Odabranoj namirnici možete promijeniti količinu, masu i odabrati željenu termičku obradu</li>
+                </ul>
+                <div>
+                    <img src="./assets/img/ppweb/help/namirnice_popup.jpg" class="img-thumbnail m10" />
+                </div>
+                <ul>
+                    <li>Kikom na <em>dugme</em> <strong>Dodaj</strong> odabrana namirnica se uvrštava od selektirani obrok</li>
+                </ul>
+                <div>
+                    <img src="./assets/img/ppweb/help/odabrana_namirnica.jpg" class="img-thumbnail m10" />
+                </div>
+                <ul>
+                    <li>Kod izrade jelovnika vodi se računa da odabrane vrijednosti jelovnika budu unutar ili približno preporučenim vrijednostima</li>
+                    <li>
+                        Vrijednosti koje se prate su: energetska vrijednost jelovnika, energetska vrijednost obroka, broj jediničnih serviranja pojedine skupine namirnica
+                        mikro i makronutritivne vrijednosti i eneretska vrijednost ostalih namirnica
+                    </li>
+                    <li>Preporučene i odabrane vrijednosti su prikazane grafički i numerički, sa naznačenim odabranim i preporučenim vrijednostima</li>
+                </ul>
+                <div>
+                    <img src="./assets/img/ppweb/help/jedinicna_serviranja.jpg" class="img-thumbnail m10" />
+                </div>
+                <div>
+                    <img src="./assets/img/ppweb/help/udio_po_obrocima.jpg" class="img-thumbnail m10" />
+                </div>
+                <ul>
+                    <li>Za prikaz mikro-nutrijenata i ostalih parametara  kliknite na <strong>Parametri</strong></li>
+                </ul>
+                <div>
+                    <img src="./assets/img/ppweb/help/parametri.jpg" class="img-thumbnail m10" />
+                </div>
+                <ul>
+                    <li>Kada su ukupne vrijednosti jelovnika unutar preporučenih, jelovnik je gotov.</li>
+                    <li>Jelovnik je moguće spremiti u bazu i kasnije ga koristiti kao predložak za izradu novog jelovnika</li>
+                </ul>
+                <div>
+                    <img src="./assets/img/ppweb/help/spremi_jelovnik.jpg" class="img-thumbnail m10" />
+                </div>
+                <ul>
+                    <li>Jelovnik je moguće poslati na e-mail adresu klijenta.</li>
+                </ul>
+                <div>
+                    <img src="./assets/img/ppweb/help/posalji_jelovnik.jpg" class="img-thumbnail m10" />
+                </div>
+                <ul>
+                    <li>Uz svaki obrok je moguće dodati opis npr. naziv i priprema jela</li>
+                </ul>
+                <div>
+                    <img src="./assets/img/ppweb/help/opis_priprema_jela.jpg" class="img-thumbnail" />
+                </div>
+                <hr />
+            </div>
+            <div id="print">
+                <div class="pt60">
+                    <h4 class="text-uppercase">Ispis</h4>
+                    <ul>
+                        <li>Klikom na <em>tab</em> <strong>Ispis</strong> otvara se prozor u kojemu možete dobiti ispis jelovnika, podata moguće je ispisati jelovnik, ukupne vrijednosti jelovnika i podatke o korisniku u PDF formatu ili na printer.</li>
+                        <li>
+                            Kada je jelovnik izrađen za grupu korisnika sa jednakim energetskom potrošnjom, npr učenički domovi,
+                            moguće je odabrati broj konzumentat tog jelovnika, pri čemu se dobiva ukupna količina namirnica za odabrani broj korisnika.
+                        </li>
+                        <li>Također, moguće je odabrati i velićinu fonta u <em>px</em></li>
+                    </ul>
+                </div>
+                <div>
+                    <!--<img src="./assets/img/ppweb/help/dodatna_aktivnost_popup.jpg" class="img-responsive img-thumbnail" />-->
+                </div>
+                <hr />
+            </div>
+            <div id="myfoods">
+                <div class="pt60">
+                    <h4 class="text-uppercase">Moje namirnice</h4>
+                    <ul>
+                        <li>Aplikacija daje mogućnost unosa vlastitih namirnice i njihovih makro i mikronutritivnih vrijednosti.</li>
+                        <li>
+                            Kod izrade jelovnika <strong>Mojim namirnicama</strong> možete pristupiti klikom na skupinu <strong>Moje namirnice</strong>
+                        </li>
+                    </ul>
+                    <strong>Napomena: </strong><em>
+                        Ukoliko prilikom unosa vlastite namirnice ne odaberete vrijednost jediničnog serviranja za tu namirnicu, namirnica će biti svrstana u kategoriju
+                        ostale namirnice.
+                    </em>
+                </div>
+                <div>
+                    <img src="./assets/img/ppweb/help/moje_namirnice.jpg" class="img-thumbnail" />
+                </div>
+                <hr />
+            </div>
+            <div id="myrecipes">
+                <div class="pt60">
+                    <h4 class="text-uppercase">Moji recepti</h4>
+                    <p>Recepte je moguće unositi na dva načina:</p>
+                    <ul>
+                        <li>Preko prozora za izradu jelovnika <strong>Jelovnik</strong> ili</li>
+                        <li>Preko prozora <strong>Moji recepti</strong>
+                        </li>
+                    </ul>
+                    <p>Kada izrađujemo recept u prozoru za izradu jelovnika, samo namirnice u trenutnom obroku će se spremiti u recept.</p>
+                </div>
+                <div class="mt10">
+                    <img src="./assets/img/ppweb/help/moji_recepti1.png" class="img-thumbnail" />
+                </div>
+                <div class="mt10">
+                    <img src="./assets/img/ppweb/help/moji_recepti2.png" class="img-thumbnail" />
+                </div>
+                <hr />
+            </div>
+            <div id="prices">
+                <div class="pt60">
+                    <h4 class="text-uppercase">Cijene</h4>
+                    <ul>
+                        <li>U <em>prozoru</em> <strong>Cijene</strong> postoji mogućnost je unositi cijene namirnica</li>
+                        <li>Odaberite namirnicu iz izbornika, upišite neto cijenu i masu i kliknite na <em>dugme</em> <strong>spremi</strong></li>
+                    </ul>
+                    <strong>Napomena: </strong><em>
+                        Potrebno je unositi neto cijene. Npr. kod krumpira je potrebno unaprijed ukalkulirati gubitak na masi kod guljenja kore.
+                    </em>
+                </div>
+                <div>
+                    <img src="./assets/img/ppweb/help/cijene.jpg" class="img-thumbnail" />
+                </div>
+                <hr />
+            </div>
+            <div id="newuser">
+                <div class="pt60">
+                    <h4 class="text-uppercase">Novi korisnik</h4>
+                    <p>
+                        Korisnici STANDARD i  PREMIUM paketa imaju mogučnost registracije dodatnog korisnika.
+                        U STANDARD paketu moguće je dodati jednog dodatnog korisnika, a u PREMIUM paketu 4 dodatna korisnika. <br />
+                        Svi korisnici mogu pristupiti zajedničkoj bazi podataka (bazi klijenata, bazi mojih namirnica, bazi mojih jelovnika i bazi mojih recepata).
+                    </p>
+                </div>
+                <div class="mt10">
+                    <img src="./assets/img/ppweb/help/novi_korisnik1.png" class="img-thumbnail" />
+                </div>
+                <div class="mt10">
+                    <img src="./assets/img/ppweb/help/novi_korisnik2.png" class="img-thumbnail" />
+                </div>
+                <hr />
+            </div>
+            <!--<div id="settings">
+                <div class="pt60">
+                    <h4 class="text-uppercase">Postavke</h4>
+                    <ul>
+                        <li>Postavke jezika</li>
+                        <li>Postavke valute</li>
+                    </ul>
+                </div>
+                <div>
+                    <img src="./assets/img/ppweb/help/.jpg" class="img-thumbnail" />
+                </div>
+                <hr />
+            </div>
+            <div id="additionaloptions">
+                <div class="pt60">
+                    <h4 class="text-uppercase">Dodatne opcije</h4>
+                </div>
+                <div>
+                    <img src="./assets/img/ppweb/help/.jpg" class="img-thumbnail" />
+                </div>
+                <hr />
+            </div>-->
         </div>
         <div class="text-center navbar-fixed-bottom" style="padding:0px 0px 10px 0px">
-            <a href="#content" class="text-primary" title="Na vrh"><span class="fa fa-chevron-up fa-2x"></span></a>
+            <a href="#home" class="text-primary" title="Na vrh"><span class="fa fa-chevron-up fa-2x"></span></a>
         </div>
     </div>
 
@@ -451,31 +446,7 @@
         <span class="text-small m10">Copyright © 2018 IG PROG</span>
     </div>
 
-    <script>
-        $(document).ready(function(){
-        $(".navbar a, footer a[href='#myPage'], a").on('click', function(event) {
-    if (this.hash !== "") {
-      event.preventDefault();
-      var hash = this.hash;
-      $('html, body').animate({
-        scrollTop: $(hash).offset().top
-      }, 900, function(){
-        window.location.hash = hash;
-      });
-    }
-  });
-
-        $(window).scroll(function() {
-    $(".slideanim").each(function(){
-      var pos = $(this).offset().top;
-      var winTop = $(window).scrollTop();
-        if (pos < winTop + 600) {
-          $(this).addClass("slide");
-        }
-    });
-  });
-        })
-    </script>
+    <script src="assets/js/main.js?v=1.0.0"></script>
 
 </body>
 </html>
