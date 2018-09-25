@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <title>Plan Ishrane</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Kako izraditi plan ishrane prema Vašoj meri uz pomoć veb aplikacije. Osmišljavanju plana ishrane prethodi utvrđivanje činjeničnog stanja putem nekoliko koraka">
+    <meta name="author" content="IG PROG, obrt za računalno programiranje">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/vendor/angular-material.min.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=1.0.0">
+    <script src="assets/js/vendor/jquery.min.js"></script>
+    <script src="assets/js/vendor/bootstrap.min.js"></script>
+    <script src="assets/js/vendor/angular.min.js"></script>
+    <script src="assets/js/vendor/angular-animate.min.js"></script>
+    <script src="assets/js/vendor/angular-aria.min.js"></script>
+    <script src="assets/js/vendor/angular-messages.min.js"></script>
+    <script src="assets/js/vendor/angular-material.min.js"></script>
+	<link rel="icon" type="image/x-icon" href="/favicon.ico?v=1" />
+    <link href='https://fonts.googleapis.com/css?family=Encode Sans Expanded' rel='stylesheet'>
+    <style>
+        body {
+            font-family: 'Encode Sans Expanded';
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body id="home" ng-app="app" ng-controller="appCtrl" data-spy="scroll" data-target=".navbar" data-offset="60">
+
+    <nav class="navbar navbar-default navbar-fixed-top" ng-cloak>
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html" style="padding-top:5px !important; font-size:18px"><em>PLAN-ISHRANE.com</em></a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="../app" title="Prijava"><i class="fa fa-sign-in"></i> Aplikacija</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container pt60" ng-cloak>
+        <div>
+            <div class="text-center">
+                <h1>Plan Ishrane</h1>
+                <hr />
+            </div>
+            <div class="row mt20">
+                <div class="col-sm-8">
+                    <h2 class="lead">KAKO IZRADITI URAVNOTEŽENI PLAN ISHRANE?</h2>
+                    Osmišljavanju plana ishrane prethodi utvrđivanje činjeničnog stanja putem nekoliko koraka:
+                    <ul>
+                        <li>utvrđivanjem antropometrijskih veličina</li>
+                        <li>utvrđivanjem energetskih potreba</li>
+                        <li>analiza postojećih prehrambenih navika na osnovi dnevnika ishrane</li>
+                        <li>razgovorom s osobom za koju se jelovnik izrađuje</li>
+                        <li>osmišljavanje jelovnika</li>
+                    </ul>
+                </div>
+                <div class="col-sm-4">
+                    <a href="../sr" title="Program Ishrane">
+                        <img src="./assets/img/plan-ishrane.jpg" title="plan ishrane" alt="plan ishrane" class="img-thumbnail" style="margin-top:20px" />
+                    </a>
+                    <em class="small"><a href="../sr" title="Program ishrane" alt="Program ishrane">* Web aplikacija Program Ishrane</a></em>
+                </div>
+                <div class="col-sm-12">
+                    <p class="text-justify">
+                        Pre osmišljavanja jelovnika potrebno je razgovarati s osobom za koju se izrađuje jelovnik kako bi se doznale činjenice koje utječu na uspešnost primjene jelovnika.
+                    </p>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            Svakako treba obratiti pažnju na:
+                            <ul>
+                                <li>moguće zdravstvene probleme</li>
+                                <li>moguću prisutnost alergija</li>
+                                <li>moguću terapiju lekovima</li>
+                                <li>mogućnost nabave namirnica</li>
+                                <li>mogućnost pripreme namirnica</li>
+                                <li>dnevne obaveze</li>
+                                <li>fizičku aktivnost tokom dana</li>
+                                <li>sklonosti određenim namirnicama</li>
+                                <li>konzumisanje alkohola</li>
+                                <li>pušenje</li>
+                                <li>finansijske mogućnosti</li>
+                                <li>sklonost držanju redukcijskih dijeta i njihovoj uspešnosti</li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-6">
+                            <img src="./assets/img/measure.jpg" title="plan ishrane" alt="plan ishrane" class="img-thumbnail" style="margin-top:20px" />
+                        </div>
+                    </div>
+                    <h2 class="lead">OSMIŠLJAVANJE JELOVNIKA</h2>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <img src="./assets/img/food.jpg" title="plan ishrane" alt="plan ishrane" class="img-thumbnail" style="margin-top:20px" />
+                        </div>
+                        <div class="col-sm-9">
+                            Dobro osmišljeni dnevni jelovnik treba zadovoljiti sledeće:
+                            <ul>
+                                <li>osigurati adekvatan energetski unos</li>
+                                <li>zadovoljiti potrebe za nutrijentima</li>
+                                <li>biti uravnotežen, što znači da u jednom danu sve skupine namirnica moraju biti zastupljene s adekvatnim brojem jediničnih serviranja</li>
+                                <li>biti raznovrstan, što znači da uključuje što više različitih namirnica iz iste skupine</li>
+                                <li>uključiti barem tri glavna obroka</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2 class="lead">Primeri uravnoteženih jelovnika</h2>
+                    <em>*Jelovnici su izrađenih uz pomoć Veb aplikacije <a href="../sr" title="Program Ishrane"> Program Ishrane</a></em>
+                    <p class="text-justify">
+                        <a href="../app" title="Prijava"><i class="fa fa-sign-in"></i> Ovde</a> možete da isprobate besplatnu demo verziju aplikacije. Aplikacija Vam omogućava da brzo i jednostavno izradite lični plan ishrane prema Vašim specifičnim potrebama ili potrebama Vaših klijenata.
+                    </p>
+                </div>
+                <hr />
+                <div id="content" class="col-sm-3">
+                    <h4>Jelovnici</h4>
+                    <ul class="list-group">
+                        <li class="list-group-item"><a href="#jelovnik1">Jelovnik 1</a></li>
+                        <li class="list-group-item"><a href="#jelovnik2">Jelovnik 2</a></li>
+                        <li class="list-group-item"><a href="#jelovnik3">Jelovnik 3</a></li>
+                        <li class="list-group-item"><a href="#jelovnik4">Jelovnik 4</a></li>
+                    </ul>
+                    <hr />
+                    <div>
+                        <a href="../app" class="btn btn-default main btn-lg btn-block">
+                            <i class="fa fa-sign-in"></i>
+                            PROGRAM ISHRANE <br />
+                            Veb Aplikacija
+                        </a>
+                    </div>
+                </div>
+                <div class="p20 col-sm-9">
+                    <div id="{{x}}" ng-repeat="x in config.menus" class="mt60 well">
+                        <div ng-include="currTpl(x)"></div>
+                        <hr />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pt60">
+            <hr />
+            <a href="../app" class="btn btn-default main btn-lg btn-block">
+                Veb Aplikacija PROGRAM ISHRANE <br />
+               <em>registruj se i isprobaj demo verziju</em>
+            </a>
+            <img src="./assets/img/program-ishrane.png" title="program ishrane" alt="program ishrane" class="img-thumbnail" style="margin-top:20px" />
+        </div>
+        <div class="text-center navbar-fixed-bottom" style="padding:0px 0px 10px 0px">
+            <a href="#content" class="text-primary" title="Na vrh"><span class="fa fa-chevron-up fa-2x"></span></a>
+        </div>
+    </div>
+
+    <footer class="container-fluid text-center pt60">
+        <div class="navbar-fixed-bottom m10">
+            <a href="#home" title="Na vrh">
+                <span class="fa fa-chevron-up fa-2x"></span>
+            </a>
+        </div>
+        <hr />
+        <div ng-cloak>
+            <span class="pull-right">Copyright © {{year}} IG PROG</span>
+        </div>
+    </footer>
+
+    <script src="./assets/js/app.js?v=1.0.3"></script>
+    <script src="./assets/js/main.js?v=1.0.0"></script>
+
+</body>
+</html>

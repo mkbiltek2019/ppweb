@@ -11,5 +11,6 @@
   "address": "Ludvetov breg 5, 51000 Rijeka, Hrvatska",
   "oib": 58331314923,
   "email": "program.prehrane@yahoo.com",
-  "language": "sr"
+  "language": "sr",
+  "menus": [ "jelovnik1", "jelovnik2", "jelovnik3", "jelovnik4" ]
 }

@@ -66,6 +66,10 @@ angular.module('app', ['ngMaterial'])
      });
     }
 
+    $scope.currTpl = function (x) {
+        return './assets/partials/menus/' + x + '.html';
+    }
+
 }])
 
 .controller('webAppCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
