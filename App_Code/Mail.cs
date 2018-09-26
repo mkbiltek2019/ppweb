@@ -233,7 +233,7 @@ public class Mail : System.Web.Services.WebService {
 <p>{10}: {2} {3}</p>
 <p>{11}: <b>{12} {13}</b></p>
 <hr/>
-<a href=""https://www.nutrition-plan.com/paypal.html""><img alt=""PayPal"" src=""https://www.nutrition-plan.com/assets/img/paypal.jpg""></a>
+<a href=""https://www.nutriprog.com/paypal.html""><img alt=""PayPal"" src=""https://www.nutriprog.com/assets/img/paypal.jpg""></a>
 <hr/>
 <br />
 <br />
@@ -244,7 +244,7 @@ public class Mail : System.Web.Services.WebService {
 <p>Ludvetov breg 5, 51000 Rijeka, {7}</p>
 <a href=""mailto:nutrition.plan@yahoo.com"">nutrition.plan@yahoo.com</a>
 <br />
-<a href=""https://www.nutrition-plan.com/"">www.nutrition-plan.com</a>
+<a href=""https://www.nutriprog.com/"">www.nutriprog.com</a>
 </div>"
 , t.Tran("dear", lang)
 , t.Tran("thank you for your interest in", lang)

@@ -878,7 +878,7 @@ public class Users : System.Web.Services.WebService {
     private string GetWebPage(string lang) {
         switch (lang) {
             case "en":
-                return "nutrition-plan.com";
+                return "nutriprog.com";
           /*  case "hr":
                 return "programprehrane.com";
             case "sr": case "sr_cyrl":
