@@ -136,8 +136,12 @@ public class Calculations : System.Web.Services.WebService {
 
     #region Methods
     public int Age(string birthDate) {
-        int today = DateTime.UtcNow.Year;
-        return today - Convert.ToDateTime(birthDate).Year - (Convert.ToDateTime(birthDate).DayOfYear > DateTime.UtcNow.DayOfYear ? 1 : 0);
+        int age = 0;
+        if (!string.IsNullOrEmpty(birthDate)) {
+            int today = DateTime.UtcNow.Year;
+            age = today - Convert.ToDateTime(birthDate).Year - (Convert.ToDateTime(birthDate).DayOfYear > DateTime.UtcNow.DayOfYear ? 1 : 0);
+        }
+        return age;
     }
 
     public Pal GetPal(double palValue) {

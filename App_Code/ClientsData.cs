@@ -93,7 +93,7 @@ public class ClientsData : System.Web.Services.WebService {
                 Goals g = new Goals();
                 x.id = reader.GetInt32(0);
                 x.clientId = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
-                x.age = calculation.Age(reader.GetString(2));
+                x.age = calculation.Age(reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2));
                 x.gender.value = reader.GetValue(3) == DBNull.Value ? 0 : reader.GetInt32(3);
                 x.gender.title = GetGender(x.gender.value).title;
                 x.height = reader.GetValue(4) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(4));
@@ -190,7 +190,7 @@ public class ClientsData : System.Web.Services.WebService {
                 Goals g = new Goals();
                 x.id = reader.GetInt32(0);
                 x.clientId = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
-                x.age = calculation.Age(reader.GetString(2));
+                x.age = calculation.Age(reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2));
                 x.gender.value = reader.GetValue(3) == DBNull.Value ? 0 : reader.GetInt32(3);
                 x.gender.title = GetGender(x.gender.value).title;
                 x.height = reader.GetValue(4) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(4));
@@ -296,7 +296,7 @@ public class ClientsData : System.Web.Services.WebService {
             while (reader.Read()) {
                 x.id = reader.GetInt32(0);
                 x.clientId = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
-                x.age = calculation.Age(reader.GetString(2));
+                x.age = calculation.Age(reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2));
                 x.gender.value = reader.GetValue(3) == DBNull.Value ? 0 : reader.GetInt32(3);
                 x.gender.title = GetGender(x.gender.value).title;
                 x.height = reader.GetValue(4) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(4));
