@@ -1730,7 +1730,9 @@
   "weight is required": "Masa je obavezna",
   "choose physical activity level": "Odaberite intenzitet tjelesne aktivnosti",
   "web application": "web aplikacija",
-  "measured": "izmjereno"
+  "measured": "izmjereno",
+  "recommended energy intake": "preporučeni energetski unos",
+  "recommended additional energy expenditure": "preporučena dodatna energetska potrošnja"
 
 
 }

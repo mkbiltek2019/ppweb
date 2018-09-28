@@ -1668,6 +1668,8 @@
   "weight is required": "Маса је обавезна",
   "choose physical activity level": "Одаберите интензитет физичке активности",
   "web application": "веб апликација",
-  "measured": "измерено"
+  "measured": "измерено",
+  "recommended energy intake": "препоручени енергетски унос",
+  "recommended additional energy expenditure": "препоручена додатна енергетска потрошња"
 
 }

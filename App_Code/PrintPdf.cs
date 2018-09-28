@@ -677,7 +677,7 @@ public class PrintPdf : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string CalculationPdf(string userId, Clients.NewClient client, Calculations.NewCalculation calculation, string lang) {
+    public string CalculationPdf(string userId, Clients.NewClient client, ClientsData.NewClientData clientData, Calculations.NewCalculation calculation, string lang) {
         try {
             var doc = new Document();
             string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
@@ -696,37 +696,62 @@ public class PrintPdf : System.Web.Services.WebService {
             string c = string.Format(@"
 {0} ({1}): {2} kcal
 {3} ({4}): {5} kcal"
-            , t.Tran("bmr", lang).ToUpper()
-            , t.Tran("basal metabolic rate", lang).ToUpper()
+            , "BMR"
+            , t.Tran("basal metabolic rate", lang)
             , calculation.bmr
-            , t.Tran("tee", lang)
+            , "TEE"
             , t.Tran("total energy expenditure", lang)
-            , calculation.tee
-            );
-
+            , calculation.tee);
             doc.Add(new Paragraph(c, normalFont));
 
             PdfPTable table = new PdfPTable(4);
-            table.WidthPercentage = 95f;
+            table.WidthPercentage = 100f;
             table.SetWidths(new float[] { 2f, 1f, 1f, 2f });
-            table.AddCell(new PdfPCell(new Phrase(t.Tran("parameters", lang), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
-            table.AddCell(new PdfPCell(new Phrase(t.Tran("measured", lang), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
-            table.AddCell(new PdfPCell(new Phrase(t.Tran("recommended", lang), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
-            table.AddCell(new PdfPCell(new Phrase(t.Tran("note", lang), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+            table.AddCell(new PdfPCell(new Phrase("", normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("measured", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("recommended", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("note", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("weight", lang).ToUpper() + ":", normalFont)) { Border = 0 });
+            table.AddCell(new PdfPCell(new Phrase(clientData.weight.ToString() + " kg", normalFont)) { Border = 0 });
+            table.AddCell(new PdfPCell(new Phrase(calculation.recommendedWeight.min.ToString() + " - " + calculation.recommendedWeight.max.ToString() + " kg", normalFont)) { Border = 0 });
+            table.AddCell(new PdfPCell(new Phrase("", normalFont)) { Border = 0 });
+
 
             table.AddCell(new PdfPCell(new Phrase(t.Tran("bmi", lang).ToUpper() + " (" + t.Tran("body mass index", lang) + "):", normalFont)) { Border = 0 });
-            table.AddCell(new PdfPCell(new Phrase(calculation.bmi.value.ToString() + " kg/m2", normalFont)) { Border = 0 });
-            table.AddCell(new PdfPCell(new Phrase(calculation.recommendedWeight.min.ToString() + "-" + calculation.recommendedWeight.max.ToString(), normalFont)) { Border = 0 });
+            table.AddCell(new PdfPCell(new Phrase(Math.Round(calculation.bmi.value, 1).ToString() + " kg/m2", normalFont)) { Border = 0 });
+            table.AddCell(new PdfPCell(new Phrase("18.5 - 25 kg/m2", normalFont)) { Border = 0 });
             table.AddCell(new PdfPCell(new Phrase(t.Tran(calculation.bmi.title, lang), normalFont)) { Border = 0 });
 
             table.AddCell(new PdfPCell(new Phrase(t.Tran("whr", lang).ToUpper() + " (" + t.Tran("waist–hip ratio", lang) + "):", normalFont)) { Border = 0 });
-            table.AddCell(new PdfPCell(new Phrase(calculation.whr.value.ToString(), normalFont)) { Border = 0 });
-            table.AddCell(new PdfPCell(new Phrase(calculation.whr.optimal.ToString() + "-" + calculation.whr.optimal.ToString(), normalFont)) { Border = 0 });
+            table.AddCell(new PdfPCell(new Phrase(Math.Round(calculation.whr.value, 1).ToString(), normalFont)) { Border = 0 });
+            table.AddCell(new PdfPCell(new Phrase("< " + calculation.whr.increasedRisk.ToString(), normalFont)) { Border = 0 });
             table.AddCell(new PdfPCell(new Phrase(t.Tran(calculation.whr.title, lang) + " (" + t.Tran(calculation.whr.description, lang) + ")", normalFont)) { Border = 0 });
 
-            doc.Add(table);
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("waist", lang).ToUpper() + ":", normalFont)) { Border = 0 });
+            table.AddCell(new PdfPCell(new Phrase(calculation.waist.value.ToString() + " cm", normalFont)) { Border = 0 });
+            table.AddCell(new PdfPCell(new Phrase("< " + calculation.waist.increasedRisk.ToString() + " cm", normalFont)) { Border = 0 });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran(calculation.waist.title, lang) + " (" + t.Tran(calculation.waist.description, lang) + ")", normalFont)) { Border = 0 });
 
+            doc.Add(table);
             doc.Add(new Chunk(line));
+
+            string g = string.Format(@"
+{0}: {1}"
+            , t.Tran("goal", lang).ToUpper()
+            , t.Tran(calculation.goal.title, lang));
+            doc.Add(new Paragraph(g, normalFont));
+
+            string r = string.Format(@"
+{0}: {1} kcal
+{2}: {3} kcal"
+            , t.Tran("recommended energy intake", lang).ToUpper()
+            , calculation.recommendedEnergyIntake
+            , t.Tran("recommended additional energy expenditure", lang).ToUpper()
+            , calculation.recommendedEnergyExpenditure);
+            doc.Add(new Paragraph(r, normalFont_12));
+            doc.Add(new Chunk(line));
+
             doc.Close();
 
             return fileName;

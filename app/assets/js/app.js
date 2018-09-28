@@ -2048,7 +2048,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + 'PrintPdf.asmx/CalculationPdf',
             method: "POST",
-            data: { userId: $sessionStorage.usergroupid, client: $rootScope.client, calculation: $rootScope.calculation, lang: $rootScope.config.language }
+            data: { userId: $sessionStorage.usergroupid, client: $rootScope.client, clientData: $rootScope.clientData, calculation: $rootScope.calculation, lang: $rootScope.config.language }
         })
           .then(function (response) {
               var fileName = response.data.d;

@@ -1292,7 +1292,6 @@
   "Writing, reclining": "Writing, reclining",
   "Writing, desk work (sitting)": "Writing, desk work (sitting)",
 
-
   "application": "application",
   "scheduler": "scheduler",
   "language": "language",
@@ -1315,7 +1314,6 @@
   "recommendations": "recommendations",
   "weight": "weight",
   "energy intake": "energy intake",
-  "goal": "goal",
   "back": "back",
   "new client": "new client",
   "search clients": "search clients",
@@ -1721,6 +1719,8 @@
   "weight is required": "Weight is required",
   "choose physical activity level": "Choose physical activity level",
   "web application": "web application",
-  "measured": "measured"
+  "measured": "measured",
+  "recommended energy intake": "recommended energy intake",
+  "recommended additional energy expenditure": "recommended additional energy expenditure"
 
 }

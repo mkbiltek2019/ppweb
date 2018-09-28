@@ -314,13 +314,14 @@ public class Calculations : System.Web.Services.WebService {
 
     private Goals.NewGoal RecommendedGoal(ClientsData.NewClientData client) {
         Goals.NewGoal x = new Goals.NewGoal();
+        Goals g = new Goals();
+        List<Goals.NewGoal> goals = g.GetGoals();
         double bmi = Bmi(client).value;
-
         if (bmi < 18.5) { x.code = "G3"; }
         if (bmi >= 18.5 && bmi <= 25) { x.code = "G2"; }
         if (bmi > 25 && bmi < 30) { x.code = "G1"; }
         if (bmi >= 30) { x.code = "G1"; }
-
+        x.title = goals.First(a => a.code == x.code).title;
         x.isDisabled = false;
         return x;
     }

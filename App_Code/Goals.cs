@@ -66,25 +66,6 @@ public class Goals : System.Web.Services.WebService {
         return xx; 
     }
 
-    //public List<NewGoal> GetGoals(string lang) {
-    //    SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + lang + "/" + dataBase));
-    //    connection.Open();
-    //    string sql = @"SELECT code, title FROM codeBook WHERE codeGroup = 'GOAL' ORDER BY codeOrder ASC";
-    //    SQLiteCommand command = new SQLiteCommand(sql, connection);
-    //    List<NewGoal> xx = new List<NewGoal>();
-    //    SQLiteDataReader reader = command.ExecuteReader();
-    //    while (reader.Read()) {
-    //        NewGoal x = new NewGoal() {
-    //            code = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0),
-    //            title = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1),
-    //            isDisabled = false
-    //        };
-    //        xx.Add(x);
-    //    }
-    //    connection.Close();
-    //    return xx; 
-    //}
-
     public NewGoal GetGoal(string code) {
         SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
         connection.Open();
