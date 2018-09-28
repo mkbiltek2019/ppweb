@@ -1729,7 +1729,8 @@
   "height is required": "Visina je obavezna",
   "weight is required": "Masa je obavezna",
   "choose physical activity level": "Odaberite intenzitet tjelesne aktivnosti",
-  "web application": "web aplikacija"
+  "web application": "web aplikacija",
+  "measured": "izmjereno"
 
 
 }

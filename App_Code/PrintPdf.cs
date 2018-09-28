@@ -675,7 +675,66 @@ public class PrintPdf : System.Web.Services.WebService {
             return e.StackTrace;
         }
     }
-    
+
+    [WebMethod]
+    public string CalculationPdf(string userId, Clients.NewClient client, Calculations.NewCalculation calculation, string lang) {
+        try {
+            var doc = new Document();
+            string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
+            DeleteFolder(path);
+            CreateFolder(path);
+            string fileName = Guid.NewGuid().ToString();
+            string filePath = Path.Combine(path, string.Format("{0}.pdf", fileName));
+            PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(filePath, FileMode.Create));
+
+            doc.Open();
+
+            AppendHeader(doc, userId);
+            doc.Add(new Paragraph((client.firstName + " " + client.lastName), normalFont_12));
+            doc.Add(new Chunk(line));
+            doc.Add(new Paragraph(t.Tran("calculation", lang).ToUpper(), normalFont_12));
+            string c = string.Format(@"
+{0} ({1}): {2} kcal
+{3} ({4}): {5} kcal"
+            , t.Tran("bmr", lang).ToUpper()
+            , t.Tran("basal metabolic rate", lang).ToUpper()
+            , calculation.bmr
+            , t.Tran("tee", lang)
+            , t.Tran("total energy expenditure", lang)
+            , calculation.tee
+            );
+
+            doc.Add(new Paragraph(c, normalFont));
+
+            PdfPTable table = new PdfPTable(4);
+            table.WidthPercentage = 95f;
+            table.SetWidths(new float[] { 2f, 1f, 1f, 2f });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("parameters", lang), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("measured", lang), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("recommended", lang), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("note", lang), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("bmi", lang).ToUpper() + " (" + t.Tran("body mass index", lang) + "):", normalFont)) { Border = 0 });
+            table.AddCell(new PdfPCell(new Phrase(calculation.bmi.value.ToString() + " kg/m2", normalFont)) { Border = 0 });
+            table.AddCell(new PdfPCell(new Phrase(calculation.recommendedWeight.min.ToString() + "-" + calculation.recommendedWeight.max.ToString(), normalFont)) { Border = 0 });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran(calculation.bmi.title, lang), normalFont)) { Border = 0 });
+
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("whr", lang).ToUpper() + " (" + t.Tran("waist–hip ratio", lang) + "):", normalFont)) { Border = 0 });
+            table.AddCell(new PdfPCell(new Phrase(calculation.whr.value.ToString(), normalFont)) { Border = 0 });
+            table.AddCell(new PdfPCell(new Phrase(calculation.whr.optimal.ToString() + "-" + calculation.whr.optimal.ToString(), normalFont)) { Border = 0 });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran(calculation.whr.title, lang) + " (" + t.Tran(calculation.whr.description, lang) + ")", normalFont)) { Border = 0 });
+
+            doc.Add(table);
+
+            doc.Add(new Chunk(line));
+            doc.Close();
+
+            return fileName;
+        } catch(Exception e) {
+            return e.StackTrace;
+        }
+    }
+
     [WebMethod]
     public string InvoicePdf(Invoice.NewInvoice invoice, bool isForeign, double totPrice_eur, int clientLeftSpacing) {
         try {

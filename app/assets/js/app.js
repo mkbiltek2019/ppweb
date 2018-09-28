@@ -2042,6 +2042,25 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             }
     }
 
+    $scope.creatingPdf = false;
+    $scope.printPdf = function () {
+        $scope.creatingPdf = true;
+        $http({
+            url: $sessionStorage.config.backend + 'PrintPdf.asmx/CalculationPdf',
+            method: "POST",
+            data: { userId: $sessionStorage.usergroupid, client: $rootScope.client, calculation: $rootScope.calculation, lang: $rootScope.config.language }
+        })
+          .then(function (response) {
+              var fileName = response.data.d;
+              $scope.creatingPdf = false;
+              $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
+          },
+          function (response) {
+              $scope.creatingPdf = false;
+              alert(response.data.d)
+          });
+    }
+
 }])
 
 .controller('activitiesCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
@@ -3673,33 +3692,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             load();
         }
 
-        //$scope.remove = function (x) {
-        //    var confirm = $mdDialog.confirm()
-        //         .title($translate.instant('remove recipe') + '?')
-        //         .textContent(x.title)
-        //         .targetEvent(x)
-        //         .ok($translate.instant('yes'))
-        //         .cancel($translate.instant('no'));
-        //    $mdDialog.show(confirm).then(function () {
-        //        remove(x);
-        //    }, function () {
-        //    });
-        //}
-
-        //var remove = function (x) {
-        //    $http({
-        //        url: $sessionStorage.config.backend + 'Recipes.asmx/Delete',
-        //        method: "POST",
-        //        data: { userId: $rootScope.user.userGroupId, id: x.id }
-        //    })
-        //  .then(function (response) {
-        //      $scope.d = JSON.parse(response.data.d);
-        //  },
-        //  function (response) {
-        //      alert(response.data.d)
-        //  });
-        //}
-
         $scope.cancel = function () {
             $mdDialog.cancel();
         };
@@ -3725,7 +3717,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 if (showDescription == true) {
                     angular.forEach($rootScope.currentMenu.data.meals, function (value, key) {
                         if (value.code == $rootScope.currentMeal) {
-                            value.description = value.description == '' ? $scope.recipe.description : value.description + '\n' + $scope.recipe.description;
+                            value.description = value.description == '' ? $scope.recipe.title + '.\n' + $scope.recipe.description : value.description + '\n' + $scope.recipe.title + '.\n' + $scope.recipe.description;
                         }
                     });
                 }
@@ -3769,13 +3761,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 $mdDialog.hide($scope.recipe);
 
                 //**********TODO - translate recipes*****************
-
                 //var menu = JSON.parse(response.data.d);
                 //if ($scope.toTranslate == true) {
                 //    translateFoods(menu);
                 //}
                 //$mdDialog.hide(menu);
-
                 //****************************************************
             },
             function (response) {
@@ -3952,11 +3942,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.printPreviewCtrl = function ($scope, $mdDialog, d, $http) {
         $scope.d = d.currentMenu.data.selectedFoods;
         $scope.meals = d.currentMenu.data.meals;
-
         $scope.cancel = function () {
             $mdDialog.cancel();
         };
-
     };
 
     var displayCharts = function () {
