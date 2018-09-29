@@ -377,6 +377,25 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.showNewVersionDetails = $scope.showNewVersionDetails == false ? true : false;
     };
 
+    $rootScope.initMyCalculation = function () {
+        $http({
+            url: $sessionStorage.config.backend + 'Calculations.asmx/InitMyCalculation',
+            method: "POST",
+            data: ''
+        })
+        .then(function (response) {
+            $rootScope.myCalculation = JSON.parse(response.data.d);
+        },
+        function (response) {
+            alert(response.data.d)
+        });
+        //$rootScope.myCalculation = {
+        //    recommendedEnergyIntake: null,
+        //    recommendedEnergyExpenditure: null
+        //}
+    }
+    if (angular.isUndefined($rootScope.myCalculation)) { $rootScope.initMyCalculation() };
+
 }])
 
 .controller('loginCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', 'functions', '$translate', '$mdDialog', function ($scope, $http, $sessionStorage, $window, $rootScope, functions, $translate, $mdDialog) {
@@ -1798,6 +1817,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             $rootScope.calculation = JSON.parse(response.data.d);
+            //TODO
+          //  $rootScope.calculation.recommendedEnergyIntake = null;
+           // $rootScope.calculation.recommendedEnergyExpenditure = null;
+
+
             $rootScope.appCalculation = JSON.parse(response.data.d);
             //TODO
             if (angular.isDefined($rootScope.totalDailyEnergyExpenditure)) {
@@ -2048,7 +2072,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + 'PrintPdf.asmx/CalculationPdf',
             method: "POST",
-            data: { userId: $sessionStorage.usergroupid, client: $rootScope.client, clientData: $rootScope.clientData, calculation: $rootScope.calculation, lang: $rootScope.config.language }
+            data: { userId: $sessionStorage.usergroupid, client: $rootScope.client, clientData: $rootScope.clientData, calculation: $rootScope.calculation, myCalculation: $rootScope.myCalculation, lang: $rootScope.config.language }
         })
           .then(function (response) {
               var fileName = response.data.d;
@@ -2059,6 +2083,19 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
               $scope.creatingPdf = false;
               alert(response.data.d)
           });
+    }
+
+    //TODO mycalculations
+    
+    
+    $scope.clearMyCalculation = function () {
+        $rootScope.initMyCalculation();
+    }
+
+    $scope.saveMyCalculation = function (x) {
+        alert('TODO');
+        //Create json file in users folder/clients/myCalculation.json
+
     }
 
 }])
@@ -2075,7 +2112,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.orderby('activity');
 
     if ($rootScope.activities == undefined) { $rootScope.loadActivities(); };
-
+    if (angular.isDefined($rootScope.myCalculation)) {
+        $rootScope.calculation.recommendedEnergyExpenditure = functions.isNullOrEmpty($rootScope.myCalculation.recommendedEnergyExpenditure) == true
+            ? $rootScope.appCalculation.recommendedEnergyExpenditure
+            : $rootScope.myCalculation.recommendedEnergyExpenditure;
+    }
     var getEnergyLeft = function () {
         var energy = 0;
         if ($rootScope.clientData.activities.length > 0) {
@@ -2287,10 +2328,30 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var getRecommendations = function (x) {
+
+        /****** my recommendations *****/
+        //var isMyrecommendations = false;
+
+        //if (angular.isDefined($rootScope.myCalculation)) {
+            //$rootScope.calculation.recommendedEnergyIntake = functions.isNullOrEmpty($rootScope.myCalculation.recommendedEnergyIntake) == true
+           // isMyrecommendations = !functions.isNullOrEmpty($rootScope.myCalculation.recommendedEnergyIntake)
+
+            //? $rootScope.appCalculation.recommendedEnergyIntake
+            //: $rootScope.myCalculation.recommendedEnergyIntake;
+            //$rootScope.recommendations.energy = $rootScope.calculation.recommendedEnergyIntake;
+
+        //    $rootScope.calculation.recommendedEnergyExpenditure = functions.isNullOrEmpty($rootScope.myCalculation.recommendedEnergyExpenditure) == true
+        //    ? $rootScope.appCalculation.recommendedEnergyExpenditure
+        //    : $rootScope.myCalculation.recommendedEnergyExpenditure;
+        //}
+        /******************************/
+
+
+
         $http({
             url: $sessionStorage.config.backend + webService + '/GetRecommendations',
             method: "POST",
-            data: { client: x }
+            data: { client: x, myRecommendedEnergyIntake: $rootScope.myCalculation.recommendedEnergyIntake }
         })
        .then(function (response) {
            $rootScope.recommendations = JSON.parse(response.data.d);
@@ -3295,7 +3356,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var totalEnergyChart = function () {
-        var recommended = $rootScope.recommendations.energy;
+        var recommended = parseInt($rootScope.recommendations.energy);
         var id = 'energyChart';
         var value = $rootScope.totals.energy.toFixed(0);
         var unit = 'kcal';

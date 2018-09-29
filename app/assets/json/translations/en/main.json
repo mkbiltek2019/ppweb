@@ -1721,6 +1721,9 @@
   "web application": "web application",
   "measured": "measured",
   "recommended energy intake": "recommended energy intake",
-  "recommended additional energy expenditure": "recommended additional energy expenditure"
+  "recommended additional energy expenditure": "recommended additional energy expenditure",
+  "for persons with health problems or suspicion on them, it is recommended that before choosing a diet consult with his doctor": "for persons with health problems or suspicion on them, it is recommended that before choosing a diet consult with his doctor",
+  "my recommendations": "my recommendations",
+  "if your recommendations are different from the recommendations provided by the application, enter your values here, otherwise leave blank fields": "if your recommendations are different from the recommendations provided by the application, enter your values here, otherwise leave blank fields"
 
 }

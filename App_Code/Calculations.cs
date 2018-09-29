@@ -62,6 +62,11 @@ public class Calculations : System.Web.Services.WebService {
         public double highRisk { get; set; }
         public double optimal { get; set; }
     }
+
+    public class MyCalculation {
+        public int? recommendedEnergyIntake { get; set; }
+        public int? recommendedEnergyExpenditure { get; set; }
+    }
     #endregion
 
     #region WebMethods
@@ -79,6 +84,16 @@ public class Calculations : System.Web.Services.WebService {
         x.goal = new Goals.NewGoal();
         return JsonConvert.SerializeObject(x, Formatting.Indented);
     }
+
+    [WebMethod]
+    public string InitMyCalculation() {
+        MyCalculation x = new MyCalculation();
+        x.recommendedEnergyIntake = null;
+        x.recommendedEnergyExpenditure = null;
+        return JsonConvert.SerializeObject(x, Formatting.Indented);
+    }
+
+
 
     [WebMethod]
     public string GetCalculation(ClientsData.NewClientData client) {

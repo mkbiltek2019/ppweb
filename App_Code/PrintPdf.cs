@@ -677,7 +677,7 @@ public class PrintPdf : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string CalculationPdf(string userId, Clients.NewClient client, ClientsData.NewClientData clientData, Calculations.NewCalculation calculation, string lang) {
+    public string CalculationPdf(string userId, Clients.NewClient client, ClientsData.NewClientData clientData, Calculations.NewCalculation calculation, Calculations.MyCalculation myCalculation, string lang) {
         try {
             var doc = new Document();
             string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
@@ -746,9 +746,9 @@ public class PrintPdf : System.Web.Services.WebService {
 {0}: {1} kcal
 {2}: {3} kcal"
             , t.Tran("recommended energy intake", lang).ToUpper()
-            , calculation.recommendedEnergyIntake
+            , string.IsNullOrEmpty(myCalculation.recommendedEnergyIntake.ToString()) ? calculation.recommendedEnergyIntake : myCalculation.recommendedEnergyIntake
             , t.Tran("recommended additional energy expenditure", lang).ToUpper()
-            , calculation.recommendedEnergyExpenditure);
+            , string.IsNullOrEmpty(myCalculation.recommendedEnergyExpenditure.ToString()) ? calculation.recommendedEnergyExpenditure : myCalculation.recommendedEnergyExpenditure);
             doc.Add(new Paragraph(r, normalFont_12));
             doc.Add(new Chunk(line));
 

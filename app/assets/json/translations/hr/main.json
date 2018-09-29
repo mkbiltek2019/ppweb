@@ -1732,7 +1732,10 @@
   "web application": "web aplikacija",
   "measured": "izmjereno",
   "recommended energy intake": "preporučeni energetski unos",
-  "recommended additional energy expenditure": "preporučena dodatna energetska potrošnja"
+  "recommended additional energy expenditure": "preporučena dodatna energetska potrošnja",
+  "for persons with health problems or suspicion on them, it is recommended that before choosing a diet consult with his doctor": "osobama sa zdravstvenim problemima ili sumnjom na njih, preporučuje se da se prije odabira dijete posavjetuju sa svojim liječnikom",
+  "my recommendations": "moje preporuke",
+  "if your recommendations are different from the recommendations provided by the application, enter your values here, otherwise leave blank fields": "ako su vaše preporuke različite od preporuka koje daje aplikacija ovdje upišite svoje vrijednosti, u protivnom ostavite prazna polja"
 
 
 }

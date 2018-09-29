@@ -87,17 +87,14 @@
                     <fieldset class="fieldset-border">
                         <legend class="fieldset-border text-capitalize">{{'goal' | translate}}:</legend>
                         <div>
-                            <div class="panel-heading text-uppercase">{{'goal' | translate}}</div>
-                            <div class="panel-body">
-                                <md-radio-group ng-model="calculation.goal.code" ng-click="getGoal(calculation.goal.code)">
-                                    <md-radio-button ng-value="x.code" class="md-primary" ng-repeat="x in goals" ng-disabled="x.isDisabled">{{x.title | translate}}</md-radio-button>
-                                </md-radio-group>
-                            </div>
+                            <md-radio-group ng-model="calculation.goal.code" ng-click="getGoal(calculation.goal.code)">
+                                <md-radio-button ng-value="x.code" class="md-primary" ng-repeat="x in goals" ng-disabled="x.isDisabled">{{x.title | translate}}</md-radio-button>
+                            </md-radio-group>
                         </div>
                     </fieldset>
                     <fieldset class="fieldset-border">
                         <legend class="fieldset-border text-capitalize">{{'recommendations' | translate}}:</legend>
-                        <div class="panel-body">
+                        <div>
                             <table class="table table-bordered">
                                 <tr>
                                     <td>{{'weight' | translate}}</td>
@@ -110,9 +107,37 @@
                                 </tr>
                                 <tr>
                                     <td>{{'energy intake' | translate}}</td>
+                                    <td width="100px" class="text-right bg-primary">
+                                        <strong>
+                                            {{appCalculation.recommendedEnergyIntake}}
+                                            <!--<input type="text" ng-model="calculation.recommendedEnergyIntake" class="form-control text-right" allow-only-numbers>-->
+                                        </strong>
+                                    </td>
+                                    <td><strong>kcal</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>{{'additional energy expenditure' | translate}}</td>
+                                    <td width="100px" class="text-right bg-primary">
+                                        <strong>
+                                            {{appCalculation.recommendedEnergyExpenditure}}
+                                            <!--<input type="text" ng-model="calculation.recommendedEnergyExpenditure" class="form-control text-right" allow-only-numbers>-->
+                                        </strong>
+                                    </td>
+                                    <td><strong>kcal</strong></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </fieldset>
+                    <fieldset class="fieldset-border">
+                        <legend class="fieldset-border text-capitalize">{{'my recommendations' | translate}}:</legend>
+                        <div>
+                            <em class="text-small text-danger ml10"> *{{'if your recommendations are different from the recommendations provided by the application, enter your values here, otherwise leave blank fields' | translate}}.</em>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td>{{'energy intake' | translate}}</td>
                                     <td width="100px" class="text-right bg-warning">
                                         <strong>
-                                            <input type="text" ng-model="calculation.recommendedEnergyIntake" class="form-control text-right" allow-only-numbers>
+                                            <input type="text" ng-model="myCalculation.recommendedEnergyIntake" class="form-control text-right" allow-only-numbers>
                                         </strong>
                                     </td>
                                     <td><strong>kcal</strong></td>
@@ -121,12 +146,16 @@
                                     <td>{{'additional energy expenditure' | translate}}</td>
                                     <td width="100px" class="text-right bg-warning">
                                         <strong>
-                                            <input type="text" ng-model="calculation.recommendedEnergyExpenditure" class="form-control text-right" allow-only-numbers>
+                                            <input type="text" ng-model="myCalculation.recommendedEnergyExpenditure" class="form-control text-right" allow-only-numbers>
                                         </strong>
                                     </td>
                                     <td><strong>kcal</strong></td>
                                 </tr>
                             </table>
+                            <div class="text-right text-capitalize">
+                                <a href="" class="btn btn-default" ng-click="clearMyCalculation()"><span class="text-danger"><i class="fa fa-times"></i> {{'clear' | translate}}</span></a>
+                                <a href="" class="btn btn-default" ng-click="saveMyCalculation(myCalculation)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</a>
+                            </div>
                         </div>
                     </fieldset>
                 </div>

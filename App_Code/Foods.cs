@@ -585,10 +585,11 @@ public class Foods : System.Web.Services.WebService {
 
     //TODO
     [WebMethod]
-    public string GetRecommendations(ClientsData.NewClientData client) {
+    public string GetRecommendations(ClientsData.NewClientData client, string myRecommendedEnergyIntake) {
         Recommendations x = new Recommendations();
         Calculations c = new Calculations();
-        x.energy = c.RecommendedEnergyIntake(client);
+        //x.energy = c.RecommendedEnergyIntake(client);
+        x.energy = string.IsNullOrEmpty(myRecommendedEnergyIntake) ? c.RecommendedEnergyIntake(client) : Convert.ToInt32(myRecommendedEnergyIntake);
 
         //TODO
         x.carbohydratesMin = Convert.ToInt32(client.weight * 4);
