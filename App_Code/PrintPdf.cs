@@ -717,21 +717,24 @@ public class PrintPdf : System.Web.Services.WebService {
             table.AddCell(new PdfPCell(new Phrase(calculation.recommendedWeight.min.ToString() + " - " + calculation.recommendedWeight.max.ToString() + " kg", normalFont)) { Border = 0 });
             table.AddCell(new PdfPCell(new Phrase("", normalFont)) { Border = 0 });
 
-
             table.AddCell(new PdfPCell(new Phrase(t.Tran("bmi", lang).ToUpper() + " (" + t.Tran("body mass index", lang) + "):", normalFont)) { Border = 0 });
             table.AddCell(new PdfPCell(new Phrase(Math.Round(calculation.bmi.value, 1).ToString() + " kg/m2", normalFont)) { Border = 0 });
             table.AddCell(new PdfPCell(new Phrase("18.5 - 25 kg/m2", normalFont)) { Border = 0 });
             table.AddCell(new PdfPCell(new Phrase(t.Tran(calculation.bmi.title, lang), normalFont)) { Border = 0 });
 
-            table.AddCell(new PdfPCell(new Phrase(t.Tran("whr", lang).ToUpper() + " (" + t.Tran("waist–hip ratio", lang) + "):", normalFont)) { Border = 0 });
-            table.AddCell(new PdfPCell(new Phrase(Math.Round(calculation.whr.value, 1).ToString(), normalFont)) { Border = 0 });
-            table.AddCell(new PdfPCell(new Phrase("< " + calculation.whr.increasedRisk.ToString(), normalFont)) { Border = 0 });
-            table.AddCell(new PdfPCell(new Phrase(t.Tran(calculation.whr.title, lang) + " (" + t.Tran(calculation.whr.description, lang) + ")", normalFont)) { Border = 0 });
-
-            table.AddCell(new PdfPCell(new Phrase(t.Tran("waist", lang).ToUpper() + ":", normalFont)) { Border = 0 });
-            table.AddCell(new PdfPCell(new Phrase(calculation.waist.value.ToString() + " cm", normalFont)) { Border = 0 });
-            table.AddCell(new PdfPCell(new Phrase("< " + calculation.waist.increasedRisk.ToString() + " cm", normalFont)) { Border = 0 });
-            table.AddCell(new PdfPCell(new Phrase(t.Tran(calculation.waist.title, lang) + " (" + t.Tran(calculation.waist.description, lang) + ")", normalFont)) { Border = 0 });
+            if(calculation.whr.value > 0 && !double.IsInfinity(calculation.whr.value)) {
+                table.AddCell(new PdfPCell(new Phrase(t.Tran("whr", lang).ToUpper() + " (" + t.Tran("waist–hip ratio", lang) + "):", normalFont)) { Border = 0 });
+                table.AddCell(new PdfPCell(new Phrase(Math.Round(calculation.whr.value, 1).ToString(), normalFont)) { Border = 0 });
+                table.AddCell(new PdfPCell(new Phrase("< " + calculation.whr.increasedRisk.ToString(), normalFont)) { Border = 0 });
+                table.AddCell(new PdfPCell(new Phrase(t.Tran(calculation.whr.title, lang) + " (" + t.Tran(calculation.whr.description, lang) + ")", normalFont)) { Border = 0 });
+            }
+            
+            if(calculation.waist.value > 0) {
+                table.AddCell(new PdfPCell(new Phrase(t.Tran("waist", lang).ToUpper() + ":", normalFont)) { Border = 0 });
+                table.AddCell(new PdfPCell(new Phrase(calculation.waist.value.ToString() + " cm", normalFont)) { Border = 0 });
+                table.AddCell(new PdfPCell(new Phrase("< " + calculation.waist.increasedRisk.ToString() + " cm", normalFont)) { Border = 0 });
+                table.AddCell(new PdfPCell(new Phrase(t.Tran(calculation.waist.title, lang) + " (" + t.Tran(calculation.waist.description, lang) + ")", normalFont)) { Border = 0 });
+            }
 
             doc.Add(table);
             doc.Add(new Chunk(line));
