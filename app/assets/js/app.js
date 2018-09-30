@@ -379,20 +379,18 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $rootScope.initMyCalculation = function () {
         $http({
-            url: $sessionStorage.config.backend + 'Calculations.asmx/InitMyCalculation',
+            url: $sessionStorage.config.backend + 'Calculations.asmx/Init',
             method: "POST",
             data: ''
         })
         .then(function (response) {
             $rootScope.myCalculation = JSON.parse(response.data.d);
+            $rootScope.myCalculation.recommendedEnergyIntake = null;
+            $rootScope.myCalculation.recommendedEnergyExpenditure = null;
         },
         function (response) {
             alert(response.data.d)
         });
-        //$rootScope.myCalculation = {
-        //    recommendedEnergyIntake: null,
-        //    recommendedEnergyExpenditure: null
-        //}
     }
     if (angular.isUndefined($rootScope.myCalculation)) { $rootScope.initMyCalculation() };
 
@@ -1428,7 +1426,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         });
     }
 
-
     var getCalculation = function () {
         $http({
             url: $sessionStorage.config.backend + 'Calculations.asmx/GetCalculation',
@@ -1443,7 +1440,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             alert(response.data.d)
         });
     };
-
 
     $scope.changeDisplayType = function (x) {
         setClientLogGraphData(x);
@@ -1653,6 +1649,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $rootScope.currTpl = './assets/partials/dashboard.html';
     }
 
+
+
 }])
 
 .controller('detailCalculationOfEnergyExpenditureCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
@@ -1807,7 +1805,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 }])
 
-.controller('calculationCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'charts', '$timeout', 'functions', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, charts, $timeout, functions) {
+.controller('calculationCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'charts', '$timeout', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, charts, $timeout, functions, $translate) {
     var webService = 'Calculations.asmx';
     var getCalculation = function () {
         $http({
@@ -2052,9 +2050,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         $rootScope.calculation.recommendedEnergyIntake = Math.round(energy);
         $rootScope.calculation.recommendedEnergyExpenditure = Math.round(activity);
-      
-        //$rootScope.calculation.recommendedEnergyIntake = $rootScope.appCalculation.recommendedEnergyIntake + energy;
-        //$rootScope.calculation.recommendedEnergyExpenditure = $rootScope.appCalculation.recommendedEnergyExpenditure + activity;
+
     }
 
     var isGoalDisabled = function () {
@@ -2085,17 +2081,23 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
           });
     }
 
-    //TODO mycalculations
-    
-    
+
     $scope.clearMyCalculation = function () {
         $rootScope.initMyCalculation();
     }
 
     $scope.saveMyCalculation = function (x) {
-        alert('TODO');
-        //Create json file in users folder/clients/myCalculation.json
-
+        $http({
+            url: $sessionStorage.config.backend + 'Calculations.asmx/SaveMyCalculation',
+            method: "POST",
+            data: { userId: $sessionStorage.usergroupid, clientId: $rootScope.client.clientId, myCalculation: x }
+        })
+           .then(function (response) {
+               functions.alert($translate.instant(response.data.d), '');
+           },
+           function (response) {
+               functions.alert($translate.instant(response.data.d), '');
+           }); 
     }
 
 }])

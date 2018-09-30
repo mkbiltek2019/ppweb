@@ -677,7 +677,7 @@ public class PrintPdf : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string CalculationPdf(string userId, Clients.NewClient client, ClientsData.NewClientData clientData, Calculations.NewCalculation calculation, Calculations.MyCalculation myCalculation, string lang) {
+    public string CalculationPdf(string userId, Clients.NewClient client, ClientsData.NewClientData clientData, Calculations.NewCalculation calculation, Calculations.NewCalculation myCalculation, string lang) {
         try {
             var doc = new Document();
             string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));

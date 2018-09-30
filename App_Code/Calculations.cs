@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Services;
+using System.IO;
 using System.Configuration;
 using Newtonsoft.Json;
 using System.Data.SQLite;
@@ -27,8 +28,8 @@ public class Calculations : System.Web.Services.WebService {
         public WaistHip waist { get; set; }
         public double bmr { get; set; }
         public double tee { get; set; }
-        public int recommendedEnergyIntake { get; set; }
-        public int recommendedEnergyExpenditure { get; set; }
+        public int? recommendedEnergyIntake { get; set; }
+        public int? recommendedEnergyExpenditure { get; set; }
         public RecommenderWeight recommendedWeight { get; set; }
 
         public Goals.NewGoal goal = new Goals.NewGoal();
@@ -62,11 +63,6 @@ public class Calculations : System.Web.Services.WebService {
         public double highRisk { get; set; }
         public double optimal { get; set; }
     }
-
-    public class MyCalculation {
-        public int? recommendedEnergyIntake { get; set; }
-        public int? recommendedEnergyExpenditure { get; set; }
-    }
     #endregion
 
     #region WebMethods
@@ -84,16 +80,6 @@ public class Calculations : System.Web.Services.WebService {
         x.goal = new Goals.NewGoal();
         return JsonConvert.SerializeObject(x, Formatting.Indented);
     }
-
-    [WebMethod]
-    public string InitMyCalculation() {
-        MyCalculation x = new MyCalculation();
-        x.recommendedEnergyIntake = null;
-        x.recommendedEnergyExpenditure = null;
-        return JsonConvert.SerializeObject(x, Formatting.Indented);
-    }
-
-
 
     [WebMethod]
     public string GetCalculation(ClientsData.NewClientData client) {
@@ -341,5 +327,52 @@ public class Calculations : System.Web.Services.WebService {
         return x;
     }
     #endregion
+
+    #region MyCalculations
+    private string myCalculation = "myCalculation";
+    [WebMethod]
+    public string SaveMyCalculation(string userId, string clientId, Calculations.NewCalculation myCalculation) {
+        try {
+            return SaveJsonToFile(userId, clientId, JsonConvert.SerializeObject(myCalculation, Formatting.Indented));
+        } catch (Exception e) { return ("Error: " + e); }
+    }
+
+     public string SaveJsonToFile(string userId, string clientId, string json) {
+        try {
+            string path = string.Format("~/App_Data/users/{0}/clients/{1}", userId, clientId);
+            string filepath = string.Format("{0}/{1}.json", path, myCalculation);
+            CreateFolder(path);
+            WriteFile(filepath, json);
+            return "saved";
+        } catch (Exception e) { return ("Error: " + e); }
+    }
+
+    protected void CreateFolder(string path) {
+        if (!Directory.Exists(Server.MapPath(path))) {
+            Directory.CreateDirectory(Server.MapPath(path));
+        }
+    }
+
+    protected void WriteFile(string path, string value) {
+        File.WriteAllText(Server.MapPath(path), value);
+    }
+
+    [WebMethod]
+    public string Get(string userId, string clientId) {
+        try {
+            return GetJsonFile(userId, clientId);
+        } catch (Exception e) { return ("Error: " + e); }
+    }
+
+    private string GetJsonFile(string userId, string clientId) {
+        string path = string.Format("~/App_Data/users/{0}/clients/{1}/{2}.json", userId, clientId, myCalculation);
+        string json = "";
+        if (File.Exists(Server.MapPath(path))) {
+            json = File.ReadAllText(Server.MapPath(path));
+        }
+        return json;
+    }
+
+    #endregion MyCalculations
 
 }
