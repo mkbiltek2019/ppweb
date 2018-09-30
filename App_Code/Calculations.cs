@@ -358,7 +358,7 @@ public class Calculations : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string Get(string userId, string clientId) {
+    public string GetMyCalculation(string userId, string clientId) {
         try {
             return GetJsonFile(userId, clientId);
         } catch (Exception e) { return ("Error: " + e); }
@@ -369,6 +369,10 @@ public class Calculations : System.Web.Services.WebService {
         string json = "";
         if (File.Exists(Server.MapPath(path))) {
             json = File.ReadAllText(Server.MapPath(path));
+        } else {
+            NewCalculation x = new NewCalculation();
+            x.recommendedEnergyIntake = null;
+            x.recommendedEnergyExpenditure = null;
         }
         return json;
     }

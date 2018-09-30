@@ -23,7 +23,7 @@
             </div>
             <hr />
             <div ng-if="config.language!='en'">
-                <a href="" ng-click="toggleNewVersionDetails()">Prikaži detalje o nadogradnjama <i class="fa fa-chevron-{{showNewVersionDetails==false?'down':'up'}}" aria-hidden="true"></i></a>
+                <a href="" ng-click="toggleNewVersionDetails()" class="lead">Prikaži detalje o nadogradnjama <i class="fa fa-chevron-{{showNewVersionDetails==false?'down':'up'}}" aria-hidden="true"></i></a>
                 <div ng-if="showNewVersionDetails==true" ng-include="'./assets/partials/newversion.html'" class="text-center"></div>
             </div>
         </div>

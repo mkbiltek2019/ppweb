@@ -44,7 +44,23 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             }
         }
     }
-   
+
+    $rootScope.initMyCalculation = function () {
+        $http({
+            url: $sessionStorage.config.backend + 'Calculations.asmx/Init',
+            method: "POST",
+            data: ''
+        })
+        .then(function (response) {
+            $rootScope.myCalculation = JSON.parse(response.data.d);
+            $rootScope.myCalculation.recommendedEnergyIntake = null;
+            $rootScope.myCalculation.recommendedEnergyExpenditure = null;
+        },
+        function (response) {
+            alert(response.data.d)
+        });
+    }
+
     var getConfig = function () {
         if (location.search.substring(1, 5) == 'lang') {
             var queryLang = location.search.substring(6);
@@ -64,6 +80,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                   }
               }
               if ($sessionStorage.islogin == true) { $rootScope.loadData(); }
+              if (angular.isUndefined($rootScope.myCalculation)) { $rootScope.initMyCalculation() };
           });
     };
     getConfig();
@@ -376,23 +393,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.toggleNewVersionDetails = function () {
         $scope.showNewVersionDetails = $scope.showNewVersionDetails == false ? true : false;
     };
-
-    $rootScope.initMyCalculation = function () {
-        $http({
-            url: $sessionStorage.config.backend + 'Calculations.asmx/Init',
-            method: "POST",
-            data: ''
-        })
-        .then(function (response) {
-            $rootScope.myCalculation = JSON.parse(response.data.d);
-            $rootScope.myCalculation.recommendedEnergyIntake = null;
-            $rootScope.myCalculation.recommendedEnergyExpenditure = null;
-        },
-        function (response) {
-            alert(response.data.d)
-        });
-    }
-    if (angular.isUndefined($rootScope.myCalculation)) { $rootScope.initMyCalculation() };
 
 }])
 
@@ -1144,6 +1144,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $rootScope.client.date = new Date(new Date().setHours(0, 0, 0, 0));
             $rootScope.clientData = [];
             $rootScope.calculation = [];
+            $rootScope.initMyCalculation();
             $scope.d = $rootScope.client;
             $scope.openPopup();
         },
@@ -1340,6 +1341,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 $rootScope.clientData.date = new Date(new Date().setHours(0, 0, 0, 0));
                 $scope.getPalDetails($rootScope.clientData.pal.value);
                 getCalculation();
+                getMyCalculation();
                 if ($rootScope.unitSystem == 0 && $rootScope.config.language == 'en') {
                     $rootScope.convertToStandardSystem();
                 }
@@ -1435,6 +1437,20 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         .then(function (response) {
             $rootScope.calculation = JSON.parse(response.data.d);
             setClientLogGraphData($scope.displayType);
+        },
+        function (response) {
+            alert(response.data.d)
+        });
+    };
+
+    var getMyCalculation = function () {
+        $http({
+            url: $sessionStorage.config.backend + 'Calculations.asmx/GetMyCalculation',
+            method: "POST",
+            data: { userId: $sessionStorage.usergroupid, clientId: $rootScope.client.clientId }
+        })
+        .then(function (response) {
+            $rootScope.myCalculation = JSON.parse(response.data.d);
         },
         function (response) {
             alert(response.data.d)
@@ -2070,34 +2086,40 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             method: "POST",
             data: { userId: $sessionStorage.usergroupid, client: $rootScope.client, clientData: $rootScope.clientData, calculation: $rootScope.calculation, myCalculation: $rootScope.myCalculation, lang: $rootScope.config.language }
         })
-          .then(function (response) {
-              var fileName = response.data.d;
-              $scope.creatingPdf = false;
-              $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
-          },
-          function (response) {
-              $scope.creatingPdf = false;
-              alert(response.data.d)
-          });
+        .then(function (response) {
+            var fileName = response.data.d;
+            $scope.creatingPdf = false;
+            $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
+        },
+        function (response) {
+            $scope.creatingPdf = false;
+            alert(response.data.d)
+        });
     }
 
+    $scope.hidePdfLink = function () {
+        $scope.pdfLink = null;
+    }
 
     $scope.clearMyCalculation = function () {
         $rootScope.initMyCalculation();
     }
 
     $scope.saveMyCalculation = function (x) {
+        var myCalculation = angular.copy($rootScope.calculation);
+        myCalculation.recommendedEnergyIntake = x.recommendedEnergyIntake;
+        myCalculation.recommendedEnergyExpenditure = x.recommendedEnergyExpenditure;
         $http({
             url: $sessionStorage.config.backend + 'Calculations.asmx/SaveMyCalculation',
             method: "POST",
-            data: { userId: $sessionStorage.usergroupid, clientId: $rootScope.client.clientId, myCalculation: x }
+            data: { userId: $sessionStorage.usergroupid, clientId: $rootScope.client.clientId, myCalculation: myCalculation }
         })
-           .then(function (response) {
-               functions.alert($translate.instant(response.data.d), '');
-           },
-           function (response) {
-               functions.alert($translate.instant(response.data.d), '');
-           }); 
+        .then(function (response) {
+            functions.alert($translate.instant(response.data.d), '');
+        },
+        function (response) {
+            functions.alert($translate.instant(response.data.d), '');
+        }); 
     }
 
 }])
@@ -2282,11 +2304,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         get(diet);
     }
     if ($rootScope.clientData.diet.id == null) { init(); }
-   
+
     $scope.select = function (x) {
         $rootScope.clientData.diet = x;
     };
-
 
 }])
 
