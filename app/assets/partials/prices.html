@@ -1,40 +1,39 @@
 ﻿<div ng-controller="pricesCtrl">
-    <div class="panel panel-default">
-        <div class="panel-heading"><span class="text-uppercase">{{'prices' | translate}}</span></div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="p10">
-                        <md-radio-group ng-model="foodListType" layout="row" flex-gt-sm ng-click="getFoodList(foodListType)">
-                            <md-radio-button value="0" class="md-primary">{{'foods' | translate}} (app)</md-radio-button>
-                            <md-radio-button value="1" class="md-primary">{{'my foods' | translate}}</md-radio-button>
-                        </md-radio-group>
+    <div class="mt10">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="p10">
+                    <md-radio-group ng-model="foodListType" layout="row" flex-gt-sm ng-click="getFoodList(foodListType)">
+                        <md-radio-button value="0" class="md-primary">{{'foods' | translate}} (app)</md-radio-button>
+                        <md-radio-button value="1" class="md-primary">{{'my foods' | translate}}</md-radio-button>
+                    </md-radio-group>
+                </div>
+                <div class="input-group">
+                    <input ng-model="searchFood" class="form-control" type="text" placeholder="{{'search' | translate}}..." autofocus ng-click="initCurrentFoodGroup()" />
+                    <span class="input-group-btn">
+                        <a href="" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</a>
+                    </span>
+                </div>
+                <div>
+                    <select ng-model="food" class="form-control" size="12" ng-change="selectFood(food)">
+                        <option ng-repeat="x in foodList | filter:{food:searchFood} | orderBy:'food'" value="{{x}}">{{x.food}}</option>
+                    </select>
+                </div>
+                <div class="row p10">
+                    <label class="col-sm-6 text-right">{{'net price' | translate}}:</label>
+                    <div class="col-sm-6 input-group ml10">
+                        <input ng-model="price.netPrice.value" class="form-control" ng-change="calculateUnitPrice(price)" allow-only-numbers />
+                        <span class="input-group-addon"><span class="text-uppercase">{{config.currency}}</span> / <input ng-model="price.mass.value" style="width:60px; background-color:lightgray" ng-change="calculateUnitPrice(price)" allow-only-numbers /> {{price.mass.unit}}</span>
                     </div>
-                    <div class="input-group">
-                        <input ng-model="searchFood" class="form-control" type="text" placeholder="{{'search' | translate}}..." autofocus ng-click="initCurrentFoodGroup()" />
-                        <span class="input-group-btn">
-                            <a href="" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</a>
-                        </span>
-                    </div>
-                    <div>
-                        <select ng-model="food" class="form-control" size="10" ng-change="selectFood(food)">
-                            <option ng-repeat="x in foodList | filter:{food:searchFood} | orderBy:'food'" value="{{x}}">{{x.food}}</option>
-                        </select>
-                    </div>
-                    <div class="row p10">
-                        <label class="col-sm-6 text-right">{{'net price' | translate}}:</label>
-                            <div class="col-sm-6 input-group ml10">
-                                <input ng-model="price.netPrice.value" class="form-control" ng-change="calculateUnitPrice(price)" allow-only-numbers />
-                                <span class="input-group-addon"><span class="text-uppercase">{{config.currency}}</span> / <input ng-model="price.mass.value" style="width:60px; background-color:lightgray" ng-change="calculateUnitPrice(price)" allow-only-numbers/> {{price.mass.unit}}</span>
-                            </div>
-                        <div class="col-sm-12 p10 text-right">
-                            <label ng-if="price.netPrice.value>0" class="m10">{{'unit price' | translate}}: <span>{{price.unitPrice.value | number:2}} {{price.nettoPrice.currency}} / kg</span></label>
-                            <a href="" ng-disabled="price.netPrice.value<=0" class="btn btn-primary pull-right" ng-click="save(price)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</a>
-                        </div>
+                    <div class="col-sm-12 p10 text-right">
+                        <label ng-if="price.netPrice.value>0" class="m10">{{'unit price' | translate}}: <span>{{price.unitPrice.value | number:2}} {{price.nettoPrice.currency}} / kg</span></label>
+                        <a href="" ng-disabled="price.netPrice.value<=0" class="btn btn-primary pull-right" ng-click="save(price)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</a>
                     </div>
                 </div>
-                <div class="col-sm-6">
-                   <label>{{'price list' | translate}}</label>
+            </div>
+            <div class="col-sm-6">
+                <fieldset class="fieldset-border">
+                    <legend class="fieldset-border text-capitalize">{{'price list' | translate}}</legend>
                     <div class="table-responsive">
                         <table class="table table-condensed text-small">
                             <tr>
@@ -49,16 +48,16 @@
                             </tr>
                         </table>
                     </div>
-                </div>
+                </fieldset>
             </div>
-            <div ng-if="config.debug">
-                price:
-                <pre>{{price | json}}</pre>
-
-                prices:
-                <pre>{{prices | json}}</pre>
-            </div>
-          
         </div>
+        <div ng-if="config.debug">
+            price:
+            <pre>{{price | json}}</pre>
+
+            prices:
+            <pre>{{prices | json}}</pre>
+        </div>
+
     </div>
 </div>

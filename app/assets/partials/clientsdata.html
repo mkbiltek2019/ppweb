@@ -1,5 +1,5 @@
 ﻿ <div ng-controller="clientsCtrl">
-     <div class="panel panel-default">
+     <div>
          <div ng-if="client.clientId" class="panel-heading">
              <div class="row">
                  <div class="col-sm-6">
@@ -16,7 +16,7 @@
                  </div>
              </div>
          </div>
-         <div class="panel-body">
+         <div class="mt10">
              <div ng-if="client.clientId">
                  <ul class="nav nav-tabs">
                      <li ng-class="clientDataTpl=='inputData'?'active':''" ng-click="toggleTpl('inputData')"><a href="#"><i class="fa fa-thermometer-empty"></i> <span class="hidden-xs text-capitalize">{{'input data' | translate}}</span></a></li>

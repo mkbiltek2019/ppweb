@@ -1736,7 +1736,9 @@
   "for persons with health problems or suspicion on them, it is recommended that before choosing additionaly physical activity consult with his doctor": "osobama sa zdravstvenim problemima ili sumnjom na njih, preporučuje se da se prije odabira dodatne tjelesne aktivnosti posavjetuju sa svojim liječnikom",
   "for persons with health problems or suspicion on them, it is recommended that before choosing a diet consult with his doctor": "osobama sa zdravstvenim problemima ili sumnjom na njih, preporučuje se da se prije odabira dijete posavjetuju sa svojim liječnikom",
   "my recommendations": "moje preporuke",
-  "if your recommendations are different from the recommendations provided by the application, enter your values here, otherwise leave blank fields": "ako su vaše preporuke različite od preporuka koje daje aplikacija ovdje upišite svoje vrijednosti, u protivnom ostavite prazna polja"
+  "if your recommendations are different from the recommendations provided by the application, enter your values here, otherwise leave blank fields": "ako su vaše preporuke različite od preporuka koje daje aplikacija ovdje upišite svoje vrijednosti, u protivnom ostavite prazna polja",
+  "choose type of diet": "Odaberite vrstu prehrane",
+  "choose additional physical activity": "Odaberite dodatnu tjelesnu aktivnost"
 
 
 }
