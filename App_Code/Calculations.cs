@@ -360,21 +360,20 @@ public class Calculations : System.Web.Services.WebService {
     [WebMethod]
     public string GetMyCalculation(string userId, string clientId) {
         try {
-            return GetJsonFile(userId, clientId);
+            return JsonConvert.SerializeObject(GetJsonFile(userId, clientId), Formatting.Indented);
         } catch (Exception e) { return ("Error: " + e); }
     }
 
-    private string GetJsonFile(string userId, string clientId) {
+    private NewCalculation GetJsonFile(string userId, string clientId) {
         string path = string.Format("~/App_Data/users/{0}/clients/{1}/{2}.json", userId, clientId, myCalculation);
-        string json = "";
+        NewCalculation x = new NewCalculation();
         if (File.Exists(Server.MapPath(path))) {
-            json = File.ReadAllText(Server.MapPath(path));
+            x = JsonConvert.DeserializeObject<NewCalculation>(File.ReadAllText(Server.MapPath(path)));
         } else {
-            NewCalculation x = new NewCalculation();
             x.recommendedEnergyIntake = null;
             x.recommendedEnergyExpenditure = null;
         }
-        return json;
+        return x;
     }
 
     #endregion MyCalculations
