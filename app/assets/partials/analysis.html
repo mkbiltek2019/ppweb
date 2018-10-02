@@ -15,22 +15,21 @@
 
 <script type="text/ng-template" id="analysisTpl">
     <div ng-style="fs">
-        <div class="panel panel panel-default mt10">
-            <div class="panel-body  table-responsive">
+        <fieldset class="fieldset-border">
+            <legend class="fieldset-border text-capitalize">{{'energy value' | translate}}</legend>
+            <div class="table-responsive">
                 <table class="table table-condensed text-small">
                     <tr>
-                        <th></th>
-                        <th>{{'choosen' | translate}}</th>
+                        <th style="width:50%">{{'choosen' | translate}}</th>
                         <th>{{'recommended' | translate}}</th>
                     </tr>
                     <tr>
-                        <td>{{'energy' | translate}}</td>
                         <td class="nowrap text-bold">{{totals.energy | number:1}} kcal</td>
                         <td class="nowrap">{{recommendations.energy}} kcal</td>
                     </tr>
                 </table>
             </div>
-        </div>
+        </fieldset>
         <fieldset class="fieldset-border">
             <legend class="fieldset-border text-capitalize">{{'macronutrients' | translate}}</legend>
             <div class="table-responsive">
@@ -120,7 +119,7 @@
     <fieldset class="fieldset-border">
         <legend class="fieldset-border text-capitalize">{{'parameters' | translate}}</legend>
         <div>
-            <b>u</b>: <em>{{'unit' | translate}}</em><br />
+            <!--<b>u</b>: <em>{{'unit' | translate}}</em><br />-->
             <b class="text-uppercase">{{'mda' | translate}}</b>: <em>{{'minimum dietary allowance' | translate}}</em><br />
             <b class="text-uppercase">{{'ul' | translate}}</b>: <em>{{'upper intake level' | translate}}</em><br />
             <b class="text-uppercase">{{'rda' | translate}}</b>: <em>{{'recommended dietary allowance' | translate}}</em><br />
@@ -134,7 +133,7 @@
                 <table class="table table-bordered table-condensed text-small">
                     <tr>
                         <th></th>
-                        <th>u<!--{{'unit' | translate}}--></th>
+                        <th class="nowrap">{{'unit' | translate}}</th>
                         <th>{{'choosen' | translate}}</th>
                         <th class="text-uppercase">{{'mda' | translate}}</th>
                         <th class="text-uppercase">{{'ul' | translate}}</th>

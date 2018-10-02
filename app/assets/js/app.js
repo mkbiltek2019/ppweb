@@ -35,6 +35,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $rootScope.user = $sessionStorage.user;
     $scope.today = new Date();
     $rootScope.unitSystem = 1;
+    $scope.currOpt = 'clientsdata';
 
     if (angular.isDefined($sessionStorage.user)) {
         if ($sessionStorage.user != null) {
@@ -1551,38 +1552,94 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             return false;
         }
         $scope.creatingPdf = true;
+
+
+        $http({
+            url: $sessionStorage.config.backend + 'PrintPdf.asmx/ClientPdf',
+            method: "POST",
+            data: { userId: $sessionStorage.usergroupid, client: $rootScope.client, clientData: $rootScope.clientData, lang: $rootScope.config.language }
+        }).then(function (response) {
+            $scope.creatingPdf = false;
+            var fileName = response.data.d;
+            $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
+            //   $scope.openPdf();
+        },
+        function (response) {
+            $scope.creatingPdf = false;
+            alert(response.data.d)
+        });
+
+
+
+        //var img = null;
+        //if (document.getElementById("clientDataChart") != null) {
+        //    img = document.getElementById("clientDataChart").toDataURL("image/png").replace(/^data:image\/(png|jpg);base64,/, "");
+        //}
+        //    $http({
+        //        url: $sessionStorage.config.backend + 'ClientsData.asmx/GetClientLog',
+        //        method: "POST",
+        //        data: { userId: $sessionStorage.usergroupid, clientId: $rootScope.client.clientId }
+        //    })
+        //    .then(function (response) {
+        //        $rootScope.clientLog = JSON.parse(response.data.d);
+        //            $http({
+        //                url: $sessionStorage.config.backend + 'PrintPdf.asmx/ClientPdf',
+        //                method: "POST",
+        //                data: { userId: $sessionStorage.usergroupid, client: $rootScope.client, clientData: $rootScope.clientData, clientLog: $rootScope.clientLog, lang: $rootScope.config.language, imageData: img }
+        //            })
+        //          .then(function (response) {
+        //              $scope.creatingPdf = false;
+        //              var fileName = response.data.d;
+        //              $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
+        //          },
+        //          function (response) {
+        //              $scope.creatingPdf = false;
+        //              alert(response.data.d)
+        //          });
+        //    },
+        //    function (response) {
+        //        $scope.creatingPdf = false;
+        //        alert(response.data.d)
+        //    });
+    }
+
+    $scope.printClientLogPdf = function () {
+        if ($scope.creatingPdf == true) {
+            return false;
+        }
+        $scope.creatingPdf = true;
         var img = null;
         if (document.getElementById("clientDataChart") != null) {
             img = document.getElementById("clientDataChart").toDataURL("image/png").replace(/^data:image\/(png|jpg);base64,/, "");
         }
+        $http({
+            url: $sessionStorage.config.backend + 'ClientsData.asmx/GetClientLog',
+            method: "POST",
+            data: { userId: $sessionStorage.usergroupid, clientId: $rootScope.client.clientId }
+        })
+        .then(function (response) {
+            $rootScope.clientLog = JSON.parse(response.data.d);
+            //$rootScope.setClientLogGraphData($scope.type);
             $http({
-                url: $sessionStorage.config.backend + 'ClientsData.asmx/GetClientLog',
+                url: $sessionStorage.config.backend + 'PrintPdf.asmx/ClientLogPdf',
                 method: "POST",
-                data: { userId: $sessionStorage.usergroupid, clientId: $rootScope.client.clientId }
+                data: { userId: $sessionStorage.usergroupid, client: $rootScope.client, clientData: $rootScope.clientData, clientLog: $rootScope.clientLog, lang: $rootScope.config.language, imageData: img }
             })
-            .then(function (response) {
-                $rootScope.clientLog = JSON.parse(response.data.d);
-                //$rootScope.setClientLogGraphData($scope.type);
-                    $http({
-                        url: $sessionStorage.config.backend + 'PrintPdf.asmx/ClientPdf',
-                        method: "POST",
-                        data: { userId: $sessionStorage.usergroupid, client: $rootScope.client, clientData: $rootScope.clientData, clientLog: $rootScope.clientLog, lang: $rootScope.config.language, imageData: img }
-                    })
-                  .then(function (response) {
-                      $scope.creatingPdf = false;
-                      var fileName = response.data.d;
-                      $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
-                      //   $scope.openPdf();
-                  },
-                  function (response) {
-                      $scope.creatingPdf = false;
-                      alert(response.data.d)
-                  });
-            },
-            function (response) {
-                $scope.creatingPdf = false;
-                alert(response.data.d)
-            });
+          .then(function (response) {
+              $scope.creatingPdf = false;
+              var fileName = response.data.d;
+              $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
+              //   $scope.openPdf();
+          },
+          function (response) {
+              $scope.creatingPdf = false;
+              alert(response.data.d)
+          });
+        },
+        function (response) {
+            $scope.creatingPdf = false;
+            alert(response.data.d)
+        });
     }
 
     $scope.hidePdfLink = function () {

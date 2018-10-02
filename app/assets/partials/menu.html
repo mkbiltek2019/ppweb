@@ -1,7 +1,7 @@
 ﻿<div ng-controller="menuCtrl">
     <ul class="nav nav-tabs">
-        <li ng-class="menuTpl=='dailyMenuTpl'?'active':''"><a href="#" ng-click="toggleMenu('dailyMenuTpl')"><i class="fa fa-cutlery"></i> <span class="hidden-xs text-capitalize">{{'daily menu' | translate}}</span></a></li>
-        <li ng-class="menuTpl=='weeklyMenuTpl'?'active':''" ng-click="toggleMenu('weeklyMenuTpl')"><a href="#"><i class="fa fa-files-o"></i> <span class="hidden-xs text-capitalize">{{'weekly menu' | translate}}</span></a></li>
+        <li ng-class="menuTpl=='dailyMenuTpl'?'active':''"><a href="#" ng-click="toggleMenu('dailyMenuTpl')"><i class="fa fa-cutlery"></i> <span class="text-capitalize">{{'daily menu' | translate}}</span></a></li>
+        <li ng-class="menuTpl=='weeklyMenuTpl'?'active':''" ng-click="toggleMenu('weeklyMenuTpl')"><a href="#"><i class="fa fa-files-o"></i> <span class="text-capitalize">{{'weekly menu' | translate}}</span></a></li>
     </ul>
     <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around" class="mt20">
         <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>

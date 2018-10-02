@@ -591,7 +591,7 @@ public class PrintPdf : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string ClientPdf(string userId, Clients.NewClient client, ClientsData.NewClientData clientData, List<ClientsData.NewClientData> clientLog, string lang, string imageData) {
+    public string ClientPdf(string userId, Clients.NewClient client, ClientsData.NewClientData clientData, string lang) {
         try {
             var doc = new Document();
             string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
@@ -625,6 +625,39 @@ public class PrintPdf : System.Web.Services.WebService {
             , t.Tran("physical activity level", lang), t.Tran(clientData.pal.title, lang), t.Tran(clientData.pal.description, lang));
 
             doc.Add(new Paragraph(c, normalFont));
+            doc.Add(new Chunk(line));
+            doc.Close();
+
+            return fileName;
+        } catch(Exception e) {
+            return e.StackTrace;
+        }
+    }
+
+    [WebMethod]
+    public string ClientLogPdf(string userId, Clients.NewClient client, ClientsData.NewClientData clientData, List<ClientsData.NewClientData> clientLog, string lang, string imageData) {
+        try {
+            var doc = new Document();
+            string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
+            DeleteFolder(path);
+            CreateFolder(path);
+            string fileName = Guid.NewGuid().ToString();
+            string filePath = Path.Combine(path, string.Format("{0}.pdf", fileName));
+            PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(filePath, FileMode.Create));
+
+            doc.Open();
+
+            AppendHeader(doc, userId);
+            doc.Add(new Paragraph((client.firstName + " " + client.lastName), normalFont_12));
+            doc.Add(new Chunk(line));
+
+            string c = string.Format(@"
+{0}: {1}
+{2}: {3}"
+            , t.Tran("gender", lang), t.Tran(clientData.gender.title, lang)
+            , t.Tran("age", lang), clientData.age);
+
+            doc.Add(new Paragraph(c, normalFont));
 
             doc.Add(new Chunk(line));
 
@@ -656,6 +689,7 @@ public class PrintPdf : System.Web.Services.WebService {
                     table.AddCell(cell5);
                 }
                 doc.Add(table);
+                doc.Add(new Chunk(line));
                 doc.Add(new Paragraph(t.Tran("chart", lang), normalFont));
 
                 if (!string.IsNullOrEmpty(imageData)) {

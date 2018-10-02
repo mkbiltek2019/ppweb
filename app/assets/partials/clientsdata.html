@@ -6,8 +6,8 @@
                      <a href="" class="btn btn-default text-capitalize" ng-click="newClient()"><i class="fa fa-user-plus"></i> <span class="hidden-xs">{{'new client' | translate}}</span></a>
                      <a href="" ng-if="clients.length>0" class="btn btn-default text-capitalize" ng-click="search()"><i class="fa fa-search"></i> <span class="hidden-xs">{{'search clients' | translate}}</span></a>
                      <a href="" class="btn btn-default text-capitalize" ng-click="saveClientData(clientData)"><i class="fa fa-floppy-o"></i> <span class="hidden-xs">{{'save' | translate}}</span></a>
-                     <a ng-if="pdfLink==null" ng-click="printClientPdf()" class="btn btn-default text-capitalize" ng-disabled="creatingPdf"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> <span class="hidden-xs">{{'create pdf' | translate}}</span></a>
-                     <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success text-capitalize" download ng-click="hidePdfLink()"><i class="fa fa-file-pdf-o"></i> {{'download' | translate}} {{'PDF' | translate}}</a>
+                     <!--<a ng-if="pdfLink==null" ng-click="printClientPdf()" class="btn btn-default text-capitalize" ng-disabled="creatingPdf"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> <span class="hidden-xs">{{'create pdf' | translate}}</span></a>
+                     <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success text-capitalize" download ng-click="hidePdfLink()"><i class="fa fa-file-pdf-o"></i> {{'download' | translate}} {{'PDF' | translate}}</a>-->
                  </div>
                  <div class="text-right text-small col-sm-6">
                      <div ng-if="client.clientId" class="p10">
@@ -49,14 +49,18 @@
                     <md-datepicker ng-model="clientData.date" md-open-on-focus ng-required="true"></md-datepicker>
                 </md-input-container>
             </div>
-            <div ng-if="config.language=='en'" class="col-sm-4">
-                <fieldset class="fieldset-border" style="width:210px">
+            <div class="col-sm-4">
+                <fieldset ng-if="config.language=='en'" class="fieldset-border" style="width:210px">
                     <legend class="fieldset-border text-capitalize">{{'units' | translate}}:</legend>
                     <md-radio-group ng-model="unitSystem" layout="row" flex-gt-sm ng-click="changeUnitSystem(unitSystem)">
                         <md-radio-button value="0" class="md-primary text-capitalize">{{'standard' | translate}}</md-radio-button>
                         <md-radio-button value="1" class="md-primary text-capitalize">{{'metric' | translate}}</md-radio-button>
                     </md-radio-group>
                 </fieldset>
+            </div>
+            <div class="col-sm-4 text-right">
+                <a ng-if="pdfLink==null" ng-click="printClientPdf()" class="btn btn-default text-capitalize" ng-disabled="creatingPdf"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> <span class="hidden-xs">{{'create pdf' | translate}}</span></a>
+                <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success text-capitalize" download ng-click="hidePdfLink()"><i class="fa fa-file-pdf-o"></i> {{'download' | translate}} {{'PDF' | translate}}</a>
             </div>
         </div>
 
@@ -276,11 +280,19 @@
 <script type="text/ng-template" id="clientStatictic">
     <div ng-if="clientData.clientId">
         <div>
-            <md-radio-group ng-model="displayType" ng-click="changeDisplayType(displayType)" layout="row">
-                <md-radio-button value=0 class="md-primary">{{'weight' | translate}}</md-radio-button>
-                <md-radio-button value=1 class="md-primary">{{'waist' | translate}}</md-radio-button>
-                <md-radio-button value=2 class="md-primary">{{'hip' | translate}}</md-radio-button>
-            </md-radio-group>
+            <div class="row">
+                <div class="col-sm-8">
+                    <md-radio-group ng-model="displayType" ng-click="changeDisplayType(displayType)" layout="row">
+                        <md-radio-button value=0 class="md-primary">{{'weight' | translate}}</md-radio-button>
+                        <md-radio-button value=1 class="md-primary">{{'waist' | translate}}</md-radio-button>
+                        <md-radio-button value=2 class="md-primary">{{'hip' | translate}}</md-radio-button>
+                    </md-radio-group>
+                </div>
+                <div class="col-sm-4 text-right">
+                    <a ng-if="pdfLink==null" ng-click="printClientLogPdf()" class="btn btn-default text-capitalize" ng-disabled="creatingPdf"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> <span class="hidden-xs">{{'create pdf' | translate}}</span></a>
+                    <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success text-capitalize" download ng-click="hidePdfLink()"><i class="fa fa-file-pdf-o"></i> {{'download' | translate}} {{'PDF' | translate}}</a>
+                </div>
+            </div>
             <div class="p10">
                 <canvas id="clientDataChart" class="chart-bar hidden-xs" chart-data="clientLogGraphData.data" chart-colors="clientLogGraphData.colors" height="80"
                         chart-labels="clientLogGraphData.labels" chart-series="clientLogGraphData.series" chart-options="clientLogGraphData.options" chart-dataset-override="clientLogGraphData.datasetOverride">

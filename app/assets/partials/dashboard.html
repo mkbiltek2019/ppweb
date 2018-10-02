@@ -20,7 +20,7 @@
         </div>
     </div>
     <div ng-if="client.clientId" class="noprint">
-        <ul class="nav nav-tabs">
+        <ul class="nav nav-tabs hidden-xs">
             <li ng-class="selectedNavItem=='clientsdata'?'active':''" ng-click="toggleNewTpl('clientsdata')"><a href="#"><i class="fa fa-user-o"></i> <span class="text-uppercase">{{'client' | translate}}</span></a></li>
             <li ng-class="selectedNavItem=='calculation'?'active':''"><a href="#" ng-click="toggleNewTpl('calculation')"><i class="fa fa-calculator"></i> <span class="text-uppercase">{{'calculation' | translate}}</span></a></li>
             <li ng-class="selectedNavItem=='activities'?'active':''"><a href="#" ng-click="toggleNewTpl('activities')"><i class="fa fa-bicycle"></i> <span class="text-uppercase">{{'activity' | translate}}</span></a></li>
@@ -33,6 +33,19 @@
             <li ng-class="selectedNavItem=='myrecipes'?'active':''"><a href="#" ng-click="toggleNewTpl('myrecipes')"><i class="fa fa-file-text-o"></i> <span class="text-uppercase">{{'my recipes' | translate}}</span></a></li>
             <li ng-class="selectedNavItem=='prices'?'active':''"><a href="#" ng-click="toggleNewTpl('prices')"><i class="fa fa-usd"></i> <span class="text-uppercase">{{'prices' | translate}}</span></a></li>
         </ul>
+        <select ng-model="currOpt" ng-click="toggleNewTpl(currOpt)" class="hidden-sm hidden-md hidden-lg hidden-xl form-control text-uppercase">
+            <option ng-class="selectedNavItem=='clientsdata'?'active':''" value="clientsdata">{{'client' | translate}}</option>
+            <option ng-class="selectedNavItem=='calculation'?'active':''" value="calculation">{{'calculation' | translate}}</option>
+            <option ng-class="selectedNavItem=='activities'?'active':''" value="activities">{{'activity' | translate}}</option>
+            <option ng-class="selectedNavItem=='diets'?'active':''" value="diets">{{'diet' | translate}}</option>
+            <option ng-class="selectedNavItem=='meals'?'active':''" value="meals">{{'meals' | translate}}</option>
+            <option ng-class="selectedNavItem=='menu'?'active':''" value="menu">{{'menu' | translate}}</option>
+            <option ng-class="selectedNavItem=='analysis'?'active':''" value="analysis">{{'analysis' | translate}}</option>
+            <!--<option ng-if="config.debug" ng-class="selectedNavItem=='print'?'active':''" value="print">{{'print' | translate}}</span></a></option>-->
+            <option ng-class="selectedNavItem=='myfoods'?'active':''" value="myfoods">{{'my foods' | translate}}</option>
+            <option ng-class="selectedNavItem=='myrecipes'?'active':''" value="myrecipes">{{'my recipes' | translate}}</option>
+            <option ng-class="selectedNavItem=='prices'?'active':''" value="prices">{{'prices' | translate}}</option>
+        </select>
     </div>
     <div ng-if="client.clientId" ng-include="newTpl" class="loginBox" style="min-height:80%"></div>
 </div>
