@@ -55,5 +55,19 @@
     }
   ],
   "showupdatedes": true,
-  "showlanguages": true
+  "showlanguages": true,
+  "packages": [
+	  {
+		  "title": "START",
+		  "price":550
+	  },
+	  {
+		  "title": "STANDARD",
+		  "price":950
+	  },
+	  {
+		  "title": "PREMIUM",
+		  "price":1850
+	  }
+  ]
 }

@@ -273,7 +273,7 @@ public class Users : System.Web.Services.WebService {
             List<NewUser> users = GetUsers(null, null);
             x.active = users.Where(a => a.isActive == true).Count();
             x.demo = users.Where(a => a.isActive == false && a.activationDate == a.expirationDate).Count();
-            x.expired = users.Where(a => a.isActive == false && Convert.ToDateTime(a.activationDate) < Convert.ToDateTime(a.expirationDate)).Count();
+            x.expired = users.Where(a => a.licenceStatus == expired && Convert.ToDateTime(a.activationDate) < Convert.ToDateTime(a.expirationDate)).Count();
             x.licence = users.Where(a => a.isActive == true && a.userId == a.userGroupId).Count();
             x.subuser = users.Where(a => a.isActive == true && a.userId != a.userGroupId).Count();
             x.total = users.Count();
@@ -891,9 +891,9 @@ public class Users : System.Web.Services.WebService {
     private string GetEmail(string lang) {
         switch (lang) {
             case "en":
-                return "nutrition.plan@yahoo.com";
+                return ConfigurationManager.AppSettings["myEmail_en"];
             default:
-                return "program.prehrane@yahoo.com";
+                return ConfigurationManager.AppSettings["myEmail"];
         }
     }
     #endregion

@@ -28,7 +28,7 @@
                 <strong>{{errorMesage}}</strong>
             </div>
                 <div class="row m2">
-                    <div class="col-sm-2 text-right text-capitalize">{{'package' | translate}}: </div>
+                    <div class="col-sm-2 text-capitalize">{{'package' | translate}}: </div>
                     <div class="col-sm-6">
                         <select ng-model="user.userType" class="form-control" ng-change="calculatePrice()">
                             <option ng-value="0" ng-selected="user.userType==0?true:false">START</option>
@@ -38,7 +38,7 @@
                     </div>
                 </div>
                 <div class="row m2">
-                    <div class="col-sm-2 text-right text-capitalize">{{'subscribe' | translate}}: </div>
+                    <div class="col-sm-2 text-capitalize">{{'subscribe' | translate}}: </div>
                     <div class="col-sm-6">
                         <select ng-model="user.licence" class="form-control" ng-change="calculatePrice()">
                             <option value="1" ng-selected="user.licence==1?true:false">{{'1 year' | translate}}</option>
@@ -47,7 +47,7 @@
                     </div>
                 </div>
                 <div class="row m2">
-                    <div class="col-sm-2 text-right text-capitalize"><h3>{{'price' | translate}}: </h3></div>
+                    <div class="col-sm-2 text-capitalize"><h3>{{'price' | translate}}: </h3></div>
                     <div class="col-sm-6">
                         <h3 ng-if="config.language!='en'" class="lead">{{user.price}} kn ({{user.priceEur | number:2}} €)</h3>
                         <h3 ng-if="config.language=='en'" class="lead">{{user.price / config.usd | number:2}} €</h3>
