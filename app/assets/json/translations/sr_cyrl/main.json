@@ -1396,7 +1396,7 @@
   "send menu": "пошаљи јеловник",
   "client email": "е-маил клијента",
   "menu sent successfully": "мени је успешно послат",
-  "nutrition plan": "Програм Исхране Веб",
+  "nutrition program": "Програм Исхране Веб",
   "help": "упута",
   "info": "инфо",
   "copyright": "цопиригхт",
@@ -1498,7 +1498,7 @@
   "the selected additional energy expenditure is the same as recommended": "одабрана додатна енергетска потрошња је већа од препоручене",
   "clients": "клијенти",
   "web": "веб",
-  "nutrition plan web": "програм исхране веб",
+  "nutrition program web": "програм исхране веб",
   "delete choosen activity": "бриши одабрану активност",
   "show all": "покажи све",
   "tracking of anthropometric measures": "праћење антропометријских параметара",
@@ -1676,6 +1676,10 @@
   "my recommendations": "моје препоруке",
   "if your recommendations are different from the recommendations provided by the application, enter your values here, otherwise leave blank fields": "ако су ваше препоруке различите од препорука које даје апликација овде упишите своје вриедности, у противном оставите празна поља",
   "choose type of diet": "Изаберите врсту исхране",
-  "choose additional physical activity": "Изаберите додатну физичку активност"
+  "choose additional physical activity": "Изаберите додатну физичку активност",
+  "clientsdata": "подаци о клијенту",
+  "myfoods": "моје намирнице",
+  "myrecipes": "моји рецепти",
+  "diets": "дијета"
 
 }

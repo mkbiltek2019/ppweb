@@ -44,7 +44,7 @@
     <div ng-if="client.clientId">
         <div class="row">
             <div class="col-sm-4">
-                <md-input-container class="md-block" flex-gt-sm>
+                <md-input-container class="md-block" flex-gt-sm style="margin-bottom:0">
                     <label class="text-capitalize">{{'measurement date' | translate}}</label>
                     <md-datepicker ng-model="clientData.date" md-open-on-focus ng-required="true"></md-datepicker>
                 </md-input-container>
@@ -64,59 +64,51 @@
             </div>
         </div>
 
-        <div class="row">
-            <div ng-if="unitSystem==1" class="col-sm-7">
-                <fieldset class="fieldset-border">
-                    <legend class="fieldset-border text-capitalize">{{'anthropometric parameters' | translate}}</legend>
-                    <div class="p20">
-                        <div class="row">
-                            <span class="col-sm-6">*<span class="text-capitalize">{{'height' | translate}}</span> <em>(cm)</em>:</span>
-                            <div class="col-sm-4">
-                                <div class="input-group" style="width:160px">
-                                    <span class="input-group-addon pointer" ng-click="change(-1, 'height')">-</span>
-                                    <input ng-model="clientData.height" class="form-control" required allow-only-numbers>
-                                    <span class="input-group-addon pointer" ng-click="change(1, 'height')">+</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mt10">
-                            <span class="col-sm-6">*<span class="text-capitalize">{{'weight' | translate}}</span> <em>(kg)</em>:</span>
-                            <div class="col-sm-4">
-                                <div class="input-group" style="width:160px">
-                                    <span class="input-group-addon pointer" ng-click="change(-1, 'weight')">-</span>
-                                    <input ng-model="clientData.weight" class="form-control" required allow-only-numbers>
-                                    <span class="input-group-addon pointer" ng-click="change(1, 'weight')">+</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mt10">
-                            <span class="col-sm-6"><span class="text-capitalize">{{'waist' | translate}}</span> <em>(cm)</em>:</span>
-                            <div class="col-sm-4">
-                                <div class="input-group" style="width:160px">
-                                    <span class="input-group-addon pointer" ng-click="change(-1, 'waist')">-</span>
-                                    <input ng-model="clientData.waist" class="form-control" allow-only-numbers>
-                                    <span class="input-group-addon pointer" ng-click="change(1, 'waist')">+</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mt10">
-                            <span class="col-sm-6"><span class="text-capitalize">{{'hip' | translate}}</span> <em>(cm)</em>:</span>
-                            <div class="col-sm-4">
-                                <div class="input-group" style="width:160px">
-                                    <span class="input-group-addon pointer" ng-click="change(-1, 'hip')">-</span>
-                                    <input ng-model="clientData.hip" class="form-control" allow-only-numbers>
-                                    <span class="input-group-addon pointer" ng-click="change(1, 'hip')">+</span>
-                                </div>
-                            </div>
-                        </div>
+        <fieldset class="fieldset-border" style="padding-top:0; margin-top:0">
+            <legend class="fieldset-border text-capitalize">{{'anthropometric parameters' | translate}}</legend>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div ng-if="unitSystem==1" class="p20">
+                        <table>
+                            <tr>
+                                <td class="p5 text-capitalize">{{'height' | translate}}:</td>
+                                <td class="p5">
+                                    <div class="input-group">
+                                        <input ng-model="clientData.height" class="form-control" style="width:75px" required allow-only-numbers>
+                                        <span class="input-group-addon" style="width:50px">cm</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p5 text-capitalize">{{'weight' | translate}}:</td>
+                                <td class="p5" colspan="2">
+                                    <div class="input-group">
+                                        <input ng-model="clientData.weight" class="form-control" style="width:75px" required allow-only-numbers>
+                                        <span class="input-group-addon" style="width:50px">kg</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p5 text-capitalize">{{'waist' | translate}}:</td>
+                                <td class="p5" colspan="2">
+                                    <div class="input-group">
+                                        <input ng-model="clientData.waist" class="form-control" style="width:75px" allow-only-numbers>
+                                        <span class="input-group-addon" style="width:50px">cm</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p5 text-capitalize">{{'hip' | translate}}:</td>
+                                <td class="p5" colspan="2">
+                                    <div class="input-group">
+                                        <input ng-model="clientData.hip" class="form-control" style="width:75px" allow-only-numbers>
+                                        <span class="input-group-addon" style="width:50px">cm</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
-                </fieldset>
-            </div>
-
-            <div ng-if="unitSystem==0" class="col-sm-8">
-                <fieldset class="fieldset-border">
-                    <legend class="fieldset-border text-capitalize">{{'anthropometric parameters' | translate}}</legend>
-                    <div class="p20">
+                    <div ng-if="unitSystem==0" class="p20">
                         <table>
                             <tr>
                                 <td class="p5 text-capitalize">{{'height' | translate}}:</td>
@@ -172,35 +164,39 @@
                             </tr>
                         </table>
                     </div>
-                </fieldset>
-            </div>
-
-            <!--<div ng-if="config.debug" class="col-sm-4">
-                <a href="assets/3d/body.html?bmi:25" target="_blank" class="btn btn-default"><span class="text-primary"><i class="fa fa-arrows-alt"></i> {{'full screen' | translate}}</span></a>
-                <div class="embed-responsive embed-responsive-16by9">
-                    <iframe class="embed-responsive-item" src="assets/3d/body.html?bmi:25" allowfullscreen></iframe>
                 </div>
-            </div>-->
-        </div>
+                <div class="col-sm-8">
+                    <ng-include src="'humanSvg'"></ng-include>
+                </div>
+            </div>
+        </fieldset>
+
+        <!--<div ng-if="config.debug" class="col-sm-4">
+            <a href="assets/3d/body.html?bmi:25" target="_blank" class="btn btn-default"><span class="text-primary"><i class="fa fa-arrows-alt"></i> {{'full screen' | translate}}</span></a>
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="assets/3d/body.html?bmi:25" allowfullscreen></iframe>
+            </div>
+        </div>-->
 
         <fieldset class="fieldset-border">
-            <legend class="fieldset-border text-capitalize">{{'physical activity level' | translate}}</legend>
-            <div class="row p20">
-                <div class="col-sm-12">
-                    <md-radio-group ng-model="clientData.pal.value" ng-change="getPalDetails(clientData.pal.value)">
-                        <md-radio-button ng-repeat="x in pals" value="{{x.value}}" class="md-primary">{{x.title | translate}}
+        <legend class="fieldset-border text-capitalize">{{'physical activity level' | translate}}</legend>
+        <div class="row p20">
+            <div class="col-sm-12">
+                <md-radio-group ng-model="clientData.pal.value" ng-change="getPalDetails(clientData.pal.value)">
+                    <md-radio-button ng-repeat="x in pals" value="{{x.value}}" class="md-primary">
+                        {{x.title | translate}}
 
-                            <span ng-if="clientData.pal.value==x.value" class="p10">
-                                <span style="font-size:1.1em" class="bg-primary">{{pal.description | translate}}</span>
-                            </span>
+                        <span ng-if="clientData.pal.value==x.value" class="p10">
+                            <span style="font-size:1.1em" class="bg-primary">{{pal.description | translate}}</span>
+                        </span>
 
-                        </md-radio-button>
-                    </md-radio-group>
-                </div>
+                    </md-radio-button>
+                </md-radio-group>
             </div>
-            <div class="pl10"><a href="#" ng-click="toggleSubTpl(subTpl=='detailCalculationOfEnergyExpenditure'?'':'detailCalculationOfEnergyExpenditure')"><i class="fa fa-chevron-{{subTpl=='detailCalculationOfEnergyExpenditure'?'up':'down'}}"></i> <span>{{'detail calculation of energy expenditure' | translate}}</span></a></div>
-            <div ng-include="subTpl" class="well p20"></div>
-        </fieldset>
+        </div>
+        <div class="pl10"><a href="#" ng-click="toggleSubTpl(subTpl=='detailCalculationOfEnergyExpenditure'?'':'detailCalculationOfEnergyExpenditure')"><i class="fa fa-chevron-{{subTpl=='detailCalculationOfEnergyExpenditure'?'up':'down'}}"></i> <span>{{'detail calculation of energy expenditure' | translate}}</span></a></div>
+        <div ng-include="subTpl" class="well p20"></div>
+    </fieldset>
 
     </div>
 </script>
@@ -358,6 +354,63 @@
         </div>
 
     </div>
+</script>
+
+<script type="text/ng-template" id="humanSvg">
+    <svg width="280" height="240" xmlns="http://www.w3.org/2000/svg">
+        <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+        <defs>
+            <linearGradient spreadMethod="pad" y2="0" x2="1" y1="0" x1="0" id="svg_50">
+                <stop offset="0" stop-color="#fcf9f9" />
+                <stop offset="1" stop-color="#030606" />
+            </linearGradient>
+        </defs>
+        <g>
+            <title>background</title>
+            <rect x="-1" y="-1" width="282" height="242" id="canvas_background" fill="#ffffff" />
+        </g>
+        <g>
+            <title>Layer 1</title>
+            <line stroke="#000" fill="none" stroke-width="1.5" x1="84.840089" y1="11.030098" x2="85.840089" y2="206.509808" id="svg_1" stroke-linejoin="undefined" stroke-linecap="undefined" />
+            <line stroke="#000" fill="none" stroke-width="1.5" x1="76.77011" y1="11.030094" x2="93.204895" y2="11.030094" id="svg_2" stroke-linejoin="undefined" stroke-linecap="undefined" />
+            <line stroke="#000" fill="none" stroke-width="1.5" x1="78.32999" y1="207.313816" x2="92.808248" y2="207.313816" id="svg_3" stroke-linejoin="undefined" stroke-linecap="undefined" />
+            <text fill="#000000" stroke-width="0" x="233" y="292.4375" id="svg_8" font-size="24" font-family="Helvetica, Arial, sans-serif" text-anchor="start" xml:space="preserve" transform="matrix(3.6018126513772017,0,0,0.6660341620445251,-661.0813154443961,89.40891668014228) " stroke="#000" />
+            <g stroke="null" id="svg_32">
+                <g stroke="null" id="svg_14" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) ">
+                    <g stroke="null" id="svg_15">
+                        <path stroke="#000000" stroke-width="2" d="m587.950867,486.744848c-0.304,3.58 2.126,22.52899 3.38,29.95899c0.597,3.52 2.234,9.255 1.645,12.3c-0.841,4.244 -1.084,9.736 -0.621,12.934c0.292,1.942 1.211,10.899 -0.104,14.175c-0.688,1.718 -1.949,10.522 -1.949,10.522c-3.285,8.294 -1.431,7.886 -1.431,7.886c1.017,1.248 2.759,0.098 2.759,0.098c1.327,0.846 2.246,-0.201 2.246,-0.201c1.139,0.943 2.467,-0.116 2.467,-0.116c1.431,0.743 2.758,-0.627 2.758,-0.627c0.822,0.414 1.023,-0.109 1.023,-0.109c2.466,-0.158 -1.376,-8.05 -1.376,-8.05c-0.92,-7.088 0.913,-11.033 0.913,-11.033c6.004,-17.805 6.309,-22.53 3.909,-29.24c-0.676,-1.937 -0.847,-2.704 -0.536,-3.545c0.719,-1.941 0.195,-9.748 1.072,-12.848c1.692,-5.979 3.361,-21.142 4.231,-28.217c1.169,-9.53 -4.141,-22.308 -4.141,-22.308c-1.163,-5.2 0.542,-23.727 0.542,-23.727c2.381,3.705 2.29,10.245 2.29,10.245c-0.378,6.859 5.541,17.342 5.541,17.342c2.844,4.332 3.921,8.442 3.921,8.747c0,1.248 -0.273,4.269 -0.273,4.269l0.109,2.631c0.049,0.67 0.426,2.977 0.365,4.092c-0.444,6.862 0.646,5.571 0.646,5.571c0.92,0 1.931,-5.522 1.931,-5.522c0,1.424 -0.348,5.687 0.42,7.295c0.919,1.918 1.595,-0.329 1.607,-0.78c0.243,-8.737 0.768,-6.448 0.768,-6.448c0.511,7.088 1.139,8.689 2.265,8.135c0.853,-0.407 0.073,-8.506 0.073,-8.506c1.461,4.811 2.569,5.577 2.569,5.577c2.411,1.693 0.92,-2.983 0.585,-3.909c-1.784,-4.92 -1.839,-6.625 -1.839,-6.625c2.229,4.421 3.909,4.257 3.909,4.257c2.174,-0.694 -1.9,-6.954 -4.287,-9.953c-1.218,-1.528 -2.789,-3.574 -3.245,-4.789c-0.743,-2.058 -1.304,-8.674 -1.304,-8.674c-0.225,-7.807 -2.155,-11.198 -2.155,-11.198c-3.3,-5.282 -3.921,-15.135 -3.921,-15.135l-0.146,-16.635c-1.157,-11.347 -9.518,-11.429 -9.518,-11.429c-8.451,-1.258 -9.627,-3.988 -9.627,-3.988c-1.79,-2.576 -0.767,-7.514 -0.767,-7.514c1.485,-1.208 2.058,-4.415 2.058,-4.415c2.466,-1.891 2.345,-4.658 1.206,-4.628c-0.914,0.024 -0.707,-0.733 -0.707,-0.733c1.542,-12.456 -9.516,-13.092 -9.516,-13.092l-1.688,0c0,0 -11.063,0.636 -9.523,13.089c0,0 0.207,0.758 -0.715,0.733c-1.136,-0.03 -1.242,2.737 1.215,4.628c0,0 0.572,3.206 2.058,4.415c0,0 1.023,4.938 -0.767,7.514c0,0 -1.172,2.73 -9.627,3.988c0,0 -8.375,0.082 -9.514,11.429l-0.158,16.635c0,0 -0.609,9.853 -3.922,15.135c0,0 -1.921,3.392 -2.143,11.198c0,0 -0.563,6.616 -1.303,8.674c-0.451,1.209 -2.021,3.255 -3.249,4.789c-2.408,2.993 -6.455,9.24 -4.29,9.953c0,0 1.689,0.164 3.909,-4.257c0,0 -0.046,1.693 -1.827,6.625c-0.35,0.914 -1.839,5.59 0.573,3.909c0,0 1.117,-0.767 2.569,-5.577c0,0 -0.779,8.099 0.088,8.506c1.133,0.555 1.751,-1.047 2.262,-8.135c0,0 0.524,-2.289 0.767,6.448c0.012,0.451 0.673,2.698 1.596,0.78c0.779,-1.608 0.429,-5.864 0.429,-7.295c0,0 0.999,5.522 1.933,5.522c0,0 1.099,1.29101 0.648,-5.571c-0.073,-1.121 0.32,-3.422 0.369,-4.092l0.106,-2.631c0,0 -0.274,-3.014 -0.274,-4.269c0,-0.311 1.078,-4.41499 3.921,-8.74699c0,0 5.913,-10.48801 5.532,-17.342c0,0 -0.082,-6.54 2.299,-10.245c0,0 1.69,18.52599 0.545,23.72699c0,0 -5.319,12.77801 -4.146,22.308c0.864,7.09401 2.53,22.237 4.226,28.217c0.886,3.09401 0.362,10.899 1.072,12.848c0.32,0.847 0.152,1.627 -0.536,3.545c-2.387,6.71 -2.083,11.436 3.921,29.24c0,0 1.848,3.945 0.914,11.033c0,0 -3.836,7.892 -1.379,8.05c0,0 0.192,0.523 1.023,0.109c0,0 1.327,1.37 2.761,0.627c0,0 1.328,1.06 2.463,0.116c0,0 0.91,1.047 2.237,0.201c0,0 1.742,1.175 2.777,-0.098c0,0 1.839,0.408 -1.435,-7.886c0,0 -1.254,-8.793 -1.945,-10.522c-1.318,-3.275 -0.387,-12.251 -0.106,-14.175c0.453,-3.216 0.21,-8.695 -0.618,-12.934c-0.606,-3.038 1.035,-8.774 1.641,-12.29999c1.245,-7.423 3.685,-26.37301 3.38,-29.959l1.008,0.354c0.722,0.002 1.178,-0.351 1.178,-0.351z" id="svg_16" fill="#ffffff" />
+                    </g>
+                </g>
+                <g stroke="null" id="svg_17" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_18" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_19" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_20" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_21" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_22" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_23" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_24" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_25" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_26" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_27" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_28" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_29" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_30" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_31" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+            </g>
+            <text fill="#000000" stroke-width="0" stroke-opacity="null" fill-opacity="null" x="58" y="154.5" id="svg_33" font-size="24" font-family="Helvetica, Arial, sans-serif" text-anchor="start" xml:space="preserve" stroke="#000" />
+            <text fill="#000000" stroke-width="0" stroke-opacity="null" fill-opacity="null" x="138.503806" y="102.2686" id="svg_34" font-size="16" font-family="Helvetica, Arial, sans-serif" text-anchor="start" xml:space="preserve" transform="rotate(-90 70.64827728271486,115.97492218017578) matrix(0.9086741989092684,0,0,0.7831017745601816,-75.02121183012477,40.19771412241296) " stroke="#000">{{clientData.height}} cm</text>
+            <rect fill="#bfacac" stroke="#000" stroke-width="0" stroke-opacity="null" x="132" y="302.4375" width="16" height="0" id="svg_36" />
+            <rect fill="#bfacac" stroke-width="0" stroke-opacity="null" x="214" y="302.4375" width="0" height="1" id="svg_38" stroke="#000" />
+            <text fill="#000000" stroke-width="0" stroke-opacity="null" fill-opacity="null" x="168.460434" y="171.98646" id="svg_40" font-size="16" font-family="Helvetica, Arial, sans-serif" text-anchor="start" xml:space="preserve" transform="matrix(1.1563497342955875,0,0,0.5510147793879513,-85.27293291224908,130.37638463350908) " stroke="#000">{{clientData.weight}} kg</text>
+            <line stroke="#000" fill="none" stroke-opacity="null" fill-opacity="null" x1="124.346838" y1="95.342604" x2="249.074569" y2="95.342604" id="svg_41" stroke-linejoin="null" stroke-linecap="null" />
+            <line stroke="#000" fill="none" stroke-opacity="null" fill-opacity="null" x1="121.673762" y1="108.999654" x2="249.667966" y2="108.999654" id="svg_42" stroke-linejoin="null" stroke-linecap="null" />
+            <text fill="#000000" stroke-width="0" stroke-opacity="null" fill-opacity="null" x="279.106026" y="102.579151" id="svg_43" font-size="16" font-family="Helvetica, Arial, sans-serif" text-anchor="start" xml:space="preserve" transform="matrix(0.9261506718962911,0,0,0.699732033998288,-70.02472568784694,50.00470083523374) " stroke="#000">&#8709; {{clientData.hip}} cm</text>
+            <text fill="#000000" stroke-width="0" stroke-opacity="null" fill-opacity="null" x="314.682926" y="75.515044" id="svg_44" font-size="16" font-family="Helvetica, Arial, sans-serif" text-anchor="start" xml:space="preserve" transform="matrix(0.9092834446739949,0,0,0.6640470843158995,-97.63073998242615,38.23343911476733) " stroke="#000">&#8709; {{clientData.waist}} cm</text>
+            <path stroke="#0c0c0b" id="svg_49" d="m85.866577,231.556734l20.300034,-21.770239l67.666784,0l20.300029,21.770239l-108.266847,0z" fill-opacity="0" stroke-width="2" fill="url(#svg_50)" />
+            <line stroke="#000" stroke-linecap="null" stroke-linejoin="null" id="svg_53" y2="96.035687" x2="124.460652" y1="96.035687" x1="155.707781" fill-opacity="null" stroke-opacity="null" stroke-width="null" fill="none" />
+            <line stroke="#000" stroke-linecap="null" stroke-linejoin="null" id="svg_55" y2="109.360885" x2="121.360227" y1="109.360885" x1="158.853452" fill-opacity="null" stroke-opacity="null" stroke-width="null" fill="none" />
+        </g>
+    </svg>
 </script>
 
 

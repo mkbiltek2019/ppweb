@@ -1450,7 +1450,7 @@
   "send menu": "send menu",
   "client email": "client email",
   "menu sent successfully": "menu sent successfully",
-  "nutrition plan": "nutrition plan",
+  "nutrition program": "nutrition program",
   "help": "help",
   "info": "info",
   "copyright": "copyright",
@@ -1553,7 +1553,7 @@
   "the selected additional energy expenditure is the same as recommended": "the selected additional energy expenditure is the same as recommended",
   "clients": "clients",
   "web": "web",
-  "nutrition plan web": "nutrition plan web",
+  "nutrition program web": "nutrition program web",
   "delete choosen activity": "delete choosen activity",
   "show all": "show all",
   "gender": "gender",
@@ -1727,6 +1727,11 @@
   "my recommendations": "my recommendations",
   "if your recommendations are different from the recommendations provided by the application, enter your values here, otherwise leave blank fields": "if your recommendations are different from the recommendations provided by the application, enter your values here, otherwise leave blank fields",
   "choose type of diet": "Choose type of diet",
-  "choose additional physical activity": "Choose additional physical activity"
+  "choose additional physical activity": "Choose additional physical activity",
+  "clientsdata": "clients data",
+  "myfoods": "my foods",
+  "myrecipes": "my recipes",
+  "diets": "diets"
+
 
 }

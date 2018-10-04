@@ -491,7 +491,7 @@ public class Users : System.Web.Services.WebService {
             connection.Close();
 
             Mail mail = new Mail();
-            string messageSubject = t.Tran("nutrition plan", lang).ToUpper() + " - " + t.Tran("password", lang);
+            string messageSubject = t.Tran("nutrition program", lang).ToUpper() + " - " + t.Tran("password", lang);
             string messageBody = string.Format(
                 @"
 <p>{0}</p>
@@ -512,7 +512,7 @@ public class Users : System.Web.Services.WebService {
 <br />
 {12}
 </div>"
-, t.Tran("nutrition plan", lang).ToUpper()
+, t.Tran("nutrition program", lang).ToUpper()
 , t.Tran("login details", lang)
 , t.Tran("user name", lang)
 , x.userName
@@ -700,7 +700,7 @@ public class Users : System.Web.Services.WebService {
 
     private void SendMail(NewUser x, string lang) {
         Mail mail = new Mail();
-        string messageSubject = t.Tran("nutrition plan", lang).ToUpper() + " - " + t.Tran("registration", lang);
+        string messageSubject = t.Tran("nutrition program", lang).ToUpper() + " - " + t.Tran("registration", lang);
         string messageBody = string.Format(
                 @"
 <p>{0}</p>
@@ -724,7 +724,7 @@ public class Users : System.Web.Services.WebService {
 <br />
 {14}
 </div>"
-, t.Tran("nutrition plan", lang).ToUpper()
+, t.Tran("nutrition program", lang).ToUpper()
 , t.Tran("registration completed successfully", lang).ToUpper()
 , t.Tran("login details", lang)
 , t.Tran("user name", lang)

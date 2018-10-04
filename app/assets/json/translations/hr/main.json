@@ -1459,7 +1459,7 @@
   "send menu": "pošalji jelovnik",
   "client email": "e-mail klijenta",
   "menu sent successfully": "jelovnik je uspješno poslan",
-  "nutrition plan": "Program Prehrane Web",
+  "nutrition program": "Program Prehrane Web",
   "help": "uputa",
   "info": "info",
   "copyright": "copyright",
@@ -1562,7 +1562,7 @@
   "the selected additional energy expenditure is the same as recommended": "odabrana dodatna energetska potrošnja je veća od preporučene",
   "clients": "klijenti",
   "web": "web",
-  "nutrition plan web": "program prehrane web",
+  "nutrition program web": "program prehrane web",
   "delete choosen activity": "briši odabranu aktivnost",
   "show all": "prikaži sve",
   "gender": "spol",
@@ -1738,7 +1738,11 @@
   "my recommendations": "moje preporuke",
   "if your recommendations are different from the recommendations provided by the application, enter your values here, otherwise leave blank fields": "ako su vaše preporuke različite od preporuka koje daje aplikacija ovdje upišite svoje vrijednosti, u protivnom ostavite prazna polja",
   "choose type of diet": "Odaberite vrstu prehrane",
-  "choose additional physical activity": "Odaberite dodatnu tjelesnu aktivnost"
+  "choose additional physical activity": "Odaberite dodatnu tjelesnu aktivnost",
+  "clientsdata": "podaci o klijentu",
+  "myfoods": "moje namirnice",
+  "myrecipes": "moji recepti",
+  "diets": "dijeta"
 
 
 }

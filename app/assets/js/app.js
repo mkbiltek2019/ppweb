@@ -35,7 +35,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $rootScope.user = $sessionStorage.user;
     $scope.today = new Date();
     $rootScope.unitSystem = 1;
-    $scope.currOpt = 'clientsdata';
+    //$scope.currOpt = 'clientsdata';
 
     if (angular.isDefined($sessionStorage.user)) {
         if ($sessionStorage.user != null) {
@@ -1655,7 +1655,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
         $scope.sendingMail = true;
         var link = $rootScope.config.clientapppageurl + '?uid=' + client.userId + '&cid=' + client.clientId
-        var messageSubject = $translate.instant('nutrition plan') + '. ' + $translate.instant('app access link')   //'Program Prehrane. link za pristup aplikaciji';
+        var messageSubject = $translate.instant('nutrition program') + '. ' + $translate.instant('app access link')   //'Program Prehrane. link za pristup aplikaciji';
         var messageBody = '<p>' + $translate.instant('dear') + ',' + '</p>' +
             $translate.instant('the app access link to track your body weight and download menus is') + ': ' +
             '<br />' +
@@ -5041,7 +5041,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 }])
 
 .controller('orderCtrl', ['$scope', '$http', '$rootScope', '$translate', function ($scope, $http, $rootScope, $translate) {
-    $scope.application = $translate.instant('nutrition plan');
+    $scope.application = $translate.instant('nutrition program');
     $scope.version = 'STANDARD';
     $scope.userType = 1;
     $scope.showAlert = false;
@@ -5128,9 +5128,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         var totalprice = 0;
 
         $scope.user.version = $scope.version;
-        if ($scope.user.userType == 0) { unitprice = 550; $scope.user.version = 'START'; }  //TODO get price from config.json
-        if ($scope.user.userType == 1) { unitprice = 950; $scope.user.version = 'STANDARD'; }
-        if ($scope.user.userType == 2) { unitprice = 1850; $scope.user.version = 'PREMIUM'; }
+        if ($scope.user.userType == 0) { unitprice = $rootScope.config.packages[0].price; $scope.user.version = $rootScope.config.packages[0].title; }
+        if ($scope.user.userType == 1) { unitprice = $rootScope.config.packages[1].price; $scope.user.version = $rootScope.config.packages[1].title; }
+        if ($scope.user.userType == 2) { unitprice = $rootScope.config.packages[2].price; $scope.user.version = $rootScope.config.packages[2].title; }
 
         if ($scope.user.licence > 1) {
             unitprice = unitprice * $scope.user.licence - ((unitprice * $scope.user.licence) * ($scope.user.licence / 10))

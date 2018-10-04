@@ -147,7 +147,7 @@ public class Mail : System.Web.Services.WebService {
         //**************************************************
 
         //************ Send mail to customer****************
-        messageSubject = (user.application == "Program Prehrane 5.0" ? user.application : t.Tran("nutrition plan", lang).ToUpper()) + " - " + t.Tran("payment details", lang);
+        messageSubject = (user.application == "Program Prehrane 5.0" ? user.application : t.Tran("nutrition program", lang).ToUpper()) + " - " + t.Tran("payment details", lang);
         messageBody = PaymentDetails(user, lang);
         SendMail(user.email, messageSubject, messageBody, lang);
         //**************************************************
