@@ -1,6 +1,6 @@
 ﻿{
   "backend": "../",
-  "appurl": "/app/",
+  "appurl": "../app/",
   "apk": "http://app.appsgeyser.com/5983009/ProgramPrehrane",
   "debug": true,
   "eur": 7.4,

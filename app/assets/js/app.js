@@ -543,7 +543,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     var init = function () {
         $http({
-            url: $sessionStorage.config.backend + webService + '/Init', // '../Users.asmx/Init',
+            url: $sessionStorage.config.backend + webService + '/Init',
             method: "POST",
             data: ""
         })

@@ -25,6 +25,7 @@ public class Users : System.Web.Services.WebService {
     string EncryptionKey = ConfigurationManager.AppSettings["EncryptionKey"];
     string supervisorUserName = ConfigurationManager.AppSettings["SupervisorUserName"];
     string supervisorPassword = ConfigurationManager.AppSettings["SupervisorPassword"];
+    string trialDays = ConfigurationManager.AppSettings["TrialDays"];
     public Users () {
     }
     public class NewUser {
@@ -55,9 +56,9 @@ public class Users : System.Web.Services.WebService {
         public DataSum datasum = new DataSum();
     }
 
-    public string demo = "demo";
-    public string expired = "expired";
-    public string active = "active";
+    public const string demo = "demo";
+    public const string expired = "expired";
+    public const string active = "active";
 
     public class Totals {
         public int active { get; set; }
@@ -104,7 +105,8 @@ public class Users : System.Web.Services.WebService {
     #region WebMethods
     [WebMethod]
     public string Init() {
-        NewUser x = new NewUser();
+        try {
+            NewUser x = new NewUser();
             x.userId = null;
             x.userType = 0;
             x.firstName = "";
@@ -122,15 +124,16 @@ public class Users : System.Web.Services.WebService {
             x.adminType = 0;
             x.userGroupId = null;
             x.activationDate = DateTime.UtcNow.ToString();
-            x.expirationDate = DateTime.UtcNow.ToString();
-            x.isActive = false;
-            x.licenceStatus = demo;
+            x.expirationDate = string.IsNullOrEmpty(trialDays) ? DateTime.UtcNow.ToString() : DateTime.UtcNow.AddDays(Convert.ToInt32(trialDays)).ToString();
+            x.isActive = string.IsNullOrEmpty(trialDays) ? false : true;
+            x.licenceStatus = string.IsNullOrEmpty(trialDays) ? demo : active;
             x.ipAddress = HttpContext.Current.Request.UserHostAddress;
             x.rowid = 0;
             x.subusers = 0;
             x.datasum = new DataSum();
-        string json = JsonConvert.SerializeObject(x, Formatting.Indented);
-        return json;
+            string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+            return json;
+        } catch (Exception e) { return ("Error: " + e); }
     }
 
     [WebMethod]
