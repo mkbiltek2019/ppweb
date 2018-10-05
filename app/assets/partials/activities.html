@@ -6,11 +6,9 @@
         <div class="col-sm-6">
             <table class="table">
                 <tr>
-                    <td class="borderNone text-right">{{'additional energy expenditure' | translate}}: </td>
-                    <td width="100px" class="text-right bg-warning borderNone">
-                        <strong>
-                            <input ng-model="calculation.recommendedEnergyExpenditure" class="form-control text-right" allow-only-numbers disabled />
-                        </strong>
+                    <td class="borderNone nowrap">{{'additional energy expenditure' | translate}}: </td>
+                    <td width="100px" class="text-right bg-success borderNone">
+                        <strong>{{calculation.recommendedEnergyExpenditure}}</strong>
                     </td>
                     <td class="borderNone"><strong>kcal</strong></td>
                 </tr>
@@ -21,20 +19,12 @@
         <div class="col-sm-6">
             <fieldset class="fieldset-border">
                 <legend class="fieldset-border">{{'choose additional physical activity' | translate}}</legend>
-                <div>
-                    <div class="input-group hidden-xs">
+                <div class="hidden-xs">
+                    <div class="input-group">
                         <input ng-model="searchValue" class="form-control" type="text" placeholder="{{'search' | translate}}..." autofocus />
                         <span class="input-group-btn">
                             <a href="" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</a>
                         </span>
-                    </div>
-                    <div class="hidden-sm hidden-md hidden-lg hidden-xl">
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label>{{'select activity' | translate}}...</label>
-                            <md-select ng-model="x" ng-change="openPopup(x)">
-                                <md-option ng-value="x" ng-repeat="x in activities | filter:{activity:searchValue} | orderBy:order | filter:{isSport:1}">{{x.activity}}</md-option>
-                            </md-select>
-                        </md-input-container>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-condensed text-small">
@@ -56,6 +46,14 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
+                <div class="hidden-sm hidden-md hidden-lg hidden-xl">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>{{'select activity' | translate}}...</label>
+                        <md-select ng-model="x" ng-change="openPopup(x)">
+                            <md-option ng-value="x" ng-repeat="x in activities | filter:{activity:searchValue} | orderBy:order | filter:{isSport:1}">{{x.activity}}</md-option>
+                        </md-select>
+                    </md-input-container>
                 </div>
             </fieldset>
         </div>
