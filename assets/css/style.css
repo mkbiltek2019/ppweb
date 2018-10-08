@@ -300,9 +300,20 @@ li a {
     padding: 0px 20px 5px 10px;
 }
 
+.video-frame {
+    width: 50%;
+    float: right;
+    padding: 10px 0px 2px 20px;
+}
+
 @media screen and (max-width: 768px) {
     .main-content {
         margin-left: 10px;
+    }
+    .video-frame {
+        width: 100%;
+        float:none;
+        padding: 0px 0px 20px 0px;
     }
 }
 
