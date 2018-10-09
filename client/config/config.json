@@ -1,6 +1,6 @@
 ﻿{
   "backend": "../",
-  "title": "nutrition plan",
+  "title": "nutrition program",
   "shortDescription": "meal planning web app",
   "apppage": "app.programprehrane.com",
   "apppageurl": "/app/",
@@ -30,7 +30,7 @@
   ],
   "debug": true,
   "version": "1.0.0",
-  "date":  "06.05.2018",
+  "date": "06.05.2018",
   "eur": 7.4,
   "currency": "hrk",
   "currencies": [

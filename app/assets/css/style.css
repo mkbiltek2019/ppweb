@@ -123,18 +123,14 @@ a {
 }
 
 .panel-heading {
-    /*background-color:mediumaquamarine !important;
-    color:white !important;*/
     background-color:#e6e6e6 !important;
     color:black !important;
 }
 
 .navbar{
-    background-color: #337ab7; /*/midnightblue !important;*/
+    background-color: #337ab7;
     border:none !important;
     border-radius:0 !important;
-
-    /*darkred*/
 }
 
 navbar-brand {
@@ -165,10 +161,6 @@ navbar-brand {
 .text-bold{
     font-weight:600 !important;
 }
-
-/*table td {
-  vertical-align: middle !important;  not working with sheduler
-}*/
 
 hr.bold {
 	border-top: 2px solid;
