@@ -35,7 +35,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $rootScope.user = $sessionStorage.user;
     $scope.today = new Date();
     $rootScope.unitSystem = 1;
-    //$scope.currOpt = 'clientsdata';
+
+    if ((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )) {
+        $rootScope.browserMsg = {
+            title: 'you are currently using internet explorer',
+            description: 'for a better experience in using the application, please use some of the modern browsers such as google chrome, mozilla firefox, microsoft edge etc.'
+        };
+    }
 
     if (angular.isDefined($sessionStorage.user)) {
         if ($sessionStorage.user != null) {
