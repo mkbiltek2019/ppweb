@@ -19,7 +19,7 @@ public class Admin : System.Web.Services.WebService {
 
     [WebMethod]
     public bool Login(string username, string password) {
-        if(username == supervisorUserName && password == supervisorPassword) {
+        if(username.ToLower().Trim() == supervisorUserName.ToLower() && password == supervisorPassword) {
             return true;
         } else {
             return false;

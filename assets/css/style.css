@@ -306,6 +306,10 @@ li a {
     padding: 10px 0px 2px 20px;
 }
 
+.nodecoration {
+    text-decoration: none !important;
+}
+
 @media screen and (max-width: 768px) {
     .main-content {
         margin-left: 10px;
