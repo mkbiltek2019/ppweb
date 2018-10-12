@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <title>BMI - Indeks tjelesna mase | BMI Kalkulator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Određivanje indeksa tjelesne mase (ITM) (eng. Body Mass Index; BMI) danas je najrasprostranjeniji način kojim se dovode u vezu tjelesna masa i visina. ITM se koristi zbog velike povezanosti sa sastavom tijela.">
+    <meta name="author" content="IG PROG, obrt za računalno programiranje">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="../assets/js/vendor/jquery.min.js"></script>
+    <script src="../assets/js/vendor/bootstrap.min.js"></script>
+    <script src="../assets/js/vendor/angular.min.js"></script>
+    <script src="../assets/js/vendor/Chart.min.js"></script>
+    <script src="../assets/js/vendor/loader.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=1" />
+    <link href='https://fonts.googleapis.com/css?family=Encode Sans Expanded' rel='stylesheet'>
+    <style>
+        body {
+            font-family: 'Encode Sans Expanded';
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body ng-app="app" ng-controller="bmiCtrl" id="home" data-spy="scroll" data-target=".navbar" data-offset="60" style="background-color:transparent">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html" style="padding-top:2px !important"><img src="assets/img/logo.svg"></a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="index.html"><i class="fa fa-home"></i> Početna</a></li>
+                    <li><a href="/app" target="_blank"><i class="fa fa-cog"></i> Aplikacija</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container pt60">
+        <h1>BMI - Indeks tjelesne mase</h1>
+        <div>
+            <hr />
+            <div class="row">
+                <div class="col-sm-8">
+                    <p class="text-justify">
+                        Određivanje indeksa tjelesne mase (ITM) (eng. Body Mass Index; <strong>BMI</strong>) danas je
+                        najrasprostranjeniji način kojim se dovode u vezu tjelesna masa i visina. ITM se koristi zbog
+                        velike povezanosti sa sastavom tijela. <br />
+                        Indeks tjelesne mase ne koristi se za utvrdivanje uhranjenosti trudnica i sportaša.
+                        ITM tjelesno aktivnih ljudi nerijetko je veci od 25 kg/m2, no važno je znati da se ovdje ne radi
+                        o povecanoj masi masnog tkiva, vec o povecanoj mišicnoj masi.
+                        Govori li se o općoj populaciji, veće vrijednosti ITM-a vezuju se uz povećan rizik za visoki
+                        krvni tlak, šećernu bolest II. tipa te bolesti srca i krvnih žila. Njegovo značajno povećanje u
+                        kasnijem životnom dobu veoma povečava učestalost ishemijske bolesti srca. Takoder je
+                        povećana tjelesna masa u pozitivnoj korelaciji s pojavom žučnih kamenaca, bolesti jetre,
+                        postoperativnih komplikacija te smrti tijekom operacija. Komplikacije povezane s artritisom,
+                        posebice kukova i koljena, češće su kod osoba neprimjereno visoke tjelesne mase. Gojaznost
+                        je povezana s karcinomom debelog crijeva, karcinomom prostate kod muškaraca te dojki,
+                        maternice i jajnika kod žena. Pothranjenost je, s druge strane, povezana s većom smrtnosti
+                        uslijed raka pluca i žučnjaka.
+                    </p>
+                </div>
+                <div class="col-sm-4">
+                    <img src="../assets/img/monitor.png" class="img-thumbnail m10" ale="Web aplikacija Program Prehrane Web" style="float: right;" />
+                    <em class="small">*<a href="../" title="Web aplikacija Program Prehrane Web">Web aplikacija Program Prehrane Web</a></em>
+                </div>
+            </div>
+            <div class="mt20">
+                <p>
+                    Formula za izračun indeksa tjelesne mase je: <strong>BMI=m/h<sup>2</sup></strong> gdje je <strong>m</strong> tjelesna masa u kg, a <strong>h</strong> visina u metrima.<br />
+                    Npr. ako ste visoki 165 cm teški 60 kg Vaš BMI je 60/(1,65 * 1,65) = 22 kg/m<sup>2</sup>.
+                </p>
+            </div>
+            <div class="row well">
+                <h2>BMI Kalkulator</h2>
+                <div class="col-sm-2">
+                    <div>
+                        <label>Visina (cm)</label>
+                        <input ng-model="d.height" class="form-control" type="number" />
+                    </div>
+                    <div>
+                        <label>Masa (kg)</label>
+                        <input ng-model="d.weight" class="form-control" type="number" />
+                    </div>
+                    <div class="mt10  text-right">
+                        <button ng-click="d.calculate()" class="btn-lg btn-default">Izračunaj BMI</button>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div id="bmiChart" style="height:200px; width:200px; margin:auto"></div>
+                </div>
+                <div class="col-sm-6">
+                    <div ng-if="d.bmi" class="alert alert-{{d.css}}" ng-cloak>
+                        <h3>BMI: {{d.bmi}} kg/m<sup>2</sup></h3>
+                        <strong class="text-uppercase">{{d.description}}</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <h3>Kategorizacija</h3>
+                <table class="table">
+                    <tr>
+                        <th>BMI</th>
+                        <th>tjelesna masa</th>
+                    </tr>
+                    <tr>
+                        <td>< 18.5</td>
+                        <td>Snižena tjelesna masa</td>
+                    </tr>
+                    <tr>
+                        <td>18.5 - 25</td>
+                        <td>Normalna tjelesna masa</td>
+                    </tr>
+                    <tr>
+                        <td>25 - 30</td>
+                        <td>Povišena tjelesna masa</td>
+                    </tr>
+                    <tr>
+                        <td>> 30</td>
+                        <td>Gojaznost</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer class="container text-center pt60">
+        <div class="navbar-fixed-bottom m10">
+            <a href="#home" title="Na vrh">
+                <span class="fa fa-chevron-up fa-2x"></span>
+            </a>
+        </div>
+        <hr />
+        <div>
+            <span class="pull-left">Copyright © 2018 IG PROG</span>
+        </div>
+    </footer>
+
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="../app/assets/js/charts.js"></script>
+
+</body>
+</html>
