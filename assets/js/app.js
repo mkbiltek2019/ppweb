@@ -2,7 +2,7 @@
 app.js
 (c) 2018 IG PROG, www.igprog.hr
 */
-angular.module('app', ['charts'])
+angular.module('app', ['ngMaterial', 'charts'])
 
 .config(['$httpProvider', function ($httpProvider) {
     //--------------disable catche---------------------
