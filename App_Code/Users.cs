@@ -68,7 +68,8 @@ public class Users : System.Web.Services.WebService {
         public int subuser { get; set; }
         public int total { get; set; }
         public double licencepercentage { get; set; }
-        public Object city { get; set; } 
+        public Object city { get; set; }
+        public Object monthly { get; set; }
     }
 
     public class DataSum {
@@ -270,7 +271,7 @@ public class Users : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string Total() {
+    public string Total(int year) {
         try {
             Totals x = new Totals();
             List<NewUser> users = GetUsers(null, null);
@@ -282,6 +283,7 @@ public class Users : System.Web.Services.WebService {
             x.total = users.Count();
             x.licencepercentage = x.total == x.subuser ? 0 : Math.Round((Convert.ToDouble(x.licence) / (x.total - x.subuser) * 100), 1);
             x.city = GetCityCount(users);
+            x.monthly = GetMonthlyUsers(users, year);
             return JsonConvert.SerializeObject(x, Formatting.Indented);
         } catch (Exception e) {
             return (e.Message);
@@ -875,6 +877,14 @@ public class Users : System.Web.Services.WebService {
                  group r by r.city.ToUpper() into g
                  select new { name = g.Key, count = g.Count() };
         aa = aa.OrderByDescending(a => a.count);
+        return aa.ToList();
+    }
+
+    public Object GetMonthlyUsers(List<NewUser> users, int year) {
+        var aa = from r in users
+                 where Convert.ToDateTime(r.activationDate).Year == Convert.ToInt32(year)
+                 group r by Convert.ToDateTime(r.activationDate).Month into g
+                 select new { month = g.Key, registration = g.Count(), activation = g.Count(a => a.isActive == true) };
         return aa.ToList();
     }
 

@@ -97,13 +97,14 @@ angular.module('app', [])
     $scope.page = 1;
     $scope.searchQuery = '';
     $scope.showUsers = true;
+    $scope.year = new Date().getFullYear();
 
-    var total = function () {
+    var total = function (year) {
         $scope.loading = true;
         $http({
             url: $rootScope.config.backend + 'Users.asmx/Total',
             method: 'POST',
-            data: ''
+            data: { year: year }
         })
         .then(function (response) {
             $scope.t = JSON.parse(response.data.d);
@@ -114,13 +115,13 @@ angular.module('app', [])
             alert(response.data.d);
         });
     }
-    total();
+    total($scope.year);
 
-    $scope.total = function () {
+    $scope.total = function (year) {
         $scope.showUsers = false;
         google.charts.load('current', { 'packages': ['line'] });
         google.charts.setOnLoadCallback(drawChart);
-        total();
+        total(year);
     }
 
     var load = function () {
@@ -168,7 +169,7 @@ angular.module('app', [])
         })
         .then(function (response) {
             load();
-            total();
+            total($scope.year);
             alert(response.data.d);
         },
         function (response) {
@@ -206,7 +207,7 @@ angular.module('app', [])
         })
         .then(function (response) {
             load();
-            total();
+            total($scope.year);
             alert(response.data.d);
         },
         function (response) {

@@ -74,7 +74,7 @@
             <div>
                 <ul class="nav nav-tabs">
                     <li ng-class="showUsers==true?'active':''" ng-click="search(searchQuery, showActive)"><a href=""><i class="fa fa-users"></i> Korisnici</a></li>
-                    <li ng-class="showUsers==false?'active':''" ng-click="total()"><a href=""><i class="fa fa-bar-chart"></i> Analitika</a></li>
+                    <li ng-class="showUsers==false?'active':''" ng-click="total(year)"><a href=""><i class="fa fa-bar-chart"></i> Analitika</a></li>
                 </ul>
             </div>
             <div ng-if="showUsers">
@@ -207,8 +207,36 @@
                         <div id="chart_ppweb"></div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-6 pt20">
+                <div class="row mt20">
+                    <div class="col-sm-7">
+                        <label>
+                            Statistika po mjesecima
+                            <select ng-model="year" ng-change="total(year)">
+                                <option disabled="disabled" selected="selected">{{year}}</option>
+                                <option value="2017">2017</option>
+                                <option value="2018">2018</option>
+                                <option value="2019">2019</option>
+                            </select> g
+                        </label>
+                        <table class="table table-condensed">
+                            <tr>
+                                <th class="text-left">Mjesec</th>
+                                <th class="text-left">Registracije</th>
+                                <th class="text-left">Aktivacije</th>
+                                <th style="width:30%"></th>
+                            </tr>
+                            <tr ng-repeat="x in t.monthly">
+                                <td class="text-left">{{x.month}}</td>
+                                <td class="text-left"><strong class="badge">{{x.registration}}</strong></td>
+                                <td class="text-left"><strong class="badge">{{x.activation}}</strong></td>
+                                <td class="text-left">
+                                    <div style="width:{{x.registration*5}}px; height:10px" class="bg-primary"></div>
+                                    <div style="width:{{x.activation*5}}px; height:10px; background-color:red"></div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-sm-5 pt20">
                         <label>Statistika po gradovima</label>
                         <table class="table table-condensed">
                             <tr>
