@@ -1,10 +1,10 @@
 ﻿<!DOCTYPE html>
 <html lang="hr">
 <head>
-    <title>Tablica namirnica</title>
+    <title>Tablica namirnica | Energetske vrijednosti</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Kalorijska tablica. Prikaz energetske vrijednosti namirnica iz web aplikacije Program Prehrane Web">
+    <meta name="description" content="Kalorijska tablica. Popis namirnica iz web aplikacije Program Prehrane Web. Energetska vrijednost namirnica.">
     <meta name="author" content="IG PROG, obrt za računalno programiranje">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -49,8 +49,8 @@
     </nav>
 
     <div class="container pt60">
-        <h1>Tablica namirnica</h1>
-        <div>
+        <h1>Tablica namirnica - Energetske vrijednosti</h1>
+        <div ng-cloak>
             <h2 class="small">Popis namirnica iz Web aplikacije <a href="app" title="Web aplikacija Program Prehrane">Program Prehrane Web</a></h2>
             <p class="text-justify">Baza sadrži više od 700 namirnica i pripremljenih jela. U ovoj tablici je prikazana samo energetska vrijednost namirnica. Detaljne informacije o namirnicama (mako i mikronutritivne vrijednosti) su dostupne u <a href="app" title="Web aplikacija Program Prehrane">aplikaciji</a>.</p>
             <hr />
@@ -65,7 +65,7 @@
                             <td></td>
                             <td>
                                 <form>
-                                    <div class="input-group">
+                                    <div class="input-group" style="width:250px">
                                         <input ng-model="search" type="text" class="form-control" placeholder="Pretraži...">
                                         <div class="input-group-btn">
                                             <button class="btn btn-default" type="submit">
@@ -86,19 +86,27 @@
                             <th class="nowrap text-center">Energija (Kcal)</th>
                             <th class="text-center">Detalji</th>
                         </tr>
-                        <tr ng-repeat="x in foods | filter: search">
+                        <tr ng-repeat="x in foods | filter: search | orderBy: 'food'">
                             <td>{{$index+1}}</td>
                             <td>{{x.food}}</td>
                             <td class="text-right">{{x.mass}}</td>
                             <td class="text-right">{{x.quantity}}</td>
                             <td class="nowrap">{{x.unit}}</td>
                             <td class="text-right">{{x.energy | number:1}}</td>
-                            <td class="text-center"><a href="app" title="Makro i mikro nutritivne vrijednosti namirnice" class="btn btn-default" style="border-radius:45%"><i class="fa fa-info fa-2x"></i></a></td>
+                            <td class="text-center"><a href="app" title="Makro i mikro nutritivne vrijednosti namirnica potražite u web aplikaciji Program Prehrane Web" class="btn btn-default" style="border-radius:45%"><i class="fa fa-info fa-2x"></i></a></td>
                         </tr>
                     </table>
                 </div>
             </div>
         </div>
+        <a href="../app/" title="Web aplikacija za izradu uravnoteženih jelovnika i plana tjelesne aktivnosti">
+            <div class="mt20 text-center">
+                <img src="../assets/img/mockup_600x400.jpg" class="img-thumbnail m10" ale="Web aplikacija Program Prehrane Web" />
+                <div>
+                    <em class="small">* Web aplikacija Program Prehrane Web</em>
+                </div>
+            </div>
+        </a>
     </div>
 
     <footer class="container text-center pt60">
