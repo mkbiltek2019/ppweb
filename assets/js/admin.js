@@ -97,7 +97,15 @@ angular.module('app', [])
     $scope.page = 1;
     $scope.searchQuery = '';
     $scope.showUsers = true;
-    $scope.year = new Date().getFullYear();
+
+    function setYears() {
+        $scope.years = [];
+        for (var i = 2017; i <= $scope.year; i++) {
+            $scope.years.push(i);
+        }
+        $scope.year = new Date().getFullYear();
+    }
+    setYears();
 
     var total = function (year) {
         $scope.loading = true;
@@ -108,6 +116,7 @@ angular.module('app', [])
         })
         .then(function (response) {
             $scope.t = JSON.parse(response.data.d);
+            drawChart();
             $scope.loading = false;
         },
         function (response) {
@@ -119,9 +128,37 @@ angular.module('app', [])
 
     $scope.total = function (year) {
         $scope.showUsers = false;
-        google.charts.load('current', { 'packages': ['line'] });
-        google.charts.setOnLoadCallback(drawChart);
+        google.charts.load('current', { packages: ['corechart'] });
         total(year);
+    }
+
+    function drawChart() {
+        $scope.loadingChart = true;
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Mjesec');
+        data.addColumn('number', 'Registracije');
+        data.addColumn('number', 'Aktivacije');
+        data.addColumn('number', 'Postotak');
+
+            var tl = $scope.t.monthly;
+            angular.forEach(tl, function (value, key) {
+                data.addRows([
+                       [value.month, value.registration, value.activation, value.percentage]
+                ]);
+            })
+            var options = {
+                chart: {
+                    title: 'Pregled registracija i aktivacija'
+                },
+                height: (tl.length * 55) + 2,
+                chartArea: {
+                    height: tl.length * 55,
+                    width: 350
+                }
+            };
+            var chart = new google.visualization.BarChart(document.getElementById('chart_ppweb'));
+            chart.draw(data, options);
+            $scope.loadingChart = false;
     }
 
     var load = function () {
@@ -225,44 +262,6 @@ angular.module('app', [])
     $scope.showAllPages = function () {
         $scope.idxStart = 0;
         $scope.idxEnd = $scope.d.length;
-    }
-
-
-    //google.charts.load('current', { 'packages': ['line'] });
-    //google.charts.setOnLoadCallback(drawChart);
-
-    function drawChart() {
-        $scope.loadingChart = true;
-        var data = new google.visualization.DataTable();
-        data.addColumn('number', 'Aktivacije');
-        data.addColumn('number', 'Postotak licenci');
-        data.addColumn('number', 'Licence');
-        $http({
-            url: $rootScope.config.backend + 'Users.asmx/TotalList',
-            method: 'POST',
-            data: ''
-        })
-        .then(function (response) {
-            var tl = JSON.parse(response.data.d);
-            angular.forEach(tl, function (value, key) {
-                data.addRows([
-                       [key, value.licencepercentage, value.licence]
-                ]);
-            })
-            var options = {
-                chart: {
-                    title: 'Pregled registracija i aktivacija'
-                },
-                height: 250
-            };
-            var chart = new google.charts.Line(document.getElementById('chart_ppweb'));
-            chart.draw(data, google.charts.Line.convertOptions(options));
-            $scope.loadingChart = false;
-        },
-        function (response) {
-            $scope.loadingChart = false;
-            alert(response.data.d);
-        });
     }
 
     $scope.nextPage = function() {

@@ -169,87 +169,96 @@
             </div>
 
             <div ng-if="!showUsers">
-                <h3>Statistika</h3>
-                <div class="row">
+                <div class="row mt20">
                     <div class="col-sm-4">
-                        <table class="table table-condensed">
-                            <tr>
-                                <td class="text-left">Registriranih korisnika:</td>
-                                <td class="text-left"><strong>{{t.total}}</strong></td>
-                            </tr>
-                            <tr>
-                                <td class="text-left">Aktivnih korisnika:</td>
-                                <td class="text-left"><strong>{{t.active}}</strong></td>
-                            </tr>
-                            <tr>
-                                <td class="text-left">Licence</td>
-                                <td class="text-left"><strong>{{t.licence}}</strong> <span class="badge">{{t.licencepercentage}} %</span></td>
-                            </tr>
-                            <tr>
-                                <td class="text-left">Pod licence:</td>
-                                <td class="text-left"><strong>{{t.subuser}}</strong></td>
-                            </tr>
-                            <tr>
-                                <td class="text-left">Demo:</td>
-                                <td class="text-left"><strong>{{t.demo}}</strong></td>
-                            </tr>
-                            <tr>
-                                <td class="text-left">Istekle licence:</td>
-                                <td class="text-left"><strong>{{t.expired}}</strong></td>
-                            </tr>
-                        </table>
+                        <fieldset class="fieldset-border">
+                            <legend class="fieldset-border">Statistika</legend>
+                            <table class="table table-condensed">
+                                <tr>
+                                    <td class="text-left">Registriranih korisnika:</td>
+                                    <td class="text-left"><strong>{{t.total}}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">Aktivnih korisnika:</td>
+                                    <td class="text-left"><strong>{{t.active}}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">Licence</td>
+                                    <td class="text-left"><strong>{{t.licence}}</strong> <span class="badge">{{t.licencepercentage}} %</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">Pod licence:</td>
+                                    <td class="text-left"><strong>{{t.subuser}}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">Demo:</td>
+                                    <td class="text-left"><strong>{{t.demo}}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">Istekle licence:</td>
+                                    <td class="text-left"><strong>{{t.expired}}</strong></td>
+                                </tr>
+                            </table>
+                        </fieldset>
                     </div>
                     <div class="col-sm-8">
-                        <div ng-if="loadingChart" class="text-center text-primary">
+                        <div ng-if="loading" class="text-center text-primary">
                             <label class="lead text-primary">Učitavanje...</label>
                             <div><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>
                         </div>
-                        <div id="chart_ppweb"></div>
                     </div>
                 </div>
                 <div class="row mt20">
                     <div class="col-sm-7">
-                        <label>
-                            Statistika po mjesecima
-                            <select ng-model="year" ng-change="total(year)">
-                                <option disabled="disabled" selected="selected">{{year}}</option>
-                                <option value="2017">2017</option>
-                                <option value="2018">2018</option>
-                                <option value="2019">2019</option>
-                            </select> g
-                        </label>
-                        <table class="table table-condensed">
-                            <tr>
-                                <th class="text-left">Mjesec</th>
-                                <th class="text-left">Registracije</th>
-                                <th class="text-left">Aktivacije</th>
-                                <th style="width:30%"></th>
-                            </tr>
-                            <tr ng-repeat="x in t.monthly">
-                                <td class="text-left">{{x.month}}</td>
-                                <td class="text-left"><strong class="badge">{{x.registration}}</strong></td>
-                                <td class="text-left"><strong class="badge">{{x.activation}}</strong></td>
-                                <td class="text-left">
-                                    <div style="width:{{x.registration*5}}px; height:10px" class="bg-primary"></div>
-                                    <div style="width:{{x.activation*5}}px; height:10px; background-color:red"></div>
-                                </td>
-                            </tr>
-                        </table>
+                        <fieldset class="fieldset-border">
+                            <legend class="fieldset-border">
+                                Statistika po mjesecima
+                                <select ng-model="year" ng-options="x for x in years" ng-change="total(year)"></select> g
+                            </legend>
+                            <div>
+                                <div ng-if="loadingChart" class="text-center text-primary">
+                                    <label class="lead text-primary">Učitavanje...</label>
+                                    <div><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>
+                                </div>
+                                <div id="chart_ppweb"></div>
+                            </div>
+                            <table class="table table-condensed">
+                                <tr>
+                                    <th class="text-left">Mjesec</th>
+                                    <th class="text-left">Registracije</th>
+                                    <th class="text-left">Aktivacije</th>
+                                    <th>Postotak</th>
+                                    <th style="width:30%"></th>
+                                </tr>
+                                <tr ng-repeat="x in t.monthly">
+                                    <td class="text-left">{{x.month}}</td>
+                                    <td class="text-left"><strong class="badge">{{x.registration}}</strong></td>
+                                    <td class="text-left"><strong class="badge">{{x.activation}}</strong></td>
+                                    <td>{{x.percentage}} %</td>
+                                    <td class="text-left">
+                                        <div style="width:{{x.registration*2}}px; height:10px" class="bg-primary"></div>
+                                        <div style="width:{{x.activation*2}}px; height:10px; background-color:red"></div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </fieldset>
                     </div>
                     <div class="col-sm-5 pt20">
-                        <label>Statistika po gradovima</label>
-                        <table class="table table-condensed">
-                            <tr>
-                                <th class="text-left">Grad</th>
-                                <th class="text-left">Licence</th>
-                                <th style="width:30%"></th>
-                            </tr>
-                            <tr ng-repeat="x in t.city">
-                                <td class="text-left">{{x.name}}</td>
-                                <td class="text-left"><strong class="badge">{{x.count}}</strong></td>
-                                <td class="text-left"><div style="width:{{x.count*10}}px; height:20px" class="bg-primary"></div></td>
-                            </tr>
-                        </table>
+                        <fieldset class="fieldset-border">
+                            <legend class="fieldset-border">Statistika po gradovima</legend>
+                            <table class="table table-condensed">
+                                <tr>
+                                    <th class="text-left">Grad</th>
+                                    <th class="text-left">Licence</th>
+                                    <th style="width:30%"></th>
+                                </tr>
+                                <tr ng-repeat="x in t.city">
+                                    <td class="text-left">{{x.name}}</td>
+                                    <td class="text-left"><strong class="badge">{{x.count}}</strong></td>
+                                    <td class="text-left"><div style="width:{{x.count*10}}px; height:20px" class="bg-primary"></div></td>
+                                </tr>
+                            </table>
+                        </fieldset>
                     </div>
                 </div>
             </div>

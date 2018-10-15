@@ -881,10 +881,16 @@ public class Users : System.Web.Services.WebService {
     }
 
     public Object GetMonthlyUsers(List<NewUser> users, int year) {
+        System.Globalization.CultureInfo culturInfo = new System.Globalization.CultureInfo("hr-HR", false);
         var aa = from r in users
                  where Convert.ToDateTime(r.activationDate).Year == Convert.ToInt32(year)
                  group r by Convert.ToDateTime(r.activationDate).Month into g
-                 select new { month = g.Key, registration = g.Count(), activation = g.Count(a => a.isActive == true) };
+                 select new {
+                     month = culturInfo.DateTimeFormat.GetMonthName(g.Key).ToUpper(),
+                     registration = g.Count(),
+                     activation = g.Count(a => a.isActive == true),
+                     percentage = Math.Round((decimal)(g.Count(a => a.isActive == true)* 100) / g.Count(), 1)
+                 };
         return aa.ToList();
     }
 
