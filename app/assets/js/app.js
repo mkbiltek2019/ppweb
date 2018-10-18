@@ -2402,8 +2402,23 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 .controller('menuCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'charts', '$timeout', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, charts, $timeout, functions, $translate) {
     var webService = 'Foods.asmx';
-    $scope.addFoodBtnIcon = 'fa fa-plus'; // 'fa fa-hand-o-right';
+    $scope.addFoodBtnIcon = 'fa fa-plus';
     $scope.addFoodBtn = false;
+
+    function initPrintSettings() {
+        $http({
+            url: $sessionStorage.config.backend + 'PrintPdf.asmx/InitMenuSettings',
+            method: "POST",
+            data: {}
+        })
+       .then(function (response) {
+           $rootScope.printSettings = JSON.parse(response.data.d);
+       },
+       function (response) {
+           alert(response.data.d)
+       });
+    };
+    initPrintSettings();
 
     $rootScope.selectedFoods = $rootScope.selectedFoods == undefined ? [] : $rootScope.selectedFoods;
 
@@ -2586,7 +2601,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $http({
                 url: $sessionStorage.config.backend + 'Foods.asmx/Get',
                 method: "POST",
-                data: {userId: $rootScope.user.userId, id: JSON.parse(x).id }
+                data: { userId: $rootScope.user.userId, id: JSON.parse(x).id }
             })
             .then(function (response) {
                 $scope.food = JSON.parse(response.data.d);
@@ -2775,7 +2790,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             targetEvent: '',
             clickOutsideToClose: true,
             fullscreen: $scope.customFullscreen,
-            d: { currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData, totals: $rootScope.totals }
+            d: { currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData, totals: $rootScope.totals, settings: $rootScope.printSettings }
         })
         .then(function () {
         }, function () {
@@ -2786,6 +2801,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.currentMenu = d.currentMenu;
         $scope.clientData = d.clientData;
         $scope.totals = d.totals;
+        $scope.settings = d.settings;
 
         $scope.cancel = function () {
             $mdDialog.cancel();
@@ -2821,6 +2837,21 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         $scope.getMealTitle = function (x) {
             return $rootScope.getMealTitle(x);
+        }
+
+        $scope.getServDescription = function (x) {
+            var des = "";
+            if (x.cerealsServ > 0) { des = servDes(des, x.cerealsServ, "cereals_"); }
+            if (x.vegetablesServ > 0) { des = servDes(des, x.vegetablesServ, "vegetables_"); }
+            if (x.fruitServ > 0) { des = servDes(des, x.fruitServ, "fruit_"); }
+            if (x.meatServ > 0) { des = servDes(des, x.meatServ, "meat_"); }
+            if (x.milkServ > 0) { des = servDes(des, x.milkServ, "milk_"); }
+            if (x.fatsServ > 0) { des = servDes(des, x.fatsServ, "fats_"); }
+            return des;
+        }
+
+        function servDes(des, serv, title) {
+            return (functions.isNullOrEmpty(des) ? '' : (des + ', ')) + serv + ' serv. ' + $translate.instant(title);
         }
 
     };
@@ -3971,7 +4002,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             templateUrl: 'assets/partials/popup/pdf.html',
             parent: angular.element(document.body),
             clickOutsideToClose: true,
-            d: $rootScope.currentMenu,
+            d: { currentMenu: $rootScope.currentMenu, settings: $rootScope.printSettings },
             config: $rootScope.config
         })
         .then(function (r) {
@@ -3981,7 +4012,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 
     var printPdfCtrl = function ($scope, $rootScope, $mdDialog, $http, d, config, $translate, $translatePartialLoader, $timeout) {
-
+        $scope.settings = d.settings;
         $scope.cancel = function () {
             $mdDialog.cancel();
         };
@@ -4003,7 +4034,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     $http({
                         url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
                         method: "POST",
-                        data: { userId: $sessionStorage.usergroupid, currentMenu: currentMenu, clientData: $rootScope.clientData, totals: $rootScope.totals, consumers: consumers, lang: $rootScope.config.language }
+                        data: { userId: $sessionStorage.usergroupid, currentMenu: currentMenu, clientData: $rootScope.clientData, totals: $rootScope.totals, consumers: consumers, lang: $rootScope.config.language, settings: $scope.settings }
                     })
                       .then(function (response) {
                           var fileName = response.data.d;
@@ -5014,14 +5045,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.menuList = [id1, id2, id3, id4, id5, id6, id7];
     }
 
-    $scope.pageSizes = ['A4', 'A3', 'A2', 'A1']
-    $scope.pageSize = 'A3';
     $scope.creatingPdf = false;
-    $scope.showQty = true;
-    $scope.showMass = true;
-    $scope.showDescription = false;
-    $scope.orientation = "L";  //Landscape
-    $scope.printWeeklyMenu = function (pageSize, consumers, showQty, showMass, showDescription, orientation) {
+    $scope.pageSizes = ['A4', 'A3', 'A2', 'A1'];
+    $rootScope.printSettings.pageSize = 'A3';
+    $rootScope.printSettings.showDescription = false;
+    $rootScope.printSettings.orientation = 'L';
+
+    $scope.printWeeklyMenu = function (consumers, printSettings) {
         if ($scope.menuList.length == 0) {
             functions.alert($translate.instant('select menus'), '');
             return false;
@@ -5031,7 +5061,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + 'PrintPdf.asmx/WeeklyMenuPdf',
             method: "POST",
-            data: { userId: $sessionStorage.usergroupid, menuList: $scope.menuList, clientData: $rootScope.clientData, consumers: consumers, lang: $rootScope.config.language, pageSize: pageSize, showQty: showQty, showMass: showMass, showDescription: showDescription, orientation: orientation }
+            data: { userId: $sessionStorage.usergroupid, menuList: $scope.menuList, clientData: $rootScope.clientData, consumers: consumers, lang: $rootScope.config.language, settings: printSettings }
         })
           .then(function (response) {
               var fileName = response.data.d;
@@ -5325,15 +5355,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.pdfLink = null;
     }
 
-    $scope.pageSizes = ['A4', 'A3', 'A2', 'A1']
-    $scope.pageSize = 'A3';
     $scope.creatingPdf = false;
-    $scope.showQty = true;
-    $scope.showMass = true;
-    $scope.showDescription = false;
-    $scope.orientation = "L";  //Landscape
+    $scope.pageSizes = ['A4', 'A3', 'A2', 'A1'];
+    $rootScope.printSettings.pageSize = 'A3';
+    $rootScope.printSettings.showDescription = false;
+    $rootScope.printSettings.orientation = 'L';
 
-    $scope.printWeeklyMenu = function (pageSize, consumers, showQty, showMass, showDescription, orientation) {
+    $scope.printWeeklyMenu = function (consumers, printSettings) {
         if ($scope.menuList.length == 0) {
             functions.alert($translate.instant('select menus'), '');
             return false;
@@ -5343,7 +5371,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + 'PrintPdf.asmx/WeeklyMenuPdf',
             method: "POST",
-            data: { userId: $sessionStorage.usergroupid, menuList: $scope.menuList, clientData: $rootScope.clientData, consumers: consumers, lang: $rootScope.config.language, pageSize: pageSize, showQty: showQty, showMass: showMass, showDescription: showDescription, orientation: orientation }
+            data: { userId: $sessionStorage.usergroupid, menuList: $scope.menuList, clientData: $rootScope.clientData, consumers: consumers, lang: $rootScope.config.language, settings: printSettings }
         })
           .then(function (response) {
               var fileName = response.data.d;

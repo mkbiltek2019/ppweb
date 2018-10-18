@@ -229,7 +229,7 @@
                         <div class="col-sm-6">
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>{{'page size' | translate}}</label>
-                                <md-select ng-model="pageSize" ng-change="hidePdfLink()">
+                                <md-select ng-model="printSettings.pageSize" ng-change="hidePdfLink()">
                                     <md-option ng-repeat="x in pageSizes" ng-value="x">
                                         {{x}}
                                     </md-option>
@@ -239,7 +239,7 @@
                         <div class="col-sm-6">
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>{{'orientation' | translate}}</label>
-                                <md-select ng-model="orientation" ng-change="hidePdfLink()">
+                                <md-select ng-model="printSettings.orientation" ng-change="hidePdfLink()">
                                     <md-option ng-value="'L'">{{'landscape' | translate}}</md-option>
                                     <md-option ng-value="'P'">{{'portrait' | translate}}</md-option>
                                 </md-select>
@@ -247,20 +247,20 @@
                         </div>
                     </div>
                     <div>
-                        <md-checkbox ng-model="showQty" class="md-primary" ng-change="hidePdfLink()">
+                        <md-checkbox ng-model="printSettings.showQty" class="md-primary" ng-change="hidePdfLink()">
                             {{'show quantity' | translate}}
                         </md-checkbox>
-                        <md-checkbox ng-model="showMass" class="md-primary" ng-change="hidePdfLink()"> 
+                        <md-checkbox ng-model="printSettings.showMass" class="md-primary" ng-change="hidePdfLink()"> 
                             {{'show mass' | translate}}
                         </md-checkbox>
-                        <md-checkbox ng-model="showDescription" class="md-primary" ng-change="hidePdfLink()">
+                        <md-checkbox ng-model="printSettings.showDescription" class="md-primary" ng-change="hidePdfLink()">
                             {{'show description' | translate}}
                         </md-checkbox>
                     </div>
                 </fieldset>
                 <div class="row">
                     <div class="col-sm-4 mt10">
-                        <a ng-click="printWeeklyMenu(pageSize, consumers, showQty, showMass, showDescription, orientation)" class="btn btn-default btn-block" ng-disabled="creatingPdf==true"><span class="text-danger"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> <span>{{'create pdf' | translate}}</span></span></a>
+                        <a ng-click="printWeeklyMenu(consumers, printSettings)" class="btn btn-default btn-block" ng-disabled="creatingPdf==true"><span class="text-danger"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> <span>{{'create pdf' | translate}}</span></span></a>
                     </div>
                     <div class="col-sm-8 mt10">
                         <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success btn-block" download ng-click="hidePdfLink()">

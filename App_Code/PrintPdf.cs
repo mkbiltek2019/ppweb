@@ -42,9 +42,30 @@ public class PrintPdf : System.Web.Services.WebService {
     public PrintPdf() {
     }
 
+    public class PrintMenuSettings {
+        public string pageSize;
+        public bool showQty;
+        public bool showMass;
+        public bool showServ;
+        public bool showDescription;
+        public string orientation;
+    }
+
     #region Webmethods
     [WebMethod]
-    public string MenuPdf(string userId, Menues.NewMenu currentMenu, ClientsData.NewClientData clientData, Foods.Totals totals, int consumers, string lang) {
+    public string InitMenuSettings() {
+        PrintMenuSettings x = new PrintMenuSettings();
+        x.pageSize = "A3";
+        x.showQty = true;
+        x.showMass = true;
+        x.showServ = false;
+        x.showDescription = true;
+        x.orientation = "L";
+        return JsonConvert.SerializeObject(x, Formatting.Indented);
+    }
+
+    [WebMethod]
+    public string MenuPdf(string userId, Menues.NewMenu currentMenu, ClientsData.NewClientData clientData, Foods.Totals totals, int consumers, string lang, PrintMenuSettings settings) {
         try {
             var doc = new Document();
             string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
@@ -77,12 +98,12 @@ public class PrintPdf : System.Web.Services.WebService {
             sb.AppendLine(string.Format(@"
                                         "));
 
-            sb.AppendLine(AppendMeal(meal1, currentMenu.data.meals, lang));
-            sb.AppendLine(AppendMeal(meal2, currentMenu.data.meals, lang));
-            sb.AppendLine(AppendMeal(meal3, currentMenu.data.meals, lang));
-            sb.AppendLine(AppendMeal(meal4, currentMenu.data.meals, lang));
-            sb.AppendLine(AppendMeal(meal5, currentMenu.data.meals, lang));
-            sb.AppendLine(AppendMeal(meal6, currentMenu.data.meals, lang));
+            sb.AppendLine(AppendMeal(meal1, currentMenu.data.meals, lang, settings));
+            sb.AppendLine(AppendMeal(meal2, currentMenu.data.meals, lang, settings));
+            sb.AppendLine(AppendMeal(meal3, currentMenu.data.meals, lang, settings));
+            sb.AppendLine(AppendMeal(meal4, currentMenu.data.meals, lang, settings));
+            sb.AppendLine(AppendMeal(meal5, currentMenu.data.meals, lang, settings));
+            sb.AppendLine(AppendMeal(meal6, currentMenu.data.meals, lang, settings));
 
             doc.Add(new Paragraph(sb.ToString(), normalFont));
 
@@ -93,7 +114,7 @@ public class PrintPdf : System.Web.Services.WebService {
 {3}: {8} g ({9})%
 {4}: {10} g ({11})%",
                         t.Tran("total", lang).ToUpper() + (consumers > 1 ? " (" + t.Tran("per consumer", lang) + ")" : ""),
-                        t.Tran("energy", lang),
+                        t.Tran("energy value", lang),
                         t.Tran("carbohydrates", lang),
                         t.Tran("proteins", lang),
                         t.Tran("fats", lang),
@@ -116,17 +137,17 @@ public class PrintPdf : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string WeeklyMenuPdf(string userId, string[] menuList, ClientsData.NewClientData clientData, int consumers, string lang, string pageSize, bool showQty, bool showMass, bool showDescription, string orientation) {
+    public string WeeklyMenuPdf(string userId, string[] menuList, ClientsData.NewClientData clientData, int consumers, string lang, PrintMenuSettings settings) {
         try {
             Rectangle ps = PageSize.A3;
-            switch (pageSize) {
+            switch (settings.pageSize) {
                 case "A4": ps = PageSize.A4; break;
                 case "A3": ps = PageSize.A3; break;
                 case "A2": ps = PageSize.A2; break;
                 case "A1": ps = PageSize.A1; break;
                 default: ps = PageSize.A3; break;
             }
-            Document doc = new Document(orientation == "L" ? ps.Rotate() : ps, 10, 10, 10, 10);
+            Document doc = new Document(settings.orientation == "L" ? ps.Rotate() : ps, 10, 10, 10, 10);
             string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
             DeleteFolder(path);
             CreateFolder(path);
@@ -155,22 +176,22 @@ public class PrintPdf : System.Web.Services.WebService {
 
             if (menuList.Length > 0) {
                 table.AddCell(new PdfPCell(new Phrase(t.Tran("breakfast", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
-                AppendDayMeal(table, menuList, "B", consumers, userId, showQty, showMass, showDescription);
+                AppendDayMeal(table, menuList, "B", consumers, userId, settings);
 
                 table.AddCell(new PdfPCell(new Phrase(t.Tran("morning snack", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
-                AppendDayMeal(table, menuList, "MS", consumers, userId, showQty, showMass, showDescription);
+                AppendDayMeal(table, menuList, "MS", consumers, userId, settings);
 
                 table.AddCell(new PdfPCell(new Phrase(t.Tran("lunch", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
-                AppendDayMeal(table, menuList, "L", consumers, userId, showQty, showMass, showDescription);
+                AppendDayMeal(table, menuList, "L", consumers, userId, settings);
 
                 table.AddCell(new PdfPCell(new Phrase(t.Tran("afternoon snack", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
-                AppendDayMeal(table, menuList, "AS", consumers, userId, showQty, showMass, showDescription);
+                AppendDayMeal(table, menuList, "AS", consumers, userId, settings);
 
                 table.AddCell(new PdfPCell(new Phrase(t.Tran("dinner", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
-                AppendDayMeal(table, menuList, "D", consumers, userId, showQty, showMass, showDescription);
+                AppendDayMeal(table, menuList, "D", consumers, userId, settings);
 
                 table.AddCell(new PdfPCell(new Phrase(t.Tran("meal before sleep", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
-                AppendDayMeal(table, menuList, "MBS", consumers, userId, showQty, showMass, showDescription);
+                AppendDayMeal(table, menuList, "MBS", consumers, userId, settings);
 
                 table.AddCell(new PdfPCell(new Phrase(t.Tran("energy", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, MinimumHeight = 30, PaddingTop = 15, PaddingRight = 2, PaddingBottom = 5, PaddingLeft = 2 });
                 AppendTotal(table, menuList, userId);
@@ -1026,7 +1047,7 @@ IBAN HR8423400091160342496
         }
     }
 
-    private string AppendMeal(List<Foods.NewFood> meal, List<Meals.NewMeal> meals, string lang) {
+    private string AppendMeal(List<Foods.NewFood> meal, List<Meals.NewMeal> meals, string lang, PrintMenuSettings settings) {
         StringBuilder sb = new StringBuilder();
         if (meal.Count > 0) {
             if(meals.Find(a => a.code == meal[0].meal.code).isSelected == true) {
@@ -1037,12 +1058,31 @@ IBAN HR8423400091160342496
                                             ", description));
                 }
                 foreach (Foods.NewFood food in meal) {
-                    sb.AppendLine(string.Format(@"- {0}, {1} {2}, ({3} g)", food.food, food.quantity, food.unit, food.mass));
+                    sb.AppendLine(string.Format(@"- {0}{1}{2}{3}"
+                        , food.food
+                        , string.Format(@"{0}", settings.showQty ? string.Format(@", {0} {1}", food.quantity, food.unit):"")
+                        , string.Format(@"{0}", settings.showMass ? string.Format(@", {0} g", food.mass) : "")
+                        , string.Format(@"{0}", settings.showServ ? string.Format(@", ({0})", getServingDescription(food.servings, lang)) : "")));
                 }
                 sb.AppendLine("________________________________________________________________________");
             }
         }
         return sb.ToString();
+    }
+
+    private string getServingDescription(Foods.Servings x, string lang) {
+        string des = "";
+        if (x.cerealsServ > 0) { des = ServDesc(des, x.cerealsServ, "cereals_", lang); }
+        if (x.vegetablesServ > 0) { des = ServDesc(des, x.vegetablesServ, "vegetables_", lang); }
+        if (x.fruitServ > 0) { des = ServDesc(des, x.fruitServ, "fruit_", lang); }
+        if (x.meatServ > 0) { des = ServDesc(des, x.meatServ, "meat_", lang); }
+        if (x.milkServ > 0) { des = ServDesc(des, x.milkServ, "milk_", lang); }
+        if (x.fatsServ > 0) { des = ServDesc(des, x.fatsServ, "fats_", lang); }
+        return des;
+    }
+
+    private string ServDesc(string des, double serv, string title, string lang) {
+        return string.Format("{0}{1} serv. {2}", (string.IsNullOrEmpty(des) ? "" : string.Format("{0}, ", des)), Math.Round(serv, 1), t.Tran(title, lang));
     }
 
     private void AppendHeader(Document doc, string userId) {
@@ -1076,7 +1116,7 @@ IBAN HR8423400091160342496
         }
     }
 
-    private void AppendDayMeal(PdfPTable table, string[] menuList, string m, int consumers, string userId, bool showQty, bool showMass, bool showDescription) {
+    private void AppendDayMeal(PdfPTable table, string[] menuList, string m, int consumers, string userId, PrintMenuSettings settings) {
         font_qty.SetColor(8, 61, 134);
         List<Foods.NewFood> meal = new List<Foods.NewFood>();
         Phrase p = new Phrase();
@@ -1090,15 +1130,15 @@ IBAN HR8423400091160342496
                 meal = weeklyMenu.data.selectedFoods.Where(a => a.meal.code == m).ToList();
                 string description = weeklyMenu.data.meals.Find(a => a.code == m).description;
                 List<Foods.NewFood> meal_ = food.MultipleConsumers(meal, consumers);
-                if (!string.IsNullOrEmpty(description) && showDescription == true) {
+                if (!string.IsNullOrEmpty(description) && settings.showDescription == true) {
                     p.Add(new Chunk(description, normalFont_10));
                     p.Add(new Chunk("\n\n", normalFont));
                 }
                 foreach (Foods.NewFood f in meal_) {
-                    p.Add(new Chunk("- " + f.food, normalFont));
-                    if (showQty == true || showMass == true) {
-                        p.Add(new Chunk((showQty == true ? (" " + f.quantity.ToString() + " " + f.unit) : "") + (showMass == true ? (" (" + f.mass.ToString() + "g)") : ""), font_qty));
-                    }
+                    p.Add(new Chunk(string.Format(@"- {0}", f.food), normalFont));
+                    p.Add(new Chunk(string.Format(@"{0}{1}"
+                            , settings.showQty ? string.Format(", {0} {1}", f.quantity, f.unit) : ""
+                            , settings.showMass ? string.Format(", {0} g", f.mass) : ""), font_qty));
                     p.Add(new Chunk("\n", normalFont));
                 }
             }

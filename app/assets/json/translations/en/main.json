@@ -1732,7 +1732,13 @@
   "myfoods": "my foods",
   "myrecipes": "my recipes",
   "diets": "diets",
-  "you are currently using internet explorer": "You are currently using Internet Explorer"
-
+  "you are currently using internet explorer": "You are currently using Internet Explorer",
+  "cereals_": "cereals",
+  "vegetables_": "vegetables",
+  "fruit_": "fruit",
+  "meat_": "meat",
+  "milk_": "milk",
+  "fats_": "fats",
+  "show servings": "show servings"
 
 }

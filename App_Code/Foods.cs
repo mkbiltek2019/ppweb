@@ -689,7 +689,10 @@ public class Foods : System.Web.Services.WebService {
         x.servings.fatsServ = Math.Round(initFood.servings.fatsServ * k, DecimalPlace(initFood.servings.fatsServ * k));
         x.servings.otherFoodsServ = Math.Round(initFood.servings.otherFoodsServ * k, DecimalPlace(initFood.servings.otherFoodsServ * k));
         x.servings.otherFoodsEnergy = Math.Round(initFood.servings.otherFoodsEnergy * k, DecimalPlace(initFood.servings.otherFoodsEnergy * k));
-        x.starch = Math.Round(initFood.starch * k, DecimalPlace(initFood.starch * k));
+        
+		//TODO servings description
+		
+		x.starch = Math.Round(initFood.starch * k, DecimalPlace(initFood.starch * k));
         x.totalSugar = Math.Round(initFood.totalSugar * k, DecimalPlace(initFood.totalSugar * k));
         x.glucose = Math.Round(initFood.glucose * k, DecimalPlace(initFood.glucose * k));
         x.fructose = Math.Round(initFood.fructose * k, DecimalPlace(initFood.fructose * k));
@@ -2781,7 +2784,7 @@ public class Foods : System.Web.Services.WebService {
         int i = 1;
         if (value >= 1) { i = 1; }
         if (value < 1 && value >= 0.1) { i = 2; }
-        if (value < 0.1 && value >=0.01) { i = 3; }
+        if (value < 0.1 && value >= 0.01) { i = 3; }
         if (value < 0.01 && value >= 0.001) { i = 4; }
         if (value < 0.001 && value >= 0.0001) { i = 5; }
         if (value < 0.0001) { i = 10; }

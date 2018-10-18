@@ -9,10 +9,29 @@
         </md-toolbar>
         <md-dialog-content>
             <div class="md-dialog-content">
-                <md-input-container class="md-block" flex-gt-sm>
-                    <label class="text-capitalize">{{'number of consumers' | translate}}</label>
-                    <input ng-model="consumers" type="number" min="1">
-                </md-input-container>
+                <div>
+                    <fieldset class="fieldset-border">
+                        <legend class="fieldset-border text-capitalize">{{'settings' | translate}}</legend>
+                        <div>
+                            <md-input-container style="margin-right:80px">
+                                <label>{{'number of consumers' | translate}}</label>
+                                <input ng-model="consumers" type="number" min="1" ng-change="changeNumberOfConsumers(consumers)">
+                            </md-input-container>
+                        </div>
+                        <div>
+                            <md-checkbox ng-model="settings.showQty" class="md-primary">
+                                {{'show quantity' | translate}}
+                            </md-checkbox>
+                            <md-checkbox ng-model="settings.showMass" class="md-primary">
+                                {{'show mass' | translate}}
+                            </md-checkbox>
+                            <md-checkbox ng-model="settings.showServ" class="md-primary">
+                                {{'show servings' | translate}}
+                            </md-checkbox>
+                        </div>
+                    </fieldset>
+                </div>
+                <hr />
                 <a href="" ng-click="printMenuPdf(consumers)" class="btn btn-primary text-capitalize" ng-disabled="creatingPdf==true"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> <span class="hidden-xs">{{'menu' | translate}}</span></a>
                 <a href="" ng-click="printMenuDetailsPdf()" class="btn btn-primary text-capitalize" ng-disabled="creatingPdf1==true"><i class="fa fa-{{creatingPdf1==true?'spinner fa-spin':'bar-chart'}}"></i> <span class="hidden-xs">{{'manu analysis' | translate}}</span></a>
                 <div class="mt10 text-center">

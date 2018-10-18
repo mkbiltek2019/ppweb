@@ -9,13 +9,28 @@
         </md-toolbar>
         <md-dialog-content>
             <div class="md-dialog-content">
-                <button ng-click="copyToClipboard('container')" class="btn btn-primary pull-right"><span class="text-capitalize"><i class="fa fa-files-o"></i> {{'copy to clipboard' | translate}}</span></button>
-                <div layout-gt-sm="row">
-                    <md-input-container>
-                        <label>{{'number of consumers' | translate}}</label>
-                        <input ng-model="consumers" type="number" min="1" ng-change="changeNumberOfConsumers(consumers)">
-                    </md-input-container>
+                <div class="text-right">
+                    <button ng-click="copyToClipboard('container')" class="btn btn-default"><span class="text-capitalize"><i class="fa fa-files-o"></i> {{'copy to clipboard' | translate}}</span></button>
                 </div>
+                <div>
+                    <fieldset class="fieldset-border">
+                        <legend class="fieldset-border text-capitalize">{{'settings' | translate}}</legend>
+                        <md-input-container style="margin-right:80px">
+                            <label>{{'number of consumers' | translate}}</label>
+                            <input ng-model="consumers" type="number" min="1" ng-change="changeNumberOfConsumers(consumers)">
+                        </md-input-container>
+                        <md-checkbox ng-model="settings.showQty" class="md-primary">
+                            {{'show quantity' | translate}}
+                        </md-checkbox>
+                        <md-checkbox ng-model="settings.showMass" class="md-primary">
+                            {{'show mass' | translate}}
+                        </md-checkbox>
+                        <md-checkbox ng-model="settings.showServ" class="md-primary">
+                            {{'show servings' | translate}}
+                        </md-checkbox>
+                    </fieldset>
+                </div>
+                <hr />
                 <div id="container">
                     <strong>{{currentMenu.title}}</strong>
                     <p>{{currentMenu.note}}</p>
@@ -27,14 +42,14 @@
                         </div>
                         <div class="mt10">
                             <div ng-if="y.meal.code==x.code" ng-repeat="y in foods track by $index">
-                                - {{y.food}}, {{y.quantity}} {{y.unit}}, {{y.mass}} g
+                                - {{y.food}}<span ng-if="settings.showQty">, {{y.quantity}} {{y.unit}}</span><span ng-if="settings.showMass">, {{y.mass}} g</span> <span ng-if="settings.showServ">, ({{getServDescription(y.servings)}})</span>
                             </div>
                         </div>
                     </div>
                     <div>
                         <hr />
                         <label><span class="text-uppercase">{{'total' | translate}}</span><span ng-if="consumers > 1"> ({{'per consumer' | translate}})</span>:</label>
-                        <p>{{'energy' | translate}}: <span>{{totals.energy}} kcal</span></p>
+                        <p>{{'energy value' | translate}}: <span>{{totals.energy}} kcal</span></p>
                         <p>{{'carbohydrates' | translate}}: <span>{{totals.carbohydrates | number:1}} g, ({{totals.carbohydratesPercentage | number:1}} %)</span></p>
                         <p>{{'proteins' | translate}}: <span>{{totals.proteins | number:1}} g, ({{totals.proteinsPercentage | number:1}} %)</span></p>
                         <p>{{'fats' | translate}}: <span>{{totals.fats | number:1}} g, ({{totals.fatsPercentage | number:1}} %)</span></p>

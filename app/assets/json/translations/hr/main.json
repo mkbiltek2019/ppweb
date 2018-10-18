@@ -1743,7 +1743,14 @@
   "myfoods": "moje namirnice",
   "myrecipes": "moji recepti",
   "diets": "dijeta",
-  "you are currently using internet explorer": "Trenutno koristite Internet Explorer"
+  "you are currently using internet explorer": "Trenutno koristite Internet Explorer",
+  "cereals_": "žitarica",
+  "vegetables_": "povrća",
+  "fruit_": "voća",
+  "meat_": "mesa",
+  "milk_": "mlijeka",
+  "fats_": "masti",
+  "show servings": "prikaži jedinična serviranja"
 
 
 }
