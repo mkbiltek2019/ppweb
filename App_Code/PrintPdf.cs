@@ -33,8 +33,7 @@ public class PrintPdf : System.Web.Services.WebService {
     Font font_qty = FontFactory.GetFont(HttpContext.Current.Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, 9, Font.ITALIC);
     Font normalFont_8_italic = FontFactory.GetFont(HttpContext.Current.Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, 8, Font.ITALIC);
 
-    //string logoPath = HttpContext.Current.Server.MapPath(string.Format("~/app/assets/img/logo1.png"));
-    string logoPPPath = HttpContext.Current.Server.MapPath(string.Format("~/app/assets/img/logo_pp_green.png"));
+    string logoPPPath = HttpContext.Current.Server.MapPath(string.Format("~/app/assets/img/logo.png"));
     string logoPathIgProg = HttpContext.Current.Server.MapPath(string.Format("~/assets/img/logo_igprog.png"));
 
     iTextSharp.text.pdf.draw.LineSeparator line = new iTextSharp.text.pdf.draw.LineSeparator(0f, 100f, Color.BLACK, Element.ALIGN_LEFT, 1);
@@ -1089,11 +1088,13 @@ IBAN HR8423400091160342496
         string logoPath = null;
         string logoClientPath = Server.MapPath(string.Format("~/upload/users/{0}/logo.png", userId));
         logoPath = File.Exists(logoClientPath) ? logoClientPath : logoPPPath;
-        Image logo = Image.GetInstance(logoPath);
-        logo.Alignment = Image.ALIGN_RIGHT;
-        logo.ScalePercent(15f);
-        logo.SpacingAfter= 15f;
-        doc.Add(logo);
+        if (File.Exists(logoPath)) {
+            Image logo = Image.GetInstance(logoPath);
+            logo.Alignment = Image.ALIGN_RIGHT;
+            logo.ScalePercent(15f);
+            logo.SpacingAfter = 15f;
+            doc.Add(logo);
+        }
     }
 
     private void AppendMealDistribution(PdfPTable tblMeals, Foods.Totals totals, Foods.Recommendations recommendations, string lang, int i, string meal) {
