@@ -176,22 +176,22 @@ public class PrintPdf : System.Web.Services.WebService {
 
             if (menuList.Length > 0) {
                 table.AddCell(new PdfPCell(new Phrase(t.Tran("breakfast", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
-                AppendDayMeal(table, menuList, "B", consumers, userId, settings);
+                AppendDayMeal(table, menuList, "B", consumers, userId, settings, lang);
 
                 table.AddCell(new PdfPCell(new Phrase(t.Tran("morning snack", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
-                AppendDayMeal(table, menuList, "MS", consumers, userId, settings);
+                AppendDayMeal(table, menuList, "MS", consumers, userId, settings, lang);
 
                 table.AddCell(new PdfPCell(new Phrase(t.Tran("lunch", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
-                AppendDayMeal(table, menuList, "L", consumers, userId, settings);
+                AppendDayMeal(table, menuList, "L", consumers, userId, settings, lang);
 
                 table.AddCell(new PdfPCell(new Phrase(t.Tran("afternoon snack", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
-                AppendDayMeal(table, menuList, "AS", consumers, userId, settings);
+                AppendDayMeal(table, menuList, "AS", consumers, userId, settings, lang);
 
                 table.AddCell(new PdfPCell(new Phrase(t.Tran("dinner", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
-                AppendDayMeal(table, menuList, "D", consumers, userId, settings);
+                AppendDayMeal(table, menuList, "D", consumers, userId, settings, lang);
 
                 table.AddCell(new PdfPCell(new Phrase(t.Tran("meal before sleep", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
-                AppendDayMeal(table, menuList, "MBS", consumers, userId, settings);
+                AppendDayMeal(table, menuList, "MBS", consumers, userId, settings, lang);
 
                 table.AddCell(new PdfPCell(new Phrase(t.Tran("energy", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, MinimumHeight = 30, PaddingTop = 15, PaddingRight = 2, PaddingBottom = 5, PaddingLeft = 2 });
                 AppendTotal(table, menuList, userId);
@@ -1116,7 +1116,7 @@ IBAN HR8423400091160342496
         }
     }
 
-    private void AppendDayMeal(PdfPTable table, string[] menuList, string m, int consumers, string userId, PrintMenuSettings settings) {
+    private void AppendDayMeal(PdfPTable table, string[] menuList, string m, int consumers, string userId, PrintMenuSettings settings, string lang) {
         font_qty.SetColor(8, 61, 134);
         List<Foods.NewFood> meal = new List<Foods.NewFood>();
         Phrase p = new Phrase();
@@ -1136,9 +1136,10 @@ IBAN HR8423400091160342496
                 }
                 foreach (Foods.NewFood f in meal_) {
                     p.Add(new Chunk(string.Format(@"- {0}", f.food), normalFont));
-                    p.Add(new Chunk(string.Format(@"{0}{1}"
+                    p.Add(new Chunk(string.Format(@"{0}{1}{2}"
                             , settings.showQty ? string.Format(", {0} {1}", f.quantity, f.unit) : ""
-                            , settings.showMass ? string.Format(", {0} g", f.mass) : ""), font_qty));
+                            , settings.showMass ? string.Format(", {0} g", f.mass) : ""
+                            , settings.showServ ? string.Format(", ({0})", getServingDescription(f.servings, lang)) : ""), font_qty));
                     p.Add(new Chunk("\n", normalFont));
                 }
             }

@@ -2,7 +2,7 @@
     <form ng-cloak>
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2 class="text-capitalize">{{'create pdf' | translate}}</h2>
+                <h2 class="text-capitalize">{{'print menu' | translate}}</h2>
                 <span flex></span>
                 <a href="" ng-click="cancel()" class="btn btn-primary">x</a>
             </div>
@@ -32,9 +32,8 @@
                     </fieldset>
                 </div>
                 <hr />
-                <a href="" ng-click="printMenuPdf(consumers)" class="btn btn-primary text-capitalize" ng-disabled="creatingPdf==true"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> <span class="hidden-xs">{{'menu' | translate}}</span></a>
-                <a href="" ng-click="printMenuDetailsPdf()" class="btn btn-primary text-capitalize" ng-disabled="creatingPdf1==true"><i class="fa fa-{{creatingPdf1==true?'spinner fa-spin':'bar-chart'}}"></i> <span class="hidden-xs">{{'manu analysis' | translate}}</span></a>
-                <div class="mt10 text-center">
+                <div>
+                    <a ng-if="pdfLink==null" href="" ng-click="printMenuPdf(consumers)" class="btn btn-default btn-block text-capitalize" ng-disabled="creatingPdf==true"><span class="text-danger"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</span></a>
                     <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success btn-block text-capitalize" download ng-click="hidePdfLink()">
                         <i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}
                     </a>

@@ -253,20 +253,19 @@
                         <md-checkbox ng-model="printSettings.showMass" class="md-primary" ng-change="hidePdfLink()"> 
                             {{'show mass' | translate}}
                         </md-checkbox>
+                        <md-checkbox ng-model="settings.showServ" class="md-primary" ng-change="hidePdfLink()">
+                            {{'show servings' | translate}}
+                        </md-checkbox>
                         <md-checkbox ng-model="printSettings.showDescription" class="md-primary" ng-change="hidePdfLink()">
                             {{'show description' | translate}}
                         </md-checkbox>
                     </div>
                 </fieldset>
-                <div class="row">
-                    <div class="col-sm-4 mt10">
-                        <a ng-click="printWeeklyMenu(consumers, printSettings)" class="btn btn-default btn-block" ng-disabled="creatingPdf==true"><span class="text-danger"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> <span>{{'create pdf' | translate}}</span></span></a>
-                    </div>
-                    <div class="col-sm-8 mt10">
-                        <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success btn-block" download ng-click="hidePdfLink()">
-                            <i class="fa fa-file-pdf-o"></i> {{'download' | translate}} {{'PDF' | translate}}
-                        </a>
-                    </div>
+                <div>
+                    <a ng-if="pdfLink==null" ng-click="printWeeklyMenu(consumers, printSettings)" class="btn btn-default" ng-disabled="creatingPdf==true"><span class="text-danger"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</span></a>
+                    <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success" download ng-click="hidePdfLink()">
+                        <i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}
+                    </a>
                 </div>
             </div>
         </div>

@@ -18,6 +18,10 @@
       "title": "croatian"
     },
     {
+      "code": "ba",
+      "title": "bosnian"
+    },
+    {
       "code": "sr",
       "title": "serbian (latin)"
     },
@@ -31,8 +35,8 @@
     }
   ],
   "debug": true,
-  "version": "1.0.90",
-  "date": "09.10.2018",
+  "version": "1.0.91",
+  "date": "19.10.2018",
   "eur": 7.4,
   "usd": 6.3,
   "currency": "hrk",
@@ -40,6 +44,10 @@
     {
       "code": "hrk",
       "title": "kuna"
+    },
+	  {
+      "code": "bam",
+      "title": "marka"
     },
     {
       "code": "rsd",

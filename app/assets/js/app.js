@@ -1558,8 +1558,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             return false;
         }
         $scope.creatingPdf = true;
-
-
         $http({
             url: $sessionStorage.config.backend + 'PrintPdf.asmx/ClientPdf',
             method: "POST",
@@ -1574,6 +1572,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $scope.creatingPdf = false;
             alert(response.data.d)
         });
+
+        $scope.hidePdfLink = function () {
+            $scope.pdfLink = null;
+        }
 
 
 
@@ -1609,6 +1611,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         //    });
     }
 
+    $scope.pdfLink1 = null;
     $scope.printClientLogPdf = function () {
         if ($scope.creatingPdf == true) {
             return false;
@@ -1634,7 +1637,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
           .then(function (response) {
               $scope.creatingPdf = false;
               var fileName = response.data.d;
-              $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
+              $scope.pdfLink1 = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
               //   $scope.openPdf();
           },
           function (response) {
@@ -1648,8 +1651,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         });
     }
 
-    $scope.hidePdfLink = function () {
-        $scope.pdfLink = null;
+    $scope.hidePdfLink1 = function () {
+        $scope.pdfLink1 = null;
     }
 
     $scope.sendingMail = false;
@@ -4052,39 +4055,44 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             }
         }
 
-        $scope.creatingPdf1 = false;
-        $scope.printMenuDetailsPdf = function () {
-            if ($rootScope.currentMenu.data.selectedFoods.length == 0) {
-                return false;
-            }
-            $scope.creatingPdf1 = true;
-            if (angular.isDefined($rootScope.currentMenu)) {
-                var currentMenu = angular.copy($rootScope.currentMenu);
-                $http({
-                    url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuDetailsPdf',
-                    method: "POST",
-                    data: { userId: $sessionStorage.usergroupid, currentMenu: currentMenu, calculation: $rootScope.calculation, totals: $rootScope.totals, recommendations: $rootScope.recommendations, lang: $rootScope.config.language }
-                })
-                  .then(function (response) {
-                      var fileName = response.data.d;
-                      $scope.creatingPdf1 = false;
-                      $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
-                  },
-                  function (response) {
-                      $scope.creatingPdf1 = false;
-                      alert(response.data.d);
-                  });
-            }
-        }
-
         $scope.hidePdfLink = function () {
             $scope.pdfLink = null;
         }
     };
 
-
     $scope.openPrintPdfPopup = function () {
         openPrintPdfPopup();
+    }
+
+    $scope.pdfLink == null;
+    $scope.creatingPdf1 = false;
+    $scope.printMenuDetailsPdf = function () {
+        if ($rootScope.currentMenu.data.selectedFoods.length == 0) {
+            functions.alert($translate.instant('menu is empty') + '!', '');
+            return false;
+        }
+        $scope.creatingPdf1 = true;
+        if (angular.isDefined($rootScope.currentMenu)) {
+            var currentMenu = angular.copy($rootScope.currentMenu);
+            $http({
+                url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuDetailsPdf',
+                method: "POST",
+                data: { userId: $sessionStorage.usergroupid, currentMenu: currentMenu, calculation: $rootScope.calculation, totals: $rootScope.totals, recommendations: $rootScope.recommendations, lang: $rootScope.config.language }
+            })
+              .then(function (response) {
+                  var fileName = response.data.d;
+                  $scope.creatingPdf1 = false;
+                  $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
+              },
+              function (response) {
+                  $scope.creatingPdf1 = false;
+                  alert(response.data.d);
+              });
+        }
+    }
+
+    $scope.hidePdfLink = function () {
+        $scope.pdfLink = null;
     }
     //----------------------------------------
 

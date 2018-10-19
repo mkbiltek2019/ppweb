@@ -1,6 +1,12 @@
 ﻿<div ng-controller="menuCtrl">
     <div>
         <div class="mt10">
+            <div class="text-right">
+                <a ng-if="pdfLink==null" href="" ng-click="printMenuDetailsPdf()" class="btn btn-default text-capitalize" ng-disabled="creatingPdf1==true"><span class="text-danger"><i class="fa fa-{{creatingPdf1==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</span></a>
+                <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success text-capitalize" download ng-click="hidePdfLink()">
+                    <i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}
+                </a>
+            </div>
             <div class="row">
                 <div class="col-sm-4">
                     <ng-include src="'analysisTpl'"></ng-include>

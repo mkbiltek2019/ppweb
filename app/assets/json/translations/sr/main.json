@@ -1747,7 +1747,10 @@
   "meat_": "mesa",
   "milk_": "mleka",
   "fats_": "masti",
-  "show servings": "prikaži jedinična serviranja"
+  "show servings": "prikaži jedinična serviranja",
+  "print menu": "ispis jelovnika",
+  "menu is empty": "Jelovnik je prazan",
+  "bosnian": "bosanski"
 
 
 }
