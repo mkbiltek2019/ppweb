@@ -1061,7 +1061,7 @@ IBAN HR8423400091160342496
                         , food.food
                         , string.Format(@"{0}", settings.showQty ? string.Format(@", {0} {1}", food.quantity, food.unit):"")
                         , string.Format(@"{0}", settings.showMass ? string.Format(@", {0} g", food.mass) : "")
-                        , string.Format(@"{0}", settings.showServ ? string.Format(@", ({0})", getServingDescription(food.servings, lang)) : "")));
+                        , string.Format(@"{0}", settings.showServ && !string.IsNullOrEmpty(getServingDescription(food.servings, lang)) ? string.Format(@", ({0})", getServingDescription(food.servings, lang)) : "")));
                 }
                 sb.AppendLine("________________________________________________________________________");
             }
@@ -1140,7 +1140,7 @@ IBAN HR8423400091160342496
                     p.Add(new Chunk(string.Format(@"{0}{1}{2}"
                             , settings.showQty ? string.Format(", {0} {1}", f.quantity, f.unit) : ""
                             , settings.showMass ? string.Format(", {0} g", f.mass) : ""
-                            , settings.showServ ? string.Format(", ({0})", getServingDescription(f.servings, lang)) : ""), font_qty));
+                            , settings.showServ && !string.IsNullOrEmpty(getServingDescription(f.servings, lang)) ? string.Format(", ({0})", getServingDescription(f.servings, lang)) : ""), font_qty));
                     p.Add(new Chunk("\n", normalFont));
                 }
             }

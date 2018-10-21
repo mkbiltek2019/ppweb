@@ -42,7 +42,7 @@
                         </div>
                         <div class="mt10">
                             <div ng-if="y.meal.code==x.code" ng-repeat="y in foods track by $index">
-                                - {{y.food}}<span ng-if="settings.showQty">, {{y.quantity}} {{y.unit}}</span><span ng-if="settings.showMass">, {{y.mass}} g</span> <span ng-if="settings.showServ">, ({{getServDescription(y.servings)}})</span>
+                                - {{y.food}}<span ng-if="settings.showQty">, {{y.quantity}} {{y.unit}}</span><span ng-if="settings.showMass">, {{y.mass}} g</span> <span ng-if="settings.showServ&&getServDescription(y.servings)!=''">, ({{getServDescription(y.servings)}})</span>
                             </div>
                         </div>
                     </div>
