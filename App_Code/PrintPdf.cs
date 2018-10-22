@@ -862,7 +862,7 @@ IBAN HR8423400091160342496
             invoice.postalCode,
             invoice.city,
             invoice.country,
-            !string.IsNullOrWhiteSpace(invoice.pin) ? string.Format("OIB: {0}", invoice.pin): "");
+            !string.IsNullOrWhiteSpace(invoice.pin) ? string.Format("OIB{0}: {1}", isForeign ? string.Format(" / {0}", t.Tran("pin", "en").ToUpper()) : "", invoice.pin) : "");
 
             Paragraph client_paragrapf = new Paragraph();
             float clientLeftSpacing_float = Convert.ToSingle(clientLeftSpacing);
