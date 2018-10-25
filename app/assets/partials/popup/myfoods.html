@@ -1,40 +1,42 @@
-﻿<md-dialog flex="30" layout-margin>
-    <md-toolbar>
+﻿<md-dialog flex="30" flex-gt-sx>
+    <md-toolbar class="main-background">
         <div class="md-toolbar-tools">
             <h2 class="text-capitalize">{{'my foods' | translate}}</h2>
             <span flex></span>
-            <button ng-click="cancel()" class="btn btn-primary">x</button>
+            <a href="" class="btn btn-primary" ng-click="cancel()" title="{{'close' | translate}}">x</a>
         </div>
     </md-toolbar>
     <md-dialog-content>
-        <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around" class="text-center">
-            <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
-        </div>
-        <div ng-if="d.length==0">
-            <div class="alert alert-danger text-uppercase">
-                {{'you do not have any foods' | translate}}
+        <div class="md-dialog-content">
+            <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around" class="text-center">
+                <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
             </div>
-        </div>
-        <div ng-if="d.length>0" ng-show="!loading" class="md-dialog-content">
-            <div class="row">
-                <div class="col-sm-12 ">
-                    <div class="input-group">
-                        <input ng-model="searchValue" class="form-control" type="text" placeholder="{{'search' | translate}}..." autofocus />
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
-                        </span>
-                    </div>
+            <div ng-if="d.length==0">
+                <div class="alert alert-danger text-uppercase">
+                    {{'you do not have any foods' | translate}}
                 </div>
             </div>
-            <div class="table-responsive mt10">
-                <table class="table table-hover table-condensed">
-                    <tr class="text-capitalize">
-                        <th>{{'food' | translate}}</th>
-                    </tr>
-                    <tr ng-repeat="x in d | filter:searchValue" ng-click="confirm(x, showDescription)">
-                        <td class="nowrap">{{x.food}}</td>
-                    </tr>
-                </table>
+            <div ng-if="d.length>0" ng-show="!loading" class="md-dialog-content">
+                <div class="row">
+                    <div class="col-sm-12 ">
+                        <div class="input-group">
+                            <input ng-model="searchValue" class="form-control" type="text" placeholder="{{'search' | translate}}..." autofocus />
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive mt10">
+                    <table class="table table-hover table-condensed">
+                        <tr class="text-capitalize">
+                            <th>{{'food' | translate}}</th>
+                        </tr>
+                        <tr ng-repeat="x in d | filter:searchValue" ng-click="confirm(x, showDescription)">
+                            <td class="nowrap">{{x.food}}</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
     </md-dialog-content>

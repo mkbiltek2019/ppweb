@@ -167,10 +167,15 @@ public class Users : System.Web.Services.WebService {
                 x.adminType = reader.GetInt32(14);
                 x.userGroupId = reader.GetString(15);
                 x.activationDate = reader.GetString(16);
-                x.expirationDate = x.userId != x.userGroupId ? GetUserGroupExpirationDate(x.userGroupId, connection) : reader.GetString(17);
+                x.expirationDate = reader.GetString(17);
                 x.isActive = Convert.ToBoolean(reader.GetInt32(18));
                 x.licenceStatus = GetLicenceStatus(x);
                 x.ipAddress = reader.GetString(19);
+                /****** SubUsers ******/
+                if(x.userId != x.userGroupId) {
+                    x = GetUserGroupInfo(x, connection);
+                }
+                /**********************/
             }
             connection.Close();
             string json = JsonConvert.SerializeObject(x, Formatting.Indented);
@@ -434,10 +439,15 @@ public class Users : System.Web.Services.WebService {
                 x.adminType = reader.GetValue(14) == DBNull.Value ? 0 : reader.GetInt32(14);
                 x.userGroupId = reader.GetString(15);
                 x.activationDate = reader.GetValue(16) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(16);
-                x.expirationDate = x.userId != x.userGroupId ? GetUserGroupExpirationDate(x.userGroupId, connection) : reader.GetString(17);
+                x.expirationDate = reader.GetValue(17) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(17);
                 x.isActive = reader.GetValue(18) == DBNull.Value ? true : Convert.ToBoolean(reader.GetInt32(18));
                 x.licenceStatus = GetLicenceStatus(x);
                 x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
+                /****** SubUsers ******/
+                if (x.userId != x.userGroupId) {
+                    x = GetUserGroupInfo(x, connection);
+                }
+                /**********************/
                 xx.Add(x);
             }
             connection.Close();
@@ -759,20 +769,6 @@ public class Users : System.Web.Services.WebService {
         }
     }
 
-    private string GetUserGroupExpirationDate(string userGroupId, SQLiteConnection connection) {
-        try {
-            SQLiteCommand command = new SQLiteCommand("SELECT expirationDate FROM users WHERE userGroupId = @userGroupId", connection);
-            command.Parameters.Add(new SQLiteParameter("userGroupId", userGroupId));
-            SQLiteDataReader reader = command.ExecuteReader();
-            string expirationDate = "";
-            while (reader.Read()) {
-                 expirationDate = reader.GetValue(0) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(0);
-            }
-            return expirationDate;
-        }
-        catch (Exception e) { return ("error: " + e); }
-    }
-
     private List<NewUser> GetUsers(int? limit, int? page) {
         SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
         connection.Open();
@@ -806,12 +802,17 @@ public class Users : System.Web.Services.WebService {
             x.adminType = reader.GetValue(14) == DBNull.Value ? 0 : reader.GetInt32(14);
             x.userGroupId = reader.GetString(15);
             x.activationDate = reader.GetValue(16) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(16);
-            x.expirationDate = x.userId != x.userGroupId ? GetUserGroupExpirationDate(x.userGroupId, connection) : reader.GetString(17);
+            x.expirationDate = reader.GetValue(17) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(17);
             x.isActive = reader.GetValue(18) == DBNull.Value ? true : Convert.ToBoolean(reader.GetInt32(18));
             x.licenceStatus = GetLicenceStatus(x);
             x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
             x.rowid = reader.GetValue(20) == DBNull.Value ? 0 : reader.GetInt32(20);
             x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection);
+            /****** SubUsers ******/
+            if (x.userId != x.userGroupId) {
+                x = GetUserGroupInfo(x, connection);
+            }
+            /**********************/
             xx.Add(x);
         }
         connection.Close();
@@ -914,6 +915,22 @@ public class Users : System.Web.Services.WebService {
             default:
                 return ConfigurationManager.AppSettings["myEmail"];
         }
+    }
+
+    private NewUser GetUserGroupInfo(NewUser x, SQLiteConnection connection) {
+        try {
+            SQLiteCommand command = new SQLiteCommand(string.Format(@"
+                    SELECT userType, expirationDate, isActive FROM users WHERE userId  = '{0}' AND userGroupId = '{0}'", x.userGroupId) , connection);
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read()) {
+                x.userType = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                x.expirationDate = reader.GetValue(1) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(1);
+                x.isActive = reader.GetValue(2) == DBNull.Value ? true : Convert.ToBoolean(reader.GetInt32(2));
+                x.licenceStatus = GetLicenceStatus(x);
+            }
+            return x;
+        }
+        catch (Exception e) { return new NewUser(); }
     }
     #endregion
 

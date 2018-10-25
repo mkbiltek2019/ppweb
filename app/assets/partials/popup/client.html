@@ -1,12 +1,13 @@
 ﻿<md-dialog flex="80" flex-gt-sx>
-        <md-toolbar>
+    <form ng-cloak>
+        <md-toolbar class="main-background">
             <div class="md-toolbar-tools">
                 <h2 class="text-capitalize">
                     <span ng-if="d.clientId==null">{{'new client' | translate}}</span>
                     <span ng-if="d.clientId!=null">{{'client' | translate}}</span>
                 </h2>
                 <span flex></span>
-                <button ng-click="cancel()" class="btn btn-primary">x</button>
+                <a href="" class="btn btn-primary" ng-click="cancel()" title="{{'close' | translate}}">x</a>
             </div>
         </md-toolbar>
         <md-dialog-content class="text-capitalize">
@@ -48,6 +49,7 @@
                 <a href="" class="btn btn-primary" ng-click="save(d)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</a>
             </div>
         </md-dialog-content>
+    </form>
 </md-dialog>
 
 

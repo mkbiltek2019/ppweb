@@ -172,7 +172,7 @@ public class Menues : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string Save(string userId, NewMenu x) {
+    public string Save(string userId, NewMenu x, Users.NewUser user) {
         db.CreateDataBase(userId, db.menues);
         if (x.id == null && Check(userId, x) != false) {
             return "error";
@@ -201,9 +201,11 @@ public class Menues : System.Web.Services.WebService {
                 command.Parameters.Add(new SQLiteParameter("diet", x.diet));
                 command.Parameters.Add(new SQLiteParameter("date", x.date));
                 command.Parameters.Add(new SQLiteParameter("note", x.note));
-                command.Parameters.Add(new SQLiteParameter("userId", userId));
+                command.Parameters.Add(new SQLiteParameter("userId", user.userId));
+                //command.Parameters.Add(new SQLiteParameter("userId", userId));
                 command.Parameters.Add(new SQLiteParameter("clientId", x.client.clientId));
-                command.Parameters.Add(new SQLiteParameter("userGroupId", x.userGroupId));
+                //command.Parameters.Add(new SQLiteParameter("userGroupId", x.userGroupId));
+                command.Parameters.Add(new SQLiteParameter("userGroupId", string.IsNullOrEmpty(x.userGroupId) ? userId : x.userGroupId));
                 command.Parameters.Add(new SQLiteParameter("energy", x.energy));
                 command.ExecuteNonQuery();
                 connection.Close();

@@ -3044,7 +3044,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             templateUrl: 'assets/partials/popup/savemenu.html',
             parent: angular.element(document.body),
             clickOutsideToClose: true,
-            d: { currentMenu: $rootScope.currentMenu, client: $rootScope.client, totals: $rootScope.totals, config: $sessionStorage.config }
+            d: { currentMenu: $rootScope.currentMenu, client: $rootScope.client, totals: $rootScope.totals, config: $sessionStorage.config, user: $rootScope.user }
         })
        .then(function (x) {
            $rootScope.currentMenu = x;
@@ -3055,22 +3055,23 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     var openSaveMenuPopupCtrl = function ($scope, $mdDialog, $http, d, $translate) {
         $scope.d = angular.copy(d);
         var save = function (currentMenu) {
-            if (currentMenu.title == '' || currentMenu.title == undefined) {
+            if (functions.isNullOrEmpty(currentMenu.title)) {
+            //if (currentMenu.title == '' || currentMenu.title == undefined) {
                 document.getElementById("txtMenuTitle").focus();
                 functions.alert($translate.instant('enter menu title'), '');
                 openSaveMenuPopup();
                 return false;
             }
             currentMenu.diet = d.client.clientData.diet.diet;
+            $mdDialog.hide($scope.d.currentMenu);
             $http({
                 url: $sessionStorage.config.backend + 'Menues.asmx/Save',
                 method: "POST",
-                data: { userId: $rootScope.user.userGroupId, x: currentMenu }
+                data: { userId: $rootScope.user.userGroupId, x: currentMenu, user: $scope.d.user }
             })
           .then(function (response) {
               if (response.data.d != 'error') {
                   $scope.d.currentMenu = JSON.parse(response.data.d);
-                  $mdDialog.hide($scope.d.currentMenu);
               } else {
                   functions.alert($translate.instant('there is already a menu with the same name'), '');
               }
@@ -3093,9 +3094,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             save(x);
         }
 
-
         var saveAppMenu = function (currentMenu) {
-            if (currentMenu.title == '' || currentMenu.title == undefined) {
+            if (functions.isNullOrEmpty(currentMenu.title)) {
+            //if (currentMenu.title == '' || currentMenu.title == undefined) {
                 document.getElementById("txtMenuTitle").focus();
                 functions.alert($translate.instant('enter menu title'), '');
                 openSaveMenuPopup();

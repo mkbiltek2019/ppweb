@@ -247,6 +247,10 @@ legend.fieldset-border {
   }
 }
 
+.main-background {
+    background-color: #337ab7 !important;
+}
+
 
 /*.text-capitalize-first::first-letter {
     text-transform: uppercase !important;

@@ -1,49 +1,47 @@
-﻿<md-dialog flex layout-margin>
-    <md-toolbar>
-        <div class="md-toolbar-tools text-capitalize">
-            <h2>{{'clients' | translate}}</h2>
+﻿<md-dialog flex>
+    <md-toolbar class="main-background">
+        <div class="md-toolbar-tools">
+            <h2 class="text-capitalize">{{'clients' | translate}}</h2>
             <span flex></span>
-            <a href="" ng-click="cancel()" class="btn btn-primary">x</a>
+            <a href="" class="btn btn-primary" ng-click="cancel()" title="{{'close' | translate}}">x</a>
         </div>
     </md-toolbar>
     <md-dialog-content>
-        <!--<div class="row m10">
-            <button class="btn btn-primary" ng-click="addNewClient()"><span>{{'new client' | translate}} </span><i class="fa fa-user-plus" aria-hidden="true"></i></button>
-        </div>-->
-        <div class="row m10">
-            <div class="col-sm-4">
-                <div class="input-group">
-                    <input ng-model="searchValue" class="form-control text-capitalize" type="text" placeholder="{{'search' | translate}}..." autofocus />
-                    <span class="input-group-btn">
-                        <a href="" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</a>
-                    </span>
+        <div class="md-dialog-content">
+            <div class="row m10">
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        <input ng-model="searchValue" class="form-control text-capitalize" type="text" placeholder="{{'search' | translate}}..." autofocus />
+                        <span class="input-group-btn">
+                            <a href="" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</a>
+                        </span>
+                    </div>
                 </div>
             </div>
+            <div class="md-dialog-content table-responsive">
+                <table class="table table-hover table-condensed text-small">
+                    <thead>
+                        <tr class="text-capitalize">
+                            <th style="width:20%">{{'number' | translate}}</th>
+                            <th class="nowrap" style="width:20%">{{'first name' | translate}}</th>
+                            <th class="nowrap" style="width:20%">{{'last name' | translate}}</th>
+                            <th class="nowrap" style="width:20%">{{'birth date' | translate}}</th>
+                            <th style="width:20%">{{'phone' | translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="x in d | filter:searchValue" ng-click="get(x)">
+                            <td style="width:20%">{{$index +1}}</td>
+                            <td style="width:20%">{{x.firstName}}</td>
+                            <td style="width:20%">{{x.lastName}}</td>
+                            <td style="width:20%">{{getDateFormat(x.birthDate) | date:'dd.MM.yyyy'}}</td>
+                            <td style="width:20%">{{x.phone}}</td>
+                            <td><a href="" style="color:red" ng-click="remove(x, $index)" class="btn btn-default"><i class="fa fa-trash-o"></i></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="md-dialog-content table-responsive">
-            <table class="table table-hover table-condensed text-small">
-                <thead>
-                    <tr class="text-capitalize">
-                        <th style="width:20%">{{'number' | translate}}</th>
-                        <th class="nowrap" style="width:20%">{{'first name' | translate}}</th>
-                        <th class="nowrap" style="width:20%">{{'last name' | translate}}</th>
-                        <th class="nowrap" style="width:20%">{{'birth date' | translate}}</th>
-                        <th style="width:20%">{{'phone' | translate}}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="x in d | filter:searchValue" ng-click="get(x)">
-                        <td style="width:20%">{{$index +1}}</td>
-                        <td style="width:20%">{{x.firstName}}</td>
-                        <td style="width:20%">{{x.lastName}}</td>
-                        <td style="width:20%">{{getDateFormat(x.birthDate) | date:'dd.MM.yyyy'}}</td>
-                        <td style="width:20%">{{x.phone}}</td>
-                        <td><a href="" style="color:red" ng-click="remove(x, $index)" class="btn btn-default"><i class="fa fa-trash-o"></i></a></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <!--<pre>{{d | json}}</pre>-->
     </md-dialog-content>
 </md-dialog>
 

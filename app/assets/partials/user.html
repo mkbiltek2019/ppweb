@@ -35,12 +35,19 @@
                                 <label>{{'last name' | translate}}</label>
                                 <input ng-model="user.lastName">
                             </md-input-container>
+                        </div>
+                        <div layout-gt-sm="row">
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label style="margin-bottom: 30px">{{'admin type' | translate}}</label>
                                 <select ng-disabled="loginUser.adminType==0?false:true" ng-model="user.adminType" class="form-control">
                                     <option ng-selected="user.adminType==0?true:false" value="0">{{'supervisor' | translate}}</option>
                                     <option ng-selected="user.adminType==1?true:false" value="1">{{'admin' | translate}}</option>
                                 </select>
+                            </md-input-container>
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <p ng-if="user.adminType==0" class="ml10">( <em>{{'adminType0_des' | translate}}</em> )</p>
+                                <p ng-if="user.adminType==1" class="ml10">( <em>{{'adminType1_des' | translate}}</em> )</p>
+                                <p ng-if="user.adminType==2" class="ml10">( <em>{{'adminType2_des' | translate}}</em> )</p>
                             </md-input-container>
                         </div>
                         <div ng-if="user.userType>=1" layout-gt-sm="row">
@@ -57,7 +64,7 @@
                                     </div>
                                 </form>
                                 <div ng-if="showLogo">
-                                    <img ng-if="showLogo" src="../upload/users/{{user.userId}}/{{logo}}" class="img-thumbnail" width="200" />
+                                    <img ng-if="showLogo" src="../upload/users/{{user.userGroupId}}/{{logo}}" class="img-thumbnail" width="200" />
                                     <button class="btn btn-default text-capitalize" ng-click="removeLogo(user)"><span class="text-danger"><i class="fa fa-trash-o"></i> {{'delete' | translate}}</span></button>
                                 </div>
                             </fieldset>
@@ -130,11 +137,9 @@
                                 <input ng-model="user.isActive" type="checkbox">
                             </md-input-container>
                         </div>
-                    </div>
-                    <div>
-                        <md-dialog-actions layout="row">
-                            <md-button ng-disabled="user.adminType==2" class="md-raised md-primary" ng-click="update(user)"><span class="fa fa-floppy-o"></span> {{'save' | translate}}</md-button>
-                        </md-dialog-actions>
+                        <div class="text-right m20">
+                            <button ng-disabled="user.adminType==2" class="btn btn-primary" ng-click="update(user)"><span class="fa fa-floppy-o"></span> {{'save' | translate}}</button>
+                        </div>
                     </div>
                 </div>
             </div>

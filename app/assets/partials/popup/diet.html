@@ -1,10 +1,10 @@
-﻿<md-dialog flex layout-margin>
+﻿<md-dialog flex="40" flex-gt-sx>
     <form ng-cloak>
-        <md-toolbar>
+        <md-toolbar class="main-background">
             <div class="md-toolbar-tools">
                 <h2>{{'diet' | translate}}</h2>
                 <span flex></span>
-                <a href="" ng-click="cancel()" class="btn btn-primary">x</a>
+                <a href="" class="btn btn-primary" ng-click="cancel()" title="{{'close' | translate}}">x</a>
             </div>
         </md-toolbar>
         <md-dialog-content>

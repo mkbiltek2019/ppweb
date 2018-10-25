@@ -1,10 +1,10 @@
-﻿<md-dialog flex="30" layout-margin>
+﻿<md-dialog flex="40">
     <form ng-cloak>
-        <md-toolbar>
+        <md-toolbar class="main-background">
             <div class="md-toolbar-tools">
                 <h2 class="text-capitalize">{{'save menu' | translate}}</h2>
                 <span flex></span>
-                <a href="" ng-click="cancel()" class="btn btn-primary">x</a>
+                <a href="" class="btn btn-primary" ng-click="cancel()" title="{{'close' | translate}}">x</a>
             </div>
         </md-toolbar>
         <md-dialog-content>
@@ -22,17 +22,12 @@
                     </md-input-container>
                 </div>
                 <div class="row pull-right text-capitalize">
-                    <a href="" class="btn btn-primary m10" ng-click="confirm(d.currentMenu, false)"><i class="fa fa-floppy-o"></i> <span>{{'save' | translate}}</span></a>
+                    <a ng-hide="d.currentMenu.userId != d.user.userId && d.user.adminType > 0" href="" class="btn btn-primary m10" ng-click="confirm(d.currentMenu, false)"><i class="fa fa-floppy-o"></i> <span>{{'save' | translate}}</span></a>
                     <a href="" class="btn btn-primary m10" ng-click="confirm(d.currentMenu, true)"><i class="fa fa-plus"></i> <span>{{'save as new' | translate}}</span></a>
                     <a ng-if="d.config.debug" href="" class="btn btn-danger m10" ng-click="saveAppMenu(d.currentMenu, false)"><i class="fa fa-floppy-o"></i> <span>{{'save as app menu' | translate}}</span></a>
                 </div>
             </div>
-
-            <!--<div>
-                <pre>{{d | json}}</pre>
-            </div>-->
-</md-dialog-content>
-
+        </md-dialog-content>
     </form>
 </md-dialog>
 
