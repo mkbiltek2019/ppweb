@@ -1,4 +1,4 @@
-﻿<div ng-controller="userCtrl" class="container">
+﻿<div ng-controller="userCtrl" class="container" ng-cloak>
     <fieldset class="fieldset-border">
         <legend class="fieldset-border text-capitalize">{{'user profile' | translate}}</legend>
         <div class="text-right">
@@ -73,7 +73,8 @@
                                 </div>
                             </form>
                             <div ng-if="showLogo" class="text-capitalize">
-                                <img ng-if="showLogo" src="../upload/users/{{user.userGroupId}}/{{logo}}" class="img-thumbnail" width="200" />
+                                <img ng-if="showLogo" src="{{logo}}" class="img-thumbnail" width="200" />
+                                <!--<img ng-if="showLogo" src="../upload/users/{{user.userGroupId}}/{{logo}}" class="img-thumbnail" width="200" />-->
                                 <button class="btn btn-default text-capitalize" ng-click="removeLogo(user)"><span class="text-danger"><i class="fa fa-trash-o"></i> {{'delete' | translate}}</span></button>
                             </div>
                         </fieldset>
@@ -83,10 +84,9 @@
             <fieldset class="fieldset-border">
                 <legend class="fieldset-border text-capitalize">{{'account settings' | translate}}</legend>
                 <div layout-gt-sm="row" class="text-capitalize">
-                    <md-input-container ng-if="user.userId" class="md-block" flex-gt-sm>
-                        <label>{{'package' | translate}}</label>
-                        <input ng-model="package(user.userType)" class="text-uppercase" type="text" disabled>
-                    </md-input-container>
+                    <div>
+                        <label style="margin-bottom:30px;font-weight:100; color:gray" class="small">{{'package' | translate}}: <strong class="text-uppercase large">{{package(user.userType)}}</strong></label>
+                    </div>
                 </div>
                 <div ng-if="user.userType>0" class="row">
                     <div class="col-sm-4 text-capitalize">

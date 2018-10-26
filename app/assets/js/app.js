@@ -448,6 +448,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
                 //   $rootScope.getUserSettings();  //TODO
 
+                if ($rootScope.user.userId !== $rootScope.user.userGroupId && $rootScope.user.isActive === false) {
+                    $rootScope.isLogin = false;
+                    functions.alert($translate.instant('your account is not active') + '.', $translate.instant('please contact your administrator') + '.');
+                    return false;
+                }
                 if ($rootScope.user.licenceStatus == 'expired') {
                     $rootScope.isLogin = false;
                     functions.alert($translate.instant('your account has expired'), $translate.instant('renew now'));
@@ -802,7 +807,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 .controller('userCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
     var webService = 'Users.asmx';
 
-    $scope.adminTypes = [ {
+    $scope.adminTypes = [
+       {
            value: 0,
            text: 'Supervizor'
        },
@@ -1028,7 +1034,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
     isLogoExists();
 
-    $scope.logo = "logo.png?v=" + new Date().getTime();
+    $scope.logo = '../upload/users/' + $rootScope.user.userGroupId + '/logo.png?v=' + new Date().getTime();
     $scope.upload = function () {
         var content = new FormData(document.getElementById("formUpload"));
         $http({
@@ -1038,7 +1044,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: content,
         }).then(function (response) {
             $scope.showLogo = true;
-            $scope.logo = "logo.png?v=" + new Date().getTime();
+            $scope.logo = '../upload/users/' + $rootScope.user.userGroupId + '/logo.png?v=' + new Date().getTime();
             if (response.data != 'OK') {
                 functions.alert($translate.instant(response.data));
             }

@@ -1755,8 +1755,13 @@
   "menu is empty": "Jelovnik je prazan",
   "bosnian": "bosanski",
   "close": "zatvori",
+  "adminType0_des": "Supervizor može dodavati i brisati korisnike, ima pristup svim klijentima, jelovnicima, receptima i namirnicama spremljenih od strane svih članova unutar grupe",
+  "adminType1_des": "Administrator ima pristup svim jelovnicima unutar grupe korisnika ali može uređivati i spremati samo jelovnike koje je sam izradio i ima pristup samo klijentima koje je sam spremio u aplikaciju. Administrator ima pristup svim receptima i namirnicama spremljenih od strane ostalih članova grupe",
+  "adminType2_des": "",
   "account settings": "postavke računa",
-  "enter user name (email) and password": "Upišite korisničko ime (Email) i lozinku"
+  "enter user name (email) and password": "Upišite korisničko ime (Email) i lozinku",
+  "your account is not active": "Vaš račun nije aktivan",
+  "please contact your administrator": "Molimo kontakirajte svog administratora"
 
 
 }
