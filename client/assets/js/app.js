@@ -91,9 +91,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
     };
     $scope.toggleSubTpl('clientLog');
 
-    $scope.showSaveMessage = false;
-
-    
     $rootScope.saveClientData = function (x) {
         saveClientData(x);
     }

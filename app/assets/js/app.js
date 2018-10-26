@@ -288,8 +288,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
     $scope.toggleNewTpl('clientsdata');
 
-    $scope.showSaveMessage = false;
-
     $scope.logout = function () {
         $sessionStorage.loginuser = null;
         $sessionStorage.user = null;
@@ -420,6 +418,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.login = function (u, p) {
+        $scope.errorMesage = null;
+        if (functions.isNullOrEmpty(u) || functions.isNullOrEmpty(p)) {
+            $scope.errorLogin = true;
+            $scope.errorMesage = $translate.instant('enter user name (email) and password');
+            return false;
+        }
         $rootScope.loading = true;
         $http({
             url: $rootScope.config.backend + webService + '/Login',
@@ -1127,7 +1131,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + webService + '/Load',
             method: 'POST',
-            data: { userId: $sessionStorage.usergroupid }
+            //data: { userId: $sessionStorage.usergroupid }
+            data: { userId: $sessionStorage.usergroupid, user: $rootScope.user }
         })
         .then(function (response) {
             $rootScope.clients = JSON.parse(response.data.d);
@@ -1257,7 +1262,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + webService + '/Load',
             method: "POST",
-            data: { userId: $sessionStorage.usergroupid }
+            data: { userId: $sessionStorage.usergroupid, user: $rootScope.user }
         })
        .then(function (response) {
            $rootScope.clients = JSON.parse(response.data.d);
@@ -1323,7 +1328,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $http({
                 url: $sessionStorage.config.backend + webService + '/Delete',
                 method: "POST",
-                data: { userId: $sessionStorage.usergroupid, clientId: x.clientId }
+                data: { userId: $sessionStorage.usergroupid, clientId: x.clientId, user: $rootScope.user }
             })
            .then(function (response) {
                $rootScope.clients = JSON.parse(response.data.d);

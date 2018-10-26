@@ -118,9 +118,9 @@ public class Clients : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string Load(string userId) {
+    public string Load(string userId, Users.NewUser user) {
         try {
-            string json = JsonConvert.SerializeObject(GetClients(userId), Formatting.Indented);
+            string json = JsonConvert.SerializeObject(GetClients(userId, user), Formatting.Indented);
             return json;
         } catch (Exception e) { return ("Error: " + e); }
     }
@@ -202,7 +202,7 @@ public class Clients : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string Delete(string userId, string clientId) {
+    public string Delete(string userId, string clientId, Users.NewUser user) {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
@@ -213,7 +213,7 @@ public class Clients : System.Web.Services.WebService {
             command.ExecuteNonQuery();
             connection.Close();
         } catch (Exception e) { return ("error: " + e); }
-        string json = JsonConvert.SerializeObject(GetClients(userId), Formatting.Indented);
+        string json = JsonConvert.SerializeObject(GetClients(userId, user), Formatting.Indented);
         return json;
     }
 
@@ -253,13 +253,17 @@ public class Clients : System.Web.Services.WebService {
         return title;
     }
 
-    public List<NewClient> GetClients(string userId) {
+    public List<NewClient> GetClients(string userId, Users.NewUser user) {
         List<NewClient> xx = new List<NewClient>();
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
-            string sql = @"SELECT clientId, firstName, lastName, birthDate, gender, phone, email, userId, date, isActive
-                        FROM clients ORDER BY clientId DESC";
+            string sql = string.Format(@"
+                        SELECT clientId, firstName, lastName, birthDate, gender, phone, email, userId, date, isActive
+                        FROM clients {0} ORDER BY clientId DESC"
+                        , user.adminType > 0 ? string.Format("WHERE userId = '{0}' ", user.userId) :"");
+            //string sql = @"SELECT clientId, firstName, lastName, birthDate, gender, phone, email, userId, date, isActive
+            //            FROM clients ORDER BY clientId DESC";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             SQLiteDataReader reader = command.ExecuteReader();
             Gender g = new Gender();

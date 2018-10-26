@@ -1749,7 +1749,9 @@
   "print menu": "испис јеловника",
   "menu is empty": "Jеловник је празан",
   "bosnian": "босански",
-  "close": "затвори"
+  "close": "затвори",
+  "account settings": "поставке рачуна",
+  "enter user name (email) and password": "Упишите корисничко име (Емаил) и лозинку"
 
 
 }
