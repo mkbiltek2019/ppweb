@@ -48,11 +48,12 @@
                                 <th>{{'title' | translate}}</th>
                                 <th class="text-right">{{'energy'| translate}}</th>
                             </tr>
-                            <tr ng-repeat="x in d | filter:searchValue" ng-click="confirm(x, showDescription)">
+                            <tr ng-repeat="x in d | filter:searchValue | limitTo:limit" ng-click="confirm(x, showDescription)">
                                 <td class="nowrap">{{x.title}}</td>
                                 <td class="nowrap text-right"><span ng-if="x.energy>0">{{x.energy | number:0}} {{'kcal' | translate}}</span></td>
                             </tr>
                         </table>
+                        <!--TODO: Translate recipes-->
                         <!--<table ng-if="appRecipes==true" class="table table-hover table-condensed">
                             <tr ng-if="config.debug">
                                 <td><label><input ng-model="toTranslate" type="checkbox" ng-checked="setToTranslate(toTranslate)" /> {{'translate to' | translate}}: </label></td>
@@ -76,6 +77,9 @@
                                 <td class="nowrap"><span ng-if="x.energy>0">{{x.energy | number:0}} {{'kcal' | translate}}</span></td>
                             </tr>
                         </table>-->
+                    </div>
+                    <div class="text-right">
+                        <a href="" ng-if="limit<d.length+1" class="btn btn-default" ng-click="loadMore()"><i class="fa fa-arrow-down"></i> {{'show more' | translate}}...</a>
                     </div>
                 </div>
             </div>

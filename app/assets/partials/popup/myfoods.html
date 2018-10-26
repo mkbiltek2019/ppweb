@@ -32,10 +32,13 @@
                         <tr class="text-capitalize">
                             <th>{{'food' | translate}}</th>
                         </tr>
-                        <tr ng-repeat="x in d | filter:searchValue" ng-click="confirm(x, showDescription)">
+                        <tr ng-repeat="x in d | filter:searchValue | limitTo:limit" ng-click="confirm(x, showDescription)">
                             <td class="nowrap">{{x.food}}</td>
                         </tr>
                     </table>
+                </div>
+                <div class="text-right" style="margin-right:28px">
+                    <a href="" ng-if="limit<d.length+1" class="btn btn-default" ng-click="loadMore()"><i class="fa fa-arrow-down"></i> {{'show more' | translate}}...</a>
                 </div>
             </div>
         </div>

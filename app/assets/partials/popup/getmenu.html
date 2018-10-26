@@ -45,9 +45,10 @@
                                 <th>{{'note' | translate}}</th>
                                 <th ng-if="config.debug">{{'client Id' | translate}}</th>
                                 <th>{{'client' | translate}}</th>
+                                <th></th>
                             </tr>
                             <!--<tr ng-if="type==1?x.client.clientId==clientData.clientId:x.client.clientId!=null" ng-repeat="x in d | filter:searchValue" ng-click="confirm(x)">-->
-                            <tr ng-if="type==1?x.client.clientId==clientData.clientId:1==1" ng-repeat="x in d | filter:searchValue" ng-click="confirm(x)">
+                            <tr ng-if="type==1?x.client.clientId==clientData.clientId:1==1" ng-repeat="x in d | filter:searchValue | limitTo:limit" ng-click="confirm(x)">
                                 <td class="nowrap">{{x.title}}</td>
                                 <td class="nowrap">{{x.diet | translate}}</td>
                                 <td class="nowrap"><span ng-if="x.energy>0">{{x.energy | number:0}} {{'kcal' | translate}}</span></td>
@@ -76,13 +77,16 @@
                                 <th>{{'energy'| translate}}</th>
                                 <th>{{'note' | translate}}</th>
                             </tr>
-                            <tr ng-repeat="x in d | filter:searchValue" ng-click="confirm(x)">
+                            <tr ng-repeat="x in d | filter:searchValue | limitTo:limit" ng-click="confirm(x)">
                                 <td class="nowrap">{{x.title}}</td>
                                 <td class="nowrap">{{x.diet | translate}}</td>
                                 <td class="nowrap"><span ng-if="x.energy>0">{{x.energy | number:0}} {{'kcal' | translate}}</span></td>
                                 <td class="nowrap">{{x.note}}</td>
                             </tr>
                         </table>
+                        <div class="text-right" style="margin-right:26px">
+                            <a href="" ng-if="limit<d.length+1" class="btn btn-default" ng-click="loadMore()"><i class="fa fa-arrow-down"></i> {{'show more' | translate}}...</a>
+                        </div>
                     </div>
                     <pre>{{d}}</pre>
                 </div>

@@ -569,7 +569,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.signup = function () {
         $scope.signupdisabled = true;
         $scope.newUser.userName = $scope.newUser.email;
-        if ($scope.newUser.firstName == "" || $scope.newUser.lastName == "" || $scope.newUser.email == "" || $scope.newUser.password == "" || $scope.passwordConfirm == "" || $scope.emailConfirm == "") {
+        if (functions.isNullOrEmpty($scope.newUser.firstName) || functions.isNullOrEmpty($scope.newUser.lastName) || functions.isNullOrEmpty($scope.newUser.email) || functions.isNullOrEmpty($scope.newUser.password) || functions.isNullOrEmpty($scope.passwordConfirm) || functions.isNullOrEmpty($scope.emailConfirm)) {
             functions.alert($translate.instant('all fields are required'), '');
             $scope.signupdisabled = false;
             return false;
@@ -1292,6 +1292,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.searchPopupCtrl = function ($scope, $mdDialog, d, $http) {
         $scope.d = d;
+        $scope.limit = 20;
+
+        $scope.loadMore = function () {
+            $scope.limit += 20;
+        }
+
         $scope.getDateFormat = function (x) {
             return new Date(x);
         }
@@ -2898,6 +2904,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.appMenues = false;
         $scope.toTranslate = false;
         $scope.toLanguage = '';
+        $scope.limit = 20;
+
+        $scope.loadMore = function () {
+            $scope.limit += 20;
+        }
 
         var load = function () {
             $scope.loading = true;
@@ -3854,6 +3865,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.toTranslate = false;
         $scope.toLanguage = '';
         $scope.showDescription = true;
+        $scope.limit = 2;
+
+        $scope.loadMore = function () {
+            $scope.limit += 20;
+        }
 
         var load = function () {
             $scope.loading = true;
@@ -4499,6 +4515,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 
     var getMyFoodsPopupCtrl = function ($scope, $mdDialog, $http) {
+        $scope.limit = 20;
+
+        $scope.loadMore = function () {
+            $scope.limit += 20;
+        }
 
         var load = function () {
             $scope.loading = true;
@@ -4754,6 +4775,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 
     var getMyRecipesPopupCtrl = function ($scope, $mdDialog, $http) {
+        $scope.limit = 20;
+
+        $scope.loadMore = function () {
+            $scope.limit += 20;
+        }
 
         var load = function () {
             $scope.loading = true;
