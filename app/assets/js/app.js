@@ -3894,7 +3894,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.toTranslate = false;
         $scope.toLanguage = '';
         $scope.showDescription = true;
-        $scope.limit = 2;
+        $scope.limit = 20;
 
         $scope.loadMore = function () {
             $scope.limit += 20;
