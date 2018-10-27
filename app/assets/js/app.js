@@ -82,7 +82,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                   $rootScope.setLanguage($rootScope.config.language);
               }
               if (angular.isDefined(queryLang)) {
-                  if (queryLang == 'hr' || queryLang == 'sr' || queryLang == 'sr_cyrl' || queryLang == 'en') {
+                  if (queryLang == 'hr' || queryLang == 'ba' || queryLang == 'sr' || queryLang == 'sr_cyrl' || queryLang == 'en') {
                       $rootScope.setLanguage(queryLang);
                   }
               }
@@ -303,6 +303,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $rootScope.currTpl = 'assets/partials/login.html';
     }
 
+
+
     $rootScope.saveClientData = function (x) {
         if (validateForm() == false) {
             return false;
@@ -399,9 +401,25 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.showNewVersionDetails = $scope.showNewVersionDetails == false ? true : false;
     };
 
+    var getDateDiff = function (x) {
+        var today = new Date();
+        var date1 = today;
+        var date2 = new Date(x);
+        var diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24));
+        return diffDays;
+    }
+
+    $scope.dateDiff = function() {
+        if (localStorage.lastvisit) {
+            return getDateDiff(localStorage.lastvisit)
+        } else {
+            return 0;
+        }
+    }
+
 }])
 
-.controller('loginCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', 'functions', '$translate', '$mdDialog', function ($scope, $http, $sessionStorage, $window, $rootScope, functions, $translate, $mdDialog) {
+.controller('loginCtrl', ['$scope', '$http','$localStorage', '$sessionStorage', '$window', '$rootScope', 'functions', '$translate', '$mdDialog', function ($scope, $http, $localStorage, $sessionStorage, $window, $rootScope, functions, $translate, $mdDialog) {
     var webService = 'Users.asmx';
 
     $scope.toggleTpl = function (x) {
@@ -436,6 +454,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         .then(function (response) {
             if (JSON.parse(response.data.d).userName == u) {
                 $rootScope.user = JSON.parse(response.data.d);
+                if ($rootScope.user.userId !== $rootScope.user.userGroupId && $rootScope.user.isActive === false) {
+                    $rootScope.loading = false;
+                    $scope.errorLogin = true;
+                    $scope.errorMesage = $translate.instant('your account is not active') + '. ' + $translate.instant('please contact your administrator');
+                    return false;
+                }
                 $rootScope.loginUser = JSON.parse(response.data.d);
                 $sessionStorage.loginuser = $rootScope.loginUser;
                 $sessionStorage.userid = $rootScope.user.userId;
@@ -446,13 +470,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 $rootScope.isLogin = true;
                 $rootScope.loadData();
 
+                if (typeof (Storage) !== "undefined") {
+                    localStorage.lastvisit = new Date();
+                }
+
                 //   $rootScope.getUserSettings();  //TODO
 
-                if ($rootScope.user.userId !== $rootScope.user.userGroupId && $rootScope.user.isActive === false) {
-                    $rootScope.isLogin = false;
-                    functions.alert($translate.instant('your account is not active') + '.', $translate.instant('please contact your administrator') + '.');
-                    return false;
-                }
                 if ($rootScope.user.licenceStatus == 'expired') {
                     $rootScope.isLogin = false;
                     functions.alert($translate.instant('your account has expired'), $translate.instant('renew now'));
