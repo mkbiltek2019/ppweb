@@ -1937,13 +1937,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             $rootScope.calculation = JSON.parse(response.data.d);
-            //TODO
-          //  $rootScope.calculation.recommendedEnergyIntake = null;
-           // $rootScope.calculation.recommendedEnergyExpenditure = null;
-
 
             $rootScope.appCalculation = JSON.parse(response.data.d);
-            //TODO
             if (angular.isDefined($rootScope.totalDailyEnergyExpenditure)) {
                 if ($rootScope.totalDailyEnergyExpenditure.duration == 1440) {
                     $rootScope.calculation.tee = $rootScope.totalDailyEnergyExpenditure.value;
@@ -2232,7 +2227,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 .controller('activitiesCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
     var webService = 'Activities.asmx';
-  //  $scope.isSport = 1;
     $scope.orderdirection = '-';
     $scope.orderby = function (x) {
         var direction = $scope.orderdirection == '+' ? '-' : '+';
@@ -2242,10 +2236,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.orderby('activity');
 
     if ($rootScope.activities == undefined) { $rootScope.loadActivities(); };
-    if (angular.isDefined($rootScope.myCalculation)) {
-        $rootScope.calculation.recommendedEnergyExpenditure = functions.isNullOrEmpty($rootScope.myCalculation.recommendedEnergyExpenditure) == true
+    if (angular.isDefined($rootScope.appCalculation) && angular.isDefined($rootScope.myCalculation)) {
+        $rootScope.calculation.recommendedEnergyExpenditure = functions.isNullOrEmpty($rootScope.myCalculation.recommendedEnergyExpenditure)
             ? $rootScope.appCalculation.recommendedEnergyExpenditure
             : $rootScope.myCalculation.recommendedEnergyExpenditure;
+    } else {
+        $rootScope.newTpl = './assets/partials/calculation.html';
+        $rootScope.selectedNavItem = 'calculation';
     }
     var getEnergyLeft = function () {
         var energy = 0;
@@ -2262,7 +2259,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.openPopup = function (x) {
         energyLeft = getEnergyLeft();
-      //  alert(energyLeft);
         if (energyLeft > 10) {  // todo
             $mdDialog.show({
                 controller: $scope.popupCtrl,
@@ -2275,18 +2271,16 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             })
           .then(function (response) {
               energyLeft = response;
-           //   alert(response);
           }, function () {
           });
         } else {
             functions.alert($translate.instant('the selected additional energy expenditure is the same as recommended'), '');
-          //  alert('Odabrana dodatna tjesna potrošnja jednaka preporućenoj.')
         }
     };
 
     $scope.popupCtrl = function ($scope, $mdDialog, d, $http) {
         $scope.d = d.activity;
-        var energy = d.energy; // $rootScope.calculation.recommendedEnergyExpenditure;
+        var energy = d.energy;
 
         $scope.duration = Math.round((energy / ($scope.d.factorKcal * $rootScope.clientData.weight)) * 60);
         // d = (e / (f * w)) * 60
@@ -2301,7 +2295,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         $scope.confirm = function (x) {
             energy = ($scope.duration * ($scope.d.factorKcal * $rootScope.clientData.weight)) / 60;
-           //energy = energy - Math.round(($scope.duration * ($scope.d.factorKcal * $rootScope.clientData.weight)) / 60);
            $rootScope.clientData.activities.push({
                'id': x.id,
                'activity': x.activity,

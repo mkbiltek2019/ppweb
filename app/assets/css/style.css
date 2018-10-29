@@ -42,6 +42,11 @@ a {
     background-color: white;
 }
 
+md-dialog {
+        min-width:40%;
+        max-height:80%;
+    }
+
 @media (max-width: 767px) {
     .loginBox {
         padding:20px;
@@ -52,6 +57,10 @@ a {
         border-radius: 0px 0px 10px 10px !important;
         border:1px solid #ddd;
         border-top:0px;
+    }
+    md-dialog {
+        min-width:100%;
+        max-height:100%;
     }
 }
 
