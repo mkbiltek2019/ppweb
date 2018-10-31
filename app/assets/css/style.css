@@ -47,23 +47,6 @@ md-dialog {
         max-height:80%;
     }
 
-@media (max-width: 767px) {
-    .loginBox {
-        padding:20px;
-        margin-top:0px;
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
-        box-shadow: none;
-        border-radius: 0px 0px 10px 10px !important;
-        border:1px solid #ddd;
-        border-top:0px;
-    }
-    md-dialog {
-        min-width:100%;
-        max-height:100%;
-    }
-}
-
 .borderNone {
     border:none !important;
 }
@@ -263,6 +246,49 @@ legend.fieldset-border {
 .main-background {
     background-color: #337ab7 !important;
 }
+
+.center {
+    position: fixed;
+    top: 50%;
+    opacity: 0.7;
+}
+.center-left {
+    left:5%;
+}
+.center-right {
+    left:90%;
+}
+.center:hover {
+    opacity: 1;
+}
+
+@media (max-width: 767px) {
+    .loginBox {
+        padding:20px;
+        margin-top:0px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        box-shadow: none;
+        border-radius: 0px 0px 10px 10px !important;
+        border:1px solid #ddd;
+        border-top:0px;
+    }
+    md-dialog {
+        min-width:100%;
+        max-height:100%;
+    }
+    .center {
+        top: 85%;
+    }
+    .center-left {
+        left:1%;
+    }
+    .center-right {
+        left:100%;
+        margin-left: -60px;
+    }
+}
+
 
 
 /*.text-capitalize-first::first-letter {
