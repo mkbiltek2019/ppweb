@@ -9,28 +9,9 @@
         </div>
     </div>
     <div>
-        <a href="" ng-if="client.clientId" class="btn btn-primary btn-lg pull-left" ng-click="toggleNewTpl('diets')"><i class="fa fa-angle-double-left" aria-hidden="true"></i><span class="text-capitalize"> {{'back' | translate}} </span></a>
-        <a href="" ng-if="client.clientId" class="btn btn-primary btn-lg pull-right" ng-click="toggleNewTpl('menu')"><span class="text-capitalize">{{'forward' | translate}}</span> <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+        <a href="" ng-if="client.clientId" class="btn btn-default btn-lg center center-left" title="{{'back' | translate}}" ng-click="toggleNewTpl('diets')"><i class="fa fa-angle-double-left fa-2x text-primary" aria-hidden="true"></i></a>
+        <a href="" ng-if="client.clientId" class="btn btn-default btn-lg center center-right" title="{{'forward' | translate}}" ng-click="toggleNewTpl('menu')"><i class="fa fa-angle-double-right fa-2x text-primary" aria-hidden="true"></i></a>
     </div> 
-    <!--<div class="panel panel-default">
-        <div class="panel-heading"><span class="text-uppercase">{{'meals' | translate}}</span></div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-md-offset-5 p20">
-                    <div ng-repeat="x in clientData.meals">
-                        <md-checkbox ng-model="x.isSelected" class="md-primary" ng-disabled="x.isDisabled">
-                            {{getMealTitle(x.code) | translate}}
-                        </md-checkbox>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <a href="" ng-if="client.clientId" class="btn btn-primary btn-lg pull-left" ng-click="toggleNewTpl('diets')"><i class="fa fa-angle-double-left" aria-hidden="true"></i><span class="text-capitalize"> {{'back' | translate}} </span></a>
-                <a href="" ng-if="client.clientId" class="btn btn-primary btn-lg pull-right" ng-click="toggleNewTpl('menu')"><span class="text-capitalize">{{'forward' | translate}}</span> <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
-            </div> 
-        </div>
-    </div>-->
-
 </div>
 <div ng-if="config.debug" class="bg-info debugBox">
     meals:

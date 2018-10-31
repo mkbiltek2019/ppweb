@@ -43,9 +43,9 @@ a {
 }
 
 md-dialog {
-        min-width:40%;
-        max-height:80%;
-    }
+    min-width: 40%;
+    max-height: 80%;
+}
 
 .borderNone {
     border:none !important;
@@ -288,6 +288,27 @@ legend.fieldset-border {
         margin-left: -60px;
     }
 }
+
+/*@media (min-width: 767px) {
+    .center-right {
+        left:95%;
+    }
+}*/
+
+@media (min-width: 992px) {
+    md-dialog {
+        max-width:60%;
+        max-height:90%;
+    }
+    /*.center-right {
+        left:92%;
+    }*/
+}
+
+/*@media only screen and (min-width: 1200px) {
+
+}*/
+
 
 
 
