@@ -17,8 +17,8 @@
             <div>
                 <p class="lead">Dana <em>{{config.date}}</em> objavljena je nova nadogradnja aplikacije (Verzija: {{config.version}})</p>
                 <p>
-                    <i ng-if="dateDiff()<=3" class="fa fa-long-arrow-right text-danger fa-2x arrow1" aria-hidden="true"></i>
-                        <i class="fa fa-info-circle fa-2x"></i>  <em>Molimo korisnike da prije početka rada osvježite aplikaciju pritiskom na tipke <kbd>CTRL + F5</kbd> ili u internet pregledniku kliknite na <strong>Reload</strong></em>
+                    <i ng-if="dateDiff()>=-3" class="fa fa-long-arrow-right text-danger fa-2x arrow1" aria-hidden="true"></i>
+                    <i class="fa fa-info-circle fa-2x"></i> <em>Molimo korisnike da prije početka rada osvježite aplikaciju pritiskom na tipke <kbd>CTRL + F5</kbd> ili u internet pregledniku kliknite na <strong>Reload</strong></em>
                 </p>
                 <div class="p10">
                     <img src="./assets/img/newversion/reload.png" class="img-responsive center-block" />

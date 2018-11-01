@@ -303,8 +303,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $rootScope.currTpl = 'assets/partials/login.html';
     }
 
-
-
     $rootScope.saveClientData = function (x) {
         if (validateForm() == false) {
             return false;
@@ -409,7 +407,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         return diffDays;
     }
 
-    $scope.dateDiff = function() {
+    $scope.dateDiff = function () {
         if (localStorage.lastvisit) {
             return getDateDiff(localStorage.lastvisit)
         } else {
