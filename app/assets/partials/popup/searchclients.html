@@ -1,4 +1,4 @@
-﻿<md-dialog flex>
+﻿<md-dialog flex class="fixed-height">
     <md-toolbar class="main-background">
         <div class="md-toolbar-tools">
             <h2 class="text-capitalize">{{'clients' | translate}}</h2>
@@ -11,7 +11,7 @@
             <div class="row m10">
                 <div class="col-sm-4">
                     <div class="input-group">
-                        <input ng-model="searchValue" class="form-control text-capitalize" type="text" placeholder="{{'search' | translate}}..." autofocus />
+                        <input ng-model="searchValue" class="form-control search" type="text" placeholder="{{'search' | translate}}..." />
                         <span class="input-group-btn">
                             <a href="" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</a>
                         </span>

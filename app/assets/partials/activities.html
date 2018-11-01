@@ -21,7 +21,7 @@
                 <legend class="fieldset-border">{{'choose additional physical activity' | translate}}</legend>
                 <div class="hidden-xs">
                     <div class="input-group">
-                        <input ng-model="searchValue" class="form-control" type="text" placeholder="{{'search' | translate}}..." autofocus />
+                        <input ng-model="searchValue" class="form-control search" type="text" placeholder="{{'search' | translate}}..." autofocus />
                         <span class="input-group-btn">
                             <a href="" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</a>
                         </span>
@@ -64,7 +64,7 @@
                     <table class="table text-small">
                         <tr ng-repeat="x in clientData.activities">
                             <td><strong>{{x.activity}}</strong> - {{x.duration}} min,  {{x.energy | number:0}} kcal</td>
-                            <td width="50px"><a href="" style="color:red" ng-click="removeActivity(x, $index)" class="btn btn-default"><i class="fa fa-trash-o"></i></a></td>
+                            <td width="50px"><a href="" style="color:red" ng-click="removeActivity(x, $index)" class="btn btn-default"><i class="fa fa-times"></i></a></td>
                         </tr>
                     </table>
                 </div>

@@ -99,6 +99,10 @@ md-dialog {
     margin-top:20px;
 }
 
+.mt60 {
+    margin-top:60px;
+}
+
 .ml10 {
     margin-left:10px;
 }
@@ -247,17 +251,25 @@ legend.fieldset-border {
     background-color: #337ab7 !important;
 }
 
+a[class*="btn-default"], button[class*="btn-default"], input[class*="search"] {
+    border-color: #337ab7;
+    color: #337ab7;
+}
+
 .center {
     position: fixed;
     top: 50%;
     opacity: 0.7;
 }
+
 .center-left {
     left:5%;
 }
+
 .center-right {
     left:90%;
 }
+
 .center:hover {
     opacity: 1;
 }
@@ -275,7 +287,7 @@ legend.fieldset-border {
     }
     md-dialog {
         min-width:100%;
-        max-height:100%;
+        min-height:100%;
     }
     .center {
         top: 85%;
@@ -289,26 +301,15 @@ legend.fieldset-border {
     }
 }
 
-/*@media (min-width: 767px) {
-    .center-right {
-        left:95%;
-    }
-}*/
-
 @media (min-width: 992px) {
     md-dialog {
         max-width:60%;
         max-height:90%;
     }
-    /*.center-right {
-        left:92%;
-    }*/
+    md-dialog[class*="fixed-height"] {
+        min-height:90%;
+    }
 }
-
-/*@media only screen and (min-width: 1200px) {
-
-}*/
-
 
 
 

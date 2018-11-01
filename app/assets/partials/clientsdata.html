@@ -23,7 +23,7 @@
              </div>
              <div ng-include="clientDataTpl" style="padding-top:20px"></div>
              <div>
-                 <a href="" class="btn btn-default btn-lg center center-right" ng-click="toggleNewTpl('calculation')" title="{{'forward' | translate}}"><i class="fa fa-angle-double-right fa-2x text-primary" aria-hidden="true"></i></a>
+                 <a href="" class="btn btn-default btn-lg btn-border center center-right" ng-click="toggleNewTpl('calculation')" title="{{'forward' | translate}}"><i class="fa fa-angle-double-right fa-2x text-primary" aria-hidden="true"></i></a>
              </div>
          </div>
      </div>
@@ -221,7 +221,7 @@
                         </table>
                     </div>
                     <div class="input-group">
-                        <input ng-model="searchValue" class="form-control" type="text" placeholder="{{'search' | translate}}..." autofocus />
+                        <input ng-model="searchValue" class="form-control search" type="text" placeholder="{{'search' | translate}}..." autofocus />
                         <span class="input-group-btn">
                             <a href="" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</a>
                         </span>
@@ -260,7 +260,7 @@
                     </table>
                 </div>
                 <div class="text-right mt20">
-                    <a href="" ng-if="clientData.dailyActivities.length>0" class="btn btn-danger text-capitalize" ng-click="clearDailyActivities()"><i class="fa fa-trash-o"></i> {{'clear' | translate}}</a>
+                    <a href="" ng-if="clientData.dailyActivities.length>0" class="btn btn-danger text-capitalize" ng-click="clearDailyActivities()"><i class="fa fa-times"></i> {{'clear' | translate}}</a>
                     <a href="" class="btn btn-success text-capitalize" ng-click="save(clientData.dailyActivities)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</a>
                 </div>
             </div>
@@ -312,7 +312,7 @@
                 <tbody>
                     <tr ng-repeat="x in clientLog | orderBy: '-id'">
                         <td class="borderNone" style="width:100px">
-                            <a href="" style="color:red" ng-click="removeClientLog(x)" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-trash-o"></i></a>
+                            <a href="" style="color:red" ng-click="removeClientLog(x)" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-times"></i></a>
                             <a href="" style="color:green" ng-click="updateClientLog(x)" class="btn btn-default" title="{{'save' | translate}}"><i class="fa fa-floppy-o"></i></a>
                         </td>
                         <td>{{clientLog.length - $index}}</td>

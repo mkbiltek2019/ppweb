@@ -6,7 +6,7 @@
             <a ng-disabled="recipe.data.selectedFoods.length==0" href="" class="btn btn-default m2" ng-click="save(recipe)"><i class="fa fa-floppy-o"></i> <span class="hidden-xs">{{'save' | translate}}</span></a>
             <a ng-disabled="recipe.id==null" href="" class="btn btn-default m2" ng-click="remove(recipe)"><span class="text-danger"><i class="fa fa-trash-o"></i> <span class="hidden-xs">{{'delete' | translate}}</span></span></a>
         </div>
-        <div class="mt10">
+        <div class="mt20">
             <div class="text-capitalize">
                 <md-input-container class="md-block" flex-gt-sm>
                     <label>{{'recipe title' | translate}}</label>
@@ -30,7 +30,7 @@
                     </tr>
                     <tr ng-repeat="x in recipe.data.selectedFoods">
                         <td class="nowrap">
-                            <a href="" class="btn btn-default" ng-click="removeFood($index)" title="{{'delete' | translate}}"><i class="fa fa-trash-o text-danger"></i></a>
+                            <a href="" class="btn btn-default" ng-click="removeFood($index)" title="{{'delete' | translate}}"><i class="fa fa-times text-danger"></i></a>
                             <a href="" class="btn btn-default" ng-click="openFoodPopup(x, recipe.data.selectedFoods.indexOf(x))" title="{{'edit' | translate}}"><i class="fa fa-pencil text-primary"></i></a>
                         </td>
                         <td><input ng-model="x.food" type="text" class="form-control" /></td>
