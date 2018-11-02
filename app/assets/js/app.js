@@ -1935,7 +1935,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             $rootScope.calculation = JSON.parse(response.data.d);
-
             $rootScope.appCalculation = JSON.parse(response.data.d);
             if (angular.isDefined($rootScope.totalDailyEnergyExpenditure)) {
                 if ($rootScope.totalDailyEnergyExpenditure.duration == 1440) {
