@@ -1750,6 +1750,7 @@
   "account settings": "account settings",
   "enter user name (email) and password": "enter user name (email) and password",
   "your account is not active": "Your account is not active",
-  "please contact your administrator": "Please contact your administrator"
+  "please contact your administrator": "Please contact your administrator",
+  "you have to refresh the page. press Ctrl+F5": "You have to refresh the page. Press Ctrl+F5"
 
 }

@@ -82,21 +82,21 @@ public class Calculations : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string GetCalculation(ClientsData.NewClientData client) {
+    public string GetCalculation(ClientsData.NewClientData client, double detailTee) {
         NewCalculation x = new NewCalculation();
         x.bmi = Bmi(client);
         x.whr = Whr(client);
         x.waist = Waist(client);
         x.bmr = Bmr(client);
-        x.tee = Tee(client);
-        x.recommendedEnergyIntake = RecommendedEnergyIntake(client);
+        x.tee = detailTee > 0 ? detailTee : Tee(client);
+        x.recommendedEnergyIntake = RecommendedEnergyIntake(client, detailTee);
         x.recommendedEnergyExpenditure = RecommendedEnergyExpenditure(client);
         x.recommendedWeight = RecommendedWeight(client);
         x.goal = RecommendedGoal(client);
         return JsonConvert.SerializeObject(x, Formatting.Indented);
     }
 
-     [WebMethod]
+    [WebMethod]
     public string LoadPal() {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
@@ -272,22 +272,21 @@ public class Calculations : System.Web.Services.WebService {
         return Math.Round(TEE, 2);
     }
 
-    public int RecommendedEnergyIntake(ClientsData.NewClientData client) {
+     public int RecommendedEnergyIntake(ClientsData.NewClientData client, double detailTee) {
         ValueTitle b = Bmi(client);
         double bmi = b.value;
-        int tee = Convert.ToInt32(Tee(client));
-
+        double tee = detailTee > 0 ? detailTee : Convert.ToInt32(Tee(client));
         int expenditure = RecommendedEnergyExpenditure(client);
 
         int x = 0;
         if (bmi < 18.5) {
-            x = tee + 300;
+            x = Convert.ToInt32(tee) + 300;
         }
         if (bmi >= 18.5 && bmi <= 25) {
-            x = tee + expenditure;
+            x = Convert.ToInt32(tee) + expenditure;
         }
         if (bmi > 25) {
-            x = tee - 300;
+            x = Convert.ToInt32(tee) - 300;
         }
         return x;
     }
@@ -299,7 +298,7 @@ public class Calculations : System.Web.Services.WebService {
         if (pal < 1.55) { x = 200; }
         if (pal < 1.55 && bmi <= 25) { x = 200; }
         if (pal >= 1.55 && pal < 1.8 && bmi > 25) { x = 100; }
-        if (pal >= 1.55 && pal < 1.8 && bmi <= 25){ x = 100; }
+        if (pal >= 1.55 && pal < 1.8 && bmi <= 25) { x = 100; }
         if (pal >= 1.8 && bmi <= 25) { x = 0; }
         if (pal >= 1.8 && bmi > 25) { x = 0; }
 

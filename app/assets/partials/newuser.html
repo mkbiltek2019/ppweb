@@ -1,13 +1,11 @@
-﻿<div ng-controller="userCtrl">
-    <a href="" class="btn btn-default pull-right text-capitalize m10" ng-click="isLogin?toggleTpl('dashboard.html'):toggleTpl('login.html')"><i class="fa fa-times"></i><span class="hidden-xs"> {{'cancel' | translate}}</span></a>
-    <div class="col-md-6 col-md-offset-3 well">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="container row">
-                    <label class="text-capitalize">{{'add new user' | translate}}<span class="radioValue"></span> </label>
-                </div>
+﻿<div ng-controller="userCtrl" class="mt20">
+    <div class="col-md-6 col-md-offset-3">
+        <fieldset class="fieldset-border">
+            <legend class="fieldset-border text-capitalize">{{'add new user' | translate}}:</legend>
+            <div class="text-right">
+                <a href="" class="btn btn-default text-capitalize m10" title={{'close' | translate}} ng-click="isLogin?toggleTpl('dashboard.html'):toggleTpl('login.html')"><i class="fa fa-times"></i><span class="hidden-xs"> {{'cancel' | translate}}</span></a>
             </div>
-            <div class="panel-body">
+            <div>
                 <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>{{'first name' | translate}}</label>
@@ -53,22 +51,16 @@
                     </md-input-container>
                 </div>-->
             </div>
-            <div class="panel-footer">
+            <div class="text-right">
                 <a href="" class="btn btn-primary text-capitalize" ng-click="signup()"><i class="fa fa-user-plus"></i> {{'sign up' | translate}}</a>
-
-                <!--<md-dialog-actions layout="row">
-                    <md-button class="md-raised md-primary" ng-click="signup()">{{'sign up' | translate}}</md-button>
-                </md-dialog-actions>-->
             </div>
-        </div>
+        </fieldset>
         <div id="signupMessage" hidden="hidden" class="alert alert-danger">
             <strong class="text-uppercase">{{'error' | translate}}!</strong>
         </div>
-
         <div ng-if="config.debug" class="bg-info debugBox">
             newUser:
             <pre>{{newUser | json}}</pre>
         </div>
-
     </div>
 </div>

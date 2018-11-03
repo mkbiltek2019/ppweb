@@ -1,16 +1,10 @@
-﻿<div ng-cloak ng-controller="userCtrl">
-    <a href="" class="btn btn-default pull-right text-capitalize m10" ng-click="isLogin?toggleTpl('dashboard.html'):toggleTpl('login.html')"><i class="fa fa-times"></i><span class="hidden-xs"> {{'cancel' | translate}}</span></a>
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header text-capitalize">{{'users' | translate}}</h3>
+﻿<div ng-cloak ng-controller="userCtrl" class="mt20">
+    <fieldset class="fieldset-border">
+        <legend class="fieldset-border text-capitalize">{{'users' | translate}}:</legend>
+        <div class="text-right">
+            <a href="" ng-click="toggleTpl('newuser.html', 10)" class="btn btn-primary text-capitalize"><i class="fa fa-user-plus fa-fw"></i> {{'new user' | translate}}</a>
+            <a href="" class="btn btn-default text-capitalize m10" ng-click="isLogin?toggleTpl('dashboard.html'):toggleTpl('login.html')" title={{'close' | translate}}><i class="fa fa-times"></i><span class="hidden-xs"> {{'cancel' | translate}}</span></a>
         </div>
-    </div>
-    <!--<div class="row">
-        <div class="col-sm-4">
-            <input ng-model="clientName" type="text" class="form-control" placeholder="Pretraži..." />
-        </div>
-    </div>-->
-    <md-content class="md-padding">
         <div class="table-responsive">
             <table class="table table-condensed table-hover">
                 <thead>
@@ -46,14 +40,9 @@
                 </tbody>
             </table>
         </div>
-        <div>
-            <a href="" ng-click="toggleTpl('newuser.html', 10)" class="btn btn-primary text-capitalize"><i class="fa fa-user-plus fa-fw"></i> {{'new user' | translate}}</a>
+    </fieldset>
+        <div ng-if="config.debug">
+            users:
+            <pre>{{users | json}}</pre>
         </div>
-    </md-content>
-
-    <div ng-if="config.debug">
-        users:
-        <pre>{{users | json}}</pre>
-    </div>
-
 </div>
