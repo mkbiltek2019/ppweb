@@ -82,14 +82,14 @@ public class Calculations : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string GetCalculation(ClientsData.NewClientData client, double detailTee) {
+    public string GetCalculation(ClientsData.NewClientData client) {
         NewCalculation x = new NewCalculation();
         x.bmi = Bmi(client);
         x.whr = Whr(client);
         x.waist = Waist(client);
         x.bmr = Bmr(client);
-        x.tee = detailTee > 0 ? detailTee : Tee(client);
-        x.recommendedEnergyIntake = RecommendedEnergyIntake(client, detailTee);
+        x.tee = client.dailyActivities.energy > 0 ? client.dailyActivities.energy : Tee(client);
+        x.recommendedEnergyIntake = RecommendedEnergyIntake(client);
         x.recommendedEnergyExpenditure = RecommendedEnergyExpenditure(client);
         x.recommendedWeight = RecommendedWeight(client);
         x.goal = RecommendedGoal(client);
@@ -272,10 +272,10 @@ public class Calculations : System.Web.Services.WebService {
         return Math.Round(TEE, 2);
     }
 
-     public int RecommendedEnergyIntake(ClientsData.NewClientData client, double detailTee) {
+     public int RecommendedEnergyIntake(ClientsData.NewClientData client) {
         ValueTitle b = Bmi(client);
         double bmi = b.value;
-        double tee = detailTee > 0 ? detailTee : Convert.ToInt32(Tee(client));
+        double tee = client.dailyActivities.energy > 0 ? client.dailyActivities.energy : Convert.ToInt32(Tee(client));
         int expenditure = RecommendedEnergyExpenditure(client);
 
         int x = 0;

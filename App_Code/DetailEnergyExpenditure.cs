@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Services;
 using System.IO;
 using System.Configuration;
@@ -35,12 +36,20 @@ public class DetailEnergyExpenditure : System.Web.Services.WebService {
         public int min { get; set; }
     }
 
-    public class DailyActivities {
+    public class Activities {
+        public double energy;
+        public List<Activity> activities;
+    }
 
-        public List<Activity> getDailyActivities(string userId, string clientId) {
-            List<Activity> activities = new List<Activity>();
-            activities = JsonConvert.DeserializeObject<List<Activity>>(GetJsonFile(userId, clientId));
-            return activities;
+    public class DailyActivities {
+        public double energy;
+        public Activities getDailyActivities(string userId, string clientId) {
+            Activities x = new Activities();
+            x.activities = JsonConvert.DeserializeObject<List<Activity>>(GetJsonFile(userId, clientId));
+            x.energy = x.activities.Sum(a => a.energy);
+            //List<Activity> activities = new List<Activity>();
+            //activities = JsonConvert.DeserializeObject<Activities>(GetJsonFile(userId, clientId));
+            return x;
         }
 
         public string GetJsonFile(string userId, string clientId) {
@@ -54,7 +63,7 @@ public class DetailEnergyExpenditure : System.Web.Services.WebService {
         }
 
     }
-    
+
 
     #region WebMethods
     [WebMethod]

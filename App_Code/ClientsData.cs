@@ -45,8 +45,17 @@ public class ClientsData : System.Web.Services.WebService {
         public DateTime date { get; set; }
         public string userId { get; set; }
 
-        public List<DetailEnergyExpenditure.Activity> dailyActivities = new List<DetailEnergyExpenditure.Activity>();
+        public DetailEnergyExpenditure.Activities dailyActivities = new DetailEnergyExpenditure.Activities();
+
+        //public List<DetailEnergyExpenditure.Activity> dailyActivities = new List<DetailEnergyExpenditure.Activity>();
+
+        //TODO add detailTee;
     }
+
+    //public class DailyActivities {
+    //    public double energy;
+    //    public List<DetailEnergyExpenditure.Activity> activities = new List<DetailEnergyExpenditure.Activity>();
+    //}
 
     #region WebMethods
     [WebMethod]
@@ -68,7 +77,7 @@ public class ClientsData : System.Web.Services.WebService {
         x.meals = new List<Meals.NewMeal>();
         x.date = DateTime.Today;
         x.userId = null;
-        x.dailyActivities = new List<DetailEnergyExpenditure.Activity>();
+        x.dailyActivities = new DetailEnergyExpenditure.Activities(); // new List<DetailEnergyExpenditure.Activity>();
         string json = JsonConvert.SerializeObject(x, Formatting.Indented);
         return json;
     }

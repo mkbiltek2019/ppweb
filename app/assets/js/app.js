@@ -1389,7 +1389,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 $scope.getPalDetails($rootScope.clientData.pal.value);
                 getCalculation();
                 getMyCalculation();
-                if ($rootScope.clientData.dailyActivities.length > 0) {
+                if ($rootScope.clientData.dailyActivities.activities.length > 0) {
                     $rootScope.showDetailCalculationOfEnergyExpenditure = true;
                 }
                 if ($rootScope.unitSystem == 0 && $rootScope.config.language == 'en') {
@@ -1488,7 +1488,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + 'Calculations.asmx/GetCalculation',
             method: "POST",
-            data: { client: $rootScope.clientData, detailTee: detailTee }
+            data: { client: $rootScope.clientData }
         })
         .then(function (response) {
             $rootScope.calculation = JSON.parse(response.data.d);
@@ -1832,7 +1832,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.clearDailyActivities = function () {
-        $rootScope.clientData.dailyActivities = [];
+        $rootScope.clientData.dailyActivities.activities = [];
         $rootScope.totalDailyEnergyExpenditure.value = 0;
         $rootScope.totalDailyEnergyExpenditure.duration = 0;
         initTime();
@@ -1846,7 +1846,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     var totalEnergy = function () {
         var e = 0;
-        angular.forEach($rootScope.clientData.dailyActivities, function (value, key) {
+        angular.forEach($rootScope.clientData.dailyActivities.activities, function (value, key) {
             e = e + value.energy;
         })
         return e;
@@ -1854,7 +1854,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     var totalDuration = function () {
         var d = 0;
-        angular.forEach($rootScope.clientData.dailyActivities, function (value, key) {
+        angular.forEach($rootScope.clientData.dailyActivities.activities, function (value, key) {
             d = d + value.duration;
         })
         return d;
@@ -1876,8 +1876,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.dailyActivity.duration = timeDiff($scope.from, $scope.to);
         $scope.dailyActivity.energy = energy(timeDiff($scope.from, $scope.to), angular.fromJson(x).factorKcal);
 
-        $rootScope.clientData.dailyActivities.push(angular.copy($scope.dailyActivity));
+        $rootScope.clientData.dailyActivities.activities.push(angular.copy($scope.dailyActivity));
+        $rootScope.clientData.dailyActivities.activities.energy = 
         $rootScope.totalDailyEnergyExpenditure.value = totalEnergy(); // $scope.totalDailyEnergyExpenditure + $scope.dailyActivity.energy;
+        $rootScope.clientData.dailyActivities.activities.energy = $rootScope.totalDailyEnergyExpenditure.value;
         $rootScope.totalDailyEnergyExpenditure.duration = totalDuration();
         $scope.from = angular.copy($scope.to);
         setTime($scope.from.hour);
@@ -1911,13 +1913,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var getTotal = function () {
-        if ($rootScope.clientData.dailyActivities == null) {
-            $rootScope.clientData.dailyActivities = [];
+        if ($rootScope.clientData.dailyActivities.activities == null) {
+            $rootScope.clientData.dailyActivities.activities = [];
         }
-        if ($rootScope.clientData.dailyActivities.length > 0) {
+        if ($rootScope.clientData.dailyActivities.activities.length > 0) {
             $rootScope.totalDailyEnergyExpenditure.value = totalEnergy();
             $rootScope.totalDailyEnergyExpenditure.duration = totalDuration();
-            var lastActivity = $rootScope.clientData.dailyActivities[$rootScope.clientData.dailyActivities.length - 1];
+            var lastActivity = $rootScope.clientData.dailyActivities.activities[$rootScope.clientData.dailyActivities.activities.length - 1];
             $scope.from = {
                 hour: lastActivity.to.hour,
                 min: lastActivity.to.min
@@ -1946,7 +1948,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + webService + '/GetCalculation',
             method: "POST",
-            data: { client: $rootScope.clientData, detailTee: detailTee }
+            data: { client: $rootScope.clientData }
         })
         .then(function (response) {
             $rootScope.calculation = JSON.parse(response.data.d);
@@ -2532,7 +2534,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + webService + '/GetRecommendations',
             method: "POST",
-            data: { client: x, myRecommendedEnergyIntake: $rootScope.myCalculation.recommendedEnergyIntake, detailTee: detailTee }
+            data: { client: x, myRecommendedEnergyIntake: $rootScope.myCalculation.recommendedEnergyIntake }
         })
        .then(function (response) {
            $rootScope.recommendations = JSON.parse(response.data.d);
