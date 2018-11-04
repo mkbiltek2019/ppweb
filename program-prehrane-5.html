@@ -64,8 +64,14 @@
             <a href="#app" class="btn btn-default m10 main-border" style="width:260px" title="preuzimanje program Program Prehrane 5.0"><span class="fa fa-download fa-2x"></span> Download</a>
             <a href="#order" class="btn btn-default m10 main-border" style="width:260px" title="Narudžba programa Program Prehrane 5.0"><span class="fa fa-shopping-cart fa-2x"></span> Narudžba</a>
         </div>
-        <div class="alert alert-warning">
-            <strong>Napomena!</strong> 01.01.2019 g. računalni program Program Prehrane 5.0 se povlaći iz prodaje. Zamjenjuje ga Web aplikacija <a href="../app" class="btn btn-default m10 main" style="width:260px" title="Web aplikacija Program Prehrane Web"><i class="fa fa-sign-in fa-2x"></i> Program Prehrane Web</a>
+        <div class="container alert alert-warning">
+            <p class="text-justify">
+                <strong>* Napomena!</strong><br />
+                01.01.2019 g. računalni program Program Prehrane 5.0 se povlaći iz prodaje. Zamjenjuje ga Web aplikacija <a href="../app" title="Web aplikacija Program Prehrane Web"><i class="fa fa-sign-in"></i> Program Prehrane Web</a>.<br />
+                Svi dosadašnji korisnici trajne licence moći će i dalje nesmetano koristiti program dok će korisnici godišnje licence moći koristiti program do isteka licence.<br />
+                Svi korisnici trajne licence koji se žele prebaciti na <a href="../" title="Web aplikacija Program Prehrane Web">web aplikaciju</a> imaju pogodnost od godine dana besplatnog korištenja. Ispunite <a href="#contact" title="Kontakt forma">kontakt formu</a>
+                sa svojim podacima (ime, naziv organizacije...) i pošaljite upit sa naznakom da želite aktivirati godinu dana besplatnog korištenja web aplikacija.
+            </p>
         </div>
     </div>
     <div id="PP5Carousel" class="carousel slide text-center" data-ride="carousel" style="padding:60px 50px 20px 50px; margin:10px 5px 20px 5px; border:solid 1px #3A7113">
@@ -171,7 +177,7 @@
                             <tr>
                                 <td><a href="index.html" target="_blank"><strong>Program Prehrane Web</strong></a></td>
                                 <td>2017</td>
-                                <td>Angular JS, C# (ASMX), SQLite</td>
+                                <td>.Net, Angular JS</td>
                             </tr>
                         </table>
                     </div>
@@ -197,7 +203,9 @@
                         <div class="radio">
                             <label><input ng-model="pp5lang" value="rs" type="radio" name="optradiolang" ng-click="setDownloadLink(pp5lang)">Verzija na Srpskom jeziku</label>
                         </div>
-                        <a href="{{pp5downloadlink}}" class="btn btn-default main"><i class="fa fa-download"></i> DOWNLOAD</a>
+                        <a href="{{pp5downloadlink}}" class="btn btn-default main"><i class="fa fa-download"></i> DOWNLOAD (Win 2010)</a>
+                        <a ng-if="pp5lang=='hr'" href="http://www.programprehrane.com/download/hr/Program%20Prehrane.application" class="btn btn-default main"><i class="fa fa-download"></i> DOWNLOAD (Win 7)</a>
+                        <a ng-if="pp5lang=='rs'" href="http://www.programprehrane.com/download/rs/Program%20Prehrane.application" class="btn btn-default main"><i class="fa fa-download"></i> DOWNLOAD (Win 7)</a>
                         <p> Instalacijom programa prihvaćate <a href="./download/hr/licence.txt" target="_blank">uvjete korištenja</a></p>
                     </div>
                     <div class="col-sm-6 text-left">
