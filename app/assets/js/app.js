@@ -1479,12 +1479,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var getCalculation = function () {
-        var detailTee = 0;
-        if (angular.isDefined($rootScope.totalDailyEnergyExpenditure)) {
-            if ($rootScope.totalDailyEnergyExpenditure.duration == 1440) {
-                detailTee = $rootScope.totalDailyEnergyExpenditure.value;
-            }
-        }
+        //var detailTee = 0;
+        //if (angular.isDefined($rootScope.totalDailyEnergyExpenditure)) {
+        //    if ($rootScope.totalDailyEnergyExpenditure.duration == 1440) {
+        //        detailTee = $rootScope.totalDailyEnergyExpenditure.value;
+        //    }
+        //}
         $http({
             url: $sessionStorage.config.backend + 'Calculations.asmx/GetCalculation',
             method: "POST",
@@ -1830,18 +1830,24 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
         setTime(0);
     }
+    initTime();
+
 
     $scope.clearDailyActivities = function () {
         $rootScope.clientData.dailyActivities.activities = [];
+        $rootScope.clientData.dailyActivities.energy = 0;
+        $rootScope.clientData.dailyActivities.duration = 0;
         $rootScope.totalDailyEnergyExpenditure.value = 0;
         $rootScope.totalDailyEnergyExpenditure.duration = 0;
+        $scope.save($rootScope.clientData.dailyActivities.activities);
         initTime();
     }
 
     $rootScope.detailCalculationOfEnergyExpenditure = function () {
         $rootScope.showDetailCalculationOfEnergyExpenditure = !$rootScope.showDetailCalculationOfEnergyExpenditure;
         init();
-        $scope.clearDailyActivities();
+
+        //$scope.clearDailyActivities();
     }
 
     var totalEnergy = function () {
@@ -1877,10 +1883,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.dailyActivity.energy = energy(timeDiff($scope.from, $scope.to), angular.fromJson(x).factorKcal);
 
         $rootScope.clientData.dailyActivities.activities.push(angular.copy($scope.dailyActivity));
-        $rootScope.clientData.dailyActivities.activities.energy = 
         $rootScope.totalDailyEnergyExpenditure.value = totalEnergy(); // $scope.totalDailyEnergyExpenditure + $scope.dailyActivity.energy;
-        $rootScope.clientData.dailyActivities.activities.energy = $rootScope.totalDailyEnergyExpenditure.value;
+        $rootScope.clientData.dailyActivities.energy = $rootScope.totalDailyEnergyExpenditure.value;
         $rootScope.totalDailyEnergyExpenditure.duration = totalDuration();
+        $rootScope.clientData.dailyActivities.duration = $rootScope.totalDailyEnergyExpenditure.duration;
+
         $scope.from = angular.copy($scope.to);
         setTime($scope.from.hour);
     }
@@ -1904,8 +1911,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { userId: $rootScope.user.userGroupId, clientId: $rootScope.client.clientId, activities: x }
         })
       .then(function (response) {
+          debugger;
+          $rootScope.clientData.dailyActivities = JSON.parse(response.data.d);
          // $rootScope.calculation.tee = $rootScope.totalDailyEnergyExpenditure;
-          functions.alert($translate.instant(response.data.d), '');
+         // functions.alert($translate.instant(response.data.d), '');
       },
       function (response) {
           functions.alert($translate.instant(response.data.d), '');
@@ -1939,12 +1948,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     var webService = 'Calculations.asmx';
 
     var getCalculation = function () {
-        var detailTee = 0;
-        if (angular.isDefined($rootScope.totalDailyEnergyExpenditure)) {
-            if ($rootScope.totalDailyEnergyExpenditure.duration == 1440) {
-                detailTee = $rootScope.totalDailyEnergyExpenditure.value;
-            }
-        }
+        //var detailTee = 0;
+        //if (angular.isDefined($rootScope.totalDailyEnergyExpenditure)) {
+        //    if ($rootScope.totalDailyEnergyExpenditure.duration == 1440) {
+        //        detailTee = $rootScope.totalDailyEnergyExpenditure.value;
+        //    }
+        //}
         $http({
             url: $sessionStorage.config.backend + webService + '/GetCalculation',
             method: "POST",
@@ -2525,12 +2534,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         /******************************/
 
 
-        var detailTee = 0;
-        if (angular.isDefined($rootScope.totalDailyEnergyExpenditure)) {
-            if ($rootScope.totalDailyEnergyExpenditure.duration == 1440) {
-                detailTee = $rootScope.totalDailyEnergyExpenditure.value;
-            }
-        }
+        //var detailTee = 0;
+        //if (angular.isDefined($rootScope.totalDailyEnergyExpenditure)) {
+        //    if ($rootScope.totalDailyEnergyExpenditure.duration == 1440) {
+        //        detailTee = $rootScope.totalDailyEnergyExpenditure.value;
+        //    }
+        //}
         $http({
             url: $sessionStorage.config.backend + webService + '/GetRecommendations',
             method: "POST",
@@ -2564,7 +2573,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             alert(response.data.d)
         });
     };
-    if ($rootScope.currentMenu == undefined) { init(); }
+    if ($rootScope.currentMenu === undefined) { init(); }
 
     var initMenuDetails = function () {
         $http({

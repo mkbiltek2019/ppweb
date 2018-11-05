@@ -88,7 +88,7 @@ public class Calculations : System.Web.Services.WebService {
         x.whr = Whr(client);
         x.waist = Waist(client);
         x.bmr = Bmr(client);
-        x.tee = client.dailyActivities.energy > 0 ? client.dailyActivities.energy : Tee(client);
+        x.tee = Tee(client);
         x.recommendedEnergyIntake = RecommendedEnergyIntake(client);
         x.recommendedEnergyExpenditure = RecommendedEnergyExpenditure(client);
         x.recommendedWeight = RecommendedWeight(client);
@@ -241,41 +241,44 @@ public class Calculations : System.Web.Services.WebService {
     }
 
     private double Tee(ClientsData.NewClientData client) {
-        /*
-        The Harris–Benedict equations revised by Mifflin and St Jeor in 1990
-        Men	BMR = (10 × weight in kg) + (6.25 × height in cm) - (5 × age in years) + 5
-        Women	BMR = (10 × weight in kg) + (6.25 × height in cm) - (5 × age in years) - 161
+        if(client.dailyActivities.energy > 0 && client.dailyActivities.duration == 1440) {
+            return Math.Round(client.dailyActivities.energy, 2);
+        } else {
+                /*
+                The Harris–Benedict equations revised by Mifflin and St Jeor in 1990
+                Men	BMR = (10 × weight in kg) + (6.25 × height in cm) - (5 × age in years) + 5
+                Women	BMR = (10 × weight in kg) + (6.25 × height in cm) - (5 × age in years) - 161
 
-        Little to no exercise	Daily kilocalories needed = BMR x 1.2
-        Light exercise (1–3 days per week)	Daily kilocalories needed = BMR x 1.375
-        Moderate exercise (3–5 days per week)	Daily kilocalories needed = BMR x 1.55
-        Heavy exercise (6–7 days per week)	Daily kilocalories needed = BMR x 1.725
-        Very heavy exercise (twice per day, extra heavy workouts)	Daily kilocalories needed = BMR x 1.9
+                Little to no exercise	Daily kilocalories needed = BMR x 1.2
+                Light exercise (1–3 days per week)	Daily kilocalories needed = BMR x 1.375
+                Moderate exercise (3–5 days per week)	Daily kilocalories needed = BMR x 1.55
+                Heavy exercise (6–7 days per week)	Daily kilocalories needed = BMR x 1.725
+                Very heavy exercise (twice per day, extra heavy workouts)	Daily kilocalories needed = BMR x 1.9
         
-        Both BMR, and RMR, estimate the number of calories you burn at rest,
-        but RMR takes additional factors into consideration when determining needs.
-        BMR measures your basal energy expenditure, or BEE.
-        The BEE is a 24 hour estimation of the number of calories you burn maintaining your most basic bodily functions,
-        such as breathing, circulating blood and growing and repairing cells.
-        RMR measures your resting energy expenditure.
-        REE determines the number of calories you burn in a 24 hour period maintaining basic bodily functions,
-        but also includes the number of calories burned eating and conducting small amounts of activity. 
-         */
+                Both BMR, and RMR, estimate the number of calories you burn at rest,
+                but RMR takes additional factors into consideration when determining needs.
+                BMR measures your basal energy expenditure, or BEE.
+                The BEE is a 24 hour estimation of the number of calories you burn maintaining your most basic bodily functions,
+                such as breathing, circulating blood and growing and repairing cells.
+                RMR measures your resting energy expenditure.
+                REE determines the number of calories you burn in a 24 hour period maintaining basic bodily functions,
+                but also includes the number of calories burned eating and conducting small amounts of activity. 
+                */
 
-        //int a = client.gender.value == 0 ? 5 : -161;
-        //double BMR = 10 * client.weight + 6.25 * client.height - 5 * client.age + a;
+                //int a = client.gender.value == 0 ? 5 : -161;
+                //double BMR = 10 * client.weight + 6.25 * client.height - 5 * client.age + a;
 
-        double BMR = Bmr(client);
-
-        double DIT = 0.1 * (client.pal.value * BMR);
-        double TEE = client.pal.value * BMR + DIT;
-        return Math.Round(TEE, 2);
+            double BMR = Bmr(client);
+            double DIT = 0.1 * (client.pal.value * BMR);
+            double TEE = client.pal.value * BMR + DIT;
+            return Math.Round(TEE, 2);
+        }
     }
 
      public int RecommendedEnergyIntake(ClientsData.NewClientData client) {
         ValueTitle b = Bmi(client);
         double bmi = b.value;
-        double tee = client.dailyActivities.energy > 0 ? client.dailyActivities.energy : Convert.ToInt32(Tee(client));
+        double tee = Convert.ToInt32(Tee(client));
         int expenditure = RecommendedEnergyExpenditure(client);
 
         int x = 0;
@@ -301,7 +304,6 @@ public class Calculations : System.Web.Services.WebService {
         if (pal >= 1.55 && pal < 1.8 && bmi <= 25) { x = 100; }
         if (pal >= 1.8 && bmi <= 25) { x = 0; }
         if (pal >= 1.8 && bmi > 25) { x = 0; }
-
         return x;
     }
 

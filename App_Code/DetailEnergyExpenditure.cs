@@ -39,6 +39,7 @@ public class DetailEnergyExpenditure : System.Web.Services.WebService {
     public class Activities {
         public double energy;
         public List<Activity> activities;
+        public int duration; // 1440 min.
     }
 
     public class DailyActivities {
@@ -46,9 +47,10 @@ public class DetailEnergyExpenditure : System.Web.Services.WebService {
         public Activities getDailyActivities(string userId, string clientId) {
             Activities x = new Activities();
             x.activities = JsonConvert.DeserializeObject<List<Activity>>(GetJsonFile(userId, clientId));
-            x.energy = x.activities.Sum(a => a.energy);
-            //List<Activity> activities = new List<Activity>();
-            //activities = JsonConvert.DeserializeObject<Activities>(GetJsonFile(userId, clientId));
+            if(x.activities != null) {
+                x.energy = x.activities.Sum(a => a.energy);
+                x.duration = x.activities.Sum(a => a.duration);
+            }
             return x;
         }
 
@@ -61,7 +63,6 @@ public class DetailEnergyExpenditure : System.Web.Services.WebService {
             }
             return json;
         }
-
     }
 
 
@@ -86,7 +87,12 @@ public class DetailEnergyExpenditure : System.Web.Services.WebService {
     [WebMethod]
     public string Save(string userId, string clientId, List<Activity> activities) {
         try {
-            return SaveJsonToFile(userId, clientId, JsonConvert.SerializeObject(activities, Formatting.Indented));
+            SaveJsonToFile(userId, clientId, JsonConvert.SerializeObject(activities, Formatting.Indented));
+            Activities x = new Activities();
+            x.activities = activities;
+            x.energy = x.activities.Sum(a => a.energy);
+            x.duration = x.activities.Sum(a => a.duration);
+            return JsonConvert.SerializeObject(x, Formatting.Indented);
         } catch (Exception e) { return ("Error: " + e); }
     }
 
@@ -96,7 +102,6 @@ public class DetailEnergyExpenditure : System.Web.Services.WebService {
             return GetJsonFile(userId, clientId);
         } catch (Exception e) { return ("Error: " + e); }
     }
-
     #endregion
 
     #region Methods
