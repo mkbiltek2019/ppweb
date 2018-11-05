@@ -100,7 +100,7 @@
         <div ng-cloak>
             <div ng-if="!isLogin" class="text-center" style="padding-top:40px; color:white">
                 <h1 class="text-uppercase" style="font-size:26px">{{config.title | translate}}</h1>
-                <h2 style="font-size:18px"><em>{{'web application' | translate}}</em></h2>
+                <h2 style="font-size:18px"><em>{{'version' | translate}}: {{config.version}}</em></h2>
             </div>
             <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around" class="text-center">
                 <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>

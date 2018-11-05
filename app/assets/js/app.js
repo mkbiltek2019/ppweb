@@ -88,6 +88,17 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
               }
               if ($sessionStorage.islogin == true) { $rootScope.loadData(); }
               if (angular.isUndefined($rootScope.myCalculation)) { $rootScope.initMyCalculation() };
+              if (localStorage.version) {
+                  if (localStorage.version != $rootScope.config.version) {
+                      $timeout(function () {
+                          openNotificationPopup();
+                      }, 600);
+                  }
+              } else {
+                  $timeout(function () {
+                      openNotificationPopup();
+                  }, 600);
+              }
           });
     };
     getConfig();
@@ -396,7 +407,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.showNewVersionDetails = false;
     $scope.toggleNewVersionDetails = function () {
-        $scope.showNewVersionDetails = $scope.showNewVersionDetails == false ? true : false;
+        $scope.showNewVersionDetails = !$scope.showNewVersionDetails;
     };
 
     var getDateDiff = function (x) {
@@ -413,6 +424,40 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         } else {
             return 0;
         }
+    }
+
+    var openNotificationPopup = function () {
+        if ($rootScope.config.language == 'en') { return false;}
+        $mdDialog.show({
+            controller: notificationPoupCtrl,
+            templateUrl: 'assets/partials/popup/notification.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true,
+            d: { config: $rootScope.config }
+        })
+        .then(function (response) {
+        }, function () {
+        });
+    };
+
+    var notificationPoupCtrl = function ($scope, $mdDialog, d, $localStorage) {
+        $scope.config = d.config;
+        $scope.showNewVersionDetails = false;
+        $scope.toggleNewVersionDetails = function () {
+            $scope.showNewVersionDetails = !$scope.showNewVersionDetails;
+        };
+
+        if (typeof (Storage) !== "undefined") {
+            localStorage.version = $scope.config.version;
+        }
+
+        $scope.hide = function () {
+            $mdDialog.hide();
+        };
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
     }
 
 }])
@@ -1832,7 +1877,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
     initTime();
 
-
     $scope.clearDailyActivities = function () {
         $rootScope.clientData.dailyActivities.activities = [];
         $rootScope.clientData.dailyActivities.energy = 0;
@@ -1941,6 +1985,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     }
     getTotal();
+
+    $scope.selectHours = function () {
+        if ($scope.to.hour == 24) {
+            $scope.to.min = 0;
+            $scope.minutes = [];
+            $scope.minutes.push(0);
+        }
+    }
 
 }])
 

@@ -296,14 +296,24 @@ public class Calculations : System.Web.Services.WebService {
 
     private int RecommendedEnergyExpenditure(ClientsData.NewClientData client) {
         int x = 0;
-        double pal = client.pal.value;
         double bmi = Bmi(client).value;
-        if (pal < 1.55) { x = 200; }
-        if (pal < 1.55 && bmi <= 25) { x = 200; }
-        if (pal >= 1.55 && pal < 1.8 && bmi > 25) { x = 100; }
-        if (pal >= 1.55 && pal < 1.8 && bmi <= 25) { x = 100; }
-        if (pal >= 1.8 && bmi <= 25) { x = 0; }
-        if (pal >= 1.8 && bmi > 25) { x = 0; }
+        if (client.dailyActivities.energy > 0 && client.dailyActivities.duration == 1440) {
+            double coeff = BmrTeeCoeff(client);
+            if (coeff > 0.45) { x = 200; }
+            if (coeff > 0.45 && bmi <= 25) { x = 200; }
+            if (coeff <= 0.45 && coeff > 0.35 && bmi > 25) { x = 100; }
+            if (coeff <= 0.45 && coeff > 0.35 && bmi <= 25) { x = 100; }
+            if (coeff <= 0.35 && bmi <= 25) { x = 0; }
+            if (coeff <= 0.35 && bmi > 25) { x = 0; }
+        } else {
+            double pal = client.pal.value;
+            if (pal < 1.55) { x = 200; }
+            if (pal < 1.55 && bmi <= 25) { x = 200; }
+            if (pal >= 1.55 && pal < 1.8 && bmi > 25) { x = 100; }
+            if (pal >= 1.55 && pal < 1.8 && bmi <= 25) { x = 100; }
+            if (pal >= 1.8 && bmi <= 25) { x = 0; }
+            if (pal >= 1.8 && bmi > 25) { x = 0; }
+        }
         return x;
     }
 
@@ -375,6 +385,12 @@ public class Calculations : System.Web.Services.WebService {
             x.recommendedEnergyExpenditure = null;
         }
         return x;
+    }
+
+    private double BmrTeeCoeff(ClientsData.NewClientData client) {
+        double BMR = Bmr(client);
+        double TEE = Tee(client);
+        return Math.Round(BMR / TEE, 2);
     }
 
     #endregion MyCalculations

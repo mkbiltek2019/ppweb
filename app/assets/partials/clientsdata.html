@@ -183,11 +183,9 @@
                 <md-radio-group ng-model="clientData.pal.value" ng-change="getPalDetails(clientData.pal.value)">
                     <md-radio-button ng-repeat="x in pals" value="{{x.value}}" class="md-primary">
                         {{x.title | translate}}
-
                         <span ng-if="clientData.pal.value==x.value" class="p10">
                             <span style="font-size:1.1em" class="bg-primary">{{pal.description | translate}}</span>
                         </span>
-
                     </md-radio-button>
                 </md-radio-group>
             </div>
@@ -215,7 +213,7 @@
                                 <tr>
                                     <td class="text-right mr10">{{'to' | translate}}:</td>
                                     <td class="pl10">
-                                        <select ng-model="to.hour" class="btn btn-default" ng-options="x for x in hours"></select> h
+                                        <select ng-model="to.hour" class="btn btn-default" ng-options="x for x in hours" ng-click="selectHours()"></select> h
                                         <select ng-model="to.min" class="btn btn-default" ng-options="x for x in minutes"></select> min
                                     </td>
                                 </tr>

@@ -1756,7 +1756,7 @@
   "enter user name (email) and password": "Упишите корисничко име (Емаил) и лозинку",
   "your account is not active": "Ваш рачун није активан",
   "please contact your administrator": "Молимо контакирајте вашег администратора",
-  "you have to refresh the page. press Ctrl+F5": "Морате да освежите страницу. Притисните Ctrl+F5"
-
+  "you have to refresh the page. press Ctrl+F5": "Морате да освежите страницу. Притисните Ctrl+F5",
+  "notification": "обавештење"
 
 }
