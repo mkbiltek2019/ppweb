@@ -13,8 +13,8 @@
         </ul>
         <hr />
         <div ng-if="config.language!='en'">
-            <a href="" ng-click="toggleNewVersionDetails()">Prikaži detalje o nadogradnjama <i class="fa fa-chevron-{{showNewVersionDetails==false?'down':'up'}}" aria-hidden="true"></i></a>
-            <div ng-if="showNewVersionDetails==true" ng-include="'./assets/partials/newversion.html'"></div>
+            <a href="" ng-click="toggleUpdates()">Prikaži detalje o nadogradnjama <i class="fa fa-chevron-{{showNewVersionDetails==false?'down':'up'}}" aria-hidden="true"></i></a>
+            <div ng-if="showUpdates==true" ng-include="'./assets/partials/updates.html'"></div>
         </div>
     </div>
 </div>

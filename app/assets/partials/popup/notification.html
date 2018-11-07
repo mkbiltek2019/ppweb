@@ -17,14 +17,14 @@
                         <i class="fa fa-info-circle fa-2x"></i> <em>Prije početka rada osvježite stranicu pritiskom na tipke <kbd>CTRL + F5</kbd> ili u internet pregledniku kliknite na <strong>Reload</strong>.</em>
                     </p>
                     <div class="p10">
-                        <img src="./assets/img/newversion/reload.png" class="img-responsive center-block" />
+                        <img src="./assets/img/updates/reload.png" class="img-responsive center-block" />
                     </div>
                     <p class="text-warning"><em>*Napomena: Ako ne osvježite stranicu neke funkcionalnosti možda neće raditi ispravno.</em></p>
                 </div>
                 <hr />
                 <div>
-                    <a href="" ng-click="toggleNewVersionDetails()" class="lead">Što je novo? <i class="fa fa-chevron-{{showNewVersionDetails==false?'down':'up'}}" aria-hidden="true"></i></a>
-                    <div ng-if="showNewVersionDetails==true" ng-include="'./assets/partials/newversion.html'" class="text-center"></div>
+                    <a href="" ng-click="toggleUpdates()" class="lead">Što je novo? <i class="fa fa-chevron-{{showNewVersionDetails==false?'down':'up'}}" aria-hidden="true"></i></a>
+                    <div ng-if="showUpdates==true" ng-include="'./assets/partials/updates.html'" class="text-center"></div>
                 </div>
             </div>
             <div class="pull-right m20">

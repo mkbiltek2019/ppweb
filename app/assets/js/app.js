@@ -405,9 +405,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         return list;
     }
 
-    $scope.showNewVersionDetails = false;
-    $scope.toggleNewVersionDetails = function () {
-        $scope.showNewVersionDetails = !$scope.showNewVersionDetails;
+    $scope.showUpdates = false;
+    $scope.toggleUpdates = function () {
+        $scope.showUpdates = !$scope.showUpdates;
     };
 
     var getDateDiff = function (x) {
@@ -442,9 +442,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     var notificationPoupCtrl = function ($scope, $mdDialog, d, $localStorage) {
         $scope.config = d.config;
-        $scope.showNewVersionDetails = false;
-        $scope.toggleNewVersionDetails = function () {
-            $scope.showNewVersionDetails = !$scope.showNewVersionDetails;
+        $scope.showUpdates = false;
+        $scope.toggleUpdates = function () {
+            $scope.showUpdates = !$scope.showUpdates;
         };
 
         if (typeof (Storage) !== "undefined") {
@@ -1434,6 +1434,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 $scope.getPalDetails($rootScope.clientData.pal.value);
                 getCalculation();
                 getMyCalculation();
+                if ($rootScope.clientData.dailyActivities.activities == null) {
+                    $rootScope.clientData.dailyActivities.activities = [];
+                }
                 if ($rootScope.clientData.dailyActivities.activities.length > 0) {
                     $rootScope.showDetailCalculationOfEnergyExpenditure = true;
                 }
@@ -1832,7 +1835,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 }])
 
-.controller('detailCalculationOfEnergyExpenditureCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
+.controller('detailCalculationOfEnergyExpenditureCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', '$timeout', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate, $timeout) {
     $rootScope.totalDailyEnergyExpenditure = {
         value: 0,
         duration: 0
@@ -1984,7 +1987,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             setTime(lastActivity.to.hour);
         }
     }
-    getTotal();
+    $timeout(function () {  // TODO, ne ucita prvi put 
+        getTotal();
+    }, 1000);
+
 
     $scope.selectHours = function () {
         if ($scope.to.hour == 24) {
