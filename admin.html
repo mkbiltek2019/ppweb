@@ -47,22 +47,24 @@
 
     <script type="text/ng-template" id="login">
         <div class="container" style="padding-bottom:20px">
-            <h3>Login</h3>
             <div class="row">
                 <div class="col-sm-4">
-                    <form id="loginform">
-                        <div class="input-group" style="margin:5px 0px 0px 0px">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            <input ng-model="user.username" type="text" class="form-control" name="email" placeholder="Email">
+                    <fieldset class="fieldset-border">
+                        <legend class="fieldset-border">Login</legend>
+                        <form id="loginform">
+                            <div class="input-group" style="margin:5px 0px 0px 0px">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                <input ng-model="user.username" type="text" class="form-control" name="email" placeholder="Email">
+                            </div>
+                            <div class="input-group" style="margin:5px 0px 0px 0px">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                <input ng-model="user.password" type="password" class="form-control" name="password" placeholder="Password">
+                            </div>
+                        </form>
+                        <div>
+                            <button type="submit" form="loginform" ng-click="login(user)" class="btn btn-default pull-right" style="margin:5px 0px 0px 0px"><i class="fa fa-key"></i> Login</button>
                         </div>
-                        <div class="input-group" style="margin:5px 0px 0px 0px">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                            <input ng-model="user.password" type="password" class="form-control" name="password" placeholder="Password">
-                        </div>
-                    </form>
-                    <div>
-                        <button type="submit" form="loginform" ng-click="login(user)" class="btn btn-default pull-right" style="margin:5px 0px 0px 0px"><i class="fa fa-key"></i> Login</button>
-                    </div>
+                    </fieldset>
                 </div>
             </div>
         </div>
@@ -213,15 +215,15 @@
                         <fieldset class="fieldset-border">
                             <legend class="fieldset-border">
                                 Statistika po mjesecima
-                                <select ng-model="year" ng-options="x for x in years" ng-change="total(year)"></select> g
+                                <select ng-model="year" ng-options="x for x in years" ng-change="total(year)"></select>
                             </legend>
-                            <div>
+                            <!--<div>
                                 <div ng-if="loadingChart" class="text-center text-primary">
                                     <label class="lead text-primary">Učitavanje...</label>
                                     <div><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>
                                 </div>
                                 <div id="chart_ppweb"></div>
-                            </div>
+                            </div>-->
                             <table class="table table-condensed">
                                 <tr>
                                     <th class="text-left">Mjesec</th>
@@ -236,8 +238,9 @@
                                     <td class="text-left"><strong class="badge">{{x.activation}}</strong></td>
                                     <td>{{x.percentage}} %</td>
                                     <td class="text-left">
-                                        <div style="width:{{x.registration*2}}px; height:10px" class="bg-primary"></div>
-                                        <div style="width:{{x.activation*2}}px; height:10px; background-color:red"></div>
+                                        <div style="width:{{x.registration*2}}px; height:10px" class="bg-primary" title="Registracije: {{x.registration}}"></div>
+                                        <div style="width:{{x.activation*2}}px; height:10px; background-color:red" title="Aktivacije: {{x.activation}}"></div>
+                                        <div style="width:{{x.percentage*2}}px; height:10px; background-color:orange" title="Postotak: {{x.percentage}}%"></div>
                                     </td>
                                 </tr>
                             </table>
@@ -255,7 +258,7 @@
                                 <tr ng-repeat="x in t.city">
                                     <td class="text-left">{{x.name}}</td>
                                     <td class="text-left"><strong class="badge">{{x.count}}</strong></td>
-                                    <td class="text-left"><div style="width:{{x.count*10}}px; height:20px" class="bg-primary"></div></td>
+                                    <td class="text-left"><div style="width:{{x.count*10}}px; height:20px" class="bg-primary" title="{{x.name}}: {{x.count}}"></div></td>
                                 </tr>
                             </table>
                         </fieldset>
@@ -503,12 +506,12 @@
                                     <td><button class="btn btn-danger" ng-click="remove($index)"><i class="fa fa-minus"></i></button></td>
                                     <td><input ng-model="x.title" type="text" class="form-control" ng-change="getTotal(i.items)" /></td>
                                     <td><input ng-model="x.qty" type="number" min="0" class="form-control" ng-change="getTotal(i.items)" /></td>
-                                    <td><input ng-model="x.unitPrice" type="text" class="form-control text-right" ng-change="getTotal(i.items)" /></td>
+                                    <td><input ng-model="x.unitPrice" type="number" class="form-control text-right" ng-change="getTotal(i.items)" /></td>
                                 </tr>
                                 <tr>
                                     <td><button class="btn btn-success" ng-click="add()"><i class="fa fa-plus"></i></button></td>
                                     <td colspan="2" class="text-right">Ukupno:</td>
-                                    <td><input ng-model="total" type="text" class="form-control text-right" readonly /></td>
+                                    <td><input ng-model="total" type="number" class="form-control text-right" readonly /></td>
                                 </tr>
                             </table>
                         </div>
@@ -517,7 +520,7 @@
                             <table class="table table-condensed text-small">
                                 <tr>
                                     <td>Uplaćeni iznos</td>
-                                    <td><input ng-model="i.paidAmount" type="text" class="form-control" /></td>
+                                    <td><input ng-model="i.paidAmount" type="number" class="form-control" /></td>
                                 </tr>
                                 <tr>
                                     <td>Datum uplate</td>

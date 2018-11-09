@@ -116,7 +116,7 @@ angular.module('app', [])
         })
         .then(function (response) {
             $scope.t = JSON.parse(response.data.d);
-            drawChart();
+            //drawChart();
             $scope.loading = false;
         },
         function (response) {

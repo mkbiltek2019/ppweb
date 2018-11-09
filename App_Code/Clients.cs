@@ -84,8 +84,8 @@ public class Clients : System.Web.Services.WebService {
                 x.userId = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
                 x.date = reader.GetValue(8) == DBNull.Value ? DateTime.Today.ToString() : reader.GetString(8);
                 x.isActive = reader.GetValue(9) == DBNull.Value ? 1 : reader.GetInt32(9);
-                x.clientData = null; // c.GetClientData(userId, clientId, connection);
-                }
+                x.clientData = null;
+            }
             connection.Close();
             return x;
         } catch (Exception e) { return null; }
@@ -98,13 +98,10 @@ public class Clients : System.Web.Services.WebService {
     [WebMethod]
     public string Init() {
         NewClient x = new NewClient();
-        x.clientId = null; // Convert.ToString(Guid.NewGuid()); // null;
+        x.clientId = null;
         x.firstName = "";
         x.lastName = "";
         x.birthDate = DateTime.UtcNow.ToString();
-        //Gender g = new Gender();
-        //g.value = 0;
-        //g.title = GetGenderTitle(g.value);
         x.gender.value = 0;
         x.gender.title = GetGenderTitle(x.gender.value);
         x.phone = "";
@@ -120,7 +117,7 @@ public class Clients : System.Web.Services.WebService {
     [WebMethod]
     public string Load(string userId, Users.NewUser user) {
         try {
-            string json = JsonConvert.SerializeObject(GetClients(userId, user), Formatting.Indented);
+            string json = JsonConvert.SerializeObject(GetClients(userId, user, null, null), Formatting.Indented);
             return json;
         } catch (Exception e) { return ("Error: " + e); }
     }
@@ -165,6 +162,7 @@ public class Clients : System.Web.Services.WebService {
                 command.ExecuteNonQuery();
                 connection.Close();
                 r.data = x;
+                r.data.gender.title = GetGenderTitle(r.data.gender.value);
                 r.message = null;
                 return JsonConvert.SerializeObject(r, Formatting.Indented);
             }
@@ -213,7 +211,7 @@ public class Clients : System.Web.Services.WebService {
             command.ExecuteNonQuery();
             connection.Close();
         } catch (Exception e) { return ("error: " + e); }
-        string json = JsonConvert.SerializeObject(GetClients(userId, user), Formatting.Indented);
+        string json = JsonConvert.SerializeObject(GetClients(userId, user, null, null), Formatting.Indented);
         return json;
     }
 
@@ -253,17 +251,17 @@ public class Clients : System.Web.Services.WebService {
         return title;
     }
 
-    public List<NewClient> GetClients(string userId, Users.NewUser user) {
+    public List<NewClient> GetClients(string userId, Users.NewUser user, string order, string dir) {
         List<NewClient> xx = new List<NewClient>();
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
             string sql = string.Format(@"
                         SELECT clientId, firstName, lastName, birthDate, gender, phone, email, userId, date, isActive
-                        FROM clients {0} ORDER BY clientId DESC"
-                        , user.adminType > 0 ? string.Format("WHERE userId = '{0}' ", user.userId) :"");
-            //string sql = @"SELECT clientId, firstName, lastName, birthDate, gender, phone, email, userId, date, isActive
-            //            FROM clients ORDER BY clientId DESC";
+                        FROM clients {0} ORDER BY {1} {2}"
+                            , user.adminType > 0 ? string.Format("WHERE userId = '{0}' ", user.userId) : ""
+                            , string.IsNullOrEmpty(order) ? "rowid" : order
+                            , string.IsNullOrEmpty(dir) ? "DESC" : dir);
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             SQLiteDataReader reader = command.ExecuteReader();
             Gender g = new Gender();

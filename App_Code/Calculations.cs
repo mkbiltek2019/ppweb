@@ -170,11 +170,13 @@ public class Calculations : System.Web.Services.WebService {
 
     private ValueTitle Bmi(ClientsData.NewClientData client) {
         ValueTitle x = new ValueTitle();
-        x.value = Math.Round(client.weight * 10000 / (client.height * client.height), 2);
-        if (x.value < 18.5) { x.title = "underweight"; }
-        if (x.value >= 18.5 && x.value <= 25) { x.title = "normal weight"; }
-        if (x.value > 25 && x.value < 30) { x.title = "overweight"; }
-        if (x.value >= 30) { x.title = "obese"; }
+        if(client.weight > 0 && client.height > 0) {
+            x.value = Math.Round(client.weight * 10000 / (client.height * client.height), 2);
+            if (x.value < 18.5) { x.title = "underweight"; }
+            if (x.value >= 18.5 && x.value <= 25) { x.title = "normal weight"; }
+            if (x.value > 25 && x.value < 30) { x.title = "overweight"; }
+            if (x.value >= 30) { x.title = "obese"; }
+        }
         return x;
     }
 

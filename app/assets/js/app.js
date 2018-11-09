@@ -1190,7 +1190,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             $rootScope.client = JSON.parse(response.data.d);
-            $rootScope.client.date = new Date(new Date().setHours(0, 0, 0, 0)); // new Date($rootScope.client.date);
+            $rootScope.client.date = new Date(new Date().setHours(0, 0, 0, 0));
             $scope.d = $rootScope.client;
         },
         function (response) {
@@ -1203,7 +1203,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + webService + '/Load',
             method: 'POST',
-            //data: { userId: $sessionStorage.usergroupid }
             data: { userId: $sessionStorage.usergroupid, user: $rootScope.user }
         })
         .then(function (response) {
@@ -1527,12 +1526,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var getCalculation = function () {
-        //var detailTee = 0;
-        //if (angular.isDefined($rootScope.totalDailyEnergyExpenditure)) {
-        //    if ($rootScope.totalDailyEnergyExpenditure.duration == 1440) {
-        //        detailTee = $rootScope.totalDailyEnergyExpenditure.value;
-        //    }
-        //}
         $http({
             url: $sessionStorage.config.backend + 'Calculations.asmx/GetCalculation',
             method: "POST",
@@ -2006,12 +1999,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     var webService = 'Calculations.asmx';
 
     var getCalculation = function () {
-        //var detailTee = 0;
-        //if (angular.isDefined($rootScope.totalDailyEnergyExpenditure)) {
-        //    if ($rootScope.totalDailyEnergyExpenditure.duration == 1440) {
-        //        detailTee = $rootScope.totalDailyEnergyExpenditure.value;
-        //    }
-        //}
         $http({
             url: $sessionStorage.config.backend + webService + '/GetCalculation',
             method: "POST",
@@ -2036,35 +2023,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             }
         });
     };
-
-
-    //var getCalculation = function () {
-    //    $http({
-    //        url: $sessionStorage.config.backend + webService + '/GetCalculation',
-    //        method: "POST",
-    //        data: { client: $rootScope.clientData }
-    //    })
-    //    .then(function (response) {
-    //        $rootScope.calculation = JSON.parse(response.data.d);
-    //        $rootScope.appCalculation = JSON.parse(response.data.d);
-    //        if (angular.isDefined($rootScope.totalDailyEnergyExpenditure)) {
-    //            if ($rootScope.totalDailyEnergyExpenditure.duration == 1440) {
-    //                $rootScope.calculation.tee = $rootScope.totalDailyEnergyExpenditure.value;
-    //                $rootScope.appCalculation.tee = $rootScope.totalDailyEnergyExpenditure.value;
-    //            }
-    //        }
-
-    //        if ($rootScope.clientData.goal.code == undefined || $rootScope.clientData.goal.code == null || $rootScope.clientData.goal.code == 0) {
-    //            $rootScope.clientData.goal.code = $rootScope.calculation.goal.code;
-    //        }
-
-    //        getCharts();
-    //        getGoals();
-    //    },
-    //    function (response) {
-    //        alert(response.data.d)
-    //    });
-    //};
     getCalculation();
 
     $scope.getBmiClass = function (x) {
@@ -5170,13 +5128,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             method: "POST",
             data: { userId: $sessionStorage.userid, clientId: $rootScope.client.clientId }
         })
-          .then(function (response) {
-              $scope.client = JSON.parse(response.data.d);
-              getClientLog($scope.client);
-          },
-          function (response) {
-              alert(response.data.d)
-          });
+        .then(function (response) {
+            $scope.client = JSON.parse(response.data.d);
+            getClientLog($scope.client);
+        },
+        function (response) {
+            alert(response.data.d)
+        });
     }
     if ($rootScope.client != undefined) { getClient(); }
 
