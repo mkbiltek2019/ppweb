@@ -11,13 +11,16 @@
         </md-toolbar>
         <md-dialog-content >
             <div class="md-dialog-content">
-                <div>
+                <div class="text-center">
                     <p class="lead text-success">Dana <em>{{config.date}}</em> objavljena je nova nadogradnja aplikacije (Verzija: {{config.version}}).</p>
                     <p class="text-danger">
                         <i class="fa fa-info-circle fa-2x"></i> <em>Prije početka rada osvježite stranicu pritiskom na tipke <kbd>CTRL + F5</kbd> ili u internet pregledniku kliknite na <strong>Reload</strong>.</em>
                     </p>
-                    <div class="p10">
+                    <!--<div class="p10">
                         <img src="./assets/img/updates/reload.png" class="img-responsive center-block" />
+                    </div>-->
+                    <div>
+                        <a href="" class="btn btn-default btn-lg text-uppercase" ng-click="hide()"><i class="fa fa-refresh fa-4x"></i> {{'reload page' | translate}}</a>
                     </div>
                     <p class="text-warning"><em>*Napomena: Ako ne osvježite stranicu neke funkcionalnosti možda neće raditi ispravno.</em></p>
                 </div>
@@ -27,9 +30,9 @@
                     <div ng-if="showUpdates==true" ng-include="'./assets/partials/updates.html'" class="text-center"></div>
                 </div>
             </div>
-            <div class="pull-right m20">
-                <a href="" class="btn btn-default text-uppercase" ng-click="cancel()"><i class="fa fa-check"></i> {{'ok' | translate}}</a>
-            </div>
+            <!--<div class="pull-right m20">
+                <a href="" class="btn btn-default text-uppercase" ng-click="hide()"><i class="fa fa-check"></i> {{'reload page' | translate}}</a>
+            </div>-->
         </md-dialog-content>
     </form>
 </md-dialog>

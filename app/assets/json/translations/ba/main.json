@@ -1763,7 +1763,8 @@
   "your account is not active": "Vaš račun nije aktivan",
   "please contact your administrator": "Molimo kontakirajte vašeg administratora",
   "you have to refresh the page. press Ctrl+F5": "Morate da osvježite stranicu. Pritisnite Ctrl+F5",
-  "notification": "obavještenje"
+  "notification": "obavještenje",
+  "reload page": "osvježi stranicu"
 
 
 }

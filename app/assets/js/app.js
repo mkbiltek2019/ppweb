@@ -436,7 +436,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             d: { config: $rootScope.config }
         })
         .then(function (response) {
+            debugger;
+            window.location.reload(true);
         }, function () {
+            debugger;
+            window.location.reload(true);
         });
     };
 
