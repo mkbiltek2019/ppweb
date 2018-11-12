@@ -1,5 +1,5 @@
 ﻿{
-  "body mass index": "indeks telesne mase",
+  "body mass index": "indeks tjelesne mase",
   "waist–hip ratio": "odnos opsega struka i bokova",
   "waist": "opseg struka",
   "recommendations": "preporuke",
@@ -8,9 +8,9 @@
   "save": "spremi",
   "antropometric data": "antropometrijski parametri",
   "tracking of anthropometric measures": "praćenje antropometrijskih parametara",
-  "measurement date": "datum merenja",
+  "measurement date": "datum mjerenja",
   "height": "visina",
-  "hip": "obim bokova",
+  "hip": "opseg bokova",
   "number": "broj",
   "date": "datum",
   "input data": "ulazni podaci",
@@ -42,5 +42,6 @@
   "create pdf": "kreiraj PDF",
   "take pdf": "preuzmi PDF",
   "measures": "mjere",
-  "delete record": "briši mjerenje"
+  "delete record": "briši mjerenje",
+  "menues":  "jelovnici"
 }

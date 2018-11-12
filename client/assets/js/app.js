@@ -76,21 +76,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         $rootScope.loadPals();
     }
 
-    $scope.toggleCurrTpl = function (x) {
-        $scope.currTpl = './assets/partials/' + x;
-    };
-    $scope.toggleCurrTpl('clientdata.html');
-
-    $scope.toggleTpl = function (x) {
-        $scope.tpl = x;
-    };
-    $scope.toggleTpl('inputData');
-
-    $scope.toggleSubTpl = function (x) {
-        $scope.subTpl = x;
-    };
-    $scope.toggleSubTpl('clientLog');
-
     $rootScope.saveClientData = function (x) {
         saveClientData(x);
     }
@@ -477,6 +462,22 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         }
     }
     //********* New *****************
+
+    $scope.toggleCurrTpl = function (x) {
+        $scope.currTpl = './assets/partials/' + x;
+    };
+    $scope.toggleCurrTpl('clientdata.html');
+
+    $scope.toggleTpl = function (x) {
+        $scope.tpl = x;
+        getCharts();
+    };
+    $scope.toggleTpl('inputData');
+
+    $scope.toggleSubTpl = function (x) {
+        $scope.subTpl = x;
+    };
+    $scope.toggleSubTpl('clientLog');
 
 
 

@@ -1,11 +1,11 @@
 ﻿<div ng-controller="clientsCtrl">
-    <div class="pull-right">
-        <a href="" class="btn btn-default text-right" ng-click="backToApp()"><i class="fa fa-dashboard"></i> {{'back to app' | translate}}</a>
+    <div class="text-right">
+        <a href="" class="btn btn-default" ng-click="backToApp()"><i class="fa fa-dashboard"></i> {{'back to app' | translate}}</a>
     </div>
     <div class="row mt20">
         <div class="col-md-offset-2 col-sm-8">
-            <div class="well">
-                <label class="text-uppercase"><i class="fa fa-user-o"></i> {{'client app' | translate}}</label>
+            <fieldset class="fieldset-border">
+                <legend class="fieldset-border"><i class="fa fa-user-o"></i> {{'client app' | translate}}:</legend>
                 <div>
                     <p>{{'allow your clients to track their anthropometric parameters and download menus through a web app' | translate}}.</p>
                 </div>
@@ -28,11 +28,11 @@
                         {{"send access link to the client's email" | translate}}
                         <div class="input-group">
                             <input ng-model="client.email" type="email" class="form-control" placeholder="{{'email' | translate}}" />
-                            <div class="input-group-addon pointer text-capitalize" ng-click="sendAppLinkToClientEmail(client)" ng-disabled="sendingMail==true"><a href=""><i class="fa fa-{{sendingMail==true?'spinner fa-spin':'paper-plane-o'}}"></i> {{'send' | translate}}</a></div>
+                            <div class="input-group-addon pointer text-capitalize" ng-click="sendAppLinkToClientEmail(client)" ng-disabled="sendingMail==true"><a href=""><i class="fa fa-{{sendingMail==true?'spinner fa-spin':'paper-plane-o'}}"></i> {{sendingMail==true?'sending':'send' | translate}}</a></div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </fieldset>
         </div>
     </div>
 </div>

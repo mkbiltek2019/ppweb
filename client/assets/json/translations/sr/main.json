@@ -1,5 +1,5 @@
 ﻿{
-  "body mass index": "indeks telesne mase",
+  "body mass index": "indeks fizičke mase",
   "waist–hip ratio": "odnos obima struka i bokova",
   "waist": "obim struka",
   "recommendations": "preporuke",
@@ -42,5 +42,6 @@
   "create pdf": "kreiraj PDF",
   "take pdf": "preuzmi PDF",
   "measures": "mere",
-  "delete record": "briši merenje"
+  "delete record": "briši merenje",
+  "menues": "jelovnici"
 }
