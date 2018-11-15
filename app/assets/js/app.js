@@ -1778,7 +1778,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             $scope.sendingMail = false;
-            functions.alert($translate.instant(response.data.d), '');
+            functions.alert(response.data.d, '');
         },
         function (response) {
             $scope.sendingMail = false;
@@ -2643,7 +2643,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     getTotals($rootScope.currentMenu);
                 },
                 function (response) {
-                    //alert(response.data.d)
                 });
             }, 600);
         }
@@ -3319,7 +3318,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     var openSendMenuPopup = function () {
         $rootScope.client.clientData = $rootScope.clientData;
-
         $mdDialog.show({
             controller: openSendMenuPopupCtrl,
             templateUrl: 'assets/partials/popup/sendmenu.html',
@@ -3353,7 +3351,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 data: { email: x.client.email, currentMenu: x.currentMenu, user: $scope.d.user, lang: $rootScope.config.language }
             })
             .then(function (response) {
-                functions.alert($translate.instant(response.data.d), '');
+                functions.alert(response.data.d, '');
             },
             function (response) {
                 functions.alert($translate.instant(response.data.d), '');
@@ -5591,6 +5589,66 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.hidePdfLink = function () {
         $scope.pdfLink = null;
     }
+
+    $scope.send = function () {
+        openSendMenuPopup();
+    }
+
+    var openSendMenuPopup = function () {
+        $mdDialog.show({
+            controller: openSendMenuPopupCtrl,
+            templateUrl: 'assets/partials/popup/sendweeklymenu.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true,
+            d: { client: $rootScope.client, user: $rootScope.user, pdfLink: $scope.pdfLink }
+        })
+       .then(function (x) {
+       }, function () {
+       });
+    }
+
+    var openSendMenuPopupCtrl = function ($scope, $mdDialog, $http, d, $translate, functions) {
+        $scope.d = angular.copy(d);
+
+        $scope.menu = {
+            title: '',
+            note: ''
+        }
+
+        var send = function () {
+            $scope.titlealert = null;
+            $scope.emailalert = null;
+            if (functions.isNullOrEmpty($scope.menu.title)) {
+                $scope.titlealert = $translate.instant('menu title is required');
+                return false;
+            }
+            if (functions.isNullOrEmpty($scope.d.client.email)) {
+                $scope.emailalert = $translate.instant('email is required');
+                return false;
+            }
+            $mdDialog.hide();
+            $http({
+                url: $sessionStorage.config.backend + 'Mail.asmx/SendWeeklyMenu',
+                method: "POST",
+                data: { email: $scope.d.client.email, user: $scope.d.user, pdfLink: $scope.d.pdfLink, title: $scope.menu.title, note: $scope.menu.note, lang: $rootScope.config.language }
+            })
+            .then(function (response) {
+                functions.alert(response.data.d, '');
+            },
+            function (response) {
+                functions.alert($translate.instant(response.data.d), '');
+            });
+        }
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+
+        $scope.confirm = function () {
+            send();
+        }
+
+    };
 
 }])
 

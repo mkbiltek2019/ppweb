@@ -95,10 +95,32 @@ public class Mail : System.Web.Services.WebService {
             sb.AppendLine("<hr />");
             sb.AppendLine(string.Format(@"<i>* {0}</i>", t.Tran("this is an automatically generated email – please do not reply to it", lang)));
 
-            string subject = string.Format("{0}", !string.IsNullOrWhiteSpace(user.companyName) ? user.companyName : string.Format("{0} {1}", user.firstName, user.lastName));
+            string subject = string.Format("{0} - {1}"
+                , !string.IsNullOrWhiteSpace(user.companyName) ? user.companyName : string.Format("{0} {1}", user.firstName, user.lastName)
+                , currentMenu.title);
 
             SendMail(email, subject, sb.ToString(), lang);
-            return "menu sent successfully";
+            return t.Tran("menu sent successfully", lang);
+        } catch (Exception e) { return ("error: " + e); }
+    }
+
+    [WebMethod]
+    public string SendWeeklyMenu(string email, Users.NewUser user, string pdfLink, string title, string note, string lang) {
+        try {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(string.Format(@"<h3>{0}</h3>", title));
+            if (!string.IsNullOrWhiteSpace(note)) {
+                sb.AppendLine(string.Format(@"<p>{0}</p>", note));
+            }
+            sb.AppendLine("<hr />");
+            sb.AppendLine(string.Format(@"<i>* {0}</i>", t.Tran("this is an automatically generated email – please do not reply to it", lang)));
+
+            string subject = string.Format("{0} - {1}"
+                , !string.IsNullOrWhiteSpace(user.companyName) ? user.companyName : string.Format("{0} {1}", user.firstName, user.lastName)
+                , title);
+
+            SendMail(email, subject, sb.ToString(), lang, pdfLink);
+            return t.Tran("mail sent successfully", lang);
         } catch (Exception e) { return ("error: " + e); }
     }
 
@@ -106,7 +128,7 @@ public class Mail : System.Web.Services.WebService {
     public string SendMessage(string sendTo, string messageSubject, string messageBody, string lang) {
         try {
             SendMail(sendTo, messageSubject, messageBody, lang);
-            return "mail sent successfully";
+            return t.Tran("mail sent successfully", lang);
         } catch (Exception e) { return (e.Message); }
     }
     #endregion WebMethods
@@ -173,6 +195,30 @@ public class Mail : System.Web.Services.WebService {
             Smtp_Server.Send(mailMessage);
         } catch (Exception e) {}
     }
+
+    
+    public void SendMail(string sendTo, string messageSubject, string messageBody, string lang, string file){
+        try {
+            string my_email = lang == "en" ? myEmail_en : myEmail;
+            string my_password = lang == "en" ? myPassword_en : myPassword;
+            MailMessage mailMessage = new MailMessage();
+            SmtpClient Smtp_Server = new SmtpClient();
+            Smtp_Server.UseDefaultCredentials = false;
+            Smtp_Server.Credentials = new NetworkCredential(my_email, my_password);
+            Smtp_Server.Port = myServerPort;
+            Smtp_Server.EnableSsl = true;
+            Smtp_Server.Host = myServerHost;
+            mailMessage.To.Add(sendTo);
+            mailMessage.From = new MailAddress(my_email);
+            mailMessage.Subject = messageSubject;
+            mailMessage.Body = messageBody;
+            mailMessage.IsBodyHtml = true;
+            Attachment attachment = new Attachment(Server.MapPath(file.Replace("../","~/")));
+            mailMessage.Attachments.Add(attachment);
+            Smtp_Server.Send(mailMessage);
+        } catch (Exception e) { }
+    }
+
 
     private string AppendMeal(Meals.NewMeal meal, List<Foods.NewFood> selectedFoods) {
         StringBuilder sb = new StringBuilder();
