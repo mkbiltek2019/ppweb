@@ -114,13 +114,14 @@ navbar-brand {
 
 .background {
     background-color: #487413;
+    background-image: linear-gradient(to bottom right, #96C161, #487413);
 }
 .text-primary, a {
     color:#487413 !important;
 }
 
 .navbar, .btn-primary, .bg-subpanel {
-    background-color: #96C161 !important;
+    background-color: #487413 !important;
     color: white !important; 
 }
 

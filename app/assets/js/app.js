@@ -436,10 +436,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             d: { config: $rootScope.config }
         })
         .then(function (response) {
-            debugger;
             window.location.reload(true);
         }, function () {
-            debugger;
             window.location.reload(true);
         });
     };
@@ -1955,10 +1953,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { userId: $rootScope.user.userGroupId, clientId: $rootScope.client.clientId, activities: x }
         })
       .then(function (response) {
-          debugger;
           $rootScope.clientData.dailyActivities = JSON.parse(response.data.d);
-         // $rootScope.calculation.tee = $rootScope.totalDailyEnergyExpenditure;
-         // functions.alert($translate.instant(response.data.d), '');
       },
       function (response) {
           functions.alert($translate.instant(response.data.d), '');
@@ -2632,11 +2627,16 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.changeQuantity = function (x, type, idx) {
         if (x.quantity > 0.0001 && isNaN(x.quantity) == false && x.mass > 0.0001 && isNaN(x.mass) == false) {
+            angular.forEach($rootScope.currentMenu.data.selectedFoods[idx].thermalTreatments, function (value, key) {
+                if (value.isSelected == true) {
+                    $scope.selectedThermalTreatment = value;
+                }
+            })
             $timeout(function () {
                 $http({
                     url: $sessionStorage.config.backend + webService + '/ChangeFoodQuantity',
                     method: "POST",
-                    data: { initFood: $rootScope.currentMenu.data.selectedInitFoods[idx], newQuantity: x.quantity, newMass: x.mass, type: type }
+                    data: { initFood: $rootScope.currentMenu.data.selectedInitFoods[idx], newQuantity: x.quantity, newMass: x.mass, type: type, thermalTreatment: $scope.selectedThermalTreatment }
                 })
                 .then(function (response) {
                     $rootScope.currentMenu.data.selectedFoods[idx] = JSON.parse(response.data.d);
@@ -2693,14 +2693,54 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.foods = d.foods;
         $scope.myFoods = d.myFoods;
         $scope.foodGroups = d.foodGroups;
-        $scope.food = d.food != undefined ? d.food : null;
-        var initFood = d.food != undefined ? d.food : null;
+        var initFood = null;
+
+        var initFoodForEdit = function (x) {
+            $http({
+                url: $sessionStorage.config.backend + 'Foods.asmx/InitFoodForEdit',
+                method: "POST",
+                data: { food: x }
+            })
+            .then(function (response) {
+                initFood = JSON.parse(response.data.d);
+            },
+            function (response) {
+                alert(response.data.d)
+            });
+        }
+
+        var isEditMode = false;
+        if (d.food === undefined || d.food.length == 0) {
+            $scope.food = null;
+            initFood = null;
+            isEditMode = false;
+        } else {
+            $scope.food = d.food;
+            initFoodForEdit(d.food);
+            isEditMode = true;
+        }
+
         $scope.limit = 100;
 
         $scope.initCurrentFoodGroup = function () {
             $scope.currentGroup = { code: 'A', title: 'all foods' };
         }
         $scope.initCurrentFoodGroup();
+
+        var initThermalTreatment = function () {
+            $http({
+                url: $sessionStorage.config.backend + 'Foods.asmx/InitThermalTreatment',
+                method: "POST",
+                data: ''
+            })
+            .then(function (response) {
+                $scope.selectedThermalTreatment = JSON.parse(response.data.d);
+            },
+            function (response) {
+                alert(response.data.d)
+            });
+        }
+        initThermalTreatment();
 
         $scope.showMyFoods = function (x) {
             $scope.isShowMyFood = x;
@@ -2712,7 +2752,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 getMyFoodDetails(x);
                 return false;
             }
-
             $http({
                 url: $sessionStorage.config.backend + 'Foods.asmx/Get',
                 method: "POST",
@@ -2724,11 +2763,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 $scope.food.unit = $translate.instant($scope.food.unit);
                 $scope.food.foodGroup.title = $translate.instant($scope.food.foodGroup.title);
                 $scope.food.meal.title = $translate.instant($scope.food.meal.title);
-
                 angular.forEach($scope.food.thermalTreatments, function (value, key) {
                     $scope.food.thermalTreatments[key].thermalTreatment.title = $translate.instant($scope.food.thermalTreatments[key].thermalTreatment.title);
                 })
-
                 initFood = angular.copy($scope.food);
             },
             function (response) {
@@ -2742,21 +2779,46 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 method: "POST",
                 data: { userId: $rootScope.user.userGroupId, id: JSON.parse(x).id }
             })
-          .then(function (response) {
-              $scope.food = JSON.parse(response.data.d);
-              $scope.food.unit = $translate.instant($scope.food.unit);
-              initFood = angular.copy($scope.food);
-          },
-          function (response) {
-              alert(response.data.d)
-          });
+            .then(function (response) {
+                $scope.food = JSON.parse(response.data.d);
+                $scope.food.unit = $translate.instant($scope.food.unit);
+                initFood = angular.copy($scope.food);
+            },
+            function (response) {
+                alert(response.data.d)
+            });
         }
 
+        var currThermalTreatmentIdx = 0;
         $scope.getThermalTreatment = function (x, idx) {
+            if (functions.isNullOrEmpty(idx)) {
+                idx = currThermalTreatmentIdx;
+            }
             angular.forEach(x, function (value, key) {
                 value.isSelected = false;
             })
-            x[idx].isSelected = true
+            $scope.selectedThermalTreatment = x[idx];
+            x[idx].isSelected = true;
+            currThermalTreatmentIdx = idx;
+            if (isEditMode) {
+                isEditMode = false;
+            } else {
+                includeThermalTreatment($scope.selectedThermalTreatment);
+            }
+        }
+
+        var includeThermalTreatment = function (x) {
+            $http({
+                url: $sessionStorage.config.backend + 'Foods.asmx/IncludeThermalTreatment',
+                method: "POST",
+                data: { initFood: initFood, food: $scope.food, thermalTreatment: x }
+            })
+            .then(function (response) {
+                $scope.food = JSON.parse(response.data.d);
+            },
+            function (response) {
+                alert(response.data.d)
+            });
         }
 
         $scope.cancel = function () {
@@ -2769,13 +2831,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         $scope.changeQuantity = function (x, type) {
+            isEditMode = false;
             if (x.quantity > 0.0001 && isNaN(x.quantity) == false && x.mass > 0.0001 && isNaN(x.mass) == false) {
                 var currentFood = $scope.food.food;  // << in case where user change food title
                 $timeout(function () {
                     $http({
                         url: $sessionStorage.config.backend + webService + '/ChangeFoodQuantity',
                         method: "POST",
-                        data: { initFood: initFood, newQuantity: x.quantity, newMass: x.mass, type: type }
+                        data: { initFood: initFood, newQuantity: x.quantity, newMass: x.mass, type: type, thermalTreatment: $scope.selectedThermalTreatment }
                     })
                     .then(function (response) {
                         $scope.food = JSON.parse(response.data.d);
