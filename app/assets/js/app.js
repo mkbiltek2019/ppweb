@@ -5278,7 +5278,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 }])
 
-.controller('orderCtrl', ['$scope', '$http', '$rootScope', '$translate', function ($scope, $http, $rootScope, $translate) {
+.controller('orderCtrl', ['$scope', '$http', '$rootScope', '$translate', 'functions', function ($scope, $http, $rootScope, $translate, functions) {
     $scope.application = $translate.instant('nutrition program');
     $scope.version = 'STANDARD';
     $scope.userType = 1;
@@ -5423,13 +5423,24 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { x: user, lang: $rootScope.config.language }
         })
        .then(function (response) {
-           $scope.showAlert = true;
-           $scope.showPaymentDetails = true;
+           debugger;
+           if (response.data.d == 'error') {
+               $scope.showAlert = false;
+               $scope.showPaymentDetails = false;
+               $scope.sendicon = 'fa fa-paper-plane-o';
+               $scope.sendicontitle = $translate.instant('send');
+               $scope.isSendButtonDisabled = false;
+               functions.alert($translate.instant('order is not sent'), '');
+           } else {
+               $scope.showAlert = true;
+               $scope.showPaymentDetails = true;
+           }
        },
        function (response) {
            $scope.showAlert = false;
            $scope.showPaymentDetails = false;
            $scope.sendicon = 'fa fa-paper-plane-o';
+           $scope.isSendButtonDisabled = false;
            $scope.sendicontitle = $translate.instant('send');
            alert(response.data.d);
        });
@@ -5439,12 +5450,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         window.location.hash = 'registration';
     }
 
-
 }])
-
-//.controller('helpCtrl', ['$scope', '$rootScope', '$translate', function ($scope, $rootScope, $translate) {
-
-//}])
 
 .controller('infoCtrl', ['$scope', '$rootScope', '$translate', function ($scope, $rootScope, $translate) {
     $scope.package = function (x) {

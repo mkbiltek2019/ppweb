@@ -1759,6 +1759,9 @@
   "you have to refresh the page. press Ctrl+F5": "Морате да освежите страницу. Притисните Ctrl+F5",
   "notification": "обавештење",
   "reload page": "освежи страницу",
-  "no thermal treatment": "без термичке обраде"
+  "no thermal treatment": "без термичке обраде",
+  "mail is not sent": "Порука није послана",
+  "order is not sent": "Наруџба није послата",
+  "menu is not sent": "Јеловник није послат"
 
 }

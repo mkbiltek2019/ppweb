@@ -18,6 +18,7 @@ public class Orders : System.Web.Services.WebService {
     string dataBase = ConfigurationManager.AppSettings["WebDataBase"];
     string usersDataBase = ConfigurationManager.AppSettings["UsersDataBase"];
     DataBase db = new DataBase();
+    Translate t = new Translate();
     public Orders() { 
     }
     public class NewUser {
@@ -154,8 +155,8 @@ public class Orders : System.Web.Services.WebService {
             connection.Close();
 
             Mail m = new Mail();
-            m.SendOrder(x, lang);
-            return ("OK");
+            bool sent = m.SendOrder(x, lang);
+            return sent == true ? t.Tran("order sent successfully", lang) : "error";
             } catch (Exception e) { return ("Error: " + e); }
         }
 

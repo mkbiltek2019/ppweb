@@ -38,8 +38,12 @@ public class Mail : System.Web.Services.WebService {
 <p>{3}: {4}</p>
 <p>{5}: {6}</p>", t.Tran("new inquiry", lang), t.Tran("name", lang), name, t.Tran("email", lang), email, t.Tran("message", lang), message);
         try {
-            SendMail(myEmail, messageSubject, messageBody, lang);
-            return "ok";
+            //SendMail(myEmail, messageSubject, messageBody, lang);
+            //return "ok";
+
+            bool sent = SendMail(myEmail, messageSubject, messageBody, lang);
+            return sent == true ? t.Tran("ok", lang) : t.Tran("mail is not sent", lang);
+
         } catch (Exception e) { return ("Error: " + e); }
     }
 
@@ -99,8 +103,9 @@ public class Mail : System.Web.Services.WebService {
                 , !string.IsNullOrWhiteSpace(user.companyName) ? user.companyName : string.Format("{0} {1}", user.firstName, user.lastName)
                 , currentMenu.title);
 
-            SendMail(email, subject, sb.ToString(), lang);
-            return t.Tran("menu sent successfully", lang);
+            bool sent = SendMail(email, subject, sb.ToString(), lang);
+            return sent == true ? t.Tran("menu sent successfully", lang) : t.Tran("menu is not sent", lang);
+
         } catch (Exception e) { return ("error: " + e); }
     }
 
@@ -119,23 +124,23 @@ public class Mail : System.Web.Services.WebService {
                 , !string.IsNullOrWhiteSpace(user.companyName) ? user.companyName : string.Format("{0} {1}", user.firstName, user.lastName)
                 , title);
 
-            SendMail(email, subject, sb.ToString(), lang, pdfLink);
-            return t.Tran("mail sent successfully", lang);
+            bool sent = SendMail(email, subject, sb.ToString(), lang, pdfLink);
+            return sent == true ? t.Tran("menu sent successfully", lang) : t.Tran("menu is not sent", lang);
         } catch (Exception e) { return ("error: " + e); }
     }
 
     [WebMethod]
     public string SendMessage(string sendTo, string messageSubject, string messageBody, string lang) {
         try {
-            SendMail(sendTo, messageSubject, messageBody, lang);
-            return t.Tran("mail sent successfully", lang);
+            bool sent = SendMail(sendTo, messageSubject, messageBody, lang);
+            return sent == true ? t.Tran("mail sent successfully", lang) : t.Tran("mail is not sent", lang);
         } catch (Exception e) { return (e.Message); }
     }
     #endregion WebMethods
 
     #region Methods
-    public void SendOrder(Orders.NewUser user, string lang) {
-
+    public bool SendOrder(Orders.NewUser user, string lang) {
+        bool sent = false;
         //*****************Send mail to me****************
         string messageSubject = "Nova narudžba";
         string messageBody = string.Format(
@@ -165,18 +170,23 @@ public class Mail : System.Web.Services.WebService {
         , user.licenceNumber
         , GetLicenceDuration(user.licence));
 
-        SendMail(myEmail, messageSubject, messageBody, lang);
+        bool sentToMe = SendMail(myEmail, messageSubject, messageBody, lang);
         //**************************************************
 
         //************ Send mail to customer****************
         messageSubject = (user.application == "Program Prehrane 5.0" ? user.application : t.Tran("nutrition program", lang).ToUpper()) + " - " + t.Tran("payment details", lang);
         messageBody = PaymentDetails(user, lang);
-        SendMail(user.email, messageSubject, messageBody, lang);
+        bool sentToCustomer = SendMail(user.email, messageSubject, messageBody, lang);
         //**************************************************
-
+        if(sentToMe == false || sentToCustomer == false) {
+            sent = false;
+        } else {
+            sent = true;
+        }
+        return sent;
     }
 
-    public void SendMail(string sendTo, string messageSubject, string messageBody, string lang) {
+    public bool SendMail(string sendTo, string messageSubject, string messageBody, string lang) {
         try {
             string my_email = lang == "en" ? myEmail_en : myEmail;
             string my_password = lang == "en" ? myPassword_en : myPassword;
@@ -193,11 +203,12 @@ public class Mail : System.Web.Services.WebService {
             mailMessage.Body = messageBody;
             mailMessage.IsBodyHtml = true;
             Smtp_Server.Send(mailMessage);
-        } catch (Exception e) {}
+            return true;
+        } catch (Exception e) { return false; }
     }
 
     
-    public void SendMail(string sendTo, string messageSubject, string messageBody, string lang, string file){
+    public bool SendMail(string sendTo, string messageSubject, string messageBody, string lang, string file){
         try {
             string my_email = lang == "en" ? myEmail_en : myEmail;
             string my_password = lang == "en" ? myPassword_en : myPassword;
@@ -216,7 +227,8 @@ public class Mail : System.Web.Services.WebService {
             Attachment attachment = new Attachment(Server.MapPath(file.Replace("../","~/")));
             mailMessage.Attachments.Add(attachment);
             Smtp_Server.Send(mailMessage);
-        } catch (Exception e) { }
+            return true;
+        } catch (Exception e) { return false; }
     }
 
 

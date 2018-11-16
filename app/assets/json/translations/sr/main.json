@@ -1762,7 +1762,10 @@
   "you have to refresh the page. press Ctrl+F5": "Morate da osvežite stranicu. Pritisnite Ctrl+F5",
   "notification": "obaveštenje",
   "reload page": "osveži stranicu",
-  "no thermal treatment": "bez termičke obrade"
+  "no thermal treatment": "bez termičke obrade",
+  "mail is not sent": "Poruka nije poslata",
+  "order is not sent": "Narudžba nije poslata",
+  "menu is not sent": "Jelovnik nije poslat"
 
 
 }
