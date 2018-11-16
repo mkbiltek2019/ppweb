@@ -131,7 +131,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
             return fileName;
         } catch(Exception e) {
-            return e.StackTrace;
+            return "";
         }
     }
 
@@ -201,7 +201,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
             return fileName;
         } catch(Exception e) {
-            return e.StackTrace;
+            return "";
         }
     }
 
@@ -606,7 +606,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
             return fileName;
         } catch(Exception e) {
-            return e.StackTrace;
+            return "";
         }
     }
 
@@ -650,7 +650,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
             return fileName;
         } catch(Exception e) {
-            return e.StackTrace;
+            return "";
         }
     }
 
@@ -726,7 +726,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
             return fileName;
         } catch(Exception e) {
-            return e.StackTrace;
+            return "";
         }
     }
 
@@ -813,7 +813,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
             return fileName;
         } catch(Exception e) {
-            return e.StackTrace;
+            return "";
         }
     }
 
@@ -1028,7 +1028,7 @@ IBAN HR8423400091160342496
 
             return fileName;
         } catch(Exception e) {
-            return e.StackTrace;
+            return "";
         }
     }
     #endregion WebMethods

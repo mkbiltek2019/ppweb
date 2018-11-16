@@ -35,8 +35,8 @@
     }
   ],
   "debug": true,
-  "version": "1.0.96",
-  "date": "9.11.2018",
+  "version": "1.0.97",
+  "date": "16.11.2018",
   "eur": 7.4,
   "usd": 6.3,
   "currency": "hrk",
@@ -67,15 +67,15 @@
   "packages": [
 	  {
 		  "title": "START",
-		  "price":550
+		  "price": 550
 	  },
 	  {
 		  "title": "STANDARD",
-		  "price":950
+		  "price": 950
 	  },
 	  {
 		  "title": "PREMIUM",
-		  "price":1850
+		  "price": 1850
 	  }
   ]
 }

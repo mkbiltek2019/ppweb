@@ -38,9 +38,6 @@ public class Mail : System.Web.Services.WebService {
 <p>{3}: {4}</p>
 <p>{5}: {6}</p>", t.Tran("new inquiry", lang), t.Tran("name", lang), name, t.Tran("email", lang), email, t.Tran("message", lang), message);
         try {
-            //SendMail(myEmail, messageSubject, messageBody, lang);
-            //return "ok";
-
             bool sent = SendMail(myEmail, messageSubject, messageBody, lang);
             return sent == true ? t.Tran("ok", lang) : t.Tran("mail is not sent", lang);
 
