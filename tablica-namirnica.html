@@ -18,8 +18,6 @@
     <script src="../assets/js/vendor/angular-messages.min.js"></script>
     <script src="assets/js/vendor/angular-material.min.js"></script>
     <link rel="icon" type="image/x-icon" href="/favicon.ico?v=1" />
-    <script src="../assets/js/vendor/Chart.min.js"></script>
-    <script src="../assets/js/vendor/loader.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Encode Sans Expanded' rel='stylesheet'>
     <style>
         body {
@@ -86,7 +84,7 @@
                             <th class="nowrap text-center">Energija (Kcal)</th>
                             <th class="text-center">Detalji</th>
                         </tr>
-                        <tr ng-repeat="x in foods | filter: search | orderBy: 'food'">
+                        <tr ng-repeat="x in foods | filter: search | orderBy: 'food' | limitTo: limit">
                             <td>{{$index+1}}</td>
                             <td>{{x.food}}</td>
                             <td class="text-right">{{x.mass}}</td>
@@ -97,6 +95,7 @@
                         </tr>
                     </table>
                 </div>
+                <a ng-if="limit<foods.length" href="" class="btn btn-default" ng-click="showMore(1000)"><i class="fa fa-arrow-down"></i> Prikaži sve namirnice</a>
             </div>
         </div>
         <a href="../app/" title="Web aplikacija za izradu uravnoteženih jelovnika i plana tjelesne aktivnosti">
@@ -123,7 +122,6 @@
 
     <script src="assets/js/app.js"></script>
     <script src="assets/js/main.js"></script>
-    <script src="../app/assets/js/charts.js"></script>
 
 </body>
 </html>

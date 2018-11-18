@@ -308,13 +308,23 @@ angular.module('app', ['ngMaterial'])
             data: { x: user, lang: $rootScope.config.language }
         })
        .then(function (response) {
-           $scope.showAlert = true;
-           $scope.showPaymentDetails = true;
-           window.location.hash = 'orderform';
+           if (response.data.d == 'error') {
+               $scope.showAlert = false;
+               $scope.showPaymentDetails = false;
+               $scope.isSendButtonDisabled = false;
+               $scope.sendicon = 'fa fa-paper-plane-o';
+               $scope.sendicontitle = 'Pošalji';
+               alert("GREŠKA! Narudžba nije poslana.");
+           } else {
+               $scope.showAlert = true;
+               $scope.showPaymentDetails = true;
+               window.location.hash = 'orderform';
+           }
        },
        function (response) {
            $scope.showAlert = false;
            $scope.showPaymentDetails = false;
+           $scope.isSendButtonDisabled = false;
            $scope.sendicon = 'fa fa-paper-plane-o';
            $scope.sendicontitle = 'Pošalji';
            alert(response.data.d);
@@ -456,6 +466,11 @@ angular.module('app', ['ngMaterial'])
     };
 
     getConfig();
+
+    $scope.limit = 10;
+    $scope.showMore = function (x) {
+        $scope.limit += x;
+    }
 
 }])
 

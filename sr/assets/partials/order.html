@@ -194,7 +194,7 @@ Iznos: <span>{{user.priceEur | number:0}}</span> €
                 </div>-->
             </div>
             <b>Plaćanje putem PayPal-a:</b>
-            <div ng-if="user.application!='Program Prehrane 5.0'" ng-include="'./app/assets/partials/paypal.html'"></div>
+            <div ng-if="user.application!='Program Prehrane 5.0'" ng-include="'../app/assets/partials/paypal.html'"></div>
             <div ng-if="user.application=='Program Prehrane 5.0'" ng-include="'./assets/partials/paypal.html'"></div>
         </div>
 
