@@ -3,8 +3,11 @@
         <div class="col-md-offset-5 p20">
             <div ng-repeat="x in clientData.meals">
                 <md-checkbox ng-model="x.isSelected" class="md-primary" ng-disabled="x.isDisabled">
-                    {{getMealTitle(x.code) | translate}}
+                    {{getMealTitle(x)}}
                 </md-checkbox>
+            </div>
+            <div ng-if="config.debug">
+                <button ng-click="backToStandardMeals()">Standard Meals</button>
             </div>
         </div>
     </div>
@@ -14,6 +17,11 @@
     </div> 
 </div>
 <div ng-if="config.debug" class="bg-info debugBox">
+    <div ng-controller="myMealsCtrl">
+        My Meals
+        <button ng-click="getTemplate()">get Template</button>
+        <pre>{{myMeals}}</pre>
+    </div>
     meals:
     <pre>{{clientData.meals | json}}</pre>
 </div>

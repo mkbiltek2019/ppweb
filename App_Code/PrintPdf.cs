@@ -46,8 +46,13 @@ public class PrintPdf : System.Web.Services.WebService {
         public bool showQty;
         public bool showMass;
         public bool showServ;
+        public bool showTitle; //TODO separate somehow title from description (#....#) or new line
         public bool showDescription;
         public string orientation;
+		public bool showClientData;
+        public bool showFoods;
+        public bool showTotals;
+        // TODO activities, prices
     }
 
     #region Webmethods
@@ -58,13 +63,17 @@ public class PrintPdf : System.Web.Services.WebService {
         x.showQty = true;
         x.showMass = true;
         x.showServ = false;
+        x.showTitle = true;
         x.showDescription = true;
         x.orientation = "L";
+		x.showClientData = true;
+        x.showFoods = true;
+        x.showTotals = true;
         return JsonConvert.SerializeObject(x, Formatting.Indented);
     }
 
     [WebMethod]
-    public string MenuPdf(string userId, Menues.NewMenu currentMenu, ClientsData.NewClientData clientData, Foods.Totals totals, int consumers, string lang, PrintMenuSettings settings) {
+    public string MenuPdf(string userId, Menues.NewMenu currentMenu, ClientsData.NewClientData clientData, Clients.NewClient client, Foods.Totals totals, int consumers, string lang, PrintMenuSettings settings) {
         try {
             var doc = new Document();
             string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
@@ -77,6 +86,8 @@ public class PrintPdf : System.Web.Services.WebService {
             doc.Open();
 
             AppendHeader(doc, userId);
+			
+			ShowClientData(doc, currentMenu, clientData, client, settings.showClientData, lang);
 
             doc.Add(new Paragraph(currentMenu.title, normalFont_12));
             doc.Add(new Paragraph(currentMenu.note, normalFont_8));
@@ -86,27 +97,39 @@ public class PrintPdf : System.Web.Services.WebService {
 
             doc.Add(new Chunk(line));
 
-            List<Foods.NewFood> meal1 = currentMenu.data.selectedFoods.Where(a => a.meal.code == "B").ToList();
-            List<Foods.NewFood> meal2 = currentMenu.data.selectedFoods.Where(a => a.meal.code == "MS").ToList();
-            List<Foods.NewFood> meal3 = currentMenu.data.selectedFoods.Where(a => a.meal.code == "L").ToList();
-            List<Foods.NewFood> meal4 = currentMenu.data.selectedFoods.Where(a => a.meal.code == "AS").ToList();
-            List<Foods.NewFood> meal5 = currentMenu.data.selectedFoods.Where(a => a.meal.code == "D").ToList();
-            List<Foods.NewFood> meal6 = currentMenu.data.selectedFoods.Where(a => a.meal.code == "MBS").ToList();
+            var meals = currentMenu.data.selectedFoods.Select(a => a.meal.code).Distinct().ToList();
+            
+
+
+
+            //List<Foods.NewFood> meal1 = currentMenu.data.selectedFoods.Where(a => a.meal.code == "B").ToList();
+            //List<Foods.NewFood> meal2 = currentMenu.data.selectedFoods.Where(a => a.meal.code == "MS").ToList();
+            //List<Foods.NewFood> meal3 = currentMenu.data.selectedFoods.Where(a => a.meal.code == "L").ToList();
+            //List<Foods.NewFood> meal4 = currentMenu.data.selectedFoods.Where(a => a.meal.code == "AS").ToList();
+            //List<Foods.NewFood> meal5 = currentMenu.data.selectedFoods.Where(a => a.meal.code == "D").ToList();
+            //List<Foods.NewFood> meal6 = currentMenu.data.selectedFoods.Where(a => a.meal.code == "MBS").ToList();
 
             StringBuilder sb = new StringBuilder();
             sb.AppendLine(string.Format(@"
                                         "));
 
-            sb.AppendLine(AppendMeal(meal1, currentMenu.data.meals, lang, settings));
-            sb.AppendLine(AppendMeal(meal2, currentMenu.data.meals, lang, settings));
-            sb.AppendLine(AppendMeal(meal3, currentMenu.data.meals, lang, settings));
-            sb.AppendLine(AppendMeal(meal4, currentMenu.data.meals, lang, settings));
-            sb.AppendLine(AppendMeal(meal5, currentMenu.data.meals, lang, settings));
-            sb.AppendLine(AppendMeal(meal6, currentMenu.data.meals, lang, settings));
+            //TODO foreach meal in List<List<Foods.NewFood>
+            foreach (string m in meals) {
+                List<Foods.NewFood> meal = currentMenu.data.selectedFoods.Where(a => a.meal.code == m).ToList();
+                sb.AppendLine(AppendMeal(meal, currentMenu.data.meals, lang, settings));
+            }
+
+            //sb.AppendLine(AppendMeal(meal1, currentMenu.data.meals, lang, settings));
+            //sb.AppendLine(AppendMeal(meal2, currentMenu.data.meals, lang, settings));
+            //sb.AppendLine(AppendMeal(meal3, currentMenu.data.meals, lang, settings));
+            //sb.AppendLine(AppendMeal(meal4, currentMenu.data.meals, lang, settings));
+            //sb.AppendLine(AppendMeal(meal5, currentMenu.data.meals, lang, settings));
+            //sb.AppendLine(AppendMeal(meal6, currentMenu.data.meals, lang, settings));
 
             doc.Add(new Paragraph(sb.ToString(), normalFont));
 
-            string tot = string.Format(@"
+            if (settings.showTotals) {
+                string tot = string.Format(@"
 {0}
 {1}: {5} kcal
 {2}: {6} g ({7})%
@@ -125,7 +148,8 @@ public class PrintPdf : System.Web.Services.WebService {
                         Convert.ToString(totals.fats),
                         Convert.ToString(totals.fatsPercentage)
                         );
-            doc.Add(new Paragraph(tot, normalFont));
+                doc.Add(new Paragraph(tot, normalFont));
+            }
             doc.Add(new Chunk(line));
             doc.Close();
 
@@ -157,8 +181,12 @@ public class PrintPdf : System.Web.Services.WebService {
             doc.Open();
 
             AppendHeader(doc, userId);
+
             if(consumers > 1) {
                 doc.Add(new Paragraph(t.Tran("number of consumers", lang) + ": " + consumers, normalFont_10));
+            } else {
+                //TODO show sclient data when there are more than 1 consumens
+                //ShowClientData(doc, currentMenu, clientData, settings.showClientData, lang);
             }
 
             PdfPTable table = new PdfPTable(8);
@@ -1028,7 +1056,7 @@ IBAN HR8423400091160342496
 
             return fileName;
         } catch(Exception e) {
-            return "";
+            return e.Message;
         }
     }
     #endregion WebMethods
@@ -1050,20 +1078,22 @@ IBAN HR8423400091160342496
         StringBuilder sb = new StringBuilder();
         if (meal.Count > 0) {
             if(meals.Find(a => a.code == meal[0].meal.code).isSelected == true) {
-                sb.AppendLine(string.Format(@"{0}", t.Tran(GetMealTitle(meal[0].meal.code), lang)).ToUpper());
+                sb.AppendLine(string.Format(@"{0}", t.Tran(GetMealTitle(meal[0].meal), lang)).ToUpper());
                 string description = meals.Where(a => a.code == meal[0].meal.code).FirstOrDefault().description;
                 if (!string.IsNullOrEmpty(description)) {
                     sb.AppendLine(string.Format(@"{0}
                                             ", description));
                 }
-                foreach (Foods.NewFood food in meal) {
-                    sb.AppendLine(string.Format(@"- {0}{1}{2}{3}"
-                        , food.food
-                        , string.Format(@"{0}", settings.showQty ? string.Format(@", {0} {1}", food.quantity, food.unit):"")
-                        , string.Format(@"{0}", settings.showMass ? string.Format(@", {0} g", food.mass) : "")
-                        , string.Format(@"{0}", settings.showServ && !string.IsNullOrEmpty(getServingDescription(food.servings, lang)) ? string.Format(@", ({0})", getServingDescription(food.servings, lang)) : "")));
+                if (settings.showFoods) {
+                    foreach (Foods.NewFood food in meal) {
+                        sb.AppendLine(string.Format(@"- {0}{1}{2}{3}"
+                            , food.food
+                            , string.Format(@"{0}", settings.showQty ? string.Format(@", {0} {1}", food.quantity, food.unit) : "")
+                            , string.Format(@"{0}", settings.showMass ? string.Format(@", {0} g", food.mass) : "")
+                            , string.Format(@"{0}", settings.showServ && !string.IsNullOrEmpty(getServingDescription(food.servings, lang)) ? string.Format(@", ({0})", getServingDescription(food.servings, lang)) : "")));
+                    }
+                    sb.AppendLine("________________________________________________________________________");
                 }
-                sb.AppendLine("________________________________________________________________________");
             }
         }
         return sb.ToString();
@@ -1105,15 +1135,15 @@ IBAN HR8423400091160342496
         }
     }
 
-    private string GetMealTitle(string code) {
-        switch (code) {
+    private string GetMealTitle(Foods.CodeTitle meal) {
+        switch (meal.code) {
             case "B": return "breakfast";
             case "MS": return "morning snack";
             case "L": return "lunch";
             case "AS": return "afternoon snack";
             case "D": return "dinner";
             case "MBS": return "meal before sleep";
-            default: return "";
+            default: return meal.title;
         }
     }
 
@@ -1176,6 +1206,22 @@ IBAN HR8423400091160342496
             }
         }
         return string.Format("/upload/users/{0}/img/{1}.png", userId, fileName);
+    }
+	
+	private void ShowClientData(Document doc, Menues.NewMenu currentMenu, ClientsData.NewClientData clientData, Clients.NewClient client, bool showClientData, string lang){
+        if (showClientData) {
+            doc.Add(new Paragraph(string.Format("{0} {1}"
+            , client.firstName
+            , client.lastName)
+            , normalFont_8));
+            doc.Add(new Paragraph(string.Format("{0}, {1} {2} {3}"
+            , string.Format("{0}: {1} cm", t.Tran("height", lang), clientData.height)
+            , string.Format("{0}: {1} kg", t.Tran("weight", lang), clientData.weight)
+            , clientData.waist > 0 ? string.Format(", {0}: {1} kg", t.Tran("waist", lang), clientData.waist) : ""
+            , clientData.hip > 0 ? string.Format(", {0}: {1} kg", t.Tran("hip", lang), clientData.hip) : "")
+            , normalFont_8));
+            doc.Add(new Chunk(line));
+        }
     }
     #endregion Methods
 

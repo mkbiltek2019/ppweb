@@ -599,7 +599,7 @@ public class Foods : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string GetRecommendations(ClientsData.NewClientData client, string myRecommendedEnergyIntake) {
+    public string GetRecommendations(ClientsData.NewClientData client, string myRecommendedEnergyIntake, List<MealsRecommendationEnergy> myMealsEnergyPerc) {
         Recommendations x = new Recommendations();
         Calculations c = new Calculations();
         x.energy = string.IsNullOrEmpty(myRecommendedEnergyIntake) ? c.RecommendedEnergyIntake(client) : Convert.ToInt32(myRecommendedEnergyIntake);
@@ -619,7 +619,7 @@ public class Foods : System.Web.Services.WebService {
         x.fatsPercentageMax = client.diet.fatsMax;  //TODO
 
         x.servings = GetRecommendedServings(client, x.energy);
-        x.mealsRecommendationEnergy = GetMealsRecommendations(client.meals, x.energy);
+        x.mealsRecommendationEnergy = GetMealsRecommendations(client.meals, x.energy, myMealsEnergyPerc);
 
         //TODO - persons from 18, children from 9-10, 10-14, 14-18
 
@@ -688,9 +688,12 @@ public class Foods : System.Web.Services.WebService {
                 break;
         }
         x = ChangeFQ(initFood, x, k);
-        if (!string.IsNullOrEmpty(thermalTreatment.thermalTreatment.code)) {
-            x = IncludeTT(initFood, x, thermalTreatment);
-        }
+
+		if(thermalTreatment != null) {
+			if (!string.IsNullOrEmpty(thermalTreatment.thermalTreatment.code)) {
+				x = IncludeTT(initFood, x, thermalTreatment);
+			}
+		}
         string json = JsonConvert.SerializeObject(x, Formatting.Indented);
         return json;
     }
@@ -897,23 +900,30 @@ public class Foods : System.Web.Services.WebService {
     }
 
     //TODO
-    private List<MealsRecommendationEnergy> GetMealsRecommendations(List<Meals.NewMeal> meals, int energy) {
+    private List<MealsRecommendationEnergy> GetMealsRecommendations(List<Meals.NewMeal> meals, int energy, List<MealsRecommendationEnergy> myMealsEnergyPerc) {
         List<MealsRecommendationEnergy> xx = new List<MealsRecommendationEnergy>();
-        int counter = 0;
+        int idx = 0;
         foreach (var obj in meals) {
-            counter++;
             MealsRecommendationEnergy x = new MealsRecommendationEnergy();
             x.meal.code = obj.code;
-            x.meal.energyMinPercentage = GetMealRecommendationPercentage(meals, counter).min;
-            x.meal.energyMaxPercentage = GetMealRecommendationPercentage(meals, counter).max;
+            if(myMealsEnergyPerc != null) {
+                if (idx < myMealsEnergyPerc.Count) {
+                    x.meal.energyMinPercentage = myMealsEnergyPerc[idx].meal.energyMinPercentage;
+                    x.meal.energyMaxPercentage = myMealsEnergyPerc[idx].meal.energyMinPercentage;
+                }
+            } else {
+                x.meal.energyMinPercentage = GetMealRecommendationPercentage(meals, idx).min;
+                x.meal.energyMaxPercentage = GetMealRecommendationPercentage(meals, idx).max;
+            }
             x.meal.energyMin = Convert.ToInt32(x.meal.energyMinPercentage * 0.01 * energy);
             x.meal.energyMax = Convert.ToInt32(x.meal.energyMaxPercentage * 0.01 * energy);
             xx.Add(x);
+            idx++;
         }
         return xx;
     }
 
-    private MealEnergy GetMealRecommendationPercentage(List<Meals.NewMeal> meals, int counter) {
+    private MealEnergy GetMealRecommendationPercentage(List<Meals.NewMeal> meals, int idx) {
         MealEnergy x = new MealEnergy();
         //1 case all meals
         if (meals[0].isSelected == true &&
@@ -922,28 +932,28 @@ public class Foods : System.Web.Services.WebService {
             meals[3].isSelected == true &&
             meals[4].isSelected == true &&
             meals[5].isSelected == true) {
-            switch (counter) {
-                case 1:
+            switch (idx) {
+                case 0:
                     x.min = 20;
                     x.max = 25;
                     break;
-                case 2:
+                case 1:
                     x.min = 5;
                     x.max = 10;
                     break;
-                case 3:
+                case 2:
                     x.min = 30;
                     x.max = 40;
                     break;
-                case 4:
+                case 3:
                     x.min = 5;
                     x.max = 10;
                     break;
-                case 5:
+                case 4:
                     x.min = 20;
                     x.max = 23;
                     break;
-                case 6:
+                case 5:
                     x.min = 2;
                     x.max = 5;
                     break;
@@ -961,28 +971,28 @@ public class Foods : System.Web.Services.WebService {
             meals[3].isSelected == true &&
             meals[4].isSelected == true &&
             meals[5].isSelected == false) {
-            switch (counter) {
-                case 1:
+            switch (idx) {
+                case 0:
                     x.min = 20;
                     x.max = 25;
                     break;
-                case 2:
+                case 1:
                     x.min = 5;
                     x.max = 10;
                     break;
-                case 3:
+                case 2:
                     x.min = 30;
                     x.max = 40;
                     break;
-                case 4:
+                case 3:
                     x.min = 5;
                     x.max = 10;
                     break;
-                case 5:
+                case 4:
                     x.min = 20;
                     x.max = 25;
                     break;
-                case 6:
+                case 5:
                     x.min = 0;
                     x.max = 0;
                     break;
@@ -1000,28 +1010,28 @@ public class Foods : System.Web.Services.WebService {
             meals[3].isSelected == true &&
             meals[4].isSelected == true &&
             meals[5].isSelected == false) {
-            switch (counter) {
-                case 1:
+            switch (idx) {
+                case 0:
                     x.min = 25;
                     x.max = 35;
                     break;
-                case 2:
+                case 1:
                     x.min = 0;
                     x.max = 0;
                     break;
-                case 3:
+                case 2:
                     x.min = 30;
                     x.max = 40;
                     break;
-                case 4:
+                case 3:
                     x.min = 5;
                     x.max = 10;
                     break;
-                case 5:
+                case 4:
                     x.min = 20;
                     x.max = 25;
                     break;
-                case 6:
+                case 5:
                     x.min = 0;
                     x.max = 0;
                     break;
@@ -1039,28 +1049,28 @@ public class Foods : System.Web.Services.WebService {
             meals[3].isSelected == false &&
             meals[4].isSelected == true &&
             meals[5].isSelected == false) {
-            switch (counter){
-                case 1:
+            switch (idx){
+                case 0:
                     x.min = 25;
                     x.max = 35;
                     break;
-                case 2:
+                case 1:
                     x.min = 0;
                     x.max = 0;
                     break;
-                case 3:
+                case 2:
                     x.min = 35;
                     x.max = 45;
                     break;
-                case 4:
+                case 3:
                     x.min = 0;
                     x.max = 0;
                     break;
-                case 5:
+                case 4:
                     x.min = 25;
                     x.max = 30;
                     break;
-                case 6:
+                case 5:
                     x.min = 0;
                     x.max = 0;
                     break;
@@ -2772,6 +2782,7 @@ public class Foods : System.Web.Services.WebService {
     }
 
     private NewFood IncludeTT(NewFood initFood, NewFood food, ThermalTreatment tt) {
+        food.thermalTreatments.Find(a => a.thermalTreatment.code == tt.thermalTreatment.code).isSelected = true;
         food.vitaminE = SmartRound(initFood.vitaminE * (1 - tt.vitaminE) * food.quantity);
         food.vitaminB1 = SmartRound(initFood.vitaminB1 * (1 - tt.vitaminB1) * food.quantity);
         food.vitaminB2 = SmartRound(initFood.vitaminB2 * (1 - tt.vitaminB2) * food.quantity);
@@ -2788,6 +2799,7 @@ public class Foods : System.Web.Services.WebService {
     private NewFood ExcludeTT(NewFood food) {
         ThermalTreatment tt = food.thermalTreatments.Find(a => a.isSelected == true);
         if(tt != null) {
+            food.thermalTreatments.Find(a => a.thermalTreatment.code == tt.thermalTreatment.code).isSelected = false;
             food.vitaminE = SmartRound(food.vitaminE / (1 - tt.vitaminE));
             food.vitaminB1 = SmartRound(food.vitaminB1 / (1 - tt.vitaminB1));
             food.vitaminB2 = SmartRound(food.vitaminB2 / (1 - tt.vitaminB2));

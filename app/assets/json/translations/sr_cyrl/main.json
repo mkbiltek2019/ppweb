@@ -1762,6 +1762,9 @@
   "no thermal treatment": "без термичке обраде",
   "mail is not sent": "Порука није послана",
   "order is not sent": "Наруџба није послата",
-  "menu is not sent": "Јеловник није послат"
+  "menu is not sent": "Јеловник није послат",
+  "show client data": "прикажи податке о клијенту",
+  "show foods": "прикажи намирнице",
+  "show totals": "прикажи укупне вредности"
 
 }

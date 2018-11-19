@@ -35,10 +35,10 @@
                         </div>
                         <div>
                             <select ng-model="currentMeal" ng-change="toggleMeals(currentMeal)" class="form-control visible-xs text-capitalize">
-                                <option ng-selected="x.code==currentMeal?true:false" value="{{x.code}}" ng-if="x.isSelected==1" ng-repeat="x in clientData.meals" >{{getMealTitle(x.code) | translate}}</option>
+                                <option ng-selected="x.code==currentMeal?true:false" value="{{x.code}}" ng-if="x.isSelected==1" ng-repeat="x in clientData.meals" >{{getMealTitle(x)}}</option>
                             </select>
                             <ul class="nav nav-tabs hidden-xs text-capitalize">
-                                <li ng-class="x.code==currentMeal?'active':''" ng-click="toggleMeals(x.code)" ng-if="x.isSelected==1" ng-repeat="x in clientData.meals"><a href="">{{getMealTitle(x.code) | translate}}</a></li>
+                                <li ng-class="x.code==currentMeal?'active':''" ng-click="toggleMeals(x.code)" ng-if="x.isSelected==1" ng-repeat="x in clientData.meals"><a href="">{{getMealTitle(x)}}</a></li>
                             </ul>
                         </div>
                         <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around">

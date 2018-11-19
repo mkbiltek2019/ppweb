@@ -1757,6 +1757,9 @@
   "no thermal treatment": "no thermal treatment",
   "mail is not sent": "Mail is not sent",
   "order is not sent": "Order is not sent",
-  "menu is not sent": "Menu is not sent"
+  "menu is not sent": "Menu is not sent",
+  "show client data": "show client data",
+  "show foods": "show foods",
+  "show totals": "show totals"
 
 }
