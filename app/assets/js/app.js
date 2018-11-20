@@ -2644,7 +2644,16 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             alert(response.data.d)
         });
     };
-    if ($rootScope.currentMenu === undefined) { init(); }
+    //if ($rootScope.currentMenu === undefined) { init(); }
+
+    // new
+    if ($rootScope.currentMenu === undefined) {
+        init();
+    } else {
+        $rootScope.currentMenu.data.meals = $rootScope.clientData.meals;
+        $rootScope.currentMenu.client = $rootScope.client;
+        $rootScope.currentMenu.client.clientData = $rootScope.clientData;  //TODO sredit
+    }
 
     var initMenuDetails = function () {
         $http({
@@ -2654,11 +2663,15 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             $rootScope.currentMenu = JSON.parse(response.data.d);
+            $rootScope.currentMenu.client = $rootScope.client;
+            $rootScope.currentMenu.client.clientData = $rootScope.clientData;  //TODO sredit
             $rootScope.currentMenu.data.meals = $rootScope.clientData.meals;
+
             angular.forEach($rootScope.currentMenu.data.meals, function (value, key) {
                 $rootScope.currentMenu.data.meals[key].description = '';
             })
-            $rootScope.currentMeal = 'B';  //TODO my Meals
+           // $rootScope.currentMeal = 'B';  //TODO my Meals
+            $rootScope.currentMeal = $rootScope.currentMenu.data.meals[0].code
             getTotals($rootScope.currentMenu);
         },
         function (response) {
@@ -3105,20 +3118,21 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             templateUrl: 'assets/partials/popup/getmenu.html',
             parent: angular.element(document.body),
             clickOutsideToClose: true,
-            clientData: $rootScope.clientData,
             config: $rootScope.config
         })
         .then(function (x) {
             $rootScope.currentMenu = x;
             $rootScope.clientData.meals = x.data.meals;
+            $rootScope.currentMenu.client = $rootScope.client;
+            $rootScope.currentMenu.client.clientData = $rootScope.clientData;  //TODO sredit
             getTotals($rootScope.currentMenu);
             $rootScope.currentMeal = x.data.meals[0].code; // 'B';  // TODO myMeals get first from list
         }, function () {
         });
     };
 
-    var getMenuPopupCtrl = function ($scope, $mdDialog, $http, clientData, config, $translate, $translatePartialLoader, $timeout) {
-        $scope.clientData = clientData;
+    var getMenuPopupCtrl = function ($scope, $mdDialog, $http, config, $translate, $translatePartialLoader, $timeout) {
+        //$scope.clientData = clientData;
         $scope.config = config;
         $scope.loadType = 0;
         $scope.type = 0;
@@ -3274,6 +3288,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     }
 
+    //TODO remove client from params
     var openSaveMenuPopup = function () {
         $rootScope.client.clientData = $rootScope.clientData;
         $mdDialog.show({
@@ -4279,7 +4294,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     $http({
                         url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
                         method: "POST",
-                        data: { userId: $sessionStorage.usergroupid, currentMenu: currentMenu, clientData: $rootScope.clientData, client:$rootScope.client, totals: $rootScope.totals, consumers: consumers, lang: $rootScope.config.language, settings: $scope.settings }
+                        data: { userId: $sessionStorage.usergroupid, currentMenu: currentMenu, totals: $rootScope.totals, consumers: consumers, lang: $rootScope.config.language, settings: $scope.settings }
+                        //data: { userId: $sessionStorage.usergroupid, currentMenu: currentMenu, clientData: $rootScope.clientData, client:$rootScope.client, totals: $rootScope.totals, consumers: consumers, lang: $rootScope.config.language, settings: $scope.settings }
                     })
                       .then(function (response) {
                           var fileName = response.data.d;
@@ -5481,7 +5497,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { x: user, lang: $rootScope.config.language }
         })
        .then(function (response) {
-           debugger;
            if (response.data.d == 'error') {
                $scope.showAlert = false;
                $scope.showPaymentDetails = false;

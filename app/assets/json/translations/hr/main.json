@@ -1771,7 +1771,8 @@
   "menu is not sent": "Jelovnik nije poslan",
   "show client data": "prikaži podatke o klijentu",
   "show foods": "prikaži namirnice",
-  "show totals": "prikaži ukupne vrijednosti"
+  "show totals": "prikaži ukupne vrijednosti",
+  "show dish title": "prikaži naziv jela"
 
 
 }

@@ -73,7 +73,71 @@ public class PrintPdf : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string MenuPdf(string userId, Menues.NewMenu currentMenu, ClientsData.NewClientData clientData, Clients.NewClient client, Foods.Totals totals, int consumers, string lang, PrintMenuSettings settings) {
+    public string MenuPdf(string userId, Menues.NewMenu currentMenu, Foods.Totals totals, int consumers, string lang, PrintMenuSettings settings) {
+        try {
+            var doc = new Document();
+            string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
+            DeleteFolder(path);
+            CreateFolder(path);
+            string fileName = Guid.NewGuid().ToString();
+            string filePath = Path.Combine(path, string.Format("{0}.pdf", fileName));
+            PdfWriter.GetInstance(doc, new FileStream(filePath, FileMode.Create));
+
+            doc.Open();
+            AppendHeader(doc, userId);
+			ShowClientData(doc, currentMenu, settings.showClientData, lang);
+            doc.Add(new Paragraph(currentMenu.title, normalFont_12));
+            doc.Add(new Paragraph(currentMenu.note, normalFont_8));
+            if(consumers > 1) {
+                doc.Add(new Paragraph(t.Tran("number of consumers", lang) + ": " + consumers, normalFont_8));
+            }
+
+            doc.Add(new Chunk(line));
+            var meals = currentMenu.data.selectedFoods.Select(a => a.meal.code).Distinct().ToList();
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(string.Format(@"
+                                        "));
+
+            foreach (string m in meals) {
+                List<Foods.NewFood> meal = currentMenu.data.selectedFoods.Where(a => a.meal.code == m).ToList();
+                sb.AppendLine(AppendMeal(meal, currentMenu.data.meals, lang, settings));
+            }
+
+            doc.Add(new Paragraph(sb.ToString(), normalFont));
+
+            if (settings.showTotals) {
+                string tot = string.Format(@"
+{0}
+{1}: {5} kcal
+{2}: {6} g ({7})%
+{3}: {8} g ({9})%
+{4}: {10} g ({11})%",
+                        t.Tran("total", lang).ToUpper() + (consumers > 1 ? " (" + t.Tran("per consumer", lang) + ")" : ""),
+                        t.Tran("energy value", lang),
+                        t.Tran("carbohydrates", lang),
+                        t.Tran("proteins", lang),
+                        t.Tran("fats", lang),
+                        Convert.ToString(totals.energy),
+                        Convert.ToString(totals.carbohydrates),
+                        Convert.ToString(totals.carbohydratesPercentage),
+                        Convert.ToString(totals.proteins),
+                        Convert.ToString(totals.proteinsPercentage),
+                        Convert.ToString(totals.fats),
+                        Convert.ToString(totals.fatsPercentage)
+                        );
+                doc.Add(new Paragraph(tot, normalFont));
+            }
+            doc.Add(new Chunk(line));
+            doc.Close();
+
+            return fileName;
+        } catch(Exception e) {
+            return e.Message;
+        }
+    }
+
+    /*[WebMethod]
+    public string MenuPdf_old(string userId, Menues.NewMenu currentMenu, ClientsData.NewClientData clientData, Clients.NewClient client, Foods.Totals totals, int consumers, string lang, PrintMenuSettings settings) {
         try {
             var doc = new Document();
             string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
@@ -158,6 +222,7 @@ public class PrintPdf : System.Web.Services.WebService {
             return "";
         }
     }
+    */
 
     [WebMethod]
     public string WeeklyMenuPdf(string userId, string[] menuList, ClientsData.NewClientData clientData, int consumers, string lang, PrintMenuSettings settings) {
@@ -1208,17 +1273,17 @@ IBAN HR8423400091160342496
         return string.Format("/upload/users/{0}/img/{1}.png", userId, fileName);
     }
 	
-	private void ShowClientData(Document doc, Menues.NewMenu currentMenu, ClientsData.NewClientData clientData, Clients.NewClient client, bool showClientData, string lang){
+	private void ShowClientData(Document doc, Menues.NewMenu currentMenu, bool showClientData, string lang){
         if (showClientData) {
             doc.Add(new Paragraph(string.Format("{0} {1}"
-            , client.firstName
-            , client.lastName)
+            , currentMenu.client.firstName
+            , currentMenu.client.lastName)
             , normalFont_8));
             doc.Add(new Paragraph(string.Format("{0}, {1} {2} {3}"
-            , string.Format("{0}: {1} cm", t.Tran("height", lang), clientData.height)
-            , string.Format("{0}: {1} kg", t.Tran("weight", lang), clientData.weight)
-            , clientData.waist > 0 ? string.Format(", {0}: {1} kg", t.Tran("waist", lang), clientData.waist) : ""
-            , clientData.hip > 0 ? string.Format(", {0}: {1} kg", t.Tran("hip", lang), clientData.hip) : "")
+            , string.Format("{0}: {1} cm", t.Tran("height", lang), currentMenu.client.clientData.height)
+            , string.Format("{0}: {1} kg", t.Tran("weight", lang), currentMenu.client.clientData.weight)
+            , currentMenu.client.clientData.waist > 0 ? string.Format(", {0}: {1} kg", t.Tran("waist", lang), currentMenu.client.clientData.waist) : ""
+            , currentMenu.client.clientData.hip > 0 ? string.Format(", {0}: {1} kg", t.Tran("hip", lang), currentMenu.client.clientData.hip) : "")
             , normalFont_8));
             doc.Add(new Chunk(line));
         }

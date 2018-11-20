@@ -21,12 +21,21 @@ public class Meals : System.Web.Services.WebService {
     }
 
     public class NewMeal {
-        public string code { get; set; }
-        public string title { get; set; }
-        public string description { get; set; }
-        public bool isSelected { get; set; }
-        public bool isDisabled { get; set; }
+        public string code;
+        public string title;
+        public string description;
+
+        //TODO desctiption
+        // public List<DishDesctiption> description;
+
+        public bool isSelected;
+        public bool isDisabled;
        
+    }
+
+    public class DishDesctiption {
+        public string title;
+        public string description;
     }
 
     [WebMethod]

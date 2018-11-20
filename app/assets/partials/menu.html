@@ -35,11 +35,17 @@
                         </div>
                         <div>
                             <select ng-model="currentMeal" ng-change="toggleMeals(currentMeal)" class="form-control visible-xs text-capitalize">
+                                <option ng-selected="x.code==currentMeal?true:false" value="{{x.code}}" ng-if="x.isSelected==1" ng-repeat="x in currentMenu.data.meals">{{getMealTitle(x)}}</option>
+                            </select>
+                            <ul class="nav nav-tabs hidden-xs text-capitalize">
+                                <li ng-class="x.code==currentMeal?'active':''" ng-click="toggleMeals(x.code)" ng-if="x.isSelected==1" ng-repeat="x in currentMenu.data.meals"><a href="">{{getMealTitle(x)}}</a></li>
+                            </ul>
+                            <!--<select ng-model="currentMeal" ng-change="toggleMeals(currentMeal)" class="form-control visible-xs text-capitalize">
                                 <option ng-selected="x.code==currentMeal?true:false" value="{{x.code}}" ng-if="x.isSelected==1" ng-repeat="x in clientData.meals" >{{getMealTitle(x)}}</option>
                             </select>
                             <ul class="nav nav-tabs hidden-xs text-capitalize">
                                 <li ng-class="x.code==currentMeal?'active':''" ng-click="toggleMeals(x.code)" ng-if="x.isSelected==1" ng-repeat="x in clientData.meals"><a href="">{{getMealTitle(x)}}</a></li>
-                            </ul>
+                            </ul>-->
                         </div>
                         <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around">
                             <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
@@ -120,6 +126,10 @@
             <h4>Current Menu</h4>
             <div style="border:2px solid Red">
                 <pre>{{currentMenu | json}}</pre>
+            </div>
+            <h4>clientData.meals</h4>
+            <div style="border:2px solid Red">
+                <pre>{{clientData.meals | json}}</pre>
             </div>
             <h4>Calculation</h4>
             <div style="border:2px solid Red">
