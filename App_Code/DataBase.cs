@@ -26,9 +26,9 @@ namespace Igprog {
         public string prices = "prices";
         public string invoices = "invoices";
         public string recipes = "recipes";
+        public string meals = "meals";
 
         #region CreateTable (users.ddb)
-        //TODO
         public void Users(string path) {
             string sql = @"CREATE TABLE IF NOT EXISTS users
                         (userId NVARCHER (50),
@@ -188,6 +188,16 @@ namespace Igprog {
             CreateTable(path, sql);
         }
 
+        public void Meals(string path) {
+            string sql = @"CREATE TABLE IF NOT EXISTS meals
+                (id VARCHAR(50) PRIMARY KEY,
+                title NVARCHAR(50),
+                description NVARCHAR(200),
+                userId VARCHAR(50),
+                userGroupId VARCHAR(50))";
+            CreateTable(path, sql);
+        }
+
         public void Scheduler(string path) {
             string sql = @"CREATE TABLE IF NOT EXISTS scheduler
                 (room INTEGER,
@@ -322,6 +332,9 @@ namespace Igprog {
                     break;
                 case "recipes":
                     Recipes(path);
+                    break;
+                case "meals":
+                    Meals(path);
                     break;
                 default:
                     break;

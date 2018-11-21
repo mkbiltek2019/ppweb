@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Services;
+using System.Configuration;
 using Newtonsoft.Json;
+using System.Data.SQLite;
 using System.IO;
 using Igprog;
 
@@ -14,20 +16,33 @@ using Igprog;
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [System.Web.Script.Services.ScriptService]
 public class MyMeals : System.Web.Services.WebService {
+    string dataBase = ConfigurationManager.AppSettings["UserDataBase"];
+    DataBase db = new DataBase();
     string filename = "mymeals";
     Translate t = new Translate();
 
     public MyMeals() {
     }
 
-    public class Data {
+    public class MyMealsData {
+        //TODO 
+        public string id;
+        public string title;
+        public string description;
+        public string userId;
+        public string userGroupId;
         public List<Meals.NewMeal> meals;
         public List<Foods.MealsRecommendationEnergy> energyPerc;
     }
 
     [WebMethod]
-    public string Init() {
-        Data data = new Data();
+    public string Init(Users.NewUser user) {
+        MyMealsData data = new MyMealsData();
+        data.id = Guid.NewGuid().ToString();
+        data.title = null;
+        data.description = null;
+        data.userId = user.userId;
+        data.userGroupId = user.userGroupId;
         List<Meals.NewMeal> xx = new List<Meals.NewMeal>();
         List<Foods.MealsRecommendationEnergy> ee = new List<Foods.MealsRecommendationEnergy>();
         Meals.NewMeal x = new Meals.NewMeal();
@@ -48,8 +63,13 @@ public class MyMeals : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string Template(string lang) {
-        Data data = new Data();
+    public string Template(Users.NewUser user, string lang) {
+        MyMealsData data = new MyMealsData();
+        data.id = Guid.NewGuid().ToString();
+        data.title = t.Tran("template", lang);
+        data.description = t.Tran("this is only template, not a recommendation", lang);
+        data.userId = user.userId;
+        data.userGroupId = user.userGroupId;
         List<Meals.NewMeal> xx = new List<Meals.NewMeal>();
         List<Foods.MealsRecommendationEnergy> ee = new List<Foods.MealsRecommendationEnergy>();
         string meal = t.Tran("meal", lang);
@@ -97,11 +117,36 @@ public class MyMeals : System.Web.Services.WebService {
     [WebMethod]
     public string Load(string userId) {
         try {
-           List<Meals.NewMeal> xx = new List<Meals.NewMeal>();
+            List<Meals.NewMeal> xx = new List<Meals.NewMeal>();
             string json = GetJsonFile(userId, filename);
             return json;
         }
         catch (Exception e) { return ("Error: " + e); }
+    }
+
+    //TODO
+    [WebMethod]
+    public string Save_(string userId, MyMealsData x) {
+        db.CreateDataBase(userId, db.meals);
+        try {
+            string sql = "";
+            //if (x.id == null) {
+            //    x.id = Convert.ToString(Guid.NewGuid());
+            //}
+
+            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
+            connection.Open();
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+            sql = string.Format(@"BEGIN;
+                    INSERT OR REPLACE INTO meals (id, title, description, userId, userGroupId)
+                    VALUES ('{0}', '{1}', '{2}', '{3}', '{4}');
+                    COMMIT;");
+            command = new SQLiteCommand(sql, connection);
+            command.ExecuteNonQuery();
+            connection.Close();
+            SaveJsonToFile(userId, filename, JsonConvert.SerializeObject(x.meals, Formatting.Indented));
+            return JsonConvert.SerializeObject(x, Formatting.Indented);
+        } catch (Exception e) { return (e.Message); }
     }
 
     [WebMethod]
