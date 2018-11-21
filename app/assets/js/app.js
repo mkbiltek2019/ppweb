@@ -2488,40 +2488,82 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 .controller('mealsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
     var webService = 'Meals.asmx';
 
-    var load = function () {
+    $scope.toggleTpl = function (x) {
+        $scope.tpl = x;
+    }
+    if ($rootScope.isMyMeals == undefined || $rootScope.isMyMeals == false) {
+        $scope.toggleTpl('standardMeals');
+    } else if ($rootScope.isMyMeals == true) {
+        $scope.toggleTpl('myMeals');
+    }
+}])
+
+.controller('standardMealsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
+        var webService = 'Meals.asmx';
+        $rootScope.isMyMeals = false;
+
+        var load = function () {
+            $http({
+                url: $sessionStorage.config.backend + webService + '/Load',
+                method: "POST",
+                data: ''
+            })
+            .then(function (response) {
+                $rootScope.clientData.meals = JSON.parse(response.data.d);
+                // TODO translate meals on server side
+                angular.forEach($rootScope.clientData.meals, function (value, key) {
+                    $rootScope.clientData.meals[key].title = $translate.instant($rootScope.clientData.meals[key].title);
+                })
+            },
+            function (response) {
+                alert(response.data.d)
+            });
+        };
+        if ($rootScope.clientData.meals.length == 0) {
+            load();
+        } else if ($rootScope.clientData.meals[0].code != 'B') {
+            load();
+        }
+
+    }])
+
+.controller('myMealsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
+    var webService = 'MyMeals.asmx';
+
+    $scope.load = function () {
         $http({
             url: $sessionStorage.config.backend + webService + '/Load',
             method: "POST",
-            data: ''
+            data: { userId: $sessionStorage.usergroupid }
         })
         .then(function (response) {
             $rootScope.clientData.meals = JSON.parse(response.data.d);
-            // TODO translate meals on server side
-            angular.forEach($rootScope.clientData.meals, function (value, key) {
-                $rootScope.clientData.meals[key].title = $translate.instant($rootScope.clientData.meals[key].title);
-            })
+        },
+        function (response) {
+            functions.alert($translate.instant(response.data.d), '');
+        });
+    }
+
+    var init = function () {
+        $http({
+            url: $sessionStorage.config.backend + webService + '/Init',
+            method: "POST",
+            data: {}
+        })
+        .then(function (response) {
+            $rootScope.myMeals = JSON.parse(response.data.d);
+            $rootScope.clientData.meals = $scope.myMeals.meals;
+            $rootScope.isMyMeals = true;
         },
         function (response) {
             alert(response.data.d)
         });
-    };
-
-    if ($rootScope.clientData.meals.length == 0) {
-        load();
     }
-
-    //Only while developing myMeals
-    $scope.backToStandardMeals = function () {
-        $rootScope.myMeals = null;
-        load();
-        //TODO currentMenu = [];
+    if ($rootScope.clientData.meals.length > 0) {
+        if ($rootScope.clientData.meals[0].code == 'B') {
+            init();
+        }
     }
-
-
-}])
-
-.controller('myMealsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
-    var webService = 'MyMeals.asmx';
     
     $scope.getTemplate = function () {
         $http({
@@ -2533,21 +2575,43 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $rootScope.myMeals = JSON.parse(response.data.d);
             $rootScope.clientData.meals = $scope.myMeals.meals;
             $rootScope.isMyMeals = true;
-            //angular.forEach($rootScope.clientData.meals, function (value, key) {
-            //    $rootScope.clientData.meals[key].title = $translate.instant($rootScope.clientData.meals[key].title);
-            //})
         },
         function (response) {
             alert(response.data.d)
         });
     }
 
+    $scope.add = function () {
+        $rootScope.clientData.meals.push({
+            code: "MM" + $rootScope.clientData.meals.length + 1,
+               title: "",
+               description: "",
+               isSelected: true,
+               isDisabled: false
+           });
+    }
 
+    $scope.remove = function (idx) {
+        $rootScope.clientData.meals.splice(idx, 1);
+    }
 
-    //if ($rootScope.clientData.meals.length == 0) {
-    //    load();
-    //}
+    $scope.save = function () {
+        $http({
+            url: $sessionStorage.config.backend + webService + '/Save',
+            method: "POST",
+            data: { userId: $sessionStorage.usergroupid, json: JSON.stringify($rootScope.clientData.meals) }
+        })
+        .then(function (response) {
+            $rootScope.clientData.meals = JSON.parse(response.data.d);
+        },
+        function (response) {
+            functions.alert($translate.instant(response.data.d), '');
+        });
+    }
 
+    $scope.delete = function () {
+        alert('TODO');
+    }
 }])
 
 .controller('menuCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'charts', '$timeout', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, charts, $timeout, functions, $translate) {

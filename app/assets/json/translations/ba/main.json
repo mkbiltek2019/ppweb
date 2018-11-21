@@ -1772,6 +1772,8 @@
   "show client data": "prikaži podatke o klijentu",
   "show foods": "prikaži namirnice",
   "show totals": "prikaži ukupne vrijednosti",
-  "show dish title": "prikaži naziv jela"
+  "show dish title": "prikaži naziv jela",
+  "standard meals": "Standardni obroci",
+  "my meals": "Moji obroci"
 
 }
