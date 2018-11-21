@@ -2537,7 +2537,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { userId: $sessionStorage.usergroupid }
         })
         .then(function (response) {
-            $rootScope.clientData.meals = JSON.parse(response.data.d);
+            $rootScope.myMeals = JSON.parse(response.data.d);
+            $rootScope.clientData.meals = $scope.myMeals.data.meals;
         },
         function (response) {
             functions.alert($translate.instant(response.data.d), '');
@@ -2548,11 +2549,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + webService + '/Init',
             method: "POST",
-            data: {}
+            data: { user: $rootScope.user }
         })
         .then(function (response) {
             $rootScope.myMeals = JSON.parse(response.data.d);
-            $rootScope.clientData.meals = $scope.myMeals.meals;
+            $rootScope.clientData.meals = $scope.myMeals.data.meals;
             $rootScope.isMyMeals = true;
         },
         function (response) {
@@ -2569,11 +2570,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + webService + '/Template',
             method: "POST",
-            data: { lang: $rootScope.config.language }
+            data: { user: $rootScope.user, lang: $rootScope.config.language }
         })
         .then(function (response) {
             $rootScope.myMeals = JSON.parse(response.data.d);
-            $rootScope.clientData.meals = $scope.myMeals.meals;
+            $rootScope.clientData.meals = $scope.myMeals.data.meals;
             $rootScope.isMyMeals = true;
         },
         function (response) {
@@ -2596,13 +2597,31 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.save = function () {
+        $rootScope.myMeals.data.meals = $rootScope.clientData.meals;
+        //TODO energy recommendations for my meals
         $http({
             url: $sessionStorage.config.backend + webService + '/Save',
             method: "POST",
-            data: { userId: $sessionStorage.usergroupid, json: JSON.stringify($rootScope.clientData.meals) }
+            data: { userId: $sessionStorage.usergroupid, x: $rootScope.myMeals }
         })
         .then(function (response) {
-            $rootScope.clientData.meals = JSON.parse(response.data.d);
+            $rootScope.myMeals = JSON.parse(response.data.d);
+            $rootScope.clientData.meals = $scope.myMeals.data.meals;
+        },
+        function (response) {
+            functions.alert($translate.instant(response.data.d), '');
+        });
+    }
+
+    $scope.get = function (id) {
+        $http({
+            url: $sessionStorage.config.backend + webService + '/Get',
+            method: "POST",
+            data: { userId: $sessionStorage.usergroupid, id: id }
+        })
+        .then(function (response) {
+            $rootScope.myMeals = JSON.parse(response.data.d);
+            $rootScope.clientData.meals = $scope.myMeals.data.meals;
         },
         function (response) {
             functions.alert($translate.instant(response.data.d), '');
@@ -2673,7 +2692,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         if (!$rootScope.myMeals) {
             energyPerc = null;
         } else {
-            energyPerc = $rootScope.myMeals.energyPerc;
+            energyPerc = $rootScope.myMeals.data.energyPerc;
         }
         $http({
             url: $sessionStorage.config.backend + webService + '/GetRecommendations',
@@ -2829,6 +2848,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         var initFood = null;
 
         var initFoodForEdit = function (x) {
+            debugger;
             $http({
                 url: $sessionStorage.config.backend + 'Foods.asmx/InitFoodForEdit',
                 method: "POST",
@@ -2843,7 +2863,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         var isEditMode = false;
-        if (d.food === undefined || d.food.length == 0) {
+        //if (d.food === undefined || d.food.length == 0) {
+        if (d.food == null) {
             $scope.food = null;
             initFood = null;
             isEditMode = false;
@@ -4949,7 +4970,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             templateUrl: 'assets/partials/popup/food.html',
             parent: angular.element(document.body),
             clickOutsideToClose: true,
-            d: { foods:$rootScope.foods, myFoods:$rootScope.myFoods, foodGroups:$rootScope.foodGroups, food:food, idx:idx, config:$rootScope.config }
+            d: { foods: $rootScope.foods, myFoods: $rootScope.myFoods, foodGroups: $rootScope.foodGroups, food: food, idx: idx, config: $rootScope.config }
         })
     .then(function (x) {
         $scope.food = x;

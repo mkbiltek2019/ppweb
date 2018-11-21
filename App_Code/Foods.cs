@@ -83,6 +83,12 @@ public class Foods : System.Web.Services.WebService {
         public double vitaminK { get; set; }
 
         public Prices.UnitPrice price = new Prices.UnitPrice();
+
+        public NewFood DeepCopy() {
+            NewFood othercopy = (NewFood)this.MemberwiseClone();
+            return othercopy;
+        }
+
     }
 
     public class FoodData {
@@ -670,9 +676,9 @@ public class Foods : System.Web.Services.WebService {
 
     [WebMethod]
     public string ChangeFoodQuantity(NewFood initFood, double newQuantity, double newMass, string type, ThermalTreatment thermalTreatment) {
-        NewFood x = new NewFood();
         double k = 1;
-        x = initFood;
+        NewFood x = initFood.DeepCopy();
+
         switch (type) {
             case "quantity":
                 k = newQuantity / initFood.quantity;
@@ -691,9 +697,9 @@ public class Foods : System.Web.Services.WebService {
 
 		if(thermalTreatment != null) {
 			if (!string.IsNullOrEmpty(thermalTreatment.thermalTreatment.code)) {
-				x = IncludeTT(initFood, x, thermalTreatment);
-			}
-		}
+                x = IncludeTT(initFood, x, thermalTreatment);
+            }
+        }
         string json = JsonConvert.SerializeObject(x, Formatting.Indented);
         return json;
     }
@@ -748,12 +754,7 @@ public class Foods : System.Web.Services.WebService {
     [WebMethod]
     public string InitFoodForEdit(NewFood food) {
         try {
-            double k = 1 / food.quantity;
-            food.mass = SmartRound(food.mass * k);
-            food.quantity = 1;
-            food = ChangeFQ(food, food, k);
-            food = ExcludeTT(food);
-            return JsonConvert.SerializeObject(food, Formatting.Indented);
+            return JsonConvert.SerializeObject(InitFood(food), Formatting.Indented);
         } catch (Exception e) { return ("Error: " + e); }
     }
     #endregion
@@ -2779,6 +2780,15 @@ public class Foods : System.Web.Services.WebService {
 
     private double SmartRound(double value) {
         return Math.Round(value, DecimalPlace(value));
+    }
+
+    public NewFood InitFood(NewFood food) {
+        double k = 1 / food.quantity;
+        food.mass = SmartRound(food.mass * k);
+        food.quantity = 1;
+        food = ChangeFQ(food, food, k);
+        food = ExcludeTT(food);
+        return food;
     }
 
     private NewFood IncludeTT(NewFood initFood, NewFood food, ThermalTreatment tt) {

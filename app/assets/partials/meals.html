@@ -30,6 +30,8 @@
         <button ng-click="load()" class="btn btn-default">{{'load' | translate}}</button>
         <button ng-click="save()" class="btn btn-default">{{'save' | translate}}</button>
         <button ng-click="delete()" class="btn btn-default">{{'delete' | translate}}</button>
+        <input ng-model="id" class="form-control" placeholder="id" />
+        <button ng-click="get(id)" class="btn btn-default">{{'get' | translate}}</button>
         <div class="table-responsive">
             <table class="table table-condensed">
                 <tr>
@@ -41,15 +43,22 @@
                 </tr>
                 <tr ng-repeat="x in clientData.meals">
                     <td>
-                        <button ng-click="remove($index)" class="btn btn-default">{{'remove' | translate}}</button>
-                        <button ng-click="add()" class="btn btn-default">{{'add' | translate}}</button>
+                        <button ng-click="remove($index)" class="btn btn-default">{{'delete' | translate}}</button>
                     </td>
                     <td ng-if="config.debug"><input ng-model="x.code" class="form-control" /></td>
                     <td><input ng-model="x.title" class="form-control" /></td>
                     <td><input ng-model="x.description" class="form-control" /></td>
                     <td ng-if="config.debug"><md-checkbox ng-model="x.isSelected" class="md-primary"></md-checkbox></td>
                 </tr>
+                <tr>
+                    <td>
+                        <button ng-click="add()" class="btn btn-default">{{'add' | translate}}</button>
+                    </td>
+                </tr>
             </table>
+        </div>
+        <div ng-if="config.debug">
+            <pre>{{myMeals | json}}</pre>
         </div>
     </div>
 </script>
