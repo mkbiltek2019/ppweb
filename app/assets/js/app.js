@@ -280,6 +280,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             if (validateForm() == false) {
                 return false;
             };
+            if ($rootScope.clientData.meals == null) {
+                $rootScope.newTpl = 'assets/partials/meals.html';
+                $rootScope.selectedNavItem = 'meals';
+                functions.alert($translate.instant('choose meals'), '');
+                return false;
+            }
             if (x == 'menu' && $rootScope.clientData.meals.length > 0 && !$rootScope.isMyMeals && $rootScope.clientData.meals[0].code == 'B') {
                 if ($rootScope.clientData.meals[1].isSelected == false && $rootScope.clientData.meals[5].isSelected == true) {
                     $rootScope.newTpl = './assets/partials/meals.html';
@@ -318,6 +324,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         if (validateForm() == false) {
             return false;
         };
+        if ($rootScope.clientData.meals == null) {
+            $rootScope.newTpl = 'assets/partials/meals.html';
+            $rootScope.selectedNavItem = 'meals';
+            functions.alert($translate.instant('choose meals'), '');
+            return false;
+        }
         if ($rootScope.clientData.meals.length > 0 && !$rootScope.isMyMeals && $rootScope.clientData.meals[0].code == 'B') {
             if ($rootScope.clientData.meals[1].isSelected == false && $rootScope.clientData.meals[5].isSelected == true) {
                 $rootScope.newTpl = 'assets/partials/meals.html';
@@ -2491,11 +2503,18 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.toggleTpl = function (x) {
         $scope.tpl = x;
     }
-    if ($rootScope.isMyMeals == undefined || $rootScope.isMyMeals == false) {
+
+    if ($rootScope.clientData.meals[0].code == 'B') {
         $scope.toggleTpl('standardMeals');
-    } else if ($rootScope.isMyMeals == true) {
+    } else {
         $scope.toggleTpl('myMeals');
     }
+
+    //if ($rootScope.isMyMeals == undefined || $rootScope.isMyMeals == false) {
+    //    $scope.toggleTpl('standardMeals');
+    //} else if ($rootScope.isMyMeals == true) {
+    //    $scope.toggleTpl('myMeals');
+    //}
 }])
 
 .controller('standardMealsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
@@ -2530,21 +2549,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 .controller('myMealsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
     var webService = 'MyMeals.asmx';
 
-    $scope.load = function () {
-        $http({
-            url: $sessionStorage.config.backend + webService + '/Load',
-            method: "POST",
-            data: { userId: $sessionStorage.usergroupid }
-        })
-        .then(function (response) {
-            $scope.mealsList = JSON.parse(response.data.d);
-        },
-        function (response) {
-            functions.alert($translate.instant(response.data.d), '');
-        });
-    }
-    $scope.load();
-
     var init = function () {
         $http({
             url: $sessionStorage.config.backend + webService + '/Init',
@@ -2553,18 +2557,55 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             $rootScope.myMeals = JSON.parse(response.data.d);
-            $rootScope.clientData.meals = $scope.myMeals.data.meals;
+            $rootScope.clientData.meals = $rootScope.myMeals.data.meals;
             $rootScope.isMyMeals = true;
         },
         function (response) {
             alert(response.data.d)
         });
     }
-    if ($rootScope.clientData.meals.length > 0) {
-        if ($rootScope.clientData.meals[0].code == 'B') {
-            init();
-        }
+
+    $scope.get = function (id) {
+        $http({
+            url: $sessionStorage.config.backend + webService + '/Get',
+            method: "POST",
+            data: { userId: $sessionStorage.usergroupid, id: id }
+        })
+        .then(function (response) {
+            $rootScope.myMeals = JSON.parse(response.data.d);
+            $rootScope.clientData.meals = $rootScope.myMeals.data.meals;
+        },
+        function (response) {
+            functions.alert($translate.instant(response.data.d), '');
+        });
     }
+
+    //$scope.load = function () {
+    //    $http({
+    //        url: $sessionStorage.config.backend + webService + '/Load',
+    //        method: "POST",
+    //        data: { userId: $sessionStorage.usergroupid }
+    //    })
+    //    .then(function (response) {
+    //        $scope.mealsList = JSON.parse(response.data.d);
+    //        if ($scope.mealsList.length > 0) {
+    //            $scope.get($scope.mealsList[$scope.mealsList.length - 1].id);
+    //        } else {
+    //            init();
+    //        }
+    //    },
+    //    function (response) {
+    //        functions.alert($translate.instant(response.data.d), '');
+    //    });
+    //}
+    //$scope.load();
+
+    
+    //if ($rootScope.clientData.meals.length > 0) {
+    //    if ($rootScope.clientData.meals[0].code == 'B') {
+    //        init();
+    //    }
+    //}
 
     $scope.new = function () {
         init();
@@ -2578,7 +2619,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             $rootScope.myMeals = JSON.parse(response.data.d);
-            $rootScope.clientData.meals = $scope.myMeals.data.meals;
+            $rootScope.clientData.meals = $rootScope.myMeals.data.meals;
             $rootScope.isMyMeals = true;
         },
         function (response) {
@@ -2587,51 +2628,57 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.add = function () {
-        $rootScope.clientData.meals.push({
-            code: "MM" + $rootScope.clientData.meals.length + 1,
-               title: "",
-               description: "",
-               isSelected: true,
-               isDisabled: false
-           });
+        $rootScope.myMeals.data.meals.push({
+            code: "",
+            title: "",
+            description: "",
+            isSelected: true,
+            isDisabled: false
+        });
+        $rootScope.myMeals.data.energyPerc.push({
+            meal: {
+                code: "",
+                energyMinPercentage: 0,
+                energyMaxPercentage: 0,
+                energyMin: 0,
+                energyMax: 0
+            }
+        });
     }
 
-    $scope.remove = function (idx) {
+    $scope.removeMeal = function (idx) {
         $rootScope.clientData.meals.splice(idx, 1);
     }
 
     $scope.save = function () {
-       // $rootScope.myMeals.data.meals = $rootScope.clientData.meals;
-        //TODO energy recommendations for my meals
         $http({
             url: $sessionStorage.config.backend + webService + '/Save',
             method: "POST",
             data: { userId: $sessionStorage.usergroupid, x: $rootScope.myMeals }
         })
         .then(function (response) {
-            $scope.mealsList = JSON.parse(response.data.d);
-        },
-        function (response) {
-            functions.alert($translate.instant(response.data.d), '');
-        });
-    }
-
-    $scope.get = function (id) {
-        $http({
-            url: $sessionStorage.config.backend + webService + '/Get',
-            method: "POST",
-            data: { userId: $sessionStorage.usergroupid, id: id }
-        })
-        .then(function (response) {
             $rootScope.myMeals = JSON.parse(response.data.d);
-            $rootScope.clientData.meals = $scope.myMeals.data.meals;
+            $rootScope.clientData.meals = $rootScope.myMeals.data.meals;
         },
         function (response) {
             functions.alert($translate.instant(response.data.d), '');
         });
     }
 
-    $scope.delete = function (id) {
+    $scope.remove = function (id) {
+        var confirm = $mdDialog.confirm()
+            .title($translate.instant('delete meals') + '?')
+            .textContent()
+            .targetEvent()
+            .ok($translate.instant('yes'))
+            .cancel($translate.instant('no'));
+        $mdDialog.show(confirm).then(function () {
+            remove(id);
+        }, function () {
+        });
+    };
+
+    remove = function (id) {
         $http({
             url: $sessionStorage.config.backend + webService + '/Delete',
             method: "POST",
@@ -2639,11 +2686,82 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             $scope.mealsList = JSON.parse(response.data.d);
+            init();
         },
         function (response) {
             functions.alert($translate.instant(response.data.d), '');
         });
     }
+
+    $scope.search = function () {
+        openMyMealsPopup();
+    }
+
+    var openMyMealsPopup = function () {
+        $mdDialog.show({
+            controller: getMyMealsPopupCtrl,
+            templateUrl: 'assets/partials/popup/mymeals.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true,
+        })
+        .then(function (response) {
+            debugger;
+            $rootScope.myMeals = response;
+            $rootScope.clientData.meals = $rootScope.myMeals.data.meals;
+        }, function () {
+        });
+    };
+
+    var getMyMealsPopupCtrl = function ($scope, $mdDialog, $http) {
+        $scope.limit = 20;
+
+        $scope.loadMore = function () {
+            $scope.limit += 20;
+        }
+
+        var load = function () {
+            $scope.loading = true;
+            $http({
+                url: $sessionStorage.config.backend + 'MyMeals.asmx/Load',
+                method: "POST",
+                data: { userId: $rootScope.user.userGroupId }
+            })
+           .then(function (response) {
+               $scope.d = JSON.parse(response.data.d);
+               $scope.loading = false;
+           },
+           function (response) {
+               $scope.loading = false;
+               alert(response.data.d);
+           });
+        }
+        load();
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+
+        var get = function (x) {
+            $http({
+                url: $sessionStorage.config.backend + 'MyMeals.asmx/Get',
+                method: "POST",
+                data: { userId: $rootScope.user.userGroupId, id: x.id }
+            })
+            .then(function (response) {
+                $scope.meals = JSON.parse(response.data.d);
+                $mdDialog.hide($scope.meals);
+            },
+            function (response) {
+                alert(response.data.d)
+            });
+        }
+
+        $scope.confirm = function (x) {
+            get(x);
+        }
+
+    };
+
 }])
 
 .controller('menuCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'charts', '$timeout', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, charts, $timeout, functions, $translate) {

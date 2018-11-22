@@ -1768,6 +1768,10 @@
   "show totals": "прикажи укупне вредности",
   "show dish title": "прикажи назив јела",
   "standard meals": "Стандардни оброци",
-  "my meals": "Моји оброци"
+  "my meals": "Моји оброци",
+  "example": "пример",
+  "add meal": "додај оброк",
+  "delete meals": "избриши оброке",
+  "you do not have any mealse": "немате спремљене оброке"
 
 }

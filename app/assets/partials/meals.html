@@ -28,28 +28,17 @@
     <div ng-controller="myMealsCtrl" class="mt20">
         <div class="panel-heading text-capitalize">
             <div>
-                <a href="" ng-click="new()" class="btn btn-default m2"><i class="fa fa-file-o"></i> {{'new meals' | translate}}</a>
-                <a href="" ng-click="save()" class="btn btn-default m2"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</a>
-                <a href="" ng-click="delete()" class="btn btn-default m2"><i class="fa fa-trash-o"></i> {{'delete' | translate}}</a>
+                <a href="" ng-click="new()" class="btn btn-default m2"><i class="fa fa-file-o"></i> {{'new' | translate}} {{'meals' | translate}}</a>
+                <a href="" class="btn btn-default m2" ng-click="search()"><i class="fa fa-search"></i> {{'search' | translate}}</a>
+                <a ng-disabled="myMeals.data.meals.length==0" href="" ng-click="save()" class="btn btn-default m2"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</a>
+                <a ng-disabled="myMeals.id==null" href="" ng-click="remove(myMeals.id)" class="btn btn-default m2"><span class="text-danger"><i class="fa fa-trash-o"></i> {{'delete' | translate}}</span></a>
                 <a href="" ng-click="getTemplate()" class="btn btn-default m2"><i class="fa fa-file-text-o"></i> {{'example' | translate}}</a>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-4">
-                <md-input-container class="md-block" flex-gt-xs>
-                    <label>{{'my meals' | translate}}</label>
-                    <md-select ng-model="currMeals" ng-change="get(currMeals.id)">
-                        <md-option ng-value="x" ng-repeat="x in mealsList">
-                            <md-checkbox ng-checked="x.id==currMeals.id" class="md-primary" aria-label="serv">{{x.title}}</md-checkbox>
-                        </md-option>
-                    </md-select>
-                </md-input-container>
             </div>
         </div>
         <div class="mt20">
             <div class="text-capitalize">
                 <md-input-container class="md-block" flex-gt-sm>
-                    <label>{{'meal title' | translate}}</label>
+                    <label>{{'title' | translate}}</label>
                     <input ng-model="myMeals.title" type="text">
                 </md-input-container>
                 <md-input-container class="md-block" flex-gt-sm>
@@ -62,26 +51,26 @@
                     <tr>
                         <td></td>
                         <!--<td ng-if="config.debug">code</td>-->
-                        <td>{{'title' | translate}}</td>
+                        <td>{{'meals' | translate}}</td>
                         <td>{{'description' | translate}}</td>
-                        <td>{{'min perc' | translate}}</td>
-                        <td>{{'max perc' | translate}}</td>
+                        <td>{{'min' | translate}} %</td>
+                        <td>{{'max' | translate}} %</td>
                         <!--<td ng-if="config.debug">{{'on' | translate}}/{{'of' | translate}}</td>-->
                     </tr>
                     <tr ng-repeat="x in myMeals.data.meals">
                         <td>
-                            <a href="" ng-click="remove($index)" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-times text-danger"></i></a>
+                            <a href="" ng-click="removeMeal($index)" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-times text-danger"></i></a>
                         </td>
                         <!--<td ng-if="config.debug"><input ng-model="x.code" class="form-control" /></td>-->
                         <td><input ng-model="x.title" class="form-control" /></td>
                         <td><input ng-model="x.description" class="form-control" /></td>
-                        <td><input ng-model="myMeals.data.energyPerc[$index].meal.energyMinPercentage" class="form-control" /></td>
-                        <td><input ng-model="myMeals.data.energyPerc[$index].meal.energyMaxPercentage" class="form-control" /></td>
+                        <td><input ng-model="myMeals.data.energyPerc[$index].meal.energyMinPercentage" class="form-control" type="number" /></td>
+                        <td><input ng-model="myMeals.data.energyPerc[$index].meal.energyMaxPercentage" class="form-control" type="number" /></td>
                         <!--<td ng-if="config.debug"><md-checkbox ng-model="x.isSelected" class="md-primary"></md-checkbox></td>-->
                     </tr>
                     <tr>
                         <td colspan="5">
-                            <button ng-click="add()" class="btn btn-default">{{'add' | translate}}</button>
+                            <a href="" ng-click="add()" class="btn btn-primary"><i class="fa fa-plus"></i> {{'add meal' | translate}}</a>
                         </td>
                     </tr>
                 </table>
@@ -89,14 +78,14 @@
         </div>
         
 
-        <div ng-if="config.debug">
-            <code>{{currMeals}}</code>
+        <!--<div ng-if="config.debug">
+            mealsList:
             <pre>{{mealsList | json}}</pre>
-
+            myMeals:
             <pre>{{myMeals | json}}</pre>
-
+            clientData.meals:
             <pre>{{clientData.meals | json}}</pre>
-        </div>
+        </div>-->
     </div>
 </script>
 
