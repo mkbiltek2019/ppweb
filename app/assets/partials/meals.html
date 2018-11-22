@@ -5,7 +5,7 @@
             <li ng-class="tpl=='myMeals'?'active':''" ng-click="toggleTpl('myMeals')"><a href="#"><i class="fa fa-line-chart"></i> <span class="text-capitalize">{{'my meals' | translate}}</span></a></li>
         </ul>
     </div>
-    <div ng-include="tpl" class="mt60"></div>
+    <div ng-include="tpl"></div>
     <div>
         <a href="" ng-if="client.clientId" class="btn btn-default btn-lg center center-left" title="{{'back' | translate}}" ng-click="toggleNewTpl('diets')"><i class="fa fa-angle-double-left fa-2x text-primary" aria-hidden="true"></i></a>
         <a href="" ng-if="client.clientId" class="btn btn-default btn-lg center center-right" title="{{'forward' | translate}}" ng-click="toggleNewTpl('menu')"><i class="fa fa-angle-double-right fa-2x text-primary" aria-hidden="true"></i></a>
@@ -13,7 +13,7 @@
 </div>
 
 <script type="text/ng-template" id="standardMeals">
-    <div ng-controller="standardMealsCtrl" class="row">
+    <div ng-controller="standardMealsCtrl" class="row mt60">
         <div class="col-md-offset-5 p20">
             <div ng-repeat="x in clientData.meals">
                 <md-checkbox ng-model="x.isSelected" class="md-primary" ng-disabled="x.isDisabled">
@@ -25,40 +25,77 @@
 </script>
 
 <script type="text/ng-template" id="myMeals">
-    <div ng-controller="myMealsCtrl">
-        <button ng-click="getTemplate()" class="btn btn-default">get Template</button>
-        <button ng-click="load()" class="btn btn-default">{{'load' | translate}}</button>
-        <button ng-click="save()" class="btn btn-default">{{'save' | translate}}</button>
-        <button ng-click="delete()" class="btn btn-default">{{'delete' | translate}}</button>
-        <input ng-model="id" class="form-control" placeholder="id" />
-        <button ng-click="get(id)" class="btn btn-default">{{'get' | translate}}</button>
-        <div class="table-responsive">
-            <table class="table table-condensed">
-                <tr>
-                    <td></td>
-                    <td ng-if="config.debug">code</td>
-                    <td>{{'title' | translate}}</td>
-                    <td>{{'description' | translate}}</td>
-                    <td ng-if="config.debug">{{'on' | translate}}/{{'of' | translate}}</td>
-                </tr>
-                <tr ng-repeat="x in clientData.meals">
-                    <td>
-                        <button ng-click="remove($index)" class="btn btn-default">{{'delete' | translate}}</button>
-                    </td>
-                    <td ng-if="config.debug"><input ng-model="x.code" class="form-control" /></td>
-                    <td><input ng-model="x.title" class="form-control" /></td>
-                    <td><input ng-model="x.description" class="form-control" /></td>
-                    <td ng-if="config.debug"><md-checkbox ng-model="x.isSelected" class="md-primary"></md-checkbox></td>
-                </tr>
-                <tr>
-                    <td>
-                        <button ng-click="add()" class="btn btn-default">{{'add' | translate}}</button>
-                    </td>
-                </tr>
-            </table>
+    <div ng-controller="myMealsCtrl" class="mt20">
+        <div class="panel-heading text-capitalize">
+            <div>
+                <a href="" ng-click="new()" class="btn btn-default m2"><i class="fa fa-file-o"></i> {{'new meals' | translate}}</a>
+                <a href="" ng-click="save()" class="btn btn-default m2"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</a>
+                <a href="" ng-click="delete()" class="btn btn-default m2"><i class="fa fa-trash-o"></i> {{'delete' | translate}}</a>
+                <a href="" ng-click="getTemplate()" class="btn btn-default m2"><i class="fa fa-file-text-o"></i> {{'example' | translate}}</a>
+            </div>
         </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'my meals' | translate}}</label>
+                    <md-select ng-model="currMeals" ng-change="get(currMeals.id)">
+                        <md-option ng-value="x" ng-repeat="x in mealsList">
+                            <md-checkbox ng-checked="x.id==currMeals.id" class="md-primary" aria-label="serv">{{x.title}}</md-checkbox>
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+        </div>
+        <div class="mt20">
+            <div class="text-capitalize">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>{{'meal title' | translate}}</label>
+                    <input ng-model="myMeals.title" type="text">
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>{{'description' | translate}}...</label>
+                    <textarea ng-model="myMeals.description" rows="3" class="area"></textarea>
+                </md-input-container>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-condensed">
+                    <tr>
+                        <td></td>
+                        <!--<td ng-if="config.debug">code</td>-->
+                        <td>{{'title' | translate}}</td>
+                        <td>{{'description' | translate}}</td>
+                        <td>{{'min perc' | translate}}</td>
+                        <td>{{'max perc' | translate}}</td>
+                        <!--<td ng-if="config.debug">{{'on' | translate}}/{{'of' | translate}}</td>-->
+                    </tr>
+                    <tr ng-repeat="x in myMeals.data.meals">
+                        <td>
+                            <a href="" ng-click="remove($index)" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-times text-danger"></i></a>
+                        </td>
+                        <!--<td ng-if="config.debug"><input ng-model="x.code" class="form-control" /></td>-->
+                        <td><input ng-model="x.title" class="form-control" /></td>
+                        <td><input ng-model="x.description" class="form-control" /></td>
+                        <td><input ng-model="myMeals.data.energyPerc[$index].meal.energyMinPercentage" class="form-control" /></td>
+                        <td><input ng-model="myMeals.data.energyPerc[$index].meal.energyMaxPercentage" class="form-control" /></td>
+                        <!--<td ng-if="config.debug"><md-checkbox ng-model="x.isSelected" class="md-primary"></md-checkbox></td>-->
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <button ng-click="add()" class="btn btn-default">{{'add' | translate}}</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+
         <div ng-if="config.debug">
+            <code>{{currMeals}}</code>
+            <pre>{{mealsList | json}}</pre>
+
             <pre>{{myMeals | json}}</pre>
+
+            <pre>{{clientData.meals | json}}</pre>
         </div>
     </div>
 </script>

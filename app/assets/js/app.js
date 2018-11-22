@@ -2537,13 +2537,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { userId: $sessionStorage.usergroupid }
         })
         .then(function (response) {
-            $rootScope.myMeals = JSON.parse(response.data.d);
-            $rootScope.clientData.meals = $scope.myMeals.data.meals;
+            $scope.mealsList = JSON.parse(response.data.d);
         },
         function (response) {
             functions.alert($translate.instant(response.data.d), '');
         });
     }
+    $scope.load();
 
     var init = function () {
         $http({
@@ -2564,6 +2564,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         if ($rootScope.clientData.meals[0].code == 'B') {
             init();
         }
+    }
+
+    $scope.new = function () {
+        init();
     }
     
     $scope.getTemplate = function () {
@@ -2597,7 +2601,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.save = function () {
-        $rootScope.myMeals.data.meals = $rootScope.clientData.meals;
+       // $rootScope.myMeals.data.meals = $rootScope.clientData.meals;
         //TODO energy recommendations for my meals
         $http({
             url: $sessionStorage.config.backend + webService + '/Save',
@@ -2605,8 +2609,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { userId: $sessionStorage.usergroupid, x: $rootScope.myMeals }
         })
         .then(function (response) {
-            $rootScope.myMeals = JSON.parse(response.data.d);
-            $rootScope.clientData.meals = $scope.myMeals.data.meals;
+            $scope.mealsList = JSON.parse(response.data.d);
         },
         function (response) {
             functions.alert($translate.instant(response.data.d), '');
@@ -2628,8 +2631,18 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         });
     }
 
-    $scope.delete = function () {
-        alert('TODO');
+    $scope.delete = function (id) {
+        $http({
+            url: $sessionStorage.config.backend + webService + '/Delete',
+            method: "POST",
+            data: { userId: $sessionStorage.usergroupid, id: id }
+        })
+        .then(function (response) {
+            $scope.mealsList = JSON.parse(response.data.d);
+        },
+        function (response) {
+            functions.alert($translate.instant(response.data.d), '');
+        });
     }
 }])
 
