@@ -33,10 +33,10 @@ public class Meals : System.Web.Services.WebService {
        
     }
 
-    public class DishDesctiption {
-        public string title;
-        public string description;
-    }
+    //public class DishDesctiption {
+    //    public string title;
+    //    public string description;
+    //}
 
     [WebMethod]
     public string Load() {

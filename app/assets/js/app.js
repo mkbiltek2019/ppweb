@@ -3319,6 +3319,20 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             return (functions.isNullOrEmpty(des) ? '' : (des + ', ')) + serv + ' serv. ' + $translate.instant(title);
         }
 
+        $scope.getTitleDes = function (x) {
+            var desList = x.split('|');
+            var list = [];
+            angular.forEach(desList, function (value, key) {
+                list.push({
+                    title: value.split('~')[0],
+                    description: value.split('~')[1],
+                })
+            })
+            return list;
+        }
+
+     
+
     };
   
     $scope.get = function () {

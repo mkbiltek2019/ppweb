@@ -136,94 +136,6 @@ public class PrintPdf : System.Web.Services.WebService {
         }
     }
 
-    /*[WebMethod]
-    public string MenuPdf_old(string userId, Menues.NewMenu currentMenu, ClientsData.NewClientData clientData, Clients.NewClient client, Foods.Totals totals, int consumers, string lang, PrintMenuSettings settings) {
-        try {
-            var doc = new Document();
-            string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
-            DeleteFolder(path);
-            CreateFolder(path);
-            string fileName = Guid.NewGuid().ToString();
-            string filePath = Path.Combine(path, string.Format("{0}.pdf", fileName));
-            PdfWriter.GetInstance(doc, new FileStream(filePath, FileMode.Create));
-
-            doc.Open();
-
-            AppendHeader(doc, userId);
-			
-			ShowClientData(doc, currentMenu, clientData, client, settings.showClientData, lang);
-
-            doc.Add(new Paragraph(currentMenu.title, normalFont_12));
-            doc.Add(new Paragraph(currentMenu.note, normalFont_8));
-            if(consumers > 1) {
-                doc.Add(new Paragraph(t.Tran("number of consumers", lang) + ": " + consumers, normalFont_8));
-            }
-
-            doc.Add(new Chunk(line));
-
-            var meals = currentMenu.data.selectedFoods.Select(a => a.meal.code).Distinct().ToList();
-            
-
-
-
-            //List<Foods.NewFood> meal1 = currentMenu.data.selectedFoods.Where(a => a.meal.code == "B").ToList();
-            //List<Foods.NewFood> meal2 = currentMenu.data.selectedFoods.Where(a => a.meal.code == "MS").ToList();
-            //List<Foods.NewFood> meal3 = currentMenu.data.selectedFoods.Where(a => a.meal.code == "L").ToList();
-            //List<Foods.NewFood> meal4 = currentMenu.data.selectedFoods.Where(a => a.meal.code == "AS").ToList();
-            //List<Foods.NewFood> meal5 = currentMenu.data.selectedFoods.Where(a => a.meal.code == "D").ToList();
-            //List<Foods.NewFood> meal6 = currentMenu.data.selectedFoods.Where(a => a.meal.code == "MBS").ToList();
-
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine(string.Format(@"
-                                        "));
-
-            //TODO foreach meal in List<List<Foods.NewFood>
-            foreach (string m in meals) {
-                List<Foods.NewFood> meal = currentMenu.data.selectedFoods.Where(a => a.meal.code == m).ToList();
-                sb.AppendLine(AppendMeal(meal, currentMenu.data.meals, lang, settings));
-            }
-
-            //sb.AppendLine(AppendMeal(meal1, currentMenu.data.meals, lang, settings));
-            //sb.AppendLine(AppendMeal(meal2, currentMenu.data.meals, lang, settings));
-            //sb.AppendLine(AppendMeal(meal3, currentMenu.data.meals, lang, settings));
-            //sb.AppendLine(AppendMeal(meal4, currentMenu.data.meals, lang, settings));
-            //sb.AppendLine(AppendMeal(meal5, currentMenu.data.meals, lang, settings));
-            //sb.AppendLine(AppendMeal(meal6, currentMenu.data.meals, lang, settings));
-
-            doc.Add(new Paragraph(sb.ToString(), normalFont));
-
-            if (settings.showTotals) {
-                string tot = string.Format(@"
-{0}
-{1}: {5} kcal
-{2}: {6} g ({7})%
-{3}: {8} g ({9})%
-{4}: {10} g ({11})%",
-                        t.Tran("total", lang).ToUpper() + (consumers > 1 ? " (" + t.Tran("per consumer", lang) + ")" : ""),
-                        t.Tran("energy value", lang),
-                        t.Tran("carbohydrates", lang),
-                        t.Tran("proteins", lang),
-                        t.Tran("fats", lang),
-                        Convert.ToString(totals.energy),
-                        Convert.ToString(totals.carbohydrates),
-                        Convert.ToString(totals.carbohydratesPercentage),
-                        Convert.ToString(totals.proteins),
-                        Convert.ToString(totals.proteinsPercentage),
-                        Convert.ToString(totals.fats),
-                        Convert.ToString(totals.fatsPercentage)
-                        );
-                doc.Add(new Paragraph(tot, normalFont));
-            }
-            doc.Add(new Chunk(line));
-            doc.Close();
-
-            return fileName;
-        } catch(Exception e) {
-            return "";
-        }
-    }
-    */
-
     [WebMethod]
     public string WeeklyMenuPdf(string userId, string[] menuList, ClientsData.NewClientData clientData, int consumers, string lang, PrintMenuSettings settings) {
         try {
@@ -1145,9 +1057,24 @@ IBAN HR8423400091160342496
             if(meals.Find(a => a.code == meal[0].meal.code).isSelected == true) {
                 sb.AppendLine(string.Format(@"{0}", t.Tran(GetMealTitle(meal[0].meal), lang)).ToUpper());
                 string description = meals.Where(a => a.code == meal[0].meal.code).FirstOrDefault().description;
-                if (!string.IsNullOrEmpty(description)) {
-                    sb.AppendLine(string.Format(@"{0}
-                                            ", description));
+                    if (!string.IsNullOrWhiteSpace(description)) {
+                        string[] desList = description.Split('|');
+                        if (desList.Length > 0) {
+                            var list = (from p in desList
+                                        select new {
+                                            title = p.Split('~')[0],
+                                            description = p.Split('~').Length > 1 ? p.Split('~')[1] : ""
+                                        }).ToList();
+                        foreach (var l in list) {
+                            if (settings.showTitle) {
+                                sb.AppendLine(l.title);
+                            }
+                            if (settings.showDescription) {
+                                sb.AppendLine(string.Format(@"{0}
+                                                ", l.description));
+                            }
+                        }
+                    }
                 }
                 if (settings.showFoods) {
                     foreach (Foods.NewFood food in meal) {
