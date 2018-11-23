@@ -1775,7 +1775,10 @@
   "example": "primer",
   "add meal": "dodaj obrok",
   "delete meals": "izbriši obroke",
-  "you do not have any mealse": "nemate spremljene obroke"
+  "you do not have any mealse": "nemate spremljene obroke",
+  "meals with the same name already exists": "Obroci sa istim nazivom već postoje",
+  "this is just an example, not a recommendation": "Ovo je samo primer, nisu preporuke",
+  "my meals are available only in premium version": "Moji obroci su dostupni samo u Premium verziji"
 
 
 }

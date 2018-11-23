@@ -926,7 +926,10 @@ public class Foods : System.Web.Services.WebService {
 
     private MealEnergy GetMealRecommendationPercentage(List<Meals.NewMeal> meals, int idx) {
         MealEnergy x = new MealEnergy();
-        //1 case all meals
+        if(meals[0].code != "B") {
+            return x;
+        } else {
+            //1 case all meals
         if (meals[0].isSelected == true &&
             meals[1].isSelected == true &&
             meals[2].isSelected == true &&
@@ -1082,6 +1085,8 @@ public class Foods : System.Web.Services.WebService {
             }
         }
         return x;
+        }
+        
     }
 
     private ParameterRecommendation GetParameterRecommendation(double? mda, double? ui, double? rda) {

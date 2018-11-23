@@ -2500,14 +2500,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 .controller('mealsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
     var webService = 'Meals.asmx';
 
-    $scope.toggleTpl = function (x) {
+    $scope.toggleMealsTpl = function (x) {
         $scope.tpl = x;
     }
 
     if ($rootScope.clientData.meals[0].code == 'B') {
-        $scope.toggleTpl('standardMeals');
+        $scope.toggleMealsTpl('standardMeals');
     } else {
-        $scope.toggleTpl('myMeals');
+        $scope.toggleMealsTpl('myMeals');
     }
 
     //if ($rootScope.isMyMeals == undefined || $rootScope.isMyMeals == false) {
@@ -2520,6 +2520,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 .controller('standardMealsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
         var webService = 'Meals.asmx';
         $rootScope.isMyMeals = false;
+        if ($rootScope.myMeals) {
+           $rootScope.myMeals.data.energyPerc = null;
+        }
 
         var load = function () {
             $http({
@@ -2566,6 +2569,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.get = function (id) {
+        if ($rootScope.user.userType < 2) {
+            return false;
+        }
         $http({
             url: $sessionStorage.config.backend + webService + '/Get',
             method: "POST",
@@ -2580,34 +2586,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         });
     }
 
-    //$scope.load = function () {
-    //    $http({
-    //        url: $sessionStorage.config.backend + webService + '/Load',
-    //        method: "POST",
-    //        data: { userId: $sessionStorage.usergroupid }
-    //    })
-    //    .then(function (response) {
-    //        $scope.mealsList = JSON.parse(response.data.d);
-    //        if ($scope.mealsList.length > 0) {
-    //            $scope.get($scope.mealsList[$scope.mealsList.length - 1].id);
-    //        } else {
-    //            init();
-    //        }
-    //    },
-    //    function (response) {
-    //        functions.alert($translate.instant(response.data.d), '');
-    //    });
-    //}
-    //$scope.load();
-
-    
-    //if ($rootScope.clientData.meals.length > 0) {
-    //    if ($rootScope.clientData.meals[0].code == 'B') {
-    //        init();
-    //    }
-    //}
 
     $scope.new = function () {
+        if ($rootScope.user.userType < 2) {
+            return false;
+        }
         init();
     }
     
@@ -2619,7 +2602,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             $rootScope.myMeals = JSON.parse(response.data.d);
-            $rootScope.clientData.meals = $rootScope.myMeals.data.meals;
+            if ($rootScope.user.userType > 2) {
+                $rootScope.clientData.meals = $rootScope.myMeals.data.meals;
+            }
             $rootScope.isMyMeals = true;
         },
         function (response) {
@@ -2647,18 +2632,27 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.removeMeal = function (idx) {
-        $rootScope.clientData.meals.splice(idx, 1);
+        $rootScope.myMeals.data.meals.splice(idx, 1);
+        $rootScope.myMeals.data.energyPerc.splice(idx, 1);
     }
 
     $scope.save = function () {
+        if ($rootScope.user.userType < 2) {
+            return false;
+        }
         $http({
             url: $sessionStorage.config.backend + webService + '/Save',
             method: "POST",
             data: { userId: $sessionStorage.usergroupid, x: $rootScope.myMeals }
         })
         .then(function (response) {
-            $rootScope.myMeals = JSON.parse(response.data.d);
-            $rootScope.clientData.meals = $rootScope.myMeals.data.meals;
+            if (response.data.d != 'error') {
+                $rootScope.myMeals = JSON.parse(response.data.d);
+                $rootScope.clientData.meals = $rootScope.myMeals.data.meals;
+                $rootScope.isMyMeals = true;
+            } else {
+                functions.alert($translate.instant('meals with the same name already exists'), '');
+            }
         },
         function (response) {
             functions.alert($translate.instant(response.data.d), '');
@@ -2666,6 +2660,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.remove = function (id) {
+        if ($rootScope.user.userType < 2) {
+            return false;
+        }
         var confirm = $mdDialog.confirm()
             .title($translate.instant('delete meals') + '?')
             .textContent()
@@ -2698,6 +2695,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var openMyMealsPopup = function () {
+        if ($rootScope.user.userType < 2) {
+            return false;
+        }
         $mdDialog.show({
             controller: getMyMealsPopupCtrl,
             templateUrl: 'assets/partials/popup/mymeals.html',
@@ -2708,6 +2708,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             debugger;
             $rootScope.myMeals = response;
             $rootScope.clientData.meals = $rootScope.myMeals.data.meals;
+            $rootScope.isMyMeals = true;
         }, function () {
         });
     };

@@ -1,8 +1,8 @@
 ﻿<div ng-controller="mealsCtrl">
     <div>
         <ul class="nav nav-tabs">
-            <li ng-class="tpl=='standardMeals'?'active':''" ng-click="toggleTpl('standardMeals')"><a href="#"><i class="fa fa-thermometer-empty"></i> <span class="text-capitalize">{{'standard meals' | translate}}</span></a></li>
-            <li ng-class="tpl=='myMeals'?'active':''" ng-click="toggleTpl('myMeals')"><a href="#"><i class="fa fa-line-chart"></i> <span class="text-capitalize">{{'my meals' | translate}}</span></a></li>
+            <li ng-class="tpl=='standardMeals'?'active':''" ng-click="toggleMealsTpl('standardMeals')"><a href="#"><i class="fa fa-thermometer-empty"></i> <span class="text-capitalize">{{'standard meals' | translate}}</span></a></li>
+            <li ng-class="tpl=='myMeals'?'active':''" ng-click="toggleMealsTpl('myMeals')"><a href="#"><i class="fa fa-line-chart"></i> <span class="text-capitalize">{{'my meals' | translate}}</span></a></li>
         </ul>
     </div>
     <div ng-include="tpl"></div>
@@ -26,12 +26,22 @@
 
 <script type="text/ng-template" id="myMeals">
     <div ng-controller="myMealsCtrl" class="mt20">
+        <div ng-if="user.licenceStatus == 'demo' || user.userType < 2" class="alert alert-danger text-center m10" style="height:auto !important">
+            <strong>
+                <i class="fa fa-info-circle fa-2x" aria-hidden="true"></i>
+                <span class="text-uppercase ml5">{{'my meals are available only in premium version' | translate}}</span>
+                <strong class="btn btn-success ml10" ng-click="toggleTpl('order.html'); hideMsg()">
+                    <i class="fa fa-hand-o-right fa-2x" aria-hidden="true"></i>
+                    <span class="text-uppercase ml5">{{'order now' | translate}}</span>
+                </strong>
+            </strong>
+        </div>
         <div class="panel-heading text-capitalize">
             <div>
-                <a href="" ng-click="new()" class="btn btn-default m2"><i class="fa fa-file-o"></i> {{'new' | translate}} {{'meals' | translate}}</a>
-                <a href="" class="btn btn-default m2" ng-click="search()"><i class="fa fa-search"></i> {{'search' | translate}}</a>
-                <a ng-disabled="myMeals.data.meals.length==0" href="" ng-click="save()" class="btn btn-default m2"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</a>
-                <a ng-disabled="myMeals.id==null" href="" ng-click="remove(myMeals.id)" class="btn btn-default m2"><span class="text-danger"><i class="fa fa-trash-o"></i> {{'delete' | translate}}</span></a>
+                <a ng-disabled="user.userType < 2" href="" ng-click="new()" class="btn btn-default m2"><i class="fa fa-file-o"></i> {{'new' | translate}} {{'meals' | translate}}</a>
+                <a ng-disabled="user.userType < 2" href="" class="btn btn-default m2" ng-click="search()"><i class="fa fa-search"></i> {{'search' | translate}}</a>
+                <a ng-disabled="myMeals.data.meals.length==0||user.userType < 2" href="" ng-click="save()" class="btn btn-default m2"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</a>
+                <a ng-disabled="myMeals.id==null||user.userType < 2" href="" ng-click="remove(myMeals.id)" class="btn btn-default m2"><span class="text-danger"><i class="fa fa-trash-o"></i> {{'delete' | translate}}</span></a>
                 <a href="" ng-click="getTemplate()" class="btn btn-default m2"><i class="fa fa-file-text-o"></i> {{'example' | translate}}</a>
             </div>
         </div>

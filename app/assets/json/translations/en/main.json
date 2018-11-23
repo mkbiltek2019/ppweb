@@ -1767,6 +1767,9 @@
   "example": "example",
   "add meal": "add meal",
   "delete meals": "delete meals",
-  "you do not have any mealse": "you do not have any mealse"
+  "you do not have any mealse": "you do not have any mealse",
+  "menus with the same name already exists": "Menus with the same name already exists",
+  "this is just an example, not a recommendation": "This is just an example, not a recommendation",
+  "my meals are available only in premium version": "My meals are available only in premium version"
 
 }

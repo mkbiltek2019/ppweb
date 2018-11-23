@@ -18,14 +18,12 @@ using Igprog;
 public class MyMeals : System.Web.Services.WebService {
     string dataBase = ConfigurationManager.AppSettings["UserDataBase"];
     DataBase db = new DataBase();
-   // string filename = "mymeals";
     Translate t = new Translate();
 
     public MyMeals() {
     }
 
     public class NewMyMeals {
-        //TODO 
         public string id;
         public string title;
         public string description;
@@ -42,7 +40,7 @@ public class MyMeals : System.Web.Services.WebService {
     [WebMethod]
     public string Init(Users.NewUser user) {
         NewMyMeals x = new NewMyMeals();
-        x.id = Guid.NewGuid().ToString();
+        x.id = null;
         x.title = null;
         x.description = null;
         x.userId = user.userId;
@@ -72,8 +70,8 @@ public class MyMeals : System.Web.Services.WebService {
     public string Template(Users.NewUser user, string lang) {
         NewMyMeals x = new NewMyMeals();
         x.id = Guid.NewGuid().ToString();
-        x.title = t.Tran("template", lang);
-        x.description = t.Tran("this is only template, not a recommendation", lang);
+        x.title = t.Tran("example", lang).ToUpper();
+        x.description = t.Tran("this is just an example, not a recommendation", lang);
         x.userId = user.userId;
         x.userGroupId = user.userGroupId;
         List<Meals.NewMeal> mm = new List<Meals.NewMeal>();
@@ -153,27 +151,34 @@ public class MyMeals : System.Web.Services.WebService {
 
     [WebMethod]
     public string Save(string userId, NewMyMeals x) {
-        db.CreateDataBase(userId, db.meals);
         try {
-            string sql = "";
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
-            connection.Open();
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
-            sql = string.Format(@"BEGIN;
+            if (string.IsNullOrEmpty(x.id) && Check(userId, x.title)) {
+                return "error";
+            } else {
+                if(string.IsNullOrEmpty(x.id)) {
+                    x.id = Convert.ToString(Guid.NewGuid());
+                }
+                db.CreateDataBase(userId, db.meals);
+                string sql = "";
+                SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
+                connection.Open();
+                SQLiteCommand command = new SQLiteCommand(sql, connection);
+                sql = string.Format(@"BEGIN;
                     INSERT OR REPLACE INTO meals (id, title, description, userId, userGroupId)
                     VALUES ('{0}', '{1}', '{2}', '{3}', '{4}');
                     COMMIT;", x.id, x.title, x.description, x.userId, x.userGroupId);
-            command = new SQLiteCommand(sql, connection);
-            command.ExecuteNonQuery();
-            connection.Close();
-            int idx = 0;
-            foreach (var m in x.data.meals) {
-                m.code = string.Format("MM{0}", idx);
-                x.data.energyPerc[idx].meal.code = m.code;
-                idx++;
+                command = new SQLiteCommand(sql, connection);
+                command.ExecuteNonQuery();
+                connection.Close();
+                int idx = 0;
+                foreach (var m in x.data.meals) {
+                    m.code = string.Format("MM{0}", idx);
+                    x.data.energyPerc[idx].meal.code = m.code;
+                    idx++;
+                }
+                SaveJsonToFile(userId, x.id, JsonConvert.SerializeObject(x.data, Formatting.Indented));
+                return JsonConvert.SerializeObject(x, Formatting.Indented);
             }
-            SaveJsonToFile(userId, x.id, JsonConvert.SerializeObject(x.data, Formatting.Indented));
-            return JsonConvert.SerializeObject(x, Formatting.Indented);
         } catch (Exception e) { return (e.Message); }
     }
 
@@ -292,6 +297,22 @@ public class MyMeals : System.Web.Services.WebService {
         if (File.Exists(filepath)) {
             File.Delete(filepath);
         }
+    }
+
+    private bool Check(string userId, string title) {
+        try {
+            bool result = false;
+            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
+            connection.Open();
+            string sql = string.Format("SELECT EXISTS (SELECT id FROM meals WHERE LOWER(title) = '{0}')", title.ToLower());
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read()) {
+                result = reader.GetBoolean(0);
+            }
+            connection.Close();
+            return result;
+        } catch (Exception e) { return false; }
     }
 
 
