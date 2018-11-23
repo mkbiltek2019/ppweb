@@ -375,15 +375,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         else return x.title;
     }
 
-    //$rootScope.getMealTitle = function (x) {
-    //    if (x == 'B') { return 'breakfast'; }
-    //    if (x == 'MS') { return 'morning snack'; }
-    //    if (x == 'L') { return 'lunch'; }
-    //    if (x == 'AS') { return 'afternoon snack'; }
-    //    if (x == 'D') { return 'dinner'; }
-    //    if (x == 'MBS') { return 'meal before sleep'; }
-    //}
-
     $scope.changeUnitSystem = function (x) {
         $rootScope.unitSystem = x;
         $rootScope.convertToStandardSystem();
@@ -2502,27 +2493,19 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.toggleMealsTpl = function (x) {
         $scope.tpl = x;
+        $rootScope.mealsAreChanged = true;
     }
 
     if ($rootScope.clientData.meals[0].code == 'B') {
-        $scope.toggleMealsTpl('standardMeals');
+        $scope.tpl = 'standardMeals';
     } else {
-        $scope.toggleMealsTpl('myMeals');
+        $scope.tpl = 'myMeals';
     }
-
-    //if ($rootScope.isMyMeals == undefined || $rootScope.isMyMeals == false) {
-    //    $scope.toggleTpl('standardMeals');
-    //} else if ($rootScope.isMyMeals == true) {
-    //    $scope.toggleTpl('myMeals');
-    //}
 }])
 
 .controller('standardMealsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
         var webService = 'Meals.asmx';
         $rootScope.isMyMeals = false;
-        if ($rootScope.myMeals) {
-           $rootScope.myMeals.data.energyPerc = null;
-        }
 
         var load = function () {
             $http({
@@ -2552,6 +2535,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 .controller('myMealsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
     var webService = 'MyMeals.asmx';
 
+    if (angular.isDefined($rootScope.myMeals)) {
+        $rootScope.clientData.meals = $rootScope.myMeals.data.meals;
+        $rootScope.isMyMeals = true;
+    }
+
     var init = function () {
         $http({
             url: $sessionStorage.config.backend + webService + '/Init',
@@ -2580,6 +2568,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         .then(function (response) {
             $rootScope.myMeals = JSON.parse(response.data.d);
             $rootScope.clientData.meals = $rootScope.myMeals.data.meals;
+            $rootScope.isMyMeals = true;
         },
         function (response) {
             functions.alert($translate.instant(response.data.d), '');
@@ -2820,8 +2809,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         //    }
         //}
 
+        //if ($rootScope.myMeals) {
+        //    $rootScope.myMeals.data.energyPerc = null;
+        //}
+
         var energyPerc = null;
-        if (!$rootScope.myMeals) {
+        if (!$rootScope.myMeals || $rootScope.isMyMeals == false) {
             energyPerc = null;
         } else {
             energyPerc = $rootScope.myMeals.data.energyPerc;
@@ -2897,8 +2890,22 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.toggleMeals = function (x) {
         $rootScope.currentMeal = x;
     };
-    $rootScope.currentMeal = 'B';  //TODO my Meals
 
+    if ($rootScope.mealsAreChanged) {
+        $rootScope.mealsAreChanged = false;
+        init();
+    }
+    
+    if (angular.isDefined($rootScope.isMyMeals)) {
+        if ($rootScope.isMyMeals == true) {
+            $rootScope.currentMeal = 'MM0';
+        } else {
+            $rootScope.currentMeal = 'B'
+        }
+    } else {
+        $rootScope.currentMeal = 'B'
+    }
+    
     $scope.toggleAnalytics = function (x) {
         $scope.loading = true;
         $timeout(function () {
@@ -3238,7 +3245,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
              .ok($translate.instant('yes'))
              .cancel($translate.instant('no'));
         $mdDialog.show(confirm).then(function () {
-            //$rootScope.selectedFoods.splice(idx, 1);
             $rootScope.currentMenu.data.selectedFoods.splice(idx, 1);
             $rootScope.currentMenu.data.selectedInitFoods.splice(idx, 1);
             getTotals($rootScope.currentMenu);
@@ -3330,9 +3336,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             })
             return list;
         }
-
-     
-
     };
   
     $scope.get = function () {
