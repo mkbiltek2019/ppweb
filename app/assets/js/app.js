@@ -1630,7 +1630,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             });
         }
         
-
     };
 
     $rootScope.setClientLogGraphData = function (x) {
@@ -3325,7 +3324,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             return (functions.isNullOrEmpty(des) ? '' : (des + ', ')) + serv + ' serv. ' + $translate.instant(title);
         }
 
+        var currDes = null;
+        $scope.list = null;
         $scope.getTitleDes = function (x) {
+            if (currDes === x) { return $scope.list; }
             var desList = x.split('|');
             var list = [];
             angular.forEach(desList, function (value, key) {
@@ -3333,9 +3335,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     title: value.split('~')[0],
                     description: value.split('~')[1],
                 })
-            })
+            });
+            currDes = x;
+            $scope.list = list;
             return list;
         }
+
     };
   
     $scope.get = function () {

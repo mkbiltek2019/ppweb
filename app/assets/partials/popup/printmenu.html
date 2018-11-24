@@ -67,14 +67,11 @@
                     <div ng-if="x.isSelected==1" ng-repeat="x in currentMenu.data.meals track by $index" class="m10">
                         <label class="text-uppercase mt10">{{getMealTitle(x)}}</label>
                         <div ng-if="x.description" class="mt10">
-                            <div ng-repeat="x in getTitleDes(x.description)">
-                                <div ng-if="settings.showTitle">{{x.title}}</div>
-                                <em ng-if="settings.showDescription">{{x.description}}</em>
+                            <div ng-repeat="y in getTitleDes(x.description)">
+                                <div ng-if="settings.showTitle">{{y.title}}</div>
+                                <em ng-if="settings.showDescription">{{y.description}}</em>
                             </div>
                         </div>
-                        <!--<div ng-if="x.description && settings.showDescription" class="mt10">
-                            <em class="text-justify">{{getDescription(x.description)}}</em>
-                        </div>-->
                         <div ng-if="settings.showFoods" class="mt10">
                             <div ng-if="y.meal.code==x.code" ng-repeat="y in foods track by $index">
                                 - {{y.food}}<span ng-if="settings.showQty">, {{y.quantity}} {{y.unit}}</span><span ng-if="settings.showMass">, {{y.mass}} g</span> <span ng-if="settings.showServ&&getServDescription(y.servings)!=''">, ({{getServDescription(y.servings)}})</span>
