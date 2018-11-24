@@ -1674,7 +1674,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $scope.creatingPdf = false;
             var fileName = response.data.d;
             $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
-            //   $scope.openPdf();
         },
         function (response) {
             $scope.creatingPdf = false;
