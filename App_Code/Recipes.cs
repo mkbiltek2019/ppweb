@@ -111,8 +111,8 @@ public class Recipes : System.Web.Services.WebService {
 
     [WebMethod]
     public string Save(string userId, NewRecipe x) {
-        db.CreateDataBase(userId, db.recipes);
         try {
+            db.CreateDataBase(userId, db.recipes);
             string sql = "";
             if (x.id == null) {
                 x.id = Convert.ToString(Guid.NewGuid());

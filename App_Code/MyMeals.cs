@@ -200,13 +200,13 @@ public class MyMeals : System.Web.Services.WebService {
     [WebMethod]
     public string Save(string userId, NewMyMeals x) {
         try {
+            db.CreateDataBase(userId, db.meals);
             if (string.IsNullOrEmpty(x.id) && Check(userId, x.title)) {
                 return "error";
             } else {
                 if(string.IsNullOrEmpty(x.id)) {
                     x.id = Convert.ToString(Guid.NewGuid());
                 }
-                db.CreateDataBase(userId, db.meals);
                 string sql = "";
                 SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
                 connection.Open();
@@ -245,39 +245,15 @@ public class MyMeals : System.Web.Services.WebService {
         } catch (Exception e) { return (e.Message); }
     }
 
-    [WebMethod]
-    public string Get_(string userId, string id) {
-        try {
-            List<Meals.NewMeal> xx = new List<Meals.NewMeal>();
-            string json = GetJsonFile(userId, id);
-            return json;
-        }
-        catch (Exception e) { return ("Error: " + e); }
-    }
-
-    /*
-    [WebMethod]
-    public string Save_(string userId, string json) {
-        try {
-            string path = string.Format("~/App_Data/users/{0}/meals", userId);
-            string filepath = string.Format("{0}/{1}.json", path, filename);
-            SaveJsonToFile(userId, filename, json);
-            return JsonConvert.SerializeObject(GetJson(userId, filename), Formatting.Indented);
-        } catch (Exception e) { return ("Error: " + e); }
-    }
-    */
-
-    public List<NewMyMeals> LoadMeals(string userId)
-    {
-        db.CreateDataBase(userId, db.recipes);
+    public List<NewMyMeals> LoadMeals(string userId) {
+        db.CreateDataBase(userId, db.meals);
         SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
         connection.Open();
         string sql = "SELECT id, title, description, userId, userGroupId FROM meals ORDER BY rowid DESC";
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         List<NewMyMeals> xx = new List<NewMyMeals>();
         SQLiteDataReader reader = command.ExecuteReader();
-        while (reader.Read())
-        {
+        while (reader.Read()) {
             NewMyMeals x = new NewMyMeals();
             x.id = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
             x.title = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
@@ -297,21 +273,6 @@ public class MyMeals : System.Web.Services.WebService {
             WriteFile(filepath, json);
     }
 
-    /*
-    public void DeleteJson(string userId, string filename) {
-        string path = Server.MapPath(string.Format("~/App_Data/users/{0}/menues", userId));
-        string filepath = string.Format("{0}/{1}.json", path, filename);
-        if (File.Exists(filepath)) {
-            File.Delete(filepath);
-        }
-    }*/
-
-/*
-    private List<Meals.NewMeal> GetJson(string userId, string filename) {
-        return JsonConvert.DeserializeObject<List<Meals.NewMeal>>(GetJsonFile(userId, filename));
-    }
-*/
-
     private string GetJsonFile(string userId, string filename) {
         string path = string.Format("~/App_Data/users/{0}/meals/{1}.json", userId, filename);
         string json = null;
@@ -320,14 +281,6 @@ public class MyMeals : System.Web.Services.WebService {
         }
         return json;
     }
-
-    /*private string GetJsonFile(string path) {
-        string json = null;
-        if (File.Exists(Server.MapPath(path))) {
-            json = File.ReadAllText(Server.MapPath(path));
-        }
-        return json;
-    }*/
 
     protected void CreateFolder(string path) {
         if (!Directory.Exists(Server.MapPath(path))) {
@@ -340,7 +293,7 @@ public class MyMeals : System.Web.Services.WebService {
     }
 
     public void DeleteJson(string userId, string filename) {
-        string path = Server.MapPath(string.Format("~/App_Data/users/{0}/recipes", userId));
+        string path = Server.MapPath(string.Format("~/App_Data/users/{0}/meals", userId));
         string filepath = string.Format("{0}/{1}.json", path, filename);
         if (File.Exists(filepath)) {
             File.Delete(filepath);
@@ -362,11 +315,5 @@ public class MyMeals : System.Web.Services.WebService {
             return result;
         } catch (Exception e) { return false; }
     }
-
-
-
-
-
-
 
 }
