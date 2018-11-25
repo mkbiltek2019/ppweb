@@ -77,6 +77,7 @@ public class Users : System.Web.Services.WebService {
         public int menues { get; set; }
         public int myfoods {get;set;}
         public int recipes { get; set; }
+        public int meals { get; set; }
         public int scheduler { get; set; }
     }
 
@@ -824,40 +825,94 @@ public class Users : System.Web.Services.WebService {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, userDataBase));
             connection.Open();
-            string sql = "SELECT COUNT(rowid) FROM clients";
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read()) {
-                x.clients = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
-            }
-            sql = "SELECT COUNT(id) FROM menues";
+            string sql = "";
+            string tbl = "";
+            SQLiteCommand command = null;
+            SQLiteDataReader reader = null;
+
+            tbl = "clients";
+            sql = CheckTblExistsSql(tbl);
             command = new SQLiteCommand(sql, connection);
             reader = command.ExecuteReader();
-            while (reader.Read()) {
-                x.menues = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+            if (IsTblExists(reader)) {
+                sql = string.Format("SELECT COUNT(rowid) FROM {0}", tbl);
+                command = new SQLiteCommand(sql, connection);
+                reader = command.ExecuteReader();
+                while (reader.Read()) {
+                    x.clients = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                }
             }
-            sql = "SELECT COUNT(id) FROM myfoods";
+
+            tbl = "menues";
+            sql = CheckTblExistsSql(tbl);
             command = new SQLiteCommand(sql, connection);
             reader = command.ExecuteReader();
-            while (reader.Read()) {
-                x.myfoods = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+            if (IsTblExists(reader)) {
+                sql = string.Format("SELECT COUNT(id) FROM {0}", tbl);
+                command = new SQLiteCommand(sql, connection);
+                reader = command.ExecuteReader();
+                while (reader.Read()) {
+                    x.menues = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                }
             }
-            sql = "SELECT COUNT(id) FROM recipes";
+
+            tbl = "myfoods";
+            sql = CheckTblExistsSql(tbl);
             command = new SQLiteCommand(sql, connection);
             reader = command.ExecuteReader();
-            while (reader.Read()) {
-                x.recipes = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+            if (IsTblExists(reader)) {
+                sql = string.Format("SELECT COUNT(id) FROM {0}", tbl);
+                command = new SQLiteCommand(sql, connection);
+                reader = command.ExecuteReader();
+                while (reader.Read()) {
+                    x.myfoods = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                }
             }
-            sql = "SELECT COUNT(rowid) FROM scheduler";
+
+            tbl = "recipes";
+            sql = CheckTblExistsSql(tbl);
             command = new SQLiteCommand(sql, connection);
             reader = command.ExecuteReader();
-            while (reader.Read()) {
-                x.scheduler = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+            if (IsTblExists(reader)) {
+                sql = string.Format("SELECT COUNT(id) FROM {0}", tbl);
+                command = new SQLiteCommand(sql, connection);
+                reader = command.ExecuteReader();
+                while (reader.Read()) {
+                    x.recipes = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                }
             }
+
+            tbl = "meals";
+            sql = CheckTblExistsSql(tbl);
+            command = new SQLiteCommand(sql, connection);
+            reader = command.ExecuteReader();
+            if (IsTblExists(reader)) {
+                sql = string.Format("SELECT COUNT(id) FROM {0}", tbl);
+                command = new SQLiteCommand(sql, connection);
+                reader = command.ExecuteReader();
+                while (reader.Read()) {
+                    x.meals = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                }
+            }
+
+            tbl = "scheduler";
+            sql = CheckTblExistsSql(tbl);
+            command = new SQLiteCommand(sql, connection);
+            reader = command.ExecuteReader();
+            if (IsTblExists(reader)) {
+                sql = string.Format("SELECT COUNT(rowid) FROM {0}", tbl);
+                command = new SQLiteCommand(sql, connection);
+                reader = command.ExecuteReader();
+                while (reader.Read()) {
+                    x.scheduler = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                }
+            }
+
             connection.Close();
             return x;
         } catch (Exception e) { return x; }
     }
+
 
     private int GetUsersCountByUserGroup(string userGroupId, SQLiteConnection connection) {
         int x = 0;
@@ -930,6 +985,18 @@ public class Users : System.Web.Services.WebService {
             return x;
         }
         catch (Exception e) { return new NewUser(); }
+    }
+
+    private string CheckTblExistsSql(string tbl) {
+        return string.Format("SELECT Count(*) FROM sqlite_master WHERE type='table' AND name='{0}'", tbl);
+    }
+
+    private bool IsTblExists(SQLiteDataReader reader) {
+        int count = 0;
+        while (reader.Read()) {
+            count = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+        }
+        return count > 0 ? true : false;
     }
     #endregion
 
