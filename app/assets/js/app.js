@@ -2882,9 +2882,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $rootScope.currentMenu.client.clientData = $rootScope.clientData;  //TODO sredit
             $rootScope.currentMenu.data.meals = $rootScope.clientData.meals;
 
-            angular.forEach($rootScope.currentMenu.data.meals, function (value, key) {
-                $rootScope.currentMenu.data.meals[key].description = '';
-            })
+            //angular.forEach($rootScope.currentMenu.data.meals, function (value, key) {
+            //    $rootScope.currentMenu.data.meals[key].description = '';
+            //})
            // $rootScope.currentMeal = 'B';  //TODO my Meals
             $rootScope.currentMeal = $rootScope.currentMenu.data.meals[0].code
             getTotals($rootScope.currentMenu);
