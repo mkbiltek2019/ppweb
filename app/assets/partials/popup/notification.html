@@ -12,27 +12,14 @@
         <md-dialog-content >
             <div class="md-dialog-content">
                 <div class="text-center">
-                    <p class="lead text-success">Dana <em>{{config.date}}</em> objavljena je nova nadogradnja aplikacije (Verzija: {{config.version}}).</p>
-                    <!--<p class="text-danger">
-                        <i class="fa fa-info-circle fa-2x"></i> <em>Prije početka rada osvježite stranicu pritiskom na tipke <kbd>CTRL + F5</kbd> ili u internet pregledniku kliknite na <strong>Reload</strong>.</em>
-                    </p>-->
-                    <!--<div class="p10">
-                        <img src="./assets/img/updates/reload.png" class="img-responsive center-block" />
-                    </div>-->
-                    <div>
-                        <a href="" class="btn btn-default text-uppercase" ng-click="hide()"><i class="fa fa-refresh fa-4x"></i> {{'reload page' | translate}}</a>
-                    </div>
-                    <!--<p class="text-warning"><em>*Napomena: Ako ne osvježite stranicu neke funkcionalnosti možda neće raditi ispravno.</em></p>-->
+                    <p class="lead text-success"><span class="text-capitalize">{{'from' | translate}}</span> <em>{{config.date}}</em> {{'a new application upgrade is available' | translate}} (<span class="text-capitalize">{{'version' | translate}}</span>: {{config.version}}).</p>
                 </div>
-                <hr />
                 <div>
-                    <a href="" ng-click="toggleUpdates()" class="lead">Što je novo? <i class="fa fa-chevron-{{showUpdates==false?'down':'up'}}" aria-hidden="true"></i></a>
+                    <a ng-hide="config.language=='en'" href="" ng-click="toggleUpdates()" class="btn btn-default text-uppercase">{{'what is new' | translate}}? <i class="fa fa-chevron-{{showUpdates==false?'down':'up'}}" aria-hidden="true"></i></a>
+                    <a href="" class="btn btn-default text-uppercase pull-right" ng-click="hide()"><i class="fa fa-check"></i> {{'close' | translate}}</a>
                     <div ng-if="showUpdates==true" ng-include="'./assets/partials/updates.html'" class="text-center"></div>
                 </div>
             </div>
-            <!--<div class="pull-right m20">
-                <a href="" class="btn btn-default text-uppercase" ng-click="hide()"><i class="fa fa-check"></i> {{'reload page' | translate}}</a>
-            </div>-->
         </md-dialog-content>
     </form>
 </md-dialog>

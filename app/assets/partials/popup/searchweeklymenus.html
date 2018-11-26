@@ -1,0 +1,25 @@
+﻿<md-dialog flex class="fixed-height">
+    <form ng-cloak>
+        <md-toolbar class="main-background">
+            <div class="md-toolbar-tools">
+                <h2 class="text-capitalize">{{'weekly menus' | translate}}</h2>
+                <span flex></span>
+                <a href="" class="btn btn-primary" ng-click="cancel()" title="{{'close' | translate}}">x</a>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around" class="text-center">
+                    <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
+                </div>
+                <div ng-show="!loading" class="md-dialog-content">
+                    TODO
+                   <pre>{{d}}</pre>
+                </div>
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>
+
+
+

@@ -440,13 +440,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var openNotificationPopup = function () {
-        if ($rootScope.config.language == 'en') { return false;}
         $mdDialog.show({
             controller: notificationPoupCtrl,
             templateUrl: 'assets/partials/popup/notification.html',
             parent: angular.element(document.body),
             clickOutsideToClose: true,
-            d: { config: $rootScope.config }
+            d: {}
         })
         .then(function (response) {
             window.location.reload(true);
@@ -455,8 +454,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         });
     };
 
-    var notificationPoupCtrl = function ($scope, $mdDialog, d, $localStorage) {
-        $scope.config = d.config;
+    var notificationPoupCtrl = function ($scope, $rootScope, $mdDialog, $localStorage) {
+        $scope.config = $rootScope.config;
         $scope.showUpdates = false;
         $scope.toggleUpdates = function () {
             $scope.showUpdates = !$scope.showUpdates;
@@ -5411,6 +5410,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 }])
 
+    /*
 .controller('printCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
     $scope.consumers = 1;
 
@@ -5600,6 +5600,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
 }])
+*/
 
 .controller('orderCtrl', ['$scope', '$http', '$rootScope', '$translate', 'functions', function ($scope, $http, $rootScope, $translate, functions) {
     $scope.application = $translate.instant('nutrition program');
@@ -5879,8 +5880,16 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
     getMenues();
 
-    $scope.menuList = [];
+    $scope.new = function () {
+        debugger;
+        $scope.menuList = [];
+        $scope.menu1 = null;
+        $scope.menu2 = null;
+    }
+    $scope.new();
+
     $scope.getMenuList = function (id1, id2, id3, id4, id5, id6, id7) {
+        debugger;
         $scope.menuList = [id1, id2, id3, id4, id5, id6, id7];
         $scope.pdfLink = null;
     }
@@ -5967,6 +5976,114 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 functions.alert($translate.instant(response.data.d), '');
             });
         }
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+
+        $scope.confirm = function () {
+            send();
+        }
+
+    };
+
+
+    $scope.search = function () {
+        openSearchMenuPopup();
+    }
+
+    var openSearchMenuPopup = function () {
+        $mdDialog.show({
+            controller: openSearchMenuPopupCtrl,
+            templateUrl: 'assets/partials/popup/searchweeklymenus.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true,
+            d: {}
+        })
+       .then(function (x) {
+
+       }, function () {
+       });
+    }
+
+    var openSearchMenuPopupCtrl = function ($scope, $mdDialog, $http, $translate, functions) {
+
+        $scope.limit = 20;
+
+        $scope.loadMore = function () {
+            $scope.limit += 20;
+        }
+
+        /* TODO
+        var load = function () {
+            $scope.loading = true;
+            $scope.appMenues = false;
+            $http({
+                url: $sessionStorage.config.backend + 'Menues.asmx/Load',
+                method: "POST",
+                data: { userId: $rootScope.user.userGroupId }
+            })
+           .then(function (response) {
+               $scope.d = JSON.parse(response.data.d);
+               $scope.loading = false;
+           },
+           function (response) {
+               $scope.loading = false;
+               alert(response.data.d);
+           });
+        }
+        load();
+
+        $scope.load = function () {
+            load();
+        }
+
+        $scope.remove = function (x) {
+            var confirm = $mdDialog.confirm()
+                 .title($translate.instant('remove menu') + '?')
+                 .textContent(x.title)
+                 .targetEvent(x)
+                 .ok($translate.instant('yes'))
+                 .cancel($translate.instant('no'));
+            $mdDialog.show(confirm).then(function () {
+                remove(x);
+            }, function () {
+            });
+        }
+
+        var remove = function (x) {
+            $http({
+                url: $sessionStorage.config.backend + 'Menues.asmx/Delete',
+                method: "POST",
+                data: { userId: $rootScope.user.userGroupId, id: x.id }
+            })
+          .then(function (response) {
+              $scope.d = JSON.parse(response.data.d);
+          },
+          function (response) {
+              alert(response.data.d)
+          });
+        }
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+
+        var get = function (x) {
+            $http({
+                url: $sessionStorage.config.backend + 'Menues.asmx/Get',
+                method: "POST",
+                data: { userId: $rootScope.user.userGroupId, id: x.id, }
+            })
+            .then(function (response) {
+                var menu = JSON.parse(response.data.d);
+                $mdDialog.hide(menu);
+            },
+            function (response) {
+                alert(response.data.d)
+            });
+        }
+        */
 
         $scope.cancel = function () {
             $mdDialog.cancel();
