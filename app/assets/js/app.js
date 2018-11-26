@@ -5825,6 +5825,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 .controller('weeklyMenuCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
     $scope.consumers = 1;
 
+    //TODO init weekly Muenu
+
     $scope.printWindow = function () {
         window.print();
     };
@@ -5987,7 +5989,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     };
 
-
     $scope.search = function () {
         openSearchMenuPopup();
     }
@@ -6014,12 +6015,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $scope.limit += 20;
         }
 
-        /* TODO
         var load = function () {
             $scope.loading = true;
             $scope.appMenues = false;
             $http({
-                url: $sessionStorage.config.backend + 'Menues.asmx/Load',
+                url: $sessionStorage.config.backend + 'WeeklyMenus.asmx/Load',
                 method: "POST",
                 data: { userId: $rootScope.user.userGroupId }
             })
@@ -6053,7 +6053,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         var remove = function (x) {
             $http({
-                url: $sessionStorage.config.backend + 'Menues.asmx/Delete',
+                url: $sessionStorage.config.backend + 'WeeklyMenus.asmx/Delete',
                 method: "POST",
                 data: { userId: $rootScope.user.userGroupId, id: x.id }
             })
@@ -6071,7 +6071,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         var get = function (x) {
             $http({
-                url: $sessionStorage.config.backend + 'Menues.asmx/Get',
+                url: $sessionStorage.config.backend + 'WeeklyMenus.asmx/Get',
                 method: "POST",
                 data: { userId: $rootScope.user.userGroupId, id: x.id, }
             })
@@ -6083,7 +6083,94 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 alert(response.data.d)
             });
         }
-        */
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+
+        $scope.confirm = function () {
+            send();
+        }
+
+    };
+
+    $scope.save = function () {
+        openSaveMenuPopup();
+    }
+
+    var openSaveMenuPopup = function () {
+        $mdDialog.show({
+            controller: openSaveMenuPopupCtrl,
+            templateUrl: 'assets/partials/popup/saveweeklymenu.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true,
+            d: { menuList: $scope.menuList }
+        })
+       .then(function (x) {
+
+       }, function () {
+       });
+    }
+
+    var openSaveMenuPopupCtrl = function ($scope, $mdDialog, d, $http, $translate, functions) {
+
+        $scope.d = angular.copy(d);
+        var save = function () {
+            alert('todo');
+            return false;
+            if (functions.isNullOrEmpty(d.title)) {
+                functions.alert($translate.instant('enter menu title'), '');
+                return false;
+            }
+           // $mdDialog.hide($scope.d.currentMenu);
+            $http({
+                url: $sessionStorage.config.backend + 'WeeklyMenus.asmx/Save',
+                method: "POST",
+                data: { userId: $rootScope.user.userGroupId, x: currentMenu, user: $scope.d.user }
+            })
+          .then(function (response) {
+              if (response.data.d != 'error') {
+                  $scope.d.currentMenu = JSON.parse(response.data.d);
+              } else {
+                  functions.alert($translate.instant('there is already a menu with the same name'), '');
+              }
+          },
+          function (response) {
+              functions.alert($translate.instant(response.data.d), '');
+          });
+        }
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+
+        $scope.confirm = function (x, saveasnew) {
+            x.client = d.client;
+            x.userId = d.client.userId;
+            x.id = saveasnew == true ? null : x.id;
+         //   x.energy = d.totals.energy;
+            x.date = new Date(new Date().setHours(0, 0, 0, 0));
+            save(x);
+        }
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+
+        var get = function (x) {
+            $http({
+                url: $sessionStorage.config.backend + 'WeeklyMenus.asmx/Get',
+                method: "POST",
+                data: { userId: $rootScope.user.userGroupId, id: x.id, }
+            })
+            .then(function (response) {
+                var menu = JSON.parse(response.data.d);
+                $mdDialog.hide(menu);
+            },
+            function (response) {
+                alert(response.data.d)
+            });
+        }
 
         $scope.cancel = function () {
             $mdDialog.cancel();

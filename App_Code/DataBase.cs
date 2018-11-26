@@ -27,6 +27,8 @@ namespace Igprog {
         public string invoices = "invoices";
         public string recipes = "recipes";
         public string meals = "meals";
+        public string weeklymenus = "weeklymenus";
+
 
         #region CreateTable (users.ddb)
         public void Users(string path) {
@@ -154,7 +156,7 @@ namespace Igprog {
             string sql = @"CREATE TABLE IF NOT EXISTS menues
                 (id VARCHAR(50),
                 title NVARCHAR(50),
-                diet NVARCHAR(50),
+                diet NVARCHAR(200),
                 date VARCHAR(50),
                 note NVARCHAR(200),
                 userId VARCHAR(50),
@@ -193,6 +195,20 @@ namespace Igprog {
                 (id VARCHAR(50) PRIMARY KEY,
                 title NVARCHAR(50),
                 description NVARCHAR(200),
+                userId VARCHAR(50),
+                userGroupId VARCHAR(50))";
+            CreateTable(path, sql);
+        }
+
+        public void WeeklyMenus(string path) {
+            string sql = @"CREATE TABLE IF NOT EXISTS weeklymenus
+                (id VARCHAR(50) PRIMARY KEY,
+                title NVARCHAR(50),
+                note NVARCHAR(200),
+                diet NVARCHAR(200),
+                menuList VARCHAR(200),
+                date VARCHAR(50),
+                clientId VARCHAR(50),
                 userId VARCHAR(50),
                 userGroupId VARCHAR(50))";
             CreateTable(path, sql);
@@ -335,6 +351,9 @@ namespace Igprog {
                     break;
                 case "meals":
                     Meals(path);
+                    break;
+                case "weeklymenus":
+                    WeeklyMenus(path);
                     break;
                 default:
                     break;
