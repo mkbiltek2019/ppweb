@@ -47,7 +47,6 @@
                                 <th>{{'client' | translate}}</th>
                                 <th></th>
                             </tr>
-                            <!--<tr ng-if="type==1?x.client.clientId==clientData.clientId:x.client.clientId!=null" ng-repeat="x in d | filter:searchValue" ng-click="confirm(x)">-->
                             <tr ng-if="type==1?x.client.clientId==clientData.clientId:1==1" ng-repeat="x in d | filter:searchValue | limitTo:limit" ng-click="confirm(x)">
                                 <td class="nowrap">{{x.title}}</td>
                                 <td class="nowrap">{{x.diet | translate}}</td>

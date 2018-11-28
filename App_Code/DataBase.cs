@@ -205,6 +205,7 @@ namespace Igprog {
                 (id VARCHAR(50) PRIMARY KEY,
                 title NVARCHAR(50),
                 note NVARCHAR(200),
+                dietId NVARCHAR(50),
                 diet NVARCHAR(200),
                 menuList VARCHAR(200),
                 date VARCHAR(50),

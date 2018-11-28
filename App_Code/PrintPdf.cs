@@ -139,7 +139,7 @@ public class PrintPdf : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string WeeklyMenuPdf(string userId, WeeklyMenus.NewWeeklyMenus weeklyMenu, ClientsData.NewClientData clientData, int consumers, string lang, PrintMenuSettings settings) {
+    public string WeeklyMenuPdf(string userId, WeeklyMenus.NewWeeklyMenus weeklyMenu, int consumers, string lang, PrintMenuSettings settings) {
         try {
             Rectangle ps = PageSize.A3;
             switch (settings.pageSize) {

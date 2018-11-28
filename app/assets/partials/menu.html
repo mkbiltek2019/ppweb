@@ -163,11 +163,11 @@
         <div ng-if="!loading">
             <div class="panel-heading text-capitalize">
                 <div>
-                    <!--<a href="" ng-click="new()" class="btn btn-default m2"><i class="fa fa-file-o"></i> {{'new' | translate}} {{'menu' | translate}}</a>-->
+                    <a href="" ng-click="new()" class="btn btn-default m2"><i class="fa fa-file-o"></i> {{'new' | translate}} {{'menu' | translate}}</a>
                     <a href="" class="btn btn-default m2" ng-click="search()"><i class="fa fa-search"></i> {{'search' | translate}}</a>
                     <a ng-disabled="menuList.length==0" href="" ng-click="save()" class="btn btn-default m2"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</a>
                     <a ng-disabled="menuList.length==0" href="" ng-click="remove()" class="btn btn-default m2"><span class="text-danger"><i class="fa fa-trash-o"></i> {{'delete' | translate}}</span></a>
-                    <a ng-disabled="menuList.length==0" ng-if="pdfLink==null" ng-click="printWeeklyMenu(consumers, printSettings)" class="btn btn-default" ng-disabled="creatingPdf==true"><span class="text-danger"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</span></a>
+                    <a ng-disabled="menuList.length==0||creatingPdf==true" ng-if="pdfLink==null" ng-click="printWeeklyMenu(consumers, printSettings)" class="btn btn-default" ><span class="text-danger"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</span></a>
                     <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success" download ng-click="hidePdfLink()"><i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}</a>
                     <a ng-disabled="pdfLink==null" href="" class="btn btn-default" title="{{'send menu to the clients email' | translate}}" ng-click="send()"><i class="fa fa-paper-plane-o"></i> {{'send' | translate}}</a>
                 </div>
@@ -176,64 +176,14 @@
                 <div class="col-sm-6">
                     <fieldset class="fieldset-border">
                         <legend class="fieldset-border text-capitalize">{{'menus' | translate}}</legend>
-                        <div>
-                            <md-input-container class="md-block" flex-gt-sm>
-                                <label>{{'monday' | translate}}</label>
-                                <md-select ng-model="menu1" placeholder="Numbers" ng-change="getMenuList(menu1.id, menu2.id, menu3.id, menu4.id, menu5.id, menu6.id, menu7.id)">
-                                    <md-option ng-repeat="x in menues" ng-value="x">
-                                        {{x.title}}, {{x.energy}} kcal ({{x.client.firstName}} {{x.client.lastName}})
-                                    </md-option>
-                                </md-select>
-                            </md-input-container>
-                            <md-input-container class="md-block" flex-gt-sm>
-                                <label>{{'tuesday' | translate}}</label>
-                                <md-select ng-model="menu2" ng-change="getMenuList(menu1.id, menu2.id, menu3.id, menu4.id, menu5.id, menu6.id, menu7.id)">
-                                    <md-option ng-repeat="x in menues" ng-value="x">
-                                        {{x.title}}, {{x.energy}} kcal ({{x.client.firstName}} {{x.client.lastName}})
-                                    </md-option>
-                                </md-select>
-                            </md-input-container>
-                            <md-input-container class="md-block" flex-gt-sm>
-                                <label>{{'wednesday' | translate}}</label>
-                                <md-select ng-model="menu3" ng-change="getMenuList(menu1.id, menu2.id, menu3.id, menu4.id, menu5.id, menu6.id, menu7.id)">
-                                    <md-option ng-repeat="x in menues" ng-value="x">
-                                        {{x.title}}, {{x.energy}} kcal ({{x.client.firstName}} {{x.client.lastName}})
-                                    </md-option>
-                                </md-select>
-                            </md-input-container>
-                            <md-input-container class="md-block" flex-gt-sm>
-                                <label>{{'thursday' | translate}}</label>
-                                <md-select ng-model="menu4" ng-change="getMenuList(menu1.id, menu2.id, menu3.id, menu4.id, menu5.id, menu6.id, menu7.id)">
-                                    <md-option ng-repeat="x in menues" ng-value="x">
-                                        {{x.title}}, {{x.energy}} kcal ({{x.client.firstName}} {{x.client.lastName}})
-                                    </md-option>
-                                </md-select>
-                            </md-input-container>
-                            <md-input-container class="md-block" flex-gt-sm>
-                                <label>{{'friday' | translate}}</label>
-                                <md-select ng-model="menu5" ng-change="getMenuList(menu1.id, menu2.id, menu3.id, menu4.id, menu5.id, menu6.id, menu7.id)">
-                                    <md-option ng-repeat="x in menues" ng-value="x">
-                                        {{x.title}}, {{x.energy}} kcal ({{x.client.firstName}} {{x.client.lastName}})
-                                    </md-option>
-                                </md-select>
-                            </md-input-container>
-                            <md-input-container class="md-block" flex-gt-sm>
-                                <label>{{'saturday' | translate}}</label>
-                                <md-select ng-model="menu6" ng-change="getMenuList(menu1.id, menu2.id, menu3.id, menu4.id, menu5.id, menu6.id)">
-                                    <md-option ng-repeat="x in menues" ng-value="x">
-                                        {{x.title}}, {{x.energy}} kcal ({{x.client.firstName}} {{x.client.lastName}})
-                                    </md-option>
-                                </md-select>
-                            </md-input-container>
-                            <md-input-container class="md-block" flex-gt-sm>
-                                <label>{{'sunday' | translate}}</label>
-                                <md-select ng-model="menu7" ng-change="getMenuList(menu1.id, menu2.id, menu3.id, menu4.id, menu5.id, menu6.id, menu7.id)">
-                                    <md-option ng-repeat="x in menues" ng-value="x">
-                                        {{x.title}}, {{x.energy}} kcal ({{x.client.firstName}} {{x.client.lastName}})
-                                    </md-option>
-                                </md-select>
-                            </md-input-container>
-                        </div>
+                        <md-input-container class="md-block" flex-gt-sm ng-repeat="x in weeklyMenu.menuList track by $index">
+                            <label>{{getDay($index) | translate}}</label>
+                            <md-select ng-model="weeklyMenu.menuList[$index]">
+                                <md-option ng-repeat="y in menus" ng-value="y.id">
+                                    {{y.title}}, {{y.energy}} kcal - {{y.diet | translate}} ({{y.client.firstName}} {{y.client.lastName}})
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
                     </fieldset>
                 </div>
                 <div class="col-sm-6">
@@ -290,8 +240,6 @@
                     </div>-->
                 </div>
             </div>
-
-            <pre>{{weeklyMenu | json}}</pre>
         </div>
     </div>
 </script>

@@ -13,8 +13,44 @@
                     <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
                 </div>
                 <div ng-show="!loading" class="md-dialog-content">
-                    TODO
-                   <pre>{{d}}</pre>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <input ng-model="searchValue" class="form-control search" type="text" placeholder="{{'search' | translate}}..." />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 p10 ml10">
+                            <md-radio-group ng-model="type" layout="row">
+                                <md-radio-button value="0" class="md-primary">{{'all menus' | translate}}</md-radio-button>
+                                <md-radio-button value="1" class="md-primary">{{'client menus' | translate}}</md-radio-button>
+                            </md-radio-group>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-condensed">
+                            <tr>
+                                <th>{{'title' | translate}}</th>
+                                <th>{{'note'| translate}}</th>
+                                <th>{{'diet'| translate}}</th>
+                                <th>{{'date' | translate}}</th>
+                                <th ng-if="config.debug">{{'client Id' | translate}}</th>
+                                <th>{{'client' | translate}}</th>
+                                <th></th>
+                            </tr>
+                            <tr ng-if="type==1?x.client.clientId==clientData.clientId:1==1" ng-repeat="x in d | filter:searchValue | limitTo:limit" ng-click="confirm(x)">
+                                <td class="nowrap">{{x.title}}</td>
+                                <td class="nowrap">{{x.note}}</td>
+                                <td class="nowrap">{{x.diet.diet}}</td>
+                                <td>{{x.date | date:'dd.MM.yyyy'}}</td>
+                                <td ng-if="config.debug">{{x.client.clientId}}</td>
+                                <td>{{x.client.firstName}} {{x.client.lastName}}</td>
+                                <td><a href="" style="color:red" ng-click="remove(x)" class="btn btn-default"><i class="fa fa-trash-o"></i></a></td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </md-dialog-content>
