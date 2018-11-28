@@ -5839,6 +5839,22 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     }
 
+    var emptyMenuList = true;
+    var isEmptyList = function (x) {
+        debugger;
+        emptyMenuList = true;
+        angular.forEach(x, function (value, key) {
+            if (!functions.isNullOrEmpty(value)) {
+                emptyMenuList = false;
+                return false;
+            }
+        });
+    }
+    $scope.isEmptyList = function () {
+        isEmptyList($scope.weeklyMenu.menuList);
+        return emptyMenuList;
+    }
+
     var init = function () {
         $scope.loading = true;
         $http({
@@ -5848,6 +5864,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
        .then(function (response) {
            $scope.weeklyMenu = JSON.parse(response.data.d);
+
            $scope.loading = false;
        },
        function (response) {
@@ -5861,37 +5878,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         init();
     }
 
-
-
     $scope.printWindow = function () {
         window.print();
     };
 
     $scope.pdfLink = null;
     $scope.creatingPdf = false;
-    /*
-    var printMenuPdf = function () {
-        $scope.creatingPdf = true;
-        if (angular.isDefined($rootScope.currentMenu)) {
-            var currentMenu = angular.copy($rootScope.currentMenu);
-            currentMenu.data.selectedFoods = $scope.foods;
-            $http({
-                url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
-                method: "POST",
-                data: { userId: $sessionStorage.usergroupid, currentMenu: currentMenu, clientData: $rootScope.clientData, totals: $rootScope.totals, consumers: $scope.consumers, lang: $rootScope.config.language }
-            })
-              .then(function (response) {
-                  var fileName = response.data.d;
-                  $scope.creatingPdf = false;
-                  $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
-              },
-              function (response) {
-                  $scope.creatingPdf = false;
-                  alert(response.data.d)
-              });
-        }
-    }
-      */
+
     $scope.openPdf = function () {
         if ($scope.pdfLink != null) {
             window.open($scope.pdfLink, window.innerWidth <= 800 && window.innerHeight <= 600 ? '_self' : '_blank');
@@ -5926,7 +5919,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $rootScope.printSettings.orientation = 'L';
 
     $scope.printWeeklyMenu = function (consumers, printSettings) {
-        if ($scope.weeklyMenu.menuList.length == 0) {
+        if (emptyMenuList) {
             functions.alert($translate.instant('select menus'), '');
             return false;
         }
@@ -5968,11 +5961,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
        .then(function (response) {
            $scope.weeklyMenu = response;
-           debugger;
-           //$scope.menu0 = $scope.weeklyMenu.menuList[0];
-           //$scope.menu1 = $scope.weeklyMenu.menuList[1];
-           //$scope.menu2 = $scope.weeklyMenu.menuList[2];
-
        }, function () {
        });
     }
@@ -6009,6 +5997,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         $scope.remove = function (x) {
+            if (emptyMenuList) return false;
             var confirm = $mdDialog.confirm()
                  .title($translate.instant('remove menu') + '?')
                  .textContent(x.title)
@@ -6066,6 +6055,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     //********* save ************
     $scope.save = function () {
+        if (emptyMenuList) {
+            functions.alert($translate.instant('select menus'), '');
+            return false;
+        }
         openSaveMenuPopup();
     }
 
@@ -6085,8 +6078,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     var openSaveMenuPopupCtrl = function ($scope, $mdDialog, d, $http, $translate, functions) {
         var webService = 'WeeklyMenus.asmx';
-        debugger;
         $scope.d = d.weeklyMenu;
+
         var save = function (x) {
             if (functions.isNullOrEmpty(x.title)) {
                 functions.alert($translate.instant('enter menu title'), '');
@@ -6145,12 +6138,47 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     };
 
+    //********* remove ************
+
+    $scope.remove = function (x) {
+        if (emptyMenuList) { return false; }
+        var confirm = $mdDialog.confirm()
+             .title($translate.instant('remove menu') + '?')
+             .textContent(x.title)
+             .targetEvent(x)
+             .ok($translate.instant('yes'))
+             .cancel($translate.instant('no'));
+        $mdDialog.show(confirm).then(function () {
+            remove(x);
+        }, function () {
+        });
+    }
+
+    var remove = function (x) {
+        $http({
+            url: $sessionStorage.config.backend + webService + '/Delete',
+            method: "POST",
+            data: { userId: $rootScope.user.userGroupId, id: x.id }
+        })
+      .then(function (response) {
+          $scope.d = JSON.parse(response.data.d);
+      },
+      function (response) {
+          alert(response.data.d)
+      });
+    }
+
     //********* send ************
     $scope.send = function () {
         openSendMenuPopup();
     }
 
     var openSendMenuPopup = function () {
+        if (emptyMenuList) {
+            functions.alert($translate.instant('select menus'), '');
+            return false;
+        }
+        if ($scope.pdfLink == null) { return false;}
         $mdDialog.show({
             controller: openSendMenuPopupCtrl,
             templateUrl: 'assets/partials/popup/sendweeklymenu.html',
@@ -6158,7 +6186,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             clickOutsideToClose: true,
             d: { client: $rootScope.client, user: $rootScope.user, pdfLink: $scope.pdfLink }
         })
-       .then(function (x) {
+       .then(function (response) {
        }, function () {
        });
     }
@@ -6207,7 +6235,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 
 }])
-
 
 
 //-------------end Program Prehrane Controllers--------------------

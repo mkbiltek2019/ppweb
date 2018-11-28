@@ -149,7 +149,7 @@ public class PrintPdf : System.Web.Services.WebService {
                 case "A1": ps = PageSize.A1; break;
                 default: ps = PageSize.A3; break;
             }
-            Document doc = new Document(settings.orientation == "L" ? ps.Rotate() : ps, 10, 10, 10, 10);
+            Document doc = new Document(settings.orientation == "L" ? ps.Rotate() : ps, 40, 40, 40, 40);
             string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
             DeleteFolder(path);
             CreateFolder(path);
@@ -161,6 +161,13 @@ public class PrintPdf : System.Web.Services.WebService {
 
             AppendHeader(doc, userId);
 
+            if(settings.showClientData) {
+                doc.Add(new Paragraph(string.Format("{0}: {1} {2}",
+                    t.Tran("client", lang).ToUpper(),
+                    weeklyMenu.client.firstName,
+                    weeklyMenu.client.lastName), normalFont_10));
+            }
+
             if(consumers > 1) {
                 doc.Add(new Paragraph(t.Tran("number of consumers", lang) + ": " + consumers, normalFont_10));
             } else {
@@ -168,8 +175,11 @@ public class PrintPdf : System.Web.Services.WebService {
                 //ShowClientData(doc, currentMenu, clientData, settings.showClientData, lang);
             }
 
+            doc.Add(new Paragraph(string.Format("{0}: {1}", t.Tran("diet", lang).ToUpper(), weeklyMenu.diet.diet), normalFont_10));
+
             PdfPTable table = new PdfPTable(8);
-            table.WidthPercentage = 95f;
+            //table.WidthPercentage = 95f;
+            table.WidthPercentage = 100f;
             table.SetWidths(new float[] { 1.5f, 2f, 2f, 2f, 2f, 2f, 2f, 2f });
             table.AddCell(new PdfPCell(new Phrase(t.Tran("meals", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
             table.AddCell(new PdfPCell(new Phrase(t.Tran("monday", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
@@ -1152,13 +1162,15 @@ IBAN HR8423400091160342496
                         p.Add(new Chunk(description, normalFont_10));
                         p.Add(new Chunk("\n\n", normalFont));
                     }
-                    foreach (Foods.NewFood f in meal_) {
-                        p.Add(new Chunk(string.Format(@"- {0}", f.food), normalFont));
-                        p.Add(new Chunk(string.Format(@"{0}{1}{2}"
-                                , settings.showQty ? string.Format(", {0} {1}", f.quantity, f.unit) : ""
-                                , settings.showMass ? string.Format(", {0} g", f.mass) : ""
-                                , settings.showServ && !string.IsNullOrEmpty(getServingDescription(f.servings, lang)) ? string.Format(", ({0})", getServingDescription(f.servings, lang)) : ""), font_qty));
-                        p.Add(new Chunk("\n", normalFont));
+                    if(settings.showFoods) {
+                        foreach (Foods.NewFood f in meal_) {
+                            p.Add(new Chunk(string.Format(@"- {0}", f.food), normalFont));
+                            p.Add(new Chunk(string.Format(@"{0}{1}{2}"
+                                    , settings.showQty ? string.Format(", {0} {1}", f.quantity, f.unit) : ""
+                                    , settings.showMass ? string.Format(", {0} g", f.mass) : ""
+                                    , settings.showServ && !string.IsNullOrEmpty(getServingDescription(f.servings, lang)) ? string.Format(", ({0})", getServingDescription(f.servings, lang)) : ""), font_qty));
+                            p.Add(new Chunk("\n", normalFont));
+                        }
                     }
                 }
                 table.AddCell(new PdfPCell(p) { Border = PdfPCell.BOTTOM_BORDER, MinimumHeight = 30, PaddingTop = 5, PaddingRight = 2, PaddingBottom = 5, PaddingLeft = 2 });
