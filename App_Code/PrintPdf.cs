@@ -139,7 +139,7 @@ public class PrintPdf : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string WeeklyMenuPdf(string userId, string[] menuList, ClientsData.NewClientData clientData, int consumers, string lang, PrintMenuSettings settings) {
+    public string WeeklyMenuPdf(string userId, WeeklyMenus.NewWeeklyMenus weeklyMenu, ClientsData.NewClientData clientData, int consumers, string lang, PrintMenuSettings settings) {
         try {
             Rectangle ps = PageSize.A3;
             switch (settings.pageSize) {
@@ -180,10 +180,10 @@ public class PrintPdf : System.Web.Services.WebService {
             table.AddCell(new PdfPCell(new Phrase(t.Tran("saturday", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
             table.AddCell(new PdfPCell(new Phrase(t.Tran("sunday", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
 
-            if (menuList.Length > 0) {
+            if (weeklyMenu.menuList.Count > 0) {
                 weeklyMealIdx = 0;
-                foreach (var ml in menuList) {
-                    AppendDayMeal(table, menuList, consumers, userId, settings, lang);
+                foreach (var ml in weeklyMenu.menuList) {
+                    AppendDayMeal(table, weeklyMenu.menuList, consumers, userId, settings, lang);
                 }
             }
             
@@ -1121,7 +1121,7 @@ IBAN HR8423400091160342496
         }
     }
 
-    private void AppendDayMeal(PdfPTable table, string[] menuList, int consumers, string userId, PrintMenuSettings settings, string lang) {
+    private void AppendDayMeal(PdfPTable table, List<string> menuList, int consumers, string userId, PrintMenuSettings settings, string lang) {
         try {
             font_qty.SetColor(8, 61, 134);
             List<Foods.NewFood> meal = new List<Foods.NewFood>();
@@ -1140,7 +1140,7 @@ IBAN HR8423400091160342496
             }
             table.AddCell(new PdfPCell(new Phrase(menuTitle.ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
 
-            for (i = 0; i < menuList.Length; i++) {
+            for (i = 0; i < menuList.Count; i++) {
                 Menues.NewMenu weeklyMenu = me.WeeklyMenu(userId, menuList[i]);
                 string currMeal = menuList[i] != null ? weeklyMenu.data.meals[weeklyMealIdx].code : "";
                 p = new Phrase();

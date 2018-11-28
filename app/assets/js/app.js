@@ -5823,9 +5823,28 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 }])
 
 .controller('weeklyMenuCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
+    var webService = 'WeeklyMenus.asmx';
     $scope.consumers = 1;
 
     //TODO init weekly Muenu
+    var init = function () {
+        $scope.loading = true;
+        $http({
+            url: $sessionStorage.config.backend + webService + '/Init',
+            method: "POST",
+            data: { user: $rootScope.user, clientData: $rootScope.clientData }
+        })
+       .then(function (response) {
+           $scope.weeklyMenu = JSON.parse(response.data.d);
+           $scope.loading = false;
+       },
+       function (response) {
+           $scope.loading = false;
+           alert(response.data.d);
+       });
+    }
+    init();
+
 
     $scope.printWindow = function () {
         window.print();
@@ -5884,7 +5903,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.new = function () {
         debugger;
-        $scope.menuList = [];
+        init();
+        //$scope.menuList = [];
         $scope.menu1 = null;
         $scope.menu2 = null;
     }
@@ -5892,7 +5912,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.getMenuList = function (id1, id2, id3, id4, id5, id6, id7) {
         debugger;
-        $scope.menuList = [id1, id2, id3, id4, id5, id6, id7];
+        $scope.weeklyMenu.menuList = [id1, id2, id3, id4, id5, id6, id7];
         $scope.pdfLink = null;
     }
 
@@ -5903,7 +5923,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $rootScope.printSettings.orientation = 'L';
 
     $scope.printWeeklyMenu = function (consumers, printSettings) {
-        if ($scope.menuList.length == 0) {
+        if ($scope.weeklyMenu.menuList.length == 0) {
             functions.alert($translate.instant('select menus'), '');
             return false;
         }
@@ -5912,7 +5932,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + 'PrintPdf.asmx/WeeklyMenuPdf',
             method: "POST",
-            data: { userId: $sessionStorage.usergroupid, menuList: $scope.menuList, clientData: $rootScope.clientData, consumers: consumers, lang: $rootScope.config.language, settings: printSettings }
+            data: { userId: $sessionStorage.usergroupid, weeklyMenu: $scope.weeklyMenu, clientData: $rootScope.clientData, consumers: consumers, lang: $rootScope.config.language, settings: printSettings }
+            //data: { userId: $sessionStorage.usergroupid, menuList: $scope.menuList, clientData: $rootScope.clientData, consumers: consumers, lang: $rootScope.config.language, settings: printSettings }
         })
           .then(function (response) {
               var fileName = response.data.d;
@@ -6008,7 +6029,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var openSearchMenuPopupCtrl = function ($scope, $mdDialog, $http, $translate, functions) {
-
+        var webService = 'WeeklyMenus.asmx';
         $scope.limit = 20;
 
         $scope.loadMore = function () {
@@ -6019,7 +6040,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $scope.loading = true;
             $scope.appMenues = false;
             $http({
-                url: $sessionStorage.config.backend + 'WeeklyMenus.asmx/Load',
+                url: $sessionStorage.config.backend + webService + '/Load',
                 method: "POST",
                 data: { userId: $rootScope.user.userGroupId }
             })
@@ -6053,7 +6074,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         var remove = function (x) {
             $http({
-                url: $sessionStorage.config.backend + 'WeeklyMenus.asmx/Delete',
+                url: $sessionStorage.config.backend + webService + '/Delete',
                 method: "POST",
                 data: { userId: $rootScope.user.userGroupId, id: x.id }
             })
@@ -6071,7 +6092,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         var get = function (x) {
             $http({
-                url: $sessionStorage.config.backend + 'WeeklyMenus.asmx/Get',
+                url: $sessionStorage.config.backend + webService + '/Get',
                 method: "POST",
                 data: { userId: $rootScope.user.userGroupId, id: x.id, }
             })
@@ -6104,7 +6125,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             templateUrl: 'assets/partials/popup/saveweeklymenu.html',
             parent: angular.element(document.body),
             clickOutsideToClose: true,
-            d: { menuList: $scope.menuList }
+            d: { weeklyMenu: $scope.weeklyMenu }
         })
        .then(function (x) {
 
@@ -6113,24 +6134,21 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var openSaveMenuPopupCtrl = function ($scope, $mdDialog, d, $http, $translate, functions) {
-
-        $scope.d = angular.copy(d);
-        var save = function () {
-            alert('todo');
-            return false;
-            if (functions.isNullOrEmpty(d.title)) {
+        var webService = 'WeeklyMenus.asmx';
+        $scope.d = d.weeklyMenu;
+        var save = function (x) {
+            if (functions.isNullOrEmpty(x.title)) {
                 functions.alert($translate.instant('enter menu title'), '');
                 return false;
             }
-           // $mdDialog.hide($scope.d.currentMenu);
             $http({
-                url: $sessionStorage.config.backend + 'WeeklyMenus.asmx/Save',
+                url: $sessionStorage.config.backend + webService + '/Save',
                 method: "POST",
-                data: { userId: $rootScope.user.userGroupId, x: currentMenu, user: $scope.d.user }
+                data: { userId: $rootScope.user.userGroupId, x: $scope.d }
             })
           .then(function (response) {
               if (response.data.d != 'error') {
-                  $scope.d.currentMenu = JSON.parse(response.data.d);
+                  $scope.d = JSON.parse(response.data.d);
               } else {
                   functions.alert($translate.instant('there is already a menu with the same name'), '');
               }
@@ -6145,10 +6163,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         };
 
         $scope.confirm = function (x, saveasnew) {
-            x.client = d.client;
-            x.userId = d.client.userId;
             x.id = saveasnew == true ? null : x.id;
-         //   x.energy = d.totals.energy;
             x.date = new Date(new Date().setHours(0, 0, 0, 0));
             save(x);
         }
@@ -6159,13 +6174,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         var get = function (x) {
             $http({
-                url: $sessionStorage.config.backend + 'WeeklyMenus.asmx/Get',
+                url: $sessionStorage.config.backend + webService + '/Get',
                 method: "POST",
                 data: { userId: $rootScope.user.userGroupId, id: x.id, }
             })
             .then(function (response) {
-                var menu = JSON.parse(response.data.d);
-                $mdDialog.hide(menu);
+                $scope.d = JSON.parse(response.data.d);
+                $mdDialog.hide($scope.d);
             },
             function (response) {
                 alert(response.data.d)
@@ -6175,10 +6190,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.cancel = function () {
             $mdDialog.cancel();
         };
-
-        $scope.confirm = function () {
-            send();
-        }
 
     };
 

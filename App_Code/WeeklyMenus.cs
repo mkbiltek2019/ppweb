@@ -33,15 +33,15 @@ public class WeeklyMenus : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string Init(Users.NewUser user) {
+    public string Init(Users.NewUser user, ClientsData.NewClientData clientData) {
         NewWeeklyMenus x = new NewWeeklyMenus();
         x.id = null;
         x.title = null;
         x.note = null;
-        x.diet = null;
+        x.diet = clientData.diet.id;
         x.menuList = new List<string>();
         x.date = DateTime.UtcNow;
-        x.clientId = null;
+        x.clientId = clientData.clientId;
         x.userId = user.userId;
         x.userGroupId = user.userGroupId;
         return JsonConvert.SerializeObject(x, Formatting.Indented);

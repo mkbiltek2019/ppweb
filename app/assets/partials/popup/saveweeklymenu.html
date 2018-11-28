@@ -23,8 +23,8 @@
                 </div>
                 <pre>{{d | json}}</pre>
                 <div class="row pull-right text-capitalize">
-                    <a ng-hide="d.userId != d.user.userId && d.user.adminType > 0" href="" class="btn btn-primary m10" ng-click="confirm(d.currentMenu, false)"><i class="fa fa-floppy-o"></i> <span>{{'save' | translate}}</span></a>
-                    <a href="" class="btn btn-primary m10" ng-click="confirm(d.currentMenu, true)"><i class="fa fa-plus"></i> <span>{{'save as new' | translate}}</span></a>
+                    <a ng-hide="d.userId != d.user.userId && d.user.adminType > 0" href="" class="btn btn-primary m10" ng-click="confirm(d, false)"><i class="fa fa-floppy-o"></i> <span>{{'save' | translate}}</span></a>
+                    <a href="" class="btn btn-primary m10" ng-click="confirm(d, true)"><i class="fa fa-plus"></i> <span>{{'save as new' | translate}}</span></a>
                 </div>
             </div>
         </md-dialog-content>

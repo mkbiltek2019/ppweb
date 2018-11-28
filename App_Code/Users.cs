@@ -73,12 +73,13 @@ public class Users : System.Web.Services.WebService {
     }
 
     public class DataSum {
-        public int clients { get; set; }
-        public int menues { get; set; }
-        public int myfoods {get;set;}
-        public int recipes { get; set; }
-        public int meals { get; set; }
-        public int scheduler { get; set; }
+        public int clients;
+        public int menues;
+		public int weeklyMenus;
+        public int myfoods;
+        public int recipes;
+        public int meals;
+        public int scheduler;
     }
 
     public class CheckUser {
@@ -855,6 +856,19 @@ public class Users : System.Web.Services.WebService {
                     x.menues = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
                 }
             }
+			
+			tbl = "weeklymenus";
+            sql = CheckTblExistsSql(tbl);
+            command = new SQLiteCommand(sql, connection);
+            reader = command.ExecuteReader();
+            if (IsTblExists(reader)) {
+                sql = string.Format("SELECT COUNT(id) FROM {0}", tbl);
+                command = new SQLiteCommand(sql, connection);
+                reader = command.ExecuteReader();
+                while (reader.Read()) {
+                    x.weeklyMenus = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                }
+            }
 
             tbl = "myfoods";
             sql = CheckTblExistsSql(tbl);
@@ -894,7 +908,7 @@ public class Users : System.Web.Services.WebService {
                     x.meals = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
                 }
             }
-
+			
             tbl = "scheduler";
             sql = CheckTblExistsSql(tbl);
             command = new SQLiteCommand(sql, connection);
