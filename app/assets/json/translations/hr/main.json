@@ -1784,7 +1784,9 @@
   "my meals are available only in premium version": "Moji obroci su dostupni samo u Premium verziji",
   "a new application upgrade is available": "dostupna je nova nadogradnja aplikacije",
   "what is new": "Što je novo",
-  "weekly menus": "Tjedni jelovnici"
+  "weekly menus": "Tjedni jelovnici",
+  "you have reached the maximum number of meals": "Dosegli ste maksimalan broj obroka",
+  "choose at least 3 meals": "Izaberite barem 3 obroka"
 
 
 }

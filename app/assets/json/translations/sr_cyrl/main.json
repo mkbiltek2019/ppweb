@@ -1778,6 +1778,8 @@
   "my meals are available only in premium version": "Моји оброци су доступни само у Премиум верзији",
   "a new application upgrade is available": "доступна је нова надоградња апликације",
   "what is new": "Шта је ново",
-  "weekly menus": "Недељни јеловници"
+  "weekly menus": "Недељни јеловници",
+  "you have reached the maximum number of meals": "Досегли сте максималан број оброка",
+  "choose at least 3 meals": "Изаберите барем 3 оброка"
 
 }

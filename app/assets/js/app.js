@@ -2603,6 +2603,18 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.add = function () {
+        if ($rootScope.myMeals === undefined) {
+            init();
+        } else {
+            addNewRow();
+        }
+    }
+
+    var addNewRow = function () {
+        if ($rootScope.myMeals.data.meals.length > 11) {
+            functions.alert($translate.instant('you have reached the maximum number of meals'), '');
+            return false;
+        }
         $rootScope.myMeals.data.meals.push({
             code: "",
             title: "",
@@ -2777,10 +2789,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $rootScope.selectedFoods = $rootScope.selectedFoods == undefined ? [] : $rootScope.selectedFoods;
 
-    if ($rootScope.clientData.meals.length == 0) {
+    if ($rootScope.clientData.meals.length < 3) {
         $rootScope.newTpl = 'assets/partials/meals.html';
         $rootScope.selectedNavItem = 'meals';
-        functions.alert($translate.instant('choose meals'), '');
+        functions.alert($translate.instant('choose at least 3 meals'), '');
     }
 
     var getRecommendations = function (x) {
@@ -3334,6 +3346,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         function servDes(des, serv, title) {
             return (functions.isNullOrEmpty(des) ? '' : (des + ', ')) + serv + ' serv. ' + $translate.instant(title);
+        }
+
+        $scope.isSeparatedDes = function (x) {
+            return x.includes('~');
         }
 
         var currDes = null;

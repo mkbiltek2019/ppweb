@@ -68,9 +68,12 @@
                     <div ng-if="x.isSelected==1" ng-repeat="x in currentMenu.data.meals track by $index" class="m10">
                         <label class="text-uppercase mt10">{{getMealTitle(x)}}</label>
                         <div ng-if="x.description" class="mt10">
-                            <div ng-repeat="y in getTitleDes(x.description)">
-                                <div ng-if="settings.showTitle">{{y.title}}</div>
-                                <em ng-if="settings.showDescription">{{y.description}}</em>
+                            <em ng-if="!isSeparatedDes(x.description)&&settings.showDescription">{{x.description}}</em>
+                            <div ng-if="isSeparatedDes(x.description)">
+                                <div ng-repeat="y in getTitleDes(x.description)">
+                                    <div ng-if="settings.showTitle">{{y.title}}</div>
+                                    <em ng-if="settings.showDescription">{{y.description}}</em>
+                                </div>
                             </div>
                         </div>
                         <div ng-if="settings.showFoods" class="mt10">

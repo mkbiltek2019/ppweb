@@ -98,12 +98,15 @@ public class PrintPdf : System.Web.Services.WebService {
             }
 
             doc.Add(new Chunk(line));
+
             var meals = currentMenu.data.selectedFoods.Select(a => a.meal.code).Distinct().ToList();
+            List<string> orderedMeals = GetOrderedMeals(meals);
             StringBuilder sb = new StringBuilder();
             sb.AppendLine(string.Format(@"
                                         "));
 
-            foreach (string m in meals) {
+
+            foreach (string m in orderedMeals) {
                 List<Foods.NewFood> meal = currentMenu.data.selectedFoods.Where(a => a.meal.code == m).ToList();
                 sb.AppendLine(AppendMeal(meal, currentMenu.data.meals, lang, settings));
             }
@@ -1049,7 +1052,8 @@ IBAN HR8423400091160342496
             if(meals.Find(a => a.code == meal[0].meal.code).isSelected == true) {
                 sb.AppendLine(string.Format(@"{0}", t.Tran(GetMealTitle(meal[0].meal), lang)).ToUpper());
                 string description = meals.Where(a => a.code == meal[0].meal.code).FirstOrDefault().description;
-                    if (!string.IsNullOrWhiteSpace(description)) {
+                if (!string.IsNullOrWhiteSpace(description)) {
+                    if (description.Contains('~')) {
                         string[] desList = description.Split('|');
                         if (desList.Length > 0) {
                             var list = (from p in desList
@@ -1057,16 +1061,40 @@ IBAN HR8423400091160342496
                                             title = p.Split('~')[0],
                                             description = p.Split('~').Length > 1 ? p.Split('~')[1] : ""
                                         }).ToList();
-                        foreach (var l in list) {
-                            if (settings.showTitle) {
-                                sb.AppendLine(l.title);
-                            }
-                            if (settings.showDescription) {
-                                sb.AppendLine(string.Format(@"{0}
-                                                ", l.description));
+                            foreach (var l in list) {
+                                if (settings.showTitle) {
+                                    sb.AppendLine(l.title);
+                                }
+                                if (settings.showDescription) {
+                                    sb.AppendLine(string.Format(@"{0}
+                                                    ", l.description));
+                                }
                             }
                         }
+                    } else {
+                        if (settings.showDescription) {
+                            sb.AppendLine(description);
+                        }
                     }
+
+
+                    //    string[] desList = description.Split('|');
+                    //    if (desList.Length > 0) {
+                    //        var list = (from p in desList
+                    //                    select new {
+                    //                        title = p.Split('~')[0],
+                    //                        description = p.Split('~').Length > 1 ? p.Split('~')[1] : ""
+                    //                    }).ToList();
+                    //    foreach (var l in list) {
+                    //        if (settings.showTitle) {
+                    //            sb.AppendLine(l.title);
+                    //        }
+                    //        if (settings.showDescription) {
+                    //            sb.AppendLine(string.Format(@"{0}
+                    //                            ", l.description));
+                    //        }
+                    //    }
+                    //}
                 }
                 if (settings.showFoods) {
                     foreach (Foods.NewFood food in meal) {
@@ -1223,7 +1251,38 @@ IBAN HR8423400091160342496
             , client.clientData.hip > 0 ? string.Format(", {0}: {1} kg", t.Tran("hip", lang), client.clientData.hip) : "")
             , normalFont_8));
             doc.Add(new Paragraph(string.Format("{0}: {1}", t.Tran("diet", lang), client.clientData.diet.diet), normalFont_8));
-            //doc.Add(new Chunk(line));
+    }
+
+    private List<string> GetOrderedMeals(List<string> meals) {
+        List<string> x = new List<string>();
+        if (meals.Count > 0) {
+            if (meals[0].StartsWith("MM")) {
+                // ********* My meals ***********
+                x = meals.OrderByDescending(a => a == "MM0")
+               .ThenByDescending(a => a == "MM1")
+               .ThenByDescending(a => a == "MM2")
+               .ThenByDescending(a => a == "MM3")
+               .ThenByDescending(a => a == "MM4")
+               .ThenByDescending(a => a == "MM5")
+               .ThenByDescending(a => a == "MM6")
+               .ThenByDescending(a => a == "MM7")
+               .ThenByDescending(a => a == "MM8")
+               .ThenByDescending(a => a == "MM9")
+               .ThenByDescending(a => a == "MM10")
+               .ThenByDescending(a => a == "MM11")
+               .ToList();
+            } else {
+                // ******* Standard meals *******
+                x = meals.OrderByDescending(a => a == "B")
+                .ThenByDescending(a => a == "MS")
+                .ThenByDescending(a => a == "L")
+                .ThenByDescending(a => a == "AS")
+                .ThenByDescending(a => a == "D")
+                .ThenByDescending(a => a == "MBS")
+                .ToList();
+            }
+        }
+        return x;
     }
     #endregion Methods
 
