@@ -7,6 +7,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.IO;
 using Newtonsoft.Json;
+using System.Data.SQLite;
 using System.Text;
 using System.Configuration;
 using Igprog;
@@ -87,7 +88,9 @@ public class PrintPdf : System.Web.Services.WebService {
 
             doc.Open();
             AppendHeader(doc, userId);
-			ShowClientData(doc, currentMenu, settings.showClientData, lang);
+            if (settings.showClientData) {
+                ShowClientData(doc, currentMenu.client, lang);
+            }
             doc.Add(new Paragraph(currentMenu.title, normalFont_12));
             doc.Add(new Paragraph(currentMenu.note, normalFont_8));
             if(consumers > 1) {
@@ -161,24 +164,21 @@ public class PrintPdf : System.Web.Services.WebService {
 
             AppendHeader(doc, userId);
 
-            if(settings.showClientData) {
-                doc.Add(new Paragraph(string.Format("{0}: {1} {2}",
-                    t.Tran("client", lang).ToUpper(),
-                    weeklyMenu.client.firstName,
-                    weeklyMenu.client.lastName), normalFont_10));
+            if (settings.showClientData) {
+                ShowClientData(doc, weeklyMenu.client, lang);
             }
+            doc.Add(new Paragraph(weeklyMenu.title, normalFont_12));
+            doc.Add(new Paragraph(weeklyMenu.note, normalFont_8));
 
-            if(consumers > 1) {
+            if (consumers > 1) {
                 doc.Add(new Paragraph(t.Tran("number of consumers", lang) + ": " + consumers, normalFont_10));
             } else {
                 //TODO show sclient data when there are more than 1 consumens
                 //ShowClientData(doc, currentMenu, clientData, settings.showClientData, lang);
             }
-
-            doc.Add(new Paragraph(string.Format("{0}: {1}", t.Tran("diet", lang).ToUpper(), weeklyMenu.diet.diet), normalFont_10));
+            doc.Add(new Chunk(line));
 
             PdfPTable table = new PdfPTable(8);
-            //table.WidthPercentage = 95f;
             table.WidthPercentage = 100f;
             table.SetWidths(new float[] { 1.5f, 2f, 2f, 2f, 2f, 2f, 2f, 2f });
             table.AddCell(new PdfPCell(new Phrase(t.Tran("meals", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
@@ -1151,8 +1151,8 @@ IBAN HR8423400091160342496
             table.AddCell(new PdfPCell(new Phrase(menuTitle.ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
 
             for (i = 0; i < menuList.Count; i++) {
-                Menues.NewMenu weeklyMenu = me.WeeklyMenu(userId, menuList[i]);
-                string currMeal = menuList[i] != null ? weeklyMenu.data.meals[weeklyMealIdx].code : "";
+                Menues.NewMenu weeklyMenu = !string.IsNullOrEmpty(menuList[i]) ? me.WeeklyMenu(userId, menuList[i]): new Menues.NewMenu();
+                string currMeal = !string.IsNullOrEmpty(menuList[i]) ? weeklyMenu.data.meals[weeklyMealIdx].code : "";
                 p = new Phrase();
                 if (!string.IsNullOrEmpty(weeklyMenu.id)) {
                     meal = weeklyMenu.data.selectedFoods.Where(a => a.meal.code == currMeal).ToList();
@@ -1172,6 +1172,8 @@ IBAN HR8423400091160342496
                             p.Add(new Chunk("\n", normalFont));
                         }
                     }
+                } else {
+                    p.Add(new Chunk("", normalFont));
                 }
                 table.AddCell(new PdfPCell(p) { Border = PdfPCell.BOTTOM_BORDER, MinimumHeight = 30, PaddingTop = 5, PaddingRight = 2, PaddingBottom = 5, PaddingLeft = 2 });
             }
@@ -1209,20 +1211,19 @@ IBAN HR8423400091160342496
         return string.Format("/upload/users/{0}/img/{1}.png", userId, fileName);
     }
 	
-	private void ShowClientData(Document doc, Menues.NewMenu currentMenu, bool showClientData, string lang){
-        if (showClientData) {
+	private void ShowClientData(Document doc, Clients.NewClient client, string lang) {
             doc.Add(new Paragraph(string.Format("{0} {1}"
-            , currentMenu.client.firstName
-            , currentMenu.client.lastName)
+            , client.firstName
+            , client.lastName)
             , normalFont_8));
             doc.Add(new Paragraph(string.Format("{0}, {1} {2} {3}"
-            , string.Format("{0}: {1} cm", t.Tran("height", lang), currentMenu.client.clientData.height)
-            , string.Format("{0}: {1} kg", t.Tran("weight", lang), currentMenu.client.clientData.weight)
-            , currentMenu.client.clientData.waist > 0 ? string.Format(", {0}: {1} kg", t.Tran("waist", lang), currentMenu.client.clientData.waist) : ""
-            , currentMenu.client.clientData.hip > 0 ? string.Format(", {0}: {1} kg", t.Tran("hip", lang), currentMenu.client.clientData.hip) : "")
+            , string.Format("{0}: {1} cm", t.Tran("height", lang), client.clientData.height)
+            , string.Format("{0}: {1} kg", t.Tran("weight", lang), client.clientData.weight)
+            , client.clientData.waist > 0 ? string.Format(", {0}: {1} kg", t.Tran("waist", lang), client.clientData.waist) : ""
+            , client.clientData.hip > 0 ? string.Format(", {0}: {1} kg", t.Tran("hip", lang), client.clientData.hip) : "")
             , normalFont_8));
-            doc.Add(new Chunk(line));
-        }
+            doc.Add(new Paragraph(string.Format("{0}: {1}", t.Tran("diet", lang), client.clientData.diet.diet), normalFont_8));
+            //doc.Add(new Chunk(line));
     }
     #endregion Methods
 

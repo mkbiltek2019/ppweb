@@ -2881,9 +2881,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $rootScope.currentMenu.client.clientData = $rootScope.clientData;  //TODO sredit
             $rootScope.currentMenu.data.meals = $rootScope.clientData.meals;
 
-            //angular.forEach($rootScope.currentMenu.data.meals, function (value, key) {
-            //    $rootScope.currentMenu.data.meals[key].description = '';
-            //})
+            angular.forEach($rootScope.currentMenu.data.meals, function (value, key) {
+                $rootScope.currentMenu.data.meals[key].description = '';
+            })
            // $rootScope.currentMeal = 'B';  //TODO my Meals
             $rootScope.currentMeal = $rootScope.currentMenu.data.meals[0].code
             getTotals($rootScope.currentMenu);
@@ -3335,7 +3335,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         var currDes = null;
         $scope.list = null;
         $scope.getTitleDes = function (x) {
-            if (currDes === x) { return $scope.list; }
+            debugger;
+            console.log(x);
+            if (currDes === x) {
+                return $scope.list
+            }
             var desList = x.split('|');
             var list = [];
             angular.forEach(desList, function (value, key) {
@@ -5961,6 +5965,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
        .then(function (response) {
            $scope.weeklyMenu = response;
+           $scope.weeklyMenu.client = $rootScope.client;
+           $scope.weeklyMenu.diet = $rootScope.clientData.diet;
        }, function () {
        });
     }
