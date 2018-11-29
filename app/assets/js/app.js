@@ -2492,12 +2492,16 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.tpl = x;
         $rootScope.mealsAreChanged = true;
     }
-
-    if ($rootScope.clientData.meals[0].code == 'B') {
-        $scope.tpl = 'standardMeals';
+    if ($rootScope.clientData.meals.length > 0) {
+        if ($rootScope.clientData.meals[0].code == 'B') {
+            $scope.tpl = 'standardMeals';
+        } else {
+            $scope.tpl = 'myMeals';
+        }
     } else {
-        $scope.tpl = 'myMeals';
+        $scope.tpl = 'standardMeals';
     }
+    
 }])
 
 .controller('standardMealsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
