@@ -67,6 +67,7 @@
                     <p ng-if="consumers > 1">{{'number of consumers' | translate}}: <strong>{{consumers}}</strong></p>
                     <div ng-if="x.isSelected==1" ng-repeat="x in currentMenu.data.meals track by $index" class="m10">
                         <label class="text-uppercase mt10">{{getMealTitle(x)}}</label>
+                        <!--<pre>{{getTitleDes(x.description)}}</pre>-->
                         <div ng-if="x.description" class="mt10">
                             <div ng-repeat="y in getTitleDes(x.description)">
                                 <div ng-if="settings.showTitle">{{y.title}}</div>

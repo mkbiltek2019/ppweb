@@ -3333,26 +3333,28 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         var currDes = null;
-        $scope.list = null;
+        $scope.list = [];
+        var currList = [];
         $scope.getTitleDes = function (x) {
-            debugger;
-            console.log(x);
-            if (currDes === x) {
-                return $scope.list
+            if (currList === x) { return currList; }
+            if (!functions.isNullOrEmpty(x) && !$scope.list.includes(x)) {
+                $scope.list.push(x);
+                var desList = x.split('|');
+                var list = [];
+                angular.forEach(desList, function (value, key) {
+                    list.push({
+                        title: value.split('~')[0],
+                        description: value.split('~')[1],
+                    })
+                });
+                currDes = x;
+                currList = list;
+                return list.length > 0 ? list : x;
+            } else {
+                currList = x;
+                return x;
             }
-            var desList = x.split('|');
-            var list = [];
-            angular.forEach(desList, function (value, key) {
-                list.push({
-                    title: value.split('~')[0],
-                    description: value.split('~')[1],
-                })
-            });
-            currDes = x;
-            $scope.list = list;
-            return list;
         }
-
     };
   
     $scope.get = function () {
