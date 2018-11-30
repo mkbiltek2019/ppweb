@@ -1266,10 +1266,6 @@ IBAN HR8423400091160342496
                .ThenByDescending(a => a == "MM5")
                .ThenByDescending(a => a == "MM6")
                .ThenByDescending(a => a == "MM7")
-               .ThenByDescending(a => a == "MM8")
-               .ThenByDescending(a => a == "MM9")
-               .ThenByDescending(a => a == "MM10")
-               .ThenByDescending(a => a == "MM11")
                .ToList();
             } else {
                 // ******* Standard meals *******

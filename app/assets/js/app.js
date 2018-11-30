@@ -287,6 +287,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 return false;
             }
             if (x == 'menu' && $rootScope.clientData.meals.length > 0 && !$rootScope.isMyMeals && $rootScope.clientData.meals[0].code == 'B') {
+                debugger;
                 if ($rootScope.clientData.meals[1].isSelected == false && $rootScope.clientData.meals[5].isSelected == true) {
                     $rootScope.newTpl = './assets/partials/meals.html';
                     functions.alert($translate.instant('the selected meal combination is not allowed in the menu') + '!', $rootScope.clientData.meals[5].title + ' ' + $translate.instant('in this combination must be turned off') + '.');
@@ -2602,6 +2603,15 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         });
     }
 
+    var setMealCode = function () {
+        angular.forEach($rootScope.myMeals.data.meals, function (value, key) {
+            value.code = 'MM' + key;
+            $rootScope.myMeals.data.energyPerc[key].meal.code = value.code;
+        })
+        $rootScope.isMyMeals = true;
+        $rootScope.clientData.meals = angular.copy($rootScope.myMeals.data.meals);
+    }
+
     $scope.add = function () {
         if ($rootScope.myMeals === undefined) {
             init();
@@ -2610,8 +2620,15 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     }
 
+    $rootScope.setMealCode = function () {
+        debugger;
+        if ($rootScope.isMyMeals) {
+            setMealCode();
+        }
+    }
+
     var addNewRow = function () {
-        if ($rootScope.myMeals.data.meals.length > 11) {
+        if ($rootScope.myMeals.data.meals.length >= 8) {
             functions.alert($translate.instant('you have reached the maximum number of meals'), '');
             return false;
         }
@@ -2631,15 +2648,25 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 energyMax: 0
             }
         });
+        setMealCode();
     }
 
     $scope.removeMeal = function (idx) {
         $rootScope.myMeals.data.meals.splice(idx, 1);
         $rootScope.myMeals.data.energyPerc.splice(idx, 1);
+        setMealCode();
     }
 
     $scope.save = function () {
         if ($rootScope.user.userType < 2) {
+            return false;
+        }
+        if ($rootScope.myMeals.data.meals.length < 3) {
+            functions.alert($translate.instant('choose at least 3 meals'), '');
+            return false;
+        }
+        if (functions.isNullOrEmpty($rootScope.myMeals.title)) {
+            functions.alert($translate.instant('title is required'), '');
             return false;
         }
         $http({

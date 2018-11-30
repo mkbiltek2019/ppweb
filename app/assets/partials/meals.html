@@ -8,7 +8,7 @@
     <div ng-include="tpl"></div>
     <div>
         <a href="" ng-if="client.clientId" class="btn btn-default btn-lg center center-left" title="{{'back' | translate}}" ng-click="toggleNewTpl('diets')"><i class="fa fa-angle-double-left fa-2x text-primary" aria-hidden="true"></i></a>
-        <a href="" ng-if="client.clientId" class="btn btn-default btn-lg center center-right" title="{{'forward' | translate}}" ng-click="toggleNewTpl('menu')"><i class="fa fa-angle-double-right fa-2x text-primary" aria-hidden="true"></i></a>
+        <a href="" ng-if="client.clientId" class="btn btn-default btn-lg center center-right" title="{{'forward' | translate}}" ng-click="toggleNewTpl('menu');setMealCode()"><i class="fa fa-angle-double-right fa-2x text-primary" aria-hidden="true"></i></a>
     </div> 
 </div>
 
@@ -86,14 +86,15 @@
                 </table>
             </div>
         </div>
-        <!--<div ng-if="config.debug">
-            myMeals:
+        <div ng-if="config.debug">
+            <pre>{{myMeals.data | json}}</pre>
+            <!--myMeals:
             <pre>{{myMeals | json}}</pre>
             mealsList:
             <pre>{{mealsList | json}}</pre>
             clientData.meals:
-            <pre>{{clientData.meals | json}}</pre>
-        </div>-->
+            <pre>{{clientData.meals | json}}</pre>-->
+        </div>
     </div>
 </script>
 

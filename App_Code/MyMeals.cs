@@ -218,12 +218,12 @@ public class MyMeals : System.Web.Services.WebService {
                 command = new SQLiteCommand(sql, connection);
                 command.ExecuteNonQuery();
                 connection.Close();
-                int idx = 0;
+               /* int idx = 0;
                 foreach (var m in x.data.meals) {
                     m.code = string.Format("MM{0}", idx);
                     x.data.energyPerc[idx].meal.code = m.code;
                     idx++;
-                }
+                }*/
                 SaveJsonToFile(userId, x.id, JsonConvert.SerializeObject(x.data, Formatting.Indented));
                 return JsonConvert.SerializeObject(x, Formatting.Indented);
             }

@@ -1780,6 +1780,7 @@
   "what is new": "Шта је ново",
   "weekly menus": "Недељни јеловници",
   "you have reached the maximum number of meals": "Досегли сте максималан број оброка",
-  "choose at least 3 meals": "Изаберите барем 3 оброка"
+  "choose at least 3 meals": "Изаберите барем 3 оброка",
+  "title is required": "Назив је обавезан"
 
 }
