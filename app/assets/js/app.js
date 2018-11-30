@@ -287,7 +287,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 return false;
             }
             if (x == 'menu' && $rootScope.clientData.meals.length > 0 && !$rootScope.isMyMeals && $rootScope.clientData.meals[0].code == 'B') {
-                debugger;
                 if ($rootScope.clientData.meals[1].isSelected == false && $rootScope.clientData.meals[5].isSelected == true) {
                     $rootScope.newTpl = './assets/partials/meals.html';
                     functions.alert($translate.instant('the selected meal combination is not allowed in the menu') + '!', $rootScope.clientData.meals[5].title + ' ' + $translate.instant('in this combination must be turned off') + '.');
@@ -298,6 +297,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     functions.alert($translate.instant('the selected meal combination is not allowed in the menu') + '!', $rootScope.clientData.meals[5].title + ' ' + $translate.instant('in this combination must be turned off') + '.');
                     return false;
                 }
+            }
+            if (x == 'menu' && $rootScope.isMyMeals) {
+                $rootScope.setMealCode();
             }
             $rootScope.saveClientData($rootScope.clientData);
         }
@@ -2537,11 +2539,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 .controller('myMealsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
     var webService = 'MyMeals.asmx';
 
-    if (angular.isDefined($rootScope.myMeals)) {
-        $rootScope.clientData.meals = angular.copy($rootScope.myMeals.data.meals);
-        $rootScope.isMyMeals = true;
-    }
-
     var init = function () {
         $http({
             url: $sessionStorage.config.backend + webService + '/Init',
@@ -2557,6 +2554,55 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             alert(response.data.d)
         });
     }
+
+    var getClientMeals = function () {
+        /*  TODO get energy recommendation
+        if ($rootScope.clientData.meals.length > 0) {
+            if ($rootScope.clientData.meals[0].code == 'MM0') {
+                $rootScope.myMeals.data.meals = angular.copy($rootScope.clientData.meals);
+            } else {
+                init();
+            }
+        } else {
+            init();
+        }
+        */
+    }
+
+    var initMyMeals = function () {
+        if (!angular.isDefined($rootScope.myMeals)) {
+            $http({
+                url: $sessionStorage.config.backend + webService + '/Init',
+                method: "POST",
+                data: { user: $rootScope.user }
+            })
+            .then(function (response) {
+                $rootScope.myMeals = JSON.parse(response.data.d);
+                getClientMeals();
+                $rootScope.isMyMeals = true;
+            },
+            function (response) {
+                alert(response.data.d)
+            });
+        } else {
+            getClientMeals();
+        }
+        
+    }
+    initMyMeals();
+    //if (!angular.isDefined($rootScope.myMeals)) {
+    //    init();
+    //}
+
+    //getClientMeals();
+
+    //if (angular.isDefined($rootScope.myMeals)) {
+    //    $rootScope.clientData.meals = angular.copy($rootScope.myMeals.data.meals);
+    //    $rootScope.isMyMeals = true;
+    //} else {
+    //    init();
+    //    getClientMeals();
+    //}
 
     $scope.get = function (id) {
         if ($rootScope.user.userType < 2) {
@@ -2621,7 +2667,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $rootScope.setMealCode = function () {
-        debugger;
         if ($rootScope.isMyMeals) {
             setMealCode();
         }
@@ -2734,7 +2779,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             clickOutsideToClose: true,
         })
         .then(function (response) {
-            debugger;
             $rootScope.myMeals = response;
             $rootScope.clientData.meals = angular.copy($rootScope.myMeals.data.meals);
             $rootScope.isMyMeals = true;
@@ -2898,7 +2942,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     if ($rootScope.currentMenu === undefined) {
         init();
     } else {
-        debugger;
         var oldMeals = $rootScope.currentMenu.data.meals;
         $rootScope.currentMenu.data.meals = angular.copy($rootScope.clientData.meals);
         angular.forEach($rootScope.currentMenu.data.meals, function (value, key) {
@@ -2940,7 +2983,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $rootScope.currentMeal = x;
     };
 
-    debugger;
     if ($rootScope.mealsAreChanged) {
         $rootScope.mealsAreChanged = false;
         init();
@@ -3037,7 +3079,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         var initFood = null;
 
         var initFoodForEdit = function (x) {
-            debugger;
             $http({
                 url: $sessionStorage.config.backend + 'Foods.asmx/InitFoodForEdit',
                 method: "POST",
@@ -3763,7 +3804,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.mealsMin = [];
         $scope.mealsMax = [];
         $scope.mealsTitles = [];
-        debugger;
         angular.forEach($rootScope.currentMenu.data.meals, function (value, key) {
             if (value.isSelected == true && angular.isDefined($rootScope.totals)) {
                 $scope.mealsTotals.push($rootScope.totals.mealsTotalEnergy.length > 0 ? $rootScope.totals.mealsTotalEnergy[key].meal.energy : 0);
@@ -5894,7 +5934,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     var emptyMenuList = true;
     var isEmptyList = function (x) {
-        debugger;
         emptyMenuList = true;
         angular.forEach(x, function (value, key) {
             if (!functions.isNullOrEmpty(value)) {
