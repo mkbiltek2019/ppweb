@@ -47,6 +47,8 @@ public class ClientsData : System.Web.Services.WebService {
 
         public DetailEnergyExpenditure.Activities dailyActivities = new DetailEnergyExpenditure.Activities();
 
+        public MyMeals.NewMyMeals myMeals = new MyMeals.NewMyMeals();
+
         //public List<DetailEnergyExpenditure.Activity> dailyActivities = new List<DetailEnergyExpenditure.Activity>();
 
         //TODO add detailTee;
@@ -77,7 +79,8 @@ public class ClientsData : System.Web.Services.WebService {
         x.meals = new List<Meals.NewMeal>();
         x.date = DateTime.Today;
         x.userId = null;
-        x.dailyActivities = new DetailEnergyExpenditure.Activities(); // new List<DetailEnergyExpenditure.Activity>();
+        x.dailyActivities = new DetailEnergyExpenditure.Activities();
+        x.myMeals = new MyMeals.NewMyMeals();
         string json = JsonConvert.SerializeObject(x, Formatting.Indented);
         return json;
     }
@@ -119,6 +122,7 @@ public class ClientsData : System.Web.Services.WebService {
                 x.userId = reader.GetValue(14) == DBNull.Value ? "" : reader.GetString(14);
                 DetailEnergyExpenditure.DailyActivities da = new DetailEnergyExpenditure.DailyActivities();
                 x.dailyActivities = da.getDailyActivities(userId, x.clientId);
+                x.myMeals = new MyMeals.NewMyMeals();
                 xx.Add(x);
             }
             connection.Close();
@@ -160,6 +164,7 @@ public class ClientsData : System.Web.Services.WebService {
             command.Parameters.Add(new SQLiteParameter("userId", x.userId));
             command.ExecuteNonQuery();
             connection.Close();
+            SaveMyMeals(userId, x.clientId, x.myMeals);
             return "saved";
         } catch (Exception e) { return ("Error: " + e); }
     }
@@ -321,12 +326,52 @@ public class ClientsData : System.Web.Services.WebService {
                 x.userId = reader.GetValue(14) == DBNull.Value ? "" : reader.GetString(14);
                 DetailEnergyExpenditure.DailyActivities da = new DetailEnergyExpenditure.DailyActivities();
                 x.dailyActivities = da.getDailyActivities(userId, x.clientId);
+                x.myMeals = GetMyMeals(userId, x.clientId);
             }
             return x;
         } catch (Exception e) { return new NewClientData(); }
-
     }
     #endregion
+
+    #region Methods
+    private void SaveMyMeals(string userId, string clientId, MyMeals.NewMyMeals myMeals) {
+        try {
+            string path = string.Format("~/App_Data/users/{0}/clients/{1}", userId, clientId);
+            string filepath = string.Format("{0}/myMeals.json", path);
+            CreateFolder(path);
+            WriteFile(filepath, JsonConvert.SerializeObject(myMeals, Formatting.Indented));
+        }
+        catch (Exception e) {}
+    }
+
+    protected void CreateFolder(string path) {
+        if (!Directory.Exists(Server.MapPath(path))) {
+            Directory.CreateDirectory(Server.MapPath(path));
+        }
+    }
+
+    protected void WriteFile(string path, string value) {
+        File.WriteAllText(Server.MapPath(path), value);
+    }
+
+    private MyMeals.NewMyMeals GetMyMeals (string userId, string clientId) {
+        MyMeals.NewMyMeals x = new MyMeals.NewMyMeals();
+        x = JsonConvert.DeserializeObject<MyMeals.NewMyMeals>(GetJsonFile(userId, clientId));
+        if(x == null) {
+            x = new MyMeals.NewMyMeals();
+        }
+        return x;
+    }
+
+    public string GetJsonFile(string userId, string clientId) {
+        string path = string.Format("~/App_Data/users/{0}/clients/{1}/myMeals.json", userId, clientId);
+        string json = "";
+        if (File.Exists(Server.MapPath(path))) {
+            json = File.ReadAllText(Server.MapPath(path));
+        }
+        return json;
+    }
+    #endregion Methods
 
 
 }

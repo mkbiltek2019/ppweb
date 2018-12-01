@@ -2495,11 +2495,16 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.tpl = x;
         $rootScope.mealsAreChanged = true;
     }
-    if ($rootScope.clientData.meals.length > 0) {
-        if ($rootScope.clientData.meals[0].code == 'B') {
-            $scope.tpl = 'standardMeals';
+
+    if ($rootScope.clientData.myMeals !== undefined) {
+        if ($rootScope.clientData.myMeals.data != null) {
+            if ($rootScope.clientData.myMeals.data.meals.length >= 2) {
+                $scope.tpl = 'myMeals';
+            } else {
+                $scope.tpl = 'standardMeals';
+            }
         } else {
-            $scope.tpl = 'myMeals';
+            $scope.tpl = 'standardMeals';
         }
     } else {
         $scope.tpl = 'standardMeals';
@@ -2547,7 +2552,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             $rootScope.myMeals = JSON.parse(response.data.d);
-            $rootScope.clientData.meals = angular.copy($rootScope.myMeals.data.meals);
+            $rootScope.clientData.myMeals = angular.copy($rootScope.myMeals);
             $rootScope.isMyMeals = true;
         },
         function (response) {
@@ -2556,17 +2561,17 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var getClientMeals = function () {
-        /*  TODO get energy recommendation
-        if ($rootScope.clientData.meals.length > 0) {
-            if ($rootScope.clientData.meals[0].code == 'MM0') {
-                $rootScope.myMeals.data.meals = angular.copy($rootScope.clientData.meals);
+        if ($rootScope.clientData.myMeals !== undefined) {
+            if ($rootScope.clientData.myMeals.data != null) {
+                if ($rootScope.clientData.myMeals.data.meals.length > 0) {
+                    $rootScope.myMeals = angular.copy($rootScope.clientData.myMeals);
+                }
             } else {
                 init();
-            }
+            } 
         } else {
             init();
         }
-        */
     }
 
     var initMyMeals = function () {
@@ -2590,19 +2595,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         
     }
     initMyMeals();
-    //if (!angular.isDefined($rootScope.myMeals)) {
-    //    init();
-    //}
-
-    //getClientMeals();
-
-    //if (angular.isDefined($rootScope.myMeals)) {
-    //    $rootScope.clientData.meals = angular.copy($rootScope.myMeals.data.meals);
-    //    $rootScope.isMyMeals = true;
-    //} else {
-    //    init();
-    //    getClientMeals();
-    //}
 
     $scope.get = function (id) {
         if ($rootScope.user.userType < 2) {
@@ -2615,7 +2607,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             $rootScope.myMeals = JSON.parse(response.data.d);
-            $rootScope.clientData.meals = angular.copy($rootScope.myMeals.data.meals);
+            $rootScope.clientData.myMeals = angular.copy($rootScope.myMeals);
             $rootScope.isMyMeals = true;
         },
         function (response) {
@@ -2640,7 +2632,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         .then(function (response) {
             $rootScope.myMeals = JSON.parse(response.data.d);
             if ($rootScope.user.userType > 2) {
-                $rootScope.clientData.meals = angular.copy($rootScope.myMeals.data.meals);
+                $rootScope.clientData.myMeals = angular.copy($rootScope.myMeals);
             }
             $rootScope.isMyMeals = true;
         },
@@ -2655,7 +2647,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $rootScope.myMeals.data.energyPerc[key].meal.code = value.code;
         })
         $rootScope.isMyMeals = true;
-        $rootScope.clientData.meals = angular.copy($rootScope.myMeals.data.meals);
+        $rootScope.clientData.myMeals = angular.copy($rootScope.myMeals);
     }
 
     $scope.add = function () {
@@ -2722,7 +2714,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         .then(function (response) {
             if (response.data.d != 'error') {
                 $rootScope.myMeals = JSON.parse(response.data.d);
-                $rootScope.clientData.meals = angular.copy($rootScope.myMeals.data.meals);
+                $rootScope.clientData.myMeals = angular.copy($rootScope.myMeals);
                 $rootScope.isMyMeals = true;
             } else {
                 functions.alert($translate.instant('meals with the same name already exists'), '');
@@ -2780,7 +2772,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             $rootScope.myMeals = response;
-            $rootScope.clientData.meals = angular.copy($rootScope.myMeals.data.meals);
+            $rootScope.clientData.myMeals = angular.copy($rootScope.myMeals);
             $rootScope.isMyMeals = true;
         }, function () {
         });
@@ -2898,10 +2890,15 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         //}
 
         var energyPerc = null;
-        if (!$rootScope.myMeals || $rootScope.isMyMeals == false) {
+        if (!$rootScope.clientData.myMeals || $rootScope.isMyMeals == false) {
             energyPerc = null;
         } else {
-            energyPerc = $rootScope.myMeals.data.energyPerc;
+            if ($rootScope.clientData.myMeals.data != null) {
+                if ($rootScope.clientData.myMeals.data.meals.length >= 2) {
+                    $rootScope.clientData.meals = $rootScope.clientData.myMeals.data.meals;
+                    energyPerc = $rootScope.clientData.myMeals.data.energyPerc; // $rootScope.myMeals.data.energyPerc;
+                }
+            }
         }
         $http({
             url: $sessionStorage.config.backend + webService + '/GetRecommendations',
