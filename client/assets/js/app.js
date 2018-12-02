@@ -86,7 +86,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         $http({
             url: $sessionStorage.config.backend + 'ClientsData.asmx/Save',
             method: 'POST',
-            data: { userId: $sessionStorage.usergroupid, x: x }
+            data: { userId: $sessionStorage.usergroupid, x: x, userType:0 }
         })
        .then(function (response) {
            $scope.clientData.date = new Date($rootScope.clientData.date);
@@ -163,7 +163,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         $http({
             url: $sessionStorage.config.backend + 'ClientsData.asmx/Save',
             method: "POST",
-            data: { userId: $scope.userId, x: x }
+            data: { userId: $scope.userId, x: x, userType: 0 }
         })
         .then(function (response) {
             getClientLog();
@@ -352,6 +352,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         })
         .then(function (response) {
             $scope.menu = JSON.parse(response.data.d);
+            $scope.menu.client.clientData = $scope.clientData;
             getTotals($scope.menu);
             $scope.toggleTpl('menu');
         },
@@ -360,13 +361,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         });
     }
 
-    $scope.getMealTitle = function (x) {
-        if (x == 'B') { return 'breakfast'; }
-        if (x == 'MS') { return 'morning snack'; }
-        if (x == 'L') { return 'lunch'; }
-        if (x == 'AS') { return 'afternoon snack'; }
-        if (x == 'D') { return 'dinner'; }
-        if (x == 'MBS') { return 'meal before sleep'; }
+    $rootScope.getMealTitle = function (x) {
+        if (x.code == 'B') { return $translate.instant('breakfast'); }
+        else if (x.code == 'MS') { return $translate.instant('morning snack'); }
+        else if (x.code == 'L') { return $translate.instant('lunch'); }
+        else if (x.code == 'AS') { return $translate.instant('afternoon snack'); }
+        else if (x.code == 'D') { return $translate.instant('dinner'); }
+        else if (x.code == 'MBS') { return $translate.instant('meal before sleep'); }
+        else return x.title;
     }
 
     var getTotals = function (x) {
@@ -384,15 +386,33 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
        });
     }
 
+    function initPrintSettings() {
+        $http({
+            url: $sessionStorage.config.backend + 'PrintPdf.asmx/InitMenuSettings',
+            method: "POST",
+            data: {}
+        })
+       .then(function (response) {
+           $scope.settings = JSON.parse(response.data.d);
+       },
+       function (response) {
+           alert(response.data.d)
+       });
+    };
+    initPrintSettings();
+
+    var consumers = 1;
+
     $scope.pdfLink = null;
     $scope.creatingPdf = false;
     $scope.createMenuPdf = function () {
+        debugger;
         $scope.pdfLink = null;
         $scope.creatingPdf = true;
         $http({
             url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
             method: "POST",
-            data: { userId: $scope.userId, currentMenu: $scope.menu, clientData: $scope.clientData, totals: $scope.totals, consumers: 1, lang: $rootScope.config.language }
+            data: { userId: $scope.userId, currentMenu: $scope.menu, totals: $scope.totals, consumers: consumers, lang: $rootScope.config.language, settings: $scope.settings }
         })
         .then(function (response) {
             var fileName = response.data.d;

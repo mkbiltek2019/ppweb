@@ -44,8 +44,7 @@
                     <span class="col-sm-5 text-capitalize">{{'weight' | translate}}:</span>
                     <div class="col-sm-5">
                         <div class="input-group" style="width:160px; border:solid 2px green; border-radius:8px">
-                            <input ng-model="clientData.weight" class="form-control input-lg hidden-xs" ng-change="calculate()" allow-only-numbers required>
-                            <input ng-model="clientData.weight" type="number" min="0" class="form-control input-lg visible-xs" ng-change="calculate()" required>
+                            <input ng-model="clientData.weight" class="form-control input-lg" ng-change="calculate()" allow-only-numbers required>
                             <span class="input-group-addon"><em>kg</em></span>
                         </div>
                     </div>
@@ -56,8 +55,7 @@
                         <span class="col-sm-5 text-capitalize">{{'height' | translate}}:</span>
                         <div class="col-sm-5">
                             <div class="input-group" style="width:160px">
-                                <input ng-model="clientData.height" class="form-control hidden-xs" ng-change="calculate()" allow-only-numbers required>
-                                <input ng-model="clientData.height" type="number" min="0" class="form-control input-lg visible-xs" ng-change="calculate()" required>
+                                <input ng-model="clientData.height" class="form-control" ng-change="calculate()" allow-only-numbers required>
                                 <span class="input-group-addon"><em>cm</em></span>
                             </div>
                         </div>
@@ -66,8 +64,7 @@
                         <span class="col-sm-5 text-capitalize">{{'waist' | translate}}:</span>
                         <div class="col-sm-5">
                             <div class="input-group" style="width:160px">
-                                <input ng-model="clientData.waist" class="form-control hidden-xs" ng-change="calculate()" allow-only-numbers>
-                                <input ng-model="clientData.waist" type="number" min="0" class="form-control input-lg visible-xs" ng-change="calculate()" required>
+                                <input ng-model="clientData.waist" class="form-control" ng-change="calculate()" allow-only-numbers>
                                 <span class="input-group-addon"><em>cm</em></span>
                             </div>
                         </div>
@@ -76,8 +73,7 @@
                         <span class="col-sm-5 text-capitalize">{{'hip' | translate}}:</span>
                         <div class="col-sm-5">
                             <div class="input-group" style="width:160px">
-                                <input ng-model="clientData.hip" class="form-control hidden-xs" ng-change="calculate()" allow-only-numbers>
-                                <input ng-model="clientData.hip" type="number" min="0" class="form-control input-lg visible-xs" ng-change="calculate()" required>
+                                <input ng-model="clientData.hip" class="form-control" ng-change="calculate()" allow-only-numbers>
                                 <span class="input-group-addon"><em>cm</em></span>
                             </div>
                         </div>
@@ -223,7 +219,7 @@
             <p>{{menu.note}}</p>
             <hr />
             <div ng-if="x.isSelected" ng-repeat="x in menu.data.meals track by $index">
-                <label class="text-uppercase">{{getMealTitle(x.code) | translate}}</label>
+                <label class="text-uppercase">{{getMealTitle(x)}}</label>
                 <div ng-if="x.description">
                     <em class="text-justify">{{x.description}}</em>
                 </div>
