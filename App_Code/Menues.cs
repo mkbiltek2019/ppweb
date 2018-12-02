@@ -35,10 +35,10 @@ public class Menues : System.Web.Services.WebService {
         public string userGroupId { get; set; }
         public double energy { get; set; }
 
-        public JsonFile data = new JsonFile();
+        public Data data = new Data();
     }
 
-    public class JsonFile {
+    public class Data {
         public List<Foods.NewFood> selectedFoods { get; set; }
         public List<Foods.NewFood> selectedInitFoods { get; set; }
         public List<Meals.NewMeal> meals { get; set; }
@@ -66,7 +66,7 @@ public class Menues : System.Web.Services.WebService {
         x.client =  new Clients.NewClient();
         x.userGroupId = null;
         x.energy = 0;
-        JsonFile data = new JsonFile();
+        Data data = new Data();
         data.selectedFoods = new List<Foods.NewFood>();
         data.selectedInitFoods = new List<Foods.NewFood>();
         data.meals = new List<Meals.NewMeal>();
@@ -163,7 +163,7 @@ public class Menues : System.Web.Services.WebService {
                 x.client = reader.GetValue(6) == DBNull.Value ? new Clients.NewClient() : client.GetClient(x.userId, reader.GetString(6));
                 x.userGroupId = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
                 x.energy = reader.GetValue(8) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(8));
-                x.data = JsonConvert.DeserializeObject<JsonFile>(GetJsonFile(userId, x.id));
+                x.data = JsonConvert.DeserializeObject<Data>(GetJsonFile(userId, x.id));
             }
             connection.Close();
             string json = JsonConvert.SerializeObject(x, Formatting.Indented);
@@ -280,7 +280,7 @@ public class Menues : System.Web.Services.WebService {
                 x.diet = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
                 x.note = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
                 x.energy = reader.GetValue(4) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(4));
-                x.data = JsonConvert.DeserializeObject<JsonFile>(GetJsonFile(string.Format("~/App_Data/menues/{0}/{1}.json", lang, x.id)));
+                x.data = JsonConvert.DeserializeObject<Data>(GetJsonFile(string.Format("~/App_Data/menues/{0}/{1}.json", lang, x.id)));
             }
 
             if(toTranslate == true) {
@@ -436,7 +436,7 @@ public class Menues : System.Web.Services.WebService {
                     x.client = reader.GetValue(6) == DBNull.Value ? new Clients.NewClient() : client.GetClient(x.userId, reader.GetString(6));
                     x.userGroupId = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
                     x.energy = reader.GetValue(8) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(8));
-                    x.data = JsonConvert.DeserializeObject<JsonFile>(GetJsonFile(userId, x.id));
+                    x.data = JsonConvert.DeserializeObject<Data>(GetJsonFile(userId, x.id));
                 }
                 connection.Close();
             }

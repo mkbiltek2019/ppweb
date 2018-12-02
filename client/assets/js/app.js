@@ -25,8 +25,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
 }])
 
-
-
 .controller('AppCtrl', ['$scope', '$timeout', '$q', '$log', '$rootScope', '$localStorage', '$sessionStorage', '$window', '$http', '$translate', '$translatePartialLoader', 'functions', 'charts', function ($scope, $timeout, $q, $log, $rootScope, $localStorage, $sessionStorage, $window, $http, $translate, $translatePartialLoader, functions, charts) {
 
     var querystring = location.search;
@@ -41,12 +39,34 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
     
     $scope.today = new Date();
 
+    function initPrintSettings() {
+        $http({
+            url: $sessionStorage.config.backend + 'PrintPdf.asmx/InitMenuSettings',
+            method: "POST",
+            data: {}
+        })
+       .then(function (response) {
+           $scope.settings = JSON.parse(response.data.d);
+       },
+       function (response) {
+           alert(response.data.d)
+       });
+    };
+
+    var saveVersion = function () {
+        if (typeof (Storage) !== "undefined") {
+            localStorage.version = $scope.config.version;
+        }
+        window.location.reload(true);
+    }
+
     var getConfig = function () {
         $http.get('./config/config.json')
           .then(function (response) {
               $rootScope.config = response.data;
               $sessionStorage.config = response.data;
               getClient();
+              initPrintSettings();
               var queryLang = location.search.substring(6);
               if (angular.isDefined(queryLang)) {
                   if (queryLang == 'hr' || queryLang == 'sr' || queryLang == 'en') {
@@ -54,9 +74,15 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
                   }
               }
               if ($sessionStorage.islogin == true) { $rootScope.loadData(); }
+              if (localStorage.version) {
+                  if (localStorage.version != $rootScope.config.version) {
+                      saveVersion();
+                  }
+              } else {
+                  saveVersion();
+              }
           });
     };
-    
 
     $rootScope.loadPals = function () {
         $http({
@@ -385,21 +411,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
            alert(response.data.d)
        });
     }
-
-    function initPrintSettings() {
-        $http({
-            url: $sessionStorage.config.backend + 'PrintPdf.asmx/InitMenuSettings',
-            method: "POST",
-            data: {}
-        })
-       .then(function (response) {
-           $scope.settings = JSON.parse(response.data.d);
-       },
-       function (response) {
-           alert(response.data.d)
-       });
-    };
-    initPrintSettings();
 
     var consumers = 1;
 

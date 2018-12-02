@@ -43,5 +43,12 @@
   "take pdf": "preuzmi PDF",
   "measures": "mjere",
   "delete record": "briši mjerenje",
-  "menues":  "jelovnici"
+  "menues": "jelovnici",
+  "help": "uputa",
+  "info": "info",
+  "copyright": "copyright",
+  "author": "autor",
+  "home page": "web stranica",
+  "version": "verzija"
+
 }

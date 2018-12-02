@@ -243,14 +243,11 @@ public class PrintPdf : System.Web.Services.WebService {
             tblMeals.AddCell(new PdfPCell(new Phrase(t.Tran("choosen", lang), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
             tblMeals.AddCell(new PdfPCell(new Phrase(t.Tran("recommended", lang), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
 
-            //TODO custom meals
-
-            AppendMealDistribution(tblMeals, totals, recommendations, lang, 0, "breakfast");
-            AppendMealDistribution(tblMeals, totals, recommendations, lang, 1, "morning snack");
-            AppendMealDistribution(tblMeals, totals, recommendations, lang, 2, "lunch");
-            AppendMealDistribution(tblMeals, totals, recommendations, lang, 3, "afternoon snack");
-            AppendMealDistribution(tblMeals, totals, recommendations, lang, 4, "dinner");
-            AppendMealDistribution(tblMeals, totals, recommendations, lang, 5, "meal before sleep");
+            int i = 0;
+            foreach(var m in currentMenu.data.meals) {
+                AppendMealDistribution(tblMeals, totals, recommendations, lang, i, m.title);
+                i++;
+            }
 
             tblMeals.AddCell(new PdfPCell(new Phrase(t.Tran("total", lang), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
             tblMeals.AddCell(new PdfPCell(new Phrase(totals.energy.ToString() + " kcal", normalFont_bold)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });

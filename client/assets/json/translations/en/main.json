@@ -44,5 +44,11 @@
   "create pdf": "create PDF",
   "take pdf": "take PDF",
   "measures": "measures",
-  "delete record": "delete record"
+  "delete record": "delete record",
+  "help": "help",
+  "info": "info",
+  "copyright": "copyright",
+  "author": "author",
+  "home page": "home page",
+  "version": "version"
 }

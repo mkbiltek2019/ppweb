@@ -910,7 +910,7 @@ public class Foods : System.Web.Services.WebService {
             if(myMealsEnergyPerc != null) {
                 if (idx < myMealsEnergyPerc.Count) {
                     x.meal.energyMinPercentage = myMealsEnergyPerc[idx].meal.energyMinPercentage;
-                    x.meal.energyMaxPercentage = myMealsEnergyPerc[idx].meal.energyMinPercentage;
+                    x.meal.energyMaxPercentage = myMealsEnergyPerc[idx].meal.energyMaxPercentage;
                 }
             } else {
                 x.meal.energyMinPercentage = GetMealRecommendationPercentage(meals, idx).min;
