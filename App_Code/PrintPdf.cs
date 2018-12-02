@@ -243,6 +243,8 @@ public class PrintPdf : System.Web.Services.WebService {
             tblMeals.AddCell(new PdfPCell(new Phrase(t.Tran("choosen", lang), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
             tblMeals.AddCell(new PdfPCell(new Phrase(t.Tran("recommended", lang), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
 
+            //TODO custom meals
+
             AppendMealDistribution(tblMeals, totals, recommendations, lang, 0, "breakfast");
             AppendMealDistribution(tblMeals, totals, recommendations, lang, 1, "morning snack");
             AppendMealDistribution(tblMeals, totals, recommendations, lang, 2, "lunch");
@@ -278,7 +280,7 @@ public class PrintPdf : System.Web.Services.WebService {
             doc.Add(new Paragraph(t.Tran("unit servings", lang).ToUpper(), normalFont_10));
             PdfPTable tblServings = new PdfPTable(3);
             tblServings.AddCell(new PdfPCell(new Phrase(t.Tran("food group", lang), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
-            tblServings.AddCell(new PdfPCell(new Phrase(t.Tran("servings", lang), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+            tblServings.AddCell(new PdfPCell(new Phrase(t.Tran("choosen", lang), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
             tblServings.AddCell(new PdfPCell(new Phrase(t.Tran("recommended", lang), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
 
             tblServings.AddCell(new PdfPCell(new Phrase(t.Tran("cereals", lang), normalFont)) { Border = 0 });
