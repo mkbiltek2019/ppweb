@@ -14,7 +14,8 @@ using Igprog;
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [System.Web.Script.Services.ScriptService]
 public class ClientsData : System.Web.Services.WebService {
-  string dataBase = ConfigurationManager.AppSettings["UserDataBase"];
+    string dataBase = ConfigurationManager.AppSettings["UserDataBase"];
+    string usersDataBase = ConfigurationManager.AppSettings["UsersDataBase"];
 
     DataBase db = new DataBase();
     Users.CheckUser c = new Users.CheckUser();
@@ -132,7 +133,7 @@ public class ClientsData : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string Save(string userId, NewClientData x) {
+    public string Save(string userId, NewClientData x, int userType) {
         try {
             db.CreateDataBase(userId, db.clientsData);
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
@@ -164,7 +165,9 @@ public class ClientsData : System.Web.Services.WebService {
             command.Parameters.Add(new SQLiteParameter("userId", x.userId));
             command.ExecuteNonQuery();
             connection.Close();
-            SaveMyMeals(userId, x.clientId, x.myMeals);
+            if (userType > 1) {
+                SaveMyMeals(userId, x.clientId, x.myMeals);
+            }
             return "saved";
         } catch (Exception e) { return ("Error: " + e); }
     }
@@ -336,10 +339,12 @@ public class ClientsData : System.Web.Services.WebService {
     #region Methods
     private void SaveMyMeals(string userId, string clientId, MyMeals.NewMyMeals myMeals) {
         try {
-            string path = string.Format("~/App_Data/users/{0}/clients/{1}", userId, clientId);
-            string filepath = string.Format("{0}/myMeals.json", path);
-            CreateFolder(path);
-            WriteFile(filepath, JsonConvert.SerializeObject(myMeals, Formatting.Indented));
+            if (myMeals.data != null) {
+                string path = string.Format("~/App_Data/users/{0}/clients/{1}", userId, clientId);
+                string filepath = string.Format("{0}/myMeals.json", path);
+                CreateFolder(path);
+                WriteFile(filepath, JsonConvert.SerializeObject(myMeals, Formatting.Indented));
+            }
         }
         catch (Exception e) {}
     }

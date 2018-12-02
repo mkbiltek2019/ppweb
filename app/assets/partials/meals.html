@@ -42,7 +42,7 @@
                 <a ng-disabled="user.userType < 2" href="" class="btn btn-default m2" ng-click="search()"><i class="fa fa-search"></i> {{'search' | translate}}</a>
                 <a ng-disabled="myMeals.data.meals.length==0||user.userType < 2" href="" ng-click="save()" class="btn btn-default m2"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</a>
                 <a ng-disabled="myMeals.id==null||user.userType < 2" href="" ng-click="remove(myMeals.id)" class="btn btn-default m2"><span class="text-danger"><i class="fa fa-trash-o"></i> {{'delete' | translate}}</span></a>
-                <a href="" ng-click="getTemplate()" class="btn btn-default m2"><i class="fa fa-file-text-o"></i> {{'example' | translate}}</a>
+                <a ng-disabled="user.userType < 2" href="" ng-click="getTemplate()" class="btn btn-default m2"><i class="fa fa-file-text-o"></i> {{'example' | translate}}</a>
             </div>
         </div>
         <div class="mt20">
@@ -71,7 +71,7 @@
                     </tr>
                     <tr ng-repeat="x in myMeals.data.meals">
                         <td>
-                            <a href="" ng-click="removeMeal($index)" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-times text-danger"></i></a>
+                            <a ng-disabled="user.userType < 2" href="" ng-click="removeMeal($index)" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-times text-danger"></i></a>
                         </td>
                         <td><input ng-model="x.title" class="form-control" /></td>
                         <td><input ng-model="x.description" class="form-control" /></td>
@@ -80,16 +80,16 @@
                     </tr>
                     <tr>
                         <td colspan="5">
-                            <a href="" ng-click="add()" class="btn btn-primary text-capitalize"><i class="fa fa-plus"></i> {{'add meal' | translate}}</a>
+                            <a ng-disabled="user.userType < 2" href="" ng-click="add()" class="btn btn-primary text-capitalize"><i class="fa fa-plus"></i> {{'add meal' | translate}}</a>
                         </td>
                     </tr>
                 </table>
             </div>
         </div>
         <div ng-if="config.debug">
-            <pre>{{clietData.myMeals}}</pre>
+            <!--<pre>{{clietData.myMeals}}</pre>
             <pre>{{myMeals | json}}</pre>
-            <!--myMeals:
+            myMeals:
             <pre>{{myMeals | json}}</pre>
             mealsList:
             <pre>{{mealsList | json}}</pre>

@@ -354,7 +354,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + 'ClientsData.asmx/Save',
             method: 'POST',
-            data: { userId: $sessionStorage.usergroupid, x: x }
+            data: { userId: $sessionStorage.usergroupid, x: x, userType: $rootScope.user.userType }
         })
        .then(function (response) {
            $rootScope.clientData.date = new Date($rootScope.clientData.date);
@@ -2597,9 +2597,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     initMyMeals();
 
     $scope.get = function (id) {
-        if ($rootScope.user.userType < 2) {
-            return false;
-        }
+        if ($rootScope.user.userType < 2) { return false; }
         $http({
             url: $sessionStorage.config.backend + webService + '/Get',
             method: "POST",
@@ -2617,13 +2615,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 
     $scope.new = function () {
-        if ($rootScope.user.userType < 2) {
-            return false;
-        }
+        if ($rootScope.user.userType < 2) { return false; }
         init();
     }
     
     $scope.getTemplate = function () {
+        if ($rootScope.user.userType < 2) { return false; }
         $http({
             url: $sessionStorage.config.backend + webService + '/Template',
             method: "POST",
@@ -2665,6 +2662,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var addNewRow = function () {
+        if ($rootScope.user.userType < 2) { return false; }
         if ($rootScope.myMeals.data.meals.length >= 8) {
             functions.alert($translate.instant('you have reached the maximum number of meals'), '');
             return false;
@@ -2689,6 +2687,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.removeMeal = function (idx) {
+        if ($rootScope.user.userType < 2) { return false; }
         $rootScope.myMeals.data.meals.splice(idx, 1);
         $rootScope.myMeals.data.energyPerc.splice(idx, 1);
         setMealCode();
