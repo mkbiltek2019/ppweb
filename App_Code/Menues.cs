@@ -24,31 +24,30 @@ public class Menues : System.Web.Services.WebService {
     }
 
     public class NewMenu {
-        public string id { get; set; }
-        public string title { get; set; }
-        public string diet { get; set; }
-        public DateTime date { get; set; }
-        public string note { get; set; }
-        public string userId { get; set; }
+        public string id;
+        public string title;
+        public string diet;
+        public DateTime date;
+        public string note;
+        public string userId;
 
         public Clients.NewClient client = new Clients.NewClient();
-        public string userGroupId { get; set; }
-        public double energy { get; set; }
+        public string userGroupId;
+        public double energy;
 
         public Data data = new Data();
     }
 
     public class Data {
-        public List<Foods.NewFood> selectedFoods { get; set; }
-        public List<Foods.NewFood> selectedInitFoods { get; set; }
-        public List<Meals.NewMeal> meals { get; set; }
-
+        public List<Foods.NewFood> selectedFoods;
+        public List<Foods.NewFood> selectedInitFoods;
+        public List<Meals.NewMeal> meals;
     }
 
     public class FoodTran {
-        public string id { get; set; }
-        public string food { get; set; }
-        public string unit { get; set; }
+        public string id;
+        public string food;
+        public string unit;
     }
 
     #region WebMethods
@@ -172,7 +171,7 @@ public class Menues : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string Save(string userId, NewMenu x, Users.NewUser user) {
+    public string Save(string userId, NewMenu x, Users.NewUser user, MyMeals.NewMyMeals myMeals) {
         db.CreateDataBase(userId, db.menues);
         if (x.id == null && Check(userId, x) != false) {
             return "error";
@@ -202,15 +201,19 @@ public class Menues : System.Web.Services.WebService {
                 command.Parameters.Add(new SQLiteParameter("date", x.date));
                 command.Parameters.Add(new SQLiteParameter("note", x.note));
                 command.Parameters.Add(new SQLiteParameter("userId", user.userId));
-                //command.Parameters.Add(new SQLiteParameter("userId", userId));
                 command.Parameters.Add(new SQLiteParameter("clientId", x.client.clientId));
-                //command.Parameters.Add(new SQLiteParameter("userGroupId", x.userGroupId));
                 command.Parameters.Add(new SQLiteParameter("userGroupId", string.IsNullOrEmpty(x.userGroupId) ? userId : x.userGroupId));
                 command.Parameters.Add(new SQLiteParameter("energy", x.energy));
                 command.ExecuteNonQuery();
                 connection.Close();
                 SaveJsonToFile(userId, x.id, JsonConvert.SerializeObject(x.data, Formatting.Indented));
-
+                if(myMeals != null) {
+                    if(myMeals.data != null) {
+                        if(myMeals.data.meals.Count > 2) {
+                            SaveMyMenuesJsonToFile(userId, x.id, JsonConvert.SerializeObject(myMeals, Formatting.Indented));
+                        }
+                    }
+                }
                 string json = JsonConvert.SerializeObject(x, Formatting.Indented);
                 return json;
             } catch (Exception e) { return (e.Message); }
@@ -230,6 +233,13 @@ public class Menues : System.Web.Services.WebService {
             DeleteJson(userId, id);
         } catch (Exception e) { return (e.Message); }
         return "OK";
+    }
+
+    [WebMethod]
+    public string GetMyMeals(string userId, string id) {
+        try {
+            return GetMyMenuesJsonFile(userId, id);
+        } catch (Exception e) { return (e.Message); }
     }
     #endregion ClientMenues
 
@@ -325,11 +335,28 @@ public class Menues : System.Web.Services.WebService {
         CreateFolder(path);
         WriteFile(filepath, json);
     }
+
     public void SaveJsonToFile(string userId, string filename, string json) {
             string path = "~/App_Data/users/" + userId + "/menues";
             string filepath = path + "/" + filename + ".json";
             CreateFolder(path);
             WriteFile(filepath, json);
+    }
+
+    public void SaveMyMenuesJsonToFile(string userId, string filename, string json) {
+        string path = string.Format("~/App_Data/users/{0}/menues/mymeals", userId);
+        string filepath = string.Format("{0}/{1}.json", path, filename);
+        CreateFolder(path);
+        WriteFile(filepath, json);
+    }
+
+    private string GetMyMenuesJsonFile(string userId, string id) {
+        string path = string.Format("~/App_Data/users/{0}/menues/mymeals/{1}.json", userId, id);
+        string json = "";
+        if (File.Exists(Server.MapPath(path))) {
+            json = File.ReadAllText(Server.MapPath(path));
+        }
+        return json;
     }
 
     public void DeleteJson(string userId, string filename) {

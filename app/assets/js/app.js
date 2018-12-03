@@ -298,7 +298,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     return false;
                 }
             }
-            if (x == 'menu' && $rootScope.isMyMeals) {
+            debugger;
+            if (x == 'menu') {
                 $rootScope.setMealCode();
             }
             $rootScope.saveClientData($rootScope.clientData);
@@ -2543,7 +2544,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 .controller('myMealsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
     var webService = 'MyMeals.asmx';
-
+    debugger;
     var init = function () {
         $http({
             url: $sessionStorage.config.backend + webService + '/Init',
@@ -2597,6 +2598,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     initMyMeals();
 
     $scope.get = function (id) {
+        debugger;
         if ($rootScope.user.userType < 2) { return false; }
         $http({
             url: $sessionStorage.config.backend + webService + '/Get',
@@ -2884,10 +2886,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         //    }
         //}
 
-        //if ($rootScope.myMeals) {
-        //    $rootScope.myMeals.data.energyPerc = null;
-        //}
-
         var energyPerc = null;
         if (!$rootScope.clientData.myMeals || $rootScope.isMyMeals == false) {
             energyPerc = null;
@@ -2983,16 +2981,25 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $rootScope.mealsAreChanged = false;
         init();
     }
-    
-    if (angular.isDefined($rootScope.isMyMeals)) {
-        if ($rootScope.isMyMeals) {
-            $rootScope.currentMeal = 'MM0';
-        } else {
-            $rootScope.currentMeal = 'B'
+
+    $rootScope.currentMeal = 'B';
+    if ($rootScope.currentMenu !== undefined) {
+        if ($rootScope.currentMenu.data !== null) {
+            if ($rootScope.currentMenu.data.meals.length > 0) {
+                $rootScope.currentMeal = $rootScope.currentMenu.data.meals[0].code;
+            }
         }
-    } else {
-        $rootScope.currentMeal = 'B'
     }
+    
+    //if (angular.isDefined($rootScope.isMyMeals)) {
+    //    if ($rootScope.isMyMeals) {
+    //        $rootScope.currentMeal = 'MM0';
+    //    } else {
+    //        $rootScope.currentMeal = 'B'
+    //    }
+    //} else {
+    //    $rootScope.currentMeal = 'B'
+    //}
     
     $scope.toggleAnalytics = function (x) {
         $scope.loading = true;
@@ -3449,6 +3456,21 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     }
 
+    var getMyMealsForOpenMenu = function (id) {
+        debugger;
+        $http({
+            url: $sessionStorage.config.backend + 'Menues.asmx/GetMyMeals',
+            method: "POST",
+            data: { userId: $rootScope.user.userGroupId, id: id }
+        })
+       .then(function (response) {
+           $rootScope.clientData.myMeals = JSON.parse(response.data.d);
+       },
+       function (response) {
+           alert(response.data.d)
+       });
+    }
+
     var getMenuPopup = function (x) {
         $mdDialog.show({
             controller: getMenuPopupCtrl,
@@ -3464,12 +3486,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $rootScope.currentMenu.client.clientData = $rootScope.clientData;  //TODO sredit
             getTotals($rootScope.currentMenu);
             $rootScope.currentMeal = x.data.meals[0].code; // 'B';  // TODO myMeals get first from list
+            if ($rootScope.currentMeal != 'B') {
+                getMyMealsForOpenMenu($rootScope.currentMenu.id);
+            }
         }, function () {
         });
     };
 
     var getMenuPopupCtrl = function ($scope, $mdDialog, $http, config, $translate, $translatePartialLoader, $timeout) {
-        //$scope.clientData = clientData;
         $scope.config = config;
         $scope.loadType = 0;
         $scope.type = 0;
@@ -3537,6 +3561,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         };
 
         var get = function (x) {
+           // $rootScope.isMyMeals = false;
             $http({
                 url: $sessionStorage.config.backend + 'Menues.asmx/Get',
                 method: "POST",
@@ -3645,7 +3670,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.d = angular.copy(d);
         var save = function (currentMenu) {
             if (functions.isNullOrEmpty(currentMenu.title)) {
-            //if (currentMenu.title == '' || currentMenu.title == undefined) {
                 document.getElementById("txtMenuTitle").focus();
                 functions.alert($translate.instant('enter menu title'), '');
                 openSaveMenuPopup();
@@ -3653,10 +3677,17 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             }
             currentMenu.diet = d.client.clientData.diet.diet;
             $mdDialog.hide($scope.d.currentMenu);
+            debugger;
+            var myMeals = null;
+            if (currentMenu.data.meals.length > 2) {
+                if (currentMenu.data.meals[0].code != 'B') {
+                    myMeals = $scope.d.client.clientData.myMeals;
+                }
+            } 
             $http({
                 url: $sessionStorage.config.backend + 'Menues.asmx/Save',
                 method: "POST",
-                data: { userId: $rootScope.user.userGroupId, x: currentMenu, user: $scope.d.user }
+                data: { userId: $rootScope.user.userGroupId, x: currentMenu, user: $scope.d.user, myMeals: myMeals }
             })
           .then(function (response) {
               if (response.data.d != 'error') {
