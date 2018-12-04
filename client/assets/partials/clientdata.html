@@ -1,7 +1,7 @@
-﻿<div>
+﻿<div class="background">
     <div class="panel panel-default">
         <div class="panel-body mb20">
-            <div ng-include="'client'" style="padding-top:20px"></div>
+            <!--<div ng-include="'client'" style="padding-top:20px"></div>-->
             <ul class="nav nav-tabs">
                 <li ng-class="tpl=='inputData'?'active':''" ng-click="toggleTpl('inputData')"><a href="#"><i class="fa fa-thermometer-empty"></i> <span class="text-capitalize">{{'measures' | translate}}</span></a></li>
                 <li ng-class="tpl=='clientMenues'||tpl=='menu'?'active':''" ng-click="toggleTpl('clientMenues'); loadMenues()"><a href="#"><i class="fa fa-cutlery"></i> <span class="text-capitalize">{{'menues' | translate}}</span></a></li>
@@ -12,8 +12,6 @@
         </div>
     </div>
 </div>
-
-
 
 <div ng-if="config.debug" class="bg-info">
     pal: <pre>{{pal}}</pre>
@@ -30,65 +28,66 @@
 
 <script type="text/ng-template" id="inputData">
     <div class="row">
-        <div class="col-sm-6">
-            <div class="p20">
-                <div class="row">
-                    <span class="col-sm-5 text-capitalize">{{'measurement date' | translate}}:</span>
-                    <div class="col-sm-5">
-                        <div style="width:160px">
-                            <input ng-model="clientData.date" type="date" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt10">
-                    <span class="col-sm-5 text-capitalize">{{'weight' | translate}}:</span>
-                    <div class="col-sm-5">
-                        <div class="input-group" style="width:160px; border:solid 2px green; border-radius:8px">
-                            <input ng-model="clientData.weight" class="form-control input-lg" ng-change="calculate()" allow-only-numbers required>
-                            <span class="input-group-addon"><em>kg</em></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="text-small">
-                    <hr />
-                    <div class="row mt10">
-                        <span class="col-sm-5 text-capitalize">{{'height' | translate}}:</span>
-                        <div class="col-sm-5">
-                            <div class="input-group" style="width:160px">
-                                <input ng-model="clientData.height" class="form-control" ng-change="calculate()" allow-only-numbers required>
-                                <span class="input-group-addon"><em>cm</em></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mt10">
-                        <span class="col-sm-5 text-capitalize">{{'waist' | translate}}:</span>
-                        <div class="col-sm-5">
-                            <div class="input-group" style="width:160px">
-                                <input ng-model="clientData.waist" class="form-control" ng-change="calculate()" allow-only-numbers>
-                                <span class="input-group-addon"><em>cm</em></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mt10">
-                        <span class="col-sm-5 text-capitalize">{{'hip' | translate}}:</span>
-                        <div class="col-sm-5">
-                            <div class="input-group" style="width:160px">
-                                <input ng-model="clientData.hip" class="form-control" ng-change="calculate()" allow-only-numbers>
-                                <span class="input-group-addon"><em>cm</em></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt10">
-                    <span class="col-sm-5"></span>
-                    <div class="col-sm-5">
-                        <button class="btn btn-success btn-block" style="width:160px" ng-click="save(clientData)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</button>
+        <div class="col-sm-6 p20">
+            <div class="row">
+                <span class="col-sm-6 text-capitalize">{{'measurement date' | translate}}:</span>
+                <div class="col-sm-6">
+                    <div>
+                        <input ng-model="clientData.date" type="date" class="form-control">
                     </div>
                 </div>
             </div>
+            <div class="row mt10">
+                <span class="col-sm-6 text-capitalize">{{'weight' | translate}}:</span>
+                <div class="col-sm-6">
+                    <div class="input-group" style="border:solid 2px green; border-radius:8px; height:50px">
+                        <input ng-model="clientData.weight" class="form-control input-lg" style="height:50px" ng-change="calculate()" allow-only-numbers required>
+                        <span class="input-group-addon"><em>kg</em></span>
+                    </div>
+                </div>
+            </div>
+            <div class="mt10">
+                <a href="" ng-click="showOther()">{{showTitle | translate}} {{'other measures' | translate}} <i class="fa fa-chevron-{{show?'up':'down'}}" aria-hidden="true"></i></a>
+            </div>
+            <div ng-if="show" class="text-small">
+                <hr />
+                <div class="row mt10">
+                    <span class="col-sm-6 text-capitalize">{{'height' | translate}}:</span>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <input ng-model="clientData.height" class="form-control" ng-change="calculate()" allow-only-numbers required>
+                            <span class="input-group-addon"><em>cm</em></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt10">
+                    <span class="col-sm-6 text-capitalize">{{'waist' | translate}}:</span>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <input ng-model="clientData.waist" class="form-control" ng-change="calculate()" allow-only-numbers>
+                            <span class="input-group-addon"><em>cm</em></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt10">
+                    <span class="col-sm-6 text-capitalize">{{'hip' | translate}}:</span>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <input ng-model="clientData.hip" class="form-control" ng-change="calculate()" allow-only-numbers>
+                            <span class="input-group-addon"><em>cm</em></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt10">
+                <span class="col-sm-6"></span>
+                <div class="col-sm-6">
+                    <button class="btn btn-success btn-lg btn-block" ng-click="save(clientData)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</button>
+                </div>
+            </div>
         </div>
-        <div class="col-sm-6">
-            <div class="alert alert-info text-center text-uppercase"><strong>{{calculation.bmi.title | translate}}</strong></div>
+        <div class="col-sm-6 p20">
+            <div class="{{getBmiClass(calculation.bmi.value).bg}} text-center text-uppercase"><strong><i class="{{getBmiClass(calculation.bmi.value).icon}}"></i> {{calculation.bmi.title | translate}}</strong></div>
             <div id="bmiChart" class="guage"></div>
         </div>
     </div>

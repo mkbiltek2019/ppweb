@@ -64,7 +64,6 @@ style.css
     margin-bottom:20px
 }
 
-
 .navbar {
       margin-bottom: 0;
       background-color: #353535;
@@ -90,7 +89,6 @@ navbar-brand {
     color: cornsilk !important;
 }
 
-
 .nowrap{
     white-space: nowrap;
 }
@@ -110,8 +108,15 @@ navbar-brand {
     margin:auto;
 }
 
-/************ main colors ***************/
+@media (max-width: 767px) {
+    .panel {
+        background-color: #487413;
+        background-image: linear-gradient(to bottom right, #96C161, #487413);
+        color: white;
+    }
+}
 
+/************ main colors ***************/
 .background {
     background-color: #487413;
     background-image: linear-gradient(to bottom right, #96C161, #487413);

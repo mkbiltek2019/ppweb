@@ -307,10 +307,18 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
             true
         )
 
+        var getRecommendedWeight = function (h) {
+            return {
+                min: Math.round(((18.5 * h * h) / 10000) * 10) / 10,
+                max: Math.round(((25 * h * h) / 10000) * 10) / 10
+            }
+        }
+
         //TODO - goal
         if (angular.isDefined($scope.calculation.recommendedWeight)) {
             angular.forEach($scope.clientLog, function (x, key) {
-                if (type == 0) { clientData.push(x.weight); goalFrom.push($scope.calculation.recommendedWeight.min); goalTo.push($scope.calculation.recommendedWeight.max); }
+                if (type == 0) { clientData.push(x.weight); goalFrom.push(getRecommendedWeight(x.height).min); goalTo.push(getRecommendedWeight(x.height).max); }
+                //if (type == 0) { clientData.push(x.weight); goalFrom.push($scope.calculation.recommendedWeight.min); goalTo.push($scope.calculation.recommendedWeight.max); }
                 if (type == 1) { clientData.push(x.waist); goalFrom.push(95); }
                 if (type == 2) { clientData.push(x.hip); goalFrom.push(97); }
                 if (key % (Math.floor($scope.clientLog.length / 31) + 1) === 0) {
@@ -510,6 +518,23 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
     };
     $scope.toggleSubTpl('clientLog');
 
+    $scope.show = false;
+    $scope.showTitle = 'show';
+    $scope.showOther = function () {
+        $scope.show = !$scope.show;
+        if ($scope.show == true) {
+            $scope.showTitle = 'hide';
+        } else {
+            $scope.showTitle = 'show';
+        }
+    }
+
+    $scope.getBmiClass = function (x) {
+        if (x < 18.5) { return { text: 'text-info', bg: 'alert alert-info', icon: 'fa fa-exclamation' }; }
+        if (x >= 18.5 && x <= 25) { return { text: 'text-success', bg: 'alert alert-success', icon: 'fa fa-check' }; }
+        if (x > 25 && x < 30) { return { text: 'text-warning', bg: 'alert alert-warning', icon: 'fa fa-exclamation' }; }
+        if (x >= 30) { return { text: 'text-danger', bg: 'alert alert-danger', icon: 'fa fa-exclamation' }; }
+    }
 
 
 }])

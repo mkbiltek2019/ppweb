@@ -50,5 +50,8 @@
   "copyright": "copyright",
   "author": "author",
   "home page": "home page",
-  "version": "version"
+  "version": "version",
+  "show": "Show",
+  "hide": "Hide",
+  "other measures": "other measures"
 }

@@ -49,6 +49,9 @@
   "copyright": "copyright",
   "author": "autor",
   "home page": "web stranica",
-  "version": "verzija"
+  "version": "verzija",
+  "show": "Prikaži",
+  "hide": "Sakrij",
+  "other measures": "ostale mjere"
 
 }

@@ -52,11 +52,13 @@
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav navbar-right text-right">
                         <li>
+                            <a href="#" ><i class="fa fa-user-o"></i> {{client.firstName}} {{client.lastName}}</a>
+                        </li>
+                        <li>
                             <a href="#" ng-click="toggleCurrTpl('info.html')"><i class="fa fa-info fa-fw"></i> <span class="text-capitalize">{{'info' | translate}}</span></a>
                         </li>
                     </ul>
                 </div>
-
             </div>
         </nav>
 
@@ -64,9 +66,6 @@
     <div class="text-right navbar-fixed-bottom" style="padding:5px 10px 0px 0px">
         <span class="text-primary small">&copy {{today | date:'yyyy'}} {{config.copyright}}</span>
     </div>
-
-   
-   
 
     <script src="assets/js/app.js?v=2"></script>
     <script src="assets/js/functions.js?v=1.0.0"></script>
