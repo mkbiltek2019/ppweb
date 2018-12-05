@@ -102,25 +102,26 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         $rootScope.loadPals();
     }
 
-    $rootScope.saveClientData = function (x) {
-        saveClientData(x);
-    }
 
-    var saveClientData = function (x) {
-        x.userId = $rootScope.user.userId;
-        x.clientId = x.clientId == null ? $rootScope.client.clientId : x.clientId;
-        $http({
-            url: $sessionStorage.config.backend + 'ClientsData.asmx/Save',
-            method: 'POST',
-            data: { userId: $sessionStorage.usergroupid, x: x, userType:0 }
-        })
-       .then(function (response) {
-           $scope.clientData.date = new Date($rootScope.clientData.date);
-       },
-       function (response) {
-           alert(response.data.d)
-       });
-    }
+    //$rootScope.saveClientData = function (x) {
+    //    saveClientData(x);
+    //}
+
+    //var saveClientData = function (x) {
+    //    x.userId = $rootScope.user.userId;
+    //    x.clientId = x.clientId == null ? $rootScope.client.clientId : x.clientId;
+    //    $http({
+    //        url: $sessionStorage.config.backend + 'ClientsData.asmx/Save',
+    //        method: 'POST',
+    //        data: { userId: $sessionStorage.usergroupid, x: x, userType:0 }
+    //    })
+    //   .then(function (response) {
+    //       $scope.clientData.date = new Date($rootScope.clientData.date);
+    //   },
+    //   function (response) {
+    //       alert(response.data.d)
+    //   });
+    //}
 
     $scope.showTabs = function () {
         if(angular.isUndefined($rootScope.clientData)){return false;}
@@ -178,6 +179,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         })
         .then(function (response) {
             $scope.clientLog = JSON.parse(response.data.d);
+            debugger;
+            angular.forEach($scope.clientLog, function (x, key) {
+                //x.date = new Date(new Date(x.date).setHours(0, 0, 0, 0));
+                x.date = new Date(x.date);
+
+            });
+
             setClientLogGraphData(0);
         },
         function (response) {
@@ -200,10 +208,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
     }
 
     $scope.updateClientLog = function (x) {
+        var cd = angula.copy(x);
+        cd.date = cd.date.toLocaleDateString();
         $http({
             url: $sessionStorage.config.backend + 'ClientsData.asmx/UpdateClientLog',
             method: "POST",
-            data: { userId: $scope.userId, clientData: x }
+            data: { userId: $scope.userId, clientData: cd }
         })
         .then(function (response) {
             getClientLog();
@@ -529,11 +539,40 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         }
     }
 
+    $scope.showLog = true;
+    $scope.showClientLog = function () {
+        $scope.showLog = !$scope.showLog;
+    }
+
     $scope.getBmiClass = function (x) {
         if (x < 18.5) { return { text: 'text-info', bg: 'alert alert-info', icon: 'fa fa-exclamation' }; }
         if (x >= 18.5 && x <= 25) { return { text: 'text-success', bg: 'alert alert-success', icon: 'fa fa-check' }; }
         if (x > 25 && x < 30) { return { text: 'text-warning', bg: 'alert alert-warning', icon: 'fa fa-exclamation' }; }
         if (x >= 30) { return { text: 'text-danger', bg: 'alert alert-danger', icon: 'fa fa-exclamation' }; }
+    }
+
+    $scope.saveClient = function (x) {
+        saveClient(x);
+    }
+
+    var saveClient = function (x) {
+        x.userId = $scope.userId;
+      //  x.clientId = x.clientId == null ? $rootScope.client.clientId : x.clientId;
+
+        alert('TODO');
+        //TODO: create ne method on web serever
+        // TODO: convert birth Date
+      /*  $http({
+            url: $sessionStorage.config.backend + 'Clients.asmx/Save',
+            method: 'POST',
+            data: { userId: $sessionStorage.usergroupid, x: x, userType: 0 }
+        })
+       .then(function (response) {
+           $scope.clientData.date = new Date($rootScope.clientData.date);
+       },
+       function (response) {
+           alert(response.data.d)
+       });*/
     }
 
 
