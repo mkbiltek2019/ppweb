@@ -147,6 +147,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         })
         .then(function (response) {
             $scope.client = JSON.parse(response.data.d);
+            $scope.client.birthDate = new Date($scope.client.birthDate);
             getClientData();
         },
         function (response) {
@@ -551,28 +552,27 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         if (x >= 30) { return { text: 'text-danger', bg: 'alert alert-danger', icon: 'fa fa-exclamation' }; }
     }
 
-    $scope.saveClient = function (x) {
-        saveClient(x);
+    $scope.updateClient = function (x) {
+        updateClient(x);
     }
 
-    var saveClient = function (x) {
-        x.userId = $scope.userId;
-      //  x.clientId = x.clientId == null ? $rootScope.client.clientId : x.clientId;
-
-        alert('TODO');
-        //TODO: create ne method on web serever
-        // TODO: convert birth Date
-      /*  $http({
-            url: $sessionStorage.config.backend + 'Clients.asmx/Save',
+    var updateClient = function (x) {
+        var c = angular.copy(x);
+        c.birthDate = c.birthDate.toLocaleDateString();
+        $http({
+            url: $sessionStorage.config.backend + 'Clients.asmx/UpdateClient',
             method: 'POST',
-            data: { userId: $sessionStorage.usergroupid, x: x, userType: 0 }
+            data: { userId: $scope.userId, x: c }
         })
        .then(function (response) {
-           $scope.clientData.date = new Date($rootScope.clientData.date);
        },
        function (response) {
-           alert(response.data.d)
-       });*/
+           alert(response.data.d);
+       });
+    }
+
+    $scope.setGenderTitle = function (x) {
+        x.title = x.value == 0 ? 'male' : 'femaile';
     }
 
 

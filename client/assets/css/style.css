@@ -138,6 +138,10 @@ navbar-brand {
 .btn-primary {
     border: 1px solid #487413 !important;
 }
+
+label {
+    color:#487413 !important;
+}
 /************ main colors ***************/
 
 

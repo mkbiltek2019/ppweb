@@ -291,7 +291,7 @@ public class ClientsData : System.Web.Services.WebService {
     public Clients.Gender GetGender(int value) {
         Clients.Gender x = new Clients.Gender();
         x.value = value;
-        x.title = value == 0 ? "man" : "woman";
+        x.title = value == 0 ? "male" : "female";
         return x;
     }
 

@@ -5,8 +5,6 @@
   "recommendations": "recommendations",
   "weight": "weight",
   "energy intake": "energy intake",
-  "goal": "goal",
-  "back": "back",
   "save": "save",
   "antropometric data": "antropometric data",
   "tracking of anthropometric measures": "tracking of anthropometric measures",
@@ -53,5 +51,12 @@
   "version": "version",
   "show": "Show",
   "hide": "Hide",
-  "other measures": "other measures"
+  "other measures": "other measures",
+  "first name": "first name",
+  "last name": "last name",
+  "birth date": "birth date",
+  "male": "male",
+  "female": "female",
+  "phone": "phone",
+  "email": "email"
 }

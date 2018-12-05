@@ -215,6 +215,25 @@ public class Clients : System.Web.Services.WebService {
         return json;
     }
 
+    #region Clientapp
+    [WebMethod]
+    public string UpdateClient(string userId, NewClient x) {
+        try {
+            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
+                connection.Open();
+                string sql = string.Format(@"UPDATE clients SET
+                                        firstName = '{0}', lastName = '{1}', birthDate = '{2}', gender = '{3}', phone = '{4}', email = '{5}'
+                                        WHERE clientId = '{6}'"
+                                        , x.firstName, x.lastName, x.birthDate, x.gender.value, x.phone, x.email, x.clientId);
+                SQLiteCommand command = new SQLiteCommand(sql, connection);
+                command = new SQLiteCommand(sql, connection);
+                command.ExecuteNonQuery();
+                connection.Close();
+                return JsonConvert.SerializeObject(x, Formatting.Indented);
+        } catch (Exception e) { return (e.Message); }
+    }
+    #endregion Clientapp
+
     #endregion
 
     #region Methods
@@ -242,12 +261,12 @@ public class Clients : System.Web.Services.WebService {
     public Gender GetGender(int value) {
         Gender x = new Gender();
         x.value = value;
-        x.title = value == 0 ? "man" : "woman";
+        x.title = value == 0 ? "male" : "female";
         return x;
     }
 
     private static string GetGenderTitle(int value) {
-        string title = value == 0 ? "man" : "woman";
+        string title = value == 0 ? "male" : "female";
         return title;
     }
 

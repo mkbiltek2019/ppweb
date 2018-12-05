@@ -68,16 +68,16 @@
                     <input if="firstName" ng-model="client.firstName" type="text" placeholder="{{'first name' | translate}}" class="form-control" />
                 </div>
                 <div class="form-group">
-                    <label for="lastName">{{'first name' | translate}}:</label>
-                    <input if="lastName" ng-model="client.firstName" type="text" placeholder="{{'first name' | translate}}" class="form-control" />
+                    <label for="lastName">{{'last name' | translate}}:</label>
+                    <input if="lastName" ng-model="client.lastName" type="text" placeholder="{{'last name' | translate}}" class="form-control" />
                 </div>
                 <div class="form-group">
                     <label for="birthDate">{{'birth date' | translate}}:</label>
-                    <input if="birthDate" ng-model="client.birthDate" type="date" placeholder="{{'first name' | translate}}" class="form-control" />
+                    <input if="birthDate" ng-model="client.birthDate" type="date" placeholder="{{'birth date' | translate}}" class="form-control" />
                 </div>
                 <div class="form-group">
-                    <label class="radio-inline"><input type="radio" name="optradio" checked>{{'male' | translate}}</label>
-                    <label class="radio-inline"><input type="radio" name="optradio">{{'female' | translate}}</label>
+                    <label class="radio-inline"><input ng-model="client.gender.value" value="0" type="radio" name="optradio" ng-click="setGenderTitle(client.gender)">{{'male' | translate}}</label>
+                    <label class="radio-inline"><input ng-model="client.gender.value" value="1" type="radio" name="optradio" ng-click="setGenderTitle(client.gender)">{{'female' | translate}}</label>
                 </div>
                 <div class="form-group">
                     <label for="phone">{{'phone' | translate}}:</label>
@@ -88,7 +88,7 @@
                     <input if="email" ng-model="client.email" type="text" placeholder="{{'email' | translate}}" class="form-control" />
                 </div>
                 <div class="text-right">
-                    <button ng-click="saveClient(client)" type="submit" class="btn btn-default"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</button>
+                    <button ng-click="updateClient(client)" type="submit" class="btn btn-default"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</button>
                 </div>
             </form>
         </div>
@@ -109,7 +109,6 @@
         function openNav() {
             document.getElementById("mySidenav").style.width = "350px";
         }
-
         function closeNav() {
             document.getElementById("mySidenav").style.width = "0";
         }

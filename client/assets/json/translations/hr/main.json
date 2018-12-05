@@ -43,7 +43,6 @@
   "take pdf": "preuzmi PDF",
   "measures": "mjere",
   "delete record": "briši mjerenje",
-  "menues": "jelovnici",
   "help": "uputa",
   "info": "info",
   "copyright": "copyright",
@@ -52,6 +51,13 @@
   "version": "verzija",
   "show": "Prikaži",
   "hide": "Sakrij",
-  "other measures": "ostale mjere"
+  "other measures": "ostale mjere",
+  "first name": "ime",
+  "last name": "prezime",
+  "birth date": "datum rođenja",
+  "male": "muškarac",
+  "female": "žena",
+  "phone": "telefon",
+  "email": "email"
 
 }
