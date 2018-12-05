@@ -73,7 +73,7 @@
                 </div>
                 <div class="form-group">
                     <label for="birthDate">{{'birth date' | translate}}:</label>
-                    <input if="birthDate" ng-model="client.birthDate" type="text" placeholder="{{'first name' | translate}}" class="form-control" />
+                    <input if="birthDate" ng-model="client.birthDate" type="date" placeholder="{{'first name' | translate}}" class="form-control" />
                 </div>
                 <div class="form-group">
                     <label class="radio-inline"><input type="radio" name="optradio" checked>{{'male' | translate}}</label>
@@ -94,7 +94,7 @@
         </div>
     </div>
 
-    <div style="font-size:30px;cursor:pointer" class="p10" onclick="openNav()"><i class="fa fa-cog"></i> {{client.firstName}} {{client.lastName}}</div>
+    <div style="font-size:20px;cursor:pointer" class="p10" onclick="openNav()"><i class="fa fa-cog"></i> {{client.firstName}} {{client.lastName}}</div>
 
     <div class="container mt20 mb20" ng-include="currTpl" style="margin-bottom:50px"></div>
     <div class="text-right navbar-fixed-bottom" style="padding:5px 10px 0px 0px">
