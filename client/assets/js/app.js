@@ -72,7 +72,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
                   if (querystring.split('&')[1].substring(0, 3) == 'cid') {
                       $scope.clientId = querystring.split('&')[1].substring(4);
                   }
-                  debugger;
                   if (querystring.split('&')[2].substring(0, 4) == 'lang') {
                       $scope.config.language = querystring.split('&')[2].substring(5);
                   }
@@ -166,11 +165,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         })
         .then(function (response) {
             $scope.clientLog = JSON.parse(response.data.d);
-            debugger;
             angular.forEach($scope.clientLog, function (x, key) {
-                //x.date = new Date(new Date(x.date).setHours(0, 0, 0, 0));
                 x.date = new Date(x.date);
-
             });
 
             setClientLogGraphData(0);
@@ -422,7 +418,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
     $scope.pdfLink = null;
     $scope.creatingPdf = false;
     $scope.createMenuPdf = function () {
-        debugger;
         $scope.pdfLink = null;
         $scope.creatingPdf = true;
         $http({
@@ -551,6 +546,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
             data: { userId: $scope.userId, x: c }
         })
        .then(function (response) {
+           document.getElementById("mySidenav").style.width = "0";
        },
        function (response) {
            alert(response.data.d);
@@ -605,7 +601,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         }
     }
 });
-
 
 
 ;

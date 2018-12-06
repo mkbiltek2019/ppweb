@@ -16,6 +16,10 @@
       "title": "croatian"
     },
     {
+      "code": "ba",
+      "title": "bosnian"
+    },
+    {
       "code": "sr",
       "title": "serbian (latin)"
     },
@@ -37,6 +41,10 @@
     {
       "code": "hrk",
       "title": "kuna"
+    },
+    {
+      "code": "bam",
+      "title": "marka"
     },
     {
       "code": "rsd",

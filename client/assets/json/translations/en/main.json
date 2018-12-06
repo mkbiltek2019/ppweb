@@ -58,5 +58,10 @@
   "male": "male",
   "female": "female",
   "phone": "phone",
-  "email": "email"
+  "email": "email",
+  "croatian": "croatian",
+  "english": "english",
+  "bosnian": "bosnian",
+  "serbian (latin)": "serbian (latin)",
+  "serbian (cyrillic)": "serbian (cyrillic)"
 }
