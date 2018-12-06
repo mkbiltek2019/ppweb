@@ -22,7 +22,7 @@
                 <div ng-if="user.licenceStatus != 'demo' && user.userType > 0">
                     <em>{{'search clients' | translate}}...</em>
                     <select ng-model="client" ng-options="(y.firstName + ' ' + y.lastName) for (x, y) in clients" class="form-control"></select>
-                    <a ng-if="config.debug" href="{{config.clientapppageurl}}?uid={{client.userId}}&cid={{client.clientId}}" target="_blank">{{config.clientapppageurl}}?uid={{client.userId}}&cid={{client.clientId}}</a>
+                    <a ng-if="config.debug" href="{{clientAppUrl(client)}}" target="_blank">{{clientAppUrl(client)}}</a>
                     <div ng-if="user.userType>0 && client!=null || client.clientId!=null">
                         <div class="text-capitalize">{{'client' | translate}}: {{client.firstName}} {{client.lastName}}</div>
                         {{"send access link to the client's email" | translate}}

@@ -27,16 +27,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
 .controller('AppCtrl', ['$scope', '$timeout', '$q', '$log', '$rootScope', '$localStorage', '$sessionStorage', '$window', '$http', '$translate', '$translatePartialLoader', 'functions', 'charts', function ($scope, $timeout, $q, $log, $rootScope, $localStorage, $sessionStorage, $window, $http, $translate, $translatePartialLoader, functions, charts) {
 
-    var querystring = location.search;
-    if (!functions.isNullOrEmpty(querystring)) {
-        if (querystring.split('&')[0].substring(1, 4) == 'uid') {
-            $scope.userId = querystring.split('&')[0].substring(5);
-        }
-        if (querystring.split('&')[1].substring(0, 3) == 'cid') {
-            $scope.clientId = querystring.split('&')[1].substring(4);
-        }
-    }
-    
     $scope.today = new Date();
 
     function initPrintSettings() {
@@ -60,22 +50,39 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         window.location.reload(true);
     }
 
+    $scope.setLanguage = function (x) {
+        $translate.use(x);
+        $translatePartialLoader.addPart('main');
+        $scope.config.language = x;
+        if (typeof (Storage) !== "undefined") {
+            localStorage.language = x;
+        }
+        $sessionStorage.config.language = x;
+    };
+
     var getConfig = function () {
         $http.get('./config/config.json')
           .then(function (response) {
-              $rootScope.config = response.data;
-              $sessionStorage.config = response.data;
-              getClient();
-              initPrintSettings();
-              var queryLang = location.search.substring(6);
-              if (angular.isDefined(queryLang)) {
-                  if (queryLang == 'hr' || queryLang == 'sr' || queryLang == 'en') {
-                      $rootScope.setLanguage(queryLang);
+              $scope.config = response.data;
+              var querystring = location.search;
+              if (!functions.isNullOrEmpty(querystring)) {
+                  if (querystring.split('&')[0].substring(1, 4) == 'uid') {
+                      $scope.userId = querystring.split('&')[0].substring(5);
+                  }
+                  if (querystring.split('&')[1].substring(0, 3) == 'cid') {
+                      $scope.clientId = querystring.split('&')[1].substring(4);
+                  }
+                  debugger;
+                  if (querystring.split('&')[2].substring(0, 4) == 'lang') {
+                      $scope.config.language = querystring.split('&')[2].substring(5);
                   }
               }
-              if ($sessionStorage.islogin == true) { $rootScope.loadData(); }
+              $scope.setLanguage($scope.config.language);
+              $sessionStorage.config = $scope.config;
+              getClient();
+              initPrintSettings();
               if (localStorage.version) {
-                  if (localStorage.version != $rootScope.config.version) {
+                  if (localStorage.version != $scope.config.version) {
                       saveVersion();
                   }
               } else {
@@ -101,27 +108,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
     $rootScope.loadData = function () {
         $rootScope.loadPals();
     }
-
-
-    //$rootScope.saveClientData = function (x) {
-    //    saveClientData(x);
-    //}
-
-    //var saveClientData = function (x) {
-    //    x.userId = $rootScope.user.userId;
-    //    x.clientId = x.clientId == null ? $rootScope.client.clientId : x.clientId;
-    //    $http({
-    //        url: $sessionStorage.config.backend + 'ClientsData.asmx/Save',
-    //        method: 'POST',
-    //        data: { userId: $sessionStorage.usergroupid, x: x, userType:0 }
-    //    })
-    //   .then(function (response) {
-    //       $scope.clientData.date = new Date($rootScope.clientData.date);
-    //   },
-    //   function (response) {
-    //       alert(response.data.d)
-    //   });
-    //}
 
     $scope.showTabs = function () {
         if(angular.isUndefined($rootScope.clientData)){return false;}
@@ -424,7 +410,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         })
        .then(function (response) {
            $scope.totals = JSON.parse(response.data.d);
-           $scope.totals.price.currency = $rootScope.config.currency;
+           $scope.totals.price.currency = $scope.config.currency;
        },
        function (response) {
            alert(response.data.d)
@@ -442,7 +428,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         $http({
             url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
             method: "POST",
-            data: { userId: $scope.userId, currentMenu: $scope.menu, totals: $scope.totals, consumers: consumers, lang: $rootScope.config.language, settings: $scope.settings }
+            data: { userId: $scope.userId, currentMenu: $scope.menu, totals: $scope.totals, consumers: consumers, lang: $scope.config.language, settings: $scope.settings }
         })
         .then(function (response) {
             var fileName = response.data.d;

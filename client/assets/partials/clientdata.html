@@ -4,7 +4,7 @@
             <!--<div ng-include="'client'" style="padding-top:20px"></div>-->
             <ul class="nav nav-tabs">
                 <li ng-class="tpl=='inputData'?'active':''" ng-click="toggleTpl('inputData')"><a href="#"><i class="fa fa-thermometer-empty"></i> <span class="text-capitalize">{{'measures' | translate}}</span></a></li>
-                <li ng-class="tpl=='clientMenues'||tpl=='menu'?'active':''" ng-click="toggleTpl('clientMenues'); loadMenues()"><a href="#"><i class="fa fa-cutlery"></i> <span class="text-capitalize">{{'menues' | translate}}</span></a></li>
+                <li ng-class="tpl=='clientMenues'||tpl=='menu'?'active':''" ng-click="toggleTpl('clientMenues'); loadMenues()"><a href="#"><i class="fa fa-cutlery"></i> <span class="text-capitalize">{{'menus' | translate}}</span></a></li>
             </ul>
 
             <div ng-include="tpl" style="padding-top:20px; min-height:400px;"></div>

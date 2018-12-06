@@ -1739,6 +1739,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.pdfLink1 = null;
     }
 
+    $scope.clientAppUrl = function (x) {
+        if (x !== undefined) {
+            return $rootScope.config.clientapppageurl + '?uid=' + x.userId + '&cid=' + x.clientId + '&lang=' + $rootScope.config.language;
+        } else {
+            return;
+        }
+    }
+
     $scope.sendingMail = false;
     $scope.sendAppLinkToClientEmail = function (client) {
         if ($scope.sendingMail == true) { return false; }
@@ -1747,8 +1755,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             return false;
         }
         $scope.sendingMail = true;
-        var link = $rootScope.config.clientapppageurl + '?uid=' + client.userId + '&cid=' + client.clientId
-        var messageSubject = $translate.instant('nutrition program') + '. ' + $translate.instant('app access link')   //'Program Prehrane. link za pristup aplikaciji';
+        var link = $scope.clientAppUrl(client);
+        var messageSubject = $translate.instant('nutrition program') + '. ' + $translate.instant('app access link')   //'Program Prehrane | Klijent. link za pristup aplikaciji';
         var messageBody = '<p>' + $translate.instant('dear') + ',' + '</p>' +
             $translate.instant('the app access link to track your body weight and download menus is') + ': ' +
             '<br />' +
