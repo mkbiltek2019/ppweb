@@ -199,6 +199,8 @@ public class PrintPdf : System.Web.Services.WebService {
                     AppendDayMeal(table, weeklyMenu.menuList, consumers, userId, settings, lang);
                 }
             }
+
+            //TOOD apend Totals
             
             doc.Add(table);
             doc.Close();

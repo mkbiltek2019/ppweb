@@ -3489,7 +3489,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             templateUrl: 'assets/partials/popup/getmenu.html',
             parent: angular.element(document.body),
             clickOutsideToClose: true,
-            config: $rootScope.config
+            data: { config: $rootScope.config, clientData: $rootScope.clientData }
         })
         .then(function (x) {
             $rootScope.currentMenu = x;
@@ -3505,8 +3505,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         });
     };
 
-    var getMenuPopupCtrl = function ($scope, $mdDialog, $http, config, $translate, $translatePartialLoader, $timeout) {
-        $scope.config = config;
+    var getMenuPopupCtrl = function ($scope, $mdDialog, $http, data, $translate, $translatePartialLoader, $timeout) {
+        $scope.config = data.config;
+        $scope.clientData = data.clientData;
         $scope.loadType = 0;
         $scope.type = 0;
         $scope.appMenues = false;
