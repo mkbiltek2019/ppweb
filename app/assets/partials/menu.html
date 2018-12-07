@@ -222,22 +222,25 @@
                             <md-checkbox ng-model="printSettings.showClientData" class="md-primary">
                                 {{'show client data' | translate}}
                             </md-checkbox>
-                            <md-checkbox ng-model="printSettings.showFoods" class="md-primary">
-                                {{'show foods' | translate}}
-                            </md-checkbox>
                             <md-checkbox ng-model="printSettings.showDescription" class="md-primary" ng-change="hidePdfLink()">
                                 {{'show description' | translate}}
                             </md-checkbox>
+                            <md-checkbox ng-model="printSettings.showFoods" class="md-primary">
+                                {{'show foods' | translate}}
+                            </md-checkbox>
                         </div>
                         <div>
-                            <md-checkbox ng-model="printSettings.showQty" class="md-primary" ng-change="hidePdfLink()">
+                            <md-checkbox ng-disabled="!printSettings.showFoods" ng-model="printSettings.showQty" class="md-primary" ng-change="hidePdfLink()">
                                 {{'show quantity' | translate}}
                             </md-checkbox>
-                            <md-checkbox ng-model="printSettings.showMass" class="md-primary" ng-change="hidePdfLink()">
+                            <md-checkbox ng-disabled="!printSettings.showFoods" ng-model="printSettings.showMass" class="md-primary" ng-change="hidePdfLink()">
                                 {{'show mass' | translate}}
                             </md-checkbox>
-                            <md-checkbox ng-model="printSettings.showServ" class="md-primary" ng-change="hidePdfLink()">
+                            <md-checkbox ng-disabled="!printSettings.showFoods" ng-model="printSettings.showServ" class="md-primary" ng-change="hidePdfLink()">
                                 {{'show servings' | translate}}
+                            </md-checkbox>
+                            <md-checkbox ng-model="printSettings.showTotals" class="md-primary">
+                                {{'show totals' | translate}}
                             </md-checkbox>
                         </div>
                     </fieldset>

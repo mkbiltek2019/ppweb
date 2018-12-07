@@ -876,7 +876,7 @@ public class Foods : System.Web.Services.WebService {
         return xx;
     }
 
-    private double GetNutrientPercentage(List<NewFood> selectedFoods, double nutrient) {
+    public double GetNutrientPercentage(List<NewFood> selectedFoods, double nutrient) {
         double percentage = 0;
         double totalCarbohydrates = selectedFoods.Sum(a => a.carbohydrates);
         double totalProteins = selectedFoods.Sum(a => a.proteins);

@@ -32,14 +32,14 @@
                                 {{'show foods' | translate}}
                             </md-checkbox>
                         </div>
-                        <div ng-if="settings.showFoods">
-                            <md-checkbox ng-model="settings.showQty" class="md-primary">
+                        <div>
+                            <md-checkbox ng-disabled="!settings.showFoods" ng-model="settings.showQty" class="md-primary">
                                 {{'show quantity' | translate}}
                             </md-checkbox>
-                            <md-checkbox ng-model="settings.showMass" class="md-primary">
+                            <md-checkbox ng-disabled="!settings.showFoods" ng-model="settings.showMass" class="md-primary">
                                 {{'show mass' | translate}}
                             </md-checkbox>
-                            <md-checkbox ng-model="settings.showServ" class="md-primary">
+                            <md-checkbox ng-disabled="!settings.showFoods" ng-model="settings.showServ" class="md-primary">
                                 {{'show servings' | translate}}
                             </md-checkbox>
                             <md-checkbox ng-model="settings.showTotals" class="md-primary">
