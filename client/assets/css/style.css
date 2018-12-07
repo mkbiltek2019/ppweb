@@ -113,11 +113,19 @@ navbar-brand {
     margin:auto;
 }
 
+.user-info {
+    font-size:20px;
+    cursor:pointer;
+    padding:15px 5px 5px 25px;
+}
+
 @media (max-width: 767px) {
     .panel {
         background-color: #487413;
-        /*background-image: linear-gradient(to bottom right, #96C161, #487413);*/
         background-image: linear-gradient(to bottom right, #e3f7ca, #487413);
+    }
+    .lang {
+        text-align: right;
     }
 }
 

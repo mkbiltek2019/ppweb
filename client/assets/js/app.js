@@ -191,7 +191,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
     }
 
     $scope.updateClientLog = function (x) {
-        var cd = angula.copy(x);
+        var cd = angular.copy(x);
         cd.date = cd.date.toLocaleDateString();
         $http({
             url: $sessionStorage.config.backend + 'ClientsData.asmx/UpdateClientLog',

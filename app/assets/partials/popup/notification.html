@@ -16,7 +16,7 @@
                 </div>
                 <div>
                     <a ng-hide="config.language=='en'" href="" ng-click="toggleUpdates()" class="btn btn-default text-uppercase">{{'what is new' | translate}}? <i class="fa fa-chevron-{{showUpdates==false?'down':'up'}}" aria-hidden="true"></i></a>
-                    <a href="" class="btn btn-default text-uppercase pull-right" ng-click="hide()"><i class="fa fa-check"></i> {{'close' | translate}}</a>
+                    <a href="" class="btn btn-default text-uppercase pull-right" ng-click="hide()"><i class="fa fa-arrow-right"></i> {{'continue' | translate}}</a>
                     <div ng-if="showUpdates==true" ng-include="'./assets/partials/updates.html'" class="text-center"></div>
                 </div>
             </div>

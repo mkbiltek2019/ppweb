@@ -216,6 +216,7 @@ public class Clients : System.Web.Services.WebService {
     }
 
     #region Clientapp
+    //TODO crerate client Code ddb => (id, clientId, code, userId, userGroupId, lang)
     [WebMethod]
     public string UpdateClient(string userId, NewClient x) {
         try {

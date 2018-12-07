@@ -1785,7 +1785,8 @@
   "you have reached the maximum number of meals": "Dosegli ste maksimalan broj obroka",
   "choose at least 3 meals": "Izaberite barem 3 obroka",
   "title is required": "Naziv je obavezan",
-  "servings": "serviranja"
+  "servings": "serviranja",
+  "continue": "nastavi"
 
 
 }
