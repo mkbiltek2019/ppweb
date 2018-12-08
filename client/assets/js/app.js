@@ -57,7 +57,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         if (typeof (Storage) !== "undefined") {
             localStorage.language = x;
         }
-        $sessionStorage.config.language = x;
+        //$sessionStorage.config.language = x;
     };
 
     var getConfig = function () {
