@@ -55,6 +55,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         $translatePartialLoader.addPart('main');
         $scope.config.language = x;
         if (typeof (Storage) !== "undefined") {
+            if (localStorage.language !== undefined) {
+                if (localStorage.language !== x) {
+                    $timeout(function () {
+                        setClientLogGraphData(0);
+                    }, 300);
+                }
+            }
             localStorage.language = x;
         }
         //$sessionStorage.config.language = x;
@@ -277,20 +284,20 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
             ['#3399ff', '#ff3333', '#33ff33'],
             [
                    {
-                       label: $translate.instant("measured value"),
+                       label: $translate.instant('measured value'),
                        borderWidth: 5,
                        type: 'line',
                        fill: true
                    },
                    {
-                       label: $translate.instant("lower limit"),
+                       label: $translate.instant('lower limit'),
                        borderWidth: 2,
                        backgroundColor: '#e6e6ff',
                        fill: false,
                        type: 'line'
                    },
                    {
-                       label: $translate.instant("upper limit"),
+                       label: $translate.instant('upper limit'),
                        borderWidth: 2,
                        backgroundColor: '#e6e6ff',
                        fill: false,
@@ -496,6 +503,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
     $scope.toggleCurrTpl = function (x) {
         $scope.currTpl = './assets/partials/' + x;
+        if(x == 'clientdata.html') {
+            getCharts();
+        }
     };
     $scope.toggleCurrTpl('clientdata.html');
 
@@ -556,7 +566,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
     $scope.setGenderTitle = function (x) {
         x.title = x.value == 0 ? 'male' : 'femaile';
     }
-
 
 }])
 

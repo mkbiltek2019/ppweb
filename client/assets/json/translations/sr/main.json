@@ -51,7 +51,7 @@
   "version": "verzija",
   "show": "Prikaži",
   "hide": "Sakrij",
-  "other measures": "ostale mjere",
+  "other measures": "ostale mere",
   "first name": "ime",
   "last name": "prezime",
   "birth date": "datum rođenja",
@@ -65,5 +65,9 @@
   "serbian (latin)": "srpski (latinica)",
   "serbian (cyrillic)": "srpski (čirilica)",
   "nutrition program | client": "program ishrane | klijent",
-  "cancel": "zatvori"
+  "cancel": "zatvori",
+  "kcal": "kcal",
+  "kg": "kg",
+  "cm": "cm",
+  "g": "g"
 }

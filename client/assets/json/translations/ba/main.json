@@ -65,5 +65,9 @@
   "serbian (latin)": "srpski (latinica)",
   "serbian (cyrillic)": "srpski (čirilica)",
   "nutrition program | client": "program prehrane | klijent",
-  "cancel": "zatvori"
+  "cancel": "zatvori",
+  "kcal": "kcal",
+  "kg": "kg",
+  "cm": "cm",
+  "g": "g"
 }

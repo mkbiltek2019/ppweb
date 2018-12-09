@@ -40,7 +40,7 @@
                 <div class="col-sm-6">
                     <div class="input-group" style="border:solid 2px green; border-radius:8px; height:50px">
                         <input ng-model="clientData.weight" class="form-control input-lg" style="height:50px" ng-change="calculate()" allow-only-numbers required>
-                        <span class="input-group-addon"><em>kg</em></span>
+                        <span class="input-group-addon"><em>{{'kg' | translate}}</em></span>
                     </div>
                 </div>
             </div>
@@ -54,7 +54,7 @@
                     <div class="col-sm-6">
                         <div class="input-group">
                             <input ng-model="clientData.height" class="form-control" ng-change="calculate()" allow-only-numbers required>
-                            <span class="input-group-addon"><em>cm</em></span>
+                            <span class="input-group-addon"><em>{{'cm' | translate}}</em></span>
                         </div>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
                     <div class="col-sm-6">
                         <div class="input-group">
                             <input ng-model="clientData.waist" class="form-control" ng-change="calculate()" allow-only-numbers>
-                            <span class="input-group-addon"><em>cm</em></span>
+                            <span class="input-group-addon"><em>{{'cm' | translate}}</em></span>
                         </div>
                     </div>
                 </div>
@@ -72,7 +72,7 @@
                     <div class="col-sm-6">
                         <div class="input-group">
                             <input ng-model="clientData.hip" class="form-control" ng-change="calculate()" allow-only-numbers>
-                            <span class="input-group-addon"><em>cm</em></span>
+                            <span class="input-group-addon"><em>{{'cm' | translate}}</em></span>
                         </div>
                     </div>
                 </div>
@@ -124,10 +124,10 @@
                         <th></th>
                         <th>{{'number' | translate}}</th>
                         <th>{{'date' | translate}}</th>
-                        <th>{{'height' | translate}}</th>
-                        <th>{{'weight' | translate}}</th>
-                        <th>{{'waist' | translate}}</th>
-                        <th>{{'hip' | translate}}</th>
+                        <th>{{'height' | translate}} ({{'cm' | translate}})</th>
+                        <th>{{'weight' | translate}} ({{'kg' | translate}})</th>
+                        <th>{{'waist' | translate}} ({{'cm' | translate}})</th>
+                        <th>{{'hip' | translate}} ({{'cm' | translate}})</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -177,7 +177,7 @@
 
 <script type="text/ng-template" id="clientLogChart">
     <div class="p10">
-        <div>{{'weight' | translate}} (kg)</div>
+        <div>{{'weight' | translate}} ({{'kg' | translate}})</div>
         <canvas id="clientDataChart" class="chart-bar hidden-xs" chart-data="clientLogGraphData.data" chart-colors="clientLogGraphData.colors" height="80"
                 chart-labels="clientLogGraphData.labels" chart-series="clientLogGraphData.series" chart-options="clientLogGraphData.options" chart-dataset-override="clientLogGraphData.datasetOverride"></canvas>
         <canvas id="clientDataChart" class="chart-bar visible-xs" chart-data="clientLogGraphData.data" chart-colors="clientLogGraphData.colors" height="400"
@@ -194,7 +194,7 @@
                     <th>{{'number' | translate}}</th>
                     <th>{{'title' | translate}}</th>
                     <th>{{'date' | translate}}</th>
-                    <th>{{'energy' | translate}} (kcal)</th>
+                    <th>{{'energy' | translate}} ({{'kcal' | translate}})</th>
                 </tr>
                 <tr ng-repeat="x in menues" ng-click="getMenu(x)" class="pointer">
                     <td><button class="btn btn-primary"><i class="fa fa-eye"></i></button></td>
@@ -211,7 +211,7 @@
 
 <script type="text/ng-template" id="menu">
     <div class="p10">
-        <button class="btn btn-primary pull-right text-capitalize" ng-click="toggleTpl('clientMenues')"><i class="fa fa-list"></i> {{'menues' | translate}}</button>
+        <button class="btn btn-default pull-right text-capitalize" ng-click="toggleTpl('clientMenues')"><i class="fa fa-list"></i> {{'menus' | translate}}</button>
         <div>
             <button ng-if="!pdfLink" class="btn btn-danger text-capitalize" ng-click="createMenuPdf()" ng-disabled="creatingPdf==true"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</button>
             <a ng-if="pdfLink" href="{{pdfLink}}" class="btn btn-primary text-capitalize" download>{{'take pdf' | translate}}</a>
@@ -227,16 +227,16 @@
                     <em class="text-justify">{{x.description}}</em>
                 </div>
                 <div class="p10">
-                    <p ng-if="y.meal.code==x.code" ng-repeat="y in menu.data.selectedFoods track by $index">- {{y.food | translate}}, {{y.quantity}} {{y.unit | translate}}, ({{y.mass}} g)</p>
+                    <p ng-if="y.meal.code==x.code" ng-repeat="y in menu.data.selectedFoods track by $index">- {{y.food | translate}}, {{y.quantity}} {{y.unit | translate}}, ({{y.mass}} ({{'g' | translate}}))</p>
                 </div>
                 <hr />
             </div>
             <div>
                 <label><span class="text-uppercase">{{'total' | translate}}</span></label>
-                <p>{{'energy' | translate}}: <span>{{totals.energy}} kcal</span></p>
-                <p>{{'carbohydrates' | translate}}: <span>{{totals.carbohydrates | number:1}} g, ({{totals.carbohydratesPercentage | number:1}} %)</span></p>
-                <p>{{'proteins' | translate}}: <span>{{totals.proteins | number:1}} g, ({{totals.proteinsPercentage | number:1}} %)</span></p>
-                <p>{{'fats' | translate}}: <span>{{totals.fats | number:1}} g, ({{totals.fatsPercentage | number:1}} %)</span></p>
+                <p>{{'energy' | translate}}: <span>{{totals.energy}} ({{'kcal' | translate}})</span></p>
+                <p>{{'carbohydrates' | translate}}: <span>{{totals.carbohydrates | number:1}} ({{'g' | translate}}), ({{totals.carbohydratesPercentage | number:1}} %)</span></p>
+                <p>{{'proteins' | translate}}: <span>{{totals.proteins | number:1}} ({{'g' | translate}}), ({{totals.proteinsPercentage | number:1}} %)</span></p>
+                <p>{{'fats' | translate}}: <span>{{totals.fats | number:1}} ({{'g' | translate}}), ({{totals.fatsPercentage | number:1}} %)</span></p>
             </div>
         </div>
         <pre ng-if="config.debug">{{menu | json}}</pre>
