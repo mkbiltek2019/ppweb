@@ -236,7 +236,7 @@ public class ClientsData : System.Web.Services.WebService {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
             string sql = @"UPDATE clientsdata SET  
-                        clientId = @clientId, height = @height, weight = @weight, waist = @waist, hip = @hip
+                        clientId = @clientId, height = @height, weight = @weight, waist = @waist, hip = @hip, date = @date
                         WHERE clientId = @clientId AND rowid = @id";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             command = new SQLiteCommand(sql, connection);
@@ -245,6 +245,7 @@ public class ClientsData : System.Web.Services.WebService {
             command.Parameters.Add(new SQLiteParameter("weight", clientData.weight));
             command.Parameters.Add(new SQLiteParameter("waist", clientData.waist));
             command.Parameters.Add(new SQLiteParameter("hip", clientData.hip));
+            command.Parameters.Add(new SQLiteParameter("date", clientData.date));
             command.Parameters.Add(new SQLiteParameter("id", clientData.id));
             command.ExecuteNonQuery();
             connection.Close();

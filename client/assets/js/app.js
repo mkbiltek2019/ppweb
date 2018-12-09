@@ -199,7 +199,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
     $scope.updateClientLog = function (x) {
         var cd = angular.copy(x);
-        cd.date = cd.date.toLocaleDateString();
+        cd.date = cd.date.toISOString();
         $http({
             url: $sessionStorage.config.backend + 'ClientsData.asmx/UpdateClientLog',
             method: "POST",
@@ -318,11 +318,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         if (angular.isDefined($scope.calculation.recommendedWeight)) {
             angular.forEach($scope.clientLog, function (x, key) {
                 if (type == 0) { clientData.push(x.weight); goalFrom.push(getRecommendedWeight(x.height).min); goalTo.push(getRecommendedWeight(x.height).max); }
-                //if (type == 0) { clientData.push(x.weight); goalFrom.push($scope.calculation.recommendedWeight.min); goalTo.push($scope.calculation.recommendedWeight.max); }
                 if (type == 1) { clientData.push(x.waist); goalFrom.push(95); }
                 if (type == 2) { clientData.push(x.hip); goalFrom.push(97); }
                 if (key % (Math.floor($scope.clientLog.length / 31) + 1) === 0) {
-                    labels.push(new Date(x.date).toLocaleDateString());  //TODO check with server date time (one day less)
+                    labels.push(new Date(x.date));
                 } else {
                     labels.push("");
                 }
@@ -549,7 +548,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
     var updateClient = function (x) {
         var c = angular.copy(x);
-        c.birthDate = c.birthDate.toLocaleDateString();
+        debugger;
+        c.birthDate = c.birthDate.toISOString();
         $http({
             url: $sessionStorage.config.backend + 'Clients.asmx/UpdateClient',
             method: 'POST',
