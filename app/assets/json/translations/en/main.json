@@ -1778,6 +1778,7 @@
   "choose at least 3 meals": "Choose at least 3 meals",
   "title is required": "Title is required",
   "servings": "servings",
-  "continue": "continue"
+  "continue": "continue",
+  "the saving function is disabled in demo version": "The saving function is disabled in demo version"
 
 }

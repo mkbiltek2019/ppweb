@@ -1783,6 +1783,7 @@
   "choose at least 3 meals": "Изаберите барем 3 оброка",
   "title is required": "Назив је обавезан",
   "servings": "сервирања",
-  "continue": "настави"
+  "continue": "настави",
+  "the saving function is disabled in demo version": "Спремање је онемогућено у демо верзији"
 
 }

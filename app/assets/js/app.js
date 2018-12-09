@@ -352,6 +352,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var saveClientData = function (x) {
+        if ($rootScope.user.licenceStatus == 'demo') {
+            return false;
+        }
         x.userId = $rootScope.user.userId;
         x.clientId = x.clientId == null ? $rootScope.client.clientId : x.clientId;
         $http({
@@ -1268,7 +1271,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             $rootScope.client = response;
-            $scope.get(response);
+           // $scope.get($rootScope.client);
+            if ($rootScope.user.licenceStatus == 'demo') {
+                init($rootScope.client);
+                $rootScope.client.clientId = 'demo';
+            } else {
+                $scope.get($rootScope.client);
+            }
         }, function () {
         });
     };
@@ -1309,8 +1318,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     $scope.birthDateRequiredMsq = null;
                 }
             }
-            if ($rootScope.user.licenceStatus == 'demo' && $rootScope.clients.length > 0) {
-                functions.demoAlert('in demo version you can enter only one client');
+            //if ($rootScope.user.licenceStatus == 'demo' && $rootScope.clients.length > 0) {
+            //    functions.demoAlert('in demo version you can enter only one client');
+            //    return false;
+            //}
+            if ($rootScope.user.licenceStatus == 'demo') {
+                //functions.demoAlert('the saving function is disabled in demo version');
+                $mdDialog.hide(x);
                 return false;
             }
             x.userId = $sessionStorage.userid;
@@ -4488,6 +4502,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         var load = function () {
+            if ($rootScope.user.licenceStatus == 'demo') {
+                return false;
+            }
             $scope.loading = true;
             $scope.appRecipes = false;
             $http({
@@ -5207,6 +5224,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 
     var load = function () {
+        if ($rootScope.user.licenceStatus == 'demo') {
+            return false;
+        }
         $rootScope.loading = true;
         $http({
             url: $sessionStorage.config.backend + 'Recipes.asmx/Load',
@@ -5307,6 +5327,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.save = function (recipe) {
+        if ($rootScope.user.licenceStatus == 'demo') {
+            return false;
+        }
         if (recipe.title == '' || recipe.title == null) {
             functions.alert($translate.instant('enter recipe title'), '');
             return false;
@@ -5398,6 +5421,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         var load = function () {
+            if ($rootScope.user.licenceStatus == 'demo') {
+                return false;
+            }
             $scope.loading = true;
             $http({
                 url: $sessionStorage.config.backend + 'Recipes.asmx/Load',
