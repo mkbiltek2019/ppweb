@@ -353,6 +353,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     var saveClientData = function (x) {
         if ($rootScope.user.licenceStatus == 'demo') {
+            if ($rootScope.newTpl == 'assets/partials/clientsdata.html') {
+                functions.demoAlert('the saving function is disabled in demo version');
+            }
             return false;
         }
         x.userId = $rootScope.user.userId;
@@ -482,6 +485,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $mdDialog.cancel();
         };
     }
+
+    $scope.showOrderForm = false;
+    $scope.toggleOrderForm = function () {
+        $scope.showOrderForm = !$scope.showOrderForm;
+    };
+
 
 }])
 
@@ -845,7 +854,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var save = function (x) {
-        if ($rootScope.user.licenceStatus == 'demo' || $rootScope.user.userType < 1) {
+        if ($rootScope.user.licenceStatus == 'demo') {
+            functions.demoAlert('the saving function is disabled in demo version');
             return false;
         }
         $http({
@@ -1286,6 +1296,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.d = d;
         $scope.d.date = new Date($scope.d.date);
         $scope.d.birthDate = new Date($scope.d.birthDate);
+        $scope.user = $rootScope.user;
 
         var getDateDiff = function (x) {
             var today = new Date();
@@ -1837,6 +1848,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $rootScope.currTpl = './assets/partials/dashboard.html';
     }
 
+    $scope.showAccessClientAppData = false;
+    $scope.toggleAccessClientAppData = function () {
+        $scope.showAccessClientAppData = !$scope.showAccessClientAppData;
+    };
+
 
 }])
 
@@ -2282,6 +2298,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.saveMyCalculation = function (x) {
+        if ($rootScope.user.licenceStatus == 'demo') {
+            functions.demoAlert('the saving function is disabled in demo version');
+            return false;
+        }
         var myCalculation = angular.copy($rootScope.calculation);
         myCalculation.recommendedEnergyIntake = x.recommendedEnergyIntake;
         myCalculation.recommendedEnergyExpenditure = x.recommendedEnergyExpenditure;
@@ -2721,6 +2741,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.save = function () {
+        if ($rootScope.user.licenceStatus == 'demo') {
+            functions.demoAlert('the saving function is disabled in demo version');
+            return false;
+        }
         if ($rootScope.user.userType < 2) {
             return false;
         }
@@ -3671,7 +3695,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             return false;
         }
         if ($rootScope.user.licenceStatus == 'demo') {
-            functions.demoAlert('this function is not available in demo version');
+            functions.demoAlert('the saving function is disabled in demo version');
+            return false;
         } else {
             openSaveMenuPopup();
         }
@@ -5328,6 +5353,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.save = function (recipe) {
         if ($rootScope.user.licenceStatus == 'demo') {
+            functions.demoAlert('the saving function is disabled in demo version');
             return false;
         }
         if (recipe.title == '' || recipe.title == null) {
@@ -5931,6 +5957,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         window.location.hash = 'registration';
     }
 
+    $scope.backToApp = function () {
+        $rootScope.currTpl = './assets/partials/dashboard.html';
+    }
+
 }])
 
 .controller('infoCtrl', ['$scope', '$rootScope', '$translate', function ($scope, $rootScope, $translate) {
@@ -5962,6 +5992,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     if(angular.isDefined($sessionStorage.settings)){$rootScope.settings = $sessionStorage.settings;}
 
     $scope.save = function (d) {
+        if ($rootScope.user.licenceStatus == 'demo') {
+            functions.demoAlert('the saving function is disabled in demo version');
+            return false;
+        }
         $http({
             url: $sessionStorage.config.backend + webService + '/SaveJsonToFile',
             method: "POST",
@@ -6240,6 +6274,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.d = d.weeklyMenu;
 
         var save = function (x) {
+            if ($rootScope.user.licenceStatus == 'demo') {
+                functions.demoAlert('the saving function is disabled in demo version');
+                return false;
+            }
             if (functions.isNullOrEmpty(x.title)) {
                 functions.alert($translate.instant('enter menu title'), '');
                 return false;

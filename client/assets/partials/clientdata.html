@@ -187,7 +187,12 @@
 
 <script type="text/ng-template" id="clientMenues">
     <div class="p10">
-        <div class="table-responsive table-scroll" style="max-height:600px; min-height:70%">
+        <div ng-if="menus.length==0">
+            <div class="alert alert-danger">
+                {{'you still do not have any menus' | translate}}.
+            </div>
+        </div>
+        <div ng-if="menus.length>0" class="table-responsive table-scroll" style="max-height:600px; min-height:70%">
             <table class="table table-condensed table-hover">
                 <tr>
                     <th></th>
@@ -196,7 +201,7 @@
                     <th>{{'date' | translate}}</th>
                     <th>{{'energy' | translate}} ({{'kcal' | translate}})</th>
                 </tr>
-                <tr ng-repeat="x in menues" ng-click="getMenu(x)" class="pointer">
+                <tr ng-repeat="x in menus" ng-click="getMenu(x)" class="pointer">
                     <td><button class="btn btn-primary"><i class="fa fa-eye"></i></button></td>
                     <td>{{$index+1}}</td>
                     <td>{{x.title}}</td>

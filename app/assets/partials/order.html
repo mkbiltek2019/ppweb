@@ -1,6 +1,8 @@
 ﻿<div id="orderform" ng-controller="orderCtrl">
-    <div class="well text-left">
-        <a href="" class="btn btn-default pull-right text-capitalize" ng-click="toggleTpl('login.html')"><i class="fa fa-times"></i><span class="hidden-xs"> {{'cancel' | translate}}</span></a>
+    <div class="well">
+        <div class="text-right">
+            <a ng-if="showOrderForm==false" href="" class="btn btn-default" ng-click="backToApp()"><i class="fa fa-dashboard"></i> {{'back to app' | translate}}</a>
+        </div>
         <h4 class="text-uppercase">{{'order' | translate}}</h4>
         <hr />
         <div ng-if="!showAlert">

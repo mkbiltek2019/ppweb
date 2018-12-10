@@ -368,7 +368,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
             data: { userId: $scope.userId, clientId: $scope.clientId }
         })
        .then(function (response) {
-           $scope.menues = JSON.parse(response.data.d);
+           $scope.menus = JSON.parse(response.data.d);
            $scope.loading = false;
        },
        function (response) {

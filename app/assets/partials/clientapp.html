@@ -22,14 +22,28 @@
                 <div ng-if="user.licenceStatus != 'demo' && user.userType > 0">
                     <em>{{'search clients' | translate}}...</em>
                     <select ng-model="client" ng-options="(y.firstName + ' ' + y.lastName) for (x, y) in clients" class="form-control"></select>
-                    <a ng-if="config.debug" href="{{clientAppUrl(client)}}" target="_blank">{{clientAppUrl(client)}}</a>
-                    <div ng-if="user.userType>0 && client!=null || client.clientId!=null">
-                        <div class="text-capitalize">{{'client' | translate}}: {{client.firstName}} {{client.lastName}}</div>
-                        {{"send access link to the client's email" | translate}}
-                        <div class="input-group">
-                            <input ng-model="client.email" type="email" class="form-control" placeholder="{{'email' | translate}}" />
-                            <div class="input-group-addon pointer text-capitalize" ng-click="sendAppLinkToClientEmail(client)" ng-disabled="sendingMail==true"><a href=""><i class="fa fa-{{sendingMail==true?'spinner fa-spin':'paper-plane-o'}}"></i> {{sendingMail==true?'sending':'send' | translate}}</a></div>
+                    <!--<a ng-if="config.debug&&client.clientId" href="{{clientAppUrl(client)}}" target="_blank">{{clientAppUrl(client)}}</a>-->
+                    <div ng-if="user.userType>0 && client!=null || client.clientId!=null" class="mt20">
+                        <div class="text-capitalize m10">{{'client' | translate}}: {{client.firstName}} {{client.lastName}}</div>
+                        <a href="" ng-click="toggleAccessClientAppData()" class="btn btn-default text-uppercase">{{'show access data' | translate}} <i class="fa fa-chevron-{{showAccessClientAppData==false?'down':'up'}}" aria-hidden="true"></i></a>
+                        <div ng-if="showAccessClientAppData==true" class="well">
+                            <h3>Podaci za pristup aplikaciji</h3>
+                            <p>Aplikaciji možete pristupiti putem linka:</p>
+                            <a ng-if="client.clientId" href="{{clientAppUrl(client)}}" target="_blank">{{clientAppUrl(client)}}</a>
+                            <p>ili:</p>
+                            <a href="{{config.clientapppageurl}}">{{config.clientapppageurl}}</a>
+                            <p>ili: Android aplikacija:</p>
+                            <a href="#">TODO</a>
+                            <p>Kod za pristup aplikaciji:</p>
+                            <input class="form-control" style="width:200px; height:40px" />
                         </div>
+                        <div class="mt10">
+                            <p>{{"send access link to the client's email" | translate}}</p>
+                            <div class="input-group">
+                                <input ng-model="client.email" type="email" class="form-control" placeholder="{{'email' | translate}}" />
+                                <div class="input-group-addon pointer text-capitalize" ng-click="sendAppLinkToClientEmail(client)" ng-disabled="sendingMail==true"><a href=""><i class="fa fa-{{sendingMail==true?'spinner fa-spin':'paper-plane-o'}}"></i> {{sendingMail==true?'sending':'send' | translate}}</a></div>
+                            </div>
+                        </div>   
                     </div>
                 </div>
             </fieldset>
