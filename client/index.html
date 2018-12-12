@@ -103,7 +103,7 @@
         </div>
     </div>
 
-    <div class="user-info" onclick="openNav()"><i class="fa fa-cog"></i> {{client.firstName}} {{client.lastName}}</div>
+    <div ng-if="client.clientId" class="user-info" onclick="openNav()"><i class="fa fa-cog"></i> {{client.firstName}} {{client.lastName}}</div>
 
     <div class="container mt20 mb20" ng-include="currTpl" style="margin-bottom:50px" onclick="closeNav()"></div>
     <div class="text-right navbar-fixed-bottom" style="padding:5px 10px 0px 0px">

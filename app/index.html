@@ -112,14 +112,14 @@
                 </strong>
                 <div>{{browserMsg.description | translate}}</div>
             </div>
-            <div ng-if="mainMessage && isLogin && client.clientId" class="alert alert-warning alert-dismissable text-center m10" style="height:auto !important">
+            <div ng-if="mainMessage && isLogin && client.clientId" class="alert alert-success alert-dismissable text-center m10" style="height:auto !important">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                 <strong>
                     <i class="fa fa-info-circle fa-2x" aria-hidden="true"></i><span class="text-uppercase ml5">{{mainMessage}}</span>
-                    <!--<strong class="btn btn-success ml10" ng-click="toggleTpl('order.html'); hideMsg()"><i class="fa fa-hand-o-right fa-2x" aria-hidden="true"></i><span class="text-uppercase ml5">{{mainMessageBtn}}</span></strong>-->
+                    <button class="btn btn-default text-uppercase ml10" ng-click="toggleTpl('order.html'); hideMsg()">
+                        <span class="text-success"><i class="fa fa-hand-o-right fa-2x arrow1" aria-hidden="true"></i> {{mainMessageBtn}}</span>
+                    </button>
                 </strong>
-                <a href="" ng-click="toggleOrderForm()" class="btn btn-default text-uppercase">{{mainMessageBtn}} <i class="fa fa-chevron-{{showOrderForm==false?'down':'up'}}" aria-hidden="true"></i></a>
-                <div ng-if="showOrderForm==true" ng-include="'./assets/partials/order.html'"></div>
             </div>
 
             <div ng-show="!loading" ng-include="currTpl" style="margin-bottom:50px"></div>

@@ -1779,6 +1779,8 @@
   "title is required": "Title is required",
   "servings": "servings",
   "continue": "continue",
-  "the saving function is disabled in demo version": "The saving function is disabled in demo version"
+  "the saving function is disabled in demo version": "The saving function is disabled in demo version",
+  "show access data": "Show access data",
+  "hide access data": "Hide access data"
 
 }

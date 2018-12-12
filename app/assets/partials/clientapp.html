@@ -25,17 +25,22 @@
                     <!--<a ng-if="config.debug&&client.clientId" href="{{clientAppUrl(client)}}" target="_blank">{{clientAppUrl(client)}}</a>-->
                     <div ng-if="user.userType>0 && client!=null || client.clientId!=null" class="mt20">
                         <div class="text-capitalize m10">{{'client' | translate}}: {{client.firstName}} {{client.lastName}}</div>
-                        <a href="" ng-click="toggleAccessClientAppData()" class="btn btn-default text-uppercase">{{'show access data' | translate}} <i class="fa fa-chevron-{{showAccessClientAppData==false?'down':'up'}}" aria-hidden="true"></i></a>
+                        <a href="" ng-click="toggleAccessClientAppData()" class="btn btn-default">{{showAccessClientAppDataTitle}} <i class="fa fa-chevron-{{showAccessClientAppData==false?'down':'up'}}" aria-hidden="true"></i></a>
                         <div ng-if="showAccessClientAppData==true" class="well">
-                            <h3>Podaci za pristup aplikaciji</h3>
-                            <p>Aplikaciji možete pristupiti putem linka:</p>
-                            <a ng-if="client.clientId" href="{{clientAppUrl(client)}}" target="_blank">{{clientAppUrl(client)}}</a>
-                            <p>ili:</p>
-                            <a href="{{config.clientapppageurl}}">{{config.clientapppageurl}}</a>
-                            <p>ili: Android aplikacija:</p>
-                            <a href="#">TODO</a>
-                            <p>Kod za pristup aplikaciji:</p>
-                            <input class="form-control" style="width:200px; height:40px" />
+                            <h4>Podaci za pristup aplikaciji</h4>
+                            <div>
+                                <label>Link za pristup aplikaciji:</label> <a href="{{config.clientapppageurl}}" target="_blank">{{config.clientapppageurl}}</a>
+                            </div>
+                            <div>
+                                <label>Android aplikacija:</label> <a href="#">TODO</a>
+                            </div>
+                            <div>
+                                <label>Aktivacijski kod:</label> <input class="text-center" style="width:100px; height:30px; font-weight:600; font-size:16px" />
+                            </div>
+                            <div>
+                                <label>Link za pristup aplikaciji bez aktivacijskog koda koda:</label><br />
+                                <a ng-if="client.clientId" href="{{clientAppUrl(client)}}" target="_blank">{{clientAppUrl(client)}}</a>
+                            </div>
                         </div>
                         <div class="mt10">
                             <p>{{"send access link to the client's email" | translate}}</p>

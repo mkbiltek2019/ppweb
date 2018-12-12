@@ -486,12 +486,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         };
     }
 
-    $scope.showOrderForm = false;
-    $scope.toggleOrderForm = function () {
-        $scope.showOrderForm = !$scope.showOrderForm;
-    };
-
-
 }])
 
 .controller('loginCtrl', ['$scope', '$http','$localStorage', '$sessionStorage', '$window', '$rootScope', 'functions', '$translate', '$mdDialog', function ($scope, $http, $localStorage, $sessionStorage, $window, $rootScope, functions, $translate, $mdDialog) {
@@ -1514,6 +1508,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.getClientLog = function (x) {
+        if ($rootScope.user.licenceStatus == 'demo') {
+            $scope.toggleTpl('clientStatictic');
+            return false;
+        }
         $http({
             url: $sessionStorage.config.backend + 'ClientsData.asmx/GetClientLog',
             method: "POST",
@@ -1849,9 +1847,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.showAccessClientAppData = false;
+    $scope.showAccessClientAppDataTitle = $translate.instant('show access data');
     $scope.toggleAccessClientAppData = function () {
         $scope.showAccessClientAppData = !$scope.showAccessClientAppData;
+        $scope.showAccessClientAppDataTitle = $scope.showAccessClientAppData == true ? $translate.instant('hide access data') : $translate.instant('show access data');
     };
+
 
 
 }])
@@ -1969,7 +1970,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.save = function (x) {
-        if ($rootScope.user.licenceStatus == 'demo' && $rootScope.clients.length > 0) {
+        if ($rootScope.user.licenceStatus == 'demo') {
             functions.demoAlert('this function is not available in demo version');
             return false;
         }
@@ -5107,7 +5108,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.save = function (x) {
-        if ($rootScope.user.licenceStatus == 'demo' && $rootScope.clients.length > 0) {
+        if ($rootScope.user.licenceStatus == 'demo') {
             functions.demoAlert('this function is not available in demo version');
             return false;
         }
@@ -5160,6 +5161,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var openMyFoodsPopup = function () {
+        if ($rootScope.user.licenceStatus == 'demo') { return false; }
         $mdDialog.show({
             controller: getMyFoodsPopupCtrl,
             templateUrl: 'assets/partials/popup/myfoods.html',
@@ -5249,9 +5251,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 
     var load = function () {
-        if ($rootScope.user.licenceStatus == 'demo') {
-            return false;
-        }
+        if ($rootScope.user.licenceStatus == 'demo') { return false; }
         $rootScope.loading = true;
         $http({
             url: $sessionStorage.config.backend + 'Recipes.asmx/Load',
@@ -5427,6 +5427,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var openMyRecipesPopup = function () {
+        if ($rootScope.user.licenceStatus == 'demo') { return false; }
         $mdDialog.show({
             controller: getMyRecipesPopupCtrl,
             templateUrl: 'assets/partials/popup/myrecipes.html',
@@ -5547,7 +5548,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.save = function (x) {
-        if ($rootScope.user.licenceStatus == 'demo' && $rootScope.clients.length > 0) {
+        if ($rootScope.user.licenceStatus == 'demo') {
             functions.demoAlert('this function is not available in demo version');
             return false;
         }

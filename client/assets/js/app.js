@@ -68,6 +68,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
     };
 
     var getConfig = function () {
+        $scope.userId = null;
+        $scope.clientId = null;
         $http.get('./config/config.json')
           .then(function (response) {
               $scope.config = response.data;
@@ -83,6 +85,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
                       $scope.config.language = querystring.split('&')[2].substring(5);
                   }
               }
+              //TODO
+              debugger;
+              if ($scope.userId == null || $scope.clientId) {
+                  $scope.currTpl = './assets/partials/activation.html';
+                  return false;
+              }
+
               $scope.setLanguage($scope.config.language);
               $sessionStorage.config = $scope.config;
               getClient();
@@ -265,7 +274,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
     $scope.calculate = function () {
         getCalculation();
         getCharts();
-
     }
 
     var setClientLogGraphData = function (type) {
@@ -355,7 +363,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
             alert(response.data.d)
         });
     }
-
 
     getConfig();
 
@@ -502,22 +509,24 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
     $scope.toggleCurrTpl = function (x) {
         $scope.currTpl = './assets/partials/' + x;
-        if(x == 'clientdata.html') {
+        if (x == 'clientdata.html') {
+            $scope.tpl = 'inputData';
+            $scope.subTpl = 'clientLog';
             getCharts();
         }
     };
-    $scope.toggleCurrTpl('clientdata.html');
+    //$scope.toggleCurrTpl('clientdata.html');
 
     $scope.toggleTpl = function (x) {
         $scope.tpl = x;
         getCharts();
     };
-    $scope.toggleTpl('inputData');
+    //$scope.toggleTpl('inputData');
 
     $scope.toggleSubTpl = function (x) {
         $scope.subTpl = x;
     };
-    $scope.toggleSubTpl('clientLog');
+    //$scope.toggleSubTpl('clientLog');
 
     $scope.show = false;
     $scope.showTitle = 'show';
@@ -565,6 +574,18 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
     $scope.setGenderTitle = function (x) {
         x.title = x.value == 0 ? 'male' : 'femaile';
+    }
+
+    $scope.activationCode = null;
+    //TODO
+    $scope.activateApp = function (x) {
+        //connect to server and check code, return user.userId, client.clientId.
+       // => getClient();
+        if (x == '1234') {
+            $scope.toggleCurrTpl('clientdata.html');
+        } else {
+            alert($translate.instant('wrong code'))
+        }
     }
 
 }])
