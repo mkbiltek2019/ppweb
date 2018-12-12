@@ -28,6 +28,7 @@ namespace Igprog {
         public string recipes = "recipes";
         public string meals = "meals";
         public string weeklymenus = "weeklymenus";
+        public string clientapp = "clientapp";
 
 
         #region CreateTable (users.ddb)
@@ -287,6 +288,18 @@ namespace Igprog {
         }
         #endregion
 
+        #region CreateTable (client app)
+        public void ClientApp(string path) {
+            string sql = @"CREATE TABLE IF NOT EXISTS clientapp
+                (id NVARCHAR(50),
+                clientId NVARCHAR(50),
+                userId NVARCHAR(50),
+                code NVARCHAR(50) PRIMARY KEY,
+                lang NVARCHAR(50))";
+            CreateTable(path, sql);
+        }
+        #endregion
+
         public void CreateDataBase(string userId, string table) {
             try {
                 string path = GetDataBasePath(userId, dataBase);
@@ -355,6 +368,9 @@ namespace Igprog {
                     break;
                 case "weeklymenus":
                     WeeklyMenus(path);
+                    break;
+                case "clientapp":
+                    ClientApp(path);
                     break;
                 default:
                     break;
