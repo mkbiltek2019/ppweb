@@ -63,6 +63,9 @@
                         <li>
                             <a href="#" ng-click="toggleCurrTpl('info.html')"><i class="fa fa-info fa-fw"></i> <span class="text-capitalize">{{'info' | translate}}</span></a>
                         </li>
+                        <li ng-if="client.clientId!=null">
+                            <a href="#" ng-click="toggleCurrTpl('activation.html')"><i class="fa fa-sign-out fa-fw"></i> <span class="text-capitalize">{{'logout' | translate}}</span></a>
+                        </li>
                     </ul>
                 </div>
             </div>

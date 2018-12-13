@@ -67,12 +67,69 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         //$sessionStorage.config.language = x;
     };
 
+    $scope.toggleCurrTpl = function (x) {
+        $scope.currTpl = './assets/partials/' + x;
+        if (x == 'clientdata.html') {
+            $scope.tpl = 'inputData';
+            $scope.subTpl = 'clientLog';
+            getCharts();
+        }
+        if (x == 'activation.html') {
+            $scope.client = null;
+            $scope.clientApp = null;
+            localStorage.code = null;
+            localStorage.language = null;
+            $sessionStorage.config.language = null;
+            $scope.clientId = null;
+            $scope.userId = null;
+            window.location = window.location.href.split("?")[0];
+        }
+    };
+
+    $scope.toggleTpl = function (x) {
+        $scope.tpl = x;
+        getCharts();
+    };
+
+    $scope.toggleSubTpl = function (x) {
+        $scope.subTpl = x;
+    };
+
+    $scope.activationCode = null;
+    $scope.activateApp = function (x) {
+        debugger;
+        if (x == null || x == '' || x == 'null') { return false; }
+        $http({
+            url: $sessionStorage.config.backend + 'ClientApp.asmx/Activate',
+            method: 'POST',
+            data: { code: x }
+        })
+       .then(function (response) {
+           $scope.clientApp = JSON.parse(response.data.d);
+           if ($scope.clientApp.code == x) {
+               localStorage.code = $scope.clientApp.code;
+               localStorage.language = $scope.clientApp.lang;
+               $sessionStorage.config.language = $scope.clientApp.lang;
+               $scope.clientId = $scope.clientApp.clientId;
+               $scope.userId = $scope.clientApp.userId;
+               getClient();
+               $scope.toggleCurrTpl('clientdata.html');
+           } else {
+               alert($translate.instant('wrong activation code'))
+           }
+       },
+       function (response) {
+           alert(response.data.d);
+       });
+    }
+
     var getConfig = function () {
         $scope.userId = null;
         $scope.clientId = null;
         $http.get('./config/config.json')
           .then(function (response) {
               $scope.config = response.data;
+              $sessionStorage.config = $scope.config;
               var querystring = location.search;
               if (!functions.isNullOrEmpty(querystring)) {
                   if (querystring.split('&')[0].substring(1, 4) == 'uid') {
@@ -84,10 +141,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
                   if (querystring.split('&')[2].substring(0, 4) == 'lang') {
                       $scope.config.language = querystring.split('&')[2].substring(5);
                   }
+              } else {
+                  if (typeof (Storage) !== "undefined") {
+                      if (localStorage.code !== undefined) {
+                          $scope.activateApp(localStorage.code);
+                      }
+                  }
               }
-              //TODO
-              debugger;
-              if ($scope.userId == null || $scope.clientId) {
+              if ($scope.userId == null || $scope.clientId == null) {
                   $scope.currTpl = './assets/partials/activation.html';
                   return false;
               }
@@ -96,6 +157,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
               $sessionStorage.config = $scope.config;
               getClient();
               initPrintSettings();
+              $scope.toggleCurrTpl('clientdata.html');
               if (localStorage.version) {
                   if (localStorage.version != $scope.config.version) {
                       saveVersion();
@@ -507,27 +569,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
     }
     //********* New *****************
 
-    $scope.toggleCurrTpl = function (x) {
-        $scope.currTpl = './assets/partials/' + x;
-        if (x == 'clientdata.html') {
-            $scope.tpl = 'inputData';
-            $scope.subTpl = 'clientLog';
-            getCharts();
-        }
-    };
-    //$scope.toggleCurrTpl('clientdata.html');
-
-    $scope.toggleTpl = function (x) {
-        $scope.tpl = x;
-        getCharts();
-    };
-    //$scope.toggleTpl('inputData');
-
-    $scope.toggleSubTpl = function (x) {
-        $scope.subTpl = x;
-    };
-    //$scope.toggleSubTpl('clientLog');
-
     $scope.show = false;
     $scope.showTitle = 'show';
     $scope.showOther = function () {
@@ -574,33 +615,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
     $scope.setGenderTitle = function (x) {
         x.title = x.value == 0 ? 'male' : 'femaile';
-    }
-
-    $scope.activationCode = null;
-    //TODO
-    $scope.activateApp = function (x) {
-        //connect to server and check code, return user.userId, client.clientId.
-        // => getClient();
-        debugger;
-        $http({
-            url: $sessionStorage.config.backend + 'ClientApp.asmx/Activate',
-            method: 'POST',
-            data: { code: x }
-        })
-       .then(function (response) {
-           $scope.clientApp = JSON.parse(response.data.d);
-           if ($scope.clientApp.code == x) {
-               $scope.clientId = $scope.clientApp.clientId;
-               $scope.userId = $scope.clientApp.userId;
-               getClient();
-               $scope.toggleCurrTpl('clientdata.html');
-           } else {
-               alert($translate.instant('wrong code'))
-           }
-       },
-       function (response) {
-           alert(response.data.d);
-       });
     }
 
 }])

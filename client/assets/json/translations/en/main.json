@@ -70,5 +70,10 @@
   "kg": "kg",
   "cm": "cm",
   "g": "g",
-  "you still do not have any menus": "You still do not have any menus"
+  "you still do not have any menus": "You still do not have any menus",
+  "activation code": "Activation code",
+  "application for tracking anthropometric parameters and taking menus": "Application for tracking anthropometric parameters and taking menus",
+  "ask your nutritionist for an activation code": "Ask your nutritionist for an activation code",
+  "enter": "Enter",
+  "wrong activation code": "Wrong activation code"
 }

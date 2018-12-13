@@ -70,5 +70,10 @@
   "kg": "kg",
   "cm": "cm",
   "g": "g",
-  "you still do not have any menus": "Još nemate izrađene jelovnike"
+  "you still do not have any menus": "Još nemate izrađene jelovnike",
+  "activation code": "Aktivacijski kod",
+  "application for tracking anthropometric parameters and taking menus": "Aplikacija za praćenje antropometrijskih parametara i preuzimanje jelovnika",
+  "ask your nutritionist for an activation code": "Aktivacijski kod zatražite kod svojeg nutricioniste",
+  "enter": "Ulaz",
+  "wrong activation code": "Pogrešan aktivacijski kod"
 }

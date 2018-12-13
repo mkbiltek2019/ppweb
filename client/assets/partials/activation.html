@@ -1,4 +1,16 @@
-﻿<div>
-    {{'activation code' | translate}}: <input ng-model="activationCode"  />
-    <button ng-click="activateApp(activationCode)">{{'confirm' | translate}}</button>
+﻿<div class="text-center" style="margin-top:20%">
+    <h1 class="text-uppercase">{{config.title | translate}}</h1>
+    <h2>{{'application for tracking anthropometric parameters and taking menus' | translate}}</h2>
+    <hr />
+    <div>
+        <h4>{{'activation code' | translate}}:</h4>
+    </div>
+    <form id="activationform">
+        <div class="text-center">
+            <input ng-model="activationCode" class="form-control text-center" style="width:250px; height:50px; font-weight:600; font-size:26px; display:inline" />
+        </div>
+        <button ng-click="activateApp(activationCode)" form="activationform" class="btn btn-default btn-lg text-primary text-uppercase mt10" type="submit" style="width:250px"><i class="fa fa-sign-out"></i> {{'enter' | translate}}</button>
+    </form>
+    <div><em>*{{'ask your nutritionist for an activation code' | translate}}</em>.</div>
+   
 </div>

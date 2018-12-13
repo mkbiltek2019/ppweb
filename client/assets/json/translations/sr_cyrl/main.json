@@ -244,7 +244,6 @@
   "phone": "телефон",
   "confirm password": "потврдите лозинку",
   "register": "регистрација",
-  "enter": "улаз",
   "in demo version maximum number of choosen foods is 10": "у демо верзији максимални број намирница по јеловнику је 10",
   "in demo version you can enter only one client": "у демо верзији можете унијети само једног клијента",
   "the start time and end of activity can not be the same": "време почетка и краја активности не може бити једнако",
@@ -396,5 +395,10 @@
   "kg": "кг",
   "cm": "цм",
   "g": "г",
-  "you still do not have any menus": "Још немате израђене јеловнике"
+  "you still do not have any menus": "Још немате израђене јеловнике",
+  "activation code": "Активацијски код",
+  "application for tracking anthropometric parameters and taking menus": "Апликација за праћење антропометријских параметара и преузимање јеловника",
+  "ask your nutritionist for an activation code": "Активацијски код затражите код својег нутрициониста",
+  "enter": "Улаз",
+  "wrong activation code": "Погрешан активацијски код"
 }
