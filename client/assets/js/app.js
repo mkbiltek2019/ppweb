@@ -329,7 +329,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
                 if (type == 1) { clientData.push(x.waist); goalFrom.push(95); }
                 if (type == 2) { clientData.push(x.hip); goalFrom.push(97); }
                 if (key % (Math.floor($scope.clientLog.length / 31) + 1) === 0) {
-                    labels.push(new Date(x.date));
+                    labels.push(new Date(x.date).toLocaleDateString());
                 } else {
                     labels.push("");
                 }
@@ -580,12 +580,27 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
     //TODO
     $scope.activateApp = function (x) {
         //connect to server and check code, return user.userId, client.clientId.
-       // => getClient();
-        if (x == '1234') {
-            $scope.toggleCurrTpl('clientdata.html');
-        } else {
-            alert($translate.instant('wrong code'))
-        }
+        // => getClient();
+        debugger;
+        $http({
+            url: $sessionStorage.config.backend + 'ClientApp.asmx/Activate',
+            method: 'POST',
+            data: { code: x }
+        })
+       .then(function (response) {
+           $scope.clientApp = JSON.parse(response.data.d);
+           if ($scope.clientApp.code == x) {
+               $scope.clientId = $scope.clientApp.clientId;
+               $scope.userId = $scope.clientApp.userId;
+               getClient();
+               $scope.toggleCurrTpl('clientdata.html');
+           } else {
+               alert($translate.instant('wrong code'))
+           }
+       },
+       function (response) {
+           alert(response.data.d);
+       });
     }
 
 }])

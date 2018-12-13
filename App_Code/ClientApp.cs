@@ -65,13 +65,13 @@ public class ClientApp : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string Activate(NewClientApp client) {
+    public string Activate(string code) {
         try {
             string path = Server.MapPath(string.Format("~/App_Data/{0}", dataBase));
             db.CreateGlobalDataBase(path, db.clientapp);
             SQLiteConnection connection = new SQLiteConnection(string.Format("Data Source={0}", path));
             connection.Open();
-            string sql = string.Format(@"SELECT id, clientId, userId, code, lang FROM clientapp WHERE code = '{0}'", client.code);
+            string sql = string.Format(@"SELECT id, clientId, userId, code, lang FROM clientapp WHERE code = '{0}'", code);
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             SQLiteDataReader reader = command.ExecuteReader();
             NewClientApp x = new NewClientApp();
@@ -84,7 +84,7 @@ public class ClientApp : System.Web.Services.WebService {
             }
             connection.Close();
             return JsonConvert.SerializeObject(x, Formatting.Indented);
-        } catch (Exception e) { return (e.Message); }
+        } catch (Exception e) { return null; }
     }
     #endregion Web Methods
 
