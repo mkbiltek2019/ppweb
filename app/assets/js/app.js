@@ -6441,25 +6441,24 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 .controller('clientAppCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', '$timeout', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate, $timeout) {
     var webService = 'ClientApp.asmx';
-    $scope.showAccessClientAppData = false;
+    $scope.show = false;
+    $scope.showTitle = $translate.instant('show access data');
 
-    var init = function (x) {
-        $http({
-            url: $sessionStorage.config.backend + webService + '/Init',
-            method: "POST",
-            data: {}
-        })
-        .then(function (response) {
-            $scope.clientApp = JSON.parse(response.data.d);
-        },
-        function (response) {
-            alert(response.data.d)
-        });
-    }
-    init();
+    $scope.toggle = function (client, clientApp) {
+        $scope.show = !$scope.show;
+        if ($scope.show == true) {
+            if (clientApp.id == null) {
+                $scope.getActivationCode(client, clientApp);
+            }
+            $scope.showTitle = $translate.instant('hide access data');
+        } else {
+            $scope.showTitle = $translate.instant('show access data');
+        }
+    };
 
     $scope.get = function (x) {
-        $scope.showAccessClientAppData = false;
+        $scope.show = false;
+        $scope.showTitle = $translate.instant('show access data');
         $http({
             url: $sessionStorage.config.backend + webService + '/Get',
             method: "POST",
@@ -6492,20 +6491,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             alert(response.data.d)
         });
     }
-
-    $scope.showAccessClientAppDataTitle = $translate.instant('show access data');
-    $scope.toggleAccessClientAppData = function (client, clientApp) {
-        $scope.showAccessClientAppData = !$scope.showAccessClientAppData;
-        if ($scope.showAccessClientAppData == true) {
-            if (clientApp.id == null) {
-                $scope.getActivationCode(client, clientApp);
-            }
-            $scope.showAccessClientAppDataTitle = $translate.instant('hide access data');
-        } else {
-            $scope.showAccessClientAppDataTitle = $translate.instant('show access data');
-        }
-    };
-
 
     $scope.clientAppUrl = function (x) {
         if (x !== undefined) {

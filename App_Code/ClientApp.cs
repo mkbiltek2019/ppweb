@@ -32,17 +32,6 @@ public class ClientApp : System.Web.Services.WebService {
 
     #region Web Methods
     [WebMethod]
-    public string Init() {
-        NewClientApp x = new NewClientApp();
-        x.id = null;
-        x.clientId = null;
-        x.userId = null;
-        x.code = null;
-        x.lang = null;
-        return JsonConvert.SerializeObject(x, Formatting.Indented);
-    }
-
-    [WebMethod]
     public string Get(string clientId) {
         try {
             return JsonConvert.SerializeObject(GetCode(clientId), Formatting.Indented);
@@ -52,7 +41,6 @@ public class ClientApp : System.Web.Services.WebService {
     [WebMethod]
     public string GetActivationCode(NewClientApp x) {
         try {
-            x.code = GetCode(x.clientId).code;
             if (string.IsNullOrEmpty(x.code)) {
                 x.code = CreateActivationCode();
                 if(string.IsNullOrEmpty(x.id)) {
@@ -101,7 +89,6 @@ public class ClientApp : System.Web.Services.WebService {
     #endregion Web Methods
 
     #region Methods
-    
     private NewClientApp GetCode(string clientId) {
         try {
             string path = Server.MapPath(string.Format("~/App_Data/{0}", dataBase));
@@ -124,7 +111,6 @@ public class ClientApp : System.Web.Services.WebService {
         } catch (Exception e) { return new NewClientApp(); }
     }
     
-
     private string CreateActivationCode() {
         Random r = new Random();
         return r.Next(10000, 99999).ToString();
