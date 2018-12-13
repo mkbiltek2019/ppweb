@@ -1762,6 +1762,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.pdfLink1 = null;
     }
 
+
+    /*
     $scope.clientAppUrl = function (x) {
         if (x !== undefined) {
             return $rootScope.config.clientapppageurl + '?uid=' + x.userId + '&cid=' + x.clientId + '&lang=' + $rootScope.config.language;
@@ -1804,6 +1806,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             functions.alert($translate.instant(response.data.d), '');
         });
     }
+    */
 
     $scope.clientLogDiff = function (type, clientLog, x, idx) {
         var diff = 0;
@@ -1842,6 +1845,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     }
 
+    /*
     $scope.backToApp = function () {
         $rootScope.currTpl = './assets/partials/dashboard.html';
     }
@@ -1852,10 +1856,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.showAccessClientAppData = !$scope.showAccessClientAppData;
         $scope.showAccessClientAppDataTitle = $scope.showAccessClientAppData == true ? $translate.instant('hide access data') : $translate.instant('show access data');
     };
-
-
+    */
 
 }])
+
+
 
 .controller('detailCalculationOfEnergyExpenditureCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', '$timeout', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate, $timeout) {
     $rootScope.totalDailyEnergyExpenditure = {
@@ -6431,6 +6436,123 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
     };
+
+}])
+
+.controller('clientAppCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', '$timeout', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate, $timeout) {
+    var webService = 'ClientApp.asmx';
+    $scope.showAccessClientAppData = false;
+
+    var init = function (x) {
+        $http({
+            url: $sessionStorage.config.backend + webService + '/Init',
+            method: "POST",
+            data: {}
+        })
+        .then(function (response) {
+            $scope.clientApp = JSON.parse(response.data.d);
+        },
+        function (response) {
+            alert(response.data.d)
+        });
+    }
+    init();
+
+    $scope.get = function (x) {
+        $scope.showAccessClientAppData = false;
+        $http({
+            url: $sessionStorage.config.backend + webService + '/Get',
+            method: "POST",
+            data: { clientId: x.clientId }
+        })
+        .then(function (response) {
+            $scope.clientApp = JSON.parse(response.data.d);
+        },
+        function (response) {
+            alert(response.data.d)
+        });
+    }
+
+    $scope.client = null;
+    $scope.getActivationCode = function (client, clientApp) {
+        if (clientApp.id == null) {
+            clientApp.clientId = client.clientId;
+            clientApp.userId = $rootScope.user.userGroupId;
+            clientApp.lang = $rootScope.config.language;
+        }
+        $http({
+            url: $sessionStorage.config.backend + webService + '/GetActivationCode',
+            method: "POST",
+            data: { x: clientApp }
+        })
+        .then(function (response) {
+            $scope.clientApp = JSON.parse(response.data.d);
+        },
+        function (response) {
+            alert(response.data.d)
+        });
+    }
+
+    $scope.showAccessClientAppDataTitle = $translate.instant('show access data');
+    $scope.toggleAccessClientAppData = function (client, clientApp) {
+        $scope.showAccessClientAppData = !$scope.showAccessClientAppData;
+        if ($scope.showAccessClientAppData == true) {
+            if (clientApp.id == null) {
+                $scope.getActivationCode(client, clientApp);
+            }
+            $scope.showAccessClientAppDataTitle = $translate.instant('hide access data');
+        } else {
+            $scope.showAccessClientAppDataTitle = $translate.instant('show access data');
+        }
+    };
+
+
+    $scope.clientAppUrl = function (x) {
+        if (x !== undefined) {
+            return $rootScope.config.clientapppageurl + '?uid=' + x.userId + '&cid=' + x.clientId + '&lang=' + $rootScope.config.language;
+        } else {
+            return;
+        }
+    }
+
+    $scope.sendingMail = false;
+    $scope.sendAppLinkToClientEmail = function (client) {
+        if ($scope.sendingMail == true) { return false; }
+        if (functions.isNullOrEmpty(client.email)) {
+            functions.alert($translate.instant('email is required'), '');
+            return false;
+        }
+        $scope.sendingMail = true;
+        var link = $scope.clientAppUrl(client);
+        var messageSubject = $translate.instant('nutrition program') + '. ' + $translate.instant('app access link')   //'Program Prehrane | Klijent. link za pristup aplikaciji';
+        var messageBody = '<p>' + $translate.instant('dear') + ',' + '</p>' +
+            $translate.instant('the app access link to track your body weight and download menus is') + ': ' +
+            '<br />' +
+            '<strong><a href="' + link + '">' + link + '</a></strong>' +
+            '<br />' +
+            '<br />' +
+            '<i>* ' + $translate.instant('this is an automatically generated email – please do not reply to it') + '</i>' +
+            '<br />' +
+            '<p>' + $translate.instant('best regards') + '</p>' +
+            '<a href="' + $rootScope.config.webpageurl + '">' + $rootScope.config.webpage + '</a>'
+        $http({
+            url: $sessionStorage.config.backend + 'Mail.asmx/SendMessage',
+            method: "POST",
+            data: { sendTo: client.email, messageSubject: messageSubject, messageBody: messageBody, lang: $rootScope.config.language }
+        })
+        .then(function (response) {
+            $scope.sendingMail = false;
+            functions.alert(response.data.d, '');
+        },
+        function (response) {
+            $scope.sendingMail = false;
+            functions.alert($translate.instant(response.data.d), '');
+        });
+    }
+
+    $scope.backToApp = function () {
+        $rootScope.currTpl = './assets/partials/dashboard.html';
+    }
 
 }])
 

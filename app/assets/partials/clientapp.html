@@ -1,4 +1,4 @@
-﻿<div ng-controller="clientsCtrl">
+﻿<div ng-controller="clientAppCtrl">
     <div class="text-right">
         <a href="" class="btn btn-default" ng-click="backToApp()"><i class="fa fa-dashboard"></i> {{'back to app' | translate}}</a>
     </div>
@@ -21,11 +21,11 @@
                 </div>
                 <div ng-if="user.licenceStatus != 'demo' && user.userType > 0">
                     <em>{{'search clients' | translate}}...</em>
-                    <select ng-model="client" ng-options="(y.firstName + ' ' + y.lastName) for (x, y) in clients" class="form-control"></select>
+                    <select ng-model="client" ng-options="(y.firstName + ' ' + y.lastName) for (x, y) in clients" class="form-control" ng-change="get(client)"></select>
                     <!--<a ng-if="config.debug&&client.clientId" href="{{clientAppUrl(client)}}" target="_blank">{{clientAppUrl(client)}}</a>-->
                     <div ng-if="user.userType>0 && client!=null || client.clientId!=null" class="mt20">
                         <div class="text-capitalize m10">{{'client' | translate}}: {{client.firstName}} {{client.lastName}}</div>
-                        <a href="" ng-click="toggleAccessClientAppData()" class="btn btn-default">{{showAccessClientAppDataTitle}} <i class="fa fa-chevron-{{showAccessClientAppData==false?'down':'up'}}" aria-hidden="true"></i></a>
+                        <a href="" ng-click="toggleAccessClientAppData(client, clientApp)" class="btn btn-default">{{showAccessClientAppDataTitle}} <i class="fa fa-chevron-{{showAccessClientAppData==false?'down':'up'}}" aria-hidden="true"></i></a>
                         <div ng-if="showAccessClientAppData==true" class="well">
                             <h4>Podaci za pristup aplikaciji</h4>
                             <div>
@@ -35,7 +35,7 @@
                                 <label>Android aplikacija:</label> <a href="#">TODO</a>
                             </div>
                             <div>
-                                <label>Aktivacijski kod:</label> <input class="text-center" style="width:100px; height:30px; font-weight:600; font-size:16px" />
+                                <label>Aktivacijski kod:</label> <input ng-model="clientApp.code" class="text-center" style="width:100px; height:30px; font-weight:600; font-size:16px" readonly />
                             </div>
                             <div>
                                 <label>Link za pristup aplikaciji bez aktivacijskog koda koda:</label><br />
@@ -53,5 +53,14 @@
                 </div>
             </fieldset>
         </div>
+    </div>
+
+    <div ng-if="config.debug">
+        Clientapp:
+        <pre>{{clientApp | json}}</pre>
+
+        Client:
+        <pre>{{client | json}}</pre>
+
     </div>
 </div>

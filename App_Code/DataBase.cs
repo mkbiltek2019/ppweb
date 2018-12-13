@@ -291,10 +291,10 @@ namespace Igprog {
         #region CreateTable (client app)
         public void ClientApp(string path) {
             string sql = @"CREATE TABLE IF NOT EXISTS clientapp
-                (id NVARCHAR(50),
+                (id NVARCHAR(50) PRIMARY KEY,
                 clientId NVARCHAR(50),
                 userId NVARCHAR(50),
-                code NVARCHAR(50) PRIMARY KEY,
+                code NVARCHAR(50),
                 lang NVARCHAR(50))";
             CreateTable(path, sql);
         }

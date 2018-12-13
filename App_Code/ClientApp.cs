@@ -15,7 +15,7 @@ using Igprog;
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [System.Web.Script.Services.ScriptService]
 public class ClientApp : System.Web.Services.WebService {
-    string dataBase = ConfigurationManager.AppSettings["UserDataBase"];
+    string dataBase = ConfigurationManager.AppSettings["UsersDataBase"];
     DataBase db = new DataBase();
 
     public ClientApp() {
@@ -43,19 +43,27 @@ public class ClientApp : System.Web.Services.WebService {
     }
 
     [WebMethod]
+    public string Get(string clientId) {
+        try {
+            return JsonConvert.SerializeObject(GetCode(clientId), Formatting.Indented);
+        } catch (Exception e) { return null; }
+    }
+
+    [WebMethod]
     public string GetActivationCode(NewClientApp x) {
         try {
-            x.code = Get(x.clientId).code;
+            x.code = GetCode(x.clientId).code;
             if (string.IsNullOrEmpty(x.code)) {
-                Random r = new Random();
-                x.code = r.Next(10000, 99999).ToString();
-                //CheckIfExists(code)  get all from db and check with linq and loof for 10 times and break when code not exists, test with code to 0-5
+                x.code = CreateActivationCode();
+                if(string.IsNullOrEmpty(x.id)) {
+                    x.id = Guid.NewGuid().ToString();
+                }
                 string path = Server.MapPath(string.Format("~/App_Data/{0}", dataBase));
                 db.CreateGlobalDataBase(path, db.clientapp);
                 SQLiteConnection connection = new SQLiteConnection(string.Format("Data Source={0}", path));
                 connection.Open();
                 string sql = string.Format(@"BEGIN;
-                    INSERT OR REPLACE INTO clientapp (id, clietId, userId, code, lang)
+                    INSERT OR REPLACE INTO clientapp (id, clientId, userId, code, lang)
                     VALUES ('{0}', '{1}', '{2}', '{3}', '{4}');
                     COMMIT;", x.id, x.clientId, x.userId, x.code, x.lang);
                 SQLiteCommand command = new SQLiteCommand(sql, connection);
@@ -75,7 +83,7 @@ public class ClientApp : System.Web.Services.WebService {
             db.CreateGlobalDataBase(path, db.clientapp);
             SQLiteConnection connection = new SQLiteConnection(string.Format("Data Source={0}", path));
             connection.Open();
-            string sql = string.Format(@"SELECT id, clietId, userId, code, lang FROM clientapp WHERE code = '{0}'", client.code);
+            string sql = string.Format(@"SELECT id, clientId, userId, code, lang FROM clientapp WHERE code = '{0}'", client.code);
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             SQLiteDataReader reader = command.ExecuteReader();
             NewClientApp x = new NewClientApp();
@@ -93,13 +101,14 @@ public class ClientApp : System.Web.Services.WebService {
     #endregion Web Methods
 
     #region Methods
-    private NewClientApp Get(string clientId) {
+    
+    private NewClientApp GetCode(string clientId) {
         try {
             string path = Server.MapPath(string.Format("~/App_Data/{0}", dataBase));
             db.CreateGlobalDataBase(path, db.clientapp);
             SQLiteConnection connection = new SQLiteConnection(string.Format("Data Source={0}", path));
             connection.Open();
-            string sql = string.Format(@"SELECT id, clietId, userId, code, lang FROM clientapp WHERE clientId = '{0}'", clientId);
+            string sql = string.Format(@"SELECT id, clientId, userId, code, lang FROM clientapp WHERE clientId = '{0}'", clientId);
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             SQLiteDataReader reader = command.ExecuteReader();
             NewClientApp x = new NewClientApp();
@@ -113,6 +122,13 @@ public class ClientApp : System.Web.Services.WebService {
             connection.Close();
             return x;
         } catch (Exception e) { return new NewClientApp(); }
+    }
+    
+
+    private string CreateActivationCode() {
+        Random r = new Random();
+        return r.Next(10000, 99999).ToString();
+        //CheckIfExists(code)  get all from db and check with linq and loof for 10 times and break when code not exists, test with code to 0-5
     }
     #endregion Methods
 
