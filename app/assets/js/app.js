@@ -6463,21 +6463,21 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
         $scope.sendingMail = true;
         var link = $scope.clientAppUrl(client);
-        var messageSubject = $translate.instant('nutrition program') + '. ' + $translate.instant('application access data')   //'Program Prehrane | Klijent. link za pristup aplikaciji';
+        var messageSubject = $translate.instant('nutrition program') + '. ' + $translate.instant('application access data');
         var messageBody = '<p>' + $translate.instant('dear') + ',' + '</p>' +
             $translate.instant('we send you the access data to track your body weight and download menus') + '.' +
             '<br />' +
             '<br />' +
             $translate.instant('web application') + ': ' + '<strong><a href="' + $rootScope.config.clientapppageurl + '">' + $rootScope.config.clientapppageurl + '</a></strong>' +
             '<br />' +
-            $translate.instant('android application') + ': ' + '<strong>' + '<a href="' + $rootScope.config.clientapp_apk + '">' + $rootScope.config.clientapp_apk + '</a></strong>' +
+            $translate.instant('or') + ' ' + $translate.instant('android application') + ': ' + '<strong>' + '<a href="' + $rootScope.config.clientapp_apk + '">' + $rootScope.config.clientapp_apk + '</a></strong>' +
             '<br />' +
             '<iframe src="https://www.appsgeyser.com/social_widget/social_widget.php?width=100&height=100&apkName=Program Prehrane Klijent_8297899&simpleVersion=yes" width="180" height="220" vspace="0" hspace="0" frameborder="no" scrolling="no" seamless="" allowtransparency="true"></iframe>' +
             '<br />' +
             $translate.instant('activation code') + ': ' + '<strong>' + $scope.clientApp.code + '</strong>' +
             '<br />' +
             '<hr />' +
-             $translate.instant('or') + ' ' +  $translate.instant('web application') + '(' + $translate.instant('without activation code') + '): ' + '<strong><a href="' + link + '">' + link + '</a></strong>' +
+             $translate.instant('or') + ' ' +  $translate.instant('web application') + ' (' + $translate.instant('without activation code') + '): ' + '<strong><a href="' + link + '">' + link + '</a></strong>' +
             '<br />' +
             '<br />' +
             '<i>* ' + $translate.instant('this is an automatically generated email – please do not reply to it') + '</i>' +
