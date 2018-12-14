@@ -1688,12 +1688,12 @@
   "you do not have any foods": "nemate vlastitih namirnica",
   "client app": "Aplikacija za klijente",
   "allow your clients to track their anthropometric parameters and download menus through a web app": "Omogućite svojim klijentima da samostalno prate svoje antropometrijske parametre i preuzimaju jelovnike putem web aplikacije",
-  "send access link to the client's email": "pošalji pristupni link na e-mail klijenta",
+  "send access link to the client's email": "Pošalji pristupni link na e-mail klijenta",
   "new inquiry": "novi upit",
   "name": "ime",
   "message": "poruka",
   "user not found": "korisnik nije pronađen",
-  "dear": "Poštovani",
+  "dear": "Poštovani/a",
   "thank you for your interest in": "Zahvaljujemo na Vašem interesu za",
   "your account will be active within 24 hours of your payment receipt or after you send us a payment confirmation to email": "Vaš korisnički račun će biti aktivan unutar 24 sata od primitka uplate ili nakon što nam pošaljete potvrdu o uplati na E-mail",
   "amount": "Iznos",
@@ -1729,7 +1729,7 @@
   "height is required": "Visina je obavezna",
   "weight is required": "Masa je obavezna",
   "choose physical activity level": "Odaberite intenzitet fizičke aktivnosti",
-  "web application": "web aplikacija",
+  "web application": "Web aplikacija",
   "measured": "izmjereno",
   "recommended energy intake": "preporučeni energetski unos",
   "recommended additional energy expenditure": "preporučena dodatna energetska potrošnja",
@@ -1790,6 +1790,15 @@
   "title is required": "Naziv je obavezan",
   "servings": "serviranja",
   "continue": "nastavi",
-  "the saving function is disabled in demo version": "Spremanje je onemogućeno u demo verziji"
+  "the saving function is disabled in demo version": "Spremanje je onemogućeno u demo verziji",
+  "show access data": "Prikaži pristupne podatke",
+  "hide access data": "Sakrij pristupne podatke",
+  "application access data": "Podaci za pristup aplikaciji",
+  "android application": "Android aplikacija",
+  "activation code": "Aktivacijski kod",
+  "or": "ili",
+  "without activation code": "bez aktivacijskog koda",
+  "we send you the access data to track your body weight and download menus": "Šaljemo Vam podatke za pristup aplikaciji za praćenje Vaše tjelesne mase i preuzimanje jelovnika"
+
 
 }

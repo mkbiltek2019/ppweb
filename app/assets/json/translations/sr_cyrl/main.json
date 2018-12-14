@@ -1345,7 +1345,7 @@
   "choosen diet": "изабрана дијета",
   "login": "пријава",
   "sign up": "регистрација",
-  "meal planning web app": "веб апликација за креирање уравнотежених менија и планова физицке активности",
+  "meal planning web app": "Bеб апликација за креирање уравнотежених менија и планова физицке активности",
   "user name": "корисницко име",
   "password": "лозинка",
   "choose language": "изабери језик",
@@ -1683,12 +1683,12 @@
   "you do not have any foods": "немате властитих намирница",
   "client app": "Aпликација за клијенте",
   "allow your clients to track their anthropometric parameters and download menus through a web app": "Oомогућите својим клијентима да самостално прате своје антропометријске параметре и преузимају јеловнике путем веб апликације",
-  "send access link to the client's email": "пошаљи приступни линк на е-маил клијента",
+  "send access link to the client's email": "Пошаљи приступни линк на е-маил клијента",
   "new inquiry": "нови упит",
   "name": "име",
   "message": "порука",
   "user not found": "корисник није пронађен",
-  "dear": "Поштовани",
+  "dear": "Поштовани/а",
   "thank you for your interest in": "Хвала на интересовању за",
   "your account will be active within 24 hours of your payment receipt or after you send us a payment confirmation to email": "Ваш кориснички рачун ће бити активан унутар 24 сата од примитка уплате или након што нам пошаљете потврду о уплати на Е-маил",
   "amount": "Износ",
@@ -1784,6 +1784,15 @@
   "title is required": "Назив је обавезан",
   "servings": "сервирања",
   "continue": "настави",
-  "the saving function is disabled in demo version": "Спремање је онемогућено у демо верзији"
+  "the saving function is disabled in demo version": "Спремање је онемогућено у демо верзији",
+  "show access data": "Прикажи приступне податке",
+  "hide access data": "Сакриј приступне податке",
+  "application access data": "Подаци за приступ апликацији",
+  "android application": "Андроид апликација",
+  "activation code": "Активацијски код",
+  "or": "или",
+  "without activation code": "без активацијског кода",
+  "we send you the access data to track your body weight and download menus": "Шаљемо Вам податке за приступ апликацији за праћење Ваше тјелесне масе и преузимање јеловника"
+
 
 }

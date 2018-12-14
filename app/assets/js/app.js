@@ -1762,52 +1762,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.pdfLink1 = null;
     }
 
-
-    /*
-    $scope.clientAppUrl = function (x) {
-        if (x !== undefined) {
-            return $rootScope.config.clientapppageurl + '?uid=' + x.userId + '&cid=' + x.clientId + '&lang=' + $rootScope.config.language;
-        } else {
-            return;
-        }
-    }
-
-    $scope.sendingMail = false;
-    $scope.sendAppLinkToClientEmail = function (client) {
-        if ($scope.sendingMail == true) { return false; }
-        if (functions.isNullOrEmpty(client.email)) {
-            functions.alert($translate.instant('email is required'), '');
-            return false;
-        }
-        $scope.sendingMail = true;
-        var link = $scope.clientAppUrl(client);
-        var messageSubject = $translate.instant('nutrition program') + '. ' + $translate.instant('app access link')   //'Program Prehrane | Klijent. link za pristup aplikaciji';
-        var messageBody = '<p>' + $translate.instant('dear') + ',' + '</p>' +
-            $translate.instant('the app access link to track your body weight and download menus is') + ': ' +
-            '<br />' +
-            '<strong><a href="' + link + '">' + link + '</a></strong>' + 
-            '<br />' +
-            '<br />' +
-            '<i>* ' + $translate.instant('this is an automatically generated email – please do not reply to it') + '</i>' +
-            '<br />' +
-            '<p>' + $translate.instant('best regards') + '</p>' +
-            '<a href="' + $rootScope.config.webpageurl + '">' + $rootScope.config.webpage + '</a>'
-        $http({
-            url: $sessionStorage.config.backend + 'Mail.asmx/SendMessage',
-            method: "POST",
-            data: { sendTo: client.email, messageSubject: messageSubject, messageBody: messageBody, lang: $rootScope.config.language }
-        })
-        .then(function (response) {
-            $scope.sendingMail = false;
-            functions.alert(response.data.d, '');
-        },
-        function (response) {
-            $scope.sendingMail = false;
-            functions.alert($translate.instant(response.data.d), '');
-        });
-    }
-    */
-
     $scope.clientLogDiff = function (type, clientLog, x, idx) {
         var diff = 0;
         if (clientLog.length - idx == 1) return {
@@ -6509,11 +6463,21 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
         $scope.sendingMail = true;
         var link = $scope.clientAppUrl(client);
-        var messageSubject = $translate.instant('nutrition program') + '. ' + $translate.instant('app access link')   //'Program Prehrane | Klijent. link za pristup aplikaciji';
+        var messageSubject = $translate.instant('nutrition program') + '. ' + $translate.instant('application access data')   //'Program Prehrane | Klijent. link za pristup aplikaciji';
         var messageBody = '<p>' + $translate.instant('dear') + ',' + '</p>' +
-            $translate.instant('the app access link to track your body weight and download menus is') + ': ' +
+            $translate.instant('we send you the access data to track your body weight and download menus') + '.' +
             '<br />' +
-            '<strong><a href="' + link + '">' + link + '</a></strong>' +
+            '<br />' +
+            $translate.instant('web application') + ': ' + '<strong><a href="' + $rootScope.config.clientapppageurl + '">' + $rootScope.config.clientapppageurl + '</a></strong>' +
+            '<br />' +
+            $translate.instant('android application') + ': ' + '<strong>' + '<a href="' + $rootScope.config.clientapp_apk + '">' + $rootScope.config.clientapp_apk + '</a></strong>' +
+            '<br />' +
+            '<iframe src="https://www.appsgeyser.com/social_widget/social_widget.php?width=100&height=100&apkName=Program Prehrane Klijent_8297899&simpleVersion=yes" width="180" height="220" vspace="0" hspace="0" frameborder="no" scrolling="no" seamless="" allowtransparency="true"></iframe>' +
+            '<br />' +
+            $translate.instant('activation code') + ': ' + '<strong>' + $scope.clientApp.code + '</strong>' +
+            '<br />' +
+            '<hr />' +
+             $translate.instant('or') + ' ' +  $translate.instant('web application') + '(' + $translate.instant('without activation code') + '): ' + '<strong><a href="' + link + '">' + link + '</a></strong>' +
             '<br />' +
             '<br />' +
             '<i>* ' + $translate.instant('this is an automatically generated email – please do not reply to it') + '</i>' +

@@ -25,19 +25,27 @@
                     <div ng-if="user.userType>0 && client!=null || client.clientId!=null" class="mt20">
                         <a href="" ng-click="toggle(client, clientApp)" class="btn btn-default">{{showTitle}} <i class="fa fa-chevron-{{show==false?'down':'up'}}" aria-hidden="true"></i></a>
                         <div ng-if="show==true" class="panel panel-primary mt10">
-                            <div class="panel-heading">Podaci za pristup aplikaciji</div>
+                            <div class="panel-heading">{{'application access data' | translate}}</div>
                             <div class="panel-body">
                                 <div>
-                                    Link za pristup aplikaciji: <a href="{{config.clientapppageurl}}" target="_blank">{{config.clientapppageurl}}</a>
+                                    {{'web application' | translate}}: <a href="{{config.clientapppageurl}}" target="_blank">{{config.clientapppageurl}}</a>
                                 </div>
                                 <div>
-                                    Android aplikacija: <a href="#">TODO</a>
+                                    {{'android application' | translate}}: <a href="{{config.clientapp_apk}}" target="_blank">{{config.clientapp_apk}}</a>
                                 </div>
                                 <div>
-                                    Aktivacijski kod: <input ng-model="clientApp.code" class="text-center" style="width:100px; height:30px; font-weight:600; font-size:16px" readonly />
+                                    <iframe src="https://www.appsgeyser.com/social_widget/social_widget.php?width=100&height=100&apkName=Program Prehrane Klijent_8297899&simpleVersion=yes"
+                                            width="180" height="220" vspace="0" hspace="0" frameborder="no"
+                                            scrolling="no" seamless=""
+                                            allowtransparency="true">
+                                    </iframe>
                                 </div>
                                 <div>
-                                    Link za pristup aplikaciji bez aktivacijskog koda koda:<br />
+                                    {{'activation code' | translate}}: <input ng-model="clientApp.code" class="text-center" style="width:100px; height:30px; font-weight:600; font-size:16px" readonly />
+                                </div>
+                                <hr />
+                                <div>
+                                    {{'or' | translate}} {{'web application' | translate}} ({{'without activation code' | translate}}):<br />
                                     <a ng-if="client.clientId" href="{{clientAppUrl(client)}}" target="_blank">{{clientAppUrl(client)}}</a>
                                 </div>
 

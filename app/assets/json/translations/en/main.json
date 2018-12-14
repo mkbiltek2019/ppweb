@@ -1678,7 +1678,7 @@
   "you do not have any foods": "you do not have any foods",
   "client app": "Client App",
   "allow your clients to track their anthropometric parameters and download menus through a web app": "Allow your clients to track their anthropometric parameters and download menus through a web app",
-  "send access link to the client's email": "send access link to the client's email",
+  "send access link to the client's email": "Send access link to the client's email",
   "new inquiry": "new inquiry",
   "name": "name",
   "message": "message",
@@ -1718,7 +1718,7 @@
   "height is required": "Height is required",
   "weight is required": "Weight is required",
   "choose physical activity level": "Choose physical activity level",
-  "web application": "web application",
+  "web application": "Web application",
   "measured": "measured",
   "recommended energy intake": "recommended energy intake",
   "recommended additional energy expenditure": "recommended additional energy expenditure",
@@ -1781,6 +1781,13 @@
   "continue": "continue",
   "the saving function is disabled in demo version": "The saving function is disabled in demo version",
   "show access data": "Show access data",
-  "hide access data": "Hide access data"
+  "hide access data": "Hide access data",
+  "application access data": "Application access data",
+  "android application": "Android application",
+  "activation code": "Activation code",
+  "or": "or",
+  "without activation code": "without activation code",
+  "we send you the access data to track your body weight and download menus": "We send You the access data to track your body weight and download menus"
+
 
 }
