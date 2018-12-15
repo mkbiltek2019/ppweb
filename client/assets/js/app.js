@@ -9,7 +9,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
     $translateProvider.useLoader('$translatePartialLoader', {
          urlTemplate: './assets/json/translations/{lang}/{part}.json'
     });
-    $translateProvider.preferredLanguage('hr');
+    $translateProvider.preferredLanguage('en');
     $translatePartialLoaderProvider.addPart('main');
     $translateProvider.useSanitizeValueStrategy('escape');
 
