@@ -75,5 +75,13 @@
   "application for tracking anthropometric parameters and taking menus": "Application for tracking anthropometric parameters and taking menus",
   "ask your nutritionist for an activation code": "Ask your nutritionist for an activation code",
   "enter": "Enter",
-  "wrong activation code": "Wrong activation code"
+  "wrong activation code": "Wrong activation code",
+  "last 7 days": "Last 7 days",
+  "last 14 days": "Last 14 days",
+  "last 30 days": "Last 30 days",
+  "last 3 months": "Last 7 months",
+  "last 6 months": "Last 7 months",
+  "last 12 months": "Last 12 months",
+  "all": "All"
+
 }

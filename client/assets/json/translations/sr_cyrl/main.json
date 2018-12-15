@@ -15,8 +15,6 @@
   "increase in body mass": "повећање телесне масе",
   "increase muscle mass": "повећање мишићне масе",
 
-
-
   "application": "апликација",
   "scheduler": "календар",
   "language": "језик",
@@ -400,5 +398,12 @@
   "application for tracking anthropometric parameters and taking menus": "Апликација за праћење антропометријских параметара и преузимање јеловника",
   "ask your nutritionist for an activation code": "Активацијски код затражите код својег нутрициониста",
   "enter": "Улаз",
-  "wrong activation code": "Погрешан активацијски код"
+  "wrong activation code": "Погрешан активацијски код",
+  "last 7 days": "Последњих 7 дана",
+  "last 14 days": "Последњих 14 дана",
+  "last 30 days": "Последњих 30 дана",
+  "last 3 months": "Последња 3 месеца",
+  "last 6 months": "Последњих 6 мeсеци",
+  "last 12 months": "Последњих 12 месеци",
+  "all": "Све"
 }

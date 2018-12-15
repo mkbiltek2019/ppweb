@@ -75,5 +75,12 @@
   "application for tracking anthropometric parameters and taking menus": "Aplikacija za praćenje antropometrijskih parametara i preuzimanje jelovnika",
   "ask your nutritionist for an activation code": "Aktivacijski kod zatražite kod svojeg nutricioniste",
   "enter": "Ulaz",
-  "wrong activation code": "Pogrešan aktivacijski kod"
+  "wrong activation code": "Pogrešan aktivacijski kod",
+  "last 7 days": "Poslednjih 7 dana",
+  "last 14 days": "Poslednjih 14 dana",
+  "last 30 days": "Poslednjih 30 dana",
+  "last 3 months": "Poslednja 3 meseca",
+  "last 6 months": "Poslednjih 6 meseci",
+  "last 12 months": "Poslednjih 12 meseci",
+  "all": "Sve"
 }

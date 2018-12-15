@@ -50,6 +50,19 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         window.location.reload(true);
     }
 
+    var initChartDays = function () {
+        $scope.chartDays = [
+           { days: 7, title: 'last 7 days' },
+           { days: 14, title: 'last 14 days' },
+           { days: 30, title: 'last 30 days' },
+           { days: 92, title: 'last 3 months' },
+           { days: 180, title: 'last 6 months' },
+           { days: 365, title: 'last 12 months' },
+           { days: 100000, title: 'all' }
+        ]
+        $scope.clientLogsDays = $scope.chartDays[2];
+    }
+
     $scope.setLanguage = function (x) {
         $translate.use(x);
         $translatePartialLoader.addPart('main');
@@ -64,6 +77,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
             }
             localStorage.language = x;
         }
+        initChartDays();
         //$sessionStorage.config.language = x;
     };
 
@@ -113,6 +127,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
                $scope.clientId = $scope.clientApp.clientId;
                $scope.userId = $scope.clientApp.userId;
                getClient();
+               debugger;
+               $scope.setLanguage($scope.clientApp.lang);
                $scope.toggleCurrTpl('clientdata.html');
            } else {
                alert($translate.instant('wrong activation code'))
@@ -338,7 +354,22 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         getCharts();
     }
 
-    var setClientLogGraphData = function (type) {
+    var getRecommendedWeight = function (h) {
+        return {
+            min: Math.round(((18.5 * h * h) / 10000) * 10) / 10,
+            max: Math.round(((25 * h * h) / 10000) * 10) / 10
+        }
+    }
+
+    var getDateDiff = function (x) {
+        var today = new Date();
+        var date1 = today;
+        var date2 = new Date(x);
+        var diffDays = Math.abs(parseInt((date2 - date1) / (1000 * 60 * 60 * 24)));
+        return diffDays;
+    }
+
+    var setClientLogGraphData = function (type, days) {
         var clientData = [];
         var goalFrom = [];
         var goalTo = [];
@@ -377,32 +408,27 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
             true
         )
 
-        var getRecommendedWeight = function (h) {
-            return {
-                min: Math.round(((18.5 * h * h) / 10000) * 10) / 10,
-                max: Math.round(((25 * h * h) / 10000) * 10) / 10
-            }
-        }
-
         //TODO - goal
         if (angular.isDefined($scope.calculation.recommendedWeight)) {
+            debugger;
+            if (days === undefined) { days = 30; }
             angular.forEach($scope.clientLog, function (x, key) {
-                if (type == 0) { clientData.push(x.weight); goalFrom.push(getRecommendedWeight(x.height).min); goalTo.push(getRecommendedWeight(x.height).max); }
-                if (type == 1) { clientData.push(x.waist); goalFrom.push(95); }
-                if (type == 2) { clientData.push(x.hip); goalFrom.push(97); }
-                if (key % (Math.floor($scope.clientLog.length / 31) + 1) === 0) {
-                    labels.push(new Date(x.date).toLocaleDateString());
-                } else {
-                    labels.push("");
+                if (getDateDiff(x.date) <= days) {
+                    if (type == 0) { clientData.push(x.weight); goalFrom.push(getRecommendedWeight(x.height).min); goalTo.push(getRecommendedWeight(x.height).max); }
+                    if (type == 1) { clientData.push(x.waist); goalFrom.push(95); }
+                    if (type == 2) { clientData.push(x.hip); goalFrom.push(97); }
+                    if (key % (Math.floor($scope.clientLog.length / 31) + 1) === 0) {
+                        labels.push(new Date(x.date).toLocaleDateString());
+                    } else {
+                        labels.push("");
+                    }
                 }
             });
         }
-
-
     };
 
-    $scope.setClientLogGraphData = function (x) {
-        setClientLogGraphData(x);
+    $scope.setClientLogGraphData = function (type, days) {
+        setClientLogGraphData(type, days);
     }
 
     $scope.removeClientLog = function (x) {
