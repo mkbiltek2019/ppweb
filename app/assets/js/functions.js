@@ -34,6 +34,13 @@ angular.module('functions', [])
                 res = true;
             }
             return res;
+        },
+        'getDateDiff': function (x) {
+            var today = new Date();
+            var date2 = today;
+            var date1 = new Date(x);
+            var diffDays = Math.abs(parseInt((date2 - date1) / (1000 * 60 * 60 * 24)));
+            return diffDays;
         }
     }
 }]);

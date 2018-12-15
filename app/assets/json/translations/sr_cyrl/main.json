@@ -1792,7 +1792,14 @@
   "activation code": "Активацијски код",
   "or": "или",
   "without activation code": "без активацијског кода",
-  "we send you the access data to track your body weight and download menus": "Шаљемо Вам податке за приступ апликацији за праћење Ваше тјелесне масе и преузимање јеловника"
+  "we send you the access data to track your body weight and download menus": "Шаљемо Вам податке за приступ апликацији за праћење Ваше тјелесне масе и преузимање јеловника",
+  "last 7 days": "Последњих 7 дана",
+  "last 14 days": "Последњих 14 дана",
+  "last 30 days": "Последњих 30 дана",
+  "last 3 months": "Последња 3 месеца",
+  "last 6 months": "Последњих 6 мeсеци",
+  "last 12 months": "Последњих 12 месеци",
+  "all": "Све"
 
 
 }

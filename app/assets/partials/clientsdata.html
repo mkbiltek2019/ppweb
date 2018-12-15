@@ -275,12 +275,15 @@
     <div ng-if="clientData.clientId">
         <div>
             <div class="row">
-                <div class="col-sm-8">
-                    <md-radio-group ng-model="displayType" ng-click="changeDisplayType(displayType)" layout="row">
+                <div class="col-sm-4">
+                    <md-radio-group ng-model="displayType" ng-click="changeDisplayType(displayType, clientLogsDays.days)" layout="row">
                         <md-radio-button value=0 class="md-primary">{{'weight' | translate}}</md-radio-button>
                         <md-radio-button value=1 class="md-primary">{{'waist' | translate}}</md-radio-button>
                         <md-radio-button value=2 class="md-primary">{{'hip' | translate}}</md-radio-button>
                     </md-radio-group>
+                </div>
+                <div class="col-sm-4">
+                    <select ng-model="clientLogsDays" class="form-control" ng-options="x.title | translate for x in chartDays" ng-change="setClientLogGraphData(0, clientLogsDays.days)"></select>
                 </div>
                 <div class="col-sm-4 text-right">
                     <a ng-if="pdfLink1==null" ng-click="printClientLogPdf()" class="btn btn-default text-capitalize" ng-disabled="creatingPdf"><span class="text-danger"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</span></a>

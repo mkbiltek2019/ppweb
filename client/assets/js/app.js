@@ -354,19 +354,19 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         getCharts();
     }
 
+    //var getDateDiff = function (x) {
+    //    var today = new Date();
+    //    var date1 = today;
+    //    var date2 = new Date(x);
+    //    var diffDays = Math.abs(parseInt((date2 - date1) / (1000 * 60 * 60 * 24)));
+    //    return diffDays;
+    //}
+
     var getRecommendedWeight = function (h) {
         return {
             min: Math.round(((18.5 * h * h) / 10000) * 10) / 10,
             max: Math.round(((25 * h * h) / 10000) * 10) / 10
         }
-    }
-
-    var getDateDiff = function (x) {
-        var today = new Date();
-        var date1 = today;
-        var date2 = new Date(x);
-        var diffDays = Math.abs(parseInt((date2 - date1) / (1000 * 60 * 60 * 24)));
-        return diffDays;
     }
 
     var setClientLogGraphData = function (type, days) {
@@ -410,10 +410,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
         //TODO - goal
         if (angular.isDefined($scope.calculation.recommendedWeight)) {
-            debugger;
             if (days === undefined) { days = 30; }
             angular.forEach($scope.clientLog, function (x, key) {
-                if (getDateDiff(x.date) <= days) {
+                if (functions.getDateDiff(x.date) <= days) {
                     if (type == 0) { clientData.push(x.weight); goalFrom.push(getRecommendedWeight(x.height).min); goalTo.push(getRecommendedWeight(x.height).max); }
                     if (type == 1) { clientData.push(x.waist); goalFrom.push(95); }
                     if (type == 2) { clientData.push(x.hip); goalFrom.push(97); }

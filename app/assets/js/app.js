@@ -435,17 +435,17 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.showUpdates = !$scope.showUpdates;
     };
 
-    var getDateDiff = function (x) {
-        var today = new Date();
-        var date1 = today;
-        var date2 = new Date(x);
-        var diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24));
-        return diffDays;
-    }
+    //var getDateDiff = function (x) {
+    //    var today = new Date();
+    //    var date1 = today;
+    //    var date2 = new Date(x);
+    //    var diffDays = Math.abs(parseInt((date2 - date1) / (1000 * 60 * 60 * 24)));
+    //    return diffDays;
+    //}
 
     $scope.dateDiff = function () {
         if (localStorage.lastvisit) {
-            return getDateDiff(localStorage.lastvisit)
+            return functions.getDateDiff(localStorage.lastvisit)
         } else {
             return 0;
         }
@@ -496,13 +496,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
     $scope.toggleTpl('loginTpl');
 
-    var getDateDiff = function (x) {
-        var today = new Date();
-        var date1 = today;
-        var date2 = new Date(x);
-        var diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24));
-        return diffDays;
-    }
+    //var getDateDiff = function (x) {
+    //    var today = new Date();
+    //    var date1 = today;
+    //    var date2 = new Date(x);
+    //    var diffDays = Math.abs(parseInt((date2 - date1) / (1000 * 60 * 60 * 24)));
+    //    return diffDays;
+    //}
 
     $scope.login = function (u, p) {
         $scope.errorMesage = null;
@@ -551,7 +551,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     $rootScope.currTpl = './assets/partials/order.html';
                 } else {
                     $rootScope.currTpl = './assets/partials/dashboard.html';
-                    var daysToExpite = getDateDiff($rootScope.user.expirationDate);
+                    var daysToExpite = functions.getDateDiff($rootScope.user.expirationDate);
                     if (daysToExpite <= 10 && daysToExpite > 0) {
                         $rootScope.mainMessage = $translate.instant('your subscription will expire in') + ' ' + daysToExpite + ' ' + (daysToExpite == 1 ? $translate.instant('day') : $translate.instant('days')) + '.';
                         $rootScope.mainMessageBtn = $translate.instant('renew subscription');
@@ -1292,13 +1292,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.d.birthDate = new Date($scope.d.birthDate);
         $scope.user = $rootScope.user;
 
-        var getDateDiff = function (x) {
-            var today = new Date();
-            var date2 = today;
-            var date1 = new Date(x);
-            var diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24));
-            return diffDays;
-        }
+        //var getDateDiff = function (x) {
+        //    var today = new Date();
+        //    var date2 = today;
+        //    var date1 = new Date(x);
+        //    var diffDays = Math.abs(parseInt((date2 - date1) / (1000 * 60 * 60 * 24)));
+        //    return diffDays;
+        //}
 
         $scope.hide = function () {
             $mdDialog.hide();
@@ -1316,7 +1316,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 return false;
             } else {
                 $scope.firstNameRequiredMsq = null;
-                if (getDateDiff(x.birthDate) < 365) {
+                if (functions.getDateDiff(x.birthDate) < 365) {
                     $scope.birthDateRequiredMsq = 'birth date is required';
                     return false;
                 } else {
@@ -1601,11 +1601,40 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         });
     };
 
-    $scope.changeDisplayType = function (x) {
-        setClientLogGraphData(x);
+    var initChartDays = function () {
+        $scope.chartDays = [
+           { days: 7, title: 'last 7 days' },
+           { days: 14, title: 'last 14 days' },
+           { days: 30, title: 'last 30 days' },
+           { days: 92, title: 'last 3 months' },
+           { days: 180, title: 'last 6 months' },
+           { days: 365, title: 'last 12 months' },
+           { days: 100000, title: 'all' }
+        ]
+        $scope.clientLogsDays = $scope.chartDays[2];
+    }
+    initChartDays();
+
+    $scope.changeDisplayType = function (type, days) {
+        setClientLogGraphData(type, days);
     }
 
-    var setClientLogGraphData = function (type) {
+    //var getDateDiff = function (x) {
+    //    var today = new Date();
+    //    var date2 = today;
+    //    var date1 = new Date(x);
+    //    var diffDays = Math.abs(parseInt((date2 - date1) / (1000 * 60 * 60 * 24)));
+    //    return diffDays;
+    //}
+
+    var getRecommendedWeight = function (h) {
+        return {
+            min: Math.round(((18.5 * h * h) / 10000) * 10) / 10,
+            max: Math.round(((25 * h * h) / 10000) * 10) / 10
+        }
+    }
+
+    var setClientLogGraphData = function (type, days) {
         var clientData = [];
         var goalFrom = [];
         var goalTo = [];
@@ -1644,31 +1673,27 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             true
         )
 
-        var getRecommendedWeight = function (h) {
-            return {
-                min: Math.round(((18.5 * h * h) / 10000) *10  ) / 10,
-                max: Math.round(((25 * h * h) / 10000) * 10) / 10
-            }
-        }
-
         //TODO - goal
         if (angular.isDefined($rootScope.calculation.recommendedWeight)) {
+            if (days === undefined) { days = 30; }
             angular.forEach($scope.clientLog, function (x, key) {
-                if (type == 0) { clientData.push(x.weight); goalFrom.push(getRecommendedWeight(x.height).min); goalTo.push(getRecommendedWeight(x.height).max); }
-                if (type == 1) { clientData.push(x.waist); goalFrom.push(95); }
-                if (type == 2) { clientData.push(x.hip); goalFrom.push(97); }
-                if (key % (Math.floor($scope.clientLog.length/31)+1) === 0) {
-                    labels.push(new Date(x.date).toLocaleDateString());
-                } else {
-                    labels.push("");
+                if (functions.getDateDiff(x.date) <= days) {
+                    if (type == 0) { clientData.push(x.weight); goalFrom.push(getRecommendedWeight(x.height).min); goalTo.push(getRecommendedWeight(x.height).max); }
+                    if (type == 1) { clientData.push(x.waist); goalFrom.push(95); }
+                    if (type == 2) { clientData.push(x.hip); goalFrom.push(97); }
+                    if (key % (Math.floor($scope.clientLog.length / 31) + 1) === 0) {
+                        labels.push(new Date(x.date).toLocaleDateString());
+                    } else {
+                        labels.push("");
+                    }
                 }
             });
         }
         
     };
 
-    $rootScope.setClientLogGraphData = function (x) {
-        setClientLogGraphData(x);
+    $rootScope.setClientLogGraphData = function (type, days) {
+        setClientLogGraphData(type, days);
     }
 
     $scope.getDateFormat = function (x) {
