@@ -95,7 +95,12 @@
     </div>
     <div ng-if="showLog" class="mt10">
         <!--<label class="text-capitalize">{{'tracking of anthropometric measures' | translate}}</label>-->
-        <ul class="nav nav-tabs">
+        <div class="row mt10">
+            <div class="col-sm-3">
+                <select ng-model="clientLogsDays" class="form-control" ng-options="x.title | translate for x in chartDays" ng-change="setClientLogGraphData(0, clientLogsDays.days)"></select>
+            </div>
+        </div>
+        <ul class="nav nav-tabs mt10">
             <li ng-class="subTpl=='clientLog'?'active':''" ng-click="toggleSubTpl('clientLog')"><a href="#"><i class="fa fa-table"></i> <span class="text-capitalize">{{'table' | translate}}</span></a></li>
             <li ng-class="subTpl=='clientLogChart'?'active':''" ng-click="toggleSubTpl('clientLogChart')"><a href="#"><i class="fa fa-line-chart"></i> <span class="text-capitalize">{{'chart' | translate}}</span></a></li>
         </ul>
@@ -117,7 +122,6 @@
                         chart-labels="clientLogGraphData.labels" chart-series="clientLogGraphData.series" chart-options="clientLogGraphData.options" chart-dataset-override="clientLogGraphData.datasetOverride"></canvas>
             </div>
         </div>-->
-
         <div class="table-responsive table-scroll" style="height:500px">
             <table class="table table-condensed text-small">
                 <thead>
@@ -132,7 +136,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="x in clientLog | orderBy: '-id'">
+                    <tr ng-repeat="x in clientLog_ | orderBy: '-id'">
                         <td class="borderNone" style="width:100px">
                             <a href="" style="color:red!important" ng-click="removeClientLog(x)" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-trash-o"></i></a>
                             <a href="" style="color:green" ng-click="updateClientLog(x)" class="btn btn-default" title="{{'save' | translate}}"><i class="fa fa-floppy-o"></i></a>
@@ -178,13 +182,8 @@
 
 <script type="text/ng-template" id="clientLogChart">
     <div class="p10" ng-cloak>
-        <div class="row">
-            <div class="col-sm-4">
-                {{'weight' | translate}} ({{'kg' | translate}})
-            </div>
-            <div class="col-sm-4">
-                <select ng-model="clientLogsDays" class="form-control" ng-options="x.title | translate for x in chartDays" ng-change="setClientLogGraphData(0, clientLogsDays.days)"></select>
-            </div>
+        <div>
+            {{'weight' | translate}} ({{'kg' | translate}})
         </div>
         <div class="mt10">
             <canvas id="clientDataChart" class="chart-bar hidden-xs" chart-data="clientLogGraphData.data" chart-colors="clientLogGraphData.colors" height="80"

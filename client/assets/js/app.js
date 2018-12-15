@@ -63,6 +63,18 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         $scope.clientLogsDays = $scope.chartDays[2];
     }
 
+    $scope.currLanguageTitle = null
+    var getLanguageTitle = function (x) {
+        if ($scope.config !== undefined) {
+            angular.forEach($scope.config.languages, function (value, key) {
+                if (value.code == x) {
+                    $scope.currLanguageTitle = value.title;
+                    return false;
+                }
+            });
+        }
+    }
+
     $scope.setLanguage = function (x) {
         $translate.use(x);
         $translatePartialLoader.addPart('main');
@@ -77,8 +89,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
             }
             localStorage.language = x;
         }
+        $sessionStorage.config.language = x;
+        getLanguageTitle(x);
         initChartDays();
-        //$sessionStorage.config.language = x;
     };
 
     $scope.toggleCurrTpl = function (x) {
@@ -121,9 +134,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
        .then(function (response) {
            $scope.clientApp = JSON.parse(response.data.d);
            if ($scope.clientApp.code == x) {
+               $scope.setLanguage($scope.clientApp.lang);
                localStorage.code = $scope.clientApp.code;
-               localStorage.language = $scope.clientApp.lang;
-               $sessionStorage.config.language = $scope.clientApp.lang;
+               //localStorage.language = $scope.clientApp.lang;
+               //$sessionStorage.config.language = $scope.clientApp.lang;
                $scope.clientId = $scope.clientApp.clientId;
                $scope.userId = $scope.clientApp.userId;
                getClient();
@@ -157,6 +171,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
                   if (querystring.split('&')[2].substring(0, 4) == 'lang') {
                       $scope.config.language = querystring.split('&')[2].substring(5);
                   }
+                  $scope.setLanguage($scope.config.language);
               } else {
                   if (typeof (Storage) !== "undefined") {
                       if (localStorage.code !== undefined) {
@@ -169,8 +184,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
                   return false;
               }
 
-              $scope.setLanguage($scope.config.language);
-              $sessionStorage.config = $scope.config;
+              //$sessionStorage.config = $scope.config;
               getClient();
               initPrintSettings();
               $scope.toggleCurrTpl('clientdata.html');
@@ -370,14 +384,15 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
     }
 
     var setClientLogGraphData = function (type, days) {
-        var clientData = [];
+        $scope.clientLog_ = [];
+        var clientLog = [];
         var goalFrom = [];
         var goalTo = [];
         var labels = [];
         $scope.clientLogGraphData = charts.createGraph(
             [$translate.instant('tracking of anthropometric measures')],
             [
-                clientData,
+                clientLog,
                 goalFrom,
                 goalTo
             ],
@@ -413,9 +428,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
             if (days === undefined) { days = 30; }
             angular.forEach($scope.clientLog, function (x, key) {
                 if (functions.getDateDiff(x.date) <= days) {
-                    if (type == 0) { clientData.push(x.weight); goalFrom.push(getRecommendedWeight(x.height).min); goalTo.push(getRecommendedWeight(x.height).max); }
-                    if (type == 1) { clientData.push(x.waist); goalFrom.push(95); }
-                    if (type == 2) { clientData.push(x.hip); goalFrom.push(97); }
+                    $scope.clientLog_.push(x);
+                    if (type == 0) { clientLog.push(x.weight); goalFrom.push(getRecommendedWeight(x.height).min); goalTo.push(getRecommendedWeight(x.height).max); }
+                    if (type == 1) { clientLog.push(x.waist); goalFrom.push(95); }
+                    if (type == 2) { clientLog.push(x.hip); goalFrom.push(97); }
                     if (key % (Math.floor($scope.clientLog.length / 31) + 1) === 0) {
                         labels.push(new Date(x.date).toLocaleDateString());
                     } else {
