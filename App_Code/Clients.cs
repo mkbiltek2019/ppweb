@@ -20,8 +20,6 @@ using Igprog;
 [System.Web.Script.Services.ScriptService]
 public class Clients : System.Web.Services.WebService {
     string dataBase = ConfigurationManager.AppSettings["UserDataBase"];
-   // public string dataBase = "data.ddb";
-
     DataBase db = new DataBase();
     Users.CheckUser c = new Users.CheckUser();
     Translate t = new Translate();

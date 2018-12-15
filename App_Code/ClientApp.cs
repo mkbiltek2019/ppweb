@@ -11,7 +11,7 @@ using Igprog;
 /// <summary>
 /// ClientApp
 /// </summary>
-[WebService(Namespace = "http://tempuri.org/")]
+[WebService(Namespace = "http://programprehrane.com/app/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [System.Web.Script.Services.ScriptService]
 public class ClientApp : System.Web.Services.WebService {
@@ -25,7 +25,6 @@ public class ClientApp : System.Web.Services.WebService {
         public string id;
         public string clientId;
         public string userId;
-        // userId, userGroupId TODO
         public string code;
         public string lang;
     }
@@ -42,12 +41,13 @@ public class ClientApp : System.Web.Services.WebService {
     public string GetActivationCode(NewClientApp x) {
         try {
             if (string.IsNullOrEmpty(x.code)) {
+                string path = Server.MapPath(string.Format("~/App_Data/{0}", dataBase));
+                db.CreateGlobalDataBase(path, db.clientapp);
                 x.code = CreateActivationCode();
+                if(x.code == null) { return null; }
                 if(string.IsNullOrEmpty(x.id)) {
                     x.id = Guid.NewGuid().ToString();
                 }
-                string path = Server.MapPath(string.Format("~/App_Data/{0}", dataBase));
-                db.CreateGlobalDataBase(path, db.clientapp);
                 SQLiteConnection connection = new SQLiteConnection(string.Format("Data Source={0}", path));
                 connection.Open();
                 string sql = string.Format(@"BEGIN;
@@ -113,8 +113,32 @@ public class ClientApp : System.Web.Services.WebService {
     
     private string CreateActivationCode() {
         Random r = new Random();
-        return r.Next(10000, 99999).ToString();
-        //CheckIfExists(code)  get all from db and check with linq and loof for 10 times and break when code not exists, test with code to 0-5
+        string code = null;
+        for (int i=0; i<20; i++) {
+            code = r.Next(10000, 100000).ToString();
+            if(Check(code)) { break; }
+            code = null;
+        }
+        if(code == null) { code = r.Next(100000, 1000000).ToString(); }
+        return code;
+    }
+
+    private bool Check(string code) {
+        try {
+            int count = 0;
+            string path = Server.MapPath(string.Format("~/App_Data/{0}", dataBase));
+            SQLiteConnection connection = new SQLiteConnection(string.Format("Data Source={0}", path));
+            connection.Open();
+            string sql = string.Format("SELECT COUNT([rowid]) FROM clientapp WHERE code = '{0}'", code);
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read()) {
+                count = reader.GetInt32(0);
+            }
+            connection.Close();
+            if (count == 0) { return true; }
+            else { return false; }
+        } catch (Exception e) { return false; }
     }
     #endregion Methods
 
