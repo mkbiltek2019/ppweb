@@ -715,17 +715,10 @@ public class PrintPdf : System.Web.Services.WebService {
             doc.Open();
 
             AppendHeader(doc, userId);
-            doc.Add(new Paragraph((client.firstName + " " + client.lastName), normalFont_12));
-            doc.Add(new Chunk(line));
 
-            string c = string.Format(@"
-{0}: {1}
-{2}: {3}"
-            , t.Tran("gender", lang), t.Tran(clientData.gender.title, lang)
-            , t.Tran("age", lang), clientData.age);
-
-            doc.Add(new Paragraph(c, normalFont));
-
+            doc.Add(new Paragraph(string.Format("{0} {1}" , client.firstName, client.lastName), normalFont_8));
+            doc.Add(new Paragraph(string.Format("{0}: {1}", t.Tran("gender", lang), t.Tran(clientData.gender.title, lang)), normalFont_8));
+            doc.Add(new Paragraph(string.Format("{0}: {1}", t.Tran("age", lang), clientData.age), normalFont_8));
             doc.Add(new Chunk(line));
 
             if (clientLog.Count > 0) {

@@ -435,14 +435,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.showUpdates = !$scope.showUpdates;
     };
 
-    //var getDateDiff = function (x) {
-    //    var today = new Date();
-    //    var date1 = today;
-    //    var date2 = new Date(x);
-    //    var diffDays = Math.abs(parseInt((date2 - date1) / (1000 * 60 * 60 * 24)));
-    //    return diffDays;
-    //}
-
     $scope.dateDiff = function () {
         if (localStorage.lastvisit) {
             return functions.getDateDiff(localStorage.lastvisit)
@@ -495,14 +487,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.tpl = x;
     }
     $scope.toggleTpl('loginTpl');
-
-    //var getDateDiff = function (x) {
-    //    var today = new Date();
-    //    var date1 = today;
-    //    var date2 = new Date(x);
-    //    var diffDays = Math.abs(parseInt((date2 - date1) / (1000 * 60 * 60 * 24)));
-    //    return diffDays;
-    //}
 
     $scope.login = function (u, p) {
         $scope.errorMesage = null;
@@ -1292,14 +1276,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.d.birthDate = new Date($scope.d.birthDate);
         $scope.user = $rootScope.user;
 
-        //var getDateDiff = function (x) {
-        //    var today = new Date();
-        //    var date2 = today;
-        //    var date1 = new Date(x);
-        //    var diffDays = Math.abs(parseInt((date2 - date1) / (1000 * 60 * 60 * 24)));
-        //    return diffDays;
-        //}
-
         $scope.hide = function () {
             $mdDialog.hide();
         };
@@ -1323,12 +1299,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     $scope.birthDateRequiredMsq = null;
                 }
             }
-            //if ($rootScope.user.licenceStatus == 'demo' && $rootScope.clients.length > 0) {
-            //    functions.demoAlert('in demo version you can enter only one client');
-            //    return false;
-            //}
             if ($rootScope.user.licenceStatus == 'demo') {
-                //functions.demoAlert('the saving function is disabled in demo version');
                 $mdDialog.hide(x);
                 return false;
             }
@@ -1619,14 +1590,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         setClientLogGraphData(type, days);
     }
 
-    //var getDateDiff = function (x) {
-    //    var today = new Date();
-    //    var date2 = today;
-    //    var date1 = new Date(x);
-    //    var diffDays = Math.abs(parseInt((date2 - date1) / (1000 * 60 * 60 * 24)));
-    //    return diffDays;
-    //}
-
     var getRecommendedWeight = function (h) {
         return {
             min: Math.round(((18.5 * h * h) / 10000) * 10) / 10,
@@ -1635,14 +1598,15 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var setClientLogGraphData = function (type, days) {
-        var clientData = [];
+        $scope.clientLog_ = [];
+        var clientLog = [];
         var goalFrom = [];
         var goalTo = [];
         var labels = [];
         $rootScope.clientLogGraphData = charts.createGraph(
             [$translate.instant('tracking of anthropometric measures')],
             [
-                clientData,
+                clientLog,
                 goalFrom,
                 goalTo
             ],
@@ -1678,9 +1642,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             if (days === undefined) { days = 30; }
             angular.forEach($scope.clientLog, function (x, key) {
                 if (functions.getDateDiff(x.date) <= days) {
-                    if (type == 0) { clientData.push(x.weight); goalFrom.push(getRecommendedWeight(x.height).min); goalTo.push(getRecommendedWeight(x.height).max); }
-                    if (type == 1) { clientData.push(x.waist); goalFrom.push(95); }
-                    if (type == 2) { clientData.push(x.hip); goalFrom.push(97); }
+                    $scope.clientLog_.push(x);
+                    if (type == 0) { clientLog.push(x.weight); goalFrom.push(getRecommendedWeight(x.height).min); goalTo.push(getRecommendedWeight(x.height).max); }
+                    if (type == 1) { clientLog.push(x.waist); goalFrom.push(95); }
+                    if (type == 2) { clientLog.push(x.hip); goalFrom.push(97); }
                     if (key % (Math.floor($scope.clientLog.length / 31) + 1) === 0) {
                         labels.push(new Date(x.date).toLocaleDateString());
                     } else {
@@ -1746,6 +1711,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.pdfLink1 = null;
+
     $scope.printClientLogPdf = function () {
         if ($scope.creatingPdf == true) {
             return false;
@@ -1756,30 +1722,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             img = document.getElementById("clientDataChart").toDataURL("image/png").replace(/^data:image\/(png|jpg);base64,/, "");
         }
         $http({
-            url: $sessionStorage.config.backend + 'ClientsData.asmx/GetClientLog',
+            url: $sessionStorage.config.backend + 'PrintPdf.asmx/ClientLogPdf',
             method: "POST",
-            data: { userId: $sessionStorage.usergroupid, clientId: $rootScope.client.clientId }
+            data: { userId: $sessionStorage.usergroupid, client: $rootScope.client, clientData: $rootScope.clientData, clientLog: $scope.clientLog_, lang: $rootScope.config.language, imageData: img }
         })
         .then(function (response) {
-            $rootScope.clientLog = JSON.parse(response.data.d);
-            $http({
-                url: $sessionStorage.config.backend + 'PrintPdf.asmx/ClientLogPdf',
-                method: "POST",
-                data: { userId: $sessionStorage.usergroupid, client: $rootScope.client, clientData: $rootScope.clientData, clientLog: $rootScope.clientLog, lang: $rootScope.config.language, imageData: img }
-            })
-          .then(function (response) {
-              $scope.creatingPdf = false;
-              var fileName = response.data.d;
-              $scope.pdfLink1 = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
-          },
-          function (response) {
-              $scope.creatingPdf = false;
-              alert(response.data.d)
-          });
-        },
-        function (response) {
             $scope.creatingPdf = false;
-            alert(response.data.d)
+            var fileName = response.data.d;
+            $scope.pdfLink1 = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
         });
     }
 
@@ -1823,19 +1773,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             }
         }
     }
-
-    /*
-    $scope.backToApp = function () {
-        $rootScope.currTpl = './assets/partials/dashboard.html';
-    }
-
-    $scope.showAccessClientAppData = false;
-    $scope.showAccessClientAppDataTitle = $translate.instant('show access data');
-    $scope.toggleAccessClientAppData = function () {
-        $scope.showAccessClientAppData = !$scope.showAccessClientAppData;
-        $scope.showAccessClientAppDataTitle = $scope.showAccessClientAppData == true ? $translate.instant('hide access data') : $translate.instant('show access data');
-    };
-    */
 
 }])
 
@@ -5569,7 +5506,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { userId: $rootScope.user.userGroupId, x: x }
         })
        .then(function (response) {
-         //  functions.alert($translate.instant(response.data.d), '');
            load();
        },
        function (response) {
@@ -5578,198 +5514,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
 }])
-
-    /*
-.controller('printCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
-    $scope.consumers = 1;
-
-    $scope.printWindow = function () {
-        window.print();
-    };
-
-    $scope.pdfLink = null;
-    var printMenuPdf = function () {
-        if (angular.isDefined($rootScope.currentMenu)) {
-            var currentMenu = angular.copy($rootScope.currentMenu);
-            currentMenu.data.selectedFoods = $scope.foods;
-            $http({
-                url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
-                method: "POST",
-                data: { userId: $sessionStorage.usergroupid, currentMenu: currentMenu, clientData: $rootScope.clientData, totals: $rootScope.totals, consumers: $scope.consumers, lang: $rootScope.config.language }
-            })
-              .then(function (response) {
-                  var fileName = response.data.d;
-                  $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
-                 // $scope.openPdf();
-              },
-              function (response) {
-                  alert(response.data.d)
-              });
-        }
-    }
-
-    var printMenuDetailsPdf = function () {
-        if (angular.isDefined($rootScope.currentMenu)) {
-            var currentMenu = angular.copy($rootScope.currentMenu);
-            $http({
-                url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuDetailsPdf',
-                method: "POST",
-                data: { userId: $sessionStorage.usergroupid, currentMenu: currentMenu, calculation: $rootScope.calculation, totals: $rootScope.totals, recommendations: $rootScope.recommendations, lang: $rootScope.config.language }
-            })
-              .then(function (response) {
-                  var fileName = response.data.d;
-                  $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
-              },
-              function (response) {
-                  alert(response.data.d)
-              });
-        }
-    }
-
-    $scope.creatingPdf = false;
-    var printClientPdf = function () {
-        $scope.creatingPdf = true;
-        $http({
-            url: $sessionStorage.config.backend + 'PrintPdf.asmx/ClientPdf',
-            method: "POST",
-            data: { userId: $sessionStorage.usergroupid, client: $rootScope.client, clientData: $rootScope.clientData, clientLog: $rootScope.clientLog,  lang: $rootScope.config.language }
-        })
-          .then(function (response) {
-              var fileName = response.data.d;
-              $scope.creatingPdf = false;
-              $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
-           //   $scope.openPdf();
-          },
-          function (response) {
-              $scope.creatingPdf = false;
-              alert(response.data.d)
-          });
-    }
-
-    $scope.printPdf = function () {
-        if ($scope.printTpl == 'menuTpl') { printMenuPdf(); }
-        if ($scope.printTpl == 'menuAnalysisTpl') { printMenuDetailsPdf(); }
-        if ($scope.printTpl == 'clientTpl') { printClientPdf(); }
-    }
-
-    $scope.openPdf = function () {
-        if ($scope.pdfLink != null) {
-            window.open($scope.pdfLink, window.innerWidth <= 800 && window.innerHeight <= 600 ? '_self' : '_blank');
-        }
-    }
-
-    $scope.type = 0;
-    $scope.setType = function (x) {
-        $scope.type = x;
-        $rootScope.setClientLogGraphData($scope.type);
-    }
-
-    var getClientLog = function (x) {
-        $http({
-            url: $sessionStorage.config.backend + 'ClientsData.asmx/GetClientLog',
-            method: "POST",
-            data: { userId: $sessionStorage.usergroupid, clientId: x.clientId }
-        })
-        .then(function (response) {
-            $rootScope.clientLog = JSON.parse(response.data.d);
-            $rootScope.setClientLogGraphData($scope.type);
-        },
-        function (response) {
-            alert(response.data.d)
-        });
-   }
-
-    var getClient = function () {
-        $http({
-            url: $sessionStorage.config.backend + 'Clients.asmx/Get',
-            method: "POST",
-            data: { userId: $sessionStorage.userid, clientId: $rootScope.client.clientId }
-        })
-        .then(function (response) {
-            $scope.client = JSON.parse(response.data.d);
-            getClientLog($scope.client);
-        },
-        function (response) {
-            alert(response.data.d)
-        });
-    }
-    if ($rootScope.client != undefined) { getClient(); }
-
-    $scope.toggleTpl = function (x) {
-        $scope.pdfLink = null;
-        $scope.printTpl = x;
-        $scope.printPdf();
-        if (x == 'weeklyMenuTpl') {
-            $scope.loading = true;
-            $http({
-                url: $sessionStorage.config.backend + 'Menues.asmx/Load',
-                method: "POST",
-                data: { userId: $rootScope.user.userGroupId }
-            })
-           .then(function (response) {
-               $scope.menues = JSON.parse(response.data.d);
-               $scope.loading = false;
-           },
-           function (response) {
-               $scope.loading = false;
-               alert(response.data.d);
-           });
-        }
-    };
-
-    $scope.changeNumberOfConsumers = function (x) {
-        $scope.consumers = x;
-        $http({
-            url: $sessionStorage.config.backend + 'Foods.asmx/ChangeNumberOfConsumers',
-            method: "POST",
-            data: { foods: $rootScope.currentMenu.data.selectedFoods, number: x }
-        })
-       .then(function (response) {
-           $scope.foods = JSON.parse(response.data.d);
-           $scope.toggleTpl('menuTpl');
-       },
-       function (response) {
-           //   alert(response.data.d)
-       });
-    }
-    if (angular.isDefined($rootScope.currentMenu)) { $scope.changeNumberOfConsumers($scope.consumers); }
-
-    $scope.menuList = [];
-    $scope.getMenuList = function (id1, id2, id3, id4, id5, id6, id7) {
-        $scope.menuList = [id1, id2, id3, id4, id5, id6, id7];
-    }
-
-    $scope.creatingPdf = false;
-    $scope.pageSizes = ['A4', 'A3', 'A2', 'A1'];
-    $rootScope.printSettings.pageSize = 'A3';
-    $rootScope.printSettings.showDescription = false;
-    $rootScope.printSettings.orientation = 'L';
-
-    $scope.printWeeklyMenu = function (consumers, printSettings) {
-        if ($scope.menuList.length == 0) {
-            functions.alert($translate.instant('select menus'), '');
-            return false;
-        }
-        $scope.pdfLink = null;
-        $scope.creatingPdf = true;
-        $http({
-            url: $sessionStorage.config.backend + 'PrintPdf.asmx/WeeklyMenuPdf',
-            method: "POST",
-            data: { userId: $sessionStorage.usergroupid, menuList: $scope.menuList, clientData: $rootScope.clientData, consumers: consumers, lang: $rootScope.config.language, settings: printSettings }
-        })
-          .then(function (response) {
-              var fileName = response.data.d;
-              $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
-              $scope.creatingPdf = false;
-          },
-          function (response) {
-              $scope.creatingPdf = false;
-              alert(response.data.d)
-          });
-    }
-
-}])
-*/
 
 .controller('orderCtrl', ['$scope', '$http', '$rootScope', '$translate', 'functions', function ($scope, $http, $rootScope, $translate, functions) {
     $scope.application = $translate.instant('nutrition program');
