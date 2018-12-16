@@ -5835,6 +5835,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.creatingPdf = false;
     $scope.pageSizes = ['A4', 'A3', 'A2', 'A1'];
     $rootScope.printSettings.pageSize = 'A3';
+    $rootScope.printSettings.showTitle = false;
     $rootScope.printSettings.showDescription = false;
     $rootScope.printSettings.orientation = 'L';
 

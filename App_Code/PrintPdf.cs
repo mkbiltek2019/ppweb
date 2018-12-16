@@ -24,6 +24,7 @@ public class PrintPdf : System.Web.Services.WebService {
     Translate t = new Translate();
 
     Font courier = new Font(Font.COURIER, 9f);
+    //TODO create method GetFont(size, bold)
     Font normalFont = FontFactory.GetFont(HttpContext.Current.Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, 9);
     Font normalFont_8 = FontFactory.GetFont(HttpContext.Current.Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, 8);
     Font normalFont_10 = FontFactory.GetFont(HttpContext.Current.Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, 10);
@@ -195,7 +196,7 @@ public class PrintPdf : System.Web.Services.WebService {
             table.AddCell(new PdfPCell(new Phrase(t.Tran("saturday", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
             table.AddCell(new PdfPCell(new Phrase(t.Tran("sunday", lang).ToUpper(), normalFont)) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
 
-            //*************TOOD apend Totals*************
+            //****************** Totals *****************
             weeklyMenuTotalList = new List<Foods.Totals>();
             //*******************************************
 
@@ -1093,29 +1094,7 @@ IBAN HR8423400091160342496
                 sb.AppendLine(string.Format(@"{0}", t.Tran(GetMealTitle(meal[0].meal), lang)).ToUpper());
                 string description = meals.Where(a => a.code == meal[0].meal.code).FirstOrDefault().description;
                 if (!string.IsNullOrWhiteSpace(description)) {
-                    if (description.Contains('~')) {
-                        string[] desList = description.Split('|');
-                        if (desList.Length > 0) {
-                            var list = (from p in desList
-                                        select new {
-                                            title = p.Split('~')[0],
-                                            description = p.Split('~').Length > 1 ? p.Split('~')[1] : ""
-                                        }).ToList();
-                            foreach (var l in list) {
-                                if (settings.showTitle) {
-                                    sb.AppendLine(l.title);
-                                }
-                                if (settings.showDescription) {
-                                    sb.AppendLine(string.Format(@"{0}
-                                                    ", l.description));
-                                }
-                            }
-                        }
-                    } else {
-                        if (settings.showDescription) {
-                            sb.AppendLine(description);
-                        }
-                    }
+                    sb = AppendMealDescription(sb, description, settings);
                 }
                 if (settings.showFoods) {
                     foreach (Foods.NewFood food in meal) {
@@ -1207,12 +1186,12 @@ IBAN HR8423400091160342496
                     meal = weeklyMenu.data.selectedFoods.Where(a => a.meal.code == currMeal).ToList();
                     string description = weeklyMenu.data.meals.Find(a => a.code == currMeal).description;
                     List<Foods.NewFood> meal_ = food.MultipleConsumers(meal, consumers);
-                    if (!string.IsNullOrEmpty(description) && settings.showDescription == true) {
-                        //TODO: separate meal title from description like in daily menu.
-                        p.Add(new Chunk(description, normalFont_10));
+                    if (!string.IsNullOrWhiteSpace(description)) {
+                        StringBuilder sb = new StringBuilder();
+                        p.Add(new Chunk(AppendMealDescription(sb, description, settings).ToString(), normalFont_10));
                         p.Add(new Chunk("\n\n", normalFont));
                     }
-                    if(settings.showFoods) {
+                    if (settings.showFoods) {
                         foreach (Foods.NewFood f in meal_) {
                             p.Add(new Chunk(string.Format(@"- {0}", f.food), normalFont));
                             p.Add(new Chunk(string.Format(@"{0}{1}{2}"
@@ -1241,6 +1220,33 @@ IBAN HR8423400091160342496
             }
             weeklyMealIdx += 1;
         } catch (Exception e) {}
+    }
+
+    private StringBuilder AppendMealDescription(StringBuilder sb, string description, PrintMenuSettings settings) {
+         if (description.Contains('~')) {
+            string[] desList = description.Split('|');
+            if (desList.Length > 0) {
+                var list = (from p_ in desList
+                            select new {
+                                title = p_.Split('~')[0],
+                                description = p_.Split('~').Length > 1 ? p_.Split('~')[1] : ""
+                            }).ToList();
+                foreach (var l in list) {
+                    if (settings.showTitle) {
+                        sb.AppendLine(l.title);
+                    }
+                    if (settings.showDescription) {
+                        sb.AppendLine(string.Format(@"{0}
+                                        ", l.description));
+                    }
+                }
+            }
+        } else {
+            if (settings.showDescription) {
+                sb.AppendLine(description);
+            }
+        }
+        return sb;
     }
 
     private void AppendTotal(PdfPTable table, string[] menuList, string userId) {
