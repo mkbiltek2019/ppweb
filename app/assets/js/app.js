@@ -298,7 +298,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     return false;
                 }
             }
-            debugger;
             if (x == 'menu') {
                 if ($rootScope.myMeals !== undefined) {
                     $rootScope.setMealCode();
@@ -2450,7 +2449,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
         if ($rootScope.clientData.myMeals !== undefined) {
             if ($rootScope.clientData.myMeals.data != null) {
-                debugger;
                 if ($rootScope.clientData.myMeals.data.meals.length >= 2) {
                     $scope.tpl = 'myMeals';
                 } else {
@@ -2500,7 +2498,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 .controller('myMealsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
     var webService = 'MyMeals.asmx';
-    debugger;
     var init = function () {
         $http({
             url: $sessionStorage.config.backend + webService + '/Init',
@@ -2559,7 +2556,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     initMyMeals();
 
     $scope.get = function (id) {
-        debugger;
         if ($rootScope.user.userType < 2) { return false; }
         $http({
             url: $sessionStorage.config.backend + webService + '/Get',
@@ -3428,7 +3424,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var getMyMealsForOpenMenu = function (id) {
-        debugger;
         $http({
             url: $sessionStorage.config.backend + 'Menues.asmx/GetMyMeals',
             method: "POST",
@@ -3456,6 +3451,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $rootScope.clientData.meals = x.data.meals;
             $rootScope.currentMenu.client = $rootScope.client;
             $rootScope.currentMenu.client.clientData = $rootScope.clientData;  //TODO sredit
+
+            //TODO BUG, kad se otvore jelovnici onda ne uzme u obzir preporuke za obroke
+
             getTotals($rootScope.currentMenu);
             $rootScope.currentMeal = x.data.meals[0].code; // 'B';  // TODO myMeals get first from list
             if ($rootScope.currentMeal != 'B') {
@@ -3651,7 +3649,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             }
             currentMenu.diet = d.client.clientData.diet.diet;
             $mdDialog.hide($scope.d.currentMenu);
-            debugger;
             var myMeals = null;
             if (currentMenu.data.meals.length > 2) {
                 if (currentMenu.data.meals[0].code != 'B') {
@@ -3807,10 +3804,16 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.mealsTitles = [];
         angular.forEach($rootScope.currentMenu.data.meals, function (value, key) {
             if (value.isSelected == true && angular.isDefined($rootScope.totals)) {
-                $scope.mealsTotals.push($rootScope.totals.mealsTotalEnergy.length > 0 ? $rootScope.totals.mealsTotalEnergy[key].meal.energy : 0);
-                $scope.mealsMin.push($rootScope.recommendations.mealsRecommendationEnergy[key].meal.energyMin);
-                $scope.mealsMax.push($rootScope.recommendations.mealsRecommendationEnergy[key].meal.energyMax);
-                $scope.mealsTitles.push($translate.instant($rootScope.getMealTitle(value)));
+                if (angular.isDefined($rootScope.totals.mealsTotalEnergy)) {
+                    $scope.mealsTotals.push($rootScope.totals.mealsTotalEnergy.length > 0 ? $rootScope.totals.mealsTotalEnergy[key].meal.energy : 0);
+                    if (angular.isDefined($rootScope.recommendations.mealsRecommendationEnergy)) {
+                        if (key < $rootScope.recommendations.mealsRecommendationEnergy.length) {
+                            $scope.mealsMin.push($rootScope.recommendations.mealsRecommendationEnergy[key].meal.energyMin);
+                            $scope.mealsMax.push($rootScope.recommendations.mealsRecommendationEnergy[key].meal.energyMax);
+                        }
+                    }
+                    $scope.mealsTitles.push($translate.instant($rootScope.getMealTitle(value)));
+                }
             }
         })
 
@@ -4705,8 +4708,31 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $rootScope.currentMealForRecipe = currentMeal;
     }
 
+    $scope.getMealTotal = function (x) {
+        var total = null;
+        angular.forEach($rootScope.totals.mealsTotalEnergy, function (value, key) {
+            if (value.meal.code == x) {
+                total = value.meal;
+            }
+        })
+        return total
+    }
+
+    $scope.getMealRecommendation = function (x) {
+        var recommendations = null;
+        angular.forEach($rootScope.recommendations.mealsRecommendationEnergy, function (value, key) {
+            if (value.meal.code == x) {
+                recommendations = value.meal;
+            }
+        })
+        return recommendations
+    }
+
+
+
 }])
 
+    /*
 .controller('analyticsCtrl', ['$scope', '$http', '$window', '$rootScope', '$mdDialog', 'charts', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, charts, functions, $translate) {
 
     $scope.toggleTpl = function (x) {
@@ -4954,7 +4980,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                false
         );
     }
+
 }])
+
+*/
 
 .controller('myFoodsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
     var webService = 'MyFoods.asmx';

@@ -210,7 +210,7 @@ public class Menues : System.Web.Services.WebService {
                 if(myMeals != null) {
                     if(myMeals.data != null) {
                         if(myMeals.data.meals.Count > 2) {
-                            SaveMyMenuesJsonToFile(userId, x.id, JsonConvert.SerializeObject(myMeals, Formatting.Indented));
+                            SaveMyMealsJsonToFile(userId, x.id, JsonConvert.SerializeObject(myMeals, Formatting.Indented));
                         }
                     }
                 }
@@ -238,7 +238,7 @@ public class Menues : System.Web.Services.WebService {
     [WebMethod]
     public string GetMyMeals(string userId, string id) {
         try {
-            return GetMyMenuesJsonFile(userId, id);
+            return GetMyMealsJsonFile(userId, id);
         } catch (Exception e) { return (e.Message); }
     }
     #endregion ClientMenues
@@ -343,14 +343,14 @@ public class Menues : System.Web.Services.WebService {
             WriteFile(filepath, json);
     }
 
-    public void SaveMyMenuesJsonToFile(string userId, string filename, string json) {
+    public void SaveMyMealsJsonToFile(string userId, string filename, string json) {
         string path = string.Format("~/App_Data/users/{0}/menues/mymeals", userId);
         string filepath = string.Format("{0}/{1}.json", path, filename);
         CreateFolder(path);
         WriteFile(filepath, json);
     }
 
-    private string GetMyMenuesJsonFile(string userId, string id) {
+    private string GetMyMealsJsonFile(string userId, string id) {
         string path = string.Format("~/App_Data/users/{0}/menues/mymeals/{1}.json", userId, id);
         string json = "";
         if (File.Exists(Server.MapPath(path))) {

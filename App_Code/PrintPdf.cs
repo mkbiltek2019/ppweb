@@ -318,7 +318,7 @@ public class PrintPdf : System.Web.Services.WebService {
             tblServings.AddCell(new PdfPCell(new Phrase(t.Tran("choosen", lang), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
             tblServings.AddCell(new PdfPCell(new Phrase(t.Tran("recommended", lang), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
 
-            tblServings.AddCell(new PdfPCell(new Phrase(t.Tran("cereals", lang), GetFont())) { Border = 0 });
+            tblServings.AddCell(new PdfPCell(new Phrase(t.Tran("cereals and cereal products", lang), GetFont())) { Border = 0 });
             tblServings.AddCell(new PdfPCell(new Phrase(totals.servings.cerealsServ.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
             tblServings.AddCell(new PdfPCell(new Phrase(recommendations.servings.cerealsServ.ToString(), GetFont())) { Border = 0 });
             tblServings.AddCell(new PdfPCell(new Phrase(t.Tran("vegetables", lang), GetFont())) { Border = 0 });
@@ -327,10 +327,10 @@ public class PrintPdf : System.Web.Services.WebService {
             tblServings.AddCell(new PdfPCell(new Phrase(t.Tran("fruit", lang), GetFont())) { Border = 0 });
             tblServings.AddCell(new PdfPCell(new Phrase(totals.servings.fruitServ.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
             tblServings.AddCell(new PdfPCell(new Phrase(recommendations.servings.fruitServ.ToString(), GetFont())) { Border = 0 });
-            tblServings.AddCell(new PdfPCell(new Phrase(t.Tran("meat", lang), GetFont())) { Border = 0 });
+            tblServings.AddCell(new PdfPCell(new Phrase(t.Tran("meat and substitutes", lang), GetFont())) { Border = 0 });
             tblServings.AddCell(new PdfPCell(new Phrase(totals.servings.meatServ.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
             tblServings.AddCell(new PdfPCell(new Phrase(recommendations.servings.meatServ.ToString(), GetFont())) { Border = 0 });
-            tblServings.AddCell(new PdfPCell(new Phrase(t.Tran("milk", lang), GetFont())) { Border = 0 });
+            tblServings.AddCell(new PdfPCell(new Phrase(t.Tran("milk and dairy products", lang), GetFont())) { Border = 0 });
             tblServings.AddCell(new PdfPCell(new Phrase(totals.servings.milkServ.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
             tblServings.AddCell(new PdfPCell(new Phrase(recommendations.servings.milkServ.ToString(), GetFont())) { Border = 0 });
             tblServings.AddCell(new PdfPCell(new Phrase(t.Tran("fats", lang), GetFont())) { Border = 0 });

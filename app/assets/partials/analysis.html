@@ -8,10 +8,10 @@
                 </a>
             </div>
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-5">
                     <ng-include src="'analysisTpl'"></ng-include>
                 </div>
-                <div class="col-sm-8">
+                <div class="col-sm-7">
                     <ng-include src="'parametersTpl'"></ng-include>
                 </div>
             </div>
@@ -22,18 +22,34 @@
 <script type="text/ng-template" id="analysisTpl">
     <div ng-style="fs">
         <fieldset class="fieldset-border">
-            <legend class="fieldset-border text-capitalize">{{'energy value' | translate}}</legend>
+            <legend class="fieldset-border">{{'energy value' | translate}}</legend>
             <div class="table-responsive">
                 <table class="table table-condensed text-small">
                     <tr>
-                        <th style="width:50%">{{'choosen' | translate}}</th>
+                        <th>{{'meals' | translate}}</th>
+                        <th>{{'choosen' | translate}}</th>
                         <th>{{'recommended' | translate}}</th>
                     </tr>
+                    <tr ng-repeat="x in currentMenu.data.meals | filter: { 'isSelected': true }">
+                        <td class="nowrap">{{x.title}}</td>
+                        <td class="text-bold">{{getMealTotal(x.code).energy | number:1}} {{'kcal' | translate}} ({{getMealTotal(x.code).energyPercentage | number:1}} %)</td>
+                        <td>{{getMealRecommendation(x.code).energyMin}} - {{getMealRecommendation(x.code).energyMax}} {{'kcal' | translate}} ({{getMealRecommendation(x.code).energyMinPercentage}} - {{getMealRecommendation(x.code).energyMaxPercentage}} %)</td>
+                    </tr>
                     <tr>
-                        <td class="nowrap text-bold">{{totals.energy | number:1}} kcal</td>
-                        <td class="nowrap">{{recommendations.energy}} kcal</td>
+                        <td colspan="3"></td>
+                    </tr>
+                    <tr>
+                        <td>{{'total' | translate}}</td>
+                        <td class="text-bold">{{totals.energy | number:1}} {{'kcal' | translate}}</td>
+                        <td>{{recommendations.energy}} {{'kcal' | translate}}</td>
                     </tr>
                 </table>
+            </div>
+            <div ng-if="config.debug">
+                <pre>{{recommendations.mealsRecommendationEnergy | json}}</pre>
+                <pre>{{currentMenu.data.meals | json}}</pre>
+                <!--<pre>{{mealsTitles | json}}</pre>-->
+                <pre>{{totals.mealsTotalEnergy | json}}</pre>
             </div>
         </fieldset>
         <fieldset class="fieldset-border">
@@ -48,23 +64,23 @@
                     <tr>
                         <td>{{'carbohydrates' | translate}}</td>
                         <td class="nowrap text-bold">{{totals.carbohydrates | number:1}} g, ({{totals.carbohydratesPercentage | number:1}} %)</td>
-                        <td class="nowrap">{{recommendations.carbohydratesPercentageMin | number:1}}-{{recommendations.carbohydratesPercentageMax | number:1}}%</td>
+                        <td>{{recommendations.carbohydratesPercentageMin | number:1}}-{{recommendations.carbohydratesPercentageMax | number:1}} %</td>
                     </tr>
                     <tr>
                         <td>{{'proteins' | translate}}</td>
                         <td class="nowrap text-bold">{{totals.proteins | number:1}} g, ({{totals.proteinsPercentage | number:1}} %)</td>
-                        <td class="nowrap">{{recommendations.proteinsPercentageMin | number:1}}-{{recommendations.proteinsPercentageMax | number:1}}%</td>
+                        <td>{{recommendations.proteinsPercentageMin | number:1}}-{{recommendations.proteinsPercentageMax | number:1}} %</td>
                     </tr>
                     <tr>
                         <td>{{'fats' | translate}}</td>
-                        <td class="nowrap text-bold">{{totals.fats | number:1}} g, ({{totals.fatsPercentage | number:1}} %)</td>
-                        <td class="nowrap">{{recommendations.fatsPercentageMin | number:1}}-{{recommendations.fatsPercentageMax | number:1}}%</td>
+                        <td class="text-bold">{{totals.fats | number:1}} g, ({{totals.fatsPercentage | number:1}} %)</td>
+                        <td>{{recommendations.fatsPercentageMin | number:1}}-{{recommendations.fatsPercentageMax | number:1}} %</td>
                     </tr>
                 </table>
             </div>
         </fieldset>
         <fieldset class="fieldset-border">
-            <legend class="fieldset-border text-capitalize">{{'unit servings' | translate}}</legend>
+            <legend class="fieldset-border">{{'unit servings' | translate}}</legend>
             <div class="table-responsive">
                 <table class="table table-condensed text-small">
                     <tr>
@@ -73,7 +89,7 @@
                         <th>{{'recommended' | translate}}</th>
                     </tr>
                     <tr>
-                        <td>{{'cereals' | translate}}</td>
+                        <td>{{'cereals and cereal products' | translate}}</td>
                         <td class="text-bold">{{totals.servings.cerealsServ}}</td>
                         <td>{{recommendations.servings.cerealsServ}}</td>
                     </tr>
@@ -88,12 +104,12 @@
                         <td>{{recommendations.servings.fruitServ}}</td>
                     </tr>
                     <tr>
-                        <td>{{'meat' | translate}}</td>
+                        <td>{{'meat and substitutes' | translate}}</td>
                         <td class="text-bold">{{totals.servings.meatServ}}</td>
                         <td>{{recommendations.servings.meatServ}}</td>
                     </tr>
                     <tr>
-                        <td>{{'milk' | translate}}</td>
+                        <td>{{'milk and dairy products' | translate}}</td>
                         <td class="text-bold">{{totals.servings.milkServ}}</td>
                         <td>{{recommendations.servings.milkServ}}</td>
                     </tr>
@@ -112,8 +128,8 @@
                     </tr>
                     <tr>
                         <td>{{'other foods' | translate}}</td>
-                        <td class="text-bold">{{totals.servings.otherFoodsEnergy | number:1}} kcal</td>
-                        <td>{{recommendations.servings.otherFoodsEnergy | number:1}} kcal</td>
+                        <td class="text-bold">{{totals.servings.otherFoodsEnergy | number:1}} {{'kcal' | translate}}</td>
+                        <td>{{recommendations.servings.otherFoodsEnergy | number:1}} {{'kcal' | translate}}</td>
                     </tr>
                 </table>
             </div>
