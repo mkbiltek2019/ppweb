@@ -3367,7 +3367,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             targetEvent: '',
             clickOutsideToClose: true,
             fullscreen: $scope.customFullscreen,
-            d: { currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData, client: $rootScope.client, totals: $rootScope.totals, settings: $rootScope.printSettings }
+            d: { currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData, client: $rootScope.client, totals: $rootScope.totals, settings: $rootScope.printSettings, config: $rootScope.config }
         })
         .then(function () {
         }, function () {
@@ -3380,6 +3380,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.client = d.client;
         $scope.totals = d.totals;
         $scope.settings = d.settings;
+        $scope.config = d.config;
 
         $scope.cancel = function () {
             $mdDialog.cancel();
