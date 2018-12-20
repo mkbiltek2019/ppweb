@@ -2447,7 +2447,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 } 
             }
         }
-        if ($rootScope.clientData.myMeals !== undefined) {
+        if ($rootScope.clientData.myMeals !== undefined && $rootScope.clientData.myMeals != null) {
             if ($rootScope.clientData.myMeals.data != null) {
                 if ($rootScope.clientData.myMeals.data.meals.length >= 2) {
                     $scope.tpl = 'myMeals';
@@ -2507,6 +2507,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         .then(function (response) {
             $rootScope.myMeals = JSON.parse(response.data.d);
             $rootScope.clientData.myMeals = angular.copy($rootScope.myMeals);
+            $rootScope.clientData.meals = $rootScope.clientData.myMeals.data.meals;
             $rootScope.isMyMeals = true;
         },
         function (response) {
@@ -2520,7 +2521,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 return false;
             }
         }
-        if ($rootScope.clientData.myMeals !== undefined) {
+        if ($rootScope.clientData.myMeals !== undefined && $rootScope.clientData.myMeals != null) {
             if ($rootScope.clientData.myMeals.data != null) {
                 if ($rootScope.clientData.myMeals.data.meals.length > 0) {
                     $rootScope.myMeals = angular.copy($rootScope.clientData.myMeals);
@@ -2555,6 +2556,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
     initMyMeals();
 
+    /*
     $scope.get = function (id) {
         if ($rootScope.user.userType < 2) { return false; }
         $http({
@@ -2566,11 +2568,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $rootScope.myMeals = JSON.parse(response.data.d);
             $rootScope.clientData.myMeals = angular.copy($rootScope.myMeals);
             $rootScope.isMyMeals = true;
+            $rootScope.mealsAreChanged = true;
         },
         function (response) {
             functions.alert($translate.instant(response.data.d), '');
         });
     }
+    */
 
 
     $scope.new = function () {
@@ -2589,8 +2593,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $rootScope.myMeals = JSON.parse(response.data.d);
             if ($rootScope.user.userType > 2) {
                 $rootScope.clientData.myMeals = angular.copy($rootScope.myMeals);
+                $rootScope.clientData.meals = $rootScope.clientData.myMeals.data.meals;
             }
             $rootScope.isMyMeals = true;
+            $rootScope.mealsAreChanged = true;
         },
         function (response) {
             alert(response.data.d)
@@ -2741,7 +2747,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         .then(function (response) {
             $rootScope.myMeals = response;
             $rootScope.clientData.myMeals = angular.copy($rootScope.myMeals);
+            debugger;
+            $rootScope.clientData.meals = $rootScope.clientData.myMeals.data.meals;
             $rootScope.isMyMeals = true;
+            $rootScope.mealsAreChanged = true;
         }, function () {
         });
     };
@@ -2835,7 +2844,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         //if (clientData.myMeals || $rootScope.isMyMeals == false) {
         //    energyPerc = null;
         //} else {
-        if (clientData.myMeals !== undefined) {
+        if (clientData.myMeals !== undefined && clientData.myMeals != null) {
             if (clientData.myMeals.data != null) {
                 if (clientData.myMeals.data.meals.length >= 2 && $rootScope.isMyMeals == true) {
                     clientData.meals = clientData.myMeals.data.meals;
@@ -2881,7 +2890,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
            }
        });
     };
-    getRecommendations(angular.copy($rootScope.clientData));
+  //  getRecommendations(angular.copy($rootScope.clientData));
 
     var init = function () {
         $http({
@@ -2900,7 +2909,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     //if ($rootScope.currentMenu === undefined) { init(); }
 
     // new
-    if ($rootScope.currentMenu === undefined) {
+  /*  if ($rootScope.currentMenu === undefined) {
         init();
     } else {
         var oldMeals = $rootScope.currentMenu.data.meals;
@@ -2911,10 +2920,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 value.description = oldMeals[key].description;
             }
         })
-
         $rootScope.currentMenu.client = $rootScope.client;
         $rootScope.currentMenu.client.clientData = $rootScope.clientData;  //TODO sredit
-    }
+    } */
 
     var initMenuDetails = function () {
         $http({
@@ -2923,6 +2931,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: {}
         })
         .then(function (response) {
+            debugger;
             $rootScope.currentMenu = JSON.parse(response.data.d);
             $rootScope.currentMenu.client = $rootScope.client;
             $rootScope.currentMenu.client.clientData = $rootScope.clientData;  //TODO sredit
@@ -2931,8 +2940,22 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             angular.forEach($rootScope.currentMenu.data.meals, function (value, key) {
                 $rootScope.currentMenu.data.meals[key].description = '';
             })
-           // $rootScope.currentMeal = 'B';  //TODO my Meals
-            $rootScope.currentMeal = $rootScope.currentMenu.data.meals[0].code
+            // $rootScope.currentMeal = 'B';  //TODO my Meals
+
+
+            //$rootScope.currentMeal = $rootScope.currentMenu.data.meals[0].code
+
+            $rootScope.currentMeal = 'B';
+            if ($rootScope.currentMenu !== undefined) {
+                if ($rootScope.currentMenu.data !== null) {
+                    if ($rootScope.currentMenu.data.meals.length > 0) {
+                        $rootScope.currentMeal = $rootScope.currentMenu.data.meals[0].code;
+                    }
+                }
+            }
+
+
+
             getTotals($rootScope.currentMenu);
             getRecommendations($rootScope.currentMenu.client.clientData);
         },
@@ -2945,11 +2968,32 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $rootScope.currentMeal = x;
     };
 
+
+    debugger;
     if ($rootScope.mealsAreChanged) {
         $rootScope.mealsAreChanged = false;
         init();
+    } else {
+        // new
+        if ($rootScope.currentMenu === undefined) {
+            init();
+        } else {
+            var oldMeals = $rootScope.currentMenu.data.meals;
+            $rootScope.currentMenu.data.meals = angular.copy($rootScope.clientData.meals);
+            angular.forEach($rootScope.currentMenu.data.meals, function (value, key) {
+                if (key >= $rootScope.currentMenu.data.meals.length || key >= oldMeals.length) { return false; }
+                if (oldMeals[key].code == value.code && $rootScope.currentMenu.data.selectedFoods.length > 0) {
+                    value.description = oldMeals[key].description;
+                }
+            })
+            $rootScope.currentMenu.client = $rootScope.client;
+            $rootScope.currentMenu.client.clientData = $rootScope.clientData;  //TODO sredit
+        }
     }
 
+    
+
+    /*
     $rootScope.currentMeal = 'B';
     if ($rootScope.currentMenu !== undefined) {
         if ($rootScope.currentMenu.data !== null) {
@@ -2958,6 +3002,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             }
         }
     }
+    */
     
     //if (angular.isDefined($rootScope.isMyMeals)) {
     //    if ($rootScope.isMyMeals) {
@@ -3283,7 +3328,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.new = function () {
         init();
-
     }
 
     $scope.delete = function () {
@@ -3425,6 +3469,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     }
 
+    /*
     var getMyMealsForOpenMenu = function (id) {
         $http({
             url: $sessionStorage.config.backend + 'Menues.asmx/GetMyMeals',
@@ -3439,6 +3484,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
            alert(response.data.d)
        });
     }
+    */
 
     var getMenuPopup = function () {
         $mdDialog.show({
@@ -3457,9 +3503,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $rootScope.currentMenu.client.clientData.myMeals = x.client.clientData.myMeals;
             debugger;
             $rootScope.isMyMeals = false;
-            if ($rootScope.currentMenu.client.clientData.myMeals.data != null) {
-                if ($rootScope.currentMenu.client.clientData.myMeals.data.meals.length >= 2) {
-                    $rootScope.isMyMeals = true;
+            if ($rootScope.currentMenu.client.clientData.myMeals != null) {
+                if ($rootScope.currentMenu.client.clientData.myMeals.data != null) {
+                    if ($rootScope.currentMenu.client.clientData.myMeals.data.meals.length >= 2) {
+                        $rootScope.isMyMeals = true;
+                    }
                 }
             }
             //$rootScope.clientData.meals = x.data.meals;
@@ -3473,9 +3521,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
             getTotals($rootScope.currentMenu);
             $rootScope.currentMeal = x.data.meals[0].code; // 'B';  // TODO myMeals get first from list
-            if ($rootScope.currentMeal != 'B') {
-                getMyMealsForOpenMenu($rootScope.currentMenu.id);
-            }
+            //if ($rootScope.currentMeal != 'B') {
+            //    getMyMealsForOpenMenu($rootScope.currentMenu.id);
+            //}
         }, function () {
         });
     };
@@ -3814,7 +3862,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var displayCharts = function () {
-        if (!angular.isDefined($rootScope.totals)) { return false; }
+        if ($rootScope.recommendations === undefined || $rootScope.totals === undefined) { return false; }
         $scope.mealsTotals = [];
         $scope.mealsMin = [];
         $scope.mealsMax = [];
@@ -3822,14 +3870,16 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         angular.forEach($rootScope.currentMenu.data.meals, function (value, key) {
             if (value.isSelected == true && angular.isDefined($rootScope.totals)) {
                 if (angular.isDefined($rootScope.totals.mealsTotalEnergy)) {
-                    $scope.mealsTotals.push($rootScope.totals.mealsTotalEnergy.length > 0 ? $rootScope.totals.mealsTotalEnergy[key].meal.energy : 0);
-                    if (angular.isDefined($rootScope.recommendations.mealsRecommendationEnergy)) {
-                        if (key < $rootScope.recommendations.mealsRecommendationEnergy.length) {
-                            $scope.mealsMin.push($rootScope.recommendations.mealsRecommendationEnergy[key].meal.energyMin);
-                            $scope.mealsMax.push($rootScope.recommendations.mealsRecommendationEnergy[key].meal.energyMax);
+                    if (key < $rootScope.recommendations.mealsRecommendationEnergy.length) {
+                        $scope.mealsTotals.push($rootScope.totals.mealsTotalEnergy.length > 0 ? $rootScope.totals.mealsTotalEnergy[key].meal.energy : 0);
+                        if ($rootScope.recommendations !== undefined) {
+                            if (angular.isDefined($rootScope.recommendations.mealsRecommendationEnergy)) {
+                                $scope.mealsMin.push($rootScope.recommendations.mealsRecommendationEnergy[key].meal.energyMin);
+                                $scope.mealsMax.push($rootScope.recommendations.mealsRecommendationEnergy[key].meal.energyMax);
+                            }
                         }
+                        $scope.mealsTitles.push($translate.instant($rootScope.getMealTitle(value)));
                     }
-                    $scope.mealsTitles.push($translate.instant($rootScope.getMealTitle(value)));
                 }
             }
         })
