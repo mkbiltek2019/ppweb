@@ -2835,12 +2835,15 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         //if (clientData.myMeals || $rootScope.isMyMeals == false) {
         //    energyPerc = null;
         //} else {
+        if (clientData.myMeals !== undefined) {
             if (clientData.myMeals.data != null) {
-                if (clientData.myMeals.data.meals.length >= 2) {
+                if (clientData.myMeals.data.meals.length >= 2 && $rootScope.isMyMeals == true) {
                     clientData.meals = clientData.myMeals.data.meals;
                     energyPerc = clientData.myMeals.data.energyPerc; // $rootScope.myMeals.data.energyPerc;
                 }
             }
+        }
+            
        // }
        
 
@@ -3437,7 +3440,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
        });
     }
 
-    var getMenuPopup = function (x) {
+    var getMenuPopup = function () {
         $mdDialog.show({
             controller: getMenuPopupCtrl,
             templateUrl: 'assets/partials/popup/getmenu.html',
@@ -3446,13 +3449,19 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { config: $rootScope.config, clientData: $rootScope.clientData }
         })
         .then(function (x) {
-            debugger;
-           $rootScope.currentMenu.data = angular.copy(x.data);
+           $rootScope.currentMenu.data = x.data;
           //  $rootScope.currentMenu.client = angular.copy($rootScope.client);
             //  $rootScope.currentMenu.client.clientData = $rootScope.clientData;  //TODO sredit
-            $rootScope.currentMenu.client.clientData = angular.copy($rootScope.clientData);
-            $rootScope.currentMenu.client.clientData.meals = angular.copy(x.data.meals);
-            $rootScope.currentMenu.client.clientData.myMeals = angular.copy(x.client.clientData.myMeals);
+            $rootScope.currentMenu.client.clientData = $rootScope.clientData;
+            $rootScope.currentMenu.client.clientData.meals = x.data.meals;
+            $rootScope.currentMenu.client.clientData.myMeals = x.client.clientData.myMeals;
+            debugger;
+            $rootScope.isMyMeals = false;
+            if ($rootScope.currentMenu.client.clientData.myMeals.data != null) {
+                if ($rootScope.currentMenu.client.clientData.myMeals.data.meals.length >= 2) {
+                    $rootScope.isMyMeals = true;
+                }
+            }
             //$rootScope.clientData.meals = x.data.meals;
             //$rootScope.clientData.myMeals = x.client.clientData.myMeals;
 
