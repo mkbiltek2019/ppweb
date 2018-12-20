@@ -163,6 +163,8 @@ public class Menues : System.Web.Services.WebService {
                 x.userGroupId = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
                 x.energy = reader.GetValue(8) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(8));
                 x.data = JsonConvert.DeserializeObject<Data>(GetJsonFile(userId, x.id));
+                x.client.clientData = new ClientsData.NewClientData();
+                x.client.clientData.myMeals = JsonConvert.DeserializeObject<MyMeals.NewMyMeals>(GetMyMeals(userId, x.id));
             }
             connection.Close();
             string json = JsonConvert.SerializeObject(x, Formatting.Indented);

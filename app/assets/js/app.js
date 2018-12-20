@@ -2826,33 +2826,26 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         functions.alert($translate.instant('choose at least 3 meals'), '');
     }
 
-    var getRecommendations = function (x) {
-
-        /****** my recommendations *****/
-        //var isMyrecommendations = false;
-
-        //if (angular.isDefined($rootScope.myCalculation)) {
-            //$rootScope.calculation.recommendedEnergyIntake = functions.isNullOrEmpty($rootScope.myCalculation.recommendedEnergyIntake) == true
-           // isMyrecommendations = !functions.isNullOrEmpty($rootScope.myCalculation.recommendedEnergyIntake)
-
-            //? $rootScope.appCalculation.recommendedEnergyIntake
-            //: $rootScope.myCalculation.recommendedEnergyIntake;
-            //$rootScope.recommendations.energy = $rootScope.calculation.recommendedEnergyIntake;
-
-        //    $rootScope.calculation.recommendedEnergyExpenditure = functions.isNullOrEmpty($rootScope.myCalculation.recommendedEnergyExpenditure) == true
-        //    ? $rootScope.appCalculation.recommendedEnergyExpenditure
-        //    : $rootScope.myCalculation.recommendedEnergyExpenditure;
-        //}
-        /******************************/
+    var getRecommendations = function (clientData) {
+        debugger;
 
 
-        //var detailTee = 0;
-        //if (angular.isDefined($rootScope.totalDailyEnergyExpenditure)) {
-        //    if ($rootScope.totalDailyEnergyExpenditure.duration == 1440) {
-        //        detailTee = $rootScope.totalDailyEnergyExpenditure.value;
-        //    }
-        //}
+        var energyPerc = null;
+       // if ($rootScope.isMyMeals == undefined) { $rootScope.isMyMeals = false;}
+        //if (clientData.myMeals || $rootScope.isMyMeals == false) {
+        //    energyPerc = null;
+        //} else {
+            if (clientData.myMeals.data != null) {
+                if (clientData.myMeals.data.meals.length >= 2) {
+                    clientData.meals = clientData.myMeals.data.meals;
+                    energyPerc = clientData.myMeals.data.energyPerc; // $rootScope.myMeals.data.energyPerc;
+                }
+            }
+       // }
+       
 
+
+        /*
         var energyPerc = null;
         if (!$rootScope.clientData.myMeals || $rootScope.isMyMeals == false) {
             energyPerc = null;
@@ -2864,10 +2857,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 }
             }
         }
+        */
+
+
         $http({
             url: $sessionStorage.config.backend + webService + '/GetRecommendations',
             method: "POST",
-            data: { client: x, myRecommendedEnergyIntake: $rootScope.myCalculation.recommendedEnergyIntake, myMealsEnergyPerc: energyPerc }
+            data: { client: clientData, myRecommendedEnergyIntake: $rootScope.myCalculation.recommendedEnergyIntake, myMealsEnergyPerc: energyPerc }
+            //data: { client: x, myRecommendedEnergyIntake: $rootScope.myCalculation.recommendedEnergyIntake, myMealsEnergyPerc: energyPerc }
         })
        .then(function (response) {
            $rootScope.recommendations = JSON.parse(response.data.d);
@@ -2934,6 +2931,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
            // $rootScope.currentMeal = 'B';  //TODO my Meals
             $rootScope.currentMeal = $rootScope.currentMenu.data.meals[0].code
             getTotals($rootScope.currentMenu);
+            getRecommendations($rootScope.currentMenu.client.clientData);
         },
         function (response) {
             alert(response.data.d)
@@ -3282,6 +3280,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.new = function () {
         init();
+
     }
 
     $scope.delete = function () {
@@ -3447,12 +3446,21 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { config: $rootScope.config, clientData: $rootScope.clientData }
         })
         .then(function (x) {
-            $rootScope.currentMenu = x;
-            $rootScope.clientData.meals = x.data.meals;
-            $rootScope.currentMenu.client = $rootScope.client;
-            $rootScope.currentMenu.client.clientData = $rootScope.clientData;  //TODO sredit
+            debugger;
+           $rootScope.currentMenu.data = angular.copy(x.data);
+          //  $rootScope.currentMenu.client = angular.copy($rootScope.client);
+            //  $rootScope.currentMenu.client.clientData = $rootScope.clientData;  //TODO sredit
+            $rootScope.currentMenu.client.clientData = angular.copy($rootScope.clientData);
+            $rootScope.currentMenu.client.clientData.meals = angular.copy(x.data.meals);
+            $rootScope.currentMenu.client.clientData.myMeals = angular.copy(x.client.clientData.myMeals);
+            //$rootScope.clientData.meals = x.data.meals;
+            //$rootScope.clientData.myMeals = x.client.clientData.myMeals;
+
+           
+            
 
             //TODO BUG, kad se otvore jelovnici onda ne uzme u obzir preporuke za obroke
+            getRecommendations(angular.copy($rootScope.currentMenu.client.clientData));
 
             getTotals($rootScope.currentMenu);
             $rootScope.currentMeal = x.data.meals[0].code; // 'B';  // TODO myMeals get first from list
