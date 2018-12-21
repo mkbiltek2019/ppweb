@@ -4270,6 +4270,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var openRecipePopup = function () {
+        if ($rootScope.user.licenceStatus == 'demo') {
+            functions.demoAlert('this function is not available in demo version');
+            return false;
+        }
         $mdDialog.show({
             controller: getRecipePopupCtrl,
             templateUrl: 'assets/partials/popup/getrecipe.html',

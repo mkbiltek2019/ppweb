@@ -76,8 +76,8 @@
                                                     <span class="input-group-addon pointer" ng-click="change(1, 'mass', currentMenu.data.selectedFoods.indexOf(x))">+</span>
                                                 </div>
                                             </td>
-                                            <td class="borderNone" style="width:10px">g</td>
-                                            <td class="borderNone text-right nowrap" style="width:150px">{{x.energy}} kcal</td>
+                                            <td class="borderNone" style="width:10px">{{'g' | translate}}</td>
+                                            <td class="borderNone text-right nowrap" style="width:150px">{{x.energy}} {{'kcal' | translate}}</td>
                                         </tr>
                                         <tr>
                                             <td colspan="5" class="text-capitalize">
@@ -88,7 +88,7 @@
                                                 {{'meal' | translate}} {{'total' | translate}}:
                                                 <span ng-repeat="x in currentMenu.data.meals">
                                                     <span ng-if="x.code==currentMeal">
-                                                        <b>{{totals.mealsTotalEnergy[$index].meal.energy | number:1}} kcal</b>
+                                                        <b>{{totals.mealsTotalEnergy[$index].meal.energy | number:1}} {{'kcal' | translate}}</b>
                                                         <br />
                                                         <span class="badge">{{totals.mealsTotalEnergy[$index].meal.energyPercentage| number:1}} %</span>
                                                     </span>
@@ -180,7 +180,7 @@
                             <label>{{getDay($index) | translate}}</label>
                             <md-select ng-model="weeklyMenu.menuList[$index]">
                                 <md-option ng-repeat="y in menus" ng-value="y.id">
-                                    {{y.title}}, {{y.energy}} kcal - {{y.diet | translate}} ({{y.client.firstName}} {{y.client.lastName}})
+                                    {{y.title}}, {{y.energy}} {{'kcal' | translate}} - {{y.diet | translate}} ({{y.client.firstName}} {{y.client.lastName}})
                                 </md-option>
                             </md-select>
                         </md-input-container>
