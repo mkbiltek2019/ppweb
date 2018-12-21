@@ -164,7 +164,7 @@ public class Menues : System.Web.Services.WebService {
                 x.energy = reader.GetValue(8) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(8));
                 x.data = JsonConvert.DeserializeObject<Data>(GetJsonFile(userId, x.id));
                 x.client.clientData = new ClientsData.NewClientData();
-                x.client.clientData.myMeals = JsonConvert.DeserializeObject<MyMeals.NewMyMeals>(GetMyMeals(userId, x.id));
+                x.client.clientData.myMeals = JsonConvert.DeserializeObject<MyMeals.NewMyMeals>(GetMyMealsJsonFile(userId, x.id));
             }
             connection.Close();
             string json = JsonConvert.SerializeObject(x, Formatting.Indented);
@@ -235,13 +235,6 @@ public class Menues : System.Web.Services.WebService {
             DeleteJson(userId, id);
         } catch (Exception e) { return (e.Message); }
         return "OK";
-    }
-
-    [WebMethod]
-    public string GetMyMeals(string userId, string id) {
-        try {
-            return GetMyMealsJsonFile(userId, id);
-        } catch (Exception e) { return (e.Message); }
     }
     #endregion ClientMenues
 

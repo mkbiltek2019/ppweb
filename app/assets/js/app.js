@@ -559,7 +559,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 $window.location.href = lang == 'hr' ? '../app/' : '../app/?lang=' + lang;
                 ***************/
 
-             //   $rootScope.loading = false;
             } else {
                 $rootScope.loading = false;
                 $scope.errorLogin = true;
@@ -820,7 +819,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         eventObj_old.clientId = angular.isDefined($rootScope.client) && $rootScope.client != null ? $rootScope.client.clientId : null;
         eventObj_old.content = angular.isUndefined(event.details[0].newSchedulerEvent.lastChange.content) ? x.content : event.details[0].newSchedulerEvent.lastChange.content.prevVal;
         eventObj_old.endDate = angular.isUndefined(event.details[0].newSchedulerEvent.lastChange.endDate) ? x.endDate : Date.parse(event.details[0].newSchedulerEvent.lastChange.endDate.prevVal);
-       // eventObj_old.startDate = startDatePrev == null ? x.startDate : Date.parse(startDatePrev);
         eventObj_old.startDate = angular.isUndefined(event.details[0].newSchedulerEvent.lastChange.startDate) ? x.startDate : Date.parse(event.details[0].newSchedulerEvent.lastChange.startDate.prevVal);
         eventObj_old.userId = $rootScope.user.userId;
         remove(eventObj_old);
@@ -841,7 +839,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { userGroupId: $rootScope.user.userGroupId, userId: $rootScope.user.userId, x: x }
         })
         .then(function (response) {
-            //functions.alert($translate.instant(response.data.d));
         },
         function (response) {
             functions.alert($translate.instant(response.data.d));
@@ -857,7 +854,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         eventObj.startDate = x.startDate;
         eventObj.userId = $rootScope.user.userId;
         remove(eventObj);
-        //$scope.getSchedulerByRoom();
     }
 
     var remove = function (x) {
@@ -867,7 +863,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { userGroupId: $rootScope.user.userGroupId, userId: $rootScope.user.userId, x: x }
         })
         .then(function (response) {
-            //alert($translate.instant(response.data.d))
         },
         function (response) {
             functions.alert($translate.instant(response.data));
@@ -1258,7 +1253,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             $rootScope.client = response;
-           // $scope.get($rootScope.client);
             if ($rootScope.user.licenceStatus == 'demo') {
                 init($rootScope.client);
                 $rootScope.client.clientId = 'demo';
@@ -2088,14 +2082,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     energy = $rootScope.appCalculation.recommendedEnergyIntake + 300;
                     activity = $rootScope.appCalculation.recommendedEnergyExpenditure;
                 }
-
-                //else {
-                //    energy = -300;
-                //    activity = 0;
-                //}
-
-              //  energy = $rootScope.appCalculation.goal.code == "G1" ? 0 : -300;
-               // activity = 0;
                 break;
             case "G2":  // zadrzavanje postojece tjelesne mase
                 if ($rootScope.appCalculation.goal.code == "G1") {
@@ -2110,14 +2096,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     energy = $rootScope.appCalculation.recommendedEnergyIntake - 300;
                     activity = $rootScope.appCalculation.recommendedEnergyExpenditure;
                 }
-
-
-                //else {
-                //    energy = 0;
-                //    activity = 0;
-                //}
-
-               
                 break;
             case "G3":  // povecanje tjelesne mase
                 if ($rootScope.appCalculation.goal.code == "G2") {
@@ -2150,18 +2128,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     energy = $rootScope.appCalculation.recommendedEnergyIntake + 400;
                     activity = $rootScope.appCalculation.recommendedEnergyExpenditure + 100;
                 }
-
-                //else
-
-
-                //{
-                //    energy = 0;
-                //    activity = $rootScope.calculation.recommendedEnergyExpenditure + 0;
-                //}
-
-                //energy = 500;
-                //activity = 200;
-
                 break;
             default:
                 energy = 0;
@@ -2267,11 +2233,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 energy = energy + value.energy;
             })
         }
-       // return energy > 0 ? $rootScope.calculation.recommendedEnergyExpenditure - energy : $rootScope.calculation.recommendedEnergyExpenditure;
         return $rootScope.calculation.recommendedEnergyExpenditure - energy;
     }
-
-  //  var energyLeft = getEnergyLeft() > 0 ? getEnergyLeft() : $rootScope.calculation.recommendedEnergyExpenditure;
 
     $scope.openPopup = function (x) {
         energyLeft = getEnergyLeft();
@@ -2556,27 +2519,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
     initMyMeals();
 
-    /*
-    $scope.get = function (id) {
-        if ($rootScope.user.userType < 2) { return false; }
-        $http({
-            url: $sessionStorage.config.backend + webService + '/Get',
-            method: "POST",
-            data: { userId: $sessionStorage.usergroupid, id: id }
-        })
-        .then(function (response) {
-            $rootScope.myMeals = JSON.parse(response.data.d);
-            $rootScope.clientData.myMeals = angular.copy($rootScope.myMeals);
-            $rootScope.isMyMeals = true;
-            $rootScope.mealsAreChanged = true;
-        },
-        function (response) {
-            functions.alert($translate.instant(response.data.d), '');
-        });
-    }
-    */
-
-
     $scope.new = function () {
         if ($rootScope.user.userType < 2) { return false; }
         init();
@@ -2840,10 +2782,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 
         var energyPerc = null;
-       // if ($rootScope.isMyMeals == undefined) { $rootScope.isMyMeals = false;}
-        //if (clientData.myMeals || $rootScope.isMyMeals == false) {
-        //    energyPerc = null;
-        //} else {
         if (clientData.myMeals !== undefined && clientData.myMeals != null) {
             if (clientData.myMeals.data != null) {
                 if (clientData.myMeals.data.meals.length >= 2 && $rootScope.isMyMeals == true) {
@@ -2852,31 +2790,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 }
             }
         }
-            
-       // }
-       
-
-
-        /*
-        var energyPerc = null;
-        if (!$rootScope.clientData.myMeals || $rootScope.isMyMeals == false) {
-            energyPerc = null;
-        } else {
-            if ($rootScope.clientData.myMeals.data != null) {
-                if ($rootScope.clientData.myMeals.data.meals.length >= 2) {
-                    $rootScope.clientData.meals = $rootScope.clientData.myMeals.data.meals;
-                    energyPerc = $rootScope.clientData.myMeals.data.energyPerc; // $rootScope.myMeals.data.energyPerc;
-                }
-            }
-        }
-        */
-
-
         $http({
             url: $sessionStorage.config.backend + webService + '/GetRecommendations',
             method: "POST",
             data: { client: clientData, myRecommendedEnergyIntake: $rootScope.myCalculation.recommendedEnergyIntake, myMealsEnergyPerc: energyPerc }
-            //data: { client: x, myRecommendedEnergyIntake: $rootScope.myCalculation.recommendedEnergyIntake, myMealsEnergyPerc: energyPerc }
         })
        .then(function (response) {
            $rootScope.recommendations = JSON.parse(response.data.d);
@@ -2890,7 +2807,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
            }
        });
     };
-  //  getRecommendations(angular.copy($rootScope.clientData));
 
     var init = function () {
         $http({
@@ -2906,24 +2822,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             alert(response.data.d)
         });
     };
-    //if ($rootScope.currentMenu === undefined) { init(); }
-
-    // new
-  /*  if ($rootScope.currentMenu === undefined) {
-        init();
-    } else {
-        var oldMeals = $rootScope.currentMenu.data.meals;
-        $rootScope.currentMenu.data.meals = angular.copy($rootScope.clientData.meals);
-        angular.forEach($rootScope.currentMenu.data.meals, function (value, key) {
-            if (key >= $rootScope.currentMenu.data.meals.length || key >= oldMeals.length) { return false; }
-            if (oldMeals[key].code == value.code && $rootScope.currentMenu.data.selectedFoods.length > 0) {
-                value.description = oldMeals[key].description;
-            }
-        })
-        $rootScope.currentMenu.client = $rootScope.client;
-        $rootScope.currentMenu.client.clientData = $rootScope.clientData;  //TODO sredit
-    } */
-
+    
     var initMenuDetails = function () {
         $http({
             url: $sessionStorage.config.backend + 'Menues.asmx/Init',
@@ -2940,10 +2839,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             angular.forEach($rootScope.currentMenu.data.meals, function (value, key) {
                 $rootScope.currentMenu.data.meals[key].description = '';
             })
-            // $rootScope.currentMeal = 'B';  //TODO my Meals
-
-
-            //$rootScope.currentMeal = $rootScope.currentMenu.data.meals[0].code
 
             $rootScope.currentMeal = 'B';
             if ($rootScope.currentMenu !== undefined) {
@@ -2953,8 +2848,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     }
                 }
             }
-
-
 
             getTotals($rootScope.currentMenu);
             getRecommendations($rootScope.currentMenu.client.clientData);
@@ -2991,29 +2884,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     }
 
-    
-
-    /*
-    $rootScope.currentMeal = 'B';
-    if ($rootScope.currentMenu !== undefined) {
-        if ($rootScope.currentMenu.data !== null) {
-            if ($rootScope.currentMenu.data.meals.length > 0) {
-                $rootScope.currentMeal = $rootScope.currentMenu.data.meals[0].code;
-            }
-        }
-    }
-    */
-    
-    //if (angular.isDefined($rootScope.isMyMeals)) {
-    //    if ($rootScope.isMyMeals) {
-    //        $rootScope.currentMeal = 'MM0';
-    //    } else {
-    //        $rootScope.currentMeal = 'B'
-    //    }
-    //} else {
-    //    $rootScope.currentMeal = 'B'
-    //}
-    
     $scope.toggleAnalytics = function (x) {
         $scope.loading = true;
         $timeout(function () {
@@ -3109,7 +2979,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         var isEditMode = false;
-        //if (d.food === undefined || d.food.length == 0) {
         if (d.food == null) {
             $scope.food = null;
             initFood = null;
@@ -3144,7 +3013,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         $scope.showMyFoods = function (x) {
             $scope.isShowMyFood = x;
-           // $scope.limit = 100;
         }
 
         $scope.getFoodDetails = function (x) {
@@ -3470,23 +3338,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     }
 
-    /*
-    var getMyMealsForOpenMenu = function (id) {
-        $http({
-            url: $sessionStorage.config.backend + 'Menues.asmx/GetMyMeals',
-            method: "POST",
-            data: { userId: $rootScope.user.userGroupId, id: id }
-        })
-       .then(function (response) {
-           $rootScope.clientData.myMeals = JSON.parse(response.data.d);
-           $rootScope.myMeals = angular.copy($rootScope.clientData.myMeals);
-       },
-       function (response) {
-           alert(response.data.d)
-       });
-    }
-    */
-
     var getMenuPopup = function () {
         $mdDialog.show({
             controller: getMenuPopupCtrl,
@@ -3496,9 +3347,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { config: $rootScope.config, clientData: $rootScope.clientData }
         })
         .then(function (x) {
-           $rootScope.currentMenu.data = x.data;
-          //  $rootScope.currentMenu.client = angular.copy($rootScope.client);
-            //  $rootScope.currentMenu.client.clientData = $rootScope.clientData;  //TODO sredit
+            $rootScope.currentMenu.data = x.data;
             $rootScope.currentMenu.client.clientData = $rootScope.clientData;
             $rootScope.currentMenu.client.clientData.meals = x.data.meals;
             $rootScope.currentMenu.client.clientData.myMeals = x.client.clientData.myMeals;
@@ -3511,20 +3360,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     }
                 }
             }
-            //$rootScope.clientData.meals = x.data.meals;
-            //$rootScope.clientData.myMeals = x.client.clientData.myMeals;
-
-           
             
-
-            //TODO BUG, kad se otvore jelovnici onda ne uzme u obzir preporuke za obroke
             getRecommendations(angular.copy($rootScope.currentMenu.client.clientData));
-
             getTotals($rootScope.currentMenu);
-            $rootScope.currentMeal = x.data.meals[0].code; // 'B';  // TODO myMeals get first from list
-            //if ($rootScope.currentMeal != 'B') {
-            //    getMyMealsForOpenMenu($rootScope.currentMenu.id);
-            //}
+            $rootScope.currentMeal = x.data.meals[0].code; 
         }, function () {
         });
     };
@@ -3598,7 +3437,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         };
 
         var get = function (x) {
-           // $rootScope.isMyMeals = false;
             $http({
                 url: $sessionStorage.config.backend + 'Menues.asmx/Get',
                 method: "POST",
@@ -3753,7 +3591,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         var saveAppMenu = function (currentMenu) {
             if (functions.isNullOrEmpty(currentMenu.title)) {
-            //if (currentMenu.title == '' || currentMenu.title == undefined) {
                 document.getElementById("txtMenuTitle").focus();
                 functions.alert($translate.instant('enter menu title'), '');
                 openSaveMenuPopup();
@@ -3920,29 +3757,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 ],
                 false
         );
-        //$rootScope.energyGraphData = charts.createGraph(
-        //        ['energetska vrijednost'],
-        //        [
-        //            [t.energy],
-        //            [r.energy]
-        //        ],
-        //        ['energija'],
-        //        ['#45b7cd', '#ff6384', '#ff8e72']
-        //);
         $rootScope.pieGraphData = charts.createGraph(
-                [$translate.instant('nutrients')], //['nutrijenti'],
+                [$translate.instant('nutrients')],
                 [t.carbohydratesPercentage, t.proteinsPercentage, t.fatsPercentage],
                 [$translate.instant('carbohydrates'), $translate.instant('proteins'), $translate.instant('fats')],
-               // ['ugljikohidrati', 'bjelančevine', 'masti'],
                 true
         );
-        //$rootScope.otherFoodsGraphData = charts.createGraph(
-        //        ['energetska vrijednost'],
-        //        [t.otherFoodsEnergy],
-        //        ['energija']
-        //);
-
-
         $rootScope.mealsGraphData = charts.createGraph(
                [$translate.instant('meals')], //['obroci'],
                [ $scope.mealsTotals, $scope.mealsMin, $scope.mealsMax ],
@@ -4078,9 +3898,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                [
                    [
                        t.saturatedFats, t.trifluoroaceticAcid, t.cholesterol
-                       //t.saturatedFats / r.saturatedFats.ui * 100,
-                       //t.trifluoroaceticAcid / r.trifluoroaceticAcid.ui * 100,
-                       //t.cholesterol / r.cholesterol.ui * 100
                    ],
                    [r.saturatedFats.ui, r.trifluoroaceticAcid.ui, r.cholesterol.ui]
                ],
@@ -4106,11 +3923,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $rootScope.parametersGraphDataMDA = charts.createGraph(
                ['parametri'],
                [
-                   [t.sodium, t.potassium, t.chlorine
-                       //t.sodium / r.sodium.mda * 100,
-                       //t.potassium / r.potassium.mda * 100,
-                       //t.chlorine / r.chlorine.mda * 100
-                   ],
+                   [t.sodium, t.potassium, t.chlorine],
                    [r.sodium.ui],
                    [r.sodium.mda, r.potassium.mda, r.chlorine.mda]
                ],
@@ -4148,8 +3961,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         var options = {
             title: 'energy',
-            //width: 220,
-            //height: 150,
             min: 0,
             max: recommended + (recommended * 0.06),
             greenFrom: recommended - (recommended * 0.02),
@@ -4185,8 +3996,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         var options = {
             title: 'energy',
-            //width: 220,
-            //height: 150,
             min: 0,
             max: suggested + (suggested * 0.5),
             greenFrom: 0,
@@ -4197,18 +4006,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             redTo: suggested + (suggested * 0.5),
             minorTicks: 5
         };
-
-        //var title = 'Energija';
-        //var min = 0;
-        //var max = suggested + (suggested * 0.5);
-        //var greenFrom = 0;
-        //var greenTo = suggested - (suggested * 0.02);
-        //var yellowFrom = suggested - (suggested * 0.02);
-        //var yellowTo = suggested;
-        //var redFrom = suggested;
-        //var redTo = max;
-        //var minorTicks = 5;
-
         google.charts.load('current', { 'packages': ['gauge'] });
         google.charts.setOnLoadCallback(charts.guageChart(id, value, unit, options));
 
@@ -4228,8 +4025,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         var options = {
             title: 'carbohidrates',
-            //width: 220,
-            //height: 150,
             min: 0,
             max: 100,
             greenFrom: recommended.from,
@@ -4268,8 +4063,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         var options = {
             title: 'proteins',
-            //width: 220,
-            //height: 150,
             min: 0,
             max: 100,
             greenFrom: recommended.from,
@@ -4308,8 +4101,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         var options = {
             title: 'fats',
-            //width: 220,
-            //height: 150,
             min: 0,
             max: 100,
             greenFrom: recommended.from,
@@ -4343,8 +4134,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         unit = 'mg';
         var options = {
             title: 'saturated fats',
-            //width: 220,
-            //height: 150,
             min: 0,
             max: Math.round($rootScope.recommendations.saturatedFats.ui + $rootScope.recommendations.saturatedFats.ui * 0.4),
             greenFrom: 0,
@@ -4364,8 +4153,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         unit = 'mg';
         var options = {
             title: 'trifluoroacetic acid',
-            //width: 220,
-            //height: 150,
             min: 0,
             max: Math.round($rootScope.recommendations.trifluoroaceticAcid.ui + $rootScope.recommendations.trifluoroaceticAcid.ui * 0.4),
             greenFrom: 0,
@@ -4385,8 +4172,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         unit = 'mg';
         var options = {
             title: 'cholesterol',
-            //width: 220,
-            //height: 150,
             min: 0,
             max: Math.round($rootScope.recommendations.cholesterol.ui + $rootScope.recommendations.cholesterol.ui * 0.4),
             greenFrom: 0,
@@ -4800,259 +4585,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 }])
 
-    /*
-.controller('analyticsCtrl', ['$scope', '$http', '$window', '$rootScope', '$mdDialog', 'charts', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, charts, functions, $translate) {
-
-    $scope.toggleTpl = function (x) {
-        $scope.analyticsTpl = x;
-    };
-    $scope.toggleTpl('tablesTpl');
-
-    $scope.printPreview = function () {
-        $mdDialog.show({
-            controller: $scope.printPreviewCtrl,
-            templateUrl: 'assets/partials/popup/printmenu.html',
-            parent: angular.element(document.body),
-            clickOutsideToClose: true,
-            d: { currentMenu: $rootScope.currentMenu }
-        })
-        .then(function () {
-        }, function () {
-        });
-    };
-
-    $scope.printPreviewCtrl = function ($scope, $mdDialog, d, $http) {
-        $scope.d = d.currentMenu.data.selectedFoods;
-        $scope.meals = d.currentMenu.data.meals;
-        $scope.cancel = function () {
-            $mdDialog.cancel();
-        };
-    };
-
-    var displayCharts = function () {
-        var t = $rootScope.totals;
-        var r = $rootScope.recommendations;
-        $rootScope.servGraphData = charts.createGraph(
-                $translate.instant('unit servings'), //['jedinična serviranja'],
-                [
-                    [t.servings.cerealsServ, t.servings.vegetablesServ, t.servings.fruitServ, t.servings.meatServ, t.servings.milkServ, t.servings.fatsServ],
-                    [r.servings.cerealsServ, r.servings.vegetablesServ, r.servings.fruitServ, r.servings.meatServ, r.servings.milkServ, r.servings.fatsServ]
-                ],
-                [$translate.instant('carbohytrates'), $translate.instant('fruit'), $translate.instant('vegetables'), $translate.instant('meat'), $translate.instant('milk'), $translate.instant('fat')],
-               // ['ugljikohidrati', 'povrće', 'voće', 'meso', 'mlijeko', 'masti'],
-                ['#45b7cd', '#ff6384', '#ff8e72'],
-                [
-                     {
-                         label: $translate.instant('choosen'), //"Odabrano",
-                         borderWidth: 1,
-                         type: 'bar'
-                     },
-                     {
-                         label: $translate.instant('recommended'), // "Preporučeno",
-                         borderWidth: 3,
-                         hoverBackgroundColor: "rgba(255,99,132,0.4)",
-                         hoverBorderColor: "rgba(255,99,132,1)",
-                         type: 'line'
-                     }
-                ],
-                false
-        );
-        $rootScope.energyGraphData = charts.createGraph(
-                ['energetska vrijednost'],
-                [
-                    [t.energy],
-                    [r.energy]
-                ],
-                ['energija'],
-                ['#45b7cd', '#ff6384', '#ff8e72'],
-                false
-        );
-        $rootScope.pieGraphData = charts.createGraph(
-                ['nutrijenti'],
-                [t.carbohydratesPercentage, t.proteinsPercentage, t.fatsPercentage],
-                ['ugljikohidrati', 'bjelančevine', 'masti'],
-                false
-        );
-        $rootScope.otherFoodsGraphData = charts.createGraph(
-                ['energetska vrijednost'],
-                [t.otherFoodsEnergy],
-                ['energija'],
-                false
-        );
-        //TODO
-        $rootScope.parametersGraphData = charts.createGraph(
-               ['parametri'],
-               [
-                   [
-                    t.fibers,
-                    t.monounsaturatedFats,
-                    t.polyunsaturatedFats,
-                    t.calcium,
-                    t.magnesium,
-                    t.phosphorus,
-                    t.iron,
-                    t.copper,
-                    t.zinc,
-                    t.manganese,
-                    t.selenium,
-                    t.iodine,
-                    t.retinol,
-                    t.vitaminD,
-                    t.vitaminE,
-                    t.vitaminB1,
-                    t.vitaminB2,
-                    t.vitaminB3,
-                    t.vitaminB6,
-                    t.vitaminB12,
-                    t.folate,
-                    t.pantothenicAcid,
-                    t.biotin,
-                    t.vitaminC,
-                    t.vitaminK],
-                   [
-                    r.fibers.rda,
-                    r.monounsaturatedFats.rda,
-                    r.polyunsaturatedFats.rda,
-                    r.calcium.rda,
-                    r.magnesium.rda,
-                    r.phosphorus.rda,
-                    r.iron.rda,
-                    r.copper.rda,
-                    r.zinc.rda,
-                    r.manganese.rda,
-                    r.selenium.rda,
-                    r.iodine.rda,
-                    r.retinol.rda,
-                    r.vitaminD.rda,
-                    r.vitaminE.rda,
-                    r.vitaminB1.rda,
-                    r.vitaminB2.rda,
-                    r.vitaminB3.rda,
-                    r.vitaminB6.rda,
-                    r.vitaminB12.rda,
-                    r.folate.rda,
-                    r.pantothenicAcid.rda,
-                    r.biotin.rda,
-                    r.vitaminC.rda,
-                    r.vitaminK.rda]
-               ],
-               [
-                'fibers',
-                'monounsaturatedFats',
-                'polyunsaturatedFats',
-                'calcium',
-                'magnesium',
-                'phosphorus',
-                'iron',
-                'copper',
-                'zinc',
-                'manganese',
-                'selenium',
-                'iodine',
-                'retinol',
-                'vitaminD',
-                'vitaminE',
-                'vitaminB1',
-                'vitaminB2',
-                'vitaminB3',
-                'vitaminB6',
-                'vitaminB12',
-                'folate',
-                'pantothenicAcid',
-                'biotin',
-                'vitaminC',
-                'vitaminK'],
-               ['#45b7cd', '#2fed4f', '#ff8e72'],
-               [
-                    {
-                        label: "Odabrano",
-                        borderWidth: 1,
-                        type: 'bar'
-                    },
-                    {
-                        label: "RDA",
-                        borderWidth: 3,
-                        hoverBackgroundColor: "rgba(255,99,132,0.4)",
-                        hoverBorderColor: "rgba(255,99,132,1)",
-                        type: 'line'
-                    }
-               ],
-               false
-        );
-
-        //TODO
-        $rootScope.parametersGraphDataUI = charts.createGraph(
-               ['parametri'],
-               [
-                   [
-                       t.saturatedFats, t.trifluoroaceticAcid, t.cholesterol
-                       //t.saturatedFats / r.saturatedFats.ui * 100,
-                       //t.trifluoroaceticAcid / r.trifluoroaceticAcid.ui * 100,
-                       //t.cholesterol / r.cholesterol.ui * 100
-                   ],
-                   [r.saturatedFats.ui, r.trifluoroaceticAcid.ui, r.cholesterol.ui]
-               ],
-               ['saturatedFats', 'trifluoroaceticAcid', 'cholesterol'],
-               ['#f44242', '#ff6384'],
-               [
-                    {
-                        label: "Odabrano",
-                        borderWidth: 1,
-                        type: 'bar',
-                        backgroundColor: "rgb(244, 66, 66)",
-                        hoverBackgroundColor: "rgb(244, 66, 66)",
-                    },
-                    {
-                        label: "UI",
-                        borderWidth: 3,
-                        type: 'line'
-                    }
-               ],
-               false
-        );
-
-        //TODO
-        $rootScope.parametersGraphDataMDA = charts.createGraph(
-               ['parametri'],
-               [
-                   [t.sodium, t.potassium, t.chlorine
-                       //t.sodium / r.sodium.mda * 100,
-                       //t.potassium / r.potassium.mda * 100,
-                       //t.chlorine / r.chlorine.mda * 100
-                   ],
-                   [r.sodium.ui],
-                   [r.sodium.mda, r.potassium.mda, r.chlorine.mda]
-               ],
-               ['sodium', 'potassium', 'chlorine'],
-               ['#49a5af', '#f44242', '#2fed4f'],
-               [
-                    {
-                        label: "Odabrano",
-                        borderWidth: 1,
-                        type: 'bar',
-                        backgroundColor: "rgb(244, 66, 66)",
-                        hoverBackgroundColor: "rgb(244, 66, 66)",
-                    },
-                    {
-                        label: "UI",
-                        borderWidth: 10,
-                        type: 'line',
-                        backgroundColor: "rgb(244, 66, 66)",
-                    },
-                    {
-                        label: "MDA",
-                        borderWidth: 3,
-                        type: 'line'
-                    },
-               ],
-               false
-        );
-    }
-
-}])
-
-*/
-
 .controller('myFoodsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
     var webService = 'MyFoods.asmx';
 
@@ -5240,9 +4772,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.confirm = function (x) {
             get(x);
         }
-
     };
-
 
 }])
 
@@ -5433,7 +4963,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             init();
-            //alert(response.data.d);
         },
         function (response) {
             alert(response.data.d);
@@ -5508,7 +5037,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.confirm = function (x) {
             get(x);
         }
-
     };
 
 }])
@@ -5837,7 +5365,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
      });
     }
 
-
 }])
 
 .controller('weeklyMenuCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
@@ -5947,7 +5474,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             url: $sessionStorage.config.backend + 'PrintPdf.asmx/WeeklyMenuPdf',
             method: "POST",
             data: { userId: $sessionStorage.usergroupid, weeklyMenu: $scope.weeklyMenu, consumers: consumers, lang: $rootScope.config.language, settings: printSettings }
-            //data: { userId: $sessionStorage.usergroupid, menuList: $scope.menuList, clientData: $rootScope.clientData, consumers: consumers, lang: $rootScope.config.language, settings: printSettings }
         })
           .then(function (response) {
               var fileName = response.data.d;
@@ -6255,7 +5781,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.confirm = function () {
             send();
         }
-
     };
 
 }])
