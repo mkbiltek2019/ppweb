@@ -50,7 +50,7 @@ public class PrintPdf : System.Web.Services.WebService {
         // TODO activities, prices
     }
 
-    #region Webmethods
+    #region WebMethods
     [WebMethod]
     public string InitMenuSettings() {
         PrintMenuSettings x = new PrintMenuSettings();
@@ -288,10 +288,10 @@ public class PrintPdf : System.Web.Services.WebService {
             }
 
             tblMeals.AddCell(new PdfPCell(new Phrase(t.Tran("total", lang), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
-            tblMeals.AddCell(new PdfPCell(new Phrase(totals.energy.ToString() + " kcal", GetFont(9, Font.BOLD))) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
-            tblMeals.AddCell(new PdfPCell(new Phrase(recommendations.energy.ToString()  + " kcal", GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
-
+            tblMeals.AddCell(new PdfPCell(new Phrase(totals.energy.ToString() + " " + t.Tran("kcal", lang), GetFont(CheckEnergy(totals.energy, recommendations.energy)))) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+            tblMeals.AddCell(new PdfPCell(new Phrase(recommendations.energy.ToString() + " " + t.Tran("kcal", lang), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
             doc.Add(tblMeals);
+
             doc.Add(Chunk.NEWLINE);
 
             doc.Add(new Paragraph(t.Tran("macronutrients", lang).ToUpper(), GetFont(10)));
@@ -301,13 +301,13 @@ public class PrintPdf : System.Web.Services.WebService {
             tblTotal.AddCell(new PdfPCell(new Phrase(t.Tran("recommended", lang), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
 
             tblTotal.AddCell(new PdfPCell(new Phrase(t.Tran("carbohydrates", lang), GetFont())) { Border = 0 });
-            tblTotal.AddCell(new PdfPCell(new Phrase(totals.carbohydrates.ToString() + " g, (" + totals.carbohydratesPercentage.ToString() + " %)" , GetFont(9, Font.BOLD))) { Border = 0 });
+            tblTotal.AddCell(new PdfPCell(new Phrase(totals.carbohydrates.ToString() + " " + t.Tran("g", lang) + ", (" + totals.carbohydratesPercentage.ToString() + " %)" , GetFont(CheckTotal(totals.carbohydratesPercentage, recommendations.carbohydratesPercentageMin, recommendations.carbohydratesPercentageMax)))) { Border = 0 });
             tblTotal.AddCell(new PdfPCell(new Phrase(recommendations.carbohydratesPercentageMin.ToString() + "-" + recommendations.carbohydratesPercentageMax + " %", GetFont())) { Border = 0 });
             tblTotal.AddCell(new PdfPCell(new Phrase(t.Tran("proteins", lang), GetFont())) { Border = 0 });
-            tblTotal.AddCell(new PdfPCell(new Phrase(totals.proteins.ToString() + " g, (" + totals.proteinsPercentage.ToString() + " %)", GetFont(9, Font.BOLD))) { Border = 0 });
+            tblTotal.AddCell(new PdfPCell(new Phrase(totals.proteins.ToString() + " " + t.Tran("g", lang) + ", (" + totals.proteinsPercentage.ToString() + " %)", GetFont(CheckTotal(totals.proteinsPercentage, recommendations.proteinsPercentageMin, recommendations.proteinsPercentageMax)))) { Border = 0 });
             tblTotal.AddCell(new PdfPCell(new Phrase(recommendations.proteinsPercentageMin.ToString() + "-" + recommendations.proteinsPercentageMax + " %", GetFont())) { Border = 0 });
             tblTotal.AddCell(new PdfPCell(new Phrase(t.Tran("fats", lang), GetFont())) { Border = 0 });
-            tblTotal.AddCell(new PdfPCell(new Phrase(totals.fats.ToString() + " g, (" + totals.fatsPercentage.ToString() + " %)", GetFont(9, Font.BOLD))) { Border = 0 });
+            tblTotal.AddCell(new PdfPCell(new Phrase(totals.fats.ToString() + " " + t.Tran("g", lang) + ", (" + totals.fatsPercentage.ToString() + " %)", GetFont(CheckTotal(totals.fatsPercentage, recommendations.fatsPercentageMin, recommendations.fatsPercentageMax)))) { Border = 0 });
             tblTotal.AddCell(new PdfPCell(new Phrase(recommendations.fatsPercentageMin.ToString() + "-" + recommendations.fatsPercentageMax + " %", GetFont())) { Border = 0 });
             doc.Add(tblTotal);
             doc.Add(Chunk.NEWLINE);
@@ -319,24 +319,35 @@ public class PrintPdf : System.Web.Services.WebService {
             tblServings.AddCell(new PdfPCell(new Phrase(t.Tran("recommended", lang), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
 
             tblServings.AddCell(new PdfPCell(new Phrase(t.Tran("cereals and cereal products", lang), GetFont())) { Border = 0 });
-            tblServings.AddCell(new PdfPCell(new Phrase(totals.servings.cerealsServ.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblServings.AddCell(new PdfPCell(new Phrase(totals.servings.cerealsServ.ToString(), GetFont(CheckServ(totals.servings.cerealsServ, recommendations.servings.cerealsServ)))) { Border = 0 });
             tblServings.AddCell(new PdfPCell(new Phrase(recommendations.servings.cerealsServ.ToString(), GetFont())) { Border = 0 });
             tblServings.AddCell(new PdfPCell(new Phrase(t.Tran("vegetables", lang), GetFont())) { Border = 0 });
-            tblServings.AddCell(new PdfPCell(new Phrase(totals.servings.vegetablesServ.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblServings.AddCell(new PdfPCell(new Phrase(totals.servings.vegetablesServ.ToString(), GetFont(CheckServ(totals.servings.vegetablesServ, recommendations.servings.vegetablesServ)))) { Border = 0 });
             tblServings.AddCell(new PdfPCell(new Phrase(recommendations.servings.vegetablesServ.ToString(), GetFont())) { Border = 0 });
             tblServings.AddCell(new PdfPCell(new Phrase(t.Tran("fruit", lang), GetFont())) { Border = 0 });
-            tblServings.AddCell(new PdfPCell(new Phrase(totals.servings.fruitServ.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblServings.AddCell(new PdfPCell(new Phrase(totals.servings.fruitServ.ToString(), GetFont(CheckServ(totals.servings.fruitServ, recommendations.servings.fruitServ)))) { Border = 0 });
             tblServings.AddCell(new PdfPCell(new Phrase(recommendations.servings.fruitServ.ToString(), GetFont())) { Border = 0 });
             tblServings.AddCell(new PdfPCell(new Phrase(t.Tran("meat and substitutes", lang), GetFont())) { Border = 0 });
-            tblServings.AddCell(new PdfPCell(new Phrase(totals.servings.meatServ.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblServings.AddCell(new PdfPCell(new Phrase(totals.servings.meatServ.ToString(), GetFont(CheckServ(totals.servings.meatServ, recommendations.servings.meatServ)))) { Border = 0 });
             tblServings.AddCell(new PdfPCell(new Phrase(recommendations.servings.meatServ.ToString(), GetFont())) { Border = 0 });
             tblServings.AddCell(new PdfPCell(new Phrase(t.Tran("milk and dairy products", lang), GetFont())) { Border = 0 });
-            tblServings.AddCell(new PdfPCell(new Phrase(totals.servings.milkServ.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblServings.AddCell(new PdfPCell(new Phrase(totals.servings.milkServ.ToString(), GetFont(CheckServ(totals.servings.milkServ, recommendations.servings.milkServ)))) { Border = 0 });
             tblServings.AddCell(new PdfPCell(new Phrase(recommendations.servings.milkServ.ToString(), GetFont())) { Border = 0 });
             tblServings.AddCell(new PdfPCell(new Phrase(t.Tran("fats", lang), GetFont())) { Border = 0 });
-            tblServings.AddCell(new PdfPCell(new Phrase(totals.servings.fatsServ.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblServings.AddCell(new PdfPCell(new Phrase(totals.servings.fatsServ.ToString(), GetFont(CheckServ(totals.servings.fatsServ, recommendations.servings.fatsServ)))) { Border = 0 });
             tblServings.AddCell(new PdfPCell(new Phrase(recommendations.servings.fatsServ.ToString(), GetFont())) { Border = 0 });
             doc.Add(tblServings);
+
+            PdfPTable tblOtherFoods = new PdfPTable(3);
+            tblOtherFoods.AddCell(new PdfPCell(new Phrase("", GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+            tblOtherFoods.AddCell(new PdfPCell(new Phrase(t.Tran("choosen", lang), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+            tblOtherFoods.AddCell(new PdfPCell(new Phrase(t.Tran("acceptable", lang), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+
+            tblOtherFoods.AddCell(new PdfPCell(new Phrase(t.Tran("other foods", lang), GetFont())) { Border = 0 });
+            tblOtherFoods.AddCell(new PdfPCell(new Phrase(totals.servings.otherFoodsEnergy.ToString() + " " + t.Tran("kcal", lang), GetFont(CheckOtherFoods(totals.servings.otherFoodsEnergy, recommendations.servings.otherFoodsEnergy)))) { Border = 0 });
+            tblOtherFoods.AddCell(new PdfPCell(new Phrase(recommendations.servings.otherFoodsEnergy.ToString() + " " + t.Tran("kcal", lang), GetFont())) { Border = 0 });
+            doc.Add(tblOtherFoods);
+
             doc.Add(Chunk.NEWLINE);
 
             doc.NewPage();
@@ -364,273 +375,273 @@ public class PrintPdf : System.Web.Services.WebService {
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("starch", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("g", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.starch.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.starch.ToString(), GetFont(CheckParam(totals.starch, recommendations.starch)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.starch.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.starch.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.starch.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("total sugar", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("g", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.totalSugar.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.totalSugar.ToString(), GetFont(CheckParam(totals.totalSugar, recommendations.totalSugar)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.totalSugar.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.totalSugar.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.totalSugar.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("glucose", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("g", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.glucose.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.glucose.ToString(), GetFont(CheckParam(totals.glucose, recommendations.glucose)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.glucose.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.glucose.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.glucose.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("fructose", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("g", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.fructose.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.fructose.ToString(), GetFont(CheckParam(totals.fructose, recommendations.fructose)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.fructose.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.fructose.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.fructose.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("saccharose", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("g", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.saccharose.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.saccharose.ToString(), GetFont(CheckParam(totals.saccharose, recommendations.saccharose)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.saccharose.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.saccharose.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.saccharose.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("maltose", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("g", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.maltose.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.maltose.ToString(), GetFont(CheckParam(totals.maltose, recommendations.maltose)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.maltose.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.maltose.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.maltose.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("lactose", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("g", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.lactose.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.lactose.ToString(), GetFont(CheckParam(totals.lactose, recommendations.lactose)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.lactose.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.lactose.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.lactose.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("fibers", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("g", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.fibers.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.fibers.ToString(), GetFont(CheckParam(totals.fibers, recommendations.fibers)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.fibers.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.fibers.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.fibers.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("saturated fats", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("g", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.saturatedFats.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.saturatedFats.ToString(), GetFont(CheckParam(totals.saturatedFats, recommendations.saturatedFats)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.saturatedFats.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.saturatedFats.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.saturatedFats.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("monounsaturated fats", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("g", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.monounsaturatedFats.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.monounsaturatedFats.ToString(), GetFont(CheckParam(totals.monounsaturatedFats, recommendations.monounsaturatedFats)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.monounsaturatedFats.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.monounsaturatedFats.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.monounsaturatedFats.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("polyunsaturated fats", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("g", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.polyunsaturatedFats.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.polyunsaturatedFats.ToString(), GetFont(CheckParam(totals.polyunsaturatedFats, recommendations.polyunsaturatedFats)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.polyunsaturatedFats.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.polyunsaturatedFats.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.polyunsaturatedFats.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("trifluoroacetic acid", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("g", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.trifluoroaceticAcid.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.trifluoroaceticAcid.ToString(), GetFont(CheckParam(totals.trifluoroaceticAcid, recommendations.trifluoroaceticAcid)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.trifluoroaceticAcid.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.trifluoroaceticAcid.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.trifluoroaceticAcid.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("cholesterol", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran(t.Tran("mg", lang), lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.cholesterol.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.cholesterol.ToString(), GetFont(CheckParam(totals.cholesterol, recommendations.cholesterol)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.cholesterol.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.cholesterol.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.cholesterol.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("sodium", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran(t.Tran("mg", lang), lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.sodium.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.sodium.ToString(), GetFont(CheckParam(totals.sodium, recommendations.sodium)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.sodium.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.sodium.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.sodium.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("potassium", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran(t.Tran("mg", lang), lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.potassium.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.potassium.ToString(), GetFont(CheckParam(totals.potassium, recommendations.potassium)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.potassium.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.potassium.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.potassium.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("calcium", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("mg", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.calcium.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.calcium.ToString(), GetFont(CheckParam(totals.calcium, recommendations.calcium)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.calcium.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.calcium.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.calcium.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("magnesium", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("mg", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.magnesium.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.magnesium.ToString(), GetFont(CheckParam(totals.magnesium, recommendations.magnesium)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.magnesium.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.magnesium.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.magnesium.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("phosphorus", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("mg", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.phosphorus.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.phosphorus.ToString(), GetFont(CheckParam(totals.phosphorus, recommendations.phosphorus)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.phosphorus.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.phosphorus.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.phosphorus.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("iron", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("mg", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.iron.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.iron.ToString(), GetFont(CheckParam(totals.iron, recommendations.iron)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.iron.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.iron.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.iron.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("copper", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("mg", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.copper.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.copper.ToString(), GetFont(CheckParam(totals.copper, recommendations.copper)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.copper.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.copper.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.copper.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("zinc", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("mg", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.zinc.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.zinc.ToString(), GetFont(CheckParam(totals.zinc, recommendations.zinc)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.zinc.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.zinc.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.zinc.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("chlorine", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("mg", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.chlorine.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.chlorine.ToString(), GetFont(CheckParam(totals.chlorine, recommendations.chlorine)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.chlorine.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.chlorine.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.chlorine.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("manganese", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("mg", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.manganese.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.manganese.ToString(), GetFont(CheckParam(totals.manganese, recommendations.manganese)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.manganese.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.manganese.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.manganese.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("selenium", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran(t.Tran("μg", lang), lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.selenium.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.selenium.ToString(), GetFont(CheckParam(totals.selenium, recommendations.selenium)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.selenium.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.selenium.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.selenium.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("iodine", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran(t.Tran("μg", lang), lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.iodine.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.iodine.ToString(), GetFont(CheckParam(totals.iodine, recommendations.iodine)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.iodine.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.iodine.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.iodine.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("retinol", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran(t.Tran("μg", lang), lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.retinol.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.retinol.ToString(), GetFont(CheckParam(totals.retinol, recommendations.retinol)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.retinol.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.retinol.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.retinol.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("carotene", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("μg", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.carotene.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.carotene.ToString(), GetFont(CheckParam(totals.carotene, recommendations.carotene)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.carotene.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.carotene.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.carotene.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("vitamin D", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("μg", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.vitaminD.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.vitaminD.ToString(), GetFont(CheckParam(totals.vitaminD, recommendations.vitaminD)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.vitaminD.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.vitaminD.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.vitaminD.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("vitamin E", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("mg", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.vitaminE.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.vitaminE.ToString(), GetFont(CheckParam(totals.vitaminE, recommendations.vitaminE)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.vitaminE.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.vitaminE.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.vitaminE.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("vitamin B1", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("mg", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.vitaminB1.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.vitaminB1.ToString(), GetFont(CheckParam(totals.vitaminB1, recommendations.vitaminB1)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.vitaminB1.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.vitaminB1.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.vitaminB1.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("vitamin B2", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("mg", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.vitaminB2.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.vitaminB2.ToString(), GetFont(CheckParam(totals.vitaminB2, recommendations.vitaminB2)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.vitaminB2.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.vitaminB2.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.vitaminB2.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("vitamin B3", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("mg", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.vitaminB3.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.vitaminB3.ToString(), GetFont(CheckParam(totals.vitaminB3, recommendations.vitaminB3)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.vitaminB3.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.vitaminB3.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.vitaminB3.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("vitamin B6", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("mg", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.vitaminB6.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.vitaminB6.ToString(), GetFont(CheckParam(totals.vitaminB6, recommendations.vitaminB6)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.vitaminB6.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.vitaminB6.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.vitaminB6.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("vitamin B12", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("μg", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.vitaminB12.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.vitaminB12.ToString(), GetFont(CheckParam(totals.vitaminB12, recommendations.vitaminB12)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.vitaminB12.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.vitaminB12.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.vitaminB12.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("folate", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("μg", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.folate.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.folate.ToString(), GetFont(CheckParam(totals.folate, recommendations.folate)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.folate.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.folate.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.folate.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("pantothenic acid", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("mg", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.pantothenicAcid.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.pantothenicAcid.ToString(), GetFont(CheckParam(totals.pantothenicAcid, recommendations.pantothenicAcid)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.pantothenicAcid.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.pantothenicAcid.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.pantothenicAcid.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("biotin", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("μg", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.biotin.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.biotin.ToString(), GetFont(CheckParam(totals.biotin, recommendations.biotin)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.biotin.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.biotin.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.biotin.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("vitaminC", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("mg", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.vitaminC.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.vitaminC.ToString(), GetFont(CheckParam(totals.vitaminC, recommendations.vitaminC)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.vitaminC.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.vitaminC.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.vitaminC.rda.ToString(), GetFont())) { Border = 0 });
 
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("vitaminK", lang), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(t.Tran("μg", lang), GetFont())) { Border = 0 });
-            tblParameters.AddCell(new PdfPCell(new Phrase(totals.vitaminK.ToString(), GetFont(9, Font.BOLD))) { Border = 0 });
+            tblParameters.AddCell(new PdfPCell(new Phrase(totals.vitaminK.ToString(), GetFont(CheckParam(totals.vitaminK, recommendations.vitaminK)))) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.vitaminK.mda.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.vitaminK.ui.ToString(), GetFont())) { Border = 0 });
             tblParameters.AddCell(new PdfPCell(new Phrase(recommendations.vitaminK.rda.ToString(), GetFont())) { Border = 0 });
@@ -1131,8 +1142,8 @@ IBAN HR8423400091160342496
     private void AppendMealDistribution(PdfPTable tblMeals, Foods.Totals totals, Foods.Recommendations recommendations, string lang, int i, string meal) {
         if (totals.mealsTotalEnergy[i].meal.energy > 0) {
             tblMeals.AddCell(new PdfPCell(new Phrase(t.Tran(meal, lang), GetFont())) { Border = 0 });
-            tblMeals.AddCell(new PdfPCell(new Phrase(totals.mealsTotalEnergy[i].meal.energy.ToString() + " kcal (" + Math.Round(Convert.ToDouble(totals.mealsTotalEnergy[i].meal.energyPercentage), 1).ToString() + " %)", GetFont(9, Font.BOLD))) { Border = 0 });
-            tblMeals.AddCell(new PdfPCell(new Phrase(recommendations.mealsRecommendationEnergy[i].meal.energyMin.ToString() + "-" + recommendations.mealsRecommendationEnergy[i].meal.energyMax.ToString() + " kcal (" + recommendations.mealsRecommendationEnergy[i].meal.energyMinPercentage.ToString() + "-" + recommendations.mealsRecommendationEnergy[i].meal.energyMaxPercentage.ToString() + " %)", GetFont())) { Border = 0 });
+            tblMeals.AddCell(new PdfPCell(new Phrase(totals.mealsTotalEnergy[i].meal.energy.ToString() + " " + t.Tran("kcal", lang) + " (" + Math.Round(Convert.ToDouble(totals.mealsTotalEnergy[i].meal.energyPercentage), 1).ToString() + " %)", GetFont(CheckTotal(totals.mealsTotalEnergy[i].meal.energyPercentage, recommendations.mealsRecommendationEnergy[i].meal.energyMinPercentage, recommendations.mealsRecommendationEnergy[i].meal.energyMaxPercentage)))) { Border = 0 });
+            tblMeals.AddCell(new PdfPCell(new Phrase(recommendations.mealsRecommendationEnergy[i].meal.energyMin.ToString() + "-" + recommendations.mealsRecommendationEnergy[i].meal.energyMax.ToString() + " " + t.Tran("kcal", lang) + " (" + recommendations.mealsRecommendationEnergy[i].meal.energyMinPercentage.ToString() + "-" + recommendations.mealsRecommendationEnergy[i].meal.energyMaxPercentage.ToString() + " %)", GetFont())) { Border = 0 });
         }
     }
 
@@ -1324,6 +1335,29 @@ IBAN HR8423400091160342496
         return GetFont(size, 0);
     }
 
+    private Font GetFont(bool x) {
+        return GetFont(9, x == true ? Font.BOLD: Font.NORMAL);
+    }
+
+    private bool CheckTotal(double total, int min, int max) {
+        return total < min || total > max ? true : false;
+    }
+
+    private bool CheckEnergy(double total, double r) {
+        return Math.Abs((total / r) - 1) > 0.05 ? true : false;
+    }
+
+    private bool CheckServ(double total, double r) {
+        return Math.Abs(total - r) > 1 ? true : false;
+    }
+
+    private bool CheckOtherFoods(double total, double r) {
+        return total > r ? true : false;
+    }
+
+    private bool CheckParam(double total, Foods.ParameterRecommendation r) {
+        return r.mda != null && total < r.mda || r.ui != null && total > r.ui ? true : false;
+    }
     #endregion Methods
 
 }
