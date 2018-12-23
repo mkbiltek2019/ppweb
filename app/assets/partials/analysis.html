@@ -45,6 +45,12 @@
                     </tr>
                 </table>
             </div>
+            <div class="row">
+                <canvas id="bar" class="chart chart-bar"
+                        chart-data="mealsGraphData.data" chart-labels="mealsGraphData.labels" chart-colors="mealsGraphData.colors" height="180"
+                        chart-series="mealsGraphData.series" chart-dataset-override="mealsGraphData.datasetOverride">
+                </canvas>
+            </div>
         </fieldset>
         <fieldset class="fieldset-border">
             <legend class="fieldset-border text-capitalize">{{'macronutrients' | translate}}</legend>

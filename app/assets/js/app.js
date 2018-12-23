@@ -1485,6 +1485,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             getCalculation();
             $scope.toggleTpl('clientStatictic');
             $scope.clientLog = JSON.parse(response.data.d);
+            //setClientLogGraphData(0, $scope.clientLogsDays);
         },
         function (response) {
             alert(response.data.d)
@@ -1540,7 +1541,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             $rootScope.calculation = JSON.parse(response.data.d);
-            setClientLogGraphData($scope.displayType);
+            setClientLogGraphData($scope.displayType, $scope.clientLogsDays);
         },
         function (response) {
             if (response.data.d === undefined) {
@@ -1579,8 +1580,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
     initChartDays();
 
-    $scope.changeDisplayType = function (type, days) {
-        setClientLogGraphData(type, days);
+    $scope.changeDisplayType = function (type, clientLogsDays) {
+        setClientLogGraphData(type, clientLogsDays);
     }
 
     var getRecommendedWeight = function (h) {
@@ -1590,7 +1591,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     }
 
-    var setClientLogGraphData = function (type, days) {
+    var setClientLogGraphData = function (type, clientLogsDays) {
         $scope.clientLog_ = [];
         var clientLog = [];
         var goalFrom = [];
@@ -1627,12 +1628,17 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                        type: 'line'
                    }
             ],
-            true
+            true,
+            false
         )
 
         //TODO - goal
         if (angular.isDefined($rootScope.calculation.recommendedWeight)) {
-            if (days === undefined) { days = 30; }
+            var days = 30;
+            if (clientLogsDays !== undefined) {
+                days = clientLogsDays.days;
+                $scope.clientLogsDays = clientLogsDays;
+            }
             angular.forEach($scope.clientLog, function (x, key) {
                 if (functions.getDateDiff(x.date) <= days) {
                     $scope.clientLog_.push(x);
@@ -1650,8 +1656,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         
     };
 
-    $rootScope.setClientLogGraphData = function (type, days) {
-        setClientLogGraphData(type, days);
+    $rootScope.setClientLogGraphData = function (type, clientLogsDays) {
+        setClientLogGraphData(type, clientLogsDays);
     }
 
     $scope.getDateFormat = function (x) {
@@ -1768,8 +1774,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
 }])
-
-
 
 .controller('detailCalculationOfEnergyExpenditureCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', '$timeout', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate, $timeout) {
     $rootScope.totalDailyEnergyExpenditure = {
@@ -2689,7 +2693,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         .then(function (response) {
             $rootScope.myMeals = response;
             $rootScope.clientData.myMeals = angular.copy($rootScope.myMeals);
-            debugger;
             $rootScope.clientData.meals = $rootScope.clientData.myMeals.data.meals;
             $rootScope.isMyMeals = true;
             $rootScope.mealsAreChanged = true;
@@ -2778,9 +2781,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var getRecommendations = function (clientData) {
-        debugger;
-
-
         var energyPerc = null;
         if (clientData.myMeals !== undefined && clientData.myMeals != null) {
             if (clientData.myMeals.data != null) {
@@ -2830,7 +2830,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: {}
         })
         .then(function (response) {
-            debugger;
             $rootScope.currentMenu = JSON.parse(response.data.d);
             $rootScope.currentMenu.client = $rootScope.client;
             $rootScope.currentMenu.client.clientData = $rootScope.clientData;  //TODO sredit
@@ -2861,13 +2860,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $rootScope.currentMeal = x;
     };
 
-
-    debugger;
     if ($rootScope.mealsAreChanged) {
         $rootScope.mealsAreChanged = false;
         init();
     } else {
-        // new
         if ($rootScope.currentMenu === undefined) {
             init();
         } else {
@@ -3351,7 +3347,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $rootScope.currentMenu.client.clientData = $rootScope.clientData;
             $rootScope.currentMenu.client.clientData.meals = x.data.meals;
             $rootScope.currentMenu.client.clientData.myMeals = x.client.clientData.myMeals;
-            debugger;
             $rootScope.isMyMeals = false;
             if ($rootScope.currentMenu.client.clientData.myMeals != null) {
                 if ($rootScope.currentMenu.client.clientData.myMeals.data != null) {
@@ -3755,12 +3750,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                          type: 'line'
                      }
                 ],
-                false
+                false,
+                true
         );
         $rootScope.pieGraphData = charts.createGraph(
                 [$translate.instant('nutrients')],
                 [t.carbohydratesPercentage, t.proteinsPercentage, t.fatsPercentage],
                 [$translate.instant('carbohydrates'), $translate.instant('proteins'), $translate.instant('fats')],
+                true,
                 true
         );
         $rootScope.mealsGraphData = charts.createGraph(
@@ -3789,7 +3786,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                         type: 'line'
                     }
                ],
-               false
+               false,
+               true
        );
         //TODO
         $rootScope.parametersGraphData = charts.createGraph(
@@ -3889,7 +3887,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                         type: 'line'
                     }
                ],
-               false
+               false,
+               true
         );
 
         //TODO
@@ -3916,7 +3915,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                         borderWidth: 3,
                         type: 'line'
                     }
-               ]
+               ],
+               false,
+               true
         );
 
         //TODO
@@ -3949,7 +3950,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                         type: 'line'
                     },
                ],
-               false
+               false,
+               true
         );
     }
 

@@ -124,7 +124,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
     $scope.activationCode = null;
     $scope.activateApp = function (x) {
-        debugger;
         if (x == null || x == '' || x == 'null') { return false; }
         $http({
             url: $sessionStorage.config.backend + 'ClientApp.asmx/Activate',
@@ -141,7 +140,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
                $scope.clientId = $scope.clientApp.clientId;
                $scope.userId = $scope.clientApp.userId;
                getClient();
-               debugger;
                $scope.setLanguage($scope.clientApp.lang);
                $scope.toggleCurrTpl('clientdata.html');
            } else {
@@ -276,8 +274,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
             angular.forEach($scope.clientLog, function (x, key) {
                 x.date = new Date(x.date);
             });
-
-            setClientLogGraphData(0);
+            setClientLogGraphData(0, $scope.clientLogsDays);
         },
         function (response) {
             alert(response.data.d)
@@ -322,7 +319,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         google.charts.load('current', { 'packages': ['gauge'] });
         $timeout(function () {
             bmiChart();
-            //setClientLogGraphData();
         }, 1000);
     }
 
@@ -375,7 +371,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         }
     }
 
-    var setClientLogGraphData = function (type, days) {
+    var setClientLogGraphData = function (type, clientLogsDays, fill) {
         $scope.clientLog_ = [];
         var clientLog = [];
         var goalFrom = [];
@@ -395,7 +391,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
                        label: $translate.instant('measured value'),
                        borderWidth: 5,
                        type: 'line',
-                       fill: true
+                       fill: fill !== undefined ? fill : true
                    },
                    {
                        label: $translate.instant('lower limit'),
@@ -412,12 +408,17 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
                        type: 'line'
                    }
             ],
-            true
+            true,
+            false
         )
 
         //TODO - goal
         if (angular.isDefined($scope.calculation.recommendedWeight)) {
-            if (days === undefined) { days = 30; }
+            var days = 30;
+            if (clientLogsDays !== undefined) {
+                days = clientLogsDays.days;
+                $scope.clientLogsDays = clientLogsDays;
+            }
             angular.forEach($scope.clientLog, function (x, key) {
                 if (functions.getDateDiff(x.date) <= days) {
                     $scope.clientLog_.push(x);
@@ -434,8 +435,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         }
     };
 
-    $scope.setClientLogGraphData = function (type, days) {
-        setClientLogGraphData(type, days);
+    $scope.setClientLogGraphData = function (type, clientLogsDays) {
+        setClientLogGraphData(type, clientLogsDays);
     }
 
     $scope.removeClientLog = function (x) {
@@ -631,7 +632,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
     var updateClient = function (x) {
         var c = angular.copy(x);
-        debugger;
         c.birthDate = c.birthDate.toISOString();
         $http({
             url: $sessionStorage.config.backend + 'Clients.asmx/UpdateClient',

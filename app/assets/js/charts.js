@@ -6,7 +6,7 @@ angular.module('charts', [])
 
 .factory('charts', [function () {
     return {
-        'createGraph': function (s, d, l, c, dso, legend) {
+        'createGraph': function (s, d, l, c, dso, legend, baz) {
             return {
                 series: s,
                 data: d,
@@ -25,7 +25,7 @@ angular.module('charts', [])
                                 display: true,
                             },
                             ticks: {
-                                beginAtZero: true,
+                                beginAtZero: baz,
                                 stepSize: 10
                             }
                         }],
@@ -35,7 +35,7 @@ angular.module('charts', [])
                                 display: true,
                             },
                             ticks: {
-                                beginAtZero: true,
+                                beginAtZero: baz,
                                 stepSize: 10
                             }
                         }]

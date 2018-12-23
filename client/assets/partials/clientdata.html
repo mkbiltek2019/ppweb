@@ -94,10 +94,9 @@
         <a href="" ng-click="showClientLog()">{{'tracking of anthropometric measures' | translate}} <i class="fa fa-chevron-{{showLog?'up':'down'}}" aria-hidden="true"></i></a>
     </div>
     <div ng-if="showLog" class="mt10">
-        <!--<label class="text-capitalize">{{'tracking of anthropometric measures' | translate}}</label>-->
         <div class="row mt10">
             <div class="col-sm-3">
-                <select ng-model="clientLogsDays" class="form-control" ng-options="x.title | translate for x in chartDays" ng-change="setClientLogGraphData(0, clientLogsDays.days)"></select>
+                <select ng-model="clientLogsDays" class="form-control" ng-options="x.title | translate for x in chartDays" ng-change="setClientLogGraphData(0, clientLogsDays)"></select>
             </div>
         </div>
         <ul class="nav nav-tabs mt10">
