@@ -3757,11 +3757,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 [$translate.instant('nutrients')],
                 [t.carbohydratesPercentage, t.proteinsPercentage, t.fatsPercentage],
                 [$translate.instant('carbohydrates'), $translate.instant('proteins'), $translate.instant('fats')],
+                ['#45b7cd', '#ff6384', '#33cc33'],
+                [],
                 true,
                 true
         );
         $rootScope.mealsGraphData = charts.createGraph(
-               [$translate.instant('meals')], //['obroci'],
+               [$translate.instant('meals')],
                [ $scope.mealsTotals, $scope.mealsMin, $scope.mealsMax ],
                $scope.mealsTitles,
                ['#45b7cd', '#ff6384', '#33cc33'],

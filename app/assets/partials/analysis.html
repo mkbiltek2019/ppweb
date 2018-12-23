@@ -45,8 +45,8 @@
                     </tr>
                 </table>
             </div>
-            <div class="row">
-                <canvas id="bar" class="chart chart-bar"
+            <div>
+                <canvas id="mealsChart" class="chart chart-bar"
                         chart-data="mealsGraphData.data" chart-labels="mealsGraphData.labels" chart-colors="mealsGraphData.colors" height="180"
                         chart-series="mealsGraphData.series" chart-dataset-override="mealsGraphData.datasetOverride">
                 </canvas>
@@ -78,6 +78,9 @@
                     </tr>
                 </table>
             </div>
+            <canvas id="pieChart" class="chart chart-pie"
+                    chart-data="pieGraphData.data" chart-labels="pieGraphData.labels" height="180">
+            </canvas>
         </fieldset>
         <fieldset class="fieldset-border">
             <legend class="fieldset-border">{{'unit servings' | translate}}</legend>
@@ -132,6 +135,12 @@
                         <td>{{recommendations.servings.otherFoodsEnergy | number:1}} {{'kcal' | translate}}</td>
                     </tr>
                 </table>
+            </div>
+            <div>
+                <canvas id="servChart" class="chart chart-bar"
+                        chart-data="servGraphData.data" chart-labels="servGraphData.labels" chart-colors="servGraphData.colors" height="200"
+                        chart-series="servGraphData.series" chart-dataset-override="servGraphData.datasetOverride">
+                </canvas>
             </div>
         </fieldset>
     </div>
