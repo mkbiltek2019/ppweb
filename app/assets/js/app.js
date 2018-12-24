@@ -1617,15 +1617,15 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                        label: $translate.instant("lower limit"),
                        borderWidth: 2,
                        backgroundColor: '#e6e6ff',
+                       type: 'line',
                        fill: false,
-                       type: 'line'
                    },
                    {
                        label: $translate.instant("upper limit"),
                        borderWidth: 2,
                        backgroundColor: '#e6e6ff',
-                       fill: false,
-                       type: 'line'
+                       type: 'line',
+                       fill: false
                    }
             ],
             true,
@@ -3704,7 +3704,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             if (value.isSelected == true && angular.isDefined($rootScope.totals)) {
                 if (angular.isDefined($rootScope.totals.mealsTotalEnergy)) {
                     if (key < $rootScope.recommendations.mealsRecommendationEnergy.length) {
-                        $scope.mealsTotals.push($rootScope.totals.mealsTotalEnergy.length > 0 ? $rootScope.totals.mealsTotalEnergy[key].meal.energy : 0);
+                        $scope.mealsTotals.push($rootScope.totals.mealsTotalEnergy.length > 0 ? $rootScope.totals.mealsTotalEnergy[key].meal.energy.toFixed(1) : 0);
                         if ($rootScope.recommendations !== undefined) {
                             if (angular.isDefined($rootScope.recommendations.mealsRecommendationEnergy)) {
                                 $scope.mealsMin.push($rootScope.recommendations.mealsRecommendationEnergy[key].meal.energyMin);
@@ -3740,14 +3740,16 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                      {
                          label: $translate.instant('choosen'),
                          borderWidth: 1,
-                         type: 'bar'
+                         type: 'bar',
+                         fill: true
                      },
                      {
                          label: $translate.instant('recommended'),
                          borderWidth: 3,
                          hoverBackgroundColor: "rgba(255,99,132,0.4)",
                          hoverBorderColor: "rgba(255,99,132,1)",
-                         type: 'line'
+                         type: 'line',
+                         fill: true
                      }
                 ],
                 false,
@@ -3756,42 +3758,138 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $rootScope.pieGraphData = charts.createGraph(
                 [$translate.instant('nutrients')],
                 [t.carbohydratesPercentage, t.proteinsPercentage, t.fatsPercentage],
-                [$translate.instant('carbohydrates'), $translate.instant('proteins'), $translate.instant('fats')],
+                [$translate.instant('carbohydrates') + ' (%)', $translate.instant('proteins') + ' (%)', $translate.instant('fats') + ' (%)'],
                 ['#45b7cd', '#ff6384', '#33cc33'],
                 [],
-                true,
+                false,
                 true
         );
         $rootScope.mealsGraphData = charts.createGraph(
                [$translate.instant('meals')],
-               [ $scope.mealsTotals, $scope.mealsMin, $scope.mealsMax ],
+               [$scope.mealsTotals, $scope.mealsMin, $scope.mealsMax ],
                $scope.mealsTitles,
                ['#45b7cd', '#ff6384', '#33cc33'],
                [
                     {
-                        label: $translate.instant('choosen'),
+                        label: $translate.instant('choosen') + ' (' + $translate.instant('kcal') + ')',
                         borderWidth: 1,
-                        type: 'bar'
+                        type: 'bar',
+                        fill: true
                     },
                     {
-                        label: $translate.instant('recommended'),
+                        label: $translate.instant('recommended') + ' ' + $translate.instant('from') + ' (' + $translate.instant('kcal') + ')',
                         borderWidth: 3,
                         hoverBackgroundColor: "rgba(255,99,132,0.4)",
                         hoverBorderColor: "rgba(255,99,132,1)",
-                        type: 'line'
+                        type: 'line',
+                        fill: false
                     },
                      {
-                         label: $translate.instant('recommended'),
+                         label: $translate.instant('recommended') + ' ' + $translate.instant('to') + ' (' + $translate.instant('kcal') + ')',
                         borderWidth: 3,
                         hoverBackgroundColor: "rgba(255,99,132,0.4)",
                         hoverBorderColor: "rgba(255,99,132,1)",
-                        type: 'line'
+                        type: 'line',
+                        fill: false
                     }
                ],
                false,
-               true
+               false
        );
+
+
+
         //TODO
+
+        $scope.parametersGraphData = charts.stackedChart(
+            [$translate.instant('choosen'), $translate.instant('recommended dietary allowance') + ' (' + $translate.instant('rda').toUpperCase() + ')'],
+            [
+                [
+                    t.fibers,
+                    t.monounsaturatedFats,
+                    t.polyunsaturatedFats,
+                    t.calcium,
+                    t.magnesium,
+                    t.phosphorus,
+                    t.iron,
+                    t.copper,
+                    t.zinc,
+                    t.manganese,
+                    t.selenium,
+                    t.iodine,
+                    t.retinol,
+                    t.vitaminD,
+                    t.vitaminE,
+                    t.vitaminB1,
+                    t.vitaminB2,
+                    t.vitaminB3,
+                    t.vitaminB6,
+                    t.vitaminB12,
+                    t.folate,
+                    t.pantothenicAcid,
+                    t.biotin,
+                    t.vitaminC,
+                    t.vitaminK
+                ],
+                [
+                    r.fibers.rda,
+                    r.monounsaturatedFats.rda,
+                    r.polyunsaturatedFats.rda,
+                    r.calcium.rda,
+                    r.magnesium.rda,
+                    r.phosphorus.rda,
+                    r.iron.rda,
+                    r.copper.rda,
+                    r.zinc.rda,
+                    r.manganese.rda,
+                    r.selenium.rda,
+                    r.iodine.rda,
+                    r.retinol.rda,
+                    r.vitaminD.rda,
+                    r.vitaminE.rda,
+                    r.vitaminB1.rda,
+                    r.vitaminB2.rda,
+                    r.vitaminB3.rda,
+                    r.vitaminB6.rda,
+                    r.vitaminB12.rda,
+                    r.folate.rda,
+                    r.pantothenicAcid.rda,
+                    r.biotin.rda,
+                    r.vitaminC.rda,
+                    r.vitaminK.rda
+                ]
+            ],
+            [
+                $translate.instant('fibers') + ' (' + $translate.instant('g') + ')',
+                $translate.instant('monounsaturated fats') + ' (' + $translate.instant('g') + ')', //'monounsaturatedFats',
+                $translate.instant('polyunsaturated fats') + ' (' + $translate.instant('g') + ')', //'polyunsaturatedFats',
+                $translate.instant('calcium') + ' (' + $translate.instant('mg') + ')', //'calcium',
+                $translate.instant('magnesium') + ' (' + $translate.instant('mg') + ')', //'magnesium',
+                $translate.instant('phosphorus') + ' (' + $translate.instant('mg') + ')', //'phosphorus',
+                $translate.instant('iron') + ' (' + $translate.instant('mg') + ')', //'iron',
+                $translate.instant('copper') + ' (' + $translate.instant('mg') + ')', //'copper',
+                $translate.instant('zinc') + ' (' + $translate.instant('mg') + ')', //'zinc',
+                $translate.instant('manganese') + ' (' + $translate.instant('mg') + ')', //'manganese',
+                $translate.instant('selenium') + ' (' + $translate.instant('ug') + ')', //'selenium',
+                $translate.instant('iodine') + ' (' + $translate.instant('ug') + ')', //'iodine',
+                $translate.instant('retinol') + ' (' + $translate.instant('ug') + ')', //'retinol',
+                $translate.instant('vitamin D') + ' (' + $translate.instant('ug') + ')', //'vitaminD',
+                $translate.instant('vitamin E') + ' (' + $translate.instant('mg') + ')', //'vitaminE',
+                $translate.instant('vitamin B1') + ' (' + $translate.instant('mg') + ')', //'vitaminB1',
+                $translate.instant('vitamin B2') + ' (' + $translate.instant('mg') + ')', //'vitaminB2',
+                $translate.instant('vitamin B3') + ' (' + $translate.instant('mg') + ')', //'vitaminB3',
+                $translate.instant('vitamin B6') + ' (' + $translate.instant('mg') + ')', //'vitaminB6',
+                $translate.instant('vitamin B12') + ' (' + $translate.instant('ug') + ')', //'vitaminB12',
+                $translate.instant('folate') + ' (' + $translate.instant('ug') + ')', //'folate',
+                $translate.instant('pantothenic acid') + ' (' + $translate.instant('mg') + ')', //'pantothenicAcid',
+                $translate.instant('biotin') + ' (' + $translate.instant('ug') + ')', //'biotin',
+                $translate.instant('vitamin C') + ' (' + $translate.instant('mg') + ')', //'vitaminC',
+                $translate.instant('vitamin K') + ' (' + $translate.instant('ug') + ')', //'vitaminK'
+            ],
+            ['#45b7cd', '#33cc33'],
+            $translate.instant('parameters'));
+
+        /*
         $rootScope.parametersGraphData = charts.createGraph(
                [$translate.instant('parameters')],
                [
@@ -3879,7 +3977,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     {
                         label: "Odabrano",
                         borderWidth: 1,
-                        type: 'bar'
+                        type: 'horizontalBar'
                     },
                     {
                         label: "RDA",
@@ -3892,37 +3990,150 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                false,
                true
         );
+        */
+
+
+        /*
+        $scope.testChart = {
+            labels: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet"
+            ],
+            type: "horizontalBar",
+            series: ['Series A', 'Series B'],
+            options: {
+                title: {
+                    display: true,
+                    text: "Chart.js Bar Chart - Stacked"
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false
+                },
+                responsive: true,
+                scales: {
+                    xAxes: [{
+                        stacked: true,
+                    }],
+                    yAxes: [{
+                        stacked: true
+                    }]
+                }
+            },
+            data: [
+              [65, 59, 90, 81, 56, 55, 40],
+              [28, 48, 40, 19, 96, 27, 100]
+            ],
+            colors: ['#00ADF9']
+        }
+        */
+
+
+        $scope.parametersGraphDataUI = charts.stackedChart(
+            [$translate.instant('choosen'), $translate.instant('upper intake level') + ' (' + $translate.instant('ul').toUpperCase() + ')'],
+            [
+                [t.saturatedFats, t.trifluoroaceticAcid, t.cholesterol],
+                [r.saturatedFats.ui, r.trifluoroaceticAcid.ui, r.cholesterol.ui]
+            ],
+            [
+                $translate.instant('saturated fats') + ' (' + $translate.instant('g') + ')',
+                $translate.instant('trifluoroacetic acid') + ' (' + $translate.instant('g') + ')',
+                $translate.instant('cholesterol') + ' (' + $translate.instant('mg') + ')'
+            ],
+            ['#f44242', '#33cc33'],
+            '');
+
+        /*
+        $scope.parametersGraphDataUI = {
+            labels: ['saturatedFats', 'trifluoroaceticAcid', 'cholesterol'],
+            type: "horizontalBar",
+            series: ['Series A', 'Series B'],
+            options: {
+                title: {
+                    display: true,
+                    text: "parameters"
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false
+                },
+                responsive: true,
+                scales: {
+                    xAxes: [{
+                        stacked: true,
+                    }],
+                    yAxes: [{
+                        stacked: true
+                    }]
+                }
+            },
+            data: [
+              [t.saturatedFats, t.trifluoroaceticAcid, t.cholesterol],
+              [r.saturatedFats.ui, r.trifluoroaceticAcid.ui, r.cholesterol.ui]
+            ],
+            colors: ['#f44242', '#33cc33']
+        }
+        */
+
+
+
+
+
+
+
+        
 
         //TODO
+        /*
         $rootScope.parametersGraphDataUI = charts.createGraph(
-               [$translate.instant('parameters')],
+              // [$translate.instant('parameters')],
+              ['Series A', 'Series B'],
                [
-                   [
-                       t.saturatedFats, t.trifluoroaceticAcid, t.cholesterol
-                   ],
+                   [t.saturatedFats, t.trifluoroaceticAcid, t.cholesterol],
                    [r.saturatedFats.ui, r.trifluoroaceticAcid.ui, r.cholesterol.ui]
                ],
                ['saturatedFats', 'trifluoroaceticAcid', 'cholesterol'],
-               ['#f44242', '#ff6384'],
+               //['#f44242', '#ff6384'],
+               ['#f44242', '#33cc33', '#33cc33'],
                [
                     {
                         label: "Odabrano",
                         borderWidth: 1,
-                        type: 'bar',
+                        type: "bar",
                         backgroundColor: "rgb(244, 66, 66)",
-                        hoverBackgroundColor: "rgb(244, 66, 66)",
+                        hoverBackgroundColor: "rgb(244, 66, 66)"
                     },
-                    {
-                        label: "UI",
-                        borderWidth: 3,
-                        type: 'line'
-                    }
+                   // {
+                      //  label: "UI",
+                       // borderWidth: 3,
+                       // type: 'line',
+                        //hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                        //hoverBorderColor: "rgba(255,99,132,1)",
+                  //  }
                ],
                false,
                true
         );
+        */
+
+
 
         //TODO
+
+        $scope.parametersGraphDataMDA = charts.stackedChart(
+            [$translate.instant('choosen'), $translate.instant('upper intake level') + ' (' + $translate.instant('ul').toUpperCase() + ')', $translate.instant('minimum dietary allowance') + ' (' + $translate.instant('mda').toUpperCase() + ')'],
+            [
+                [t.sodium, t.potassium, t.chlorine],
+                [r.sodium.ui],
+                [r.sodium.mda, r.potassium.mda, r.chlorine.mda]
+            ],
+            [
+                $translate.instant('sodium') + ' (' + $translate.instant('mg') + ')',
+                $translate.instant('potassium') + ' (' + $translate.instant('mg') + ')',
+                $translate.instant('chlorine') + ' (' + $translate.instant('mg') + ')'
+            ],
+            ['#45b7cd', '#33cc33'],
+            '');
+
+        /*
         $rootScope.parametersGraphDataMDA = charts.createGraph(
                ['parametri'],
                [
@@ -3931,20 +4142,19 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                    [r.sodium.mda, r.potassium.mda, r.chlorine.mda]
                ],
                ['sodium', 'potassium', 'chlorine'],
-               ['#49a5af', '#f44242', '#2fed4f'],
+               ['#45b7cd', '#33cc33', '#33cc33'],
                [
                     {
                         label: "Odabrano",
                         borderWidth: 1,
                         type: 'bar',
-                        backgroundColor: "rgb(244, 66, 66)",
-                        hoverBackgroundColor: "rgb(244, 66, 66)",
+                        hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                        hoverBorderColor: "rgba(255,99,132,1)"
                     },
                     {
                         label: "UI",
                         borderWidth: 10,
                         type: 'line',
-                        backgroundColor: "rgb(244, 66, 66)",
                     },
                     {
                         label: "MDA",
@@ -3955,6 +4165,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                false,
                true
         );
+        */
+
     }
 
     var totalEnergyChart = function () {

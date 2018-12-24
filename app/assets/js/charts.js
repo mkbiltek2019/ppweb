@@ -44,6 +44,30 @@ angular.module('charts', [])
                 datasetOverride: dso
             }
         },
+        'stackedChart': function (series, data, labels, colors, title) {
+            return {
+                series: series, data: data, labels: labels, colors: colors, type: 'horizontalBar',
+                options: {
+                    title: {
+                        display: true,
+                        text: title
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    responsive: true,
+                    scales: {
+                        xAxes: [{
+                            stacked: true,
+                        }],
+                        yAxes: [{
+                            stacked: true
+                        }]
+                    }
+                }
+            }
+        },
         'guageChart': function (id, value, unit, options) {
             if (google.visualization === undefined || document.getElementById(id) == null) { return false; }
             var data = google.visualization.arrayToDataTable([
