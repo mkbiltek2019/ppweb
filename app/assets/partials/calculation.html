@@ -89,6 +89,12 @@
                             <md-radio-button ng-value="x.code" class="md-primary" ng-repeat="x in goals" ng-disabled="x.isDisabled">{{x.title | translate}}</md-radio-button>
                         </md-radio-group>
                     </div>
+                    <div class="row">
+                        <div class="col-sm-4">ciljana masa</div>
+                        <div class="col-sm-8">
+                            <input type="text" ng-model="goalWeightValue" class="form-control text-right" allow-only-numbers>
+                        </div>
+                    </div>
                 </fieldset>
                 <fieldset class="fieldset-border">
                     <legend class="fieldset-border text-capitalize">{{'recommendations' | translate}}:</legend>

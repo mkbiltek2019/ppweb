@@ -1612,8 +1612,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             [
                    {
                        label: $translate.instant("measured value"),
-                       borderWidth: 5,
-                       type: 'line',
+                       borderWidth: 1,
+                       type: 'bar',
                        fill: true
                    },
                    {
@@ -1632,7 +1632,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                    },
                    {
                        label: $translate.instant("goal"),
-                       borderWidth: 2,
+                       borderWidth: 5,
                        backgroundColor: '#e6e6ff',
                        type: 'line',
                        fill: false
@@ -1967,33 +1967,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 .controller('calculationCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'charts', '$timeout', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, charts, $timeout, functions, $translate) {
     var webService = 'Calculations.asmx';
 
-    var getCalculation = function () {
-        $http({
-            url: $sessionStorage.config.backend + webService + '/GetCalculation',
-            method: "POST",
-            data: { client: $rootScope.clientData }
-        })
-        .then(function (response) {
-            $rootScope.calculation = JSON.parse(response.data.d);
-            $rootScope.appCalculation = JSON.parse(response.data.d);
-
-            if ($rootScope.clientData.goal.code == undefined || $rootScope.clientData.goal.code == null || $rootScope.clientData.goal.code == 0) {
-                $rootScope.clientData.goal.code = $rootScope.calculation.goal.code;
-            }
-
-            getCharts();
-            getGoals();
-        },
-        function (response) {
-            if (response.data.d === undefined) {
-                functions.alert($translate.instant('you have to refresh the page. press Ctrl+F5') + '.', '');
-            } else {
-                functions.alert(response.data.d, '');
-            }
-        });
-    };
-    getCalculation();
-
     $scope.getBmiClass = function (x) {
         if (x < 18.5) { return { text: 'text-info', icon: 'fa fa-exclamation' }; }
         if (x >= 18.5 && x <= 25) { return { text: 'text-success', icon: 'fa fa-check' }; }
@@ -2094,9 +2067,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 
     $scope.getGoal = function (x) {
-
         var energy = 0;
         var activity = 0;
+        $rootScope.goalWeightValue = 0;
         switch (x) {
             case "G1":  // redukcija tjelesne mase
                 if ($rootScope.appCalculation.goal.code == "G1") {
@@ -2111,6 +2084,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     energy = $rootScope.appCalculation.recommendedEnergyIntake + 300;
                     activity = $rootScope.appCalculation.recommendedEnergyExpenditure;
                 }
+                $rootScope.goalWeightValue = $rootScope.calculation.recommendedWeight.max;
                 break;
             case "G2":  // zadrzavanje postojece tjelesne mase
                 if ($rootScope.appCalculation.goal.code == "G1") {
@@ -2125,6 +2099,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     energy = $rootScope.appCalculation.recommendedEnergyIntake - 300;
                     activity = $rootScope.appCalculation.recommendedEnergyExpenditure;
                 }
+                $rootScope.goalWeightValue = $rootScope.clientData.weight;
                 break;
             case "G3":  // povecanje tjelesne mase
                 if ($rootScope.appCalculation.goal.code == "G2") {
@@ -2143,6 +2118,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     energy = $rootScope.appCalculation.recommendedEnergyIntake + 500;
                     activity = $rootScope.appCalculation.recommendedEnergyExpenditure + 200;
                 }
+                $rootScope.goalWeightValue = $rootScope.clientData.weight < $rootScope.calculation.recommendedWeight.min ? $rootScope.calculation.recommendedWeight.min : $rootScope.clientData.weight + 10;  //TODO
                 break;
             case "G4":  // povecanje misicne mase
                 if ($rootScope.appCalculation.goal.code == "G1") {
@@ -2157,6 +2133,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     energy = $rootScope.appCalculation.recommendedEnergyIntake + 400;
                     activity = $rootScope.appCalculation.recommendedEnergyExpenditure + 100;
                 }
+                $rootScope.goalWeightValue = $rootScope.clientData.weight
                 break;
             default:
                 energy = 0;
@@ -2169,6 +2146,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             if (value.code == x) {
                 $rootScope.clientData.goal.code = value.code;
                 $rootScope.clientData.goal.title = value.title;
+                $rootScope.calculation.goal.code = x;
             }
         })
 
@@ -2233,6 +2211,36 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             functions.alert($translate.instant(response.data.d), '');
         }); 
     }
+
+    var getCalculation = function () {
+        $http({
+            url: $sessionStorage.config.backend + webService + '/GetCalculation',
+            method: "POST",
+            data: { client: $rootScope.clientData }
+        })
+        .then(function (response) {
+            $rootScope.calculation = JSON.parse(response.data.d);
+            $rootScope.appCalculation = JSON.parse(response.data.d);
+
+            if ($rootScope.clientData.goal.code == undefined || $rootScope.clientData.goal.code == null || $rootScope.clientData.goal.code == 0) {
+                $rootScope.clientData.goal.code = $rootScope.calculation.goal.code;
+            }
+
+            getCharts();
+            getGoals();
+            debugger;
+            $scope.getGoal($rootScope.clientData.goal.code);
+
+        },
+        function (response) {
+            if (response.data.d === undefined) {
+                functions.alert($translate.instant('you have to refresh the page. press Ctrl+F5') + '.', '');
+            } else {
+                functions.alert(response.data.d, '');
+            }
+        });
+    };
+    getCalculation();
 
 }])
 
