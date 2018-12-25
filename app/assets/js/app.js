@@ -1596,16 +1596,19 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         var clientLog = [];
         var goalFrom = [];
         var goalTo = [];
+        var goalWeight = []; //TODO
         var labels = [];
+
         $rootScope.clientLogGraphData = charts.createGraph(
             [$translate.instant('tracking of anthropometric measures')],
             [
                 clientLog,
                 goalFrom,
-                goalTo
+                goalTo,
+                goalWeight
             ],
             labels,
-            ['#3399ff', '#ff3333', '#33ff33'],
+            ['#3399ff', '#ff3333', '#33ff33', '#ffff00'],
             [
                    {
                        label: $translate.instant("measured value"),
@@ -1626,15 +1629,24 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                        backgroundColor: '#e6e6ff',
                        type: 'line',
                        fill: false
+                   },
+                   {
+                       label: $translate.instant("goal"),
+                       borderWidth: 2,
+                       backgroundColor: '#e6e6ff',
+                       type: 'line',
+                       fill: false
                    }
+
             ],
             true,
             false
         )
 
-        //TODO - goal
+        //TODO - goal (depending of type, reduction increase, fixed Goal)
         if (angular.isDefined($rootScope.calculation.recommendedWeight)) {
             var days = 30;
+            var goal = 0;
             if (clientLogsDays !== undefined) {
                 days = clientLogsDays.days;
                 $scope.clientLogsDays = clientLogsDays;
@@ -1642,7 +1654,20 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             angular.forEach($scope.clientLog, function (x, key) {
                 if (functions.getDateDiff(x.date) <= days) {
                     $scope.clientLog_.push(x);
-                    if (type == 0) { clientLog.push(x.weight); goalFrom.push(getRecommendedWeight(x.height).min); goalTo.push(getRecommendedWeight(x.height).max); }
+                    if (type == 0) {
+                        clientLog.push(x.weight);
+                        goalFrom.push(getRecommendedWeight(x.height).min);
+                        goalTo.push(getRecommendedWeight(x.height).max);
+                        debugger;
+                        goal = ($scope.clientLog[0].weight - (functions.getTwoDateDiff($scope.clientLog[0].date, x.date)) * 0.07);   // << 7000 kcal == 1 kg (0.07kg == 500 kcal)
+                        if (key > 0 && goal > getRecommendedWeight(x.height).max) {
+                            goalWeight.push(goal); 
+                        } else if (key == 0) {
+                            goalWeight.push(x.weight);
+                        } else {
+                            goalWeight.push(getRecommendedWeight(x.height).max);
+                        }
+                    }
                     if (type == 1) { clientLog.push(x.waist); goalFrom.push(95); }
                     if (type == 2) { clientLog.push(x.hip); goalFrom.push(97); }
                     if (key % (Math.floor($scope.clientLog.length / 31) + 1) === 0) {
