@@ -2084,7 +2084,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     energy = $rootScope.appCalculation.recommendedEnergyIntake + 300;
                     activity = $rootScope.appCalculation.recommendedEnergyExpenditure;
                 }
-                $rootScope.goalWeightValue = $rootScope.calculation.recommendedWeight.max;
+                $rootScope.goalWeightValue = angular.copy($rootScope.calculation.recommendedWeight.max);
                 break;
             case "G2":  // zadrzavanje postojece tjelesne mase
                 if ($rootScope.appCalculation.goal.code == "G1") {
@@ -2099,7 +2099,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     energy = $rootScope.appCalculation.recommendedEnergyIntake - 300;
                     activity = $rootScope.appCalculation.recommendedEnergyExpenditure;
                 }
-                $rootScope.goalWeightValue = $rootScope.clientData.weight;
+                $rootScope.goalWeightValue = angular.copy($rootScope.clientData.weight);
                 break;
             case "G3":  // povecanje tjelesne mase
                 if ($rootScope.appCalculation.goal.code == "G2") {
@@ -2118,7 +2118,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     energy = $rootScope.appCalculation.recommendedEnergyIntake + 500;
                     activity = $rootScope.appCalculation.recommendedEnergyExpenditure + 200;
                 }
-                $rootScope.goalWeightValue = $rootScope.clientData.weight < $rootScope.calculation.recommendedWeight.min ? $rootScope.calculation.recommendedWeight.min : $rootScope.clientData.weight + 10;  //TODO
+                $rootScope.goalWeightValue = $rootScope.clientData.weight < $rootScope.calculation.recommendedWeight.min ? angular.copy($rootScope.calculation.recommendedWeight.min) : angular.copy($rootScope.clientData.weight + 10);  //TODO
                 break;
             case "G4":  // povecanje misicne mase
                 if ($rootScope.appCalculation.goal.code == "G1") {
@@ -2133,7 +2133,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     energy = $rootScope.appCalculation.recommendedEnergyIntake + 400;
                     activity = $rootScope.appCalculation.recommendedEnergyExpenditure + 100;
                 }
-                $rootScope.goalWeightValue = $rootScope.clientData.weight
+                $rootScope.goalWeightValue = angular.copy($rootScope.clientData.weight);
                 break;
             default:
                 energy = 0;
@@ -6175,15 +6175,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 } else if ([8, 13, 27, 37, 38, 39, 40].indexOf(event.which) > -1) {
                     // to allow backspace, enter, escape, arrows  
                     return true;
-                }
-                else if (event.which == 110 || event.which == 188 || event.which == 190) {
+                } else if (event.which == 110 || event.which == 188 || event.which == 190) {
                     // to allow ',' and '.'
                     return true;
                 } else if (event.which == 46) {
                     // to allow delete
                     return true;
-                }
-                else {
+                } else {
                     event.preventDefault();
                     // to stop others  
                     return false;
