@@ -58,37 +58,39 @@ public class Clients : System.Web.Services.WebService {
 
     public class Client {
 
-          public NewClient GetClient(string userId, string clientId) {
+        public NewClient GetClient(string userId, string clientId) {
             DataBase db = new DataBase();
             string dataBase = ConfigurationManager.AppSettings["UserDataBase"];
-
             try {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
-            connection.Open();
-            SQLiteCommand command = new SQLiteCommand("SELECT clientId, firstName, lastName, birthDate, gender, phone, email, userId, date, isActive FROM clients WHERE clientId = @clientId", connection);
-            command.Parameters.Add(new SQLiteParameter("clientId", clientId));
-            NewClient x = new NewClient();
-                Gender g = new Gender();
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read()) {
-                x.clientId = reader.GetValue(0) == DBNull.Value ? null : reader.GetString(0);
-                x.firstName = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
-                x.lastName = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
-                x.birthDate = reader.GetValue(3) == DBNull.Value ? DateTime.Now.ToString() : reader.GetString(3);
-                x.gender.value = reader.GetValue(4) == DBNull.Value ? 0 : reader.GetInt32(4);
-                x.gender.title = GetGenderTitle(x.gender.value);
-                x.phone = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
-                x.email = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
-                x.userId = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
-                x.date = reader.GetValue(8) == DBNull.Value ? DateTime.Today.ToString() : reader.GetString(8);
-                x.isActive = reader.GetValue(9) == DBNull.Value ? 1 : reader.GetInt32(9);
-                x.clientData = null;
-            }
-            connection.Close();
-            return x;
-        } catch (Exception e) { return null; }
-
-    }
+                if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(clientId)) {
+                    return new NewClient();
+                } else {
+                    SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
+                    connection.Open();
+                    SQLiteCommand command = new SQLiteCommand("SELECT clientId, firstName, lastName, birthDate, gender, phone, email, userId, date, isActive FROM clients WHERE clientId = @clientId", connection);
+                    command.Parameters.Add(new SQLiteParameter("clientId", clientId));
+                    NewClient x = new NewClient();
+                    Gender g = new Gender();
+                    SQLiteDataReader reader = command.ExecuteReader();
+                    while (reader.Read()) {
+                        x.clientId = reader.GetValue(0) == DBNull.Value ? null : reader.GetString(0);
+                        x.firstName = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
+                        x.lastName = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+                        x.birthDate = reader.GetValue(3) == DBNull.Value ? DateTime.Now.ToString() : reader.GetString(3);
+                        x.gender.value = reader.GetValue(4) == DBNull.Value ? 0 : reader.GetInt32(4);
+                        x.gender.title = GetGenderTitle(x.gender.value);
+                        x.phone = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
+                        x.email = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
+                        x.userId = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
+                        x.date = reader.GetValue(8) == DBNull.Value ? DateTime.Today.ToString() : reader.GetString(8);
+                        x.isActive = reader.GetValue(9) == DBNull.Value ? 1 : reader.GetInt32(9);
+                        x.clientData = null;
+                    }
+                    connection.Close();
+                    return x;
+                }
+            } catch (Exception e) { return new NewClient(); }
+        }
 
     }
 

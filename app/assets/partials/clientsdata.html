@@ -274,6 +274,10 @@
 <script type="text/ng-template" id="clientStatictic">
     <div ng-if="clientData.clientId">
         <div>
+            <div class="text-right">
+                <a ng-if="pdfLink1==null" ng-click="printClientLogPdf()" class="btn btn-default text-capitalize" ng-disabled="creatingPdf"><span class="text-danger"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</span></a>
+                <a ng-if="pdfLink1!=null" href="{{pdfLink1}}" class="btn btn-success text-capitalize" download ng-click="hidePdfLink1()"><i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}</a>
+            </div>
             <div class="row">
                 <div class="col-sm-4 mt10">
                     <md-radio-group ng-model="displayType" ng-click="changeDisplayType(displayType, clientLogsDays)" layout="row">
@@ -283,11 +287,18 @@
                     </md-radio-group>
                 </div>
                 <div class="col-sm-4 mt10">
+                    <span>{{'show' | translate}}</span>
                     <select ng-model="clientLogsDays" class="form-control" ng-options="x.title | translate for x in chartDays" ng-change="setClientLogGraphData(0, clientLogsDays)"></select>
                 </div>
-                <div class="col-sm-4 mt10 text-right">
-                    <a ng-if="pdfLink1==null" ng-click="printClientLogPdf()" class="btn btn-default text-capitalize" ng-disabled="creatingPdf"><span class="text-danger"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</span></a>
-                    <a ng-if="pdfLink1!=null" href="{{pdfLink1}}" class="btn btn-success text-capitalize" download ng-click="hidePdfLink1()"><i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}</a>
+                <div class="col-sm-2 mt10">
+                    <span>{{'goal' | translate}}</span>
+                    <div class="input-group">
+                        <input type="text" ng-model="goalWeightValue_" class="form-control text-right" style="min-width:75px" allow-only-numbers ng-change="changeGoalWeightValue(goalWeightValue_, 0, clientLogsDays)">
+                        <!--<button ng-click="changeGoalWeightValue(goalWeightValue_, 0, clientLogsDays)">confirm</button>-->
+                        <div class="input-group-addon">
+                            <div class="input-group-text" style="width:25px">{{'kg' | translate}}</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="p10">
@@ -319,7 +330,10 @@
                             <a href="" style="color:green" ng-click="updateClientLog(x)" class="btn btn-default" title="{{'save' | translate}}"><i class="fa fa-floppy-o"></i></a>
                         </td>
                         <td>{{clientLog.length - $index}}</td>
-                        <td>{{getDateFormat(x.date) | date:'dd.MM.yyyy'}}</td>
+                        <td>
+                            <input ng-model="x.date" type="date" class="form-control">
+                            <!--{{getDateFormat(x.date) | date:'dd.MM.yyyy'}}-->
+                        </td>
                         <td>
                             <input type="text" ng-model="x.height" class="form-control" style="min-width:70px" allow-only-numbers>
                         </td>

@@ -96,7 +96,7 @@ public class Menues : System.Web.Services.WebService {
                 x.date = reader.GetValue(3) == DBNull.Value ? DateTime.UtcNow : Convert.ToDateTime(reader.GetString(3));
                 x.note = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
                 x.userId = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
-                x.client = reader.GetValue(6) == DBNull.Value ? new Clients.NewClient() : client.GetClient(x.userId, reader.GetString(6));
+                x.client = (reader.GetValue(6) == DBNull.Value || reader.GetValue(7) == DBNull.Value) ? new Clients.NewClient() : client.GetClient(reader.GetString(7), reader.GetString(6));
                 x.userGroupId = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
                 x.energy = reader.GetValue(8) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(8));
                 xx.Add(x);
@@ -128,7 +128,7 @@ public class Menues : System.Web.Services.WebService {
                 x.date = reader.GetValue(3) == DBNull.Value ? DateTime.UtcNow : Convert.ToDateTime(reader.GetString(3));
                 x.note = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
                 x.userId = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
-                x.client = reader.GetValue(6) == DBNull.Value ? new Clients.NewClient() : client.GetClient(x.userId, reader.GetString(6));
+                x.client = reader.GetValue(6) == DBNull.Value ? new Clients.NewClient() : client.GetClient(reader.GetString(7), reader.GetString(6));
                 x.userGroupId = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
                 x.energy = reader.GetValue(8) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(8));
                 xx.Add(x);
@@ -159,7 +159,7 @@ public class Menues : System.Web.Services.WebService {
                 x.date = reader.GetValue(3) == DBNull.Value ? DateTime.UtcNow : Convert.ToDateTime(reader.GetString(3));
                 x.note = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
                 x.userId = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
-                x.client = reader.GetValue(6) == DBNull.Value ? new Clients.NewClient() : client.GetClient(x.userId, reader.GetString(6));
+                x.client = reader.GetValue(6) == DBNull.Value ? new Clients.NewClient() : client.GetClient(reader.GetString(7), reader.GetString(6));
                 x.userGroupId = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
                 x.energy = reader.GetValue(8) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(8));
                 x.data = JsonConvert.DeserializeObject<Data>(GetJsonFile(userId, x.id));

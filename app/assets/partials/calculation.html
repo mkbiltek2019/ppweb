@@ -95,7 +95,7 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="input-group">
-                                <input type="text" ng-model="goalWeightValue" class="form-control text-right" style="min-width:75px" allow-only-numbers >
+                                <input type="text" ng-model="goalWeightValue" class="form-control text-right" style="min-width:75px" allow-only-numbers ng-change="changeGoalWeightValue(goalWeightValue)" >
                                 <div class="input-group-addon">
                                     <div class="input-group-text" style="width:25px">{{'kg' | translate}}</div>
                                 </div>
@@ -105,45 +105,20 @@
                 </fieldset>
                 <fieldset class="fieldset-border">
                     <legend class="fieldset-border text-capitalize">{{'recommendations' | translate}}:</legend>
-                    <div class="row mt5">
-                        <div class="col-sm-8">
-                            {{'weight' | translate}}
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="input-group">
-                                <input type="text" value="{{calculation.recommendedWeight.min | number:0}} - {{calculation.recommendedWeight.max | number:0}}" class="form-control text-right" style="min-width:75px" disabled allow-only-numbers>
-                                <div class="input-group-addon">
-                                    <div class="input-group-text" style="width:20px">{{'kg' | translate}}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row  mt5">
-                        <div class="col-sm-8">
-                            {{'energy intake' | translate}}
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="input-group">
-                                <input type="text" value="{{calculation.recommendedEnergyIntake}}" class="form-control text-right" style="min-width:75px" disabled allow-only-numbers>
-                                <div class="input-group-addon">
-                                    <div class="input-group-text" style="width:20px">{{'kcal' | translate}}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row  mt5">
-                        <div class="col-sm-8">
-                            {{'additional energy expenditure' | translate}}
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="input-group">
-                                <input type="text" value="{{calculation.recommendedEnergyExpenditure}}" class="form-control text-right" style="min-width:75px" disabled allow-only-numbers>
-                                <div class="input-group-addon">
-                                    <div class="input-group-text" style="width:20px">{{'kcal' | translate}}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <table class="table table-bordered">
+                        <tr>
+                            <td>{{'weight' | translate}}</td>
+                            <td class="nowrap text-right"><span class="text-primary" style="font-size:24px">{{calculation.recommendedWeight.min | number:0}} - {{calculation.recommendedWeight.max | number:0}} {{'kg' | translate}}</span></td>
+                        </tr>
+                        <tr>
+                            <td>{{'energy intake' | translate}}</td>
+                            <td class="nowrap text-right"><span class="text-primary" style="font-size:24px">{{calculation.recommendedEnergyIntake}} {{'kcal' | translate}}</span></td>
+                        </tr>
+                        <tr>
+                            <td>{{'additional energy expenditure' | translate}}</td>
+                            <td class="nowrap text-right"><span class="text-primary" style="font-size:24px">{{calculation.recommendedEnergyExpenditure}} {{'kcal' | translate}}</span></td>
+                        </tr>
+                    </table>
                 </fieldset>
                 <fieldset class="fieldset-border">
                     <legend class="fieldset-border text-capitalize">{{'my recommendations' | translate}}:</legend>

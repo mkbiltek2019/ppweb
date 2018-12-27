@@ -1485,6 +1485,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             getCalculation();
             $scope.toggleTpl('clientStatictic');
             $scope.clientLog = JSON.parse(response.data.d);
+            angular.forEach($scope.clientLog, function (x, key) {
+                x.date = new Date(x.date);
+            });
             //setClientLogGraphData(0, $scope.clientLogsDays);
         },
         function (response) {
@@ -1520,10 +1523,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.updateClientLog = function (x) {
+        var cd = angular.copy(x);
+        cd.date = cd.date.toISOString();
         $http({
             url: $sessionStorage.config.backend + 'ClientsData.asmx/UpdateClientLog',
             method: "POST",
-            data: { userId: $sessionStorage.usergroupid, clientData: x }
+            data: { userId: $sessionStorage.usergroupid, clientData: cd }
         })
         .then(function (response) {
             $scope.getClientLog(x);
@@ -1591,6 +1596,54 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     }
 
+    $scope.changeGoalWeightValue = function (value, type, clientLogsDays) {
+        $rootScope.goalWeightValue_ = parseInt(value);
+        setClientLogGraphData(type, clientLogsDays);
+    }
+
+    var getGoalLog = function (deficit, key, x, firstWeight, firstDate, currDate) {
+        var goal = (firstWeight + (functions.getTwoDateDiff(firstDate, currDate)) * deficit / 7000).toFixed(2);
+        var value = 0;
+        var goalLimit = $rootScope.goalWeightValue_ !== undefined ? parseInt($rootScope.goalWeightValue_) : 0;
+        if (goalLimit == 0) {
+            if (deficit == 0) {
+                goalLimit = x.weight;
+            } else if (deficit > 0) {
+                goalLimit = (getRecommendedWeight(x.height).min + getRecommendedWeight(x.height).max) / 2;
+            } else {
+                goalLimit = getRecommendedWeight(x.height).max;
+            }
+        }
+
+        if (key == 0) {
+            value = x.weight;
+        }
+        if (deficit > 0) {
+            if (goal <= goalLimit) {
+                value = goal;
+            } else {
+                value = goalLimit;
+            }
+        } else {
+            if (goal >= goalLimit) {
+                value = goal;
+            } else {
+                value = goalLimit;
+            }
+        }
+        
+
+
+        //if (key > 0 && (deficit > 0 && goal > getRecommendedWeight(x.height).max)) {
+        //    value = goal;
+        //} else if (key == 0) {
+        //    value = x.weight;
+        //} else {
+        //    value = getRecommendedWeight(x.height).max;
+        //}
+        return value;
+    }
+
     var setClientLogGraphData = function (type, clientLogsDays) {
         $scope.clientLog_ = [];
         var clientLog = [];
@@ -1608,7 +1661,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 goalWeight
             ],
             labels,
-            ['#3399ff', '#ff3333', '#33ff33', '#ffff00'],
+            ['#3399ff', '#ff3333', '#33ff33', '#3399ff'],
             [
                    {
                        label: $translate.instant("measured value"),
@@ -1631,7 +1684,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                        fill: false
                    },
                    {
-                       label: $translate.instant("goal"),
+                       label: $translate.instant("goal") + ' (2 kg/mj)' ,  //TODO translate
                        borderWidth: 5,
                        backgroundColor: '#e6e6ff',
                        type: 'line',
@@ -1647,6 +1700,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         if (angular.isDefined($rootScope.calculation.recommendedWeight)) {
             var days = 30;
             var goal = 0;
+            var deficit = ($rootScope.calculation.recommendedEnergyIntake + $rootScope.calculation.recommendedEnergyExpenditure) - $rootScope.calculation.tee;
             if (clientLogsDays !== undefined) {
                 days = clientLogsDays.days;
                 $scope.clientLogsDays = clientLogsDays;
@@ -1658,15 +1712,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                         clientLog.push(x.weight);
                         goalFrom.push(getRecommendedWeight(x.height).min);
                         goalTo.push(getRecommendedWeight(x.height).max);
-                        debugger;
-                        goal = ($scope.clientLog[0].weight - (functions.getTwoDateDiff($scope.clientLog[0].date, x.date)) * 0.07);   // << 7000 kcal == 1 kg (0.07kg == 500 kcal)
-                        if (key > 0 && goal > getRecommendedWeight(x.height).max) {
-                            goalWeight.push(goal); 
-                        } else if (key == 0) {
-                            goalWeight.push(x.weight);
-                        } else {
-                            goalWeight.push(getRecommendedWeight(x.height).max);
-                        }
+                        /********** goal **********/
+                        goal = getGoalLog(deficit, key, x, $scope.clientLog[0].weight, $scope.clientLog[0].date, x.date);
+                        goalWeight.push(goal);
+                        /**************************/
                     }
                     if (type == 1) { clientLog.push(x.waist); goalFrom.push(95); }
                     if (type == 2) { clientLog.push(x.hip); goalFrom.push(97); }
@@ -1762,6 +1811,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.clientLogDiff = function (type, clientLog, x, idx) {
+        if (x === undefined) { return false; }
         var diff = 0;
         if (clientLog.length - idx == 1) return {
             diff: diff.toFixed(1),
@@ -2066,6 +2116,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         });
     };
 
+    if ($rootScope.goalWeightValue_ === undefined) { $rootScope.goalWeightValue_ = 0; }
+    $scope.changeGoalWeightValue = function (x) {
+        $rootScope.goalWeightValue_ = angular.copy(x);
+    }
+
     $scope.getGoal = function (x) {
         var energy = 0;
         var activity = 0;
@@ -2084,7 +2139,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     energy = $rootScope.appCalculation.recommendedEnergyIntake + 300;
                     activity = $rootScope.appCalculation.recommendedEnergyExpenditure;
                 }
-                $rootScope.goalWeightValue = angular.copy($rootScope.calculation.recommendedWeight.max);
+                $rootScope.goalWeightValue = Math.round(angular.copy($rootScope.calculation.recommendedWeight.max));
                 break;
             case "G2":  // zadrzavanje postojece tjelesne mase
                 if ($rootScope.appCalculation.goal.code == "G1") {
@@ -2099,7 +2154,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     energy = $rootScope.appCalculation.recommendedEnergyIntake - 300;
                     activity = $rootScope.appCalculation.recommendedEnergyExpenditure;
                 }
-                $rootScope.goalWeightValue = angular.copy($rootScope.clientData.weight);
+                $rootScope.goalWeightValue =  Math.round(angular.copy($rootScope.clientData.weight));
                 break;
             case "G3":  // povecanje tjelesne mase
                 if ($rootScope.appCalculation.goal.code == "G2") {
@@ -2118,7 +2173,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     energy = $rootScope.appCalculation.recommendedEnergyIntake + 500;
                     activity = $rootScope.appCalculation.recommendedEnergyExpenditure + 200;
                 }
-                $rootScope.goalWeightValue = $rootScope.clientData.weight < $rootScope.calculation.recommendedWeight.min ? angular.copy($rootScope.calculation.recommendedWeight.min) : angular.copy($rootScope.clientData.weight + 10);  //TODO
+                $rootScope.goalWeightValue = $rootScope.clientData.weight < $rootScope.calculation.recommendedWeight.min ?  Math.round(angular.copy($rootScope.calculation.recommendedWeight.min)) :  Math.round(angular.copy($rootScope.clientData.weight + 10));  //TODO
                 break;
             case "G4":  // povecanje misicne mase
                 if ($rootScope.appCalculation.goal.code == "G1") {
@@ -2133,14 +2188,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     energy = $rootScope.appCalculation.recommendedEnergyIntake + 400;
                     activity = $rootScope.appCalculation.recommendedEnergyExpenditure + 100;
                 }
-                $rootScope.goalWeightValue = angular.copy($rootScope.clientData.weight);
+                $rootScope.goalWeightValue =  Math.round(angular.copy($rootScope.clientData.weight));
                 break;
             default:
                 energy = 0;
                 activity = 0;
                 break;
         }
-
+        $scope.changeGoalWeightValue($rootScope.goalWeightValue);
 
         angular.forEach($rootScope.goals, function (value, key) {
             if (value.code == x) {
@@ -2152,16 +2207,15 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         $rootScope.calculation.recommendedEnergyIntake = Math.round(energy);
         $rootScope.calculation.recommendedEnergyExpenditure = Math.round(activity);
-
     }
 
     var isGoalDisabled = function () {
-            if ($rootScope.calculation.bmi.value < 18.5) {
-                $rootScope.goals[0].isDisabled = true;
-            }
-            if ($rootScope.calculation.bmi.value > 25) {
-                $rootScope.goals[2].isDisabled = true;
-            }
+        if ($rootScope.calculation.bmi.value < 18.5) {
+            $rootScope.goals[0].isDisabled = true;
+        }
+        if ($rootScope.calculation.bmi.value > 25) {
+            $rootScope.goals[2].isDisabled = true;
+        }
     }
 
     $scope.creatingPdf = false;
@@ -3376,6 +3430,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { config: $rootScope.config, clientData: $rootScope.clientData }
         })
         .then(function (x) {
+            $rootScope.currentMenu.id = x.id;
+            $rootScope.currentMenu.title = x.title;
+            $rootScope.currentMenu.note = x.note;
+            $rootScope.currentMenu.userId = x.userId;
             $rootScope.currentMenu.data = x.data;
             $rootScope.currentMenu.client.clientData = $rootScope.clientData;
             $rootScope.currentMenu.client.clientData.meals = x.data.meals;
@@ -3580,7 +3638,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 return false;
             }
             currentMenu.diet = d.client.clientData.diet.diet;
-            $mdDialog.hide($scope.d.currentMenu);
             var myMeals = null;
             if (currentMenu.data.meals.length > 2) {
                 if (currentMenu.data.meals[0].code != 'B') {
@@ -3595,6 +3652,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
           .then(function (response) {
               if (response.data.d != 'error') {
                   $scope.d.currentMenu = JSON.parse(response.data.d);
+                  $mdDialog.hide($scope.d.currentMenu);
               } else {
                   functions.alert($translate.instant('there is already a menu with the same name'), '');
               }
