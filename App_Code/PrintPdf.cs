@@ -97,7 +97,6 @@ public class PrintPdf : System.Web.Services.WebService {
             sb.AppendLine(string.Format(@"
                                         "));
 
-
             foreach (string m in orderedMeals) {
                 List<Foods.NewFood> meal = currentMenu.data.selectedFoods.Where(a => a.meal.code == m).ToList();
                 sb.AppendLine(AppendMeal(meal, currentMenu.data.meals, lang, settings));

@@ -4808,15 +4808,15 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                         method: "POST",
                         data: { userId: $sessionStorage.usergroupid, currentMenu: currentMenu, totals: $rootScope.totals, consumers: consumers, lang: $rootScope.config.language, settings: $scope.settings }
                     })
-                      .then(function (response) {
-                          var fileName = response.data.d;
-                          $scope.creatingPdf = false;
-                          $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
-                      },
-                      function (response) {
-                          $scope.creatingPdf = false;
-                          alert(response.data.d)
-                      });
+                    .then(function (response) {
+                        var fileName = response.data.d;
+                        $scope.creatingPdf = false;
+                        $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
+                    },
+                    function (response) {
+                        $scope.creatingPdf = false;
+                        alert(response.data.d)
+                    });
                 },
                 function (response) {
                     alert(response.data.d)
