@@ -203,33 +203,41 @@ public class PrintPdf : System.Web.Services.WebService {
                 table.WidthPercentage = 100f;
                 table.SetWidths(new float[] { 1.5f, 2f, 2f, 2f, 2f, 2f, 2f, 2f });
                 table.AddCell(new PdfPCell(new Phrase(string.Format("{0}:", t.Tran("energy value", lang)), GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 7 });
+                int ii = 0;
                 for (int i = 0; i < 7; i++) {
-                    if (!string.IsNullOrEmpty(weeklyMenu.menuList[i])) {
-                        table.AddCell(new PdfPCell(new Phrase(string.Format("{0} {1}",weeklyMenuTotalList[i].energy.ToString(), t.Tran("kcal", lang)), GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 7 });
+                    if (!string.IsNullOrEmpty(weeklyMenu.menuList[i]) && ii < weeklyMenuTotalList.Count) {
+                        table.AddCell(new PdfPCell(new Phrase(string.Format("{0} {1}", weeklyMenuTotalList[ii].energy.ToString(), t.Tran("kcal", lang)), GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 7 });
+                        ii++;
                     } else {
                         table.AddCell(new PdfPCell(new Phrase("", GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 2 });
                     }
                 }
                 table.AddCell(new PdfPCell(new Phrase(string.Format("{0}:", t.Tran("carbohydrates", lang)), GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 2 });
+                ii = 0;
                 for (int i = 0; i < 7; i++) {
-                    if (!string.IsNullOrEmpty(weeklyMenu.menuList[i])) {
-                        table.AddCell(new PdfPCell(new Phrase(string.Format("{0} {1}, ({2}%)", weeklyMenuTotalList[i].carbohydrates.ToString(), t.Tran("g", lang), weeklyMenuTotalList[i].carbohydratesPercentage.ToString()), GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 2 });
+                    if (!string.IsNullOrEmpty(weeklyMenu.menuList[i]) && ii < weeklyMenuTotalList.Count) {
+                        table.AddCell(new PdfPCell(new Phrase(string.Format("{0} {1}, ({2}%)", weeklyMenuTotalList[ii].carbohydrates.ToString(), t.Tran("g", lang), weeklyMenuTotalList[ii].carbohydratesPercentage.ToString()), GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 2 });
+                        ii++;
                     } else {
                         table.AddCell(new PdfPCell(new Phrase("", GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 2 });
                     }
                 }
                 table.AddCell(new PdfPCell(new Phrase(string.Format("{0}:", t.Tran("proteins", lang)), GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 2 });
+                ii = 0;
                 for (int i = 0; i < 7; i++) {
-                    if (!string.IsNullOrEmpty(weeklyMenu.menuList[i])) {
-                        table.AddCell(new PdfPCell(new Phrase(string.Format("{0} {1}, ({2}%)", weeklyMenuTotalList[i].proteins.ToString(), t.Tran("g", lang), weeklyMenuTotalList[i].proteinsPercentage.ToString()), GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 2 });
+                    if (!string.IsNullOrEmpty(weeklyMenu.menuList[i]) && ii < weeklyMenuTotalList.Count) {
+                        table.AddCell(new PdfPCell(new Phrase(string.Format("{0} {1}, ({2}%)", weeklyMenuTotalList[ii].proteins.ToString(), t.Tran("g", lang), weeklyMenuTotalList[ii].proteinsPercentage.ToString()), GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 2 });
+                        ii++;
                     } else {
                         table.AddCell(new PdfPCell(new Phrase("", GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 2 });
                     }
                 }
                 table.AddCell(new PdfPCell(new Phrase(string.Format("{0}:", t.Tran("fats", lang)), GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 2 });
+                ii = 0;
                 for (int i = 0; i < 7; i++) {
-                    if (!string.IsNullOrEmpty(weeklyMenu.menuList[i])) {
-                        table.AddCell(new PdfPCell(new Phrase(string.Format("{0} {1}, ({2}%)", weeklyMenuTotalList[i].fats.ToString(), t.Tran("g", lang), weeklyMenuTotalList[i].fatsPercentage.ToString()), GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 2 });
+                    if (!string.IsNullOrEmpty(weeklyMenu.menuList[i]) && ii < weeklyMenuTotalList.Count) {
+                        table.AddCell(new PdfPCell(new Phrase(string.Format("{0} {1}, ({2}%)", weeklyMenuTotalList[ii].fats.ToString(), t.Tran("g", lang), weeklyMenuTotalList[ii].fatsPercentage.ToString()), GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 2 });
+                        ii++;
                     } else {
                         table.AddCell(new PdfPCell(new Phrase("", GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 2 });
                     }
@@ -1172,10 +1180,15 @@ IBAN HR8423400091160342496
             foreach(string m in menuList) {
                 if(m != null) {
                     Menues.NewMenu wm = me.WeeklyMenu(userId, m);
-                    menuTitle = wm.data.meals[weeklyMealIdx].title;
-                    break;
+                    if (wm.data.meals != null) {
+                        if(wm.data.meals.Count > weeklyMealIdx) {
+                            menuTitle = wm.data.meals[weeklyMealIdx].title;
+                            break;
+                        }
+                    }
                 }
             }
+
             table.AddCell(new PdfPCell(new Phrase(menuTitle.ToUpper(), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
 
             for (i = 0; i < menuList.Count; i++) {
