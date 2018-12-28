@@ -139,6 +139,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
                //$sessionStorage.config.language = $scope.clientApp.lang;
                $scope.clientId = $scope.clientApp.clientId;
                $scope.userId = $scope.clientApp.userId;
+               initPrintSettings();
                getClient();
                $scope.setLanguage($scope.clientApp.lang);
                $scope.toggleCurrTpl('clientdata.html');
@@ -527,6 +528,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
     $scope.pdfLink = null;
     $scope.creatingPdf = false;
     $scope.createMenuPdf = function () {
+        debugger;
         $scope.pdfLink = null;
         $scope.creatingPdf = true;
         $http({
