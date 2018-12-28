@@ -528,7 +528,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
     $scope.pdfLink = null;
     $scope.creatingPdf = false;
     $scope.createMenuPdf = function () {
-        debugger;
         $scope.pdfLink = null;
         $scope.creatingPdf = true;
         $http({
