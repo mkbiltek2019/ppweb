@@ -6,42 +6,14 @@ angular.module('charts', [])
 
 .factory('charts', [function () {
     return {
-        'createGraph': function (s, d, l, c, dso, legend, baz) {
+        'createGraph': function (series, data, labels, colors, options, datasetOverride) {
             return {
-                series: s,
-                data: d,
-                labels: l,
-                colors: c,
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    legend: {
-                        display: legend
-                    },
-                    scales: {
-                        xAxes: [{
-                            display: true,
-                            scaleLabel: {
-                                display: true,
-                            },
-                            ticks: {
-                                beginAtZero: baz,
-                                stepSize: 10
-                            }
-                        }],
-                        yAxes: [{
-                            display: true,
-                            scaleLabel: {
-                                display: true,
-                            },
-                            ticks: {
-                                beginAtZero: baz,
-                                stepSize: 10
-                            }
-                        }]
-                    }
-                },
-                datasetOverride: dso
+                series: series,
+                data: data,
+                labels: labels,
+                colors: colors,
+                options: options,
+                datasetOverride: datasetOverride
             }
         },
         'stackedChart': function (series, data, labels, colors, title) {

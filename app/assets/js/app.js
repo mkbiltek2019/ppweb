@@ -1235,6 +1235,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $rootScope.calculation = [];
             $rootScope.initMyCalculation();
             $scope.d = $rootScope.client;
+            $rootScope.goalWeightValue_ = null;
             $scope.openPopup();
         },
         function (response) {
@@ -1445,6 +1446,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 if ($rootScope.unitSystem == 0 && $rootScope.config.language == 'en') {
                     $rootScope.convertToStandardSystem();
                 }
+                $rootScope.goalWeightValue_ = null;
             } else {
                 init(x);
             }
@@ -1653,7 +1655,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         var labels = [];
 
         $rootScope.clientLogGraphData = charts.createGraph(
-            [$translate.instant('tracking of anthropometric measures')],
+            [$translate.instant("measured value"), $translate.instant("lower limit"), $translate.instant("upper limit"), $translate.instant("goal")],
             [
                 clientLog,
                 goalFrom,
@@ -1661,39 +1663,19 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 goalWeight
             ],
             labels,
-            ['#3399ff', '#ff3333', '#33ff33', '#3399ff'],
+            ['#3399ff', '#ff3333', '#33ff33', '#ffd633'],
+            { responsive: true, maintainAspectRatio: true, legend: { display: true },
+                scales: {
+                    xAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: false } }],
+                    yAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: false } }]
+                }
+            },
             [
-                   {
-                       label: $translate.instant("measured value"),
-                       borderWidth: 1,
-                       type: 'bar',
-                       fill: true
-                   },
-                   {
-                       label: $translate.instant("lower limit"),
-                       borderWidth: 2,
-                       backgroundColor: '#e6e6ff',
-                       type: 'line',
-                       fill: false,
-                   },
-                   {
-                       label: $translate.instant("upper limit"),
-                       borderWidth: 2,
-                       backgroundColor: '#e6e6ff',
-                       type: 'line',
-                       fill: false
-                   },
-                   {
-                       label: $translate.instant("goal") + ' (2 kg/mj)' ,  //TODO translate
-                       borderWidth: 5,
-                       backgroundColor: '#e6e6ff',
-                       type: 'line',
-                       fill: false
-                   }
-
-            ],
-            true,
-            false
+                { label: $translate.instant("measured value"), borderWidth: 1, type: 'bar', fill: true },
+                { label: $translate.instant("lower limit"), borderWidth: 2, type: 'line', fill: false },
+                { label: $translate.instant("upper limit"), borderWidth: 2, type: 'line', fill: false },
+                { label: $translate.instant("goal") + ' (2 kg/mj)', borderWidth: 6, type: 'line', fill: false }  // TODO Translate kg/mj
+            ]
         )
 
         //TODO - goal (depending of type, reduction increase, fixed Goal)
@@ -3820,13 +3802,20 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         var t = $rootScope.totals;
         var r = $rootScope.recommendations
         $rootScope.servGraphData = charts.createGraph(
-                $translate.instant('unit servings'),
+                [$translate.instant('cereals'), $translate.instant('vegetables'), $translate.instant('fruit'), $translate.instant('meat'), $translate.instant('milk'), $translate.instant('fats')],
                 [
                     [t.servings.cerealsServ, t.servings.vegetablesServ, t.servings.fruitServ, t.servings.meatServ, t.servings.milkServ, t.servings.fatsServ],
                     [r.servings.cerealsServ, r.servings.vegetablesServ, r.servings.fruitServ, r.servings.meatServ, r.servings.milkServ, r.servings.fatsServ]
                 ],
                 [$translate.instant('cereals'), $translate.instant('vegetables'), $translate.instant('fruit'), $translate.instant('meat'), $translate.instant('milk'), $translate.instant('fats')],
                 ['#45b7cd', '#33cc33', '#33cc33'],
+                {
+                    responsive: true, maintainAspectRatio: true, legend: { display: true },
+                    scales: {
+                        xAxes: [{ display: true, scaleLabel: { display: false }, ticks: { beginAtZero: true } }],
+                        yAxes: [{ display: true, scaleLabel: { display: false }, ticks: { beginAtZero: true } }]
+                    }
+                },
                 [
                      {
                          label: $translate.instant('choosen'),
@@ -3842,24 +3831,32 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                          type: 'line',
                          fill: true
                      }
-                ],
-                false,
-                true
+                ]
         );
+
         $rootScope.pieGraphData = charts.createGraph(
-                [$translate.instant('nutrients')],
+                [$translate.instant('carbohydrates'), $translate.instant('proteins'), $translate.instant('fats')],
                 [t.carbohydratesPercentage, t.proteinsPercentage, t.fatsPercentage],
                 [$translate.instant('carbohydrates') + ' (%)', $translate.instant('proteins') + ' (%)', $translate.instant('fats') + ' (%)'],
                 ['#45b7cd', '#ff6384', '#33cc33'],
-                [],
-                false,
-                true
+                { responsive: true, maintainAspectRatio: true, legend: { display: true },
+                scales: {
+                    xAxes: [{ display: false, scaleLabel: { display: false }, ticks: { beginAtZero: true } }],
+                    yAxes: [{ display: false, scaleLabel: { display: false }, ticks: { beginAtZero: true } }]}
+                },
+                []
         );
         $rootScope.mealsGraphData = charts.createGraph(
-               [$translate.instant('meals')],
+               $scope.mealsTitles,
                [$scope.mealsTotals, $scope.mealsMin, $scope.mealsMax ],
                $scope.mealsTitles,
                ['#45b7cd', '#ff6384', '#33cc33'],
+               { responsive: true, maintainAspectRatio: true, legend: { display: true },
+                    scales: {
+                        xAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: true } }],
+                        yAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: true, stepSize: 200 } }]
+                    }
+               },
                [
                     {
                         label: $translate.instant('choosen') + ' (' + $translate.instant('kcal') + ')',
@@ -3883,15 +3880,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                         type: 'line',
                         fill: false
                     }
-               ],
-               false,
-               false
+               ]
        );
 
-
-
         //TODO
-
         $scope.parametersGraphData = charts.stackedChart(
             [$translate.instant('choosen'), $translate.instant('recommended dietary allowance') + ' (' + $translate.instant('rda').toUpperCase() + ')'],
             [
@@ -3980,144 +3972,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             ['#45b7cd', '#33cc33'],
             $translate.instant('parameters'));
 
-        /*
-        $rootScope.parametersGraphData = charts.createGraph(
-               [$translate.instant('parameters')],
-               [
-                   [
-                    t.fibers,
-                    t.monounsaturatedFats,
-                    t.polyunsaturatedFats,
-                    t.calcium,
-                    t.magnesium,
-                    t.phosphorus,
-                    t.iron,
-                    t.copper,
-                    t.zinc,
-                    t.manganese,
-                    t.selenium,
-                    t.iodine,
-                    t.retinol,
-                    t.vitaminD,
-                    t.vitaminE,
-                    t.vitaminB1,
-                    t.vitaminB2,
-                    t.vitaminB3,
-                    t.vitaminB6,
-                    t.vitaminB12,
-                    t.folate,
-                    t.pantothenicAcid,
-                    t.biotin,
-                    t.vitaminC,
-                    t.vitaminK],
-                   [
-                    r.fibers.rda,
-                    r.monounsaturatedFats.rda,
-                    r.polyunsaturatedFats.rda,
-                    r.calcium.rda,
-                    r.magnesium.rda,
-                    r.phosphorus.rda,
-                    r.iron.rda,
-                    r.copper.rda,
-                    r.zinc.rda,
-                    r.manganese.rda,
-                    r.selenium.rda,
-                    r.iodine.rda,
-                    r.retinol.rda,
-                    r.vitaminD.rda,
-                    r.vitaminE.rda,
-                    r.vitaminB1.rda,
-                    r.vitaminB2.rda,
-                    r.vitaminB3.rda,
-                    r.vitaminB6.rda,
-                    r.vitaminB12.rda,
-                    r.folate.rda,
-                    r.pantothenicAcid.rda,
-                    r.biotin.rda,
-                    r.vitaminC.rda,
-                    r.vitaminK.rda]
-               ],
-               [
-                'fibers',
-                'monounsaturatedFats',
-                'polyunsaturatedFats',
-                'calcium',
-                'magnesium',
-                'phosphorus',
-                'iron',
-                'copper',
-                'zinc',
-                'manganese',
-                'selenium',
-                'iodine',
-                'retinol',
-                'vitaminD',
-                'vitaminE',
-                'vitaminB1',
-                'vitaminB2',
-                'vitaminB3',
-                'vitaminB6',
-                'vitaminB12',
-                'folate',
-                'pantothenicAcid',
-                'biotin',
-                'vitaminC',
-                'vitaminK'],
-               ['#45b7cd', '#2fed4f', '#ff8e72'],
-               [
-                    {
-                        label: "Odabrano",
-                        borderWidth: 1,
-                        type: 'horizontalBar'
-                    },
-                    {
-                        label: "RDA",
-                        borderWidth: 3,
-                        hoverBackgroundColor: "rgba(255,99,132,0.4)",
-                        hoverBorderColor: "rgba(255,99,132,1)",
-                        type: 'line'
-                    }
-               ],
-               false,
-               true
-        );
-        */
-
-
-        /*
-        $scope.testChart = {
-            labels: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet"
-            ],
-            type: "horizontalBar",
-            series: ['Series A', 'Series B'],
-            options: {
-                title: {
-                    display: true,
-                    text: "Chart.js Bar Chart - Stacked"
-                },
-                tooltips: {
-                    mode: 'index',
-                    intersect: false
-                },
-                responsive: true,
-                scales: {
-                    xAxes: [{
-                        stacked: true,
-                    }],
-                    yAxes: [{
-                        stacked: true
-                    }]
-                }
-            },
-            data: [
-              [65, 59, 90, 81, 56, 55, 40],
-              [28, 48, 40, 19, 96, 27, 100]
-            ],
-            colors: ['#00ADF9']
-        }
-        */
-
-
         $scope.parametersGraphDataUI = charts.stackedChart(
             [$translate.instant('choosen'), $translate.instant('upper intake level') + ' (' + $translate.instant('ul').toUpperCase() + ')'],
             [
@@ -4131,81 +3985,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             ],
             ['#f44242', '#33cc33'],
             '');
-
-        /*
-        $scope.parametersGraphDataUI = {
-            labels: ['saturatedFats', 'trifluoroaceticAcid', 'cholesterol'],
-            type: "horizontalBar",
-            series: ['Series A', 'Series B'],
-            options: {
-                title: {
-                    display: true,
-                    text: "parameters"
-                },
-                tooltips: {
-                    mode: 'index',
-                    intersect: false
-                },
-                responsive: true,
-                scales: {
-                    xAxes: [{
-                        stacked: true,
-                    }],
-                    yAxes: [{
-                        stacked: true
-                    }]
-                }
-            },
-            data: [
-              [t.saturatedFats, t.trifluoroaceticAcid, t.cholesterol],
-              [r.saturatedFats.ui, r.trifluoroaceticAcid.ui, r.cholesterol.ui]
-            ],
-            colors: ['#f44242', '#33cc33']
-        }
-        */
-
-
-
-
-
-
-
-        
-
-        //TODO
-        /*
-        $rootScope.parametersGraphDataUI = charts.createGraph(
-              // [$translate.instant('parameters')],
-              ['Series A', 'Series B'],
-               [
-                   [t.saturatedFats, t.trifluoroaceticAcid, t.cholesterol],
-                   [r.saturatedFats.ui, r.trifluoroaceticAcid.ui, r.cholesterol.ui]
-               ],
-               ['saturatedFats', 'trifluoroaceticAcid', 'cholesterol'],
-               //['#f44242', '#ff6384'],
-               ['#f44242', '#33cc33', '#33cc33'],
-               [
-                    {
-                        label: "Odabrano",
-                        borderWidth: 1,
-                        type: "bar",
-                        backgroundColor: "rgb(244, 66, 66)",
-                        hoverBackgroundColor: "rgb(244, 66, 66)"
-                    },
-                   // {
-                      //  label: "UI",
-                       // borderWidth: 3,
-                       // type: 'line',
-                        //hoverBackgroundColor: "rgba(255,99,132,0.4)",
-                        //hoverBorderColor: "rgba(255,99,132,1)",
-                  //  }
-               ],
-               false,
-               true
-        );
-        */
-
-
 
         //TODO
 
@@ -4223,40 +4002,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             ],
             ['#45b7cd', '#33cc33'],
             '');
-
-        /*
-        $rootScope.parametersGraphDataMDA = charts.createGraph(
-               ['parametri'],
-               [
-                   [t.sodium, t.potassium, t.chlorine],
-                   [r.sodium.ui],
-                   [r.sodium.mda, r.potassium.mda, r.chlorine.mda]
-               ],
-               ['sodium', 'potassium', 'chlorine'],
-               ['#45b7cd', '#33cc33', '#33cc33'],
-               [
-                    {
-                        label: "Odabrano",
-                        borderWidth: 1,
-                        type: 'bar',
-                        hoverBackgroundColor: "rgba(255,99,132,0.4)",
-                        hoverBorderColor: "rgba(255,99,132,1)"
-                    },
-                    {
-                        label: "UI",
-                        borderWidth: 10,
-                        type: 'line',
-                    },
-                    {
-                        label: "MDA",
-                        borderWidth: 3,
-                        type: 'line'
-                    },
-               ],
-               false,
-               true
-        );
-        */
 
     }
 
@@ -4892,7 +4637,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         return recommendations
     }
 
-
+    $scope.toggleParamTpl = function (x) {
+        $scope.parametersTpl = x;
+    }
+    $scope.toggleParamTpl('parametersTableTpl');
 
 }])
 
