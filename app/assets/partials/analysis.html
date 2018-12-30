@@ -32,7 +32,7 @@
                     </tr>
                     <tr ng-repeat="x in currentMenu.data.meals | filter: { 'isSelected': true }">
                         <td class="nowrap">{{x.title}}</td>
-                        <td class="text-bold">{{getMealTotal(x.code).energy | number:1}} {{'kcal' | translate}} ({{getMealTotal(x.code).energyPercentage | number:1}} %)</td>
+                        <td class="text-bold">{{getMealTotal(x.code).energy | number:1}} {{'kcal' | translate}} ({{getMealTotal(x.code).energyPercentage | number:1}} %) <i class="{{checkTotal(getMealTotal(x.code).energyPercentage, getMealRecommendation(x.code).energyMinPercentage, getMealRecommendation(x.code).energyMaxPercentage)}}"></i></td>
                         <td>{{getMealRecommendation(x.code).energyMin}} - {{getMealRecommendation(x.code).energyMax}} {{'kcal' | translate}} ({{getMealRecommendation(x.code).energyMinPercentage}} - {{getMealRecommendation(x.code).energyMaxPercentage}} %)</td>
                     </tr>
                     <tr>
@@ -40,7 +40,7 @@
                     </tr>
                     <tr>
                         <td>{{'total' | translate}}</td>
-                        <td class="text-bold">{{totals.energy | number:1}} {{'kcal' | translate}}</td>
+                        <td class="text-bold">{{totals.energy | number:1}} {{'kcal' | translate}} <i class="{{checkEnergy(totals.energy, recommendations.energy)}}"></i></td>
                         <td>{{recommendations.energy}} {{'kcal' | translate}}</td>
                     </tr>
                 </table>
@@ -63,17 +63,17 @@
                     </tr>
                     <tr>
                         <td>{{'carbohydrates' | translate}}</td>
-                        <td class="nowrap text-bold">{{totals.carbohydrates | number:1}} g, ({{totals.carbohydratesPercentage | number:1}} %)</td>
+                        <td class="nowrap text-bold">{{totals.carbohydrates | number:1}} g, ({{totals.carbohydratesPercentage | number:1}} %) <i class="{{checkTotal(totals.carbohydratesPercentage, recommendations.carbohydratesPercentageMin, recommendations.carbohydratesPercentageMax)}}"></i></td>
                         <td>{{recommendations.carbohydratesPercentageMin | number:1}}-{{recommendations.carbohydratesPercentageMax | number:1}} %</td>
                     </tr>
                     <tr>
                         <td>{{'proteins' | translate}}</td>
-                        <td class="nowrap text-bold">{{totals.proteins | number:1}} g, ({{totals.proteinsPercentage | number:1}} %)</td>
+                        <td class="nowrap text-bold">{{totals.proteins | number:1}} g, ({{totals.proteinsPercentage | number:1}} %) <i class="{{checkTotal(totals.proteinsPercentage, recommendations.proteinsPercentageMin, recommendations.proteinsPercentageMax)}}"></i></td>
                         <td>{{recommendations.proteinsPercentageMin | number:1}}-{{recommendations.proteinsPercentageMax | number:1}} %</td>
                     </tr>
                     <tr>
                         <td>{{'fats' | translate}}</td>
-                        <td class="text-bold">{{totals.fats | number:1}} g, ({{totals.fatsPercentage | number:1}} %)</td>
+                        <td class="text-bold">{{totals.fats | number:1}} g, ({{totals.fatsPercentage | number:1}} %) <i class="{{checkTotal(totals.fatsPercentage, recommendations.fatsPercentageMin, recommendations.fatsPercentageMax)}}"></i></td>
                         <td>{{recommendations.fatsPercentageMin | number:1}}-{{recommendations.fatsPercentageMax | number:1}} %</td>
                     </tr>
                 </table>
@@ -94,32 +94,32 @@
                     </tr>
                     <tr>
                         <td>{{'cereals and cereal products' | translate}}</td>
-                        <td class="text-bold">{{totals.servings.cerealsServ}}</td>
+                        <td class="text-bold">{{totals.servings.cerealsServ}} <i class="{{checkServ(totals.servings.cerealsServ, recommendations.servings.cerealsServ)}}"></i></td>
                         <td>{{recommendations.servings.cerealsServ}}</td>
                     </tr>
                     <tr>
                         <td>{{'vegetables' | translate}}</td>
-                        <td class="text-bold">{{totals.servings.vegetablesServ}}</td>
+                        <td class="text-bold">{{totals.servings.vegetablesServ}} <i class="{{checkServ(totals.servings.vegetablesServ, recommendations.servings.vegetablesServ)}}"></i></td>
                         <td>{{recommendations.servings.vegetablesServ}}</td>
                     </tr>
                     <tr>
                         <td>{{'fruit' | translate}}</td>
-                        <td class="text-bold">{{totals.servings.fruitServ}}</td>
+                        <td class="text-bold">{{totals.servings.fruitServ}} <i class="{{checkServ(totals.servings.fruitServ, recommendations.servings.fruitServ)}}"></i></td>
                         <td>{{recommendations.servings.fruitServ}}</td>
                     </tr>
                     <tr>
                         <td>{{'meat and substitutes' | translate}}</td>
-                        <td class="text-bold">{{totals.servings.meatServ}}</td>
+                        <td class="text-bold">{{totals.servings.meatServ}} <i class="{{checkServ(totals.servings.meatServ, recommendations.servings.meatServ)}}"></i></td>
                         <td>{{recommendations.servings.meatServ}}</td>
                     </tr>
                     <tr>
                         <td>{{'milk and dairy products' | translate}}</td>
-                        <td class="text-bold">{{totals.servings.milkServ}}</td>
+                        <td class="text-bold">{{totals.servings.milkServ}} <i class="{{checkServ(totals.servings.milkServ, recommendations.servings.milkServ)}}"></i></td>
                         <td>{{recommendations.servings.milkServ}}</td>
                     </tr>
                     <tr>
                         <td>{{'fats' | translate}}</td>
-                        <td class="text-bold">{{totals.servings.fatsServ}}</td>
+                        <td class="text-bold">{{totals.servings.fatsServ}} <i class="{{checkServ(totals.servings.fatsServ, recommendations.servings.fatsServ)}}"></i></td>
                         <td>{{recommendations.servings.fatsServ}}</td>
                     </tr>
                     <tr>
@@ -132,7 +132,7 @@
                     </tr>
                     <tr>
                         <td>{{'other foods' | translate}}</td>
-                        <td class="text-bold">{{totals.servings.otherFoodsEnergy | number:1}} {{'kcal' | translate}}</td>
+                        <td class="text-bold">{{totals.servings.otherFoodsEnergy | number:1}} {{'kcal' | translate}} <i class="{{checkOtherFoods(totals.servings.otherFoodsEnergy, recommendations.servings.otherFoodsEnergy)}}"></i></td>
                         <td>{{recommendations.servings.otherFoodsEnergy | number:1}} {{'kcal' | translate}}</td>
                     </tr>
                 </table>

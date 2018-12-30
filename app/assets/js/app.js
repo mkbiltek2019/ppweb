@@ -4642,6 +4642,48 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
     $scope.toggleParamTpl('parametersTableTpl');
 
+    $scope.checkTotal = function (total, min, max) {
+        var icon = 'pull-right fa fa-';
+        if (total > max) {
+            return icon + 'chevron-circle-right text-danger';
+        } else if (total < min) {
+            return icon + 'chevron-circle-left text-info';
+        } else {
+            return icon + 'check-circle text-success';
+        }
+    }
+
+    $scope.checkEnergy = function (total, r) {
+        var icon = 'pull-right fa fa-';
+        if ((total / r) - 1 > 0.05) {
+            return icon + 'chevron-circle-right text-danger';
+        } else if ((total / r) - 1 < -0.05) {
+            return icon + 'chevron-circle-left text-info';
+        } else {
+            return icon + 'check-circle text-success';
+        }
+    }
+
+    $scope.checkServ = function (total, r) {
+        var icon = 'pull-right fa fa-';
+        if ((total - r) > 1) {
+            return icon + 'chevron-circle-right text-danger';
+        } else if ((total - r) < -1) {
+            return icon + 'chevron-circle-left text-info';
+        } else {
+            return icon + 'check-circle text-success';
+        }
+    }
+
+    $scope.checkOtherFoods = function (total, r) {
+        var icon = 'pull-right fa fa-';
+        if (total > r) {
+            return icon + 'chevron-circle-right text-danger';
+        } else {
+            return icon + 'check-circle text-success';
+        }
+    }
+
 }])
 
 .controller('myFoodsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
