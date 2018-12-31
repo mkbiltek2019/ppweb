@@ -53,37 +53,6 @@
             </div>
         </fieldset>
         <fieldset class="fieldset-border">
-            <legend class="fieldset-border text-capitalize">{{'macronutrients' | translate}}</legend>
-            <div class="table-responsive">
-                <table class="table table-condensed text-small">
-                    <tr>
-                        <th></th>
-                        <th>{{'choosen' | translate}}</th>
-                        <th>{{'recommended' | translate}}</th>
-                    </tr>
-                    <tr>
-                        <td>{{'carbohydrates' | translate}}</td>
-                        <td class="nowrap text-bold">{{totals.carbohydrates | number:1}} g, ({{totals.carbohydratesPercentage | number:1}} %) <i class="{{checkTotal(totals.carbohydratesPercentage, recommendations.carbohydratesPercentageMin, recommendations.carbohydratesPercentageMax)}}"></i></td>
-                        <td>{{recommendations.carbohydratesPercentageMin | number:1}}-{{recommendations.carbohydratesPercentageMax | number:1}} %</td>
-                    </tr>
-                    <tr>
-                        <td>{{'proteins' | translate}}</td>
-                        <td class="nowrap text-bold">{{totals.proteins | number:1}} g, ({{totals.proteinsPercentage | number:1}} %) <i class="{{checkTotal(totals.proteinsPercentage, recommendations.proteinsPercentageMin, recommendations.proteinsPercentageMax)}}"></i></td>
-                        <td>{{recommendations.proteinsPercentageMin | number:1}}-{{recommendations.proteinsPercentageMax | number:1}} %</td>
-                    </tr>
-                    <tr>
-                        <td>{{'fats' | translate}}</td>
-                        <td class="text-bold">{{totals.fats | number:1}} g, ({{totals.fatsPercentage | number:1}} %) <i class="{{checkTotal(totals.fatsPercentage, recommendations.fatsPercentageMin, recommendations.fatsPercentageMax)}}"></i></td>
-                        <td>{{recommendations.fatsPercentageMin | number:1}}-{{recommendations.fatsPercentageMax | number:1}} %</td>
-                    </tr>
-                </table>
-            </div>
-            <canvas id="pieChart" class="chart chart-pie"
-                    chart-data="pieGraphData.data" chart-labels="pieGraphData.labels"  height="180"
-                    chart-series="pieGraphData.series" chart-options="pieGraphData.options" chart-colors="pieGraphData.colors" >
-            </canvas>
-        </fieldset>
-        <fieldset class="fieldset-border">
             <legend class="fieldset-border">{{'unit servings' | translate}}</legend>
             <div class="table-responsive">
                 <table class="table table-condensed text-small">
@@ -140,9 +109,39 @@
             <div>
                 <canvas id="servChart" class="chart chart-bar"
                         chart-data="servGraphData.data" chart-labels="servGraphData.labels" chart-colors="servGraphData.colors" height="200"
-                        chart-series="servGraphData.series" chart-options="servGraphData.options" chart-dataset-override="servGraphData.datasetOverride">
-                </canvas>
+                        chart-series="servGraphData.series" chart-options="servGraphData.options" chart-dataset-override="servGraphData.datasetOverride"></canvas>
             </div>
+        </fieldset>
+        <fieldset class="fieldset-border">
+            <legend class="fieldset-border text-capitalize">{{'macronutrients' | translate}}</legend>
+            <div class="table-responsive">
+                <table class="table table-condensed text-small">
+                    <tr>
+                        <th></th>
+                        <th>{{'choosen' | translate}}</th>
+                        <th>{{'recommended' | translate}}</th>
+                    </tr>
+                    <tr>
+                        <td>{{'carbohydrates' | translate}}</td>
+                        <td class="nowrap text-bold">{{totals.carbohydrates | number:1}} g, ({{totals.carbohydratesPercentage | number:1}} %) <i class="{{checkTotal(totals.carbohydratesPercentage, recommendations.carbohydratesPercentageMin, recommendations.carbohydratesPercentageMax)}}"></i></td>
+                        <td>{{recommendations.carbohydratesPercentageMin | number:1}}-{{recommendations.carbohydratesPercentageMax | number:1}} %</td>
+                    </tr>
+                    <tr>
+                        <td>{{'proteins' | translate}}</td>
+                        <td class="nowrap text-bold">{{totals.proteins | number:1}} g, ({{totals.proteinsPercentage | number:1}} %) <i class="{{checkTotal(totals.proteinsPercentage, recommendations.proteinsPercentageMin, recommendations.proteinsPercentageMax)}}"></i></td>
+                        <td>{{recommendations.proteinsPercentageMin | number:1}}-{{recommendations.proteinsPercentageMax | number:1}} %</td>
+                    </tr>
+                    <tr>
+                        <td>{{'fats' | translate}}</td>
+                        <td class="text-bold">{{totals.fats | number:1}} g, ({{totals.fatsPercentage | number:1}} %) <i class="{{checkTotal(totals.fatsPercentage, recommendations.fatsPercentageMin, recommendations.fatsPercentageMax)}}"></i></td>
+                        <td>{{recommendations.fatsPercentageMin | number:1}}-{{recommendations.fatsPercentageMax | number:1}} %</td>
+                    </tr>
+                </table>
+            </div>
+            <canvas id="pieChart" class="chart chart-pie"
+                    chart-data="pieGraphData.data" chart-labels="pieGraphData.labels"  height="180"
+                    chart-series="pieGraphData.series" chart-options="pieGraphData.options" chart-colors="pieGraphData.colors" >
+            </canvas>
         </fieldset>
     </div>
 </script>
