@@ -20,15 +20,9 @@ angular.module('charts', [])
             return {
                 series: series, data: data, labels: labels, colors: colors, type: 'horizontalBar',
                 options: {
-                    title: {
-                        display: true,
-                        text: title
-                    },
-                    tooltips: {
-                        mode: 'index',
-                        intersect: false
-                    },
-                    responsive: true,
+                    title: { display: true, text: title },
+                    tooltips: { mode: 'index', intersect: false },
+                    responsive: true, maintainAspectRatio: true, legend: { display: true },
                     scales: {
                         xAxes: [{
                             stacked: true,

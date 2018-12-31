@@ -758,7 +758,7 @@ public class PrintPdf : System.Web.Services.WebService {
                 }
                 doc.Add(table);
                 doc.Add(new Chunk(line));
-                doc.Add(new Paragraph(t.Tran("chart", lang), GetFont()));
+                doc.Add(new Paragraph("", GetFont()));
 
                 if (!string.IsNullOrEmpty(imageData)) {
                     string imgPath = UploadImg(userId, imageData);

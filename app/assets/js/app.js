@@ -3846,42 +3846,67 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 },
                 []
         );
-        $rootScope.mealsGraphData = charts.createGraph(
-               $scope.mealsTitles,
-               [$scope.mealsTotals, $scope.mealsMin, $scope.mealsMax ],
-               $scope.mealsTitles,
-               ['#45b7cd', '#ff6384', '#33cc33'],
-               { responsive: true, maintainAspectRatio: true, legend: { display: true },
-                    scales: {
-                        xAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: true } }],
-                        yAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: true, stepSize: 200 } }]
-                    }
-               },
-               [
+
+        var mealsGraphData = function (displayLegend) {
+            return charts.createGraph(
+              $scope.mealsTitles,
+              [$scope.mealsTotals, $scope.mealsMin, $scope.mealsMax],
+              $scope.mealsTitles,
+              ['#45b7cd', '#ff6384', '#33cc33'],
+              {
+                  responsive: true, maintainAspectRatio: true, legend: { display: displayLegend },
+                  scales: {
+                      xAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: true } }],
+                      yAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: true, stepSize: 200 } }]
+                  }
+              },
+              [
+                   {
+                       label: $translate.instant('choosen') + ' (' + $translate.instant('kcal') + ')',
+                       borderWidth: 1,
+                       type: 'bar',
+                       fill: true
+                   },
+                   {
+                       label: $translate.instant('recommended') + ' ' + $translate.instant('from') + ' (' + $translate.instant('kcal') + ')',
+                       borderWidth: 3,
+                       hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                       hoverBorderColor: "rgba(255,99,132,1)",
+                       type: 'line',
+                       fill: false
+                   },
                     {
-                        label: $translate.instant('choosen') + ' (' + $translate.instant('kcal') + ')',
-                        borderWidth: 1,
-                        type: 'bar',
-                        fill: true
-                    },
-                    {
-                        label: $translate.instant('recommended') + ' ' + $translate.instant('from') + ' (' + $translate.instant('kcal') + ')',
+                        label: $translate.instant('recommended') + ' ' + $translate.instant('to') + ' (' + $translate.instant('kcal') + ')',
                         borderWidth: 3,
                         hoverBackgroundColor: "rgba(255,99,132,0.4)",
                         hoverBorderColor: "rgba(255,99,132,1)",
                         type: 'line',
                         fill: false
-                    },
-                     {
-                         label: $translate.instant('recommended') + ' ' + $translate.instant('to') + ' (' + $translate.instant('kcal') + ')',
-                        borderWidth: 3,
-                        hoverBackgroundColor: "rgba(255,99,132,0.4)",
-                        hoverBorderColor: "rgba(255,99,132,1)",
-                        type: 'line',
-                        fill: false
                     }
-               ]
-       );
+              ]
+            );
+
+        }  
+        $rootScope.mealsGraphData_menu = mealsGraphData(false);
+        $rootScope.mealsGraphData_analysis = mealsGraphData(true);
+
+
+        $scope.parametersGraphDataOther = charts.stackedChart(
+            [$translate.instant('choosen')],
+            [
+                [t.starch, t.totalSugar, t.glucose, t.fructose, t.saccharose, t.maltose, t.lactose]
+            ],
+            [
+                $translate.instant('starch') + ' (' + $translate.instant('g') + ')',
+                $translate.instant('total sugar') + ' (' + $translate.instant('g') + ')',
+                $translate.instant('glucose') + ' (' + $translate.instant('g') + ')',
+                $translate.instant('fructose') + ' (' + $translate.instant('g') + ')',
+                $translate.instant('saccharose') + ' (' + $translate.instant('g') + ')',
+                $translate.instant('maltose') + ' (' + $translate.instant('g') + ')',
+                $translate.instant('lactose') + ' (' + $translate.instant('g') + ')'
+            ],
+            ['#33cc33'],
+            '');
 
         //TODO
         $scope.parametersGraphData = charts.stackedChart(
@@ -3944,30 +3969,30 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             ],
             [
                 $translate.instant('fibers') + ' (' + $translate.instant('g') + ')',
-                $translate.instant('monounsaturated fats') + ' (' + $translate.instant('g') + ')', //'monounsaturatedFats',
-                $translate.instant('polyunsaturated fats') + ' (' + $translate.instant('g') + ')', //'polyunsaturatedFats',
-                $translate.instant('calcium') + ' (' + $translate.instant('mg') + ')', //'calcium',
-                $translate.instant('magnesium') + ' (' + $translate.instant('mg') + ')', //'magnesium',
-                $translate.instant('phosphorus') + ' (' + $translate.instant('mg') + ')', //'phosphorus',
-                $translate.instant('iron') + ' (' + $translate.instant('mg') + ')', //'iron',
-                $translate.instant('copper') + ' (' + $translate.instant('mg') + ')', //'copper',
-                $translate.instant('zinc') + ' (' + $translate.instant('mg') + ')', //'zinc',
-                $translate.instant('manganese') + ' (' + $translate.instant('mg') + ')', //'manganese',
-                $translate.instant('selenium') + ' (' + $translate.instant('ug') + ')', //'selenium',
-                $translate.instant('iodine') + ' (' + $translate.instant('ug') + ')', //'iodine',
-                $translate.instant('retinol') + ' (' + $translate.instant('ug') + ')', //'retinol',
-                $translate.instant('vitamin D') + ' (' + $translate.instant('ug') + ')', //'vitaminD',
-                $translate.instant('vitamin E') + ' (' + $translate.instant('mg') + ')', //'vitaminE',
-                $translate.instant('vitamin B1') + ' (' + $translate.instant('mg') + ')', //'vitaminB1',
-                $translate.instant('vitamin B2') + ' (' + $translate.instant('mg') + ')', //'vitaminB2',
-                $translate.instant('vitamin B3') + ' (' + $translate.instant('mg') + ')', //'vitaminB3',
-                $translate.instant('vitamin B6') + ' (' + $translate.instant('mg') + ')', //'vitaminB6',
-                $translate.instant('vitamin B12') + ' (' + $translate.instant('ug') + ')', //'vitaminB12',
-                $translate.instant('folate') + ' (' + $translate.instant('ug') + ')', //'folate',
-                $translate.instant('pantothenic acid') + ' (' + $translate.instant('mg') + ')', //'pantothenicAcid',
-                $translate.instant('biotin') + ' (' + $translate.instant('ug') + ')', //'biotin',
-                $translate.instant('vitamin C') + ' (' + $translate.instant('mg') + ')', //'vitaminC',
-                $translate.instant('vitamin K') + ' (' + $translate.instant('ug') + ')', //'vitaminK'
+                $translate.instant('monounsaturated fats') + ' (' + $translate.instant('g') + ')',
+                $translate.instant('polyunsaturated fats') + ' (' + $translate.instant('g') + ')',
+                $translate.instant('calcium') + ' (' + $translate.instant('mg') + ')',
+                $translate.instant('magnesium') + ' (' + $translate.instant('mg') + ')',
+                $translate.instant('phosphorus') + ' (' + $translate.instant('mg') + ')',
+                $translate.instant('iron') + ' (' + $translate.instant('mg') + ')',
+                $translate.instant('copper') + ' (' + $translate.instant('mg') + ')',
+                $translate.instant('zinc') + ' (' + $translate.instant('mg') + ')',
+                $translate.instant('manganese') + ' (' + $translate.instant('mg') + ')',
+                $translate.instant('selenium') + ' (' + $translate.instant('ug') + ')',
+                $translate.instant('iodine') + ' (' + $translate.instant('ug') + ')',
+                $translate.instant('retinol') + ' (' + $translate.instant('ug') + ')',
+                $translate.instant('vitamin D') + ' (' + $translate.instant('ug') + ')',
+                $translate.instant('vitamin E') + ' (' + $translate.instant('mg') + ')',
+                $translate.instant('vitamin B1') + ' (' + $translate.instant('mg') + ')',
+                $translate.instant('vitamin B2') + ' (' + $translate.instant('mg') + ')',
+                $translate.instant('vitamin B3') + ' (' + $translate.instant('mg') + ')',
+                $translate.instant('vitamin B6') + ' (' + $translate.instant('mg') + ')',
+                $translate.instant('vitamin B12') + ' (' + $translate.instant('ug') + ')',
+                $translate.instant('folate') + ' (' + $translate.instant('ug') + ')',
+                $translate.instant('pantothenic acid') + ' (' + $translate.instant('mg') + ')',
+                $translate.instant('biotin') + ' (' + $translate.instant('ug') + ')',
+                $translate.instant('vitamin C') + ' (' + $translate.instant('mg') + ')',
+                $translate.instant('vitamin K') + ' (' + $translate.instant('ug') + ')',
             ],
             ['#45b7cd', '#33cc33'],
             $translate.instant('parameters'));
@@ -3987,7 +4012,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             '');
 
         //TODO
-
         $scope.parametersGraphDataMDA = charts.stackedChart(
             [$translate.instant('choosen'), $translate.instant('upper intake level') + ' (' + $translate.instant('ul').toUpperCase() + ')', $translate.instant('minimum dietary allowance') + ' (' + $translate.instant('mda').toUpperCase() + ')'],
             [
@@ -4640,7 +4664,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.toggleParamTpl = function (x) {
         $scope.parametersTpl = x;
     }
-    $scope.toggleParamTpl('parametersTableTpl');
+    $scope.toggleParamTpl('parametersChartTpl');
 
     $scope.checkTotal = function (total, min, max) {
         var icon = 'pull-right fa fa-';

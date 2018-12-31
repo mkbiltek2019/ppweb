@@ -47,8 +47,8 @@
             </div>
             <div>
                 <canvas id="mealsChart" class="chart chart-bar"
-                        chart-data="mealsGraphData.data" chart-labels="mealsGraphData.labels" chart-colors="mealsGraphData.colors" height="220"
-                        chart-series="mealsGraphData.series" chart-options="mealsGraphData.options" chart-dataset-override="mealsGraphData.datasetOverride">
+                        chart-data="mealsGraphData_analysis.data" chart-labels="mealsGraphData_analysis.labels" chart-colors="mealsGraphData_analysis.colors" height="220"
+                        chart-series="mealsGraphData_analysis.series" chart-options="mealsGraphData_analysis.options" chart-dataset-override="mealsGraphData_analysis.datasetOverride">
                 </canvas>
             </div>
         </fieldset>
@@ -157,12 +157,32 @@
         </div>
         <div class="mt10">
             <ul class="nav nav-tabs">
-                <li ng-class="parametersTpl=='parametersTableTpl'?'active':''" ng-click="toggleParamTpl('parametersTableTpl')"><a href="#"><i class="fa fa-table"></i> <span class="hidden-xs text-capitalize">{{'table' | translate}}</span></a></li>
                 <li ng-class="parametersTpl=='parametersChartTpl'?'active':''" ng-click="toggleParamTpl('parametersChartTpl')"><a href="#"><i class="fa fa-line-chart"></i> <span class="hidden-xs text-capitalize">{{'charts' | translate}}</span></a></li>
+                <li ng-class="parametersTpl=='parametersTableTpl'?'active':''" ng-click="toggleParamTpl('parametersTableTpl')"><a href="#"><i class="fa fa-table"></i> <span class="hidden-xs text-capitalize">{{'table' | translate}}</span></a></li>
             </ul>
         </div>
         <div ng-include="parametersTpl" style="padding-top:20px"></div>
     </fieldset>
+</script>
+
+
+<script type="text/ng-template" id="parametersChartTpl">
+    <div>
+        <canvas class="chart-horizontal-bar" chart-type="parametersGraphDataOther.type" chart-data="parametersGraphDataOther.data" chart-labels="parametersGraphDataOther.labels" height="120"
+                chart-series="parametersGraphDataOther.series" chart-options="parametersGraphDataOther.options" chart-colors="parametersGraphDataOther.colors"></canvas>
+    </div>
+    <div>
+        <canvas class="chart-horizontal-bar" chart-type="parametersGraphDataUI.type" chart-data="parametersGraphDataUI.data" chart-labels="parametersGraphDataUI.labels" height="80"
+                chart-series="parametersGraphDataUI.series" chart-options="parametersGraphDataUI.options" chart-colors="parametersGraphDataUI.colors"></canvas>
+    </div>
+    <div>
+        <canvas class="chart-horizontal-bar" chart-type="parametersGraphDataMDA.type" chart-data="parametersGraphDataMDA.data" chart-labels="parametersGraphDataMDA.labels" height="80"
+                chart-series="parametersGraphDataMDA.series" chart-options="parametersGraphDataMDA.options" chart-colors="parametersGraphDataMDA.colors"></canvas>
+    </div>
+    <div>
+        <canvas class="chart-horizontal-bar" chart-type="parametersGraphData.type" chart-data="parametersGraphData.data" chart-labels="parametersGraphData.labels" height="350"
+                chart-series="parametersGraphData.series" chart-options="parametersGraphData.options" chart-colors="parametersGraphData.colors"></canvas>
+    </div>
 </script>
 
 <script type="text/ng-template" id="parametersTableTpl">
@@ -500,21 +520,6 @@
                 </tr>
             </table>
         </div>
-    </div>
-</script>
-
-<script type="text/ng-template" id="parametersChartTpl">
-    <div>
-        <canvas class="chart-horizontal-bar" chart-type="parametersGraphDataUI.type" chart-data="parametersGraphDataUI.data" chart-labels="parametersGraphDataUI.labels" height="70"
-                chart-series="parametersGraphDataUI.series" chart-options="parametersGraphDataUI.options" chart-colors="parametersGraphDataUI.colors"></canvas>
-    </div>
-    <div>
-        <canvas class="chart-horizontal-bar" chart-type="parametersGraphDataMDA.type" chart-data="parametersGraphDataMDA.data" chart-labels="parametersGraphDataMDA.labels" height="70"
-                chart-series="parametersGraphDataMDA.series" chart-options="parametersGraphDataMDA.options" chart-colors="parametersGraphDataMDA.colors"></canvas>
-    </div>
-    <div>
-        <canvas class="chart-horizontal-bar" chart-type="parametersGraphData.type" chart-data="parametersGraphData.data" chart-labels="parametersGraphData.labels" height="350"
-                chart-series="parametersGraphData.series" chart-options="parametersGraphData.options" chart-colors="parametersGraphData.colors"></canvas>
     </div>
 </script>
 

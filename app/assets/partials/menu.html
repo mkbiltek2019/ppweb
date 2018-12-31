@@ -292,7 +292,7 @@
             <div class="panel-heading bg-subpanel"><span class="text-uppercase">{{'unit servings' | translate}}</span></div>
             <div class="panel-body">
                 <div class="row">
-                    <canvas id="bar" class="chart chart-bar"
+                    <canvas id="servChart" class="chart chart-bar"
                             chart-data="servGraphData.data" chart-labels="servGraphData.labels" chart-colors="servGraphData.colors" height="200"
                             chart-series="servGraphData.series" chart-dataset-override="servGraphData.datasetOverride"></canvas>
                 </div>
@@ -302,9 +302,9 @@
             <div class="panel-heading bg-subpanel"><span class="text-uppercase">{{'distribution of energy value per meals' | translate}}</span></div>
             <div class="panel-body">
                 <div class="row">
-                    <canvas id="bar" class="chart chart-bar"
-                            chart-data="mealsGraphData.data" chart-labels="mealsGraphData.labels" chart-colors="mealsGraphData.colors" height="200"
-                            chart-series="mealsGraphData.series" chart-dataset-override="mealsGraphData.datasetOverride"></canvas>
+                    <canvas id="mealsChart" class="chart chart-bar"
+                            chart-data="mealsGraphData_menu.data" chart-labels="mealsGraphData_menu.labels" chart-colors="mealsGraphData_menu.colors" height="200"
+                            chart-series="mealsGraphData_menu.series" chart-options="mealsGraphData_menu.options" chart-dataset-override="mealsGraphData_menu.datasetOverride"></canvas>
                 </div>
             </div>
         </div>
