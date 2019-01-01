@@ -1616,7 +1616,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 goalLimit = getRecommendedWeight(x.height).max;
             }
         }
-
         if (key == 0) {
             value = x.weight;
         }
@@ -1633,16 +1632,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 value = goalLimit;
             }
         }
-        
-
-
-        //if (key > 0 && (deficit > 0 && goal > getRecommendedWeight(x.height).max)) {
-        //    value = goal;
-        //} else if (key == 0) {
-        //    value = x.weight;
-        //} else {
-        //    value = getRecommendedWeight(x.height).max;
-        //}
         return value;
     }
 
@@ -1651,7 +1640,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         var clientLog = [];
         var goalFrom = [];
         var goalTo = [];
-        var goalWeight = []; //TODO
+        var goalWeight = [];
         var labels = [];
 
         $rootScope.clientLogGraphData = charts.createGraph(
@@ -1674,7 +1663,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 { label: $translate.instant("measured value"), borderWidth: 1, type: 'bar', fill: true },
                 { label: $translate.instant("lower limit"), borderWidth: 2, type: 'line', fill: false },
                 { label: $translate.instant("upper limit"), borderWidth: 2, type: 'line', fill: false },
-                { label: $translate.instant("goal") + ' (2 kg/mj)', borderWidth: 6, type: 'line', fill: false }  // TODO Translate kg/mj
+                { label: $translate.instant("goal") + ' (2 ' + $translate.instant("kg") + '/' + $translate.instant("mo") + ')', borderWidth: 3, type: 'line', fill: false, strokeColor: "#33ff33", fillColor: "#43ff33" }
             ]
         )
 

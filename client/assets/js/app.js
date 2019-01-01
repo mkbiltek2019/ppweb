@@ -372,50 +372,81 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         }
     }
 
-    var setClientLogGraphData = function (type, clientLogsDays, fill) {
+    $scope.changeGoalWeightValue = function (value, type, clientLogsDays) {
+        $scope.goalWeightValue_ = parseInt(value);
+        setClientLogGraphData(type, clientLogsDays);
+    }
+
+    var getGoalLog = function (deficit, key, x, firstWeight, firstDate, currDate) {
+        var goal = (firstWeight + (functions.getTwoDateDiff(firstDate, currDate)) * deficit / 7000).toFixed(2);
+        var value = 0;
+        var goalLimit = $scope.goalWeightValue_ !== undefined ? parseInt($scope.goalWeightValue_) : 0;
+        if (goalLimit == 0) {
+            if (deficit == 0) {
+                goalLimit = x.weight;
+            } else if (deficit > 0) {
+                goalLimit = (getRecommendedWeight(x.height).min + getRecommendedWeight(x.height).max) / 2;
+            } else {
+                goalLimit = getRecommendedWeight(x.height).max;
+            }
+        }
+        if (key == 0) {
+            value = x.weight;
+        }
+        if (deficit > 0) {
+            if (goal <= goalLimit) {
+                value = goal;
+            } else {
+                value = goalLimit;
+            }
+        } else {
+            if (goal >= goalLimit) {
+                value = goal;
+            } else {
+                value = goalLimit;
+            }
+        }
+        return value;
+    }
+
+
+    var setClientLogGraphData = function (type, clientLogsDays) {
         $scope.clientLog_ = [];
         var clientLog = [];
         var goalFrom = [];
         var goalTo = [];
+        var goalWeight = [];
         var labels = [];
+
         $scope.clientLogGraphData = charts.createGraph(
-            [$translate.instant('tracking of anthropometric measures')],
+            [$translate.instant("measured value"), $translate.instant("lower limit"), $translate.instant("upper limit"), $translate.instant("goal")],
             [
                 clientLog,
                 goalFrom,
-                goalTo
+                goalTo,
+                goalWeight
             ],
             labels,
-            ['#3399ff', '#ff3333', '#33ff33'],
+            ['#3399ff', '#ff3333', '#33ff33', '#ffd633'],
+            {
+                responsive: true, maintainAspectRatio: true, legend: { display: true },
+                scales: {
+                    xAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: false } }],
+                    yAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: false } }]
+                }
+            },
             [
-                   {
-                       label: $translate.instant('measured value'),
-                       borderWidth: 5,
-                       type: 'line',
-                       fill: fill !== undefined ? fill : true
-                   },
-                   {
-                       label: $translate.instant('lower limit'),
-                       borderWidth: 2,
-                       backgroundColor: '#e6e6ff',
-                       fill: false,
-                       type: 'line'
-                   },
-                   {
-                       label: $translate.instant('upper limit'),
-                       borderWidth: 2,
-                       backgroundColor: '#e6e6ff',
-                       fill: false,
-                       type: 'line'
-                   }
-            ],
-            true,
-            false
+                { label: $translate.instant("measured value"), borderWidth: 1, type: 'bar', fill: true },
+                { label: $translate.instant("lower limit"), borderWidth: 2, type: 'line', fill: false },
+                { label: $translate.instant("upper limit"), borderWidth: 2, type: 'line', fill: false },
+                                { label: $translate.instant("goal") + ' (2 ' + $translate.instant("kg") + '/' + $translate.instant("mo") + ')', borderWidth: 3, type: 'line', fill: false }
+            ]
         )
 
-        //TODO - goal
         if (angular.isDefined($scope.calculation.recommendedWeight)) {
             var days = 30;
+            var goal = 0;
+            var deficit = ($scope.calculation.recommendedEnergyIntake + $scope.calculation.recommendedEnergyExpenditure) - $scope.calculation.tee;
             if (clientLogsDays !== undefined) {
                 days = clientLogsDays.days;
                 $scope.clientLogsDays = clientLogsDays;
@@ -423,7 +454,15 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
             angular.forEach($scope.clientLog, function (x, key) {
                 if (functions.getDateDiff(x.date) <= days) {
                     $scope.clientLog_.push(x);
-                    if (type == 0) { clientLog.push(x.weight); goalFrom.push(getRecommendedWeight(x.height).min); goalTo.push(getRecommendedWeight(x.height).max); }
+                    if (type == 0) {
+                        clientLog.push(x.weight);
+                        goalFrom.push(getRecommendedWeight(x.height).min);
+                        goalTo.push(getRecommendedWeight(x.height).max);
+                        /********** goal **********/
+                        goal = getGoalLog(deficit, key, x, $scope.clientLog[0].weight, $scope.clientLog[0].date, x.date);
+                        goalWeight.push(goal);
+                        /**************************/
+                    }
                     if (type == 1) { clientLog.push(x.waist); goalFrom.push(95); }
                     if (type == 2) { clientLog.push(x.hip); goalFrom.push(97); }
                     if (key % (Math.floor($scope.clientLog.length / 31) + 1) === 0) {

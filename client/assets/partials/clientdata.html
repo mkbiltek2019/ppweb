@@ -181,7 +181,19 @@
 
 <script type="text/ng-template" id="clientLogChart">
     <div class="p10" ng-cloak>
-        <div>
+        <div class="row">
+            <div class="col-sm-2">
+                <span>{{'goal' | translate}}</span>
+                <div class="input-group">
+                    <input type="text" ng-model="goalWeightValue_" class="form-control text-right" style="min-width:75px" allow-only-numbers ng-change="changeGoalWeightValue(goalWeightValue_, 0, clientLogsDays)">
+                    <!--<button ng-click="changeGoalWeightValue(goalWeightValue_, 0, clientLogsDays)">confirm</button>-->
+                    <div class="input-group-addon">
+                        <div class="input-group-text" style="width:25px">{{'kg' | translate}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt10">
             {{'weight' | translate}} ({{'kg' | translate}})
         </div>
         <div class="mt10">
