@@ -1,0 +1,75 @@
+﻿<div class="well hidden-xs">
+    <div id="myCarousel" class="carousel slide">
+        <div class="carousel-inner">
+            <div class="item active">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <a href="../assets/img/slider/img1.png"><img src="../assets/img/slider/img1.png" style="height:220px" alt="Image" class="img-responsive"></a>
+                    </div>
+                    <div class="col-sm-3">
+                        <a href="../assets/img/slider/img2.png"><img src="../assets/img/slider/img2.png" style="height:220px" alt="Image" class="img-responsive"></a>
+                    </div>
+                    <div class="col-sm-3">
+                        <a href="../assets/img/slider/img3.png"><img src="../assets/img/slider/img3.png" style="height:220px" alt="Image" class="img-responsive"></a>
+                    </div>
+                    <div class="col-sm-3">
+                        <a href="../assets/img/slider/img4.png"><img src="../assets/img/slider/img4.png" style="height:220px" alt="Image" class="img-responsive"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <a href="../assets/img/slider/img5.png"><img src="../assets/img/slider/img5.png" style="height:220px" alt="Image" class="img-responsive"></a>
+                    </div>
+                    <div class="col-sm-3">
+                        <a href="../assets/img/slider/img6.png"><img src="../assets/img/slider/img6.png" style="height:220px" alt="Image" class="img-responsive"></a>
+                    </div>
+                    <div class="col-sm-3">
+                        <a href="../assets/img/slider/img7.png"><img src="../assets/img/slider/img7.png" style="height:220px" alt="Image" class="img-responsive"></a>
+                    </div>
+                    <div class="col-sm-3">
+                        <a href="../assets/img/slider/img8.png"><img src="../assets/img/slider/img8.png" style="height:220px" alt="Image" class="img-responsive"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <a href="../assets/img/slider/img9.png"><img src="../assets/img/slider/img9.png" style="height:220px" alt="Image" class="img-responsive"></a>
+                    </div>
+                    <div class="col-sm-3">
+                        <a href="../assets/img/slider/img10.png"><img src="../assets/img/slider/img10.png" style="height:220px" alt="Image" class="img-responsive"></a>
+                    </div>
+                    <div class="col-sm-3">
+                        <a href="../assets/img/slider/img11.png"><img src="../assets/img/slider/img11.png" style="height:220px" alt="Image" class="img-responsive"></a>
+                    </div>
+                    <div class="col-sm-3">
+                        <a href="../assets/img/slider/img12.png"><img src="../assets/img/slider/img12.png" style="height:220px" alt="Image" class="img-responsive"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev"><i class="fa fa-chevron-left fa-2x"></i></a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next"><i class="fa fa-chevron-right fa-2x"></i></a>
+    </div>
+</div>
+
+<style>
+    .carousel-control {
+        padding-top: 10%;
+        width: 5%;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        $('#myCarousel').carousel({
+            interval: 10000
+        })
+
+        $('#myCarousel').on('slid.bs.carousel', function () {
+            //alert("slid");
+        });
+    });
+</script>

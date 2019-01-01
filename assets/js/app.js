@@ -66,6 +66,12 @@ angular.module('app', ['ngMaterial'])
      });
     }
 
+    $scope.showCustomers = false;
+    $scope.toggleCustomers = function () {
+        debugger;
+        $scope.showCustomers = !$scope.showCustomers;
+    };
+
 }])
 
 .controller('webAppCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {

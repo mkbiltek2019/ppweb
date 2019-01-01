@@ -66,15 +66,19 @@ angular.module('app', ['ngMaterial'])
      });
     }
 
-    $scope.currTpl = function (x) {
-        return './assets/partials/menus/' + x + '.html';
-    }
+    //$scope.currTpl = function (x) {
+    //    return './assets/partials/menus/' + x + '.html';
+    //}
+
+    $scope.showCustomers = false;
+    $scope.toggleCustomers = function () {
+        debugger;
+        $scope.showCustomers = !$scope.showCustomers;
+    };
 
 }])
 
 .controller('webAppCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
-     //$rootScope.application = 'Program Prehrane';
-    //$rootScope.version = 'WEB';
     $rootScope.application = 'Program Prehrane Web';
     $rootScope.version = 'STANDARD';
 }])

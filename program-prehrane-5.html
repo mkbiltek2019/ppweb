@@ -62,12 +62,12 @@
         </div>
         <div>
             <a href="#app" class="btn btn-default m10 main-border" style="width:260px" title="preuzimanje program Program Prehrane 5.0"><span class="fa fa-download fa-2x"></span> Download</a>
-            <a href="#order" class="btn btn-default m10 main-border" style="width:260px" title="Narudžba programa Program Prehrane 5.0"><span class="fa fa-shopping-cart fa-2x"></span> Narudžba</a>
+            <!--<a href="#order" class="btn btn-default m10 main-border" style="width:260px" title="Narudžba programa Program Prehrane 5.0"><span class="fa fa-shopping-cart fa-2x"></span> Narudžba</a>-->
         </div>
-        <div class="container alert alert-warning">
+        <div class="container alert alert-danger">
             <p class="text-justify">
-                <strong>* Napomena!</strong><br />
-                01.01.2019 g. računalni program Program Prehrane 5.0 se povlaći iz prodaje. Zamjenjuje ga web aplikacija <a href="../app" title="Web aplikacija Program Prehrane Web"><i class="fa fa-sign-in"></i> Program Prehrane Web</a>.<br />
+                <strong>* Obavijest!</strong><br />
+                Od 01.01.2019 g. računalni program Program Prehrane 5.0 se povlaći iz prodaje. Zamjenjuje ga web aplikacija <a href="../app" title="Web aplikacija Program Prehrane Web"><i class="fa fa-sign-in"></i> Program Prehrane Web</a>.<br />
                 Svi dosadašnji kupci godišnje ili trajne licence moći će i dalje nesmetano koristiti program.<br />
                 <!--Korisnici koji su  trajne licence koji se žele prebaciti na <a href="../" title="Web aplikacija Program Prehrane Web">web aplikaciju</a> imaju pogodnost od godine dana besplatnog korištenja. Ispunite <a href="#contact" title="Kontakt forma">kontakt formu</a>
                 sa svojim podacima (ime, naziv organizacije...) i pošaljite upit sa naznakom da želite aktivirati godinu dana besplatnog korištenja web aplikacija.-->
@@ -235,6 +235,12 @@
             <h2>Cijene</h2>
             <h3>Program Prehrane 5.0</h3>
         </div>
+        <div class="container alert alert-danger">
+            <p class="text-justify">
+                <strong>* Obavijest!</strong><br />
+                Od 01.01.2019 g. računalni program Program Prehrane 5.0 se povlaći iz prodaje. Zamjenjuje ga web aplikacija <a href="../app" title="Web aplikacija Program Prehrane Web"><i class="fa fa-sign-in"></i> Program Prehrane Web</a>.<br />
+            </p>
+        </div>
 
         <div class="row slideanim">
             <div class="col-sm-6 col-xs-12">
@@ -271,12 +277,12 @@
                         </ul>
                     </div>
                     <div class="panel-footer">
-                        <h3>350.00 kn</h3>
+                        <!--<h3>350.00 kn</h3>
                         <h4>godišnje</h4>
                         <h3>750.00 kn</h3>
-                        <h4>trajna licenca</h4>
+                        <h4>trajna licenca</h4>-->
                         <a href="#desktopapp" class="btn btn-default main-border"><i class="fa fa-download"></i> Download</a>
-                        <a href="#orderform" class="btn btn-default main"><i class="fa fa-shopping-cart"></i> Narudžba</a>
+                        <!--<a href="#orderform" class="btn btn-default main" disabled="disabled"><i class="fa fa-shopping-cart"></i> Narudžba</a>-->
                     </div>
                 </div>
             </div>
@@ -316,12 +322,12 @@
 
                     </div>
                     <div class="panel-footer">
-                        <h3>550.00 kn</h3>
+                        <!--<h3>550.00 kn</h3>
                         <h4>godišnje</h4>
                         <h3>950.00 kn</h3>
-                        <h4>trajna licenca</h4>
+                        <h4>trajna licenca</h4>-->
                         <a href="#desktopapp" class="btn btn-default main-border"><i class="fa fa-download"></i> Download</a>
-                        <a href="#orderform" class="btn btn-default main"><i class="fa fa-shopping-cart"></i> Narudžba</a>
+                        <!--<a href="#orderform" class="btn btn-default main"><i class="fa fa-shopping-cart"></i> Narudžba</a>-->
                     </div>
                 </div>
             </div>
@@ -329,7 +335,13 @@
     </div>
 
     <div id="order" ng-controller="pp5Ctrl" class="container text-left pt60">
-        <h2>NARUDŽBA</h2>
+        <div class="container alert alert-danger">
+            <p class="text-justify">
+                <strong>* Obavijest!</strong><br />
+                Od 01.01.2019 g. računalni program Program Prehrane 5.0 se povlaći iz prodaje. Zamjenjuje ga web aplikacija <a href="../app" title="Web aplikacija Program Prehrane Web"><i class="fa fa-sign-in"></i> Program Prehrane Web</a>.<br />
+            </p>
+        </div>
+        <!--<h2>NARUDŽBA</h2>
         <div>
             <h3>Postupak narudžbe</h3>
             <ul>
@@ -340,7 +352,7 @@
                 <li>Na Vaš E-mail ćete dobiti podatke za uplatu. (Nakon primitka Vaše uplate aktivacijski kod šaljemo na Vašu E-mail adresu).</li>
             </ul>
         </div>
-        <div ng-include="'./assets/partials/order.html'"></div>
+        <div ng-include="'./assets/partials/order.html'"></div>-->
     </div>
 
     <div ng-include="'./assets/partials/info.html'"></div>
