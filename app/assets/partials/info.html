@@ -13,7 +13,7 @@
         </ul>
         <hr />
         <div ng-if="config.language!='en'">
-            <a href="" ng-click="toggleUpdates()">Prikaži detalje o nadogradnjama <i class="fa fa-chevron-{{showUpdates==false?'down':'up'}}" aria-hidden="true"></i></a>
+            <a href="" ng-click="toggleUpdates()">Prikaži detalje o nadogradnjama <i class="fa fa-caret-{{showUpdates==false?'right':'down'}}" aria-hidden="true"></i></a>
             <div ng-if="showUpdates==true" ng-include="'./assets/partials/updates.html'"></div>
         </div>
     </div>
