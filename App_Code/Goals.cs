@@ -46,7 +46,6 @@ public class Goals : System.Web.Services.WebService {
     #endregion
 
     #region Methods
-
        public List<NewGoal> GetGoals() {
         SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
         connection.Open();

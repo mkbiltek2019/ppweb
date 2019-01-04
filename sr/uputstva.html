@@ -104,7 +104,7 @@
                     <ul>
                         <li>Za pristup aplikaciji potrebno je izvršiti registraciju.</li>
                         <li>Kliknite na <strong>registracija</strong>, ispunite tražene podatke, odaberite lozinku i kliknite na <strong>registracija</strong>.</li>
-                        <li>Nakon uspešne registracije na Vaš mail ce stići notifikacija o uspešnoj registraciji.</li>
+                        <li>Nakon uspešne registracije na Vaš će E-mail stići obavest sa podacima za prijavu.</li>
                     </ul>
                 </div>
                 <div>
@@ -117,7 +117,7 @@
                 <div class="pt60">
                     <h4 class="text-uppercase">Prijava (Login)</h4>
                     <ul>
-                        <li>Za pristup aplikaciji upišite svoje korisničko ime (e-mail) i lozinku koju ste odabrali prilikom registracije i kliknite na <strong>prijava</strong>.</li>
+                        <li>Za pristup aplikaciji upišite svoje korisničko ime (E-mail) i lozinku koju ste odabrali prilikom registracije i kliknite na <strong>prijava</strong>.</li>
                     </ul>
                 </div>
                 <div>
@@ -135,7 +135,7 @@
                     <img src="./assets/img/ppweb/help/start.jpg" class="img-thumbnail m10" />
                     <ul>
                         <li>Klikom na <em>dugme</em> <strong>NOVI KLIJENT</strong> otvara se pozor za unos novog klijenta.</li>
-                        <li>Obavezni podaci su Ime, prezime, datum rođenja i pol, dok telefon i e-mail nisu obavezni.</li>
+                        <li>Obavezni podaci su ime, prezime, datum rođenja i pol, dok telefon i e-mail nisu obavezni.</li>
                     </ul>
                 </div>
                 <div>
@@ -153,14 +153,16 @@
                 <div class="pt60">
                     <h4 class="text-uppercase">Ulazni podaci</h4>
                     <ul>
-                        <li>Unesite visinu (u cm), masu (u kg) obim struka i bokova (u cm) i intenzitet fizičke aktivnosti</li>
-                        <li>* Obim struka i bokova nisu obavezan</li>
-                        <li>Za nastavak kliknite <strong>napred</strong></li>
+                        <li>
+                            Unesite visinu (u cm), masu (u kg) obim struka i bokova (u cm) i intenzitet fizičke aktivnosti<br />
+                            * <em>Obim struka i bokova nisu obavezan</em>
+                        </li>
+                        <li>Za nastavak kliknite na dugme <button class="btn btn-default btn-lg btn-border center center-right" title="naprijed"><i class="fa fa-angle-double-right fa-2x text-primary" aria-hidden="true"></i></button> ili <em>tab</em> <strong>Izračun</strong></li>
                         <li>Ako želite preciznije odrediti dnevnu energetsku potrošnju kliknite na <strong>Detaljni izračun energetske potrošnje</strong></li>
                     </ul>
                 </div>
                 <div>
-                    <img src="./assets/img/ppweb/help/ulazni_podaci.jpg" class="img-thumbnail m10" />
+                    <img src="./assets/img/ppweb/help/ulazni_podaci.png" class="img-thumbnail m10" />
                 </div>
                 <hr />
             </div>
@@ -170,7 +172,7 @@
                     <ul>
                         <li>Klikom na <strong>Detaljni izračun energetske potrošnje</strong> otvara se prozor u kojemu je moguce napraviti detaljan izračun dnevne potrošnje.</li>
                         <li>Potrebno je uneti sve aktivnosti i njihovo trajanje u periodu od 0:00 do 24:00</li>
-                        <li>Za nastavak kliknite <strong>napred</strong></li>
+                        <li>Za nastavak kliknite na dugme <button class="btn btn-default btn-lg btn-border center center-right" title="naprijed"><i class="fa fa-angle-double-right fa-2x text-primary" aria-hidden="true"></i></button> ili <em>tab</em> <strong>Izračun</strong></li>
                     </ul>
                 </div>
                 <div>
@@ -182,8 +184,13 @@
                 <div class="pt60">
                     <h4 class="text-uppercase">Praćenje antropometrijskih parametara</h4>
                     <ul>
-                        <li>Klikom na <em>tab</em> <strong>Praćenje antropometrijskih parametara</strong> otvara se prozor u kojemu se prate antropometrijski parametri u grafičkom i tabelarnom prikazu.</li>
-                        <li>Prate se masa, obim struka i bokova</li>
+                        <li>Klikom na <em>tab</em> <strong>Praćenje antropometrijskih parametara</strong> otvara se prozor u kojemu se prate antropometrijski parametri u grafičkokm i tabelarnom prikazu.</li>
+                        <li>Podaci koji se prate su masa, visina, opseg struka i opseg bokova</li>
+                        <li>
+                            <strong>Cilj</strong> je tjelesna masa koju aplikacija daje kao preporučenu tjelesnu masu na osnovi ulaznih parametara.
+                            Uz pretpostavku da je 1 kg masnog tkiva jednako 7000 kcal, i da je dnevni deficit <em>(energetska potrošnja - preporučena energetska potrošnja + dodatna fizička aktivnost)</em> jednako 500 kcal
+                            dolazi sa do gubitka fizičke mase od 2 kg mesečno.
+                        </li>
                     </ul>
                 </div>
                 <div>
@@ -196,15 +203,19 @@
                     <h4 class="text-uppercase">Izračun</h4>
                     <ul>
                         <li>
-                            Nakon unesenih ulaznih podataka aplikacija daje izračun za indeks telesna mase (BMI), dnevnu energetsku potrošnju, omer obima struka i bokova
-                            te preporuke za primerenu telesnu masu, energetsku vrednost jelovnika i dodatnu telesnu potrošnju.
+                            Nakon unesenih ulaznih podataka aplikacija daje izračun za indeks telesna mase (BMI), bazalni metabolizam (BMR), ukupnu dnevnu energetsku potrošnju (TEE), obim opsega struka i bokova (WHR)
+                            te preporuke za primerenu fizičku masu, energetsku vriednost jelovnika i dodatnu energetsku potrošnju.
                         </li>
-                        <li>U istom <em>prozoru</em> moguće je odabrati <span>Cilj:</span> redukciju telesne mase, zadržavanje postojece telesne mase, povećanje telesne mase ili povećanje mišićne mase.</li>
-                        <li>Za nastavak kliknite <strong>napred</strong></li>
+                        <li>
+                            Aplikacija na osnovi ulaznih parametara određuje <strong>Cilj</strong>: redukciju telesne mase, zadržavanje postojeće telesne mase, povećanje telesne mase ili povećanje mišićne mase.<br />
+                            * <em>Sami možete da odaberete neki drugi cilj, npr. ako program preporući zadržavanje postojeće telesne mase vi možete da odaberete povećanje mišićne mase, ali ne možete da odaberete povećanje telesne mase ako osoba već ima povišenu telesnu masu.</em>
+                        </li>
+                        <li>Ako želite da koristite vlastite preporuke za energetski unos i dodatnu energetsku potrošnju, u sekciji <strong>Moje Preporuke</strong> unesite vlastite vrednosti i kliknite na dugme <strong>Spremi</strong>.</li>
+                        <li>Za nastavak kliknite na dugme <button class="btn btn-default btn-lg btn-border center center-right" title="naprijed"><i class="fa fa-angle-double-right fa-2x text-primary" aria-hidden="true"></i></button> ili <em>tab</em> <strong>Aktivnost</strong></li>
                     </ul>
                 </div>
                 <div>
-                    <img src="./assets/img/ppweb/help/izracun.jpg" class="img-thumbnail m10" />
+                    <img src="./assets/img/ppweb/help/izracun.png" class="img-thumbnail m10" />
                 </div>
                 <hr />
             </div>
@@ -214,16 +225,16 @@
                     <ul>
                         <li>
                             Ukoliko aplikacija na osnovu ulaznih podataka da preporuku za dodatnu energetsku potrošnju, u <em>prozoru</em> <strong>Dodatna aktivnost</strong>
-                            možete odabrati dodatnu željenu aktivnost.
+                            odabirete dodatnu fizičku aktivnost.
                         </li>
-                        <li>Klikom na odabranu aktivnosti program izračunava vreme potrebno za potrošnju preporučene dodatne energetske potrošnje.</li>
+                        <li>Klikom na odabranu aktivnosti program izračunava vrieme potrebno za potrošnju kalorija (<em>dodatna energetska potrošnja</em>).</li>
                     </ul>
                 </div>
                 <div>
                     <img src="./assets/img/ppweb/help/dodatna_aktivnost.jpg" class="img-thumbnail m10" />
                 </div>
                 <ul>
-                    <li>Moguće je odabrati i više aktivnosti s time da je potrebno ručno promeniti trajanje aktivnosti.</li>
+                    <li>Možete odabrati i više od jedne aktivnosti s time da je potrebno ručno promieniti trajanje aktivnosti. Važno je da je suma kalorijske vriednosti odabranih aktivnosti jednaka ili približna preporučenoj dodatnoj energetskoj potrošnji.</li>
                 </ul>
                 <div>
                     <img src="./assets/img/ppweb/help/dodatna_aktivnost_popup.jpg" class="img-thumbnail m10" />
@@ -248,13 +259,25 @@
             <div id="meals">
                 <div class="pt60">
                     <h4 class="text-uppercase">Obroci</h4>
+                    <h5 class="text-uppercase">Standardni obroci</h5>
                     <ul>
-                        <li>U <em>prozoru</em> <strong>Obroci</strong> moguće je odabrati željeni broj i kombinaciju obroka.</li>
+                        <li>U <em>prozoru</em> <strong>Obroci</strong>, sekcija <strong>Standardni Obroci</strong> odaberite željenu kombinaciju obroka.</li>
                     </ul>
                     <strong>Napomena: </strong><em>Doručak, ručak i večera su obavezni.</em>
                 </div>
                 <div>
-                    <img src="./assets/img/ppweb/help/obroci.jpg" class="img-thumbnail m10" />
+                    <img src="./assets/img/ppweb/help/standardni_obroci.png" class="img-thumbnail m10" />
+                </div>
+                <div>
+                    <h5 class="text-uppercase">Moji obroci (<em>Samo <strong>PREMIUM paket</strong></em>)</h5>
+                    <p>
+                        Korisnici <strong>PREMIUM peketa</strong> osim standardnih obroka mogu kreirati i vlastite obroke sa vlastitim nazivima i preporukama.<br />
+                        Broj obroka je limitiran na 8 dok je minimalni broj obroka 3.<br />
+                        Moje obroke možete da spremite za kasnije korištenje. Aplikacija automatski sprema <em>moje obroke</em> za svakog klijneta posebno.
+                    </p>
+                </div>
+                <div>
+                    <img src="./assets/img/ppweb/help/moji_obroci.png" class="img-thumbnail m10" />
                 </div>
                 <hr />
             </div>

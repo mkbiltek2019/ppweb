@@ -378,7 +378,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
     }
 
     var getGoalLog = function (deficit, key, x, firstWeight, firstDate, currDate) {
-        var goal = (firstWeight + (functions.getTwoDateDiff(firstDate, currDate)) * deficit / 7000).toFixed(2);
+        var goal = (firstWeight + (functions.getTwoDateDiff(firstDate, currDate)) * deficit / 7000).toFixed(1);
         var value = 0;
         var goalLimit = $scope.goalWeightValue_ !== undefined ? parseInt($scope.goalWeightValue_) : 0;
         if (goalLimit == 0) {
@@ -418,35 +418,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         var goalWeight = [];
         var labels = [];
 
-        $scope.clientLogGraphData = charts.createGraph(
-            [$translate.instant("measured value"), $translate.instant("lower limit"), $translate.instant("upper limit"), $translate.instant("goal")],
-            [
-                clientLog,
-                goalFrom,
-                goalTo,
-                goalWeight
-            ],
-            labels,
-            ['#3399ff', '#ff3333', '#33ff33', '#ffd633'],
-            {
-                responsive: true, maintainAspectRatio: true, legend: { display: true },
-                scales: {
-                    xAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: false } }],
-                    yAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: false } }]
-                }
-            },
-            [
-                { label: $translate.instant("measured value"), borderWidth: 1, type: 'bar', fill: true },
-                { label: $translate.instant("lower limit"), borderWidth: 2, type: 'line', fill: false },
-                { label: $translate.instant("upper limit"), borderWidth: 2, type: 'line', fill: false },
-                                { label: $translate.instant("goal") + ' (2 ' + $translate.instant("kg") + '/' + $translate.instant("mo") + ')', borderWidth: 3, type: 'line', fill: false }
-            ]
-        )
-
         if (angular.isDefined($scope.calculation.recommendedWeight)) {
             var days = 30;
             var goal = 0;
-            var deficit = ($scope.calculation.recommendedEnergyIntake + $scope.calculation.recommendedEnergyExpenditure) - $scope.calculation.tee;
+            var deficit = ($scope.calculation.recommendedEnergyIntake - $scope.calculation.recommendedEnergyExpenditure) - $scope.calculation.tee;
             if (clientLogsDays !== undefined) {
                 days = clientLogsDays.days;
                 $scope.clientLogsDays = clientLogsDays;
@@ -473,6 +448,31 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
                 }
             });
         }
+
+        $scope.clientLogGraphData = charts.createGraph(
+            [$translate.instant("measured value"), $translate.instant("lower limit"), $translate.instant("upper limit"), $translate.instant("goal")],
+            [
+                clientLog,
+                goalFrom,
+                goalTo,
+                goalWeight
+            ],
+            labels,
+            ['#3399ff', '#ff3333', '#33ff33', '#ffd633'],
+            {
+                responsive: true, maintainAspectRatio: true, legend: { display: true },
+                scales: {
+                    xAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: false } }],
+                    yAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: false } }]
+                }
+            },
+            [
+                { label: $translate.instant("measured value"), borderWidth: 1, type: 'bar', fill: true },
+                { label: $translate.instant("lower limit"), borderWidth: 2, type: 'line', fill: false },
+                { label: $translate.instant("upper limit"), borderWidth: 2, type: 'line', fill: false },
+                                { label: $translate.instant("goal") + ' (2 ' + $translate.instant("kg") + '/' + $translate.instant("mo") + ')', borderWidth: 3, type: 'line', fill: false }
+            ]
+        )
     };
 
     $scope.setClientLogGraphData = function (type, clientLogsDays) {

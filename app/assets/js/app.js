@@ -1484,13 +1484,16 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { userId: $sessionStorage.usergroupid, clientId: x.clientId }
         })
         .then(function (response) {
-            getCalculation();
             $scope.toggleTpl('clientStatictic');
             $scope.clientLog = JSON.parse(response.data.d);
             angular.forEach($scope.clientLog, function (x, key) {
                 x.date = new Date(x.date);
             });
-            //setClientLogGraphData(0, $scope.clientLogsDays);
+            if ($rootScope.goalWeightValue_ == null) {
+                getCalculation();
+            } else {
+                setClientLogGraphData($scope.displayType, $scope.clientLogsDays);
+            }
         },
         function (response) {
             alert(response.data.d)
@@ -1604,7 +1607,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var getGoalLog = function (deficit, key, x, firstWeight, firstDate, currDate) {
-        var goal = (firstWeight + (functions.getTwoDateDiff(firstDate, currDate)) * deficit / 7000).toFixed(2);
+        var goal = (firstWeight + (functions.getTwoDateDiff(firstDate, currDate)) * deficit / 7000).toFixed(1);
         var value = 0;
         var goalLimit = $rootScope.goalWeightValue_ !== undefined ? parseInt($rootScope.goalWeightValue_) : 0;
         if (goalLimit == 0) {
@@ -1643,35 +1646,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         var goalWeight = [];
         var labels = [];
 
-        $rootScope.clientLogGraphData = charts.createGraph(
-            [$translate.instant("measured value"), $translate.instant("lower limit"), $translate.instant("upper limit"), $translate.instant("goal")],
-            [
-                clientLog,
-                goalFrom,
-                goalTo,
-                goalWeight
-            ],
-            labels,
-            ['#3399ff', '#ff3333', '#33ff33', '#ffd633'],
-            { responsive: true, maintainAspectRatio: true, legend: { display: true },
-                scales: {
-                    xAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: false } }],
-                    yAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: false } }]
-                }
-            },
-            [
-                { label: $translate.instant("measured value"), borderWidth: 1, type: 'bar', fill: true },
-                { label: $translate.instant("lower limit"), borderWidth: 2, type: 'line', fill: false },
-                { label: $translate.instant("upper limit"), borderWidth: 2, type: 'line', fill: false },
-                { label: $translate.instant("goal") + ' (2 ' + $translate.instant("kg") + '/' + $translate.instant("mo") + ')', borderWidth: 3, type: 'line', fill: false, strokeColor: "#33ff33", fillColor: "#43ff33" }
-            ]
-        )
-
         //TODO - goal (depending of type, reduction increase, fixed Goal)
         if (angular.isDefined($rootScope.calculation.recommendedWeight)) {
             var days = 30;
             var goal = 0;
-            var deficit = ($rootScope.calculation.recommendedEnergyIntake + $rootScope.calculation.recommendedEnergyExpenditure) - $rootScope.calculation.tee;
+            debugger;
+            var deficit = ($rootScope.calculation.recommendedEnergyIntake - $rootScope.calculation.recommendedEnergyExpenditure) - $rootScope.calculation.tee;
             if (clientLogsDays !== undefined) {
                 days = clientLogsDays.days;
                 $scope.clientLogsDays = clientLogsDays;
@@ -1699,6 +1679,31 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             });
         }
         
+        $rootScope.clientLogGraphData = charts.createGraph(
+            [$translate.instant("measured value"), $translate.instant("lower limit"), $translate.instant("upper limit"), $translate.instant("goal")],
+            [
+                clientLog,
+                goalFrom,
+                goalTo,
+                goalWeight
+            ],
+            labels,
+            ['#3399ff', '#ff3333', '#33ff33', '#ffd633'],
+            {
+                responsive: true, maintainAspectRatio: true, legend: { display: true },
+                scales: {
+                    xAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: false } }],
+                    yAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: false } }]
+                }
+            },
+            [
+                { label: $translate.instant("measured value"), borderWidth: 1, type: 'bar', fill: true },
+                { label: $translate.instant("lower limit"), borderWidth: 2, type: 'line', fill: false },
+                { label: $translate.instant("upper limit"), borderWidth: 2, type: 'line', fill: false },
+                { label: $translate.instant("goal") + ' (2 ' + $translate.instant("kg") + '/' + $translate.instant("mo") + ')', borderWidth: 3, type: 'line', fill: false, strokeColor: "#33ff33", fillColor: "#43ff33" }
+            ]
+        )
+
     };
 
     $rootScope.setClientLogGraphData = function (type, clientLogsDays) {
@@ -2128,12 +2133,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 $rootScope.goalWeightValue =  Math.round(angular.copy($rootScope.clientData.weight));
                 break;
             case "G3":  // povecanje tjelesne mase
-                if ($rootScope.appCalculation.goal.code == "G2") {
+                if ($rootScope.appCalculation.goal.code == "G1") {
                     energy = $rootScope.appCalculation.recommendedEnergyIntake;
                     activity = $rootScope.appCalculation.recommendedEnergyExpenditure;
                 }
                 if ($rootScope.appCalculation.goal.code == "G2") {
-                    energy = $rootScope.appCalculation.recommendedEnergyIntake + 300;
+                    energy = $rootScope.appCalculation.recommendedEnergyIntake + 300 + $rootScope.appCalculation.recommendedEnergyExpenditure;
                     activity = $rootScope.appCalculation.recommendedEnergyExpenditure;
                 }
                 if ($rootScope.appCalculation.goal.code == "G3") {
@@ -2253,7 +2258,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
             getCharts();
             getGoals();
-            debugger;
             $scope.getGoal($rootScope.clientData.goal.code);
 
         },
