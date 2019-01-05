@@ -1,6 +1,6 @@
 ﻿/*!
 functions.js
-(c) 2018 IG PROG, www.igprog.hr
+(c) 2019 IG PROG, www.igprog.hr
 */
 angular.module('functions', [])
 

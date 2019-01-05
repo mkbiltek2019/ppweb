@@ -1,6 +1,6 @@
 ﻿/*!
 app.js
-(c) 2018 IG PROG, www.igprog.hr
+(c) 2019 IG PROG, www.igprog.hr
 */
 angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngStorage', 'functions', 'charts'])
 
@@ -470,7 +470,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
                 { label: $translate.instant("measured value"), borderWidth: 1, type: 'bar', fill: true },
                 { label: $translate.instant("lower limit"), borderWidth: 2, type: 'line', fill: false },
                 { label: $translate.instant("upper limit"), borderWidth: 2, type: 'line', fill: false },
-                                { label: $translate.instant("goal") + ' (2 ' + $translate.instant("kg") + '/' + $translate.instant("mo") + ')', borderWidth: 3, type: 'line', fill: false }
+                { label: $translate.instant("goal") + ' (2 ' + $translate.instant("kg") + '/' + $translate.instant("mo") + ')', borderWidth: 3, type: 'line', fill: false }
             ]
         )
     };

@@ -1,6 +1,6 @@
 ﻿/*!
 charts.js
-(c) 2017 IG PROG, www.igprog.hr
+(c) 2019 IG PROG, www.igprog.hr
 */
 angular.module('charts', [])
 
