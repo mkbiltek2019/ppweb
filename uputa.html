@@ -44,6 +44,7 @@
                         <ul class="dropdown-menu" style="background-color:#337ab7">
                             <li><a href="#signup">Registracija</a></li>
                             <li><a href="#login">Prijava</a></li>
+                            <li><a href="#steps">Koraci u izradi jelovnika</a></li>
                             <li><a href="#newclient">Novi klijent</a></li>
                             <li><a href="#inputdata">Ulazni podaci</a></li>
                             <li><a href="#detailpal">Detaljni izračun energetske potrošnje</a></li>
@@ -52,7 +53,7 @@
                             <li><a href="#additionalactivities">Dodatna energetska potrošnja</a></li>
                             <li><a href="#diet">Dijeta</a></li>
                             <li><a href="#meals">Obroci</a></li>
-                            <li><a href="#menues">Izrada jelovnika</a></li>
+                            <li><a href="#menus">Izrada jelovnika</a></li>
                             <li><a href="#myfoods">Moje namirnice</a></li>
                             <li><a href="#myrecipes">Moji recepti</a></li>
                             <li><a href="#prices">Cijene</a></li>
@@ -73,6 +74,7 @@
                 <li class="list-group-item"><a href="#signup">Registracija</a></li>
                 <li class="list-group-item"><a href="#login">Prijava</a></li>
                 <li class="list-group-item"><a href="#newclient">Novi klijent</a></li>
+                <li class="list-group-item"><a href="#steps">Koraci u izradi jelovnika</a></li>
                 <li class="list-group-item"><a href="#inputdata">Ulazni podaci</a></li>
                 <li class="list-group-item"><a href="#detailpal">Detaljni izračun energetske potrošnje</a></li>
                 <li class="list-group-item"><a href="#anthropometricmeasures">Praćenje antropometrijskih parametara</a></li>
@@ -80,7 +82,7 @@
                 <li class="list-group-item"><a href="#additionalactivities">Dodatna energetska potrošnja</a></li>
                 <li class="list-group-item"><a href="#diet">Dijeta</a></li>
                 <li class="list-group-item"><a href="#meals">Obroci</a></li>
-                <li class="list-group-item"><a href="#menues">Izrada jelovnika</a></li>
+                <li class="list-group-item"><a href="#menus">Izrada jelovnika</a></li>
                 <li class="list-group-item"><a href="#myfoods">Moje namirnice</a></li>
                 <li class="list-group-item"><a href="#myrecipes">Moji recepti</a></li>
                 <li class="list-group-item"><a href="#prices">Cijene</a></li>
@@ -123,8 +125,60 @@
                 <a href="app/index.html">Prijava</a>
                 <hr />
             </div>
+            <div id="steps">
+                <div class="pt60">
+                    <h4 class="text-uppercase">Koraci u izradi jelovnika</h4>
+                    <p>Kod izrade uravnoteženog jelovnika moramo voditi računa o sljdećem:</p>
+                    <ul>
+                        <li>osigurati adekvatan energetski unos</li>
+                        <li>zadovoljiti potrebe za nutrijentima</li>
+                        <li>biti uravnotežen, što znači da u jednom danu sve skupine namirnica moraju biti zastupljene s adekvatnim brojem jediničnih serviranja</li>
+                        <li>biti raznovrstan, što znači da uključuje što više različitih namirnica iz iste skupine</li>
+                        <li>uključiti barem tri glavna obroka</li>
+                    </ul>
+
+                    <h5>KORACI:</h5>
+                    <ul>
+                        <li>
+                            <label>1. KORAK - Izračun energetske potrošnje i indeksa tjelesne mase</label>
+                            <p>
+                                Na osnovi antropometrijskih veličina (visina, masa...) i intenziteta tjelesne aktivnosti dolazimo do preporučene energetske vrijednosti jelovnika i preporučene dodatne energetske potrošnje.
+                                <a href="#inputdata">više...</a>
+                            </p>
+                            
+                        </li>
+                        <li>
+                            <label>2. KORAK - Izbor dodatne tjelesne aktivnosti</label>
+                            <p>
+                                Ako se radi o osobi sa povišenom tjelesnom masom, osim smanjenja energetskog unosa potrebno je uvesti i ododatnu tjelesnu aktivnost.
+                                <a href="#additionalactivities">više...</a>
+                            </p>
+                        </li>
+                        <li>
+                            <label>3. KORAK - Izbor dijte</label>
+                            <p>
+                                Moguće je odabrati jednu od 24 dijete ovisno o zdravstvenom stanju i dobi klijeta.
+                                <a href="#diet">više...</a>
+                            </p>
+                            
+                        </li>
+                        <li>
+                            <label>4. KORAK - Izbor obroka</label>
+                            <p>
+                                Potrebno je selektirati minimalno 3 obroka.<br />
+                                <em>* Korisnici PREMIUM paketa mogu koristiti, osim standardnih obroka i vlastite obroke.</em>
+                                <a href="#meals">više...</a>
+                            </p>
+                        </li>
+                        <li>
+                            <label>5. KORAK - Izrada jelovnika</label>
+                            <a href="#menus">više...</a>
+                        </li>
+                    </ul>
+                <hr />
+            </div>
             <div id="newclient">
-                <div>
+                <div class="pt60">
                     <h4 class="text-uppercase">Novi klijent</h4>
                     <ul>
                         <li>Nakon prijave u aplikaciju registrirajte novog klijenta ili iz baze klijenata odabrati postojećeg.</li>
@@ -274,7 +328,7 @@
                 </div>
                 <hr />
             </div>
-            <div id="menues">
+            <div id="menus">
                 <div class="pt60">
                     <h4 class="text-uppercase">Izrada jelovnika</h4>
                     <ul>
@@ -466,6 +520,7 @@
         <div class="text-center navbar-fixed-bottom" style="padding:0px 0px 10px 0px">
             <a href="#home" class="text-primary" title="Na vrh"><span class="fa fa-chevron-up fa-2x"></span></a>
         </div>
+    </div>
     </div>
 
     <div class="footer pt60 bg-grey text-right">
