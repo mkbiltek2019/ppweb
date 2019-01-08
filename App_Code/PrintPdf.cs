@@ -167,7 +167,7 @@ public class PrintPdf : System.Web.Services.WebService {
             if (consumers > 1) {
                 doc.Add(new Paragraph(t.Tran("number of consumers", lang) + ": " + consumers, GetFont(10)));
             } else {
-                //TODO show sclient data when there are more than 1 consumens
+                //TODO show client data when there are more than 1 consumens
                 //ShowClientData(doc, currentMenu, clientData, settings.showClientData, lang);
             }
             doc.Add(new Chunk(line));
@@ -679,24 +679,7 @@ public class PrintPdf : System.Web.Services.WebService {
             doc.Add(new Paragraph((client.firstName + " " + client.lastName), GetFont(12)));
             doc.Add(new Paragraph(((!string.IsNullOrEmpty(client.email) ? t.Tran("email", lang) + ": " + client.email + "   " : "") + (!string.IsNullOrEmpty(client.phone) ? t.Tran("phone", lang) + ": " + client.phone : "")), GetFont(10)));
             doc.Add(new Chunk(line));
-
-            string c = string.Format(@"
-{0}: {1}
-{2}: {3}
-{4}: {5} cm
-{6}: {7} cm
-{8}: {9} cm
-{10}: {11} cm
-{12}: {13} ({14})"
-            , t.Tran("gender", lang), t.Tran(clientData.gender.title, lang)
-            , t.Tran("age", lang), clientData.age
-            , t.Tran("height", lang), clientData.height
-            , t.Tran("weight", lang), clientData.weight
-            , t.Tran("waist", lang), clientData.waist
-            , t.Tran("hip", lang), clientData.hip
-            , t.Tran("physical activity level", lang), t.Tran(clientData.pal.title, lang), t.Tran(clientData.pal.description, lang));
-
-            doc.Add(new Paragraph(c, GetFont()));
+            doc.Add(new Paragraph(AppendClientInfo(clientData, lang), GetFont()));
             doc.Add(new Chunk(line));
             doc.Close();
 
@@ -721,9 +704,9 @@ public class PrintPdf : System.Web.Services.WebService {
 
             AppendHeader(doc, userId);
 
-            doc.Add(new Paragraph(string.Format("{0} {1}" , client.firstName, client.lastName), GetFont(8)));
-            doc.Add(new Paragraph(string.Format("{0}: {1}", t.Tran("gender", lang), t.Tran(clientData.gender.title, lang)), GetFont(8)));
-            doc.Add(new Paragraph(string.Format("{0}: {1}", t.Tran("age", lang), clientData.age), GetFont(8)));
+            doc.Add(new Paragraph(string.Format("{0} {1}" , client.firstName, client.lastName), GetFont(12)));
+            doc.Add(new Paragraph(string.Format("{0}: {1}", t.Tran("gender", lang), t.Tran(clientData.gender.title, lang)), GetFont(9)));
+            doc.Add(new Paragraph(string.Format("{0}: {1}", t.Tran("age", lang), clientData.age), GetFont(9)));
             doc.Add(new Chunk(line));
 
             if (clientLog.Count > 0) {
@@ -776,7 +759,7 @@ public class PrintPdf : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string CalculationPdf(string userId, Clients.NewClient client, ClientsData.NewClientData clientData, Calculations.NewCalculation calculation, Calculations.NewCalculation myCalculation, string lang) {
+    public string CalculationPdf(string userId, Clients.NewClient client, ClientsData.NewClientData clientData, Calculations.NewCalculation calculation, Calculations.NewCalculation myCalculation, string goal, string lang) {
         try {
             var doc = new Document();
             string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
@@ -790,6 +773,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
             AppendHeader(doc, userId);
             doc.Add(new Paragraph((client.firstName + " " + client.lastName), GetFont(12)));
+            doc.Add(new Paragraph(AppendClientInfo(clientData, lang), GetFont()));
             doc.Add(new Chunk(line));
             doc.Add(new Paragraph(t.Tran("calculation", lang).ToUpper(), GetFont(12)));
             string c = string.Format(@"
@@ -839,9 +823,11 @@ public class PrintPdf : System.Web.Services.WebService {
             doc.Add(new Chunk(line));
 
             string g = string.Format(@"
-{0}: {1}"
+{0}: {1}
+{2}"
             , t.Tran("goal", lang).ToUpper()
-            , t.Tran(calculation.goal.title, lang));
+            , t.Tran(calculation.goal.title, lang)
+            , !string.IsNullOrEmpty(goal) ? string.Format("{0}: {1} {2}", t.Tran("targeted mass", lang), goal, t.Tran("kg", lang)) : "");
             doc.Add(new Paragraph(g, GetFont()));
 
             string r = string.Format(@"
@@ -1366,6 +1352,25 @@ IBAN HR8423400091160342496
 
     private bool CheckParam(double total, Foods.ParameterRecommendation r) {
         return r.mda != null && total < r.mda || r.ui != null && total > r.ui ? true : false;
+    }
+
+    private string AppendClientInfo(ClientsData.NewClientData clientData, string lang) {
+        string c = string.Format(@"
+{0}: {1}
+{2}: {3}
+{4}: {5} cm
+{6}: {7} cm
+{8}: {9} cm
+{10}: {11} cm
+{12}: {13} ({14})"
+            , t.Tran("gender", lang), t.Tran(clientData.gender.title, lang)
+            , t.Tran("age", lang), clientData.age
+            , t.Tran("height", lang), clientData.height
+            , t.Tran("weight", lang), clientData.weight
+            , t.Tran("waist", lang), clientData.waist == 0 ? "---" : clientData.waist.ToString()
+            , t.Tran("hip", lang), clientData.hip == 0 ? "---" : clientData.hip.ToString()
+            , t.Tran("physical activity level", lang), t.Tran(clientData.pal.title, lang), t.Tran(clientData.pal.description, lang));
+        return c;
     }
     #endregion Methods
 

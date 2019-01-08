@@ -16,7 +16,7 @@
                     <div class="row p10">
                         <ul class="nav nav-tabs">
                             <li ng-class="appMenues==false?'active':''" ng-click="load()"><a href="" class="text-capitalize">{{'my menus' | translate}}</a></li>
-                            <li ng-class="appMenues==true?'active':''" ng-click="loadAppMenues()"><a href="" class="text-capitalize">{{'menu examples' | translate}}</a></li>
+                            <li ng-if="config.language!='en'" ng-class="appMenues==true?'active':''" ng-click="loadAppMenues()"><a href="" class="text-capitalize">{{'menu examples' | translate}}</a></li>
                         </ul>
                     </div>
                     <div class="row">
@@ -39,7 +39,7 @@
                         <table ng-if="appMenues==false" class="table table-hover table-condensed">
                             <tr>
                                 <th>{{'title' | translate}}</th>
-                                <th>{{'diet'| translate}}</th>
+                                <th>{{'diet' | translate}}</th>
                                 <th>{{'energy'| translate}}</th>
                                 <th>{{'date' | translate}}</th>
                                 <th>{{'note' | translate}}</th>
