@@ -63,7 +63,7 @@
                         <fieldset class="fieldset-border">
                             <legend class="fieldset-border text-capitalize">{{'logo' | translate}}</legend>
                             <form ng-disabled="user.adminType!=0" id="formUpload" ng-submit="upload()" enctype="multipart/form-data" method="post">
-                                <input id="userid" name="userid" ng-model="user.userId" type="text" hidden="hidden">
+                                <input id="userid" name="userid" ng-model="user.userGroupId" type="text" hidden="hidden">
                                 <div class="input-group">
                                     <input ng-disabled="user.adminType!=0" ng-model="file" name="UploadedFile" id="UploadedFile" type="file" accept=".png" class="form-control">
                                     <em class="text-danger">* {{'use only png format' | translate}}</em>

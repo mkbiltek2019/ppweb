@@ -1107,7 +1107,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.logo = '../upload/users/' + $rootScope.user.userGroupId + '/logo.png?v=' + new Date().getTime();
     $scope.upload = function () {
-        debugger;
         if ($rootScope.user.adminType != 0) { return false; }
         var content = new FormData(document.getElementById("formUpload"));
         $http({
@@ -1653,7 +1652,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         if (angular.isDefined($rootScope.calculation.recommendedWeight)) {
             var days = 30;
             var goal = 0;
-            debugger;
             var deficit = ($rootScope.calculation.recommendedEnergyIntake - $rootScope.calculation.recommendedEnergyExpenditure) - $rootScope.calculation.tee;
             if (clientLogsDays !== undefined) {
                 days = clientLogsDays.days;
