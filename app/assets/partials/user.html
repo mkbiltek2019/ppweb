@@ -62,20 +62,19 @@
                     <div ng-if="user.userType>=1" class="col-sm-6 mt10">
                         <fieldset class="fieldset-border">
                             <legend class="fieldset-border text-capitalize">{{'logo' | translate}}</legend>
-                            <form id="formUpload" ng-submit="upload()" enctype="multipart/form-data" method="post">
+                            <form ng-disabled="user.adminType!=0" id="formUpload" ng-submit="upload()" enctype="multipart/form-data" method="post">
                                 <input id="userid" name="userid" ng-model="user.userId" type="text" hidden="hidden">
                                 <div class="input-group">
-                                    <input ng-model="file" name="UploadedFile" id="UploadedFile" type="file" accept=".png" class="form-control">
+                                    <input ng-disabled="user.adminType!=0" ng-model="file" name="UploadedFile" id="UploadedFile" type="file" accept=".png" class="form-control">
                                     <em class="text-danger">* {{'use only png format' | translate}}</em>
                                     <div class="input-group-append">
-                                        <button type="submit" class="btn btn-default text-capitalize"><i class="fa fa-upload"></i> {{'upload' | translate}}</button>
+                                        <button ng-disabled="user.adminType!=0" type="submit" class="btn btn-default text-capitalize"><i class="fa fa-upload"></i> {{'upload' | translate}}</button>
                                     </div>
                                 </div>
                             </form>
                             <div ng-if="showLogo" class="text-capitalize">
                                 <img ng-if="showLogo" src="{{logo}}" class="img-thumbnail" width="200" />
-                                <!--<img ng-if="showLogo" src="../upload/users/{{user.userGroupId}}/{{logo}}" class="img-thumbnail" width="200" />-->
-                                <button class="btn btn-default text-capitalize" ng-click="removeLogo(user)"><span class="text-danger"><i class="fa fa-trash-o"></i> {{'delete' | translate}}</span></button>
+                                <button ng-disabled="user.adminType!=0" class="btn btn-default text-capitalize" ng-click="removeLogo(user)"><span class="text-danger"><i class="fa fa-trash-o"></i> {{'delete' | translate}}</span></button>
                             </div>
                         </fieldset>
                     </div>

@@ -1107,6 +1107,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.logo = '../upload/users/' + $rootScope.user.userGroupId + '/logo.png?v=' + new Date().getTime();
     $scope.upload = function () {
+        debugger;
+        if ($rootScope.user.adminType != 0) { return false; }
         var content = new FormData(document.getElementById("formUpload"));
         $http({
             url: $sessionStorage.config.backend + '/UploadHandler.ashx',
@@ -1127,6 +1129,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.removeLogo = function (x) {
+        if (x.adminType != 0) { return false; }
         $http({
             url: $sessionStorage.config.backend + 'Files.asmx/DeleteLogo',
             method: 'POST',
