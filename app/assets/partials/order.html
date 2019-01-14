@@ -4,6 +4,7 @@
             <a href="" class="btn btn-default" ng-click="backToApp()"><i class="fa fa-dashboard"></i> {{'back to app' | translate}}</a>
         </div>
         <h4 class="text-uppercase">{{'order' | translate}}</h4>
+        <em>* {{'orderdescription' | translate}}</em>
         <hr />
         <div ng-if="!showAlert">
             <div ng-if="!showUserDetails">
@@ -30,8 +31,8 @@
                 <strong>{{errorMesage}}</strong>
             </div>
                 <div class="row m2">
-                    <div class="col-sm-2 text-capitalize">{{'package' | translate}}: </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-2 text-capitalize">{{'package' | translate}}: <a href="{{config.webpageurl}}#pricing" target="_blank" title="{{'about packages' | translate}}" class="text-primary"><i class="fa fa-info-circle fa-2x"></i></a> </div>
+                    <div class="col-sm-4">
                         <select ng-model="user.userType" class="form-control" ng-change="calculatePrice()">
                             <option ng-value="0" ng-selected="user.userType==0?true:false">START</option>
                             <option ng-value="1" ng-selected="user.userType==1?true:false">STANDARD</option>
@@ -41,7 +42,7 @@
                 </div>
                 <div class="row m2">
                     <div class="col-sm-2 text-capitalize">{{'subscribe' | translate}}: </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         <select ng-model="user.licence" class="form-control" ng-change="calculatePrice()">
                             <option value="1" ng-selected="user.licence==1?true:false">{{'1 year' | translate}}</option>
                             <option value="2" ng-selected="user.licence==2?true:false">{{'2 years' | translate}} (-20%)</option>

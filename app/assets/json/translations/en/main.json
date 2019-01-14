@@ -1800,6 +1800,8 @@
   "table": "table",
   "kg": "kg",
   "mo": "mo",
-  "define goal": "Define goal"
+  "define goal": "Define goal",
+  "orderdescription": "If you want to activate some of the packages, fill in the order form, after that, the payment information will be sent to your email.",
+  "about packages": "About Packages"
 
 }

@@ -1811,6 +1811,9 @@
   "table": "tablica",
   "kg": "kg",
   "mo": "mj",
-  "define goal": "Definiraj cilj"
+  "define goal": "Definiraj cilj",
+  "orderdescription": "Ukoliko želite aktivirati neki od paketa, ispunite i pošaljite narudžbenicu nakon čega će na vaš email stići podaci za uplatu.",
+  "about packages": "O paketima"
+
 
 }
