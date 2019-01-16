@@ -5959,7 +5959,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.clientAppUrl = function (x) {
         if (x !== undefined) {
-            return $rootScope.config.clientapppageurl + '?uid=' + x.userId + '&cid=' + x.clientId + '&lang=' + $rootScope.config.language;
+            return $rootScope.config.clientapppageurl + '?uid=' + $rootScope.user.userGroupId + '&cid=' + x.clientId + '&lang=' + $rootScope.config.language;
         } else {
             return;
         }
