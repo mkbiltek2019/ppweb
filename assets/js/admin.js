@@ -338,6 +338,10 @@ angular.module('app', [])
     //    $scope.getTotal($rootScope.i.items);
     //}
 
+    var getLocalDateAndTime = function () {
+        var date = new Date();
+        return date.getDate() + '.' + date.getMonth() + 1 + '.' + date.getFullYear() + ', ' + date.getHours() + ':' + date.getMinutes();
+    }
 
     var initForm = function () {
         $scope.isInvoice = false;
@@ -365,6 +369,7 @@ angular.module('app', [])
         })
      .then(function (response) {
          $rootScope.i = JSON.parse(response.data.d);
+         $rootScope.i.dateAndTime = getLocalDateAndTime();
          initForm();
      },
      function (response) {
