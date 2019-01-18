@@ -47,7 +47,8 @@ public class PrintPdf : System.Web.Services.WebService {
 		public bool showClientData;
         public bool showFoods;
         public bool showTotals;
-        // TODO activities, prices
+        public bool showPrice;
+        public bool showActivities;
     }
 
     #region WebMethods
@@ -64,6 +65,8 @@ public class PrintPdf : System.Web.Services.WebService {
 		x.showClientData = true;
         x.showFoods = true;
         x.showTotals = true;
+        x.showPrice = false;
+        x.showActivities = true;
         return JsonConvert.SerializeObject(x, Formatting.Indented);
     }
 
@@ -126,6 +129,22 @@ public class PrintPdf : System.Web.Services.WebService {
                         );
                 doc.Add(new Paragraph(tot, GetFont()));
             }
+
+            if (totals.price.value > 0 && settings.showPrice) {
+                doc.Add(new Chunk(line));
+                doc.Add(new Paragraph(string.Format(@"{0}: {1} {2}", t.Tran("price", lang).ToUpper(), Math.Round(totals.price.value, 2), totals.price.currency.ToUpper()), GetFont()));
+            }
+
+            if (currentMenu.client.clientData.activities.Count > 0 && settings.showActivities) {
+                doc.Add(new Chunk(line));
+                doc.Add(new Paragraph(t.Tran("additional activity", lang).ToUpper(), GetFont()));
+                sb = new StringBuilder();
+                foreach(var a in currentMenu.client.clientData.activities) {
+                    sb.AppendLine(string.Format(@"- {0} - {1} min, {2} kcal",a.activity, a.duration, Math.Round(a.energy, 0)));
+                }
+                doc.Add(new Paragraph(sb.ToString(), GetFont()));
+            }
+
             doc.Add(new Chunk(line));
             doc.Close();
 

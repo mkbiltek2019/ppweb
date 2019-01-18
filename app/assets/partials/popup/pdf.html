@@ -42,8 +42,16 @@
                             <md-checkbox ng-disabled="!settings.showFoods" ng-model="settings.showServ" class="md-primary">
                                 {{'show servings' | translate}}
                             </md-checkbox>
+                        </div>
+                        <div>
                             <md-checkbox ng-model="settings.showTotals" class="md-primary">
                                 {{'show totals' | translate}}
+                            </md-checkbox>
+                            <md-checkbox ng-model="settings.showPrice" class="md-primary">
+                                {{'show price' | translate}}
+                            </md-checkbox>
+                            <md-checkbox ng-model="settings.showActivities" class="md-primary">
+                                {{'show additional activity' | translate}}
                             </md-checkbox>
                         </div>
                     </fieldset>

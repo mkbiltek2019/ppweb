@@ -1802,6 +1802,8 @@
   "mo": "mo",
   "define goal": "Define goal",
   "orderdescription": "If you want to activate some of the packages, fill in the order form, after that, the payment information will be sent to your email.",
-  "about packages": "About Packages"
+  "about packages": "About Packages",
+  "show additional activity": "Show additional activity",
+  "show price": "Show price"
 
 }

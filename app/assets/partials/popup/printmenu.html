@@ -45,8 +45,16 @@
                             <md-checkbox ng-disabled="!settings.showFoods" ng-model="settings.showServ" class="md-primary">
                                 {{'show servings' | translate}}
                             </md-checkbox>
+                        </div>
+                        <div>
                             <md-checkbox ng-model="settings.showTotals" class="md-primary">
                                 {{'show totals' | translate}}
+                            </md-checkbox>
+                            <md-checkbox ng-model="settings.showPrice" class="md-primary">
+                                {{'show price' | translate}}
+                            </md-checkbox>
+                            <md-checkbox ng-model="settings.showActivities" class="md-primary">
+                                {{'show additional activity' | translate}}
                             </md-checkbox>
                         </div>
                     </fieldset>
@@ -90,13 +98,13 @@
                         <p>{{'proteins' | translate}}: <span>{{totals.proteins | number:1}} g, ({{totals.proteinsPercentage | number:1}} %)</span></p>
                         <p>{{'fats' | translate}}: <span>{{totals.fats | number:1}} g, ({{totals.fatsPercentage | number:1}} %)</span></p>
                     </div>
-                    <div ng-if="totals.price.value>0">
+                    <div ng-if="totals.price.value>0 && settings.showPrice">
                         <hr />
                         <em class="text-primary"><span class="text-capitalize">{{'price' | translate}}</span>: <span>{{totals.price.value | number:2}}</span> <span class="text-uppercase">{{config.currency}}</span></em>
                     </div>
-                    <div ng-if="currentMenu.client.clientData.activities.length > 0">
+                    <div ng-if="currentMenu.client.clientData.activities.length > 0 && settings.showActivities">
                         <hr />
-                        <label>{{'additional activity' | translate}}</label>
+                        <label class="text-uppercase">{{'additional activity' | translate}}</label>
                         <ul ng-repeat="x in currentMenu.client.clientData.activities">
                             <li>{{x.activity}} - {{x.duration}} min, {{x.energy | number:0}} kcal</li>
                         </ul>
