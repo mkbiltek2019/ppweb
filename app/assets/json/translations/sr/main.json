@@ -1602,13 +1602,13 @@
   "click and move": "klikni i pomakni",
   "menus": "jelovnici",
   "forgot password": "zaboravljena lozinka",
-  "enter your email": "upišite svoj e-mail",
+  "enter your email": "upiši svoj e-mail",
   "translate to": "prevedi na",
   "edit": "uredi",
   "delete record": "briši zapis",
   "record date": "datum zapisa",
   "per consumer": "po konzumentu",
-  "enter menu title": "upišite naziv jelovnika",
+  "enter menu title": "upiši naziv jelovnika",
   "manu analysis": "analiza jelovnika",
   "subscribe": "pretplata",
   "1 year": "1 godina",
@@ -1647,7 +1647,7 @@
   "new recipe": "novi recept",
   "recipe": "recept",
   "recipes": "recepti",
-  "enter recipe title": "upišite naziv recepta",
+  "enter recipe title": "Upiši naziv recepta",
   "you do not have any recipes": "nemate vlastitih recepata",
   "create recipe": "izradi recept",
   "first name is required": "ime je obavezno",
@@ -1812,7 +1812,9 @@
   "orderdescription": "Ako želite da aktivišete neki od paketa, ispunite i pošaljite narudžbenicu nakon čega će na vaš email stići podaci za uplatu.",
   "about packages": "O paketima",
   "show additional activity": "Prikaži dodatnu aktivnost",
-  "show price": "Prikaži cenu"
-
+  "show price": "Prikaži cenu",
+  "save as food": "Spremi kao namirnicu",
+  "enter unit": "Upiši meru",
+  "choose unit": "Odaberi meru"
 
 }

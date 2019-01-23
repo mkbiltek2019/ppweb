@@ -4729,7 +4729,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
     init();
 
-    $scope.new = function(){
+    $scope.new = function () {
         init();
     }
 
@@ -4812,17 +4812,23 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         function (response) {
             functions.alert($translate.instant(response.data.d), '');
         });
+
     };
 
     var checkIsOtherFood = function (x) {
-        if (x.foodGroup.code == 'OF') { return true;}
-        if ( x.servings.cerealsServ > 0 ||
+        if (x.foodGroup.code == 'OF') {
+            return true;
+        }
+        if (x.servings.cerealsServ > 0 ||
              x.servings.vegetablesServ > 0 ||
              x.servings.fruitServ > 0 ||
              x.servings.meatServ > 0 ||
              x.servings.milkServ > 0 ||
-             x.servings.fatsServ > 0
-            ) { return false; } else { return true; }
+             x.servings.fatsServ > 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     $scope.search = function () {
@@ -5157,6 +5163,100 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             get(x);
         }
     };
+
+    $scope.saveRecipeAsMyFood = function (recipe) {
+        if (recipe.data.selectedFoods.length == 0) { return false; }
+        saveRecipeAsMyFoodPopup(recipe);
+    }
+
+    var saveRecipeAsMyFoodPopup = function (recipe) {
+        $mdDialog.show({
+            controller: saveRecipeAsMyFoodPopupCtrl,
+            templateUrl: 'assets/partials/popup/saverecipeasmyfood.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true,
+            data: recipe
+        })
+        .then(function (recipe) {
+            $scope.recipe = recipe;
+        }, function () {
+        });
+    }
+
+    var saveRecipeAsMyFoodPopupCtrl = function ($scope, $mdDialog, $http, data, functions, $rootScope) {
+        $scope.d = {
+            recipe: data,
+            units: [],
+            unit: null,
+            titleAlert: false,
+            unitAlert: false
+        }
+
+        var init = function () {
+            $http({
+                url: $sessionStorage.config.backend + 'Foods.asmx/Init',
+                method: "POST",
+                data: ''
+            })
+            .then(function (response) {
+                var res = JSON.parse(response.data.d);
+                $scope.d.units = res.units;
+            },
+            function (response) {
+                alert(response.data.d)
+            });
+        };
+        init();
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+
+        $scope.confirm = function (x) {
+            if ($rootScope.user.licenceStatus == 'demo') {
+                functions.demoAlert('the saving function is disabled in demo version');
+                return false;
+            }
+            if (functions.isNullOrEmpty(x.recipe.title)) {
+                $scope.d.titleAlert = true;
+            } else if (functions.isNullOrEmpty(x.unit)) {
+                $scope.d.unitAlert = true;
+            } else {
+                save(x);
+            }
+        }
+
+        var save = function (x) {
+            $http({
+                url: $sessionStorage.config.backend + 'Recipes.asmx/SaveAsFood',
+                method: "POST",
+                data: { userId: $rootScope.user.userGroupId, recipe: x.recipe, unit: x.unit }
+            })
+            .then(function (response) {
+                loadMyFoods();
+                $mdDialog.hide(x.recipe);
+                functions.alert($translate.instant(response.data.d), '');
+            },
+            function (response) {
+                functions.alert($translate.instant(response.data.d), '');
+            });
+        }
+
+        var loadMyFoods = function () {
+            $http({
+                url: $sessionStorage.config.backend + 'MyFoods.asmx/Load',
+                method: "POST",
+                data: { userId: $rootScope.user.userGroupId }
+            })
+            .then(function (response) {
+                var data = JSON.parse(response.data.d);
+                $rootScope.myFoods = data.foods;
+            },
+            function (response) {
+                functions.alert($translate.instant(response.data.d), '');
+            });
+        }
+    }
 
 }])
 

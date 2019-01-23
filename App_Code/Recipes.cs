@@ -151,6 +151,19 @@ public class Recipes : System.Web.Services.WebService {
         } catch (Exception e) { return (e.Message); }
         return "OK";
     }
+
+    [WebMethod]
+    public string SaveAsFood(string userId, NewRecipe recipe, string unit) {
+        try {
+            NewRecipe x = JsonConvert.DeserializeObject<NewRecipe>(Save(userId, recipe));
+            Foods.NewFood food = TransformRecipeToFood(recipe);
+            food.id = x.id;
+            food.unit = unit;
+            MyFoods mf = new MyFoods();
+            mf.Save(userId, food);
+            return "saved";
+        } catch (Exception e) { return (e.Message); }
+    }
     #endregion UsersRecipes
 
     #region AppRecipes
@@ -200,7 +213,6 @@ public class Recipes : System.Web.Services.WebService {
         }
         catch (Exception e) { return (e.Message); }
     }
-
     #endregion AppRecipes
 
     #endregion WebMethods
@@ -230,7 +242,7 @@ public class Recipes : System.Web.Services.WebService {
             File.Delete(filepath);
         }
     }
-    private string GetJsonFile(string userId, string filename) {
+    public string GetJsonFile(string userId, string filename) {
         string path = string.Format("~/App_Data/users/{0}/recipes/{1}.json", userId, filename);
         string json = "";
         if (File.Exists(Server.MapPath(path))) {
@@ -263,10 +275,72 @@ public class Recipes : System.Web.Services.WebService {
             return result;
         } catch (Exception e) { return false; }
     }
+
+    private Foods.NewFood TransformRecipeToFood(NewRecipe recipe) {
+        try {
+            Foods foods = new Foods();
+            Foods.NewFood f = foods.GetFoodsTotal(recipe.data.selectedFoods);
+            Foods.NewFood x = new Foods.NewFood();
+            x.id = null;
+            x.food = recipe.title;
+            x.quantity = 1;
+            x.mass = f.mass;
+            x.energy = f.energy;
+            x.carbohydrates = f.carbohydrates;
+            x.proteins = f.proteins;
+            x.fats = f.fats;
+            x.servings.cerealsServ = f.servings.cerealsServ;
+            x.servings.vegetablesServ = f.servings.vegetablesServ;
+            x.servings.fruitServ = f.servings.fruitServ;
+            x.servings.meatServ = f.servings.meatServ;
+            x.servings.milkServ = f.servings.milkServ;
+            x.servings.fatsServ = f.servings.fatsServ;
+            x.servings.otherFoodsServ = f.servings.otherFoodsServ;
+            x.servings.otherFoodsEnergy = f.servings.otherFoodsEnergy;
+            x.starch = f.starch;
+            x.totalSugar = f.totalSugar;
+            x.glucose = f.glucose;
+            x.fructose = f.fructose;
+            x.saccharose = f.saccharose;
+            x.maltose = f.maltose;
+            x.lactose = f.lactose;
+            x.fibers = f.fibers;
+            x.saturatedFats = f.saturatedFats;
+            x.monounsaturatedFats = f.monounsaturatedFats;
+            x.polyunsaturatedFats = f.polyunsaturatedFats;
+            x.trifluoroaceticAcid = f.trifluoroaceticAcid;
+            x.cholesterol = f.cholesterol;
+            x.sodium = f.sodium;
+            x.potassium = f.potassium;
+            x.calcium = f.calcium;
+            x.magnesium = f.magnesium;
+            x.phosphorus = f.phosphorus;
+            x.iron = f.iron;
+            x.copper = f.copper;
+            x.zinc = f.zinc;
+            x.chlorine = f.chlorine;
+            x.manganese = f.manganese;
+            x.selenium = f.selenium;
+            x.iodine = f.iodine;
+            x.retinol = f.retinol;
+            x.carotene = f.carotene;
+            x.vitaminD = f.vitaminD;
+            x.vitaminE = f.vitaminE;
+            x.vitaminB1 = f.vitaminB1;
+            x.vitaminB2 = f.vitaminB2;
+            x.vitaminB3 = f.vitaminB3;
+            x.vitaminB6 = f.vitaminB6;
+            x.vitaminB12 = f.vitaminB12;
+            x.folate = f.folate;
+            x.pantothenicAcid = f.pantothenicAcid;
+            x.biotin = f.biotin;
+            x.vitaminC = f.vitaminC;
+            x.vitaminK = f.vitaminK;
+            return x;
+        } catch (Exception e) {
+            return new Foods.NewFood();
+        }
+    }
     #endregion Methods
-
-
-    
-
 
 }

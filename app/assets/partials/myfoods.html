@@ -25,7 +25,7 @@
                     </md-select>
                 </md-input-container>
             </div>
-            <fieldset class="fieldset-border">
+            <fieldset ng-hide="myFoodFromRecipe" class="fieldset-border">
                 <legend class="fieldset-border text-capitalize">{{'unit servings' | translate}}</legend>
                 <div>
                     <div class="alert alert-warning">
@@ -72,7 +72,7 @@
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <div ng-if="myFood.foodGroup.code !='OF' && myFood.foodGroup.code != null">
+                            <div ng-if="myFood.foodGroup.code !='OF' && myFood.foodGroup.code != null && myFood.foodGroup.code != ''">
                                 <div class="alert alert-success">
                                     <ul>
                                         <li ng-if="myFood.foodGroup.code == 'C' || myFood.foodGroup.code == 'MF' || myFood.foodGroup.code == 'PM'">1 serviranje žitarica je 1/2 šalice žitarica/sjemenki/tjestenine/škrobnog povrća, 30 g kruha i sl.</li>

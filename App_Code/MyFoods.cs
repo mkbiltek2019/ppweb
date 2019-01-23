@@ -49,7 +49,6 @@ public class MyFoods : System.Web.Services.WebService {
         }
     }
    
-
     [WebMethod]
     public string Load(string userId) {
         try {
@@ -131,7 +130,14 @@ public class MyFoods : System.Web.Services.WebService {
                 x.servings.milkServ = reader.GetValue(16) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(16));
                 x.servings.fatsServ = reader.GetValue(17) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(17));
                 x.servings.otherFoodsServ = reader.GetValue(18) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(18));
-                x.servings.otherFoodsEnergy = x.servings.otherFoodsServ > 0 ? x.energy : 0;
+                x.servings.otherFoodsEnergy = x.servings.otherFoodsServ > 0 ? x.energy : 0;  // TODO: check if exists in recipes by foodId
+
+                Recipes recipe = new Recipes();
+                Recipes.JsonFile data = JsonConvert.DeserializeObject<Recipes.JsonFile>(recipe.GetJsonFile(userId, x.id));
+                if (!string.IsNullOrEmpty(recipe.GetJsonFile(userId, x.id))) {
+                    x.servings.otherFoodsEnergy = data.selectedFoods.Sum(a => a.servings.otherFoodsEnergy);
+                }
+
                 x.starch = reader.GetValue(19) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(19));
                 x.totalSugar = reader.GetValue(20) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(20));
                 x.glucose = reader.GetValue(21) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(21));
@@ -179,8 +185,7 @@ public class MyFoods : System.Web.Services.WebService {
 
             string json = JsonConvert.SerializeObject(x, Formatting.Indented);
             return json;
-        }
-        catch (Exception e) { return ("Error: " + e); }
+        } catch (Exception e) { return ("Error: " + e); }
     }
 
     [WebMethod]
@@ -304,6 +309,5 @@ public class MyFoods : System.Web.Services.WebService {
         } catch (Exception e) { return false; }
     }
     #endregion Methods
-
 
 }

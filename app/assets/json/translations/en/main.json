@@ -1640,7 +1640,7 @@
   "new recipe": "new recipe",
   "recipe": "recipe",
   "recipes": "recipes",
-  "enter recipe title": "enter recipe title",
+  "enter recipe title": "Enter recipe title",
   "you do not have any recipes": "you do not have any recipes",
   "create recipe": "create recipe",
   "first name is required": "first name is required",
@@ -1804,6 +1804,8 @@
   "orderdescription": "If you want to activate some of the packages, fill in the order form, after that, the payment information will be sent to your email.",
   "about packages": "About Packages",
   "show additional activity": "Show additional activity",
-  "show price": "Show price"
+  "show price": "Show price",
+  "save as food": "Save as food",
+  "choose unit": "Choose unit"
 
 }

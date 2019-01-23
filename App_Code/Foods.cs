@@ -477,7 +477,7 @@ public class Foods : System.Web.Services.WebService {
                 x.servings.milkServ = reader.GetValue(16) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(16));
                 x.servings.fatsServ = reader.GetValue(17) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(17));
                 x.servings.otherFoodsServ = reader.GetValue(18) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(18));
-                x.servings.otherFoodsEnergy = x.servings.otherFoodsServ > 0 ? x.energy : 0;
+                x.servings.otherFoodsEnergy = x.servings.otherFoodsServ == 1 ? x.energy : 0;
 
                 x.starch = reader.GetValue(19) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(19));
                 x.totalSugar = reader.GetValue(20) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(20));
@@ -550,7 +550,15 @@ public class Foods : System.Web.Services.WebService {
         x.servings.milkServ = SmartRound(selectedFoods.Sum(a => a.servings.milkServ));
         x.servings.fatsServ = SmartRound(selectedFoods.Sum(a => a.servings.fatsServ));
         x.servings.otherFoodsServ = SmartRound(selectedFoods.Sum(a => a.servings.otherFoodsServ));
-        x.servings.otherFoodsEnergy = SmartRound(selectedFoods.Where(a => a.servings.otherFoodsServ > 0).Sum(a => a.energy));
+        //x.servings.otherFoodsEnergy = SmartRound(selectedFoods.Where(a => a.servings.otherFoodsServ > 0).Sum(a => a.energy));
+
+        x.servings.otherFoodsEnergy = SmartRound(selectedFoods.Sum(a => a.servings.otherFoodsEnergy));
+
+        // x.servings.otherFoodsEnergy = SmartRound(selectedFoods.Sum(a => a.servings.otherFoodsEnergy)) + SmartRound(selectedFoods.Where(a => a.servings.otherFoodsServ == 1).Sum(a => a.energy));
+
+
+
+
 
         x.mealsTotalEnergy = GetMealsTotalEnergy(selectedFoods, meals);
         x.starch = SmartRound(selectedFoods.Sum(a => a.starch));
@@ -757,6 +765,7 @@ public class Foods : System.Web.Services.WebService {
             return JsonConvert.SerializeObject(InitFood(food), Formatting.Indented);
         } catch (Exception e) { return ("Error: " + e); }
     }
+
     #endregion
 
     #region Methods
@@ -2726,7 +2735,7 @@ public class Foods : System.Web.Services.WebService {
             x.servings.meatServ = Math.Round(f.servings.meatServ * number, 1);
             x.servings.milkServ = Math.Round(f.servings.milkServ * number, 1);
             x.servings.fatsServ = Math.Round(f.servings.fatsServ * number, 1);
-            x.servings.otherFoodsServ = Math.Round(f.servings.otherFoodsServ * number, 1);
+            x.servings.otherFoodsServ = Math.Round(f.servings.otherFoodsServ * 1, 1);
             x.servings.otherFoodsEnergy = Math.Round(f.servings.otherFoodsEnergy * number, 1);
             x.starch = Math.Round(f.starch * number, 1);
             x.totalSugar = Math.Round(f.totalSugar * number, 1);
@@ -2841,7 +2850,7 @@ public class Foods : System.Web.Services.WebService {
         x.servings.meatServ = SmartRound(initFood.servings.meatServ * k);
         x.servings.milkServ = SmartRound(initFood.servings.milkServ * k);
         x.servings.fatsServ = SmartRound(initFood.servings.fatsServ * k);
-        x.servings.otherFoodsServ = SmartRound(initFood.servings.otherFoodsServ * k);
+        x.servings.otherFoodsServ = SmartRound(initFood.servings.otherFoodsServ * 1);
         x.servings.otherFoodsEnergy = SmartRound(initFood.servings.otherFoodsEnergy * k);
 
         //TODO servings description
@@ -2888,6 +2897,65 @@ public class Foods : System.Web.Services.WebService {
 
         //TODO
         x.price.value = Math.Round(initFood.price.value * k, 2);
+        return x;
+    }
+
+    public NewFood GetFoodsTotal(List<NewFood> selectedFoods) {
+        NewFood x = new NewFood();
+        x.mass = SmartRound(selectedFoods.Sum(a => a.mass));
+        x.energy = SmartRound(selectedFoods.Sum(a => a.energy));
+        x.carbohydrates = SmartRound(selectedFoods.Sum(a => a.carbohydrates));
+        x.proteins = SmartRound(selectedFoods.Sum(a => a.proteins));
+        x.fats = SmartRound(selectedFoods.Sum(a => a.fats));
+
+        x.servings.cerealsServ = SmartRound(selectedFoods.Sum(a => a.servings.cerealsServ));
+        x.servings.vegetablesServ = SmartRound(selectedFoods.Sum(a => a.servings.vegetablesServ));
+        x.servings.fruitServ = SmartRound(selectedFoods.Sum(a => a.servings.fruitServ));
+        x.servings.meatServ = SmartRound(selectedFoods.Sum(a => a.servings.meatServ));
+        x.servings.milkServ = SmartRound(selectedFoods.Sum(a => a.servings.milkServ));
+        x.servings.fatsServ = SmartRound(selectedFoods.Sum(a => a.servings.fatsServ));
+        x.servings.otherFoodsServ = SmartRound(selectedFoods.Sum(a => a.servings.otherFoodsServ));
+        x.servings.otherFoodsEnergy = SmartRound(selectedFoods.Where(a => a.servings.otherFoodsServ == 1).Sum(a => a.energy));
+
+        x.starch = SmartRound(selectedFoods.Sum(a => a.starch));
+        x.totalSugar = SmartRound(selectedFoods.Sum(a => a.totalSugar));
+        x.glucose = SmartRound(selectedFoods.Sum(a => a.glucose));
+        x.fructose = SmartRound(selectedFoods.Sum(a => a.fructose));
+        x.saccharose = SmartRound(selectedFoods.Sum(a => a.saccharose));
+        x.maltose = SmartRound(selectedFoods.Sum(a => a.maltose));
+        x.lactose = SmartRound(selectedFoods.Sum(a => a.lactose));
+        x.fibers = SmartRound(selectedFoods.Sum(a => a.fibers));
+        x.saturatedFats = SmartRound(selectedFoods.Sum(a => a.saturatedFats));
+        x.monounsaturatedFats = SmartRound(selectedFoods.Sum(a => a.monounsaturatedFats));
+        x.polyunsaturatedFats = SmartRound(selectedFoods.Sum(a => a.polyunsaturatedFats));
+        x.trifluoroaceticAcid = SmartRound(selectedFoods.Sum(a => a.trifluoroaceticAcid));
+        x.cholesterol = SmartRound(selectedFoods.Sum(a => a.cholesterol));
+        x.sodium = SmartRound(selectedFoods.Sum(a => a.sodium));
+        x.potassium = SmartRound(selectedFoods.Sum(a => a.potassium));
+        x.calcium = SmartRound(selectedFoods.Sum(a => a.calcium));
+        x.magnesium = SmartRound(selectedFoods.Sum(a => a.magnesium));
+        x.phosphorus = SmartRound(selectedFoods.Sum(a => a.phosphorus));
+        x.iron = SmartRound(selectedFoods.Sum(a => a.iron));
+        x.copper = SmartRound(selectedFoods.Sum(a => a.copper));
+        x.zinc = SmartRound(selectedFoods.Sum(a => a.zinc));
+        x.chlorine = SmartRound(selectedFoods.Sum(a => a.chlorine));
+        x.manganese = SmartRound(selectedFoods.Sum(a => a.manganese));
+        x.selenium = SmartRound(selectedFoods.Sum(a => a.selenium));
+        x.iodine = SmartRound(selectedFoods.Sum(a => a.iodine));
+        x.retinol = SmartRound(selectedFoods.Sum(a => a.retinol));
+        x.carotene = SmartRound(selectedFoods.Sum(a => a.carotene));
+        x.vitaminD = SmartRound(selectedFoods.Sum(a => a.vitaminD));
+        x.vitaminE = SmartRound(selectedFoods.Sum(a => a.vitaminE));
+        x.vitaminB1 = SmartRound(selectedFoods.Sum(a => a.vitaminB1));
+        x.vitaminB2 = SmartRound(selectedFoods.Sum(a => a.vitaminB2));
+        x.vitaminB3 = SmartRound(selectedFoods.Sum(a => a.vitaminB3));
+        x.vitaminB6 = SmartRound(selectedFoods.Sum(a => a.vitaminB6));
+        x.vitaminB12 = SmartRound(selectedFoods.Sum(a => a.vitaminB12));
+        x.folate = SmartRound(selectedFoods.Sum(a => a.folate));
+        x.pantothenicAcid = SmartRound(selectedFoods.Sum(a => a.pantothenicAcid));
+        x.biotin = SmartRound(selectedFoods.Sum(a => a.biotin));
+        x.vitaminC = SmartRound(selectedFoods.Sum(a => a.vitaminC));
+        x.vitaminK = SmartRound(selectedFoods.Sum(a => a.vitaminK));
         return x;
     }
     #endregion
