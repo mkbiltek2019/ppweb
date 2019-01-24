@@ -130,7 +130,7 @@ public class MyFoods : System.Web.Services.WebService {
                 x.servings.milkServ = reader.GetValue(16) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(16));
                 x.servings.fatsServ = reader.GetValue(17) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(17));
                 x.servings.otherFoodsServ = reader.GetValue(18) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(18));
-                x.servings.otherFoodsEnergy = x.servings.otherFoodsServ > 0 ? x.energy : 0;  // TODO: check if exists in recipes by foodId
+                x.servings.otherFoodsEnergy = x.servings.otherFoodsServ > 0 ? x.energy : 0;
 
                 Recipes recipe = new Recipes();
                 Recipes.JsonFile data = JsonConvert.DeserializeObject<Recipes.JsonFile>(recipe.GetJsonFile(userId, x.id));
@@ -269,17 +269,16 @@ public class MyFoods : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string Delete(string userId, Foods.NewFood x) {
+    public string Delete(string userId, string id) {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
             string sql = "";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
-            sql = @"BEGIN;
-                    DELETE FROM myfoods WHERE id = @id;
-                    COMMIT;";
+            sql = string.Format(@"BEGIN;
+                    DELETE FROM myfoods WHERE id = '{0}';
+                    COMMIT;", id);
             command = new SQLiteCommand(sql, connection);
-            command.Parameters.Add(new SQLiteParameter("id", x.id));
             command.ExecuteNonQuery();
             connection.Close();
             return "ok";

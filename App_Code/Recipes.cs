@@ -148,6 +148,10 @@ public class Recipes : System.Web.Services.WebService {
             command.ExecuteNonQuery();
             connection.Close();
             DeleteJson(userId, id);
+            /******* Delete from My Foods if exists (Recipes as My Food) *******/
+            MyFoods mf = new MyFoods();
+            mf.Delete(userId, id);
+            /*******************************************************************/
         } catch (Exception e) { return (e.Message); }
         return "OK";
     }

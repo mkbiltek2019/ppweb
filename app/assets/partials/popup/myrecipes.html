@@ -30,12 +30,14 @@
                 <div class="table-responsive mt10">
                     <table class="table table-hover table-condensed">
                         <tr>
-                            <th>{{'title' | translate}}</th>
+                            <th style="width:80%">{{'title' | translate}}</th>
                             <th class="text-right">{{'energy'| translate}}</th>
+                            <th></th>
                         </tr>
                         <tr ng-repeat="x in d | filter:searchValue | limitTo:limit" ng-click="confirm(x, showDescription)">
                             <td class="nowrap">{{x.title}}</td>
                             <td class="nowrap text-right"><span ng-if="x.energy>0">{{x.energy | number:0}} {{'kcal' | translate}}</span></td>
+                            <td class="text-right"><a href="" style="color:red" ng-click="remove(x)" class="btn btn-default"><i class="fa fa-trash-o"></i></a></td>
                         </tr>
                     </table>
                 </div>
