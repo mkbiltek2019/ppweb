@@ -111,11 +111,11 @@ public class MyFoods : System.Web.Services.WebService {
                 x.food = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
                 x.foodGroup.code = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
                 x.foodGroup.title = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
-                x.foodGroup.parent = "A";  // GetParentGroup(connection, x.foodGroup.code);
+                x.foodGroup.parent = "A";
                 x.foodGroupVitaminLost = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
-                x.thermalTreatments = null; // GetThermalTreatments(connection, x.foodGroupVitaminLost);
+                x.thermalTreatments = null;
                 x.meal.code = "B";
-                x.meal.title = ""; // lang != null ? Meals.GetMealTitle(lang, x.meal.code, connection) : "";
+                x.meal.title = "";
                 x.quantity = reader.GetValue(5) == DBNull.Value ? 0 : reader.GetInt32(5);
                 x.unit = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
                 x.mass = reader.GetValue(7) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(7));
@@ -132,11 +132,13 @@ public class MyFoods : System.Web.Services.WebService {
                 x.servings.otherFoodsServ = reader.GetValue(18) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(18));
                 x.servings.otherFoodsEnergy = x.servings.otherFoodsServ > 0 ? x.energy : 0;
 
+                /****************** My Food from Recipe ********************/
                 Recipes recipe = new Recipes();
                 Recipes.JsonFile data = JsonConvert.DeserializeObject<Recipes.JsonFile>(recipe.GetJsonFile(userId, x.id));
                 if (!string.IsNullOrEmpty(recipe.GetJsonFile(userId, x.id))) {
                     x.servings.otherFoodsEnergy = data.selectedFoods.Sum(a => a.servings.otherFoodsEnergy);
                 }
+                /***********************************************************/
 
                 x.starch = reader.GetValue(19) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(19));
                 x.totalSugar = reader.GetValue(20) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(20));
