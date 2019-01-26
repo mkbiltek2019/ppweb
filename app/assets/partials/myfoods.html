@@ -44,43 +44,42 @@
                             </md-input-container>
                         </div>
                         <div class="col-sm-2">
-                            <div layout-gt-sm="row">
-                                <md-input-container ng-if="myFood.foodGroup.code == 'C' || myFood.foodGroup.code == 'MF' || myFood.foodGroup.code == 'PM'">
-                                    <label>{{'cereals' | translate}} {{'serv' | translate}}.</label>
-                                    <input ng-model="myFood.servings.cerealsServ" allow-only-numbers>
-                                </md-input-container>
-                                <md-input-container ng-if="myFood.foodGroup.code == 'V' || myFood.foodGroup.code == 'PM'">
-                                    <label>{{'vegetables' | translate}} {{'serv' | translate}}.</label>
-                                    <input ng-model="myFood.servings.vegetablesServ" allow-only-numbers>
-                                </md-input-container>
-                                <md-input-container ng-if="myFood.foodGroup.code == 'F' || myFood.foodGroup.code == 'PM'">
-                                    <label>{{'fruit' | translate}} {{'serv' | translate}}.</label>
-                                    <input ng-model="myFood.servings.fruitServ" allow-only-numbers>
-                                </md-input-container>
-                                <md-input-container ng-if="myFood.foodGroup.code == 'M'  || myFood.foodGroup.code == 'MF' || myFood.foodGroup.code == 'PM'">
-                                    <label>{{'meat' | translate}} {{'serv' | translate}}.</label>
-                                    <input ng-model="myFood.servings.meatServ" allow-only-numbers>
-                                </md-input-container>
-                                <md-input-container ng-if="myFood.foodGroup.code == 'MI' || myFood.foodGroup.code == 'PM'">
-                                    <label>{{'milk' | translate}} {{'serv' | translate}}.</label>
-                                    <input ng-model="myFood.servings.milkServ" allow-only-numbers>
-                                </md-input-container>
-                                <md-input-container ng-if="myFood.foodGroup.code == 'FA' || myFood.foodGroup.code == 'PM'">
-                                    <label>{{'fats' | translate}} {{'serv' | translate}}.</label>
-                                    <input ng-model="myFood.servings.fatsServ" allow-only-numbers>
-                                </md-input-container>
-                            </div>
+                            <md-input-container ng-if="myFood.foodGroup.code == 'C' || myFood.foodGroup.code == 'MF' || myFood.foodGroup.code == 'PM'" >
+                                <label>{{'cereals' | translate}} {{'serv' | translate}}.</label>
+                                <input ng-model="myFood.servings.cerealsServ" allow-only-numbers>
+                            </md-input-container>
+                            <md-input-container ng-if="myFood.foodGroup.code == 'V' || myFood.foodGroup.code == 'PM'" >
+                                <label>{{'vegetables' | translate}} {{'serv' | translate}}.</label>
+                                <input ng-model="myFood.servings.vegetablesServ" allow-only-numbers>
+                            </md-input-container>
+                            <md-input-container ng-if="myFood.foodGroup.code == 'F' || myFood.foodGroup.code == 'PM'" >
+                                <label>{{'fruit' | translate}} {{'serv' | translate}}.</label>
+                                <input ng-model="myFood.servings.fruitServ" allow-only-numbers>
+                            </md-input-container>
+                            <md-input-container ng-if="myFood.foodGroup.code == 'M'  || myFood.foodGroup.code == 'MF' || myFood.foodGroup.code == 'PM'" >
+                                <label>{{'meat' | translate}} {{'serv' | translate}}.</label>
+                                <input ng-model="myFood.servings.meatServ" allow-only-numbers>
+                            </md-input-container>
+                            <md-input-container ng-if="myFood.foodGroup.code == 'MI' || myFood.foodGroup.code == 'PM'">
+                                <label>{{'milk' | translate}} {{'serv' | translate}}.</label>
+                                <input ng-model="myFood.servings.milkServ" allow-only-numbers>
+                            </md-input-container>
+                            <md-input-container ng-if="myFood.foodGroup.code == 'FA' || myFood.foodGroup.code == 'PM'">
+                                <label>{{'fats' | translate}} {{'serv' | translate}}.</label>
+                                <input ng-model="myFood.servings.fatsServ" allow-only-numbers>
+                            </md-input-container>
                         </div>
                         <div class="col-sm-6">
                             <div ng-if="myFood.foodGroup.code !='OF' && myFood.foodGroup.code != null && myFood.foodGroup.code != ''">
                                 <div class="alert alert-success">
+                                    <i class="fa fa-question-circle"></i>
                                     <ul>
-                                        <li ng-if="myFood.foodGroup.code == 'C' || myFood.foodGroup.code == 'MF' || myFood.foodGroup.code == 'PM'">1 serviranje žitarica je 1/2 šalice žitarica/sjemenki/tjestenine/škrobnog povrća, 30 g kruha i sl.</li>
-                                        <li ng-if="myFood.foodGroup.code == 'V' || myFood.foodGroup.code == 'PM'">1 serviranje povrća je 1/2 šalice kuhanog povrća, 1/2 šalice povrtnog soka ili 1 šalicu sirovog povrća.</li>
-                                        <li ng-if="myFood.foodGroup.code == 'F' || myFood.foodGroup.code == 'PM'">1 serviranje voća je 1 mali do srednje velik komad voća, 1/2 šalice svježeg/konzerviranog voća/voćnog soka, 1/4 šalice osušenog voća.</li>
-                                        <li ng-if="myFood.foodGroup.code == 'M' || myFood.foodGroup.code == 'MF' || myFood.foodGroup.code == 'PM'">1 serviranje mesa je 30 g mesa, piletine ili sira te 1/2  šalice graha (meso, piletina i grah se mjere termićki obrađeni).</li>
-                                        <li ng-if="myFood.foodGroup.code == 'MI' || myFood.foodGroup.code == 'PM'">1 serviranje mlijeka i mliječnih proizvoda je 1 šalica mlijeka, 2/3 šalice jogurta (250 ml mlijeka, 180 g jogurta).</li>
-                                        <li ng-if="myFood.foodGroup.code == 'FA' || myFood.foodGroup.code == 'PM'">1 serviranje masti je 1 čajna žlićica maslaca/margarina/biljnog ulja, 1 jušnu žlicu salatnog preljeva.</li>
+                                        <li ng-if="myFood.foodGroup.code == 'C' || myFood.foodGroup.code == 'MF' || myFood.foodGroup.code == 'PM'">{{'cereals_serv_desc' | translate}}.</li>
+                                        <li ng-if="myFood.foodGroup.code == 'V' || myFood.foodGroup.code == 'PM'">{{'vegetables_serv_desc' | translate}}.</li>
+                                        <li ng-if="myFood.foodGroup.code == 'F' || myFood.foodGroup.code == 'PM'">{{'fruit_serv_desc' | translate}}.</li>
+                                        <li ng-if="myFood.foodGroup.code == 'M' || myFood.foodGroup.code == 'MF' || myFood.foodGroup.code == 'PM'">{{'meat_serv_desc' | translate}}.</li>
+                                        <li ng-if="myFood.foodGroup.code == 'MI' || myFood.foodGroup.code == 'PM'">{{'milk_serv_desc' | translate}}.</li>
+                                        <li ng-if="myFood.foodGroup.code == 'FA' || myFood.foodGroup.code == 'PM'">{{'fats_serv_desc' | translate}}.</li>
                                     </ul>
                                 </div>
                             </div>

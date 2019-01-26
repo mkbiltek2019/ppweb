@@ -1806,6 +1806,13 @@
   "show additional activity": "Show additional activity",
   "show price": "Show price",
   "save as food": "Save as food",
-  "choose unit": "Choose unit"
+  "choose unit": "Choose unit",
+  "cereals_serv_desc": "1 serving of cereals is 1/2 cup of grain/seeds/pasta/starch vegetables, 30 g of bread etc",
+  "vegetables_serv_desc": "1 serving of vegetables is 1/2 cup of cooked vegetables, 1/2 cup of vegetable juice or 1 cup of raw vegetables",
+  "fruit_serv_desc": "1 serving of fruit is 1 small to medium large piece of fruit, 1/2 cup fresh/canned fruit/fruit juice, 1/4 cup of dried fruit",
+  "meat_serv_desc": "1 serving of meat is 30 g of meat, chicken or cheese and 1/2 cup of beans (meat, chicken and beans are measured thermally processed)",
+  "milk_serv_desc": "1 serving of milk and dairy products is 1 cup of milk, 2/3 cup yogurt (250 ml milk, 180 g yogurt)",
+  "fats_serv_desc": "1 serving of fat is 1 teaspoon butter/margarine/vegetable oil, 1 tablespoon salad dressing"
+
 
 }

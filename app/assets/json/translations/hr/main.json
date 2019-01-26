@@ -1817,7 +1817,13 @@
   "show additional activity": "Prikaži dodatnu aktivnost",
   "show price": "Prikaži cijenu",
   "save as food": "Spremi kao namirnicu",
-  "choose unit": "Odaberi mjeru"
+  "choose unit": "Odaberi mjeru",
+  "cereals_serv_desc": "1 serviranje žitarica je 1/2 šalice žitarica/sjemenki/tjestenine/škrobnog povrća, 30 g kruha i sl",
+  "vegetables_serv_desc": "1 serviranje povrća je 1/2 šalice kuhanog povrća, 1/2 šalice povrtnog soka ili 1 šalicu sirovog povrća",
+  "fruit_serv_desc": "1 serviranje voća je 1 mali do srednje velik komad voća, 1/2 šalice svježeg/konzerviranog voća/voćnog soka, 1/4 šalice osušenog voća",
+  "meat_serv_desc": "1 serviranje mesa je 30 g mesa, piletine ili sira te 1/2 šalice graha (meso, piletina i grah se mjere termićki obrađeni)",
+  "milk_serv_desc": "1 serviranje mlijeka i mliječnih proizvoda je 1 šalica mlijeka, 2/3 šalice jogurta (250 ml mlijeka, 180 g jogurta)",
+  "fats_serv_desc": "1 serviranje masti je 1 čajna žlićica maslaca/margarina/biljnog ulja, 1 jušnu žlicu salatnog preljeva"
 
 
 }
