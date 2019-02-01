@@ -31,7 +31,7 @@
                         <th>{{'recommended' | translate}}</th>
                     </tr>
                     <tr ng-repeat="x in currentMenu.data.meals | filter: { 'isSelected': true }">
-                        <td class="nowrap">{{x.title}}</td>
+                        <td class="nowrap">{{getMealTitle(x)}}</td>
                         <td class="text-bold">{{getMealTotal(x.code).energy | number:1}} {{'kcal' | translate}} ({{getMealTotal(x.code).energyPercentage | number:1}} %) <i class="{{checkTotal(getMealTotal(x.code).energyPercentage, getMealRecommendation(x.code).energyMinPercentage, getMealRecommendation(x.code).energyMaxPercentage)}}"></i></td>
                         <td>{{getMealRecommendation(x.code).energyMin}} - {{getMealRecommendation(x.code).energyMax}} {{'kcal' | translate}} ({{getMealRecommendation(x.code).energyMinPercentage}} - {{getMealRecommendation(x.code).energyMaxPercentage}} %)</td>
                     </tr>

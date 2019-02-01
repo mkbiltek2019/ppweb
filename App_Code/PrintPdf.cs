@@ -309,7 +309,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
             int i = 0;
             foreach(var m in currentMenu.data.meals) {
-                AppendMealDistribution(tblMeals, totals, recommendations, lang, i, m.title);
+                AppendMealDistribution(tblMeals, totals, recommendations, lang, i, m);
                 i++;
             }
 
@@ -1100,7 +1100,7 @@ IBAN HR8423400091160342496
         StringBuilder sb = new StringBuilder();
         if (meal.Count > 0) {
             if(meals.Find(a => a.code == meal[0].meal.code).isSelected == true) {
-                sb.AppendLine(string.Format(@"{0}", t.Tran(GetMealTitle(meal[0].meal), lang)).ToUpper());
+                sb.AppendLine(string.Format(@"{0}", t.Tran(GetMealTitle(meal[0].meal.code, meal[0].meal.title), lang)).ToUpper());
                 string description = meals.Where(a => a.code == meal[0].meal.code).FirstOrDefault().description;
                 if (!string.IsNullOrWhiteSpace(description)) {
                     sb = AppendMealDescription(sb, description, settings);
@@ -1148,23 +1148,23 @@ IBAN HR8423400091160342496
         }
     }
 
-    private void AppendMealDistribution(PdfPTable tblMeals, Foods.Totals totals, Foods.Recommendations recommendations, string lang, int i, string meal) {
+    private void AppendMealDistribution(PdfPTable tblMeals, Foods.Totals totals, Foods.Recommendations recommendations, string lang, int i, Meals.NewMeal meal) {
         if (totals.mealsTotalEnergy[i].meal.energy > 0) {
-            tblMeals.AddCell(new PdfPCell(new Phrase(t.Tran(meal, lang), GetFont())) { Border = 0 });
+            tblMeals.AddCell(new PdfPCell(new Phrase(t.Tran(GetMealTitle(meal.code, meal.title), lang), GetFont())) { Border = 0 });
             tblMeals.AddCell(new PdfPCell(new Phrase(totals.mealsTotalEnergy[i].meal.energy.ToString() + " " + t.Tran("kcal", lang) + " (" + Math.Round(Convert.ToDouble(totals.mealsTotalEnergy[i].meal.energyPercentage), 1).ToString() + " %)", GetFont(CheckTotal(totals.mealsTotalEnergy[i].meal.energyPercentage, recommendations.mealsRecommendationEnergy[i].meal.energyMinPercentage, recommendations.mealsRecommendationEnergy[i].meal.energyMaxPercentage)))) { Border = 0 });
             tblMeals.AddCell(new PdfPCell(new Phrase(recommendations.mealsRecommendationEnergy[i].meal.energyMin.ToString() + "-" + recommendations.mealsRecommendationEnergy[i].meal.energyMax.ToString() + " " + t.Tran("kcal", lang) + " (" + recommendations.mealsRecommendationEnergy[i].meal.energyMinPercentage.ToString() + "-" + recommendations.mealsRecommendationEnergy[i].meal.energyMaxPercentage.ToString() + " %)", GetFont())) { Border = 0 });
         }
     }
 
-    private string GetMealTitle(Foods.CodeTitle meal) {
-        switch (meal.code) {
+    private string GetMealTitle(string code, string title) {
+        switch (code) {
             case "B": return "breakfast";
             case "MS": return "morning snack";
             case "L": return "lunch";
             case "AS": return "afternoon snack";
             case "D": return "dinner";
             case "MBS": return "meal before sleep";
-            default: return meal.title;
+            default: return title;
         }
     }
 

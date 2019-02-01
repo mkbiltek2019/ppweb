@@ -11,9 +11,9 @@
             <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around" class="text-center">
                 <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
             </div>
-            <div ng-if="d.length==0">
+            <div ng-if="d.length==0" class="mt20">
                 <div class="alert alert-danger">
-                    {{'you do not have any mealse' | translate}}
+                    {{'you do not have any mealse' | translate}}!
                 </div>
             </div>
             <div ng-if="d.length>0" ng-show="!loading" class="md-dialog-content">
