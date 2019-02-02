@@ -31,6 +31,11 @@ public class ClientApp : System.Web.Services.WebService {
 
     #region Web Methods
     [WebMethod]
+    public string Test() {
+        return "Test OK";
+    }
+
+    [WebMethod]
     public string Get(string clientId) {
         try {
             return JsonConvert.SerializeObject(GetCode(clientId), Formatting.Indented);
