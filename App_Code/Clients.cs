@@ -31,7 +31,6 @@ public class Clients : System.Web.Services.WebService {
         public string firstName { get; set; }
         public string lastName { get; set; }
         public string birthDate { get; set; }
-        //public int? gender { get; set; }
 
         public Gender gender = new Gender();
 
@@ -215,8 +214,7 @@ public class Clients : System.Web.Services.WebService {
         return json;
     }
 
-    #region Clientapp
-    //TODO crerate client Code ddb => (id, clientId, code, userId, userGroupId, lang)
+    #region ClientApp
     [WebMethod]
     public string UpdateClient(string userId, NewClient x) {
         try {
@@ -233,7 +231,20 @@ public class Clients : System.Web.Services.WebService {
                 return JsonConvert.SerializeObject(x, Formatting.Indented);
         } catch (Exception e) { return (e.Message); }
     }
-    #endregion Clientapp
+
+    [WebMethod]
+    public string UpdateClientFromAndroid(string userId, string firstName, string lastName, string birthDate, int gender, string phone, string email, string clientId) {
+        NewClient x = new NewClient();
+        x.firstName = firstName;
+        x.lastName = lastName;
+        x.birthDate = birthDate;
+        x.gender.value = gender;
+        x.phone = phone;
+        x.email = email;
+        x.clientId = clientId;
+        return UpdateClient(userId, x);
+    }
+    #endregion ClientApp
 
     #endregion
 
