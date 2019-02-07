@@ -267,6 +267,41 @@ public class ClientsData : System.Web.Services.WebService {
         } catch (Exception e) { return ("Error: " + e); }
         return "OK";
     }
+
+    #region ClientApp
+    [WebMethod]
+    public string SaveClientDataFromAndroid(string clientId, string height, string weight, string waist, string hip, string pal, string date, string userId) {
+        try {
+            NewClientData x = new NewClientData();
+            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
+            connection.Open();
+            x = GetClientData(userId, clientId, connection);
+            connection.Close();
+            if (x.clientId == null) {
+                x.pal = new Calculations.Pal();
+                x.goal = new Goals.NewGoal();
+                x.activities = new List<Activities.ClientActivity>();
+                x.diet = new Diets.NewDiet();
+                x.meals = new List<Meals.NewMeal>();
+                x.date = DateTime.Today;
+                x.dailyActivities = new DetailEnergyExpenditure.Activities();
+                x.myMeals = new MyMeals.NewMyMeals();
+            } else {
+                x.clientId = clientId;
+                x.height = Convert.ToDouble(height);
+                x.weight = Convert.ToDouble(weight);
+                x.waist = Convert.ToDouble(waist);
+                x.hip = Convert.ToDouble(hip);
+                x.pal.value = Convert.ToDouble(pal);
+                x.date = Convert.ToDateTime(date);
+                x.userId = userId;
+            }
+            return Save(userId, x, 0);
+        } catch (Exception e) {
+            return ("Error: " + e.Message);
+        }
+    }
+    #endregion
     #endregion Web Methods
 
     #region Methods
@@ -335,9 +370,7 @@ public class ClientsData : System.Web.Services.WebService {
             return x;
         } catch (Exception e) { return new NewClientData(); }
     }
-    #endregion
 
-    #region Methods
     private void SaveMyMeals(string userId, string clientId, MyMeals.NewMyMeals myMeals) {
         try {
             if (myMeals.data != null) {
@@ -377,7 +410,6 @@ public class ClientsData : System.Web.Services.WebService {
         }
         return json;
     }
-    #endregion Methods
-
+    #endregion
 
 }
