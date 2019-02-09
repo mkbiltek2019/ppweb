@@ -141,6 +141,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
                $scope.userId = $scope.clientApp.userId;
                initPrintSettings();
                getClient();
+               loadPals();
                $scope.setLanguage($scope.clientApp.lang);
                $scope.toggleCurrTpl('clientdata.html');
            } else {
@@ -151,6 +152,24 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
            alert(response.data.d);
        });
     }
+
+    var loadPals = function () {
+        $http({
+            url: $sessionStorage.config.backend + 'Calculations.asmx/LoadPal',
+            method: "POST",
+            data: ''
+        })
+      .then(function (response) {
+          $scope.pals = JSON.parse(response.data.d);
+      },
+      function (response) {
+          alert(response.data.d)
+      });
+    };
+
+    //$rootScope.loadData = function () {
+    //    $rootScope.loadPals();
+    //}
 
     var getConfig = function () {
         $scope.userId = null;
@@ -186,6 +205,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
               //$sessionStorage.config = $scope.config;
               getClient();
               initPrintSettings();
+              loadPals();
               $scope.toggleCurrTpl('clientdata.html');
               if (localStorage.version) {
                   if (localStorage.version != $scope.config.version) {
@@ -196,24 +216,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
               }
           });
     };
-
-    $rootScope.loadPals = function () {
-        $http({
-            url: $sessionStorage.config.backend + 'Calculations.asmx/LoadPal',
-            method: "POST",
-            data: ''
-        })
-      .then(function (response) {
-          $rootScope.pals = JSON.parse(response.data.d);
-      },
-      function (response) {
-          alert(response.data.d)
-      });
-    };
-
-    $rootScope.loadData = function () {
-        $rootScope.loadPals();
-    }
 
     $scope.showTabs = function () {
         if(angular.isUndefined($rootScope.clientData)){return false;}

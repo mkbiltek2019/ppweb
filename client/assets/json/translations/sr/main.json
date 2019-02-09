@@ -84,5 +84,19 @@
   "last 12 months": "Poslednjih 12 meseci",
   "all": "Sve",
   "goal": "cilj",
-  "mo": "me"
+  "mo": "me",
+  "inactive": "Veoma slab",
+  "sedentary": "Slab",
+  "moderately active": "Umeren",
+  "active": "Pojačan",
+  "very active": "Izražen",
+  "extremely active": "Ekstreman",
+  "Hospital patient with limited physical mobility": "ograničeno pokretne osobe i bolnički pacijenti",
+  "Little (if any) physical activity at work or in leisure time, e.g. office worker": "slaba fizička aktivnosti na poslu i u slobodno vreme, npr. kancelarijski poslovi",
+  "Moderate physical activity at work or leisure": "umerena fizička aktivnost na poslu ili u slobodno vreme",
+  "Moderate physical activity at work, e.g. in construction, or some jobs in agriculture or the leisure industry. alternatively, office workers who work-out e.g. in gym for an hour per day.": "umerena fizička aktivnost na poslu, npr. građevinski radovi, poslovi u poljoprivredi, industriji umerenog intenziteta. Ili kancelarijski radnici koji u slobodno vreme treniraju sat vremena dnevno",
+  "Considerable physical activity at work, e.g. some military or outdoor occupations or energetic jobs in the leisure industry - such as fitness trainers who run alongside clients. Alternatively, office workers who take at least moderate exercise for two or more hours/day.": "izražena fizička aktivnost na poslu, npr. radnici koji sav teret prenose ručno ili fitnes trener koji trenira zajedno sa klijentima. Ili, uredski radnici koji treniraju barem umerenim intenzitetom dva ili više sati dnevno",
+  "Professional athlete or sports person e.g. football player": "profesionalni sportisti npr. fudbaleri, atletičari",
+  "physical activity level": "Intenzitet fizičke aktivnosti"
+
 }

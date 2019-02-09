@@ -6,16 +6,14 @@
                 <li ng-class="tpl=='inputData'?'active':''" ng-click="toggleTpl('inputData')"><a href="#"><i class="fa fa-thermometer-empty"></i> <span class="text-capitalize">{{'measures' | translate}}</span></a></li>
                 <li ng-class="tpl=='clientMenues'||tpl=='menu'?'active':''" ng-click="toggleTpl('clientMenues'); loadMenues()"><a href="#"><i class="fa fa-cutlery"></i> <span class="text-capitalize">{{'menus' | translate}}</span></a></li>
             </ul>
-
             <div ng-include="tpl" style="padding-top:20px; min-height:400px;"></div>
-
         </div>
     </div>
 </div>
 
 <div ng-if="config.debug" class="bg-info">
     clientApp: <pre>{{clientApp}}</pre>
-    pal: <pre>{{pal}}</pre>
+    pals: <pre>{{pals | json}}</pre>
     client:
     <pre>{{client | json}}</pre>
     clientData:
@@ -46,7 +44,7 @@
                 </div>
             </div>
             <div class="mt10">
-                <a href="" ng-click="showOther()">{{showTitle | translate}} {{'other measures' | translate}} <i class="fa fa-chevron-{{show?'up':'down'}}" aria-hidden="true"></i></a>
+                <a href="" ng-click="showOther()">{{showTitle | translate}} {{'other measures' | translate}} <i class="fa fa-chevron-{{show?'up':'right'}}" aria-hidden="true"></i></a>
             </div>
             <div ng-if="show" class="text-small">
                 <hr />
@@ -79,6 +77,13 @@
                 </div>
             </div>
             <div class="row mt10">
+                <hr />
+                <span class="col-sm-6 text-capitalize">{{'physical activity level' | translate}}:</span>
+                <div class="col-sm-6">
+                    <select ng-model="clientData.pal" ng-options="(x.title | translate) for x in pals" class="form-control"></select>
+                </div>
+            </div>
+            <div class="row mt10">
                 <span class="col-sm-6"></span>
                 <div class="col-sm-6">
                     <button class="btn btn-success btn-lg btn-block text-capitalize" ng-click="save(clientData)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</button>
@@ -91,7 +96,7 @@
         </div>
     </div>
     <div class="mt10">
-        <a href="" ng-click="showClientLog()">{{'tracking of anthropometric measures' | translate}} <i class="fa fa-chevron-{{showLog?'up':'down'}}" aria-hidden="true"></i></a>
+        <a href="" ng-click="showClientLog()">{{'tracking of anthropometric measures' | translate}} <i class="fa fa-chevron-{{showLog?'up':'right'}}" aria-hidden="true"></i></a>
     </div>
     <div ng-if="showLog" class="mt10">
         <div class="row mt10">
