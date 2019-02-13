@@ -1,48 +1,56 @@
 ﻿ /*!
 style.css
-(c) 2017-2018 IG PROG, www.igprog.hr
+(c) 2017-2019 IG PROG, www.igprog.hr
 */
- html {
-      height:auto;
-  }
+html {
+    height: auto;
+}
+
 body {
-      font: 400 15px Lato, sans-serif;
-      line-height: 1.8;
-      color: #818181;
-  }
-  h2 {
-      font-size: 24px;
-      color: #303030;
-      font-weight: 600;
-      margin-bottom: 30px;
-  }
-  h4 {
-      font-size: 19px;
-      line-height: 1.375em;
-      color: #303030;
-      font-weight: 400;
-      margin-bottom: 30px;
-  }  
-  .jumbotron {
-      background-color: #f4511e;
-      color: black;
-      padding: 100px 25px;
-      font-family: Montserrat, sans-serif;
-      background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url('../img/main.jpg');
-      background-repeat:no-repeat;
-      background-position: right center;
-      background-size: cover;
-     /*  background-position: center top;
-      background-size: cover; */
-      height:65vh;
-  }
+    font: 400 15px Lato, sans-serif;
+    line-height: 1.8;
+    color: #818181;
+}
+
+h1 {
+    font-size: 2.5vw !important;
+}
+
+h2 {
+    font-size: 1.2vw !important;
+    color: #303030;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+h4 {
+    font-size: 19px;
+    line-height: 1.375em;
+    color: #303030;
+    font-weight: 400;
+    margin-bottom: 30px;
+}
+
+.jumbotron {
+    color: black;
+    margin-top:5vh;
+    padding-top:8vh;
+    font-family: Montserrat, sans-serif;
+    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url('../img/main.png');
+    background-repeat: no-repeat;
+    background-position: 70% 50%;
+    background-size: 55vh;
+    height: 45vh;
+    border-bottom:1px solid #B5E196;
+}
 
     @media only screen and (max-width: 768px) {
         .jumbotron {
             height:100vh;
+            padding:20px;
         }
-    }
 
+    }
 
   .container-fluid {
      /* padding: 60px 50px;*/
@@ -327,6 +335,12 @@ legend.fieldset-border {
 }
 
 @media screen and (max-width: 768px) {
+    h1 {
+        font-size:26px !important;
+    }
+    h2 {
+        font-size:16px !important;
+    }
     .main-content {
         margin-left: 10px;
     }
