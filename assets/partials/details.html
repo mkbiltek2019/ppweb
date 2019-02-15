@@ -13,7 +13,12 @@
                 </td>
                 <td class="text-center">1</td>
                 <td class="text-center">2</td>
-                <td class="text-center">5</td>
+                <td class="text-center">
+                    <strong>
+                        <select ng-model="premiumUsers_" ng-options="x for x in maxUsers" style="height:30px" ng-change="getPremiumPrice(premiumUsers_)"></select>
+                    </strong><br />
+                    <em class="small">* dodatni korisnik 50 kn / god.</em>
+                </td>
             </tr>
             <tr>
                 <td>Broj novih klijenata (mjesečno)
@@ -195,8 +200,8 @@
                     <label>1,520.00 kn / 2 godine</label>
                 </td>
                 <td class="text-center">
-                    <label>1,850.00 kn / 1 godina</label>
-                    <label>2,960.00 kn / 2 godine</label>
+                    <label>{{premiumPriceOneYear | number : 2}} / 1 godina</label>
+                    <label>{{premiumPriceTwoYear | number: 2}} kn / 2 godine</label>
                 </td>
             </tr>
         </table>

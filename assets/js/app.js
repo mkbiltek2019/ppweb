@@ -72,6 +72,25 @@ angular.module('app', ['ngMaterial'])
         $scope.showCustomers = !$scope.showCustomers;
     };
 
+    $scope.premiumUsers = 5;
+    $scope.premiumUsers_ = 5;
+    var maxUsers = function () {
+        $scope.maxUsers = [];
+        for (var i = 5; i < 101; i++) {
+            $scope.maxUsers.push(i);
+        }
+    }
+    maxUsers();
+
+    $scope.premiumPriceOneYear = 1850;
+    $scope.premiumPriceTwoYear = 2960;
+    $scope.getPremiumPrice = function (x) {
+        $scope.premiumPriceOneYear = x > 5 ? 1850 + ((x- 5) * 50) : 1850;
+        $scope.premiumPriceTwoYear = x > 5 ? 2960 + ((x - 5) * 50) : 2960;
+        $scope.premiumUsers = x;
+        $scope.premiumUsers_ = x;
+    }
+
 }])
 
 .controller('webAppCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
@@ -265,8 +284,10 @@ angular.module('app', ['ngMaterial'])
             }
         }
 
+        $scope.premiumUsers = 5;
         totalprice = $scope.user.licenceNumber > 1 ? unitprice * $scope.user.licenceNumber - (unitprice * $scope.user.licenceNumber * 0.1) : unitprice;
-        $scope.user.price = totalprice;
+        var additionalUsers = $scope.premiumUsers > 5 ? $scope.premiumUsers * 50 : 0;  // 50kn/additional user;
+        $scope.user.price = totalprice + additionalUsers;
         $scope.user.priceEur = totalprice / $rootScope.config.eur;
     }
 

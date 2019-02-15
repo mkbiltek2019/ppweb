@@ -938,38 +938,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 return 'demo';
             }
             switch (x) {
-                case 0:
-                    return 'start';
-                    break;
-                case 1:
-                    return 'standard';
-                    break;
-                case 2:
-                    return 'premium';
-                    break;
-                default:
-                    return '';
+                case 0: return 'start';
+                case 1: return 'standard';
+                case 2: return 'premium';
+                case 3: return 'premium plus';
+                default: return '';
             }
         } else {
             return '';
-        }
-        
-    }
-
-    var maxnumberofusers = function () {
-        var usertype = $rootScope.user.userType;
-        switch (usertype) {
-            case 0:
-                return 1;
-                break;
-            case 1:
-                return 2;
-                break;
-            case 2:
-                return 5;
-                break;
-            default:
-                return 1;
         }
     }
 
@@ -978,8 +954,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             functions.demoAlert('this function is not available in demo version');
             return false;
         }
-        if ($scope.users.length >= maxnumberofusers()) {
-            functions.alert($translate.instant('max number of users is') + ' ' + maxnumberofusers(), '');
+
+        if ($scope.users.length >= $rootScope.user.maxNumberOfUsers) {
+            functions.alert($translate.instant('max number of users is') + ' ' + $rootScope.user.maxNumberOfUsers, '');
             return false;
         }
 
@@ -1037,8 +1014,17 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.showUser = function (x) {
-        $rootScope.user = x;
-        $rootScope.currTpl = 'assets/partials/user.html';
+        $http({
+            url: $sessionStorage.config.backend + webService + '/Get',
+            method: 'POST',
+            data: { userId: x }
+        }).then(function (response) {
+            $rootScope.user = JSON.parse(response.data.d);
+            $rootScope.currTpl = 'assets/partials/user.html';
+        },
+       function (response) {
+           functions.alert($translate.instant(response.data.d));
+       });
     };
 
     $scope.updateUser = function (user) {
@@ -5607,17 +5593,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             return 'demo';
         }
         switch (x) {
-            case 0:
-                return 'start';
-                break;
-            case 1:
-                return 'standard';
-                break;
-            case 2:
-                return 'premium';
-                break;
-            default:
-                return '';
+            case 0: return 'start';
+            case 1: return 'standard';
+            case 2: return 'premium';
+            default: return '';
         }
     }
 }])
@@ -5654,13 +5633,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.getDay = function (x) {
         switch(x) {
-            case 0: return $translate.instant('monday'); break;
-            case 1: return $translate.instant('tuesday'); break;
-            case 2: return $translate.instant('wednesday'); break;
-            case 3: return $translate.instant('thursday'); break;
-            case 4: return $translate.instant('friday'); break;
-            case 5: return $translate.instant('saturday'); break;
-            case 6: return $translate.instant('sunday'); break;
+            case 0: return $translate.instant('monday');
+            case 1: return $translate.instant('tuesday');
+            case 2: return $translate.instant('wednesday');
+            case 3: return $translate.instant('thursday');
+            case 4: return $translate.instant('friday');
+            case 5: return $translate.instant('saturday');
+            case 6: return $translate.instant('sunday');
             default: return '';
         }
     }

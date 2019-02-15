@@ -52,6 +52,7 @@ public class Users : System.Web.Services.WebService {
         public string ipAddress { get; set; }
         public int rowid { get; set; }
         public int subusers { get; set; }
+        public int maxNumberOfUsers { get; set; }
 
         public DataSum datasum = new DataSum();
     }
@@ -59,6 +60,8 @@ public class Users : System.Web.Services.WebService {
     public const string demo = "demo";
     public const string expired = "expired";
     public const string active = "active";
+
+    public const string configFile = "config";
 
     public class Totals {
         public int active { get; set; }
@@ -70,6 +73,10 @@ public class Users : System.Web.Services.WebService {
         public double licencepercentage { get; set; }
         public Object city { get; set; }
         public Object monthly { get; set; }
+    }
+
+    public class UserConfig {
+       public int maxNumberOfUsers;
     }
 
     public class DataSum {
@@ -133,6 +140,7 @@ public class Users : System.Web.Services.WebService {
             x.ipAddress = HttpContext.Current.Request.UserHostAddress;
             x.rowid = 0;
             x.subusers = 0;
+            x.maxNumberOfUsers = 1;
             x.datasum = new DataSum();
             string json = JsonConvert.SerializeObject(x, Formatting.Indented);
             return json;
@@ -173,6 +181,7 @@ public class Users : System.Web.Services.WebService {
                 x.isActive = Convert.ToBoolean(reader.GetInt32(18));
                 x.licenceStatus = GetLicenceStatus(x);
                 x.ipAddress = reader.GetString(19);
+                x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
                 /****** SubUsers ******/
                 if(x.userId != x.userGroupId) {
                     x = GetUserGroupInfo(x, connection);
@@ -263,9 +272,18 @@ public class Users : System.Web.Services.WebService {
             command.Parameters.Add(new SQLiteParameter("IPAddress", x.ipAddress));
             command.ExecuteNonQuery();
             connection.Close();
+
+            //*********** Only for userType == 3 (Premium Plus - Schools) **************
+            if (x.userType == 2 && x.maxNumberOfUsers > 5) {
+                Files f = new Files();
+                UserConfig uc = new UserConfig();
+                uc.maxNumberOfUsers = x.maxNumberOfUsers;
+                string configJson = JsonConvert.SerializeObject(uc, Formatting.Indented);
+                f.SaveJsonToFile(string.Format("users/{0}", x.userGroupId), configFile, configJson);
+            }
+            //**************************************************************************
             return ("saved");
-        }
-        catch (Exception e) { return ("error: " + e); }
+        } catch (Exception e) { return ("error: " + e); }
     }
 
     [WebMethod]
@@ -366,6 +384,7 @@ public class Users : System.Web.Services.WebService {
                 x.licenceStatus = GetLicenceStatus(x);
                 x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
                 x.rowid = reader.GetValue(20) == DBNull.Value ? 0 : reader.GetInt32(20);
+                x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
                 x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection);
                 xx.Add(x);
             }
@@ -405,6 +424,12 @@ public class Users : System.Web.Services.WebService {
                 x.isActive = reader.GetValue(18) == DBNull.Value ? true : Convert.ToBoolean(reader.GetInt32(18));
                 x.licenceStatus = GetLicenceStatus(x);
                 x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
+                /****** SubUsers ******/
+                if(x.userId != x.userGroupId) {
+                    x = GetUserGroupInfo(x, connection);
+                }
+                x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
+                /**********************/
             }
             connection.Close();
             x.datasum = GetDataSum(userId);
@@ -809,6 +834,7 @@ public class Users : System.Web.Services.WebService {
             x.licenceStatus = GetLicenceStatus(x);
             x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
             x.rowid = reader.GetValue(20) == DBNull.Value ? 0 : reader.GetInt32(20);
+            x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
             x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection);
             /****** SubUsers ******/
             if (x.userId != x.userGroupId) {
@@ -1011,6 +1037,31 @@ public class Users : System.Web.Services.WebService {
             count = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
         }
         return count > 0 ? true : false;
+    }
+
+    private int GetMaxNumberOfUsers(string userId, int userType) {
+        switch (userType) {
+            case 0: return 1;  // START
+            case 1: return 2;  // STANDARD
+            case 2: return GetUserConfig(userId).maxNumberOfUsers > 5 ? GetUserConfig(userId).maxNumberOfUsers : 5;  // PREMIUM
+            default: return 1;
+        }
+    }
+
+    private UserConfig GetUserConfig(string userId) {
+        UserConfig x = new UserConfig();
+        x.maxNumberOfUsers = 1;
+        try {
+            Files f = new Files();
+            string json = f.GetFile(string.Format("users/{0}", userId), configFile);
+            if (!string.IsNullOrEmpty(json)) {
+                return JsonConvert.DeserializeObject<UserConfig>(json);
+            } else {
+                return x;
+            }
+        } catch (Exception e) {
+            return x;
+        }
     }
     #endregion
 

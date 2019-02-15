@@ -1823,6 +1823,7 @@
   "fruit_serv_desc": "1 serviranje voća je 1 mali do srednje velik komad voća, 1/2 šoljice svježeg/konzerviranog voća/voćnog soka, 1/4 šoljice osušenog voća",
   "meat_serv_desc": "1 serviranje mesa je 30 g mesa, piletine ili sira te 1/2 šoljice graha (meso, piletina i grah se mjere termićki obrađeni)",
   "milk_serv_desc": "1 serviranje mlijeka i mliječnih proizvoda je 1 šalica mlijeka, 2/3 šoljice jogurta (250 ml mlijeka, 180 g jogurta)",
-  "fats_serv_desc": "1 serviranje masti je 1 čajna žlićica maslaca/margarina/biljnog ulja, 1 jušnu žlicu salatnog preljeva"
+  "fats_serv_desc": "1 serviranje masti je 1 čajna žlićica maslaca/margarina/biljnog ulja, 1 jušnu žlicu salatnog preljeva",
+  "maximum number of users": "Maksimalan broj korisnika"
 
 }

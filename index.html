@@ -253,11 +253,16 @@
                         <h3>PREMIUM</h3>
                     </div>
                     <div class="panel-body">
-                        <h4><strong>1,850.00 kn</strong> / 1 godina</h4>
-                        <h5><strong>2,960.00 kn</strong> / 2 godine</h5>
+                        <h4><strong>{{premiumPriceOneYear | number : 2}} kn</strong> / 1 godina</h4>
+                        <h5><strong>{{premiumPriceTwoYear | number: 2}} kn</strong> / 2 godine</h5>
                         <hr />
                         <ul class="list-group">
-                            <li class="list-group-item">Broj korisnika: <strong>5</strong></li>
+                            <li class="list-group-item">Broj korisnika:
+                                <strong>
+                                    <select ng-model="premiumUsers" ng-options="x for x in maxUsers" style="height:30px" ng-change="getPremiumPrice(premiumUsers)">
+                                    </select>
+                                </strong>
+                            </li>
                             <li class="list-group-item">Broj klijenata: <strong>neograničeno</strong></li>
                             <li class="list-group-item">Broj namirnica: <strong>724</strong></li>
                             <li class="list-group-item">Broj obroka: <strong>8</strong></li>
