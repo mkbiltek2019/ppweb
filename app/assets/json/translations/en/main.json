@@ -1813,7 +1813,7 @@
   "meat_serv_desc": "1 serving of meat is 30 g of meat, chicken or cheese and 1/2 cup of beans (meat, chicken and beans are measured thermally processed)",
   "milk_serv_desc": "1 serving of milk and dairy products is 1 cup of milk, 2/3 cup yogurt (250 ml milk, 180 g yogurt)",
   "fats_serv_desc": "1 serving of fat is 1 teaspoon butter/margarine/vegetable oil, 1 tablespoon salad dressing",
-  "maximum number of users": "Maximum number of users"
-
+  "maximum number of users": "Maximum number of users",
+  "number of users": "Number of users"
 
 }

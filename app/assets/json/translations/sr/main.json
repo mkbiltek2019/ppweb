@@ -1822,6 +1822,7 @@
   "meat_serv_desc": "1 serviranje mesa je 30 g mesa, piletine ili sira te 1/2 šoljice graha (meso, piletina i grah se mere termićki obrađeni)",
   "milk_serv_desc": "1 serviranje mleka i mlečnih proizvoda je 1 šalica mleka, 2/3 šoljice jogurta (250 ml mleka, 180 g jogurta)",
   "fats_serv_desc": "1 serviranje masti je 1 čajna žlićica maslaca/margarina/biljnog ulja, 1 supena kašika salatnog preljeva",
-  "maximum number of users": "Maksimalan broj korisnika"
+  "maximum number of users": "Maksimalan broj korisnika",
+  "number of users": "Broj korisnika"
 
 }

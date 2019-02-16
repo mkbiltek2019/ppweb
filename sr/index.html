@@ -184,7 +184,7 @@
         </div>
     </div>
 
-    <div id="pricing" class="container bg-grey pt60" ng-cloak>
+    <div id="pricing" class="container bg-grey pt60">
         <div class="text-center">
             <h2>Program Ishrane Veb - Paketi</h2>
         </div>
@@ -206,18 +206,19 @@
                             <li class="list-group-item"><s>Kastom obroci</s></li>
                             <li class="list-group-item"><s>Kalendar termina</s></li>
                             <li class="list-group-item"><s>Slanje jelovnika na e-mail klijenta</s></li>
+                            <li class="list-group-item"><s>Aplikacija za klijente</s></li>
                         </ul>
                     </div>
                     <div class="panel-footer">
                         <div class="p5">
-                            <a href="#details" class="btn btn-default btn-block m2" title="saznaj više"><i class="fa fa-info"></i> Saznaj više</a>
+                            <a href="#details" class="btn btn-default btn-block btn-lg m2" title="saznaj više"><i class="fa fa-info"></i> Saznaj više</a>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-sm-4">
 			<div class="ribbon"><span>Preporuka</span></div>
-                <div class="panel panel-default text-center" style="padding:0">
+                <div class="panel panel-default text-center" style="padding:0; box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)">
                     <div class="panel-heading main">
                         <h3>STANDARD</h3>
                     </div>
@@ -233,6 +234,7 @@
                             <li class="list-group-item"><s>Kastom obroci</s></li>
                             <li class="list-group-item">Kalendar termina</li>
                             <li class="list-group-item">Slanje jelovnika na e-mail klijenta</li>
+                            <li class="list-group-item">Aplikacija za klijente</li>
                         </ul>
                     </div>
                     <div class="panel-footer">
@@ -248,22 +250,27 @@
                         <h3>PREMIUM</h3>
                     </div>
                     <div class="panel-body">
-                        <h4><strong><!--1,850.00 kn-->{{1850/config.eur | number:2}} €</strong> / 1 godina</h4>
-                        <h5><strong><!--2,960.00 kn-->{{2960/config.eur | number:2}} €</strong> / 2 godine</h5>
+                        <h4><strong>{{premiumPriceOneYear/config.eur | number : 2}} €</strong> / 1 godina</h4>
+                        <h5><strong>{{premiumPriceTwoYear/config.eur | number: 2}} €</strong> / 2 godine</h5>
                         <hr />
                         <ul class="list-group">
-                            <li class="list-group-item">Broj korisnika: <strong>5</strong></li>
+                            <li class="list-group-item">Broj korisnika:
+                                <strong>
+                                    <select ng-model="premiumUsers" ng-options="x for x in maxUsers" style="height:30px" ng-change="getPremiumPrice(premiumUsers)"></select>
+                                </strong>
+                            </li>
                             <li class="list-group-item">Broj klijenata: <strong>neograničeno</strong></li>
                             <li class="list-group-item">Broj namirnica: <strong>724</strong></li>
                             <li class="list-group-item">Broj obroka: <strong>8</strong></li>
                             <li class="list-group-item">Kastom obroci</li>
                             <li class="list-group-item">Kalendar termina</li>
                             <li class="list-group-item">Slanje jelovnika na e-mail klijenta</li>
+                            <li class="list-group-item">Aplikacija za klijente</li>
                         </ul>
                     </div>
                     <div class="panel-footer">
                         <div class="p5">
-                            <a href="#details" class="btn btn-default btn-block m2" title="saznja više"><i class="fa fa-info"></i> Saznaj više</a>
+                            <a href="#details" class="btn btn-default btn-block btn-lg m2" title="saznaj više"><i class="fa fa-info"></i> Saznaj više</a>
                         </div>
                     </div>
                 </div>
@@ -294,12 +301,11 @@
                 <li>Na Vaš e-mail ćete dobiti podatke za uplatu.</li>
                 <li>Aplikacija postaje aktivna nakon primitka Vaše uplate ili nakon što nam pošaljete potvrdu o uplati.</li>
             </ul>
-            <em>* Za narudžbu računarskog programa <a href="../program-prehrane-5.html" title="program prehrane 5.0">Program Prehrane 5.0</a> kliknite <a href="../program-prehrane-5.html" title="program prehrane 5.0">ovde</a>.</em>
         </div>
         <div ng-include="'./assets/partials/order.html'" class="col-md-8 col-md-offset-2"></div>
     </div>
 
-    <div class="container pt60 mt20">
+    <div class="container mt20 pt60">
         <hr />
         <div class="row">
             <div class="col-sm-4">

@@ -66,15 +66,28 @@ angular.module('app', ['ngMaterial'])
      });
     }
 
-    //$scope.currTpl = function (x) {
-    //    return './assets/partials/menus/' + x + '.html';
-    //}
-
     $scope.showCustomers = false;
     $scope.toggleCustomers = function () {
         debugger;
         $scope.showCustomers = !$scope.showCustomers;
     };
+    $scope.premiumUsers = 5;
+    $scope.premiumUsers_ = 5;
+    var maxUsers = function () {
+        $scope.maxUsers = [];
+        for (var i = 5; i < 101; i++) {
+            $scope.maxUsers.push(i);
+        }
+    }
+    maxUsers();
+    $scope.premiumPriceOneYear = 1850;
+    $scope.premiumPriceTwoYear = 2960;
+    $scope.getPremiumPrice = function (x) {
+        $scope.premiumPriceOneYear = x > 5 ? 1850 + ((x- 5) * 50) : 1850;
+        $scope.premiumPriceTwoYear = x > 5 ? 2960 + ((x - 5) * 50) : 2960;
+        $scope.premiumUsers = x;
+        $scope.premiumUsers_ = x;
+    }
 
 }])
 
@@ -92,7 +105,6 @@ angular.module('app', ['ngMaterial'])
     }
 
 }])
-
 
 .controller('signupCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
     $scope.accept = false;
@@ -238,6 +250,18 @@ angular.module('app', ['ngMaterial'])
         $scope.userType = x;
     }
 
+    var maxUsers = function () {
+        $scope.maxUsers = [];
+        for (var i = 5; i < 101; i++) {
+            $scope.maxUsers.push(i);
+        }
+    }
+    maxUsers();
+    $scope.premiumUsers = 5;
+    $scope.setPremiumUsers = function (x) {
+        $scope.premiumUsers = x;
+        $scope.calculatePrice();
+    }
     $scope.calculatePrice = function () {
         var unitprice = 0;
         var totalprice = 0;
@@ -271,8 +295,9 @@ angular.module('app', ['ngMaterial'])
         }
 
         totalprice = $scope.user.licenceNumber > 1 ? unitprice * $scope.user.licenceNumber - (unitprice * $scope.user.licenceNumber * 0.1) : unitprice;
-        $scope.user.price = totalprice;
-        $scope.user.priceEur = totalprice / $rootScope.config.eur;
+        var additionalUsers = $scope.premiumUsers > 5 && $scope.user.userType == 2 ? ($scope.premiumUsers - 5) * 50 : 0;  // 50kn/additional user;
+        $scope.user.price = totalprice + additionalUsers;
+        $scope.user.priceEur = (totalprice + additionalUsers) / $rootScope.config.eur;
     }
 
     $scope.order = function (application, version) {
@@ -471,7 +496,7 @@ angular.module('app', ['ngMaterial'])
 
     getConfig();
 
-    $scope.limit = 10;
+    $scope.limit = 50;
     $scope.showMore = function (x) {
         $scope.limit += x;
     }

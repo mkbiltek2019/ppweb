@@ -1462,10 +1462,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.getClientLog = function (x) {
-        if ($rootScope.user.licenceStatus == 'demo') {
-            $scope.toggleTpl('clientStatictic');
-            return false;
-        }
+        //if ($rootScope.user.licenceStatus == 'demo') {
+        //    $scope.toggleTpl('clientStatictic');
+        //    return false;
+        //}
         $http({
             url: $sessionStorage.config.backend + 'ClientsData.asmx/GetClientLog',
             method: "POST",
@@ -1871,7 +1871,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $rootScope.detailCalculationOfEnergyExpenditure = function () {
         $rootScope.showDetailCalculationOfEnergyExpenditure = !$rootScope.showDetailCalculationOfEnergyExpenditure;
         init();
-
         //$scope.clearDailyActivities();
     }
 
@@ -5490,6 +5489,21 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.userType = x;
     }
 
+    var maxUsers = function () {
+        $scope.maxUsers = [];
+        for (var i = 5; i < 101; i++) {
+            $scope.maxUsers.push(i);
+        }
+    }
+    maxUsers();
+
+    $scope.premiumUsers = 5;
+
+    $scope.setPremiumUsers = function (x) {
+        $scope.premiumUsers = x;
+        $scope.calculatePrice();
+    }
+
     $scope.calculatePrice = function () {
         var unitprice = 0;
         var totalprice = 0;
@@ -5505,8 +5519,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         $scope.user.licenceNumber = 1;
         totalprice = $scope.user.licenceNumber > 1 ? unitprice * $scope.user.licenceNumber - (unitprice * $scope.user.licenceNumber * 0.1) : unitprice;
-        $scope.user.price = totalprice;
-        $scope.user.priceEur = totalprice / $rootScope.config.eur;
+        var additionalUsers = $scope.premiumUsers > 5 && $scope.user.userType == 2 ? ($scope.premiumUsers - 5) * 50 : 0;  // 50kn/additional user;
+        $scope.user.price = totalprice + additionalUsers;
+        $scope.user.priceEur = (totalprice + additionalUsers) / $rootScope.config.eur;
     }
 
     if ($rootScope.config == undefined) {

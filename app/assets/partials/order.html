@@ -4,7 +4,7 @@
             <a href="" class="btn btn-default" ng-click="backToApp()"><i class="fa fa-dashboard"></i> {{'back to app' | translate}}</a>
         </div>
         <h4 class="text-uppercase">{{'order' | translate}}</h4>
-        <em>* {{'orderdescription' | translate}}</em>
+        <em ng-if="!showPaymentDetails">* {{'orderdescription' | translate}}</em>
         <hr />
         <div ng-if="!showAlert">
             <div ng-if="!showUserDetails">
@@ -31,13 +31,19 @@
                 <strong>{{errorMesage}}</strong>
             </div>
                 <div class="row m2">
-                    <div class="col-sm-2 text-capitalize">{{'package' | translate}}: <a href="{{config.webpageurl}}#pricing" target="_blank" title="{{'about packages' | translate}}" class="text-primary"><i class="fa fa-info-circle fa-2x"></i></a> </div>
+                    <div class="col-sm-2 text-capitalize">{{'package' | translate}}: <a href="{{config.webpageurl}}#pricing" target="_blank" title="{{'about packages' | translate}}" class="text-primary"><i class="fa fa-info-circle"></i></a> </div>
                     <div class="col-sm-4">
                         <select ng-model="user.userType" class="form-control" ng-change="calculatePrice()">
                             <option ng-value="0" ng-selected="user.userType==0?true:false">START</option>
                             <option ng-value="1" ng-selected="user.userType==1?true:false">STANDARD</option>
                             <option ng-value="2" ng-selected="user.userType==2?true:false">PREMIUM</option>
                         </select>
+                    </div>
+                </div>
+                <div ng-if="user.userType==2" class="row m2">
+                    <div class="col-sm-2">{{'number of users' | translate}}: </div>
+                    <div class="col-sm-4">
+                        <select ng-model="premiumUsers" ng-options="x for x in maxUsers" style="height:30px" ng-change="setPremiumUsers(premiumUsers)"></select>
                     </div>
                 </div>
                 <div class="row m2">
@@ -158,14 +164,6 @@ SWIFT CODE: PBZGHR2X
             <div ng-if="config.language!='en'" ng-include="'./assets/partials/paypal.html'"></div>
             <div ng-if="config.language=='en'" ng-include="'./assets/partials/paypal_usd.html'"></div>
         </div>
-
-        <div ng-if="showPaymentDetails" class="text-center">
-            <a href="{{config.appurl}}" target="_blank" class="btn btn-primary btn-lg text-capitalize">
-                <i class="fa fa-sign-in"></i> {{'back to app' | translate}}
-            </a>
-        </div>
     </div>
-
     <pre ng-if="config.debug">{{user | json}}</pre>
-
 </div>

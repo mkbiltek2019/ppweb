@@ -71,13 +71,13 @@
             <div ng-if="showUserDetails">
                 <div ng-if="user.application=='Program Prehrane Web'" class="row m10">
                     <div class="row m2">
-                        <label class="col-sm-2 text-right"></label>
+                        <label class="col-sm-3 text-right"></label>
                         <div class="col-sm-6">
                             <label>{{user.application}}</label>
                         </div>
                     </div>
                     <div class="row m2">
-                        <div class="col-sm-2 text-right">Paket: </div>
+                        <div class="col-sm-3 text-right">Paket: </div>
                         <div class="col-sm-6">
                             <select ng-model="user.userType" class="form-control" ng-change="calculatePrice()">
                                 <option ng-value="0" ng-selected="user.userType==0?true:false">START</option>
@@ -86,8 +86,14 @@
                             </select>
                         </div>
                     </div>
+                    <div ng-if="user.userType==2" class="row m2">
+                        <div class="col-sm-3 text-right">Broj korisnika: </div>
+                        <div class="col-sm-6">
+                            <select ng-model="premiumUsers" ng-options="x for x in maxUsers" style="height:30px" ng-change="setPremiumUsers(premiumUsers)"></select>
+                        </div>
+                    </div>
                     <div class="row m2">
-                        <div class="col-sm-2 text-right">Pretplata: </div>
+                        <div class="col-sm-3 text-right">Pretplata: </div>
                         <div class="col-sm-6">
                             <select ng-model="user.licence" class="form-control" ng-change="calculatePrice()">
                                 <option value="1" ng-selected="user.licence==1?true:false">1 godina</option>
@@ -96,7 +102,7 @@
                         </div>
                     </div>
                     <div class="row m2">
-                        <div class="col-sm-2 text-right">Cijena: </div>
+                        <div class="col-sm-3 text-right">Cena: </div>
                         <div class="col-sm-6">
                             <label>{{user.price}} kn ({{user.priceEur | number:0}} €)</label>
                         </div>

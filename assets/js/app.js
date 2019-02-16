@@ -252,6 +252,21 @@ angular.module('app', ['ngMaterial'])
         $scope.userType = x;
     }
 
+    var maxUsers = function () {
+        $scope.maxUsers = [];
+        for (var i = 5; i < 101; i++) {
+            $scope.maxUsers.push(i);
+        }
+    }
+    maxUsers();
+
+    $scope.premiumUsers = 5;
+
+    $scope.setPremiumUsers = function (x) {
+        $scope.premiumUsers = x;
+        $scope.calculatePrice();
+    }
+
     $scope.calculatePrice = function () {
         var unitprice = 0;
         var totalprice = 0;
@@ -284,11 +299,10 @@ angular.module('app', ['ngMaterial'])
             }
         }
 
-        $scope.premiumUsers = 5;
         totalprice = $scope.user.licenceNumber > 1 ? unitprice * $scope.user.licenceNumber - (unitprice * $scope.user.licenceNumber * 0.1) : unitprice;
-        var additionalUsers = $scope.premiumUsers > 5 ? $scope.premiumUsers * 50 : 0;  // 50kn/additional user;
+        var additionalUsers = $scope.premiumUsers > 5 && $scope.user.userType == 2 ? ($scope.premiumUsers - 5) * 50 : 0;  // 50kn/additional user;
         $scope.user.price = totalprice + additionalUsers;
-        $scope.user.priceEur = totalprice / $rootScope.config.eur;
+        $scope.user.priceEur = (totalprice + additionalUsers) / $rootScope.config.eur;
     }
 
     $scope.order = function (application, version) {
@@ -328,7 +342,6 @@ angular.module('app', ['ngMaterial'])
             data: { x: user, lang: $rootScope.config.language }
         })
        .then(function (response) {
-           debugger;
            if (response.data.d == 'error') {
                $scope.showAlert = false;
                $scope.showPaymentDetails = false;
