@@ -1,6 +1,6 @@
 ﻿/*!
 app.js
-(c) 2018 IG PROG, www.igprog.hr
+(c) 2018-2019 IG PROG, www.igprog.hr
 */
 angular.module('app', ['ngMaterial'])
 

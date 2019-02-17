@@ -230,18 +230,18 @@
                                 <tr>
                                     <th class="text-left">Mjesec</th>
                                     <th class="text-left">Registracije</th>
-                                    <th class="text-left">Aktivacije</th>
+                                    <th class="text-left">Licence</th>
                                     <th>Postotak</th>
                                     <th style="width:30%"></th>
                                 </tr>
                                 <tr ng-repeat="x in t.monthly">
                                     <td class="text-left">{{x.month}}</td>
                                     <td class="text-left"><strong class="badge">{{x.registration}}</strong></td>
-                                    <td class="text-left"><strong class="badge">{{x.activation}}</strong></td>
+                                    <td class="text-left"><strong class="badge">{{x.licence}}</strong></td>
                                     <td>{{x.percentage}} %</td>
                                     <td class="text-left">
                                         <div style="width:{{x.registration*2}}px; height:10px" class="bg-primary" title="Registracije: {{x.registration}}"></div>
-                                        <div style="width:{{x.activation*2}}px; height:10px; background-color:red" title="Aktivacije: {{x.activation}}"></div>
+                                        <div style="width:{{x.licence*2}}px; height:10px; background-color:red" title="Licence: {{x.licence}}"></div>
                                         <div style="width:{{x.percentage*2}}px; height:10px; background-color:orange" title="Postotak: {{x.percentage}}%"></div>
                                     </td>
                                 </tr>

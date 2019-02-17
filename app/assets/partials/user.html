@@ -114,31 +114,33 @@
                         </md-input-container>
                     </div>
                 </div>
-                <div layout-gt-sm="row" class="text-capitalize">
-                    <md-input-container class="md-block" flex-gt-sm>
-                        <label>{{'user name' | translate}}</label>
-                        <input ng-model="user.userName" disabled>
-                    </md-input-container>
-                    <md-input-container class="md-block" flex-gt-sm>
-                        <label>{{'password' | translate}}</label>
-                        <input ng-model="user.password" type="{{showpass==true?'text':'password'}}">
-                    </md-input-container>
-                    <md-input-container class="md-block" flex-gt-sm>
-                        <span class="input-group-addon cursor" style="width:30px" ng-click="showPassword()" title="{{showpass==true?('hide password' | translate):('show password' | translate)}}"><i class="fa fa-eye{{showpass==true?'-slash':''}}"></i></span>
-                    </md-input-container>
-                    <md-input-container class="md-block" flex-gt-sm>
-                        <label>{{'activation date' | translate}}</label>
-                        <input ng-disabled="!config.debug" ng-model="user.activationDate" type="text">
-                    </md-input-container>
-                    <md-input-container class="md-block" flex-gt-sm>
-                        <label>{{'expiration date' | translate}}</label>
-                        <input ng-disabled="!config.debug" ng-model="user.expirationDate" type="text">
-                    </md-input-container>
-                    <md-input-container ng-if="config.debug" class="md-block" flex-gt-sm>
-                        <label>{{'is active' | translate}}</label>
-                        <input ng-model="user.isActive" type="checkbox">
-                    </md-input-container>
-                </div>
+                <form autocomplete="off">
+                    <div layout-gt-sm="row" class="text-capitalize">
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>{{'user name' | translate}}</label>
+                            <input ng-model="user.userName" disabled>
+                        </md-input-container>
+                        <md-input-container ng-if="config.debug" class="md-block" flex-gt-sm>
+                            <label>{{'password' | translate}}</label>
+                            <input ng-model="user.password" type="{{showpass==true?'text':'password'}}">
+                        </md-input-container>
+                        <md-input-container ng-if="config.debug" class="md-block" flex-gt-sm>
+                            <span class="input-group-addon cursor" style="width:30px" ng-click="showPassword()" title="{{showpass==true?('hide password' | translate):('show password' | translate)}}"><i class="fa fa-eye{{showpass==true?'-slash':''}}"></i></span>
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>{{'activation date' | translate}}</label>
+                            <input ng-disabled="!config.debug" ng-model="user.activationDate" type="text">
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>{{'expiration date' | translate}}</label>
+                            <input ng-disabled="!config.debug" ng-model="user.expirationDate" type="text">
+                        </md-input-container>
+                        <md-input-container ng-if="config.debug" class="md-block" flex-gt-sm>
+                            <label>{{'is active' | translate}}</label>
+                            <input ng-model="user.isActive" type="checkbox">
+                        </md-input-container>
+                    </div>
+                </form>
             </fieldset>
         </div>
         <div class="text-right">

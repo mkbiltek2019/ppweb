@@ -22,6 +22,7 @@ public class Users : System.Web.Services.WebService {
     string webDataBase = ConfigurationManager.AppSettings["WebDataBase"];
     DataBase db = new DataBase();
     Translate t = new Translate();
+    Global G = new Global();
     string EncryptionKey = ConfigurationManager.AppSettings["EncryptionKey"];
     string supervisorUserName = ConfigurationManager.AppSettings["SupervisorUserName"];
     string supervisorPassword = ConfigurationManager.AppSettings["SupervisorPassword"];
@@ -303,7 +304,7 @@ public class Users : System.Web.Services.WebService {
             x.active = users.Where(a => a.isActive == true).Count();
             x.demo = users.Where(a => a.isActive == false && a.activationDate == a.expirationDate).Count();
             x.expired = users.Where(a => a.licenceStatus == expired && Convert.ToDateTime(a.activationDate) < Convert.ToDateTime(a.expirationDate)).Count();
-            x.licence = users.Where(a => a.isActive == true && a.userId == a.userGroupId).Count();
+            x.licence = users.Where(a => a.isActive == true && a.userId == a.userGroupId && G.DateDiff(a.activationDate, a.expirationDate) > 15).Count();
             x.subuser = users.Where(a => a.isActive == true && a.userId != a.userGroupId).Count();
             x.total = users.Count();
             x.licencepercentage = x.total == x.subuser ? 0 : Math.Round((Convert.ToDouble(x.licence) / (x.total - x.subuser) * 100), 1);
@@ -326,7 +327,7 @@ public class Users : System.Web.Services.WebService {
                 x.active = users.Take(i).Where(a => a.isActive == true).Count();
                 x.demo = users.Take(i).Where(a => a.isActive == false && a.activationDate == a.expirationDate).Count();
                 x.expired = users.Take(i).Where(a => a.isActive == false && Convert.ToDateTime(a.activationDate) < Convert.ToDateTime(a.expirationDate)).Count();
-                x.licence = users.Take(i).Where(a => a.isActive == true && a.userId == a.userGroupId).Count();
+                x.licence = users.Take(i).Where(a => a.isActive == true && a.userId == a.userGroupId && G.DateDiff(a.activationDate, a.expirationDate) > 15).Count();
                 x.subuser = users.Take(i).Where(a => a.isActive == true && a.userId != a.userGroupId).Count();
                 x.total = users.Take(i).Count();
                 x.licencepercentage = x.total == x.subuser ? 0 : Math.Round((Convert.ToDouble(x.licence) / (x.total - x.subuser) * 100), 1);
@@ -966,7 +967,7 @@ public class Users : System.Web.Services.WebService {
         return x;
     }
 
-    public Object GetCityCount(List<NewUser> users) {
+    public object GetCityCount(List<NewUser> users) {
         var aa = from r in users
                  where r.isActive == true
                  orderby r.city
@@ -976,7 +977,7 @@ public class Users : System.Web.Services.WebService {
         return aa.ToList();
     }
 
-    public Object GetMonthlyUsers(List<NewUser> users, int year) {
+    public object GetMonthlyUsers(List<NewUser> users, int year) {
         System.Globalization.CultureInfo culturInfo = new System.Globalization.CultureInfo("hr-HR", false);
         var aa = from r in users
                  where Convert.ToDateTime(r.activationDate).Year == Convert.ToInt32(year)
@@ -985,7 +986,8 @@ public class Users : System.Web.Services.WebService {
                      month = culturInfo.DateTimeFormat.GetMonthName(g.Key).ToUpper(),
                      registration = g.Count(),
                      activation = g.Count(a => a.isActive == true),
-                     percentage = Math.Round((decimal)(g.Count(a => a.isActive == true)* 100) / g.Count(), 1)
+                     licence = g.Count(a => a.isActive == true && a.userId == a.userGroupId && G.DateDiff(a.activationDate, a.expirationDate) > 15),
+                     percentage = Math.Round((decimal)(g.Count(a => a.isActive == true && a.userId == a.userGroupId && G.DateDiff(a.activationDate, a.expirationDate) > 15) * 100) / g.Count(), 1)
                  };
         return aa.ToList();
     }
