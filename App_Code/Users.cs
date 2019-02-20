@@ -787,12 +787,16 @@ public class Users : System.Web.Services.WebService {
     }
 
     private string GetLicenceStatus(NewUser x) {
-        if (x.isActive == false) {
-            return demo;
-        }
-        if (x.isActive == true && Convert.ToDateTime(x.expirationDate) < DateTime.UtcNow) {
-            return expired;
-        } else {
+        try {
+            if (x.isActive == false) {
+                return demo;
+            }
+            if (x.isActive == true && Convert.ToDateTime(x.expirationDate) < DateTime.UtcNow) {
+                return expired;
+            } else {
+                return active;
+            }
+        } catch (Exception e) {
             return active;
         }
     }
