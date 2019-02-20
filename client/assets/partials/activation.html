@@ -2,7 +2,11 @@
     <h1 class="text-uppercase">{{config.title | translate}}</h1>
     <h2>{{'application for tracking anthropometric parameters and taking menus' | translate}}</h2>
     <hr />
-    <div>
+    <div class="text-center">
+        <h4 disabled="disabled">{{'select language' | translate}}:</h4>
+        <select ng-model="x" ng-options="x.title | translate for x in config.languages" ng-click="setLanguage(x.code)" class="form-control" style="width:250px; height:40px; font-size:20px; display:inline"></select>
+    </div>
+    <div class="mt20">
         <h4>{{'activation code' | translate}}:</h4>
     </div>
     <form id="activationform">
@@ -12,5 +16,4 @@
         <button ng-click="activateApp(activationCode)" form="activationform" class="btn btn-default btn-lg text-primary text-uppercase mt10" type="submit" style="width:250px"><i class="fa fa-sign-out"></i> {{'enter' | translate}}</button>
     </form>
     <div><em>*{{'ask your nutritionist for an activation code' | translate}}</em>.</div>
-   
 </div>

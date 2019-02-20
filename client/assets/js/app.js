@@ -133,7 +133,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
        .then(function (response) {
            $scope.clientApp = JSON.parse(response.data.d);
            if ($scope.clientApp.code == x) {
-               $scope.setLanguage($scope.clientApp.lang);
+              // $scope.setLanguage($scope.clientApp.lang);
                localStorage.code = $scope.clientApp.code;
                //localStorage.language = $scope.clientApp.lang;
                //$sessionStorage.config.language = $scope.clientApp.lang;
