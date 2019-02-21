@@ -23,7 +23,7 @@
                     <em>{{'search clients' | translate}}...</em>
                     <select ng-model="client" ng-options="(y.firstName + ' ' + y.lastName) for (x, y) in clients" class="form-control" ng-change="get(client)"></select>
                     <div ng-if="user.userType>0 && client!=null || client.clientId!=null" class="mt20">
-                        <a href="" ng-click="toggle(client, clientApp)" class="btn btn-default">{{showTitle}} <i class="fa fa-chevron-{{show==false?'down':'up'}}" aria-hidden="true"></i></a>
+                        <a href="" ng-click="toggle(client, clientApp)" class="btn btn-default">{{showTitle}} <i class="fa fa-chevron-{{show==false?'right':'up'}}" aria-hidden="true"></i></a>
                         <div ng-if="show==true" class="panel panel-primary mt10">
                             <div class="panel-heading">{{'application access data' | translate}}</div>
                             <div class="panel-body">
