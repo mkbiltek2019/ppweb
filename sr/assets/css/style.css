@@ -298,9 +298,9 @@ h4 {
     background-color: lightgray !important;
 }
 
-li a {
+/*li a {
     display:block;
-}
+}*/
 
 .main-content {
     margin-left: 360px; /* Same as the width of the sidenav */

@@ -274,7 +274,7 @@ public class Users : System.Web.Services.WebService {
             command.ExecuteNonQuery();
             connection.Close();
 
-            //*********** Only for userType == 3 (Premium Plus - Schools) **************
+            //*********** Only for userType == 2 and more than 5 users (Schools) **************
             if (x.userType == 2 && x.maxNumberOfUsers > 5) {
                 Files f = new Files();
                 UserConfig uc = new UserConfig();
@@ -475,6 +475,7 @@ public class Users : System.Web.Services.WebService {
                 if (x.userId != x.userGroupId) {
                     x = GetUserGroupInfo(x, connection);
                 }
+                x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
                 /**********************/
                 xx.Add(x);
             }

@@ -903,7 +903,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             functions.alert($translate.instant(response.data.d));
         });
     }
-    init();
 
     var load = function () {
         $http({
@@ -918,6 +917,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
           functions.alert($translate.instant(response.data.d));
       });
     };
+
+    init();
 
     $scope.adminType = function (x) {
         switch (x) {
@@ -950,7 +951,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.signup = function () {
-        if ($rootScope.user.licenceStatus == 'demo' && $rootScope.users.length > 0) {
+        if ($rootScope.user.licenceStatus == 'demo') {
             functions.demoAlert('this function is not available in demo version');
             return false;
         }
@@ -1131,7 +1132,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
        });
     }
     /********* Logo ************/
-
 
 
 }])
