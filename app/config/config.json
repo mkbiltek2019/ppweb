@@ -1,5 +1,6 @@
 ﻿{
   "debug": true,
+  "serverhosttimediff": -1,
   "backend": "../",
   "title": "nutrition program",
   "shortDescription": "meal planning web app",

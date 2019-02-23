@@ -276,6 +276,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
             $scope.clientLog = JSON.parse(response.data.d);
             angular.forEach($scope.clientLog, function (x, key) {
                 x.date = new Date(x.date);
+                functions.correctDate(x.date);
             });
             setClientLogGraphData(0, $scope.clientLogsDays);
         },
@@ -514,6 +515,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         })
        .then(function (response) {
            $scope.menus = JSON.parse(response.data.d);
+           angular.forEach($scope.menus, function (x, key) {
+               var date_ = new Date(x.date);
+               functions.correctDate(date_);
+               x.date = date_.toLocaleDateString();
+           });
            $scope.loading = false;
        },
        function (response) {

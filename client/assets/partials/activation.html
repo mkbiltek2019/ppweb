@@ -2,7 +2,7 @@
     <h1 class="text-uppercase">{{config.title | translate}}</h1>
     <h2>{{'application for tracking anthropometric parameters and taking menus' | translate}}</h2>
     <hr />
-    <div class="text-center">
+    <div ng-if="config.showlanguages" class="text-center">
         <h4 disabled="disabled">{{'select language' | translate}}:</h4>
         <select ng-model="x" ng-options="x.title | translate for x in config.languages" ng-click="setLanguage(x.code)" class="form-control" style="width:250px; height:40px; font-size:20px; display:inline"></select>
     </div>

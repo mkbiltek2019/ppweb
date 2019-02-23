@@ -1,5 +1,6 @@
 ﻿{
   "debug": true,
+  "serverhosttimediff": -1,
   "backend": "../",
   "title": "nutrition program | client",
   "shortDescription": "meal planning web app",
@@ -59,5 +60,6 @@
       "title": "dollar"
     }
   ],
-  "showupdatedes": false
+  "showupdatedes": false,
+  "showlanguages": true
 }

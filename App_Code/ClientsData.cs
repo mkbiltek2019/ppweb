@@ -144,8 +144,7 @@ public class ClientsData : System.Web.Services.WebService {
                 sql = @"INSERT INTO clientsdata (clientId, height, weight, waist, hip, pal, goal, activities, diet, meals, date, userId)
                         VALUES (@clientId, @height, @weight, @waist, @hip, @pal, @goal, @activities, @diet, @meals, @date, @userId)";
                 command = new SQLiteCommand(sql, connection);
-            }
-            else {
+            } else {
                 sql = @"UPDATE clientsdata SET  
                           clientId = @clientId, height = @height, weight = @weight, waist = @waist, hip = @hip, pal = @pal, goal = @goal, activities = @activities, diet = @diet, meals = @meals, date = @date, userId = @userId
                             WHERE clientId = @clientId AND date = @date";
