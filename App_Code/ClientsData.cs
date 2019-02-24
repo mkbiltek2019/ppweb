@@ -78,7 +78,7 @@ public class ClientsData : System.Web.Services.WebService {
         x.activities = new List<Activities.ClientActivity>();
         x.diet = new Diets.NewDiet();
         x.meals = new List<Meals.NewMeal>();
-        x.date = DateTime.Today;
+        x.date = DateTime.UtcNow;
         x.userId = null;
         x.dailyActivities = new DetailEnergyExpenditure.Activities();
         x.myMeals = new MyMeals.NewMyMeals();
@@ -282,7 +282,7 @@ public class ClientsData : System.Web.Services.WebService {
                 x.activities = new List<Activities.ClientActivity>();
                 x.diet = new Diets.NewDiet();
                 x.meals = new List<Meals.NewMeal>();
-                x.date = DateTime.Today;
+                x.date = DateTime.UtcNow;
                 x.dailyActivities = new DetailEnergyExpenditure.Activities();
                 x.myMeals = new MyMeals.NewMyMeals();
             } else {
