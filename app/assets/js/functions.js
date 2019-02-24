@@ -48,8 +48,8 @@ angular.module('functions', [])
             return diffDays;
         },
         correctDate: function (date) {
-            var offset = date.getTimezoneOffset() / 60;  // Offset from Greenwich
-            var diff = offset < 0 ? $sessionStorage.config.serverhosttimediff + Math.abs(offset) : $sessionStorage.config.serverhosttimediff - offset;
+            var offset = date.getTimezoneOffset() / 60;
+            var diff = offset < 0 ? $sessionStorage.config.serverhostgreenwichtimediff + Math.abs(offset) : $sessionStorage.config.serverhostgreenwichtimediff - offset;
             date.setHours(date.getHours() + diff);
             return date;
         }
