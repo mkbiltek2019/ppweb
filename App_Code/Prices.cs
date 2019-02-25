@@ -131,8 +131,7 @@ public class Prices : System.Web.Services.WebService {
             connection.Close();
             string json = JsonConvert.SerializeObject(xx, Formatting.Indented);
             return json;
-        }
-        catch (Exception e) { return ("Error: " + e); }
+        } catch (Exception e) { return ("Error: " + e); }
     }
 
     [WebMethod]
@@ -140,7 +139,13 @@ public class Prices : System.Web.Services.WebService {
         try {
             db.CreateDataBase(userId, db.prices);
             if (string.IsNullOrEmpty(x.id)) {
+                if (Check(userId, x)) {
+                    return "the price for this food already exists";
+                }
                 x.id = Guid.NewGuid().ToString();
+            } else {
+                x.netPrice.value = x.unitPrice.value;
+                x.mass.value = 1000;
             }
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
@@ -171,12 +176,10 @@ public class Prices : System.Web.Services.WebService {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
-            string sql = "";
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
-            sql = @"BEGIN;
+            string sql = @"BEGIN;
                     DELETE FROM prices WHERE id = @id;
                     COMMIT;";
-            command = new SQLiteCommand(sql, connection);
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
             command.Parameters.Add(new SQLiteParameter("id", x.id));
             command.ExecuteNonQuery();
             connection.Close();
@@ -184,5 +187,23 @@ public class Prices : System.Web.Services.WebService {
         } catch (Exception e) { return ("Error: " + e); }
     }
     #endregion WebMethods
+
+    #region Methods
+    private bool Check(string userId, NewPrice x) {
+        try {
+            bool result = false;
+            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
+            connection.Open();
+            string sql = string.Format(@"SELECT EXISTS (SELECT id FROM prices WHERE LOWER(food) = '{0}')", x.food.title.ToLower());
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read()) {
+                result = reader.GetBoolean(0);
+            }
+            connection.Close();
+            return result;
+        } catch (Exception e) { return false; }
+    }
+    #endregion Methods
 
 }

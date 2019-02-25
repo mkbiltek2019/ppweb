@@ -1815,6 +1815,7 @@
   "fats_serv_desc": "1 serving of fat is 1 teaspoon butter/margarine/vegetable oil, 1 tablespoon salad dressing",
   "maximum number of users": "Maximum number of users",
   "number of users": "Number of users",
-  "remove logo": "Remove logo"
+  "remove logo": "Remove logo",
+  "the price for this food already exists": "The price for this food already exists"
 
 }

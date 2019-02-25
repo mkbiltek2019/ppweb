@@ -1824,6 +1824,7 @@
   "fats_serv_desc": "1 serviranje masti je 1 čajna žlićica maslaca/margarina/biljnog ulja, 1 supena kašika salatnog preljeva",
   "maximum number of users": "Maksimalan broj korisnika",
   "number of users": "Broj korisnika",
-  "remove logo": "Briši logo"
+  "remove logo": "Briši logo",
+  "the price for this food already exists": "Cena za tu namirnicu već postoji"
 
 }

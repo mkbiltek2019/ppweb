@@ -5377,6 +5377,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.save = function (x) {
+        if (x.food.title == null) {
+            return false;
+        }
         if ($rootScope.user.licenceStatus == 'demo') {
             functions.demoAlert('this function is not available in demo version');
             return false;
@@ -5388,13 +5391,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
        .then(function (response) {
            load();
+           functions.alert($translate.instant(response.data.d), '');
        },
        function (response) {
            functions.alert($translate.instant(response.data.d), '');
        });
     }
 
-    $scope.delete = function (x) {
+    $scope.remove = function (x) {
         var confirm = $mdDialog.confirm()
             .title($translate.instant('delete input') + '?')
             .textContent()

@@ -1821,6 +1821,7 @@
   "fats_serv_desc": "1 сервирање масти је 1 чајна жлићица маслаца/маргарина/биљног уља, 1 супена кашика салатног прељева",
   "maximum number of users": "Максималан број корисника",
   "number of users": "Број корисника",
-  "remove logo": "Бриши лого"
+  "remove logo": "Бриши лого",
+  "the price for this food already exists": "Цена за ту намирницу већ постоји"
 
 }
