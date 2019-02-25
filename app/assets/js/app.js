@@ -1116,6 +1116,18 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.removeLogo = function (x) {
         if (x.adminType != 0) { return false; }
+        var confirm = $mdDialog.confirm()
+                   .title($translate.instant('remove logo') + '?')
+                   .targetEvent(x)
+                   .ok($translate.instant('yes') + '!')
+                   .cancel($translate.instant('no'));
+        $mdDialog.show(confirm).then(function () {
+            removeLogo(x);
+        }, function () {
+        });
+    }
+
+    var removeLogo = function (x) {
         $http({
             url: $sessionStorage.config.backend + 'Files.asmx/DeleteLogo',
             method: 'POST',
@@ -3440,6 +3452,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             })
            .then(function (response) {
                $scope.d = JSON.parse(response.data.d);
+               angular.forEach($scope.d, function (x, key) {
+                   x.date = new Date(x.date);
+                   functions.correctDate(x.date);
+               });
                $scope.loading = false;
            },
            function (response) {

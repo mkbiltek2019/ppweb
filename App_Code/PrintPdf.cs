@@ -1142,7 +1142,7 @@ IBAN HR8423400091160342496
         if (File.Exists(logoPath)) {
             Image logo = Image.GetInstance(logoPath);
             logo.Alignment = Image.ALIGN_RIGHT;
-            logo.ScalePercent(15f);
+            logo.ScaleToFit(160f, 30f);
             logo.SpacingAfter = 15f;
             doc.Add(logo);
         }

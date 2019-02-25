@@ -974,7 +974,7 @@ public class Users : System.Web.Services.WebService {
 
     public object GetCityCount(List<NewUser> users) {
         var aa = from r in users
-                 where r.isActive == true
+                 where r.isActive == true && r.userId == r.userGroupId && G.DateDiff(r.activationDate, r.expirationDate) > 15
                  orderby r.city
                  group r by r.city.ToUpper() into g
                  select new { name = g.Key, count = g.Count() };

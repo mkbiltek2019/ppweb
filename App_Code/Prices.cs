@@ -75,7 +75,6 @@ public class Prices : System.Web.Services.WebService {
 
     #endregion Classes
 
-
     #region WebMethods
     [WebMethod]
     public string Init() {
@@ -140,7 +139,9 @@ public class Prices : System.Web.Services.WebService {
     public string Save(string userId, NewPrice x) {
         try {
             db.CreateDataBase(userId, db.prices);
-            x.id = x.id != null ? x.id : Guid.NewGuid().ToString();
+            if (string.IsNullOrEmpty(x.id)) {
+                x.id = Guid.NewGuid().ToString();
+            }
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
             string sql = "";
@@ -162,8 +163,7 @@ public class Prices : System.Web.Services.WebService {
             command.ExecuteNonQuery();
             connection.Close();
             return "saved";
-        }
-        catch (Exception e) { return ("Error: " + e); }
+        } catch (Exception e) { return ("Error: " + e); }
     }
 
      [WebMethod]
