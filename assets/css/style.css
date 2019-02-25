@@ -351,6 +351,11 @@ legend.fieldset-border {
     }
 }
 
+.box-shadow {
+    box-shadow: 5px 10px 8px #888888;
+    margin: 20px
+}
+
 
 
 

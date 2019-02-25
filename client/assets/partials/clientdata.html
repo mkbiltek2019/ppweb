@@ -259,16 +259,16 @@
                     <em class="text-justify">{{x.description}}</em>
                 </div>
                 <div class="p10">
-                    <p ng-if="y.meal.code==x.code" ng-repeat="y in menu.data.selectedFoods track by $index">- {{y.food | translate}}, {{y.quantity}} {{y.unit | translate}}, ({{y.mass}} ({{'g' | translate}}))</p>
+                    <p ng-if="y.meal.code==x.code" ng-repeat="y in menu.data.selectedFoods track by $index">- {{y.food | translate}}, {{y.quantity}} {{y.unit | translate}}, ({{y.mass}} {{'g' | translate}})</p>
                 </div>
                 <hr />
             </div>
             <div>
                 <label><span class="text-uppercase">{{'total' | translate}}</span></label>
-                <p>{{'energy' | translate}}: <span>{{totals.energy}} ({{'kcal' | translate}})</span></p>
-                <p>{{'carbohydrates' | translate}}: <span>{{totals.carbohydrates | number:1}} ({{'g' | translate}}), ({{totals.carbohydratesPercentage | number:1}} %)</span></p>
-                <p>{{'proteins' | translate}}: <span>{{totals.proteins | number:1}} ({{'g' | translate}}), ({{totals.proteinsPercentage | number:1}} %)</span></p>
-                <p>{{'fats' | translate}}: <span>{{totals.fats | number:1}} ({{'g' | translate}}), ({{totals.fatsPercentage | number:1}} %)</span></p>
+                <p>{{'energy' | translate}}: <span>{{totals.energy}} {{'kcal' | translate}}</span></p>
+                <p>{{'carbohydrates' | translate}}: <span>{{totals.carbohydrates | number:1}} {{'g' | translate}}, ({{totals.carbohydratesPercentage | number:1}} %)</span></p>
+                <p>{{'proteins' | translate}}: <span>{{totals.proteins | number:1}} {{'g' | translate}}, ({{totals.proteinsPercentage | number:1}} %)</span></p>
+                <p>{{'fats' | translate}}: <span>{{totals.fats | number:1}} {{'g' | translate}}, ({{totals.fatsPercentage | number:1}} %)</span></p>
             </div>
         </div>
         <pre ng-if="config.debug">{{menu | json}}</pre>
