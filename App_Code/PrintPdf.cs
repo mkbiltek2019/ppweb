@@ -1221,11 +1221,11 @@ IBAN HR8423400091160342496
                     Foods foods = new Foods();
                     weeklyMenuTotal.energy = weeklyMenu.energy;
                     weeklyMenuTotal.carbohydrates = Math.Round(weeklyMenu.data.selectedFoods.Sum(a => a.carbohydrates), 1);
-                    weeklyMenuTotal.carbohydratesPercentage = Math.Round(foods.GetNutrientPercentage(weeklyMenu.data.selectedFoods, weeklyMenuTotal.carbohydrates), 1);
+                    weeklyMenuTotal.carbohydratesPercentage = Math.Round(foods.GetCarbohydratesPercentage(weeklyMenu.data.selectedFoods, weeklyMenuTotal.carbohydrates), 1);
                     weeklyMenuTotal.proteins = Math.Round(weeklyMenu.data.selectedFoods.Sum(a => a.proteins), 1);
-                    weeklyMenuTotal.proteinsPercentage = Math.Round(foods.GetNutrientPercentage(weeklyMenu.data.selectedFoods, weeklyMenuTotal.proteins), 1);
+                    weeklyMenuTotal.proteinsPercentage = Math.Round(foods.GetProteinsPercentage(weeklyMenu.data.selectedFoods, weeklyMenuTotal.proteins), 1);
                     weeklyMenuTotal.fats = Math.Round(weeklyMenu.data.selectedFoods.Sum(a => a.fats), 1);
-                    weeklyMenuTotal.fatsPercentage = Math.Round(foods.GetNutrientPercentage(weeklyMenu.data.selectedFoods, weeklyMenuTotal.fats), 1);
+                    weeklyMenuTotal.fatsPercentage = Math.Round(foods.GetFatsPercentage(weeklyMenu.data.selectedFoods, weeklyMenuTotal.fats), 1);
                     weeklyMenuTotalList.Add(weeklyMenuTotal);
                     //************************************
                 } else {

@@ -537,11 +537,11 @@ public class Foods : System.Web.Services.WebService {
         x.mass = SmartRound(selectedFoods.Sum(a => a.mass));
         x.energy = SmartRound(selectedFoods.Sum(a => a.energy));
         x.carbohydrates = SmartRound(selectedFoods.Sum(a => a.carbohydrates));
-        x.carbohydratesPercentage = SmartRound(GetNutrientPercentage(selectedFoods, x.carbohydrates));
+        x.carbohydratesPercentage = SmartRound(GetCarbohydratesPercentage(selectedFoods, x.carbohydrates));
         x.proteins = SmartRound(selectedFoods.Sum(a => a.proteins));
-        x.proteinsPercentage = SmartRound(GetNutrientPercentage(selectedFoods, x.proteins));
+        x.proteinsPercentage = SmartRound(GetProteinsPercentage(selectedFoods, x.proteins));
         x.fats = SmartRound(selectedFoods.Sum(a => a.fats));
-        x.fatsPercentage = SmartRound(GetNutrientPercentage(selectedFoods, x.fats));
+        x.fatsPercentage = SmartRound(GetFatsPercentage(selectedFoods, x.fats));
 
         x.servings.cerealsServ = SmartRound(selectedFoods.Sum(a => a.servings.cerealsServ));
         x.servings.vegetablesServ = SmartRound(selectedFoods.Sum(a => a.servings.vegetablesServ));
@@ -648,7 +648,7 @@ public class Foods : System.Web.Services.WebService {
         x.fibers = GetParameterRecommendation(null, null, 25);
         x.saturatedFats = GetParameterRecommendation(null, Math.Round((x.energy * 0.1)/9, 1), null);
         x.monounsaturatedFats = GetParameterRecommendation(null, Math.Round((x.energy * 0.2)/9, 1), Math.Round((x.energy * 0.15)/9, 1));
-        x.polyunsaturatedFats = GetParameterRecommendation(null, Math.Round((x.energy * 0.11)/9, 1), Math.Round((x.energy * 0.8)/9, 1));
+        x.polyunsaturatedFats = GetParameterRecommendation(null, Math.Round((x.energy * 0.11)/9, 1), Math.Round((x.energy * 0.08)/9, 1));
         x.trifluoroaceticAcid = GetParameterRecommendation(null, Math.Round((x.energy * 0.02)/9, 1), null);
         x.cholesterol = GetParameterRecommendation(null, 300, null);
         x.sodium = SodiumRecommendation(client);
@@ -765,7 +765,6 @@ public class Foods : System.Web.Services.WebService {
             return JsonConvert.SerializeObject(InitFood(food), Formatting.Indented);
         } catch (Exception e) { return ("Error: " + e); }
     }
-
     #endregion
 
     #region Methods
@@ -885,14 +884,23 @@ public class Foods : System.Web.Services.WebService {
         return xx;
     }
 
-    public double GetNutrientPercentage(List<NewFood> selectedFoods, double nutrient) {
+    public double GetCarbohydratesPercentage(List<NewFood> selectedFoods, double value) {
+        return GetNutrientPercentage(selectedFoods, value, 3.75);
+    }
+
+    public double GetProteinsPercentage(List<NewFood> selectedFoods, double value) {
+        return GetNutrientPercentage(selectedFoods, value, 4);
+    }
+
+    public double GetFatsPercentage(List<NewFood> selectedFoods, double value){
+        return GetNutrientPercentage(selectedFoods, value, 9);
+    }
+
+    public double GetNutrientPercentage(List<NewFood> selectedFoods, double value, double coeff) {
         double percentage = 0;
-        double totalCarbohydrates = selectedFoods.Sum(a => a.carbohydrates);
-        double totalProteins = selectedFoods.Sum(a => a.proteins);
-        double totalFats = selectedFoods.Sum(a => a.fats);
-        double totalNutrients = totalCarbohydrates + totalProteins + totalFats;
-        if(nutrient > 0 || totalNutrients > 0) {
-            percentage = (nutrient / totalNutrients) * 100;
+		double totalEnergy = selectedFoods.Sum(a => a.energy);
+        if(value > 0 || totalEnergy > 0) {
+            percentage = (value * coeff / totalEnergy) * 100;
         }
         return percentage;
     }
