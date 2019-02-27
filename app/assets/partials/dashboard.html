@@ -1,10 +1,9 @@
 ﻿<div ng-controller="dashboardCtrl">
-    <div ng-show="!client.clientId" ng-controller="clientsCtrl" class="text-center" style="padding:0; margin-top:120px">
+    <!--<div ng-show="!client.clientId" ng-controller="clientsCtrl" class="text-center mt60" style="padding:0; margin-top:120px">
         <div class="row">
             <div class="col-sm-4 col-sm-offset-2 p20">
                 <a href="" class="btn btn-default btn-lg btn-block" ng-click="newClient()">
                     <div class="text-primary text-uppercase">
-                        <!--<i ng-if="clients.length==0" class="fa fa-long-arrow-right fa-3x arrow1" aria-hidden="true"></i>-->
                         <i ng-if="clients.length==0" class="fa fa-hand-o-right fa-2x arrow1" aria-hidden="true"></i>
                         <i class="fa fa-user-plus fa-3x"></i>
                         <div>{{'new client' | translate}}</div>
@@ -20,8 +19,9 @@
                 </a>
             </div>
         </div>
-    </div>
-    <div ng-if="client.clientId" class="noprint">
+    </div>-->
+
+    <!--<div ng-if="client.clientId" class="noprint">
         <ul class="nav nav-tabs hidden-xs">
             <li ng-class="selectedNavItem=='clientsdata'?'active':''" ng-click="toggleNewTpl('clientsdata')"><a href="#"><i class="fa fa-user-o"></i> <span class="text-uppercase">{{'client' | translate}}</span></a></li>
             <li ng-class="selectedNavItem=='calculation'?'active':''"><a href="#" ng-click="toggleNewTpl('calculation')"><i class="fa fa-calculator"></i> <span class="text-uppercase">{{'calculation' | translate}}</span></a></li>
@@ -30,7 +30,6 @@
             <li ng-class="selectedNavItem=='meals'?'active':''"><a href="#" ng-click="toggleNewTpl('meals')"><i class="fa fa-list-ol"></i> <span class="text-uppercase">{{'meals' | translate}}</span></a></li>
             <li ng-class="selectedNavItem=='menu'?'active':''"><a href="#" ng-click="toggleNewTpl('menu')"><i class="fa fa-cutlery"></i> <span class="text-uppercase">{{'menu' | translate}}</span></a></li>
             <li ng-class="selectedNavItem=='analysis'?'active':''"><a href="#" ng-click="toggleNewTpl('analysis')"><i class="fa fa-bar-chart"></i> <span class="text-uppercase">{{'analysis' | translate}}</span></a></li>
-            <!--<li ng-if="config.debug" ng-class="selectedNavItem=='print'?'active':''"><a href="#" ng-click="toggleNewTpl('print')"><i class="fa fa-print"></i> <span class="hidden-xs text-uppercase">{{'print' | translate}}</span></a></li>-->
             <li ng-class="selectedNavItem=='myfoods'?'active':''"><a href="#" ng-click="toggleNewTpl('myfoods')"><i class="fa fa-apple"></i> <span class="text-uppercase">{{'my foods' | translate}}</span></a></li>
             <li ng-class="selectedNavItem=='myrecipes'?'active':''"><a href="#" ng-click="toggleNewTpl('myrecipes')"><i class="fa fa-file-text-o"></i> <span class="text-uppercase">{{'my recipes' | translate}}</span></a></li>
             <li ng-class="selectedNavItem=='prices'?'active':''"><a href="#" ng-click="toggleNewTpl('prices')"><i class="fa fa-usd"></i> <span class="text-uppercase">{{'prices' | translate}}</span></a></li>
@@ -44,12 +43,174 @@
             <option value="meals">{{'meals' | translate}}</option>
             <option value="menu">{{'menu' | translate}}</option>
             <option value="analysis">{{'analysis' | translate}}</option>
-            <!--<option ng-if="config.debug" value="print">{{'print' | translate}}</span></a></option>-->
             <option value="myfoods">{{'my foods' | translate}}</option>
             <option value="myrecipes">{{'my recipes' | translate}}</option>
             <option value="prices">{{'prices' | translate}}</option>
         </select>
+    </div>-->
+
+    <!--<div ng-if="client.clientId" ng-include="newTpl" class="loginBox" style="min-height:80%"></div>-->
+	
+	
+    <div>
+        <div class="row" style="margin-top:120px">
+            <div ng-controller="clientsCtrl" class="col-lg-3 col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading" ng-click="search()">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-users fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge" style="font-size:40px">{{user.datasum.clients}}</div>
+                                <div>Ukupno klijenata</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="text-primary">
+                        <div class="panel-footer" ng-click="newClient()">
+                            <i ng-if="clients.length==0" class="fa fa-hand-o-right fa-2x arrow1 pull-left" aria-hidden="true"></i>
+                            <span class="pull-left text-uppercase">{{'new client' | translate}}</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6" ng-click="toggleTpl('scheduler')">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-calendar fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge" style="font-size:40px">{{user.datasum.scheduler}}</div>
+                                <div>Termini</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#">
+                        <div class="panel-footer">
+                            <span class="pull-left">RASPORED TERMINA</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-warning">
+                    <div class="panel-heading" ng-click="toggleTpl('users')">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-user-o fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge" style="font-size:40px">2</div>
+                                <div>Korisnici aplikacije</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" ng-click="toggleTpl('newuser')">
+                        <div class="panel-footer">
+                            <span class="pull-left">NOVI KORISNIK</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-hourglass-half fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge" style="font-size:40px">65</div>
+                                <div>dana do isteka pretplate</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#">
+                        <div class="panel-footer" ng-click="toggleTpl('order')">
+                            <span class="pull-left">OBNOVA PRETPLATE</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <label class="text-capitalize" style="margin-top:40px">Statistika:</label>
+        <hr style="margin-top:2px" />
+        <div class="row">
+            <div class="col-sm-4">
+                <ul class="list-group text-capitalize">
+                    <li class="list-group-item">{{'clients' | translate}} <span class="badge">{{user.datasum.clients}}</span></li>
+                    <li class="list-group-item">{{'menus' | translate}} <span class="badge">{{user.datasum.menues}}</span></li>
+                    <li class="list-group-item">{{'weekly menus' | translate}} <span class="badge">{{user.datasum.weeklyMenus}}</span></li>
+                    <li class="list-group-item">{{'my foods' | translate}} <span class="badge">{{user.datasum.myfoods}}</span></li>
+                    <li class="list-group-item">{{'recipes' | translate}} <span class="badge">{{user.datasum.recipes}}</span></li>
+                    <li class="list-group-item">{{'meals' | translate}} <span class="badge">{{user.datasum.meals}}</span></li>
+                </ul>
+            </div>
+            <div class="col-sm-8">
+                <div class="row">
+                    <div class="col-sm-5">
+                        Broj klijenata (veljača): <span class="badge pull-right">12</span>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                 aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:80%">
+                                80%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        Broj korisnika: <span class="badge pull-right">2</span>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                 aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width:30%">
+                                30%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        Dana do isteka pretplate: <span class="badge pull-right">65</span>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar"
+                                 aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width:20%">
+                                20%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="config.debug">
+            <pre>{{clients}}</pre>
+            <pre>{{user | json}}</pre>
+        </div>
+       
+
     </div>
-    <div ng-if="client.clientId" ng-include="newTpl" class="loginBox" style="min-height:80%"></div>
+   
+
+	
 </div>
 

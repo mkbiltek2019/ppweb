@@ -3,8 +3,8 @@
         <legend class="fieldset-border text-capitalize">{{'user profile' | translate}}</legend>
         <div class="text-right">
             <button ng-disabled="user.adminType==2" class="btn btn-primary" ng-click="update(user)"><span class="fa fa-floppy-o"></span> {{'save' | translate}}</button>
-            <button ng-disabled="user.adminType==2&&users.lenght>0" class="btn btn-default" ng-click="isLogin?toggleTpl('users.html'):toggleTpl('login.html')"><span class="fa fa-users"></span> {{'users' | translate}}</button>
-            <button class="btn btn-default text-capitalize" ng-click="isLogin?toggleTpl('dashboard.html'):toggleTpl('login.html')"><i class="fa fa-times"></i><span class="hidden-xs"> {{'cancel' | translate}}</span></button>
+            <button ng-disabled="user.adminType==2&&users.lenght>0" class="btn btn-default" ng-click="isLogin?toggleTpl('users'):toggleTpl('login')"><span class="fa fa-users"></span> {{'users' | translate}}</button>
+            <button class="btn btn-default text-capitalize" ng-click="isLogin?toggleTpl('dashboard'):toggleTpl('login')"><i class="fa fa-times"></i><span class="hidden-xs"> {{'cancel' | translate}}</span></button>
         </div>
         <div>
             <fieldset class="fieldset-border">

@@ -229,7 +229,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $rootScope.loadData = function () {
         if ($sessionStorage.user == null) {
-            $scope.toggleTpl('login.html');
+            $scope.toggleTpl('login');
             $rootScope.isLogin = false;
         } else {
             $rootScope.loadFoods();
@@ -241,15 +241,15 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.toggleTpl = function (x) {
-        $rootScope.currTpl = './assets/partials/' + x;
+        $rootScope.currTpl = './assets/partials/' + x + '.html';
     };
 
     var checkUser = function () {
         if ($sessionStorage.userid == "" || $sessionStorage.userid == undefined || $sessionStorage.user == null || $sessionStorage.user.licenceStatus == 'expired') {
-            $scope.toggleTpl('login.html');
+            $scope.toggleTpl('login');
             $rootScope.isLogin = false;
         } else {
-            $scope.toggleTpl('dashboard.html');
+            $scope.toggleTpl('dashboard');
             $scope.activeTab = 0;
             $rootScope.isLogin = true;
         }
@@ -870,7 +870,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.toggleTpl = function (x) {
-        $rootScope.currTpl = './assets/partials/' + x;
+        $rootScope.currTpl = './assets/partials/' + x + '.html';
     };
 
 }])
@@ -1149,9 +1149,27 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 }])
 
 //-------------- Program Prehrane Controllers---------------
+.controller('mainCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions) {
+    if ($rootScope.client) {
+        if ($rootScope.client.clientId) {
+            $rootScope.newTpl = 'assets/partials/clientsdata.html',
+            $rootScope.selectedNavItem = 'clientsdata';
+        } else {
+            $rootScope.newTpl = 'assets/partials/dashboard.html',
+            $rootScope.selectedNavItem = 'dashboard';
+        }
+    } else {
+        $rootScope.newTpl = 'assets/partials/dashboard.html',
+        $rootScope.selectedNavItem = 'dashboard';
+    }
+    
+    
+   // alert($rootScope.client.clientId);
+
+}])
 .controller('dashboardCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions) {
-    $rootScope.newTpl = 'assets/partials/clientsdata.html',
-    $rootScope.selectedNavItem = 'clientsdata';
+    //$rootScope.newTpl = 'assets/partials/clientsdata.html',
+    //$rootScope.selectedNavItem = 'clientsdata';
 
 }])
 
@@ -1169,7 +1187,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 
     $scope.toggleCurrTpl = function (x) {
-        $rootScope.currTpl = './assets/partials/' + x;
+        $rootScope.currTpl = './assets/partials/' + x + '.html';
     };
 
     var init = function (x) {
@@ -1361,6 +1379,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             $rootScope.client = response;
+            $rootScope.currTpl = './assets/partials/main.html';
+            $scope.toggleNewTpl('clientsdata');
             $scope.get(response);
         }, function () {
         });

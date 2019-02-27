@@ -190,6 +190,7 @@ public class Users : System.Web.Services.WebService {
                 /**********************/
             }
             connection.Close();
+            x.datasum = GetDataSum(x.userId);
             string json = JsonConvert.SerializeObject(x, Formatting.Indented);
             return json;
         }

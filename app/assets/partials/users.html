@@ -2,8 +2,8 @@
     <fieldset class="fieldset-border">
         <legend class="fieldset-border text-capitalize">{{'users' | translate}}:</legend>
         <div class="text-right">
-            <a href="" ng-click="toggleTpl('newuser.html', 10)" class="btn btn-primary text-capitalize"><i class="fa fa-user-plus fa-fw"></i> {{'new user' | translate}}</a>
-            <a href="" class="btn btn-default text-capitalize m10" ng-click="isLogin?toggleTpl('dashboard.html'):toggleTpl('login.html')" title="{{'close' | translate}}"><i class="fa fa-times"></i><span class="hidden-xs"> {{'cancel' | translate}}</span></a>
+            <a href="" ng-click="toggleTpl('newuser', 10)" class="btn btn-primary text-capitalize"><i class="fa fa-user-plus fa-fw"></i> {{'new user' | translate}}</a>
+            <a href="" class="btn btn-default text-capitalize m10" ng-click="isLogin?toggleTpl('dashboard'):toggleTpl('login')" title="{{'close' | translate}}"><i class="fa fa-times"></i><span class="hidden-xs"> {{'cancel' | translate}}</span></a>
         </div>
         <div>
             <label>{{'number of users' | translate}}: <span class="badge">{{users.length}}</span> <em>({{'maximum number of users' | translate}}: {{user.maxNumberOfUsers}})</em></label>
