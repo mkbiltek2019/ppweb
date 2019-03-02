@@ -277,6 +277,13 @@ a[class*="btn-default"], button[class*="btn-default"], input[class*="search"] {
     opacity: 1;
 }
 
+.stroke {
+   color: black;
+  -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+}
+
 @media (max-width: 767px) {
     .loginBox {
         padding:20px;
@@ -318,6 +325,7 @@ a[class*="btn-default"], button[class*="btn-default"], input[class*="search"] {
         min-height:90%;
     }
 }
+
 
 
 

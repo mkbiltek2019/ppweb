@@ -27,7 +27,7 @@ public class Users : System.Web.Services.WebService {
     string supervisorUserName = ConfigurationManager.AppSettings["SupervisorUserName"];
     string supervisorPassword = ConfigurationManager.AppSettings["SupervisorPassword"];
     string trialDays = ConfigurationManager.AppSettings["TrialDays"];
-    public Users () {
+    public Users() {
     }
     public class NewUser {
         public string userId { get; set; }
@@ -54,6 +54,7 @@ public class Users : System.Web.Services.WebService {
         public int rowid { get; set; }
         public int subusers { get; set; }
         public int maxNumberOfUsers { get; set; }
+        public string package { get; set; }
 
         public DataSum datasum = new DataSum();
     }
@@ -77,25 +78,47 @@ public class Users : System.Web.Services.WebService {
     }
 
     public class UserConfig {
-       public int maxNumberOfUsers;
+        public int maxNumberOfUsers;
     }
 
     public class DataSum {
-        public int clients;
+        // public int clients;
+        public ClientsTotal clients = new ClientsTotal();
         public int menues;
-		public int weeklyMenus;
+        public int weeklyMenus;
         public int myfoods;
         public int recipes;
         public int meals;
-        public int scheduler;
+        //  public int scheduler;  // only scheduled dates
+        public ClientsScheduler scheduler = new ClientsScheduler();
+
+        //TODO:
+        /*
+		public ClientsTotal clients;
+		public int daysLeft;
+		*/
     }
+
+    public class ClientsTotal {
+        public int total;
+        public string currMonth;
+        public int currMonthTotal;
+        public int maxMonthlyNumberOfClients;
+    }
+
+    public class ClientsScheduler {
+        public int total;
+        public int appointment;
+    }
+
+
 
     public class CheckUser {
         public bool CheckUserId(string userId, bool isActive) {
             try {
                 bool result = false;
                 string dataBase = ConfigurationManager.AppSettings["UsersDataBase"];
-                string path = HttpContext.Current.Server.MapPath("~/App_Data/" +  dataBase);
+                string path = HttpContext.Current.Server.MapPath("~/App_Data/" + dataBase);
                 SQLiteConnection connection = new SQLiteConnection("Data Source=" + path);
                 connection.Open();
                 SQLiteCommand command = new SQLiteCommand(
@@ -142,6 +165,7 @@ public class Users : System.Web.Services.WebService {
             x.rowid = 0;
             x.subusers = 0;
             x.maxNumberOfUsers = 1;
+            x.package = "";
             x.datasum = new DataSum();
             string json = JsonConvert.SerializeObject(x, Formatting.Indented);
             return json;
@@ -183,14 +207,15 @@ public class Users : System.Web.Services.WebService {
                 x.licenceStatus = GetLicenceStatus(x);
                 x.ipAddress = reader.GetString(19);
                 x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
+                x.package = GetPackage(x.licenceStatus, x.userType);
                 /****** SubUsers ******/
-                if(x.userId != x.userGroupId) {
+                if (x.userId != x.userGroupId) {
                     x = GetUserGroupInfo(x, connection);
                 }
                 /**********************/
             }
             connection.Close();
-            x.datasum = GetDataSum(x.userId);
+            x.datasum = GetDataSum(x.userId, x.userType);
             string json = JsonConvert.SerializeObject(x, Formatting.Indented);
             return json;
         }
@@ -323,7 +348,7 @@ public class Users : System.Web.Services.WebService {
             List<Totals> xx = new List<Totals>();
             List<NewUser> users = GetUsers(null, null);
             int i = 1;
-            foreach(NewUser u in users) {
+            foreach (NewUser u in users) {
                 Totals x = new Totals();
                 x.active = users.Take(i).Where(a => a.isActive == true).Count();
                 x.demo = users.Take(i).Where(a => a.isActive == false && a.activationDate == a.expirationDate).Count();
@@ -426,15 +451,16 @@ public class Users : System.Web.Services.WebService {
                 x.isActive = reader.GetValue(18) == DBNull.Value ? true : Convert.ToBoolean(reader.GetInt32(18));
                 x.licenceStatus = GetLicenceStatus(x);
                 x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
+                x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
+                x.package = GetPackage(x.licenceStatus, x.userType);
                 /****** SubUsers ******/
-                if(x.userId != x.userGroupId) {
+                if (x.userId != x.userGroupId) {
                     x = GetUserGroupInfo(x, connection);
                 }
-                x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
                 /**********************/
             }
             connection.Close();
-            x.datasum = GetDataSum(userId);
+            x.datasum = GetDataSum(userId, x.userType);
             string json = JsonConvert.SerializeObject(x, Formatting.Indented);
             return json;
         } catch (Exception e) { return (e.Message); }
@@ -573,11 +599,11 @@ public class Users : System.Web.Services.WebService {
 
             string response = "";
             if (x.userName == null) {
-                response = t.Tran("user not found",lang);
+                response = t.Tran("user not found", lang);
             }
             else {
                 mail.SendMail(x.email, messageSubject, messageBody, lang);
-                response = t.Tran("password has been sent to your e-mail",lang);
+                response = t.Tran("password has been sent to your e-mail", lang);
             }
 
             string json = JsonConvert.SerializeObject(response, Formatting.Indented);
@@ -586,9 +612,9 @@ public class Users : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string GetUserSum(string userId) {
+    public string GetUserSum(string userId, int userType) {
         try {
-            return JsonConvert.SerializeObject(GetDataSum(userId), Formatting.Indented);
+            return JsonConvert.SerializeObject(GetDataSum(userId, userType), Formatting.Indented);
         } catch (Exception e) {
             return (e.Message);
         }
@@ -717,7 +743,7 @@ public class Users : System.Web.Services.WebService {
 
     private string Supervisor() {
         NewUser x = new NewUser();
-        x.userId = Convert.ToString(Guid.NewGuid());;
+        x.userId = Convert.ToString(Guid.NewGuid()); ;
         x.userType = 0;
         x.firstName = "Igor";
         x.lastName = "Gašparović";
@@ -785,7 +811,7 @@ public class Users : System.Web.Services.WebService {
 , string.Format("<a href='mailto:{0}'>{0}</a>", GetEmail(lang))
 , string.Format("<a href='https://www.{0}'>www.{0}</a>", GetWebPage(lang)));
 
-            mail.SendMail(x.email, messageSubject, messageBody, lang);
+        mail.SendMail(x.email, messageSubject, messageBody, lang);
     }
 
     private string GetLicenceStatus(NewUser x) {
@@ -807,7 +833,7 @@ public class Users : System.Web.Services.WebService {
         SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
         connection.Open();
         string limitSql = "";
-        if (limit !=null && page != null) {
+        if (limit != null && page != null) {
             limitSql = string.Format("LIMIT {0} OFFSET {1}", limit, (page - 1) * limit);
         }
         string sql = string.Format(@"
@@ -854,7 +880,7 @@ public class Users : System.Web.Services.WebService {
         return xx;
     }
 
-    private DataSum GetDataSum(string userId) {
+    private DataSum GetDataSum(string userId, int userType) {
         DataSum x = new DataSum();
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, userDataBase));
@@ -873,8 +899,12 @@ public class Users : System.Web.Services.WebService {
                 command = new SQLiteCommand(sql, connection);
                 reader = command.ExecuteReader();
                 while (reader.Read()) {
-                    x.clients = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                    x.clients.total = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
                 }
+                Clients c = new Clients();
+                x.clients.currMonth = DateTime.Now.Month.ToString();
+                x.clients.currMonthTotal = c.NumberOfClientsPerMonth(userId);
+                x.clients.maxMonthlyNumberOfClients = c.MonthlyLimitOfClients(userType);
             }
 
             tbl = "menues";
@@ -889,8 +919,8 @@ public class Users : System.Web.Services.WebService {
                     x.menues = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
                 }
             }
-			
-			tbl = "weeklymenus";
+
+            tbl = "weeklymenus";
             sql = CheckTblExistsSql(tbl);
             command = new SQLiteCommand(sql, connection);
             reader = command.ExecuteReader();
@@ -941,17 +971,23 @@ public class Users : System.Web.Services.WebService {
                     x.meals = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
                 }
             }
-			
+
             tbl = "scheduler";
             sql = CheckTblExistsSql(tbl);
             command = new SQLiteCommand(sql, connection);
             reader = command.ExecuteReader();
             if (IsTblExists(reader)) {
-                sql = string.Format("SELECT COUNT(rowid) FROM {0}", tbl);
+                sql = string.Format("SELECT COUNT(rowid) FROM {0} ", tbl);
                 command = new SQLiteCommand(sql, connection);
                 reader = command.ExecuteReader();
                 while (reader.Read()) {
-                    x.scheduler = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                    x.scheduler.total = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                }
+                sql = string.Format("SELECT COUNT(rowid) FROM {0} where cast((startDate/1000) AS INT) > CAST(strftime('%s', 'now') AS INT)", tbl);
+                command = new SQLiteCommand(sql, connection);
+                reader = command.ExecuteReader();
+                while (reader.Read()) {
+                    x.scheduler.appointment = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
                 }
             }
 
@@ -1002,15 +1038,15 @@ public class Users : System.Web.Services.WebService {
         switch (lang) {
             case "en":
                 return "nutriprog.com";
-          /*  case "hr":
-                return "programprehrane.com";
-            case "sr": case "sr_cyrl":
-                return "plan-ishrane.com"; */
+            /*  case "hr":
+                  return "programprehrane.com";
+              case "sr": case "sr_cyrl":
+                  return "plan-ishrane.com"; */
             default:
                 return "programprehrane.com";
         }
     }
-      
+
     private string GetEmail(string lang) {
         switch (lang) {
             case "en":
@@ -1023,7 +1059,7 @@ public class Users : System.Web.Services.WebService {
     private NewUser GetUserGroupInfo(NewUser x, SQLiteConnection connection) {
         try {
             SQLiteCommand command = new SQLiteCommand(string.Format(@"
-                    SELECT userType, expirationDate FROM users WHERE userId  = '{0}' AND userGroupId = '{0}'", x.userGroupId) , connection);
+                    SELECT userType, expirationDate FROM users WHERE userId  = '{0}' AND userGroupId = '{0}'", x.userGroupId), connection);
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read()) {
                 x.userType = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
@@ -1031,8 +1067,7 @@ public class Users : System.Web.Services.WebService {
                 x.licenceStatus = GetLicenceStatus(x);
             }
             return x;
-        }
-        catch (Exception e) { return new NewUser(); }
+        } catch (Exception e) { return new NewUser(); }
     }
 
     private string CheckTblExistsSql(string tbl) {
@@ -1071,6 +1106,20 @@ public class Users : System.Web.Services.WebService {
             return x;
         }
     }
+
+    private string GetPackage(string licenceStatus, int userType) {
+        if (licenceStatus == "demo") {
+            return "demo";
+        }
+        switch (userType) {
+            case 0: return "start";
+            case 1: return "standard";
+            case 2: return "premium";
+            default: return "";
+        }
+}
+
+
     #endregion
 
 }

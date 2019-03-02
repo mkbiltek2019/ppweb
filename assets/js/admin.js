@@ -214,11 +214,11 @@ angular.module('app', [])
         });
     }
 
-    $scope.info = function (userId) {
+    $scope.info = function (userId, userType) {
         $http({
             url: $rootScope.config.backend + 'Users.asmx/GetUserSum',
             method: 'POST',
-            data: { userId: userId }
+            data: { userId: userId, userType: userType }
         })
         .then(function (response) {
             $scope.userTotal = JSON.parse(response.data.d);

@@ -316,7 +316,7 @@ public class Clients : System.Web.Services.WebService {
         return xx;
     }
 
-    private int NumberOfClientsPerMonth(string userId) {
+    public int NumberOfClientsPerMonth(string userId) {
         try {
             int count = 0;
             int month = DateTime.Now.Month;
@@ -335,7 +335,7 @@ public class Clients : System.Web.Services.WebService {
         } catch (Exception e) { return 0; }
     }
 
-    private int MonthlyLimitOfClients(int userType) {
+    public int MonthlyLimitOfClients(int userType) {
         int c = 0;
         switch (userType) {
             case 0: c = 5; break;

@@ -933,23 +933,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     }
 
-    $scope.package = function (x) {
-        if (angular.isDefined($rootScope.user) && $rootScope.user != null) {
-            if ($rootScope.user.licenceStatus == 'demo') {
-                return 'demo';
-            }
-            switch (x) {
-                case 0: return 'start';
-                case 1: return 'standard';
-                case 2: return 'premium';
-                case 3: return 'premium plus';
-                default: return '';
-            }
-        } else {
-            return '';
-        }
-    }
-
     $scope.signup = function () {
         if ($rootScope.user.licenceStatus == 'demo') {
             functions.demoAlert('this function is not available in demo version');
@@ -1170,6 +1153,24 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 .controller('dashboardCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions) {
     //$rootScope.newTpl = 'assets/partials/clientsdata.html',
     //$rootScope.selectedNavItem = 'clientsdata';
+	
+	var getUser = function () {
+        $http({
+            url: $sessionStorage.config.backend + 'Users.asmx/Get',
+            method: 'POST',
+            data: { userId: $rootScope.user.userId },
+        }).then(function (response) {
+            $rootScope.user = JSON.parse(response.data.d);
+            $scope.expirationDate = new Date($rootScope.user.expirationDate);
+        },
+       function (response) {
+           functions.alert($translate.instant(response.data.d));
+       });
+    }
+	getUser();
+	
+	
+	
 
 }])
 
@@ -5641,20 +5642,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 }])
 
 .controller('infoCtrl', ['$scope', '$rootScope', '$translate', function ($scope, $rootScope, $translate) {
-    $scope.package = function (x) {
-        if(angular.isUndefined(x)){
-            return '';
-        }
-        if ($rootScope.user.licenceStatus == 'demo') {
-            return 'demo';
-        }
-        switch (x) {
-            case 0: return 'start';
-            case 1: return 'standard';
-            case 2: return 'premium';
-            default: return '';
-        }
-    }
+
 }])
 
 .controller('settingsCtrl', ['$scope', '$http', '$rootScope', '$translate', '$sessionStorage', 'functions', function ($scope, $http, $rootScope, $translate, $sessionStorage, functions) {

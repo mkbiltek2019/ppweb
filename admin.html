@@ -130,7 +130,7 @@
                         <tr ng-class="x.userId!=x.userGroupId?'text-muted':''" ng-repeat="x in d track by $index">
                             <!--<td>{{d.length - $index}}</td>-->
                             <td>
-                                <button ng-click="info(x.userId)" class="btn btn-info" data-toggle="modal" data-target="#myModal"><i class="fa fa-info"></i></button>
+                                <button ng-click="info(x.userId, x.userType)" class="btn btn-info" data-toggle="modal" data-target="#myModal"><i class="fa fa-info"></i></button>
                                 <!--<button ng-if="showDetails" ng-click="updateInfo(x.email)" class="btn btn-warning" ><i class="fa fa-wrench"></i></button>-->
                             </td>
                             <td>{{x.rowid}}</td>
@@ -278,14 +278,14 @@
                             <h4 class="modal-title">Ukupno</h4>
                         </div>
                         <div class="modal-body">
-                            <ul>
-                                <li>Klijenti: <span class="badge">{{userTotal.clients}}</span></li>
-                                <li>Jelovnici: <span class="badge">{{userTotal.menues}}</span></li>
-								<li>Tjedni jelovnici: <span class="badge">{{userTotal.weeklyMenus}}</span></li>
-                                <li>Namirnice: <span class="badge">{{userTotal.myfoods}}</span></li>
-                                <li>Recepti: <span class="badge">{{userTotal.recipes}}</span></li>
-                                <li>Obroci: <span class="badge">{{userTotal.meals}}</span></li>
-                                <li>Kalendar: <span class="badge">{{userTotal.scheduler}}</span></li>
+                            <ul class="list-group">
+                                <li class="list-group-item">Klijenti: <span class="badge">{{userTotal.clients}}</span></li>
+                                <li class="list-group-item">Jelovnici: <span class="badge">{{userTotal.menues}}</span></li>
+								<li class="list-group-item">Tjedni jelovnici: <span class="badge">{{userTotal.weeklyMenus}}</span></li>
+                                <li class="list-group-item">Namirnice: <span class="badge">{{userTotal.myfoods}}</span></li>
+                                <li class="list-group-item">Recepti: <span class="badge">{{userTotal.recipes}}</span></li>
+                                <li class="list-group-item">Obroci: <span class="badge">{{userTotal.meals}}</span></li>
+                                <li class="list-group-item">Kalendar: <span class="badge">{{userTotal.scheduler.total}}</span></li>
                             </ul>
                         </div>
                         <div class="modal-footer">

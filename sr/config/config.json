@@ -12,5 +12,6 @@
   "oib": 58331314923,
   "email": "program.prehrane@yahoo.com",
   "language": "sr",
+  "freetrial": false,
   "menus": [ "jelovnik1", "jelovnik2", "jelovnik3", "jelovnik4" ]
 }

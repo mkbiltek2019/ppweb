@@ -3,7 +3,7 @@
     <div class="well">
         <h3 class="text-uppercase"><i class="fa fa-info-circle"></i> {{'info' | translate}}</h3>
         <hr />
-        <h4 class="text-capitalize">{{config.title | translate}} <span class="text-uppercase">{{package(user.userType)}}</span></h4>
+        <h4 class="text-capitalize">{{config.title | translate}} <span class="text-uppercase">{{user.package}}</span></h4>
         <ul>
             <li><span class="text-capitalize">{{'version' | translate}}: </span>{{config.version}}</li>
             <li>&copy {{today | date:'yyyy'}} {{config.copyright}}</li>
