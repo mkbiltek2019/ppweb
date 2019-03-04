@@ -534,12 +534,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     $rootScope.currTpl = './assets/partials/order.html';
                 } else {
                     $rootScope.currTpl = './assets/partials/dashboard.html';
-                    var daysToExpite = functions.getDateDiff($rootScope.user.expirationDate);
-                    if (daysToExpite <= 10 && daysToExpite > 0) {
-                        $rootScope.mainMessage = $translate.instant('your subscription will expire in') + ' ' + daysToExpite + ' ' + (daysToExpite == 1 ? $translate.instant('day') : $translate.instant('days')) + '.';
+                    //var daysToExpite = functions.getDateDiff($rootScope.user.expirationDate);
+                    if ($rootScope.user.daysToExpite <= 10 && $rootScope.user.daysToExpite > 0) {
+                        $rootScope.mainMessage = $translate.instant('your subscription will expire in') + ' ' + $rootScope.user.daysToExpite + ' ' + ($rootScope.user.daysToExpite == 1 ? $translate.instant('day') : $translate.instant('days')) + '.';
                         $rootScope.mainMessageBtn = $translate.instant('renew subscription');
                     }
-                    if (daysToExpite == 0) {
+                    if ($rootScope.user.daysToExpite == 0) {
                         $rootScope.mainMessage = $translate.instant('your subscription will expire today') + '.';
                         $rootScope.mainMessageBtn = $translate.instant('renew subscription');
                     }
@@ -1284,6 +1284,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 
     $scope.popupCtrl = function ($scope, $mdDialog, d, $http, $timeout) {
+        debugger;
         $scope.d = d;
         $scope.d.date = new Date($scope.d.date);
         $scope.d.birthDate = new Date($scope.d.birthDate);

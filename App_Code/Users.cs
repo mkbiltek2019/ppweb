@@ -48,6 +48,7 @@ public class Users : System.Web.Services.WebService {
         public string userGroupId { get; set; }
         public string activationDate { get; set; }
         public string expirationDate { get; set; }
+        public int daysToExpite { get; set; }
         public bool isActive { get; set; }
         public string licenceStatus { get; set; }
         public string ipAddress { get; set; }
@@ -158,6 +159,7 @@ public class Users : System.Web.Services.WebService {
             x.userGroupId = null;
             x.activationDate = DateTime.UtcNow.ToString();
             x.expirationDate = string.IsNullOrEmpty(trialDays) ? DateTime.UtcNow.ToString() : DateTime.UtcNow.AddDays(Convert.ToInt32(trialDays)).ToString();
+            x.daysToExpite = 0;
             x.isActive = string.IsNullOrEmpty(trialDays) ? false : true;
             x.licenceStatus = string.IsNullOrEmpty(trialDays) ? demo : active;
             x.ipAddress = HttpContext.Current.Request.UserHostAddress;
@@ -202,9 +204,11 @@ public class Users : System.Web.Services.WebService {
                 x.userGroupId = reader.GetString(15);
                 x.activationDate = reader.GetString(16);
                 x.expirationDate = reader.GetString(17);
+                x.daysToExpite = G.DateDiff(x.expirationDate);
                 x.isActive = Convert.ToBoolean(reader.GetInt32(18));
                 x.licenceStatus = GetLicenceStatus(x);
                 x.ipAddress = reader.GetString(19);
+                x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection);
                 x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
                 x.package = GetPackage(x.licenceStatus, x.userType);
                 /****** SubUsers ******/
@@ -406,12 +410,13 @@ public class Users : System.Web.Services.WebService {
                 x.userGroupId = reader.GetString(15);
                 x.activationDate = reader.GetValue(16) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(16);
                 x.expirationDate = reader.GetValue(17) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(17);
+                x.daysToExpite = G.DateDiff(x.expirationDate);
                 x.isActive = reader.GetValue(18) == DBNull.Value ? true : Convert.ToBoolean(reader.GetInt32(18));
                 x.licenceStatus = GetLicenceStatus(x);
                 x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
                 x.rowid = reader.GetValue(20) == DBNull.Value ? 0 : reader.GetInt32(20);
-                x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
                 x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection);
+                x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
                 xx.Add(x);
             }
             connection.Close();
@@ -447,9 +452,11 @@ public class Users : System.Web.Services.WebService {
                 x.userGroupId = reader.GetString(15);
                 x.activationDate = reader.GetValue(16) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(16);
                 x.expirationDate = reader.GetValue(17) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(17);
+                x.daysToExpite = G.DateDiff(x.expirationDate);
                 x.isActive = reader.GetValue(18) == DBNull.Value ? true : Convert.ToBoolean(reader.GetInt32(18));
                 x.licenceStatus = GetLicenceStatus(x);
                 x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
+                x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection);
                 x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
                 x.package = GetPackage(x.licenceStatus, x.userType);
                 /****** SubUsers ******/
@@ -494,6 +501,7 @@ public class Users : System.Web.Services.WebService {
                 x.userGroupId = reader.GetString(15);
                 x.activationDate = reader.GetValue(16) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(16);
                 x.expirationDate = reader.GetValue(17) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(17);
+                x.daysToExpite = G.DateDiff(x.expirationDate);
                 x.isActive = reader.GetValue(18) == DBNull.Value ? true : Convert.ToBoolean(reader.GetInt32(18));
                 x.licenceStatus = GetLicenceStatus(x);
                 x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
@@ -508,8 +516,7 @@ public class Users : System.Web.Services.WebService {
             connection.Close();
             string json = JsonConvert.SerializeObject(xx, Formatting.Indented);
             return json;
-        }
-        catch (Exception e) { return ("error: " + e); }
+        } catch (Exception e) { return ("error: " + e); }
     }
 
     [WebMethod]
@@ -554,9 +561,18 @@ public class Users : System.Web.Services.WebService {
                 x.userGroupId = reader.GetString(15);
                 x.activationDate = reader.GetValue(16) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(16);
                 x.expirationDate = reader.GetValue(17) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(17);
+                x.daysToExpite = G.DateDiff(x.expirationDate);
                 x.isActive = reader.GetValue(18) == DBNull.Value ? true : Convert.ToBoolean(reader.GetInt32(18));
                 x.licenceStatus = GetLicenceStatus(x);
                 x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
+                x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection);
+                x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
+                x.package = GetPackage(x.licenceStatus, x.userType);
+                /****** SubUsers ******/
+                if (x.userId != x.userGroupId) {
+                    x = GetUserGroupInfo(x, connection);
+                }
+                /**********************/
             }
             connection.Close();
 
@@ -865,9 +881,9 @@ public class Users : System.Web.Services.WebService {
             x.isActive = reader.GetValue(18) == DBNull.Value ? true : Convert.ToBoolean(reader.GetInt32(18));
             x.licenceStatus = GetLicenceStatus(x);
             x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
+            x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection);
             x.rowid = reader.GetValue(20) == DBNull.Value ? 0 : reader.GetInt32(20);
             x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
-            x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection);
             /****** SubUsers ******/
             if (x.userId != x.userGroupId) {
                 x = GetUserGroupInfo(x, connection);
@@ -1003,7 +1019,7 @@ public class Users : System.Web.Services.WebService {
         SQLiteDataReader reader = command.ExecuteReader();
         List<NewUser> xx = new List<NewUser>();
         while (reader.Read()) {
-            x = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+            x = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0)-1;
         }
         return x;
     }

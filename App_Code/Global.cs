@@ -11,14 +11,26 @@ namespace Igprog {
         public Global() {
         }
 
-        public double DateDiff(string date1, string date2) {
+        /****************** Date ***********************/
+        public int DateDiff(DateTime date1, DateTime date2) {
             try {
-                DateTime date1_ = Convert.ToDateTime(date1);
-                DateTime date2_ = Convert.ToDateTime(date2);
-                return (date2_ - date1_).TotalDays;
-            } catch(Exception e) {
+                return Convert.ToInt32(Math.Abs((date2 - date1).TotalDays));
+            } catch (Exception e) {
                 return 0;
             }
         }
+
+        public int DateDiff(string date1, string date2) {
+            DateTime date1_ = Convert.ToDateTime(date1);
+            DateTime date2_ = Convert.ToDateTime(date2);
+            return DateDiff(date1_, date2_);
+        }
+
+        public int DateDiff(string date) {
+            return DateDiff(Convert.ToDateTime(date), DateTime.UtcNow);
+        }
+        /*************************************************/
+
+
     }
 }
