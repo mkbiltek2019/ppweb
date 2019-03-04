@@ -1,57 +1,4 @@
 ﻿<div ng-controller="dashboardCtrl">
-    <!--<div ng-show="!client.clientId" ng-controller="clientsCtrl" class="text-center mt60" style="padding:0; margin-top:120px">
-        <div class="row">
-            <div class="col-sm-4 col-sm-offset-2 p20">
-                <a href="" class="btn btn-default btn-lg btn-block" ng-click="newClient()">
-                    <div class="text-primary text-uppercase">
-                        <i ng-if="clients.length==0" class="fa fa-hand-o-right fa-2x arrow1" aria-hidden="true"></i>
-                        <i class="fa fa-user-plus fa-3x"></i>
-                        <div>{{'new client' | translate}}</div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-sm-4 p20">
-                <a href="" ng-show="clients.length>0" class="btn btn-default btn-lg btn-block" ng-click="search()">
-                    <div class="text-primary text-uppercase">
-                        <i class="fa fa-search fa-3x"></i>
-                        <div>{{'search clients' | translate}}</div>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>-->
-
-    <!--<div ng-if="client.clientId" class="noprint">
-        <ul class="nav nav-tabs hidden-xs">
-            <li ng-class="selectedNavItem=='clientsdata'?'active':''" ng-click="toggleNewTpl('clientsdata')"><a href="#"><i class="fa fa-user-o"></i> <span class="text-uppercase">{{'client' | translate}}</span></a></li>
-            <li ng-class="selectedNavItem=='calculation'?'active':''"><a href="#" ng-click="toggleNewTpl('calculation')"><i class="fa fa-calculator"></i> <span class="text-uppercase">{{'calculation' | translate}}</span></a></li>
-            <li ng-class="selectedNavItem=='activities'?'active':''"><a href="#" ng-click="toggleNewTpl('activities')"><i class="fa fa-bicycle"></i> <span class="text-uppercase">{{'activity' | translate}}</span></a></li>
-            <li ng-class="selectedNavItem=='diets'?'active':''"><a href="#" ng-click="toggleNewTpl('diets')"><i class="fa fa-heartbeat"></i> <span class="text-uppercase">{{'diet' | translate}}</span></a></li>
-            <li ng-class="selectedNavItem=='meals'?'active':''"><a href="#" ng-click="toggleNewTpl('meals')"><i class="fa fa-list-ol"></i> <span class="text-uppercase">{{'meals' | translate}}</span></a></li>
-            <li ng-class="selectedNavItem=='menu'?'active':''"><a href="#" ng-click="toggleNewTpl('menu')"><i class="fa fa-cutlery"></i> <span class="text-uppercase">{{'menu' | translate}}</span></a></li>
-            <li ng-class="selectedNavItem=='analysis'?'active':''"><a href="#" ng-click="toggleNewTpl('analysis')"><i class="fa fa-bar-chart"></i> <span class="text-uppercase">{{'analysis' | translate}}</span></a></li>
-            <li ng-class="selectedNavItem=='myfoods'?'active':''"><a href="#" ng-click="toggleNewTpl('myfoods')"><i class="fa fa-apple"></i> <span class="text-uppercase">{{'my foods' | translate}}</span></a></li>
-            <li ng-class="selectedNavItem=='myrecipes'?'active':''"><a href="#" ng-click="toggleNewTpl('myrecipes')"><i class="fa fa-file-text-o"></i> <span class="text-uppercase">{{'my recipes' | translate}}</span></a></li>
-            <li ng-class="selectedNavItem=='prices'?'active':''"><a href="#" ng-click="toggleNewTpl('prices')"><i class="fa fa-usd"></i> <span class="text-uppercase">{{'prices' | translate}}</span></a></li>
-        </ul>
-        <select ng-model="selectedNavItem1" ng-click="toggleNewTpl(selectedNavItem1)" class="hidden-sm hidden-md hidden-lg hidden-xl form-control text-uppercase">
-            <option value="{{selectedNavItem1}}" disabled="disabled" selected="selected">{{selectedNavItem | translate}}</option>
-            <option value="clientsdata">{{'clientsdata' | translate}}</option>
-            <option value="calculation">{{'calculation' | translate}}</option>
-            <option value="activities">{{'activity' | translate}}</option>
-            <option value="diets">{{'diet' | translate}}</option>
-            <option value="meals">{{'meals' | translate}}</option>
-            <option value="menu">{{'menu' | translate}}</option>
-            <option value="analysis">{{'analysis' | translate}}</option>
-            <option value="myfoods">{{'my foods' | translate}}</option>
-            <option value="myrecipes">{{'my recipes' | translate}}</option>
-            <option value="prices">{{'prices' | translate}}</option>
-        </select>
-    </div>-->
-
-    <!--<div ng-if="client.clientId" ng-include="newTpl" class="loginBox" style="min-height:80%"></div>-->
-	
-	
     <div>
         <div class="text-center text-uppercase" style="margin-top:50px">
             <h2 class="stroke hidden-sm hidden-md hidden-lg hidden-xl" style="font-size:26px">{{config.title | translate}}</h2>
@@ -63,18 +10,18 @@
                     <div class="panel-heading" ng-click="search()" title="pretraži klijente">
                         <div class="row">
                             <div class="col-xs-3">
-                                <i class="fa fa-users fa-5x"></i>
+                                <i class="fa fa-male fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
                                 <div class="huge" style="font-size:40px">{{user.datasum.clients.total}}</div>
-                                <div>Ukupno klijenata</div>
+                                <div>{{'total clients' | translate}}</div>
                             </div>
                         </div>
                     </div>
-                    <a href="#" class="text-primary">
+                    <a href="#">
                         <div class="panel-footer" ng-click="newClient()">
                             <i ng-if="clients.length==0" class="fa fa-hand-o-right fa-2x arrow1 pull-left" aria-hidden="true"></i>
-                            <span class="pull-left text-uppercase">dodaj novog klijenta</span>
+                            <span class="pull-left text-uppercase">{{'add new client' | translate}}</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                             <div class="clearfix"></div>
                         </div>
@@ -91,13 +38,13 @@
                             </div>
                             <div class="col-xs-9 text-right">
                                 <div class="huge" style="font-size:40px">{{user.datasum.scheduler.appointment}}</div>
-                                <div>Zakazani termini</div>
+                                <div>{{'appointment' | translate}}</div>
                             </div>
                         </div>
                     </div>
                     <a href="#">
                         <div class="panel-footer">
-                            <span class="pull-left">POGLEDAJ TERMINE</span>
+                            <span class="pull-left text-uppercase">{{'show appointments' | translate}}</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                             <div class="clearfix"></div>
                         </div>
@@ -114,13 +61,13 @@
                             </div>
                             <div class="col-xs-9 text-right">
                                 <div class="huge" style="font-size:40px">2</div>
-                                <div>Korisnici aplikacije</div>
+                                <div>{{'app users' | translate}}</div>
                             </div>
                         </div>
                     </div>
                     <a href="#" ng-click="toggleTpl('newuser')">
                         <div class="panel-footer">
-                            <span class="pull-left">DODAJ NOVOG KORISNIKA</span>
+                            <span class="pull-left text-uppercase">{{'add new user' | translate}}</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                             <div class="clearfix"></div>
                         </div>
@@ -136,13 +83,13 @@
                             </div>
                             <div class="col-xs-9 text-right">
                                 <div class="huge" style="font-size:40px">65</div>
-                                <div>Dana do isteka pretplate</div>
+                                <div>{{'remaining subscription days' | translate}}</div>
                             </div>
                         </div>
                     </div>
                     <a href="#">
                         <div class="panel-footer" ng-click="toggleTpl('order')">
-                            <span class="pull-left">OBNOVI PRETPLATU</span>
+                            <span class="pull-left text-uppercase">{{'renew subscription' | translate}}</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                             <div class="clearfix"></div>
                         </div>

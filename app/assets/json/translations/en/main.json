@@ -1816,6 +1816,12 @@
   "maximum number of users": "Maximum number of users",
   "number of users": "Number of users",
   "remove logo": "Remove logo",
-  "the price for this food already exists": "The price for this food already exists"
+  "the price for this food already exists": "The price for this food already exists",
+  "total clients": "Total clients",
+  "add new client": "Add new client",
+  "appointment": "Appointment",
+  "show appointments": "Show appointments",
+  "app users": "App users",
+  "remaining subscription days": "Remaining subscription days"
 
 }

@@ -112,7 +112,6 @@ public class Users : System.Web.Services.WebService {
     }
 
 
-
     public class CheckUser {
         public bool CheckUserId(string userId, bool isActive) {
             try {
