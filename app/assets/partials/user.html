@@ -120,11 +120,11 @@
                             <label>{{'user name' | translate}}</label>
                             <input ng-model="user.userName" disabled>
                         </md-input-container>
-                        <md-input-container ng-if="config.debug" class="md-block" flex-gt-sm>
+                        <md-input-container ng-if="showpass" class="md-block" flex-gt-sm>
                             <label>{{'password' | translate}}</label>
-                            <input ng-model="user.password" type="{{showpass==true?'text':'password'}}">
+                            <input ng-model="user.password" >
                         </md-input-container>
-                        <md-input-container ng-if="config.debug" class="md-block" flex-gt-sm>
+                        <md-input-container class="md-block" flex-gt-sm>
                             <span class="input-group-addon cursor" style="width:30px" ng-click="showPassword()" title="{{showpass==true?('hide password' | translate):('show password' | translate)}}"><i class="fa fa-eye{{showpass==true?'-slash':''}}"></i></span>
                         </md-input-container>
                         <md-input-container class="md-block" flex-gt-sm>

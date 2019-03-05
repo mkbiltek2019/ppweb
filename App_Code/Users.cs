@@ -103,13 +103,14 @@ public class Users : System.Web.Services.WebService {
     public class ClientsTotal {
         public int total;
         public string currMonth;
+        public string currYear;
         public int currMonthTotal;
         public int maxMonthlyNumberOfClients;
     }
 
     public class ClientsScheduler {
         public int total;
-        public int appointment;
+        public int appointments;
     }
 
 
@@ -918,6 +919,7 @@ public class Users : System.Web.Services.WebService {
                 }
                 Clients c = new Clients();
                 x.clients.currMonth = DateTime.Now.Month.ToString();
+                x.clients.currYear = DateTime.Now.Year.ToString();
                 x.clients.currMonthTotal = c.NumberOfClientsPerMonth(userId);
                 x.clients.maxMonthlyNumberOfClients = c.MonthlyLimitOfClients(userType);
             }
@@ -998,11 +1000,13 @@ public class Users : System.Web.Services.WebService {
                 while (reader.Read()) {
                     x.scheduler.total = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
                 }
-                sql = string.Format("SELECT COUNT(rowid) FROM {0} where cast((startDate/1000) AS INT) > CAST(strftime('%s', 'now') AS INT)", tbl);
+                //sql = string.Format("SELECT COUNT(rowid) FROM {0} where cast((startDate/1000) AS INT) > CAST(strftime('%s', 'now') AS INT)", tbl);
+                // TODO: userGroupId, and userId
+                sql = string.Format("SELECT COUNT(rowid) FROM {0} where cast((startDate/1000) AS INT) > CAST(strftime('%s', 'now') AS INT) AND userId = '{1}'", tbl, userId);
                 command = new SQLiteCommand(sql, connection);
                 reader = command.ExecuteReader();
                 while (reader.Read()) {
-                    x.scheduler.appointment = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                    x.scheduler.appointments = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
                 }
             }
 

@@ -707,21 +707,17 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     save: function (event) {
                         addEvent(this.getTemplateData(), event);
                         //  alert('Save Event:' + this.isNew() + ' --- ' + this.getContentNode().val());
-
                     },
                     edit: function (event) {
                         addEvent(this.getTemplateData(), event);
-
                        /* var startDatePrev = null;
                         var endDatePrev = null;
                         event.newSchedulerEvent.on("startDateChange", function (event) {
                             startDatePrev = event.prevVal;
                           //  var DateNew = event.newVal;
                             alert(startDatePrev)
-                            
                         });
                         addEvent(this.getTemplateData(), event, startDatePrev, endDatePrev);*/
-
                        //  editEvent(this.getTemplateData(), event);
                        // alert('Edit Event:' + this.isNew() + ' --- ' + this.getContentNode().val() + ' --- ' + JSON.stringify(this.getTemplateData()));
                     },
@@ -839,6 +835,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { userGroupId: $rootScope.user.userGroupId, userId: $rootScope.user.userId, x: x }
         })
         .then(function (response) {
+            getAppointmentsCountByUserId();
         },
         function (response) {
             functions.alert($translate.instant(response.data.d));
@@ -863,6 +860,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { userGroupId: $rootScope.user.userGroupId, userId: $rootScope.user.userId, x: x }
         })
         .then(function (response) {
+            getAppointmentsCountByUserId();
         },
         function (response) {
             functions.alert($translate.instant(response.data));
@@ -872,6 +870,22 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.toggleTpl = function (x) {
         $rootScope.currTpl = './assets/partials/' + x + '.html';
     };
+
+    var getAppointmentsCountByUserId = function () {
+        debugger;
+        $http({
+            url: $sessionStorage.config.backend + webService + '/GetAppointmentsCountByUserId',
+            method: 'POST',
+            data: { userGroupId: $rootScope.user.userGroupId, userId: $rootScope.user.userId },
+        }).then(function (response) {
+            debugger;
+            $rootScope.user.datasum.scheduler = JSON.parse(response.data.d);
+
+        },
+       function (response) {
+           functions.alert($translate.instant(response.data.d));
+       });
+    }
 
 }])
 
@@ -1145,15 +1159,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $rootScope.newTpl = 'assets/partials/dashboard.html',
         $rootScope.selectedNavItem = 'dashboard';
     }
-    
-    
-   // alert($rootScope.client.clientId);
 
 }])
 .controller('dashboardCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions) {
-    //$rootScope.newTpl = 'assets/partials/clientsdata.html',
-    //$rootScope.selectedNavItem = 'clientsdata';
-	
 	var getUser = function () {
         $http({
             url: $sessionStorage.config.backend + 'Users.asmx/Get',
@@ -1168,9 +1176,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
        });
     }
 	getUser();
-	
-	
-	
 
 }])
 

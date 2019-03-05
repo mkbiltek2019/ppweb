@@ -139,6 +139,35 @@ public class Scheduler : System.Web.Services.WebService {
             return json;
         } catch (Exception e) { return e.Message; }
     }
+
+    [WebMethod]
+    public string GetAppointmentsCountByUserId(string userGroupId, string userId) {
+        try {
+            db.CreateDataBase(userGroupId, db.scheduler);
+            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userGroupId, dataBase));
+            connection.Open();
+            string sql = "";
+            SQLiteCommand command = null;
+            SQLiteDataReader reader = null;
+            Users.ClientsScheduler cs = new Users.ClientsScheduler();
+            sql = "SELECT COUNT(rowid) FROM scheduler";
+            command = new SQLiteCommand(sql, connection);
+            reader = command.ExecuteReader();
+            while (reader.Read()) {
+                cs.total = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+            }
+            sql = string.Format("SELECT COUNT(rowid) FROM scheduler where cast((startDate/1000) AS INT) > CAST(strftime('%s', 'now') AS INT) AND userId = '{0}'", userId);
+            command = new SQLiteCommand(sql, connection);
+            reader = command.ExecuteReader();
+            while (reader.Read()) {
+                cs.appointments = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+            }
+            connection.Close();
+            return JsonConvert.SerializeObject(cs, Formatting.Indented);
+        } catch (Exception e) { return e.Message; }
+    }
+
+
     #endregion WebMethods
 
 }

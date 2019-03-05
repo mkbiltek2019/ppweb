@@ -37,8 +37,8 @@
                                 <i class="fa fa-calendar fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge" style="font-size:40px">{{user.datasum.scheduler.appointment}}</div>
-                                <div>{{'appointment' | translate}}</div>
+                                <div class="huge" style="font-size:40px">{{user.datasum.scheduler.appointments}}</div>
+                                <div>{{'appointments' | translate}}</div>
                             </div>
                         </div>
                     </div>
@@ -99,33 +99,33 @@
         </div>
         <div class="row" style="margin-top:40px">
             <div class="col-sm-4">
-                <label class="text-capitalize">Statistika:</label>
+                <label class="text-capitalize">{{'statistics' | translate}}:</label>
                 <hr style="margin-top:2px" />
-                <ul class="list-group text-capitalize">
-                    <li class="list-group-item">{{'clients' | translate}} <span class="badge">{{user.datasum.clients.total}}</span></li>
-                    <li class="list-group-item">{{'menus' | translate}} <span class="badge">{{user.datasum.menues}}</span></li>
+                <ul class="list-group">
+                    <li class="list-group-item text-capitalize">{{'clients' | translate}} <span class="badge">{{user.datasum.clients.total}}</span></li>
+                    <li class="list-group-item text-capitalize">{{'menus' | translate}} <span class="badge">{{user.datasum.menues}}</span></li>
                     <li class="list-group-item">{{'weekly menus' | translate}} <span class="badge">{{user.datasum.weeklyMenus}}</span></li>
                     <li class="list-group-item">{{'my foods' | translate}} <span class="badge">{{user.datasum.myfoods}}</span></li>
-                    <li class="list-group-item">{{'recipes' | translate}} <span class="badge">{{user.datasum.recipes}}</span></li>
-                    <li class="list-group-item">{{'meals' | translate}} <span class="badge">{{user.datasum.meals}}</span></li>
-                    <li class="list-group-item">{{'scheduler total' | translate}} <span class="badge">{{user.datasum.scheduler.total}}</span></li>
+                    <li class="list-group-item text-capitalize">{{'recipes' | translate}} <span class="badge">{{user.datasum.recipes}}</span></li>
+                    <li class="list-group-item text-capitalize">{{'meals' | translate}} <span class="badge">{{user.datasum.meals}}</span></li>
+                    <li class="list-group-item">{{'total appointments' | translate}} <span class="badge">{{user.datasum.scheduler.total}}</span></li>
                 </ul>
             </div>
             <div class="col-sm-8">
-                <label>Podaci o licenci:</label>
+                <label>{{'license info' | translate}}:</label>
                 <hr style="margin-top:2px" />
                 <div class="row">
-                    <div class="col-sm-5" >
+                    <div class="col-md-5" >
                         <span class="text-capitalize">{{'package' | translate}}:</span> <label class="pull-right text-uppercase">{{user.package}}</label>
                     </div>
-                    <div class="col-sm-7">
+                    <div class="col-md-7">
                     </div>
                 </div>
                 <div class="row mt10">
-                    <div class="col-sm-5">
-                        Istek licence: <label class="pull-right">{{expirationDate | date:'dd.MM.yyyy'}}</label>
+                    <div class="col-md-5">
+                        {{'expiration date' | translate}}: <label class="pull-right">{{expirationDate | date:'dd.MM.yyyy'}}</label>
                     </div>
-                    <div class="col-sm-7">
+                    <div class="col-md-7">
                         <div class="progress">
                             <div class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar"
                                  aria-valuenow="{{((user.daysToExpite/365)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{((user.daysToExpite/365)*100).toFixed()}}%">
@@ -135,23 +135,23 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-5">
-                        Broj klijenata (tekući mjesec): <span class="badge pull-right">{{user.datasum.clients.currMonthTotal}}</span>
+                    <div class="col-md-5">
+                        {{'number of clinets' | translate}} ({{user.datasum.clients.currMonth}}/{{user.datasum.clients.currYear}}): <span class="pull-right"><span class="badge">{{user.datasum.clients.currMonthTotal}}</span> ({{user.datasum.clients.maxMonthlyNumberOfClients}})</span>
                     </div>
-                    <div class="col-sm-7">
+                    <div class="col-md-7">
                         <div class="progress">
                             <div class="progress-bar progress-bar-striped active" role="progressbar"
-                                 aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:80%">
-                                80%
+                                 aria-valuenow="{{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}%">
+                                {{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}%
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-5">
-                        {{'number od users' | translate}}: <span class="badge pull-right">{{user.subusers+1}}</span>
+                    <div class="col-md-5">
+                        {{'number of users' | translate}}: <span class="pull-right"><span class="badge">{{user.subusers+1}}</span> ({{user.maxNumberOfUsers}})</span>
                     </div>
-                    <div class="col-sm-7">
+                    <div class="col-md-7">
                         <div class="progress">
                             <div class="progress-bar progress-bar-striped active" role="progressbar"
                                  aria-valuenow="{{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}%">
@@ -162,16 +162,10 @@
                 </div>
             </div>
         </div>
-
         <div ng-if="config.debug">
             <pre>{{clients}}</pre>
             <pre>{{user | json}}</pre>
         </div>
-       
-
     </div>
-   
-
-	
 </div>
 

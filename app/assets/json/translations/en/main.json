@@ -1561,8 +1561,8 @@
   "content": "content",
   "admin type": "admin type",
   "company name": "company name",
-  "activation date": "activation date",
-  "expiration date": "expiration date",
+  "activation date": "Activation date",
+  "expiration date": "Expiration date",
   "is active": "is active",
   "user group": "user group",
   "supervisor": "supervisor",
@@ -1819,9 +1819,13 @@
   "the price for this food already exists": "The price for this food already exists",
   "total clients": "Total clients",
   "add new client": "Add new client",
-  "appointment": "Appointment",
+  "appointments": "Appointment",
   "show appointments": "Show appointments",
   "app users": "App users",
-  "remaining subscription days": "Remaining subscription days"
+  "remaining subscription days": "Remaining subscription days",
+  "statistics": "Statistics",
+  "license info": "License info",
+  "number of clinets": "Number of clinets",
+  "total appointments": "total appointments"
 
 }
