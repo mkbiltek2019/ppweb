@@ -130,7 +130,7 @@
                         <tr ng-class="x.userId!=x.userGroupId?'text-muted':''" ng-repeat="x in d track by $index">
                             <!--<td>{{d.length - $index}}</td>-->
                             <td>
-                                <button ng-click="info(x.userId, x.userType)" class="btn btn-info" data-toggle="modal" data-target="#myModal"><i class="fa fa-info"></i></button>
+                                <button ng-click="info(x.userGroupId, x.userId, x.userType, x.adminType)" class="btn btn-info" data-toggle="modal" data-target="#myModal"><i class="fa fa-info"></i></button>
                                 <!--<button ng-if="showDetails" ng-click="updateInfo(x.email)" class="btn btn-warning" ><i class="fa fa-wrench"></i></button>-->
                             </td>
                             <td>{{x.rowid}}</td>
@@ -201,6 +201,10 @@
                                 <tr>
                                     <td class="text-left">Istekle licence:</td>
                                     <td class="text-left"><strong>{{t.expired}}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">Korisnici aplikacije za klijente:</td>
+                                    <td class="text-left"><strong>{{t.clientapp}}</strong></td>
                                 </tr>
                             </table>
                         </fieldset>
@@ -279,7 +283,7 @@
                         </div>
                         <div class="modal-body">
                             <ul class="list-group">
-                                <li class="list-group-item">Klijenti: <span class="badge">{{userTotal.clients}}</span></li>
+                                <li class="list-group-item">Klijenti: <span class="badge">Ukupno: {{userTotal.clients.total}}, Tekući mjesec: {{userTotal.clients.currMonth}}</span></li>
                                 <li class="list-group-item">Jelovnici: <span class="badge">{{userTotal.menues}}</span></li>
 								<li class="list-group-item">Tjedni jelovnici: <span class="badge">{{userTotal.weeklyMenus}}</span></li>
                                 <li class="list-group-item">Namirnice: <span class="badge">{{userTotal.myfoods}}</span></li>

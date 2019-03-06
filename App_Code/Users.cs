@@ -76,6 +76,7 @@ public class Users : System.Web.Services.WebService {
         public double licencepercentage { get; set; }
         public Object city { get; set; }
         public Object monthly { get; set; }
+        public int clientapp { get; set; }
     }
 
     public class UserConfig {
@@ -83,21 +84,13 @@ public class Users : System.Web.Services.WebService {
     }
 
     public class DataSum {
-        // public int clients;
         public ClientsTotal clients = new ClientsTotal();
         public int menues;
         public int weeklyMenus;
         public int myfoods;
         public int recipes;
         public int meals;
-        //  public int scheduler;  // only scheduled dates
         public ClientsScheduler scheduler = new ClientsScheduler();
-
-        //TODO:
-        /*
-		public ClientsTotal clients;
-		public int daysLeft;
-		*/
     }
 
     public class ClientsTotal {
@@ -219,7 +212,7 @@ public class Users : System.Web.Services.WebService {
                 /**********************/
             }
             connection.Close();
-            x.datasum = GetDataSum(x.userId, x.userType);
+            x.datasum = GetDataSum(x.userGroupId, x.userId, x.userType, x.adminType);
             string json = JsonConvert.SerializeObject(x, Formatting.Indented);
             return json;
         }
@@ -330,6 +323,7 @@ public class Users : System.Web.Services.WebService {
     public string Total(int year) {
         try {
             Totals x = new Totals();
+            ClientApp ca = new ClientApp();
             List<NewUser> users = GetUsers(null, null);
             x.active = users.Where(a => a.isActive == true).Count();
             x.demo = users.Where(a => a.isActive == false && a.activationDate == a.expirationDate).Count();
@@ -340,6 +334,7 @@ public class Users : System.Web.Services.WebService {
             x.licencepercentage = x.total == x.subuser ? 0 : Math.Round((Convert.ToDouble(x.licence) / (x.total - x.subuser) * 100), 1);
             x.city = GetCityCount(users);
             x.monthly = GetMonthlyUsers(users, year);
+            x.clientapp = ca.GetClientAppUsers();
             return JsonConvert.SerializeObject(x, Formatting.Indented);
         } catch (Exception e) {
             return (e.Message);
@@ -467,7 +462,7 @@ public class Users : System.Web.Services.WebService {
                 /**********************/
             }
             connection.Close();
-            x.datasum = GetDataSum(userId, x.userType);
+            x.datasum = GetDataSum(x.userGroupId, x.userId, x.userType, x.adminType);
             string json = JsonConvert.SerializeObject(x, Formatting.Indented);
             return json;
         } catch (Exception e) { return (e.Message); }
@@ -628,9 +623,9 @@ public class Users : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string GetUserSum(string userId, int userType) {
+    public string GetUserSum(string userGroupId, string userId, int userType, int adminType) {
         try {
-            return JsonConvert.SerializeObject(GetDataSum(userId, userType), Formatting.Indented);
+            return JsonConvert.SerializeObject(GetDataSum(userGroupId, userId, userType, adminType), Formatting.Indented);
         } catch (Exception e) {
             return (e.Message);
         }
@@ -896,10 +891,10 @@ public class Users : System.Web.Services.WebService {
         return xx;
     }
 
-    private DataSum GetDataSum(string userId, int userType) {
+    private DataSum GetDataSum(string userGroupId, string userId, int userType, int adminType) {
         DataSum x = new DataSum();
         try {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, userDataBase));
+            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userGroupId, userDataBase));
             connection.Open();
             string sql = "";
             string tbl = "";
@@ -920,7 +915,7 @@ public class Users : System.Web.Services.WebService {
                 Clients c = new Clients();
                 x.clients.currMonth = DateTime.Now.Month.ToString();
                 x.clients.currYear = DateTime.Now.Year.ToString();
-                x.clients.currMonthTotal = c.NumberOfClientsPerMonth(userId);
+                x.clients.currMonthTotal = c.NumberOfClientsPerMonth(userGroupId);
                 x.clients.maxMonthlyNumberOfClients = c.MonthlyLimitOfClients(userType);
             }
 
@@ -994,15 +989,15 @@ public class Users : System.Web.Services.WebService {
             command = new SQLiteCommand(sql, connection);
             reader = command.ExecuteReader();
             if (IsTblExists(reader)) {
-                sql = string.Format("SELECT COUNT(rowid) FROM {0} ", tbl);
+                sql = string.Format(@"SELECT COUNT(rowid) FROM {0} {1}"
+                                , tbl, adminType == 0 ? "" : string.Format(" WHERE userId = '{0}'", userId));
                 command = new SQLiteCommand(sql, connection);
                 reader = command.ExecuteReader();
                 while (reader.Read()) {
                     x.scheduler.total = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
                 }
-                //sql = string.Format("SELECT COUNT(rowid) FROM {0} where cast((startDate/1000) AS INT) > CAST(strftime('%s', 'now') AS INT)", tbl);
-                // TODO: userGroupId, and userId
-                sql = string.Format("SELECT COUNT(rowid) FROM {0} where cast((startDate/1000) AS INT) > CAST(strftime('%s', 'now') AS INT) AND userId = '{1}'", tbl, userId);
+                sql = string.Format(@"SELECT COUNT(rowid) FROM {0} WHERE CAST((startDate/1000) AS INT) > CAST(strftime('%s', 'now') AS INT) {1}"
+                                  , tbl, adminType == 0 ? "" : string.Format(" AND userId = '{0}'", userId));
                 command = new SQLiteCommand(sql, connection);
                 reader = command.ExecuteReader();
                 while (reader.Read()) {
@@ -1014,7 +1009,6 @@ public class Users : System.Web.Services.WebService {
             return x;
         } catch (Exception e) { return x; }
     }
-
 
     private int GetUsersCountByUserGroup(string userGroupId, SQLiteConnection connection) {
         int x = 0;
@@ -1136,9 +1130,7 @@ public class Users : System.Web.Services.WebService {
             case 2: return "premium";
             default: return "";
         }
-}
-
-
+    }
     #endregion
 
 }

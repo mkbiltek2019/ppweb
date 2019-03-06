@@ -119,7 +119,7 @@ public class Scheduler : System.Web.Services.WebService {
             connection.Open();
             string sql = string.Format(@"
                             SELECT rowid, room, clientId, content, startDate, endDate, userId FROM scheduler WHERE room = {0} {1}"
-                            , room, uid == null ? "" : string.Format(" AND userId = '{0}'", uid));
+                           , room, user.adminType == 0 && uid == null ? "" : string.Format(" AND userId = '{0}'", uid == null ? user.userId : uid));
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             SQLiteDataReader reader = command.ExecuteReader();
             List<Event> xx = new List<Event>();
@@ -166,8 +166,6 @@ public class Scheduler : System.Web.Services.WebService {
             return JsonConvert.SerializeObject(cs, Formatting.Indented);
         } catch (Exception e) { return e.Message; }
     }
-
-
     #endregion WebMethods
 
 }

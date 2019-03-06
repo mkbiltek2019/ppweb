@@ -1611,11 +1611,11 @@
   "subscribe": "претплата",
   "1 year": "1 година",
   "2 years": "2 године",
-  "your subscription will expire in": "ваша претплата истиће за",
+  "your subscription will expire in": "ваша претплата истиче за",
   "day": "дан",
   "days": "дана",
   "renew subscription": "обнови претплату",
-  "your subscription will expire today": "данас истиће ваша претплата",
+  "your subscription will expire today": "данас истиче ваша претплата",
   "under": "испод",
   "over": "изнад",
   "serbian (latin)": "српски (латиница)",
@@ -1832,6 +1832,7 @@
   "statistics": "Статистика",
   "license info": "Информације о лиценци",
   "number of clinets": "Број клијената",
-  "total appointments": "Укупно термина"
+  "total appointments": "Укупно термина",
+  "add appointment": "Додај термин"
 
 }

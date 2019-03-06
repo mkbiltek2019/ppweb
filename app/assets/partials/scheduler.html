@@ -16,7 +16,7 @@
             </strong>
         </strong>
     </div>
-    <md-input-container>
+    <md-input-container ng-hide="user.adminType>0">
         <label>{{'users' | translate}}</label>
         <md-select ng-model="uid" ng-change="getSchedulerEvents(uid)" >
             <md-option ng-value=null >

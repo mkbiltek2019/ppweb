@@ -140,6 +140,24 @@ public class ClientApp : System.Web.Services.WebService {
             else { return false; }
         } catch (Exception e) { return false; }
     }
-    #endregion Methods
 
+    public int GetClientAppUsers() {
+        try {
+            int count = 0;
+            string path = Server.MapPath(string.Format("~/App_Data/{0}", dataBase));
+            SQLiteConnection connection = new SQLiteConnection(string.Format("Data Source={0}", path));
+            connection.Open();
+            string sql = "SELECT COUNT([rowid]) FROM clientapp";
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read()) {
+                count = reader.GetInt32(0);
+            }
+            connection.Close();
+            return count;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+    #endregion Methods
 }
