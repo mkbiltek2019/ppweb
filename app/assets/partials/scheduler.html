@@ -23,7 +23,7 @@
                 <span class="text-capitalize">{{'all users' |translate}}</span>
             </md-option>
             <md-option ng-value="x.userId" ng-repeat="x in users">
-                {{x.firstName}} - {{x.lastName}}
+                {{x.firstName}} {{x.lastName}}
             </md-option>
         </md-select>
     </md-input-container>
