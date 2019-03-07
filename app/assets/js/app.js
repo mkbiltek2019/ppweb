@@ -351,12 +351,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var saveClientData = function (x) {
-        if ($rootScope.user.licenceStatus == 'demo') {
+        /*if ($rootScope.user.licenceStatus == 'demo') {
             if ($rootScope.newTpl == 'assets/partials/clientsdata.html') {
                 functions.demoAlert('the saving function is disabled in demo version');
             }
             return false;
-        }
+        }*/
         x.userId = $rootScope.user.userId;
         x.clientId = x.clientId == null ? $rootScope.client.clientId: x.clientId;
         $http({
