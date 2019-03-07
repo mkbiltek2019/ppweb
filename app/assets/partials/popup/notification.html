@@ -12,7 +12,11 @@
         <md-dialog-content >
             <div class="md-dialog-content">
                 <div class="text-center">
-                    <p class="lead text-success"><span class="text-capitalize">{{'from' | translate}}</span> <em>{{config.date}}</em> {{'a new application upgrade is available' | translate}} (<span class="text-capitalize">{{'version' | translate}}</span>: {{config.version}}).</p>
+                    <p class="lead text-success">
+                        {{config.date}}<br />
+                        {{'a new application upgrade is available' | translate}}.<br />
+                        <em><span class="text-capitalize">{{'version' | translate}}</span>: {{config.version}}</em>
+                    </p>
                 </div>
                 <div>
                     <a ng-hide="config.language=='en'" href="" ng-click="toggleUpdates()" title="{{'what is new' | translate}}?" class="text-uppercase">{{'what is new' | translate}}? <i class="fa fa-caret-{{showUpdates==false?'right':'down'}}" aria-hidden="true"></i></a>
