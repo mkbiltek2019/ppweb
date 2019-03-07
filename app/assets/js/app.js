@@ -1278,6 +1278,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             $rootScope.client = response;
+            $rootScope.currTpl = './assets/partials/main.html';
+            $scope.toggleNewTpl('clientsdata');
             if ($rootScope.user.licenceStatus == 'demo') {
                 init($rootScope.client);
                 $rootScope.client.clientId = 'demo';
@@ -1318,10 +1320,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     $scope.birthDateRequiredMsq = null;
                 }
             }
-            if ($rootScope.user.licenceStatus == 'demo') {
-                $mdDialog.hide(x);
-                return false;
-            }
+            //if ($rootScope.user.licenceStatus == 'demo') {
+            //    $mdDialog.hide(x);
+            //    return false;
+            //}
             x.userId = $sessionStorage.userid;
             $http({
                 url: $sessionStorage.config.backend + webService + '/Save',
