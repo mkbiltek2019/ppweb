@@ -1072,12 +1072,14 @@ public class Users : System.Web.Services.WebService {
     private NewUser GetUserGroupInfo(NewUser x, SQLiteConnection connection) {
         try {
             SQLiteCommand command = new SQLiteCommand(string.Format(@"
-                    SELECT userType, expirationDate FROM users WHERE userId  = '{0}' AND userGroupId = '{0}'", x.userGroupId), connection);
+                    SELECT userType, expirationDate FROM users WHERE userId  = '{0}'", x.userGroupId), connection);
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read()) {
                 x.userType = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
                 x.expirationDate = reader.GetValue(1) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(1);
                 x.licenceStatus = GetLicenceStatus(x);
+                x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
+                x.package = GetPackage(x.licenceStatus, x.userType);
             }
             return x;
         } catch (Exception e) { return new NewUser(); }
