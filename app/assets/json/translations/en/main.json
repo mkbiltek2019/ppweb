@@ -1299,7 +1299,7 @@
   "users": "users",
   "new user": "new user",
   "logout": "logout",
-  "activate full version": "activate full version",
+  "activate full version": "Activate full version",
   "additional activities": "additional activities",
   "additional energy expenditure": "additional energy expenditure",
   "activity": "activity",
@@ -1827,6 +1827,7 @@
   "license info": "License info",
   "number of clinets": "Number of clinets",
   "total appointments": "Total appointments",
-  "add appointment": "Add appointment"
+  "add appointment": "Add appointment",
+  "license": "License"
 
 }

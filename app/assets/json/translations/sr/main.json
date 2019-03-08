@@ -1305,7 +1305,7 @@
   "users": "korisnici",
   "new user": "novi korisnik",
   "logout": "odjava",
-  "activate full version": "aktivirajte punu verziju",
+  "activate full version": "Aktiviraj punu verziju",
   "additional activities": "dodatne aktivnosti",
   "additional energy expenditure": "dodatna energetska potrošnja",
   "activity": "aktivnost",
@@ -1836,6 +1836,7 @@
   "license info": "Informacije o licenci",
   "number of clinets": "Broj klijenata",
   "total appointments": "Ukupno termina",
-  "add appointment": "Dodaj termin"
+  "add appointment": "Dodaj termin",
+  "license": "Licenca"
 
 }

@@ -83,14 +83,14 @@
                                 <i class="fa fa-hourglass-half fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge" style="font-size:40px">{{user.daysToExpite}}</div>
-                                <div>{{'remaining subscription days' | translate}}</div>
+                                <div class="huge" style="font-size:40px">{{user.licenceStatus!='demo'?user.daysToExpite:'DEMO'}}</div>
+                                <div>{{user.licenceStatus!='demo'?('remaining subscription days' | translate):('license' | translate)}}</div>
                             </div>
                         </div>
                     </div>
                     <a href="#">
                         <div class="panel-footer" ng-click="toggleTpl('order')">
-                            <span class="pull-left text-uppercase">{{'renew subscription' | translate}}</span>
+                            <span class="pull-left text-uppercase">{{user.licenceStatus!='demo'?('renew subscription' | translate):('activate full version' | translate)}}</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                             <div class="clearfix"></div>
                         </div>
@@ -112,7 +112,7 @@
                     <li class="list-group-item">{{'total appointments' | translate}} <span class="badge">{{user.datasum.scheduler.total}}</span></li>
                 </ul>
             </div>
-            <div class="col-sm-8">
+            <div ng-if="user.licenceStatus!='demo'" class="col-sm-8">
                 <label>{{'license info' | translate}}:</label>
                 <hr style="margin-top:2px" />
                 <div class="row">

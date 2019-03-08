@@ -1303,7 +1303,7 @@
   "users": "корисници",
   "new user": "нови корисник",
   "logout": "ођава",
-  "activate full version": "активирајте пуну верзију",
+  "activate full version": "Aктивирај пуну верзију",
   "additional activities": "додатне активности",
   "additional energy expenditure": "додатна енергетска потрошња",
   "activity": "активност",
@@ -1833,6 +1833,7 @@
   "license info": "Информације о лиценци",
   "number of clinets": "Број клијената",
   "total appointments": "Укупно термина",
-  "add appointment": "Додај термин"
+  "add appointment": "Додај термин",
+  "license": "Лиценца"
 
 }
