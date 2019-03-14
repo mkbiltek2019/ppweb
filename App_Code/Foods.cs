@@ -885,7 +885,8 @@ public class Foods : System.Web.Services.WebService {
     }
 
     public double GetCarbohydratesPercentage(List<NewFood> selectedFoods, double value) {
-        return GetNutrientPercentage(selectedFoods, value, 3.75);
+        //return GetNutrientPercentage(selectedFoods, value, 3.75);  // Program Prehrane 5.0
+        return GetNutrientPercentage(selectedFoods, value, 4);
     }
 
     public double GetProteinsPercentage(List<NewFood> selectedFoods, double value) {
