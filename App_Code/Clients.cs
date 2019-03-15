@@ -254,12 +254,8 @@ public class Clients : System.Web.Services.WebService {
             int count = 0;
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
-            string sql = "SELECT COUNT([rowid]) FROM clients WHERE firstName = @firstName AND lastName = @lastName AND birthDate = @birthDate AND gender = @gender";
+            string sql = string.Format(@"SELECT COUNT([rowid]) FROM clients WHERE TRIM(LOWER(firstName)) = '{0}' AND TRIM(LOWER(lastName)) = '{1}'", x.firstName.Trim().ToLower(), x.lastName.Trim().ToLower());
             SQLiteCommand command = new SQLiteCommand(sql, connection);
-            command.Parameters.Add(new SQLiteParameter("firstName", x.firstName));
-            command.Parameters.Add(new SQLiteParameter("lastName", x.lastName));
-            command.Parameters.Add(new SQLiteParameter("birthDate", x.birthDate));
-            command.Parameters.Add(new SQLiteParameter("gender", x.gender.value));
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read()) {
                 count = reader.GetInt32(0);
