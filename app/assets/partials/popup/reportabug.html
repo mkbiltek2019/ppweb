@@ -1,0 +1,32 @@
+﻿<md-dialog flex>
+    <form ng-cloak>
+        <md-toolbar class="main-background">
+            <div class="md-toolbar-tools">
+                <h2 class="text-capitalize">{{'report a bug' | translate}}</h2>
+                <span flex></span>
+                <a href="" class="btn btn-primary" ng-click="cancel()" title="{{'close' | translate}}">x</a>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div class="mt10">
+                    <md-input-container class="md-block" style="margin:2px" flex-gt-sx>
+                        <label class="text-capitalize">{{'title' | translate}}</label>
+                        <input ng-model="d.title" type="text" maxlength="50">
+                        <div ng-if="titlealert" class="text-danger">{{titlealert}}</div>
+                    </md-input-container>
+                </div>
+                <div>
+                    <md-input-container class="md-block" style="margin:2px" flex-gt-sm>
+                        <label class="text-capitalize">{{'description' | translate}}...</label>
+                        <textarea ng-model="d.description" rows="3" class="area"></textarea>
+                    </md-input-container>
+                </div>
+                <div class="row text-right text-capitalize m10">
+                    <a href="" class="btn btn-primary" ng-click="confirm(d)" title="{{'send' | translate}}"><i class="fa fa-paper-plane-o"></i> {{'send' | translate }}</a>
+                </div>
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>
+

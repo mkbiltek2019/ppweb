@@ -477,6 +477,111 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         };
     }
 
+    /********* TODO ***************/
+    var socialSharePopup = function () {
+        $timeout(function () {
+            openSocialSharePopup();
+        }, 3000);
+    }
+    socialSharePopup();
+
+    var openSocialSharePopup = function () {
+        $mdDialog.show({
+            controller: socialSharePoupCtrl,
+            templateUrl: 'assets/partials/popup/socialshare.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true,
+            d: {}
+        })
+        .then(function (response) {
+        }, function () {
+        });
+    };
+
+    var socialSharePoupCtrl = function ($scope, $rootScope, $mdDialog, $localStorage) {
+
+        //if (typeof (Storage) !== "undefined") {
+        //    localStorage.version = $scope.config.version;
+        //}
+
+        $scope.hide = function () {
+            $mdDialog.hide();
+        };
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+    }
+
+    $scope.reportABug = function () {
+        openReportABugPopup();
+    }
+
+    var openReportABugPopup = function () {
+        $mdDialog.show({
+            controller: openReportABugPopupCtrl,
+            templateUrl: 'assets/partials/popup/reportabug.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true,
+            d: { user: $rootScope.user }
+        })
+       .then(function (x) {
+       }, function () {
+       });
+    }
+
+    var openReportABugPopupCtrl = function ($scope, $mdDialog, $http, d, $translate, functions) {
+        $scope.d = {
+            title: null,
+            description: null,
+            email: d.user.email
+        }
+
+        var send = function (x) {
+            $scope.titlealert = null;
+            $scope.emailalert = null;
+            if (functions.isNullOrEmpty(x.title)) {
+                $scope.titlealert = $translate.instant('menu title is required');
+                return false;
+            }
+            if (functions.isNullOrEmpty(x.email)) {
+                $scope.emailalert = $translate.instant('email is required');
+                return false;
+            }
+            $mdDialog.hide();
+            var subject = x.title + '\n' + x.description + '\n' + 'e-mail: ' + x.email;
+            $http({
+                url: $sessionStorage.config.backend + 'Mail.asmx/SendMessage',
+                method: "POST",
+                data: { sendTo: $sessionStorage.config.email, messageSubject: 'BUG - ' + x.title, messageBody: subject, lang: $rootScope.config.language }
+            })
+            .then(function (response) {
+                functions.alert(response.data.d, '');
+            },
+            function (response) {
+                functions.alert($translate.instant(response.data.d), '');
+            });
+        }
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+
+        $scope.confirm = function (x) {
+            send(x);
+        }
+
+    };
+
+
+    /************************/
+
+
+
+
+
+
+
 }])
 
 .controller('loginCtrl', ['$scope', '$http','$localStorage', '$sessionStorage', '$window', '$rootScope', 'functions', '$translate', '$mdDialog', function ($scope, $http, $localStorage, $sessionStorage, $window, $rootScope, functions, $translate, $mdDialog) {
@@ -872,15 +977,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 
     var getAppointmentsCountByUserId = function () {
-        debugger;
         $http({
             url: $sessionStorage.config.backend + webService + '/GetAppointmentsCountByUserId',
             method: 'POST',
             data: { userGroupId: $rootScope.user.userGroupId, userId: $rootScope.user.userId },
         }).then(function (response) {
-            debugger;
             $rootScope.user.datasum.scheduler = JSON.parse(response.data.d);
-
         },
        function (response) {
            functions.alert($translate.instant(response.data.d));
@@ -1291,7 +1393,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 
     $scope.popupCtrl = function ($scope, $mdDialog, d, $http, $timeout) {
-        debugger;
         $scope.d = d;
         $scope.d.date = new Date($scope.d.date);
         $scope.d.birthDate = new Date($scope.d.birthDate);

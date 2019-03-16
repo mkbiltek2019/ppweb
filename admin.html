@@ -83,7 +83,16 @@
                 <h3>Korisnici</h3>
                 <div class="row">
                     <div class="col-sm-4">
-                        <input ng-model="searchQuery" class="form-control" placeholder="Pretraži..." ng-change="search(searchQuery, showActive)" />
+                        <form>
+                            <div class="input-group">
+                                <input ng-model="searchQuery" type="text" class="form-control" placeholder="Pretraži...">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit" ng-click="search(searchQuery, showActive)">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                     <div class="col-sm-4 checkbox">
                         <label class="p5"><input type="checkbox" ng-model="showDetails" />Prikaži detalje / uredi</label>
@@ -95,9 +104,9 @@
                     <div><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>
                 </div>
                 <div ng-if="!loading" style="margin-bottom:2px">
-                    <button class="btn btn-default" ng-click="prevPage()"><i class="fa fa-arrow-left"></i> Prev</button>
+                    <button class="btn btn-default" ng-click="prevPage()"><i class="fa fa-arrow-left"></i> Nazad</button>
                     <span class="badge">{{page}}</span>
-                    <button class="btn btn-default" ng-click="nextPage()">Next <i class="fa fa-arrow-right"></i></button>
+                    <button class="btn btn-default" ng-click="nextPage()">Naprijed <i class="fa fa-arrow-right"></i></button>
                 </div>
                 <div ng-if="!loading" class="table-responsive table-scroll">
                     <table class="table table-condensed text-small">
@@ -166,9 +175,9 @@
                     </table>
                 </div>
                 <div ng-if="!loading" style="margin-top:2px">
-                    <button class="btn btn-default" ng-click="prevPage()"><i class="fa fa-arrow-left"></i> Prev</button>
+                    <button class="btn btn-default" ng-click="prevPage()"><i class="fa fa-arrow-left"></i> Nazad</button>
                     <span class="badge">{{page}}</span>
-                    <button class="btn btn-default" ng-click="nextPage()">Next <i class="fa fa-arrow-right"></i></button>
+                    <button class="btn btn-default" ng-click="nextPage()">Naprijed <i class="fa fa-arrow-right"></i></button>
                 </div>
             </div>
 
