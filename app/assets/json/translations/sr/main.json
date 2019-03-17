@@ -1838,6 +1838,7 @@
   "total appointments": "Ukupno termina",
   "add appointment": "Dodaj termin",
   "license": "Licenca",
-  "report a bug": "Prijavi BUG"
+  "report a bug": "Prijavi BUG",
+  "description is required": "Opis je obavezan"
 
 }

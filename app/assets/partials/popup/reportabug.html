@@ -10,16 +10,16 @@
         <md-dialog-content>
             <div class="md-dialog-content">
                 <div class="mt10">
-                    <md-input-container class="md-block" style="margin:2px" flex-gt-sx>
-                        <label class="text-capitalize">{{'title' | translate}}</label>
-                        <input ng-model="d.title" type="text" maxlength="50">
-                        <div ng-if="titlealert" class="text-danger">{{titlealert}}</div>
-                    </md-input-container>
+                    <p>
+                        Ako imate prijedlog za poboljšanje aplikacije ili želite prijaviti BUG, ovdje možete dati kratki opis.<br />
+                        Odgovorit ćemo Vam u najskorijem roku.
+                    </p>
                 </div>
-                <div>
+                <div  class="mt10">
                     <md-input-container class="md-block" style="margin:2px" flex-gt-sm>
                         <label class="text-capitalize">{{'description' | translate}}...</label>
                         <textarea ng-model="d.description" rows="3" class="area"></textarea>
+                        <div ng-if="d.alert" class="text-danger">{{d.alert}}</div>
                     </md-input-container>
                 </div>
                 <div class="row text-right text-capitalize m10">

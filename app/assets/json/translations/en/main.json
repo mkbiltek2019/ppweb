@@ -1829,6 +1829,7 @@
   "total appointments": "Total appointments",
   "add appointment": "Add appointment",
   "license": "License",
-  "report a bug": "Report a BUG"
+  "report a bug": "Report a BUG",
+  "description is required": "Description is required"
 
 }

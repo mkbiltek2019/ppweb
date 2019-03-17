@@ -532,24 +532,24 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     var openReportABugPopupCtrl = function ($scope, $mdDialog, $http, d, $translate, functions) {
         $scope.d = {
-            title: null,
             description: null,
-            email: d.user.email
+            email: d.user.email,
+            alert: null
         }
 
         var send = function (x) {
             $scope.titlealert = null;
             $scope.emailalert = null;
-            if (functions.isNullOrEmpty(x.title)) {
-                $scope.titlealert = $translate.instant('menu title is required');
+            if (functions.isNullOrEmpty(x.description)) {
+                x.alert = $translate.instant('description is required');
                 return false;
             }
             if (functions.isNullOrEmpty(x.email)) {
-                $scope.emailalert = $translate.instant('email is required');
+                x.alert = $translate.instant('email is required');
                 return false;
             }
             $mdDialog.hide();
-            var subject = x.title + '\n' + x.description + '\n' + 'e-mail: ' + x.email;
+            var subject = x.description + ' E-mail: ' + x.email;
             $http({
                 url: $sessionStorage.config.backend + 'Mail.asmx/SendMessage',
                 method: "POST",
