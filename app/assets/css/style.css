@@ -298,6 +298,22 @@ a[class*="btn-default"], button[class*="btn-default"], input[class*="search"] {
     border-radius: 10px;
 }
 
+#floatingSocialShare .facebook {
+    background-color: #337ab7
+}
+#floatingSocialShare .google-plus {
+    background-color: #337ab7
+}
+#floatingSocialShare .linkedin {
+    background-color: #337ab7
+}
+#floatingSocialShare .pinterest {
+    background-color: #337ab7
+}
+#floatingSocialShare .twitter {
+    background-color: #337ab7
+}
+
 @media (max-width: 767px) {
     .loginBox {
         padding:20px;
