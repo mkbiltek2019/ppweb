@@ -477,14 +477,17 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         };
     }
 
-    /********* TODO ***************/
     var socialSharePopup = function () {
-        $timeout(function () {
-            openSocialSharePopup();
-        }, 3000);
+        if (typeof (Storage) !== "undefined") {
+            if (!localStorage.socailshare) {
+                $timeout(function () {
+                    openSocialSharePopup();
+                }, 600000);
+            }
+        }
     }
     socialSharePopup();
-
+    
     var openSocialSharePopup = function () {
         $mdDialog.show({
             controller: socialSharePoupCtrl,
@@ -499,10 +502,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 
     var socialSharePoupCtrl = function ($scope, $rootScope, $mdDialog, $localStorage) {
-
-        //if (typeof (Storage) !== "undefined") {
-        //    localStorage.version = $scope.config.version;
-        //}
+        localStorage.socailshare = 'ok';
 
         $scope.hide = function () {
             $mdDialog.hide();

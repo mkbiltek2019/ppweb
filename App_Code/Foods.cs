@@ -646,7 +646,12 @@ public class Foods : System.Web.Services.WebService {
         x.maltose = GetParameterRecommendation(null, null, null);
         x.lactose = GetParameterRecommendation(null, null, null);
         x.fibers = GetParameterRecommendation(null, null, 25);
-        x.saturatedFats = GetParameterRecommendation(null, Math.Round((x.energy * 0.1)/9, 1), null);
+        if(client.diet.id == "d20") {
+            /**** Hipolipemička dijeta (7%) ****/
+            x.saturatedFats = GetParameterRecommendation(null, Math.Round((x.energy * 0.07)/9, 1), null);
+        } else {
+            x.saturatedFats = GetParameterRecommendation(null, Math.Round((x.energy * 0.1)/9, 1), null);
+        }
         x.monounsaturatedFats = GetParameterRecommendation(null, Math.Round((x.energy * 0.2)/9, 1), Math.Round((x.energy * 0.15)/9, 1));
         x.polyunsaturatedFats = GetParameterRecommendation(null, Math.Round((x.energy * 0.11)/9, 1), Math.Round((x.energy * 0.08)/9, 1));
         x.trifluoroaceticAcid = GetParameterRecommendation(null, Math.Round((x.energy * 0.02)/9, 1), null);
