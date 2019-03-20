@@ -320,6 +320,26 @@ public class Menues : System.Web.Services.WebService {
     }
     #endregion AppMenues
 
+    #region Shopping List
+    // TODO
+    [WebMethod]
+    public string ShoppingList(NewMenu x, string lang) {
+        try {
+            List<Foods.NewFood> list = new List<Foods.NewFood>();
+            var group = x.data.selectedFoods
+                  .GroupBy(a => a.food)
+                  .Select(a => new {
+                      food = a.Key,
+                      qty = a.Sum(q => q.quantity),
+                      mass = a.Sum(m => m.mass)
+                  }).ToList();
+            return JsonConvert.SerializeObject(group, Formatting.Indented);
+        } catch (Exception e) {
+            return e.Message;
+        }
+    }
+    #endregion
+
     #endregion
 
 

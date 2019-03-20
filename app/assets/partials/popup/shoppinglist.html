@@ -1,0 +1,37 @@
+﻿<md-dialog flex>
+    <form ng-cloak>
+        <md-toolbar class="main-background">
+            <div class="md-toolbar-tools">
+                <h2 class="text-capitalize">{{'shopping list' | translate}}</h2>
+                <span flex></span>
+                <a href="" class="btn btn-primary" ng-click="cancel()" title="{{'close' | translate}}">x</a>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                TODO: No of consumers, copy to clipboard
+                <!--<div class="text-right">
+                    <button ng-click="copyToClipboard('container')" class="btn btn-default"><span class="text-capitalize"><i class="fa fa-files-o"></i> {{'copy to clipboard' | translate}}</span></button>
+                </div>-->
+
+                <div>
+                    <table class="table">
+                        <tr>
+                            <td>{{'food' | translate}}</td>
+                            <td>{{'quantity' | translate}}</td>
+                            <td>{{'mass' | translate}}</td>
+                        </tr>
+                        <tr ng-repeat="x in d">
+                            <td>{{x.food}}</td>
+                            <td>{{x.qty}}</td>
+                            <td>{{x.mass}}</td>
+                        </tr>
+                    </table>
+                    TODO
+
+                    <pre>{{d | json}}</pre>
+                </div>
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>

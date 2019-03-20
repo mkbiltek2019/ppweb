@@ -3796,12 +3796,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 method: "POST",
                 data: { x: currentMenu, lang: $rootScope.config.language }
             })
-          .then(function (response) {
-              functions.alert('ok', '');
-          },
-          function (response) {
-              functions.alert($translate.instant(response.data.d), '');
-          });
+            .then(function (response) {
+                functions.alert('ok', '');
+            },
+            function (response) {
+                functions.alert($translate.instant(response.data.d), '');
+            });
         }
 
         $scope.saveAppMenu = function (x) {
@@ -4761,6 +4761,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     //----------------------------------------
 
     $scope.saveRecipeFromMenu = function (data, currentMeal) {
+        if (data.selectedFoods.length == 0) {
+            return false;
+        }
         $rootScope.newTpl = './assets/partials/myrecipes.html';
         $rootScope.selectedNavItem = 'myrecipes';
         $rootScope.recipeData = data;
@@ -4833,6 +4836,58 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             return icon + 'check-circle text-success';
         }
     }
+
+    /********Shopping list - TODO*******/
+    $scope.shoppingList = [];
+    $scope.getShoppingList = function (x) {
+        openShoppingListPopup(x);
+    }
+
+    var openShoppingListPopup = function (x) {
+        if ($rootScope.currentMenu.data.selectedFoods.length == 0) {
+            return false;
+        }
+        $mdDialog.show({
+            controller: shoppingListPdfCtrl,
+            templateUrl: 'assets/partials/popup/shoppinglist.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true,
+            d: { currentMenu: x }
+        })
+        .then(function (r) {
+            alert(r);
+        }, function () {
+        });
+    };
+
+    var shoppingListPdfCtrl = function ($scope, $rootScope, $mdDialog, $http, d, $translate, $translatePartialLoader) {
+        $scope.currentMenu = d.currentMenu;
+        var createShoppingList = function(x){
+            $http({
+                url: $sessionStorage.config.backend + 'Menues.asmx/ShoppingList',
+                method: "POST",
+                data: { x: x, lang: $rootScope.config.language }
+            })
+        .then(function (response) {
+            $scope.d = JSON.parse(response.data.d);
+        },
+        function (response) {
+            functions.alert($translate.instant(response.data.d), '');
+        });
+        }
+        createShoppingList($scope.currentMenu);
+
+
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+    };
+
+    $scope.openPrintPdfPopup = function () {
+        openPrintPdfPopup();
+    }
+
 
 }])
 
