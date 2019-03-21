@@ -1901,7 +1901,7 @@ public class Foods : System.Web.Services.WebService {
         } catch (Exception e) { return new List<string>(); }
     }
 
-    private string GetUnit(double qty, string unit) {
+    public string GetUnit(double qty, string unit) {
         switch (unit){
             #region hr
             case "jušna žlica":
@@ -2790,6 +2790,8 @@ public class Foods : System.Web.Services.WebService {
             x.biotin = Math.Round(f.biotin * number, 1);
             x.vitaminC = Math.Round(f.vitaminC * number, 1);
             x.vitaminK = Math.Round(f.vitaminK * number, 1);
+            x.price.value = Math.Round(f.price.value * number, 2);
+            x.price.currency = f.price.currency;
             xx.Add(x);
         }
         return xx;
@@ -2908,9 +2910,8 @@ public class Foods : System.Web.Services.WebService {
         x.biotin = SmartRound(initFood.biotin * k);
         x.vitaminC = SmartRound(initFood.vitaminC * k);
         x.vitaminK = SmartRound(initFood.vitaminK * k);
-
-        //TODO
         x.price.value = Math.Round(initFood.price.value * k, 2);
+        x.price.currency = initFood.price.currency;
         return x;
     }
 

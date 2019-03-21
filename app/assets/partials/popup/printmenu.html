@@ -10,7 +10,7 @@
         <md-dialog-content>
             <div class="md-dialog-content">
                 <div class="text-right">
-                    <button ng-click="copyToClipboard('container')" class="btn btn-default"><span class="text-capitalize"><i class="fa fa-files-o"></i> {{'copy to clipboard' | translate}}</span></button>
+                    <button ng-click="copyToClipboard('menu_container')" class="btn btn-default"><span class="text-capitalize"><i class="fa fa-files-o"></i> {{'copy to clipboard' | translate}}</span></button>
                 </div>
                 <div>
                     <fieldset class="fieldset-border">
@@ -60,7 +60,7 @@
                     </fieldset>
                 </div>
                 <hr />
-                <div id="container" class="well">
+                <div id="menu_container" class="well">
                     <div ng-if="settings.showClientData">
                         <p>{{currentMenu.client.firstName}} {{currentMenu.client.lastName}}</p>
                         <p>

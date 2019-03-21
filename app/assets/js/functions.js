@@ -52,6 +52,15 @@ angular.module('functions', [])
             var diff = offset < 0 ? $sessionStorage.config.serverhostgreenwichtimediff + Math.abs(offset) : $sessionStorage.config.serverhostgreenwichtimediff - offset;
             date.setHours(date.getHours() + diff);
             return date;
+        },
+        copyToClipboard: function (id) {
+            var el = document.getElementById(id);
+            var range = document.createRange();
+            range.selectNodeContents(el);
+            var sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+            document.execCommand('copy');
         }
     }
 }]);

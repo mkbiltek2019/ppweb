@@ -3458,15 +3458,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
         if (angular.isDefined($scope.currentMenu)) { $scope.changeNumberOfConsumers($scope.consumers); }
 
-
         $scope.copyToClipboard = function (id) {
-            var el = document.getElementById(id);
-            var range = document.createRange();
-            range.selectNodeContents(el);
-            var sel = window.getSelection();
-            sel.removeAllRanges();
-            sel.addRange(range);
-            document.execCommand('copy');
+            return functions.copyToClipboard(id);
         }
 
         $scope.getMealTitle = function (x) {
@@ -4852,7 +4845,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             templateUrl: 'assets/partials/popup/shoppinglist.html',
             parent: angular.element(document.body),
             clickOutsideToClose: true,
-            d: { currentMenu: x }
+            d: { currentMenu: x, settings: $rootScope.printSettings }
         })
         .then(function (r) {
             alert(r);
@@ -4862,11 +4855,16 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     var shoppingListPdfCtrl = function ($scope, $rootScope, $mdDialog, $http, d, $translate, $translatePartialLoader) {
         $scope.currentMenu = d.currentMenu;
+        $scope.settings = d.settings;
+        $scope.consumers = 1;
+        $scope.pdfLink == null;
+        $scope.creatingPdf1 = false;
+
         var createShoppingList = function(x){
             $http({
-                url: $sessionStorage.config.backend + 'Menues.asmx/ShoppingList',
+                url: $sessionStorage.config.backend + 'ShoppingList.asmx/Create',
                 method: "POST",
-                data: { x: x, lang: $rootScope.config.language }
+                data: { x: x }
             })
         .then(function (response) {
             $scope.d = JSON.parse(response.data.d);
@@ -4875,7 +4873,46 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             functions.alert($translate.instant(response.data.d), '');
         });
         }
-        createShoppingList($scope.currentMenu);
+        createShoppingList($scope.currentMenu.data.selectedFoods);
+
+        $scope.changeNumberOfConsumers = function (x) {
+            $http({
+                url: $sessionStorage.config.backend + 'Foods.asmx/ChangeNumberOfConsumers',
+                method: "POST",
+                data: { foods: $scope.currentMenu.data.selectedFoods, number: x }
+            })
+           .then(function (response) {
+               var f = JSON.parse(response.data.d);
+               createShoppingList(f);
+           },
+           function (response) {
+               alert(response.data.d)
+           });
+        }
+        
+        $scope.copyToClipboard = function (id) {
+            return functions.copyToClipboard(id);
+        }
+
+        $scope.printShoppingListPdf = function (sl, n, s) {
+            $scope.creatingPdf1 = true;
+            if (angular.isDefined($scope.currentMenu)) {
+                $http({
+                    url: $sessionStorage.config.backend + 'PrintPdf.asmx/ShoppingList',
+                    method: "POST",
+                    data: { userId: $sessionStorage.usergroupid, shoppingList: sl, currentMenu: $scope.currentMenu, consumers: n, lang: $rootScope.config.language, settings: s }
+                })
+                  .then(function (response) {
+                      var fileName = response.data.d;
+                      $scope.creatingPdf1 = false;
+                      $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
+                  },
+                  function (response) {
+                      $scope.creatingPdf1 = false;
+                      alert(response.data.d);
+                  });
+            }
+        }
 
 
 
