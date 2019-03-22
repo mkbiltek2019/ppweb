@@ -867,7 +867,6 @@ public class PrintPdf : System.Web.Services.WebService {
         }
     }
 
-
     [WebMethod]
     public string ShoppingList(string userId, object shoppingList, Menues.NewMenu currentMenu, int consumers, string lang, PrintMenuSettings settings) {
         try {
@@ -895,30 +894,31 @@ public class PrintPdf : System.Web.Services.WebService {
             table.WidthPercentage = 100f;
             table.SetWidths(new float[] { 2f, 1f, 1f, 1f });
             table.AddCell(new PdfPCell(new Phrase(t.Tran("food", lang).ToUpper(), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
-            table.AddCell(new PdfPCell(new Phrase(t.Tran("quantity", lang).ToUpper(), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
-            table.AddCell(new PdfPCell(new Phrase(t.Tran("mass", lang).ToUpper(), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
-            table.AddCell(new PdfPCell(new Phrase(t.Tran("price", lang).ToUpper(), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+            table.AddCell(new PdfPCell(new Phrase((settings.showQty ? t.Tran("quantity", lang).ToUpper() : ""), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+            table.AddCell(new PdfPCell(new Phrase((settings.showMass ? t.Tran("mass", lang).ToUpper() : ""), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+            table.AddCell(new PdfPCell(new Phrase((settings.showPrice ? t.Tran("price", lang).ToUpper() : ""), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
 
 
             ShoppingList sl = new ShoppingList();
             ShoppingList.NewShoppingList groupedFoods = sl.Deserialize(shoppingList);
             foreach (var f in groupedFoods.foods) {
                 table.AddCell(new PdfPCell(new Phrase(f.food, GetFont())) { Border = 0 });
-                table.AddCell(new PdfPCell(new Phrase(f.qty.ToString() + " " + f.unit, GetFont())) { Border = 0 });
-                table.AddCell(new PdfPCell(new Phrase(f.mass.ToString() + " " + t.Tran("g", lang), GetFont())) { Border = 0 });
-                table.AddCell(new PdfPCell(new Phrase(f.price.ToString() + " " + (string.IsNullOrEmpty(f.currency)?"":f.currency.ToUpper()), GetFont())) { Border = 0 });
+                table.AddCell(new PdfPCell(new Phrase((settings.showQty ? f.qty.ToString() + " " + f.unit : ""), GetFont())) { Border = 0 });
+                table.AddCell(new PdfPCell(new Phrase((settings.showMass ? f.mass.ToString() + " " + t.Tran("g", lang) : ""), GetFont())) { Border = 0 });
+                table.AddCell(new PdfPCell(new Phrase((settings.showPrice ? f.price.ToString() + " " + (string.IsNullOrEmpty(f.currency) ? "" : f.currency.ToUpper()) : ""), GetFont())) { Border = 0 });
             }
 
             doc.Add(table);
             doc.Add(new Chunk(line));
 
-            doc.Add(new Paragraph(string.Format(@"{0}: {1} {2}"
+            if (settings.showPrice) {
+                doc.Add(new Paragraph(string.Format(@"{0}: {1} {2}"
                             , t.Tran("total price", lang).ToUpper()
                             , groupedFoods.total.price
                             , (string.IsNullOrEmpty(groupedFoods.total.currency) ? "" : groupedFoods.total.currency.ToUpper()))
                             , GetFont(12)));
-
-            doc.Add(new Chunk(line));
+            }
+            
             doc.Close();
 
             return fileName;

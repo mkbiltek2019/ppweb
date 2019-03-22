@@ -4830,9 +4830,16 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     }
 
-    /********Shopping list - TODO*******/
     $scope.shoppingList = [];
     $scope.getShoppingList = function (x) {
+        if ($rootScope.user.licenceStatus == 'demo') {
+            functions.demoAlert('this function is not available in demo version');
+            return false;
+        }
+        if ($rootScope.user.userType < 2 || $rootScope.user.licenceStatus == 'demo') {
+            functions.demoAlert('this function is available only in premium package');
+            return false;
+        }
         openShoppingListPopup(x);
     }
 
@@ -4868,6 +4875,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             })
         .then(function (response) {
             $scope.d = JSON.parse(response.data.d);
+            if ($scope.d.total) {
+                if ($scope.d.total.price > 0) {
+                    $scope.settings.showPrice = true;
+                }
+            }
         },
         function (response) {
             functions.alert($translate.instant(response.data.d), '');
@@ -4914,7 +4926,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             }
         }
 
-
+        $scope.hidePdfLink = function () {
+            $scope.pdfLink = null;
+        }
 
         $scope.cancel = function () {
             $mdDialog.cancel();
@@ -4924,7 +4938,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.openPrintPdfPopup = function () {
         openPrintPdfPopup();
     }
-
 
 }])
 
