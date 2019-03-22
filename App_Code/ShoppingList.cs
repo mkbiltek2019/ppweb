@@ -55,7 +55,7 @@ public class ShoppingList : System.Web.Services.WebService {
             food = a.Key,
             qty = a.Sum(q => q.quantity),
             unit = f.GetUnit(a.Sum(q => q.quantity), a.Select(u => u.unit).FirstOrDefault()),
-            mass = a.Sum(m => m.mass),
+            mass = Math.Round(a.Sum(m => m.mass), 0),
             price = Math.Round(a.Sum(p => p.price.value), 2),
             currency = a.Select(u => u.price.currency).FirstOrDefault()
         }).ToList();
