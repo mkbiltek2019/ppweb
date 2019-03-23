@@ -38,20 +38,42 @@ public class ShoppingList : System.Web.Services.WebService {
 
 
     [WebMethod]
-    public string Create(List<Foods.NewFood> x) {
+    public string Create(List<Foods.NewFood> x, int consumers) {
         try {
-            return JsonConvert.SerializeObject(CreateShoppingList(x), Formatting.Indented);
-        }
-        catch (Exception e) {
+            return JsonConvert.SerializeObject(CreateShoppingList(x, consumers), Formatting.Indented);
+        } catch (Exception e) {
             return e.Message;
         }
     }
 
-    public object CreateShoppingList(List<Foods.NewFood> x) {
+    [WebMethod]
+    public string CreateWeeklyShoppingList(string userId, List<string> menuList, int consumers) {
+        try {
+            Menues me = new Menues();
+            List<Foods.NewFood> x = new List<Foods.NewFood>();
+            foreach (string m in menuList) {
+                if (!string.IsNullOrEmpty(m)) {
+                    Menues.NewMenu wm = me.WeeklyMenu(userId, m);
+                    x.AddRange(wm.data.selectedFoods);
+                }
+            }
+            return JsonConvert.SerializeObject(CreateShoppingList(x, consumers), Formatting.Indented);
+        } catch (Exception e) {
+            return e.Message;
+        }
+    }
+
+    public object CreateShoppingList(List<Foods.NewFood> x, int consumers) {
         object res = new object();
         List<Foods.NewFood> list = new List<Foods.NewFood>();
         Foods f = new Foods();
-        var group = x.GroupBy(a => a.food).Select(a => new {
+        List<Foods.NewFood> foods = new List<Foods.NewFood>();
+        if (consumers >= 1) {
+            foods = f.MultipleConsumers(x, consumers);
+        } else {
+            foods = x;
+        }
+        var group = foods.GroupBy(a => a.food).Select(a => new {
             food = a.Key,
             qty = a.Sum(q => q.quantity),
             unit = f.GetUnit(a.Sum(q => q.quantity), a.Select(u => u.unit).FirstOrDefault()),
@@ -59,8 +81,8 @@ public class ShoppingList : System.Web.Services.WebService {
             price = Math.Round(a.Sum(p => p.price.value), 2),
             currency = a.Select(u => u.price.currency).FirstOrDefault()
         }).ToList();
-        var totalPrice = Math.Round(x.Sum(a => a.price.value), 2);
-        var currency = x.Select(a => a.price.currency).FirstOrDefault();
+        var totalPrice = Math.Round(foods.Sum(a => a.price.value), 2);
+        var currency = foods.Select(a => a.price.currency).FirstOrDefault();
         res = new {
             foods = group,
             total = new {
