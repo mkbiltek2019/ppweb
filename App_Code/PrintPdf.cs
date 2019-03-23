@@ -904,7 +904,7 @@ public class PrintPdf : System.Web.Services.WebService {
             foreach (var f in groupedFoods.foods) {
                 table.AddCell(new PdfPCell(new Phrase(f.food, GetFont())) { Border = 0 });
                 table.AddCell(new PdfPCell(new Phrase((settings.showQty ? f.qty.ToString() + " " + f.unit : ""), GetFont())) { Border = 0 });
-                table.AddCell(new PdfPCell(new Phrase((settings.showMass ? f.mass.ToString() + " " + t.Tran("g", lang) : ""), GetFont())) { Border = 0 });
+                table.AddCell(new PdfPCell(new Phrase((settings.showMass ? SmartMass(f.mass, lang) : ""), GetFont())) { Border = 0 });
                 table.AddCell(new PdfPCell(new Phrase((settings.showPrice ? f.price.ToString() + " " + (string.IsNullOrEmpty(f.currency) ? "" : f.currency.ToUpper()) : ""), GetFont())) { Border = 0 });
             }
 
@@ -1170,7 +1170,7 @@ IBAN HR8423400091160342496
                         sb.AppendLine(string.Format(@"- {0}{1}{2}{3}"
                             , food.food
                             , string.Format(@"{0}", settings.showQty ? string.Format(@", {0} {1}", food.quantity, food.unit) : "")
-                            , string.Format(@"{0}", settings.showMass ? string.Format(@", {0} g", food.mass) : "")
+                            , string.Format(@" {0}", settings.showMass ? SmartMass(food.mass, lang) : "")
                             , string.Format(@"{0}", settings.showServ && !string.IsNullOrEmpty(getServingDescription(food.servings, lang)) ? string.Format(@", ({0})", getServingDescription(food.servings, lang)) : "")));
                     }
                     sb.AppendLine("________________________________________________________________________");
@@ -1271,7 +1271,7 @@ IBAN HR8423400091160342496
                             p.Add(new Chunk(string.Format(@"- {0}", f.food), GetFont()));
                             p.Add(new Chunk(string.Format(@"{0}{1}{2}"
                                     , settings.showQty ? string.Format(", {0} {1}", f.quantity, f.unit) : ""
-                                    , settings.showMass ? string.Format(", {0} g", f.mass) : ""
+                                    , settings.showMass ? string.Format(", {0}", SmartMass(f.mass, lang)) : ""
                                     , settings.showServ && !string.IsNullOrEmpty(getServingDescription(f.servings, lang)) ? string.Format(", ({0})", getServingDescription(f.servings, lang)) : ""), font_qty));
                             p.Add(new Chunk("\n", GetFont()));
                         }
@@ -1450,6 +1450,14 @@ IBAN HR8423400091160342496
             , t.Tran("hip", lang), clientData.hip == 0 ? "---" : clientData.hip.ToString()
             , t.Tran("physical activity level", lang), t.Tran(clientData.pal.title, lang), t.Tran(clientData.pal.description, lang));
         return c;
+    }
+
+    private string SmartMass(double mass, string lang) {
+        if(mass > 999) {
+            return string.Format("{0} {1}", Math.Round((mass/1000),1), t.Tran("kg", lang));
+        } else {
+            return string.Format("{0} {1}", Math.Round(mass, 0), t.Tran("g", lang));
+        }
     }
     #endregion Methods
 

@@ -3443,6 +3443,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         $scope.consumers = 1;
         $scope.changeNumberOfConsumers = function (x) {
+            if (x < 1 || functions.isNullOrEmpty(x)) { return false }
             $scope.consumers = x;
             $http({
                 url: $sessionStorage.config.backend + 'Foods.asmx/ChangeNumberOfConsumers',
@@ -4873,21 +4874,22 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 method: "POST",
                 data: { x: x }
             })
-        .then(function (response) {
+            .then(function (response) {
             $scope.d = JSON.parse(response.data.d);
-            if ($scope.d.total) {
-                if ($scope.d.total.price > 0) {
-                    $scope.settings.showPrice = true;
+                if ($scope.d.total) {
+                    if ($scope.d.total.price > 0) {
+                        $scope.settings.showPrice = true;
+                    }
                 }
-            }
-        },
-        function (response) {
-            functions.alert($translate.instant(response.data.d), '');
-        });
+            },
+            function (response) {
+                functions.alert($translate.instant(response.data.d), '');
+            });
         }
         createShoppingList($scope.currentMenu.data.selectedFoods);
 
         $scope.changeNumberOfConsumers = function (x) {
+            if (x < 1 || functions.isNullOrEmpty(x)) { return false }
             $http({
                 url: $sessionStorage.config.backend + 'Foods.asmx/ChangeNumberOfConsumers',
                 method: "POST",
