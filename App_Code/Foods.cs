@@ -1902,6 +1902,7 @@ public class Foods : System.Web.Services.WebService {
     }
 
     public string GetUnit(double qty, string unit) {
+        unit = InitUnit(unit);
         switch (unit){
             #region hr
             case "jušna žlica":
@@ -1910,7 +1911,7 @@ public class Foods : System.Web.Services.WebService {
                 break;
             case "šalica":
                 if (qty > 1 && qty < 5) { unit = "šalice"; }
-                if (qty >= 5) { unit = "šalice"; }
+                if (qty >= 5) { unit = "šalica"; }
                 break;
             case "plod":
                 if (qty > 1 && qty < 5) { unit = "ploda"; }
@@ -1984,6 +1985,12 @@ public class Foods : System.Web.Services.WebService {
                 if (qty > 1 && qty < 5) { unit = "čašice"; }
                 if (qty >= 5) { unit = "čašica"; }
                 break;
+
+            case "štruca":
+                if (qty > 1 && qty < 5) { unit = "štruce"; }
+                if (qty >= 5) { unit = "štruca"; }
+                break;
+
             #endregion hr
             #region sr
             case "šoljica":
@@ -2022,6 +2029,44 @@ public class Foods : System.Web.Services.WebService {
             default:
                 break;
         }
+        return unit;
+    }
+
+    public string InitUnit(string unit) {
+        #region hr
+        if (unit == "jušne žlice" || unit == "jušnih žlica") { unit = "jušna žlica"; }
+        if (unit == "šalice") { unit = "šalica"; }
+        if (unit == "ploda" || unit == "plodova") { unit = "plod"; }
+        if (unit == "čajne žličice" || unit == "čajnih žličica") { unit = "čajna žličica"; }
+        if (unit == "porcije") { unit = "porcija"; }
+        if (unit == "limenke") { unit = "limenka"; }
+        if (unit == "kriške" || unit == "kriški") { unit = "kriška"; }
+        if (unit == "boce") { unit = "boca"; }
+        if (unit == "čaše") { unit = "čaša"; }
+        if (unit == "polovice") { unit = "polovica"; }
+        if (unit == "mala komada" || unit == "malih komada") { unit = "mali komad"; }
+        if (unit == "listića") { unit = "listić"; }
+        if (unit == "zrna") { unit = "zrno"; }
+        if (unit == "velika ploda" || unit == "velikih plodova") { unit = "veliki plod"; }
+        if (unit == "velika komada" || unit == "velikih komada") { unit = "veliki komad"; }
+        if (unit == "komada") { unit = "komad"; }
+        if (unit == "lista" || unit == "listova") { unit = "list"; }
+        if (unit == "fileta") { unit = "filet"; }
+        if (unit == "čašice") { unit = "čašica"; }
+        if (unit == "srednja ploda" || unit == "srednjih plodova") { unit = "srednji plod"; }
+
+        if (unit == "štruce") { unit = "štruca"; }
+        #endregion hr
+        #region sr
+        if (unit == "šoljice") { unit = "šoljica"; }
+        if (unit == "parčeta") { unit = "parče"; }
+        if (unit == "čajne kašike" || unit == "čajnih kašika") { unit = "čajna kašika"; }
+        if (unit == "supene kašike" || unit == "supenih kašika") { unit = "supena kašika"; }
+        if (unit == "mala parčeta" || unit == "malih parčeta") { unit = "malo parče"; }
+        if (unit == "velika parčeta" || unit == "velikih parčeta") { unit = "veliko parče"; }
+        if (unit == "kašičice") { unit = "kašičica"; }
+        if (unit == "flaše") { unit = "flaša"; }
+        #endregion sr
         return unit;
     }
 

@@ -17,12 +17,14 @@ public class ShoppingList : System.Web.Services.WebService {
     public ShoppingList() {
     }
 
+
     public class NewShoppingList {
         public List<Food> foods;
         public Total total;
     }
 
     public class Food {
+        public string id;
         public string food;
         public double qty;
         public string unit;
@@ -74,6 +76,7 @@ public class ShoppingList : System.Web.Services.WebService {
             foods = x;
         }
         var group = foods.GroupBy(a => a.food).Select(a => new {
+            id = a.Select(i => i.id).FirstOrDefault(),
             food = a.Key,
             qty = a.Sum(q => q.quantity),
             unit = f.GetUnit(a.Sum(q => q.quantity), a.Select(u => u.unit).FirstOrDefault()),

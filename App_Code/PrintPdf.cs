@@ -892,7 +892,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
             PdfPTable table = new PdfPTable(4);
             table.WidthPercentage = 100f;
-            table.SetWidths(new float[] { 2f, 1f, 1f, 1f });
+            table.SetWidths(new float[] { 3f, 2f, 1f, 1f });
             table.AddCell(new PdfPCell(new Phrase(t.Tran("food", lang).ToUpper(), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
             table.AddCell(new PdfPCell(new Phrase((settings.showQty ? t.Tran("quantity", lang).ToUpper() : ""), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
             table.AddCell(new PdfPCell(new Phrase((settings.showMass ? t.Tran("mass", lang).ToUpper() : ""), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
@@ -903,7 +903,7 @@ public class PrintPdf : System.Web.Services.WebService {
             ShoppingList.NewShoppingList groupedFoods = sl.Deserialize(shoppingList);
             foreach (var f in groupedFoods.foods) {
                 table.AddCell(new PdfPCell(new Phrase(f.food, GetFont())) { Border = 0 });
-                table.AddCell(new PdfPCell(new Phrase((settings.showQty ? f.qty.ToString() + " " + f.unit : ""), GetFont())) { Border = 0 });
+                table.AddCell(new PdfPCell(new Phrase((settings.showQty ? SmartQty(f, lang) : ""), GetFont())) { Border = 0 });
                 table.AddCell(new PdfPCell(new Phrase((settings.showMass ? SmartMass(f.mass, lang) : ""), GetFont())) { Border = 0 });
                 table.AddCell(new PdfPCell(new Phrase((settings.showPrice ? f.price.ToString() + " " + (string.IsNullOrEmpty(f.currency) ? "" : f.currency.ToUpper()) : ""), GetFont())) { Border = 0 });
             }
@@ -927,7 +927,7 @@ public class PrintPdf : System.Web.Services.WebService {
         }
     }
 
-     [WebMethod]
+    [WebMethod]
     public string WeeklyMenuShoppingList(string userId, object shoppingList, int consumers, string lang, PrintMenuSettings settings) {
         try {
             var doc = new Document();
@@ -952,7 +952,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
             PdfPTable table = new PdfPTable(4);
             table.WidthPercentage = 100f;
-            table.SetWidths(new float[] { 2f, 1f, 1f, 1f });
+            table.SetWidths(new float[] { 3f, 2f, 1f, 1f });
             table.AddCell(new PdfPCell(new Phrase(t.Tran("food", lang).ToUpper(), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
             table.AddCell(new PdfPCell(new Phrase((settings.showQty ? t.Tran("quantity", lang).ToUpper() : ""), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
             table.AddCell(new PdfPCell(new Phrase((settings.showMass ? t.Tran("mass", lang).ToUpper() : ""), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
@@ -963,7 +963,7 @@ public class PrintPdf : System.Web.Services.WebService {
             ShoppingList.NewShoppingList groupedFoods = sl.Deserialize(shoppingList);
             foreach (var f in groupedFoods.foods) {
                 table.AddCell(new PdfPCell(new Phrase(f.food, GetFont())) { Border = 0 });
-                table.AddCell(new PdfPCell(new Phrase((settings.showQty ? f.qty.ToString() + " " + f.unit : ""), GetFont())) { Border = 0 });
+                table.AddCell(new PdfPCell(new Phrase((settings.showQty ? SmartQty(f, lang) : ""), GetFont())) { Border = 0 });
                 table.AddCell(new PdfPCell(new Phrase((settings.showMass ? SmartMass(f.mass, lang) : ""), GetFont())) { Border = 0 });
                 table.AddCell(new PdfPCell(new Phrase((settings.showPrice ? f.price.ToString() + " " + (string.IsNullOrEmpty(f.currency) ? "" : f.currency.ToUpper()) : ""), GetFont())) { Border = 0 });
             }
@@ -1518,6 +1518,34 @@ IBAN HR8423400091160342496
         } else {
             return string.Format("{0} {1}", Math.Round(mass, 0), t.Tran("g", lang));
         }
+    }
+
+    private string SmartQty(ShoppingList.Food f, string lang) {
+        //TODO
+        Foods food = new Foods();
+        double baseunit = 0;
+        double qty = f.qty;
+        string unit = f.unit;
+        string unit_ = food.GetUnit(qty, unit);
+        switch (f.id) {
+            case "4592323d-95aa-425f-8794-931886c0b70c":  // bread white
+                baseunit = 700;
+                unit = "loaf";
+                break;
+            case "a45d8e18-1310-48e1-878c-8d69655180a9":  // bread french
+                baseunit = 300;
+                unit = "loaf";
+                break;
+        }
+        if (baseunit > 0) {
+            qty = Math.Round(f.mass / baseunit, 1);
+            unit_ = food.GetUnit(qty, t.Tran(unit, lang));
+        }
+
+        return string.Format("{0} {1}{2}"
+            , qty.ToString()
+            , unit_
+            , baseunit > 0 ? string.Format(" (1 {0} = {1} {2})", t.Tran(unit, lang), baseunit, t.Tran("g", lang)) : "");
     }
     #endregion Methods
 
