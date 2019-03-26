@@ -44,7 +44,7 @@ public class Scheduler : System.Web.Services.WebService {
         x.startDate = Convert.ToInt64(DateTime.UtcNow.Ticks);
         x.endDate = Convert.ToInt64(DateTime.UtcNow.Ticks);
         x.userId = null;
-        string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+        string json = JsonConvert.SerializeObject(x, Formatting.None);
         return json;
     }
 
@@ -70,7 +70,7 @@ public class Scheduler : System.Web.Services.WebService {
                 xx.Add(x);
             }
             connection.Close();
-            return JsonConvert.SerializeObject(xx, Formatting.Indented);
+            return JsonConvert.SerializeObject(xx, Formatting.None);
         } catch (Exception e) { return e.Message; }
     }
 
@@ -135,7 +135,7 @@ public class Scheduler : System.Web.Services.WebService {
                 xx.Add(x);
             }
             connection.Close();
-            string json = JsonConvert.SerializeObject(xx, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(xx, Formatting.None);
             return json;
         } catch (Exception e) { return e.Message; }
     }
@@ -163,7 +163,7 @@ public class Scheduler : System.Web.Services.WebService {
                 cs.appointments = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
             }
             connection.Close();
-            return JsonConvert.SerializeObject(cs, Formatting.Indented);
+            return JsonConvert.SerializeObject(cs, Formatting.None);
         } catch (Exception e) { return e.Message; }
     }
     #endregion WebMethods

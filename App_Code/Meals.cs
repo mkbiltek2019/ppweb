@@ -57,7 +57,7 @@ public class Meals : System.Web.Services.WebService {
                 xx.Add(x);
             }
             connection.Close();
-            string json = JsonConvert.SerializeObject(xx, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(xx, Formatting.None);
             return json;
         } catch (Exception e) { return ("Error: " + e); }
     }

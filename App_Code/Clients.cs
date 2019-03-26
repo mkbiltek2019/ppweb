@@ -109,14 +109,14 @@ public class Clients : System.Web.Services.WebService {
         x.date = DateTime.UtcNow.ToString();
         x.isActive = 1;
         x.clientData = new ClientsData.NewClientData();
-        string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+        string json = JsonConvert.SerializeObject(x, Formatting.None);
         return json;
     }
 
     [WebMethod]
     public string Load(string userId, Users.NewUser user) {
         try {
-            string json = JsonConvert.SerializeObject(GetClients(userId, user, null, null), Formatting.Indented);
+            string json = JsonConvert.SerializeObject(GetClients(userId, user, null, null), Formatting.None);
             return json;
         } catch (Exception e) { return ("Error: " + e); }
     }
@@ -129,7 +129,7 @@ public class Clients : System.Web.Services.WebService {
             if (x.clientId == null && Check(user.userGroupId, x) == false) {
                 r.data = null;
                 r.message = t.Tran("client is already registered", lang);
-                return JsonConvert.SerializeObject(r, Formatting.Indented);
+                return JsonConvert.SerializeObject(r, Formatting.None);
             } else {
                 if (x.clientId == null) {
                     //************TODO***************
@@ -137,7 +137,7 @@ public class Clients : System.Web.Services.WebService {
                     if (NumberOfClientsPerMonth(user.userGroupId) > clientsLimit) {
                         r.data = null;
                         r.message = string.Format("{0} {1}.", t.Tran("client was not saved. the maximum number of clients in one month is", lang), clientsLimit);
-                        return JsonConvert.SerializeObject(r, Formatting.Indented);
+                        return JsonConvert.SerializeObject(r, Formatting.None);
                     } else {
                         x.clientId = Convert.ToString(Guid.NewGuid());
                     }
@@ -163,7 +163,7 @@ public class Clients : System.Web.Services.WebService {
                 r.data = x;
                 r.data.gender.title = GetGenderTitle(r.data.gender.value);
                 r.message = null;
-                return JsonConvert.SerializeObject(r, Formatting.Indented);
+                return JsonConvert.SerializeObject(r, Formatting.None);
             }
         } catch (Exception e) { return (e.Message); }
     }
@@ -193,7 +193,7 @@ public class Clients : System.Web.Services.WebService {
                 xx.clientData = c.GetClientData(userId, clientId, connection);
             }
             connection.Close();
-            string json = JsonConvert.SerializeObject(xx, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(xx, Formatting.None);
             return json;
         } catch (Exception e) { return ("error: " + e); }
     }
@@ -210,7 +210,7 @@ public class Clients : System.Web.Services.WebService {
             command.ExecuteNonQuery();
             connection.Close();
         } catch (Exception e) { return ("error: " + e); }
-        string json = JsonConvert.SerializeObject(GetClients(userId, user, null, null), Formatting.Indented);
+        string json = JsonConvert.SerializeObject(GetClients(userId, user, null, null), Formatting.None);
         return json;
     }
 
@@ -228,7 +228,7 @@ public class Clients : System.Web.Services.WebService {
                 command = new SQLiteCommand(sql, connection);
                 command.ExecuteNonQuery();
                 connection.Close();
-                return JsonConvert.SerializeObject(x, Formatting.Indented);
+                return JsonConvert.SerializeObject(x, Formatting.None);
         } catch (Exception e) { return (e.Message); }
     }
 

@@ -55,7 +55,7 @@ public class Recipes : System.Web.Services.WebService {
         data.selectedFoods = new List<Foods.NewFood>();
         data.selectedInitFoods = new List<Foods.NewFood>();
         x.data = data;
-        string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+        string json = JsonConvert.SerializeObject(x, Formatting.None);
         return json;
     }
 
@@ -80,7 +80,7 @@ public class Recipes : System.Web.Services.WebService {
                 xx.Add(x);
             }
             connection.Close();
-            return JsonConvert.SerializeObject(xx, Formatting.Indented);
+            return JsonConvert.SerializeObject(xx, Formatting.None);
         } catch (Exception e) { return (e.Message); }
     }
 
@@ -105,7 +105,7 @@ public class Recipes : System.Web.Services.WebService {
                 x.data = JsonConvert.DeserializeObject<JsonFile>(GetJsonFile(userId, x.id));
             }
             connection.Close();
-            return JsonConvert.SerializeObject(x, Formatting.Indented);
+            return JsonConvert.SerializeObject(x, Formatting.None);
         } catch (Exception e) { return (e.Message); }
     }
 
@@ -132,8 +132,8 @@ public class Recipes : System.Web.Services.WebService {
             command.Parameters.Add(new SQLiteParameter("energy", x.energy));
             command.ExecuteNonQuery();
             connection.Close();
-            SaveJsonToFile(userId, x.id, JsonConvert.SerializeObject(x.data, Formatting.Indented));
-            return JsonConvert.SerializeObject(x, Formatting.Indented);
+            SaveJsonToFile(userId, x.id, JsonConvert.SerializeObject(x.data, Formatting.None));
+            return JsonConvert.SerializeObject(x, Formatting.None);
         } catch (Exception e) { return (e.Message); }
     }
 
@@ -191,7 +191,7 @@ public class Recipes : System.Web.Services.WebService {
                 xx.Add(x);
             }
             connection.Close();
-            return JsonConvert.SerializeObject(xx, Formatting.Indented);
+            return JsonConvert.SerializeObject(xx, Formatting.None);
         } catch (Exception e) { return (e.Message); }
     }
 
@@ -213,7 +213,7 @@ public class Recipes : System.Web.Services.WebService {
                 x.data = JsonConvert.DeserializeObject<JsonFile>(GetAppJsonFile(x.id, lang));
             }
             connection.Close();
-            return JsonConvert.SerializeObject(x, Formatting.Indented);
+            return JsonConvert.SerializeObject(x, Formatting.None);
         }
         catch (Exception e) { return (e.Message); }
     }

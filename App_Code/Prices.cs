@@ -94,7 +94,7 @@ public class Prices : System.Web.Services.WebService {
         x.unitPrice.currency = null;
         x.unitPrice.unit = "g";
         x.note = null;
-        string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+        string json = JsonConvert.SerializeObject(x, Formatting.None);
         return json;
     }
 
@@ -129,7 +129,7 @@ public class Prices : System.Web.Services.WebService {
                 xx.Add(x);
             }
             connection.Close();
-            string json = JsonConvert.SerializeObject(xx, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(xx, Formatting.None);
             return json;
         } catch (Exception e) { return ("Error: " + e); }
     }

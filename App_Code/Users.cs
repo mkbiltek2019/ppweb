@@ -162,7 +162,7 @@ public class Users : System.Web.Services.WebService {
             x.maxNumberOfUsers = 1;
             x.package = "";
             x.datasum = new DataSum();
-            string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(x, Formatting.None);
             return json;
         } catch (Exception e) { return ("Error: " + e); }
     }
@@ -213,7 +213,7 @@ public class Users : System.Web.Services.WebService {
             }
             connection.Close();
             x.datasum = GetDataSum(x.userGroupId, x.userId, x.userType, x.adminType);
-            string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(x, Formatting.None);
             return json;
         }
         catch (Exception e) { return ("Error: " + e); }
@@ -302,7 +302,7 @@ public class Users : System.Web.Services.WebService {
                 Files f = new Files();
                 UserConfig uc = new UserConfig();
                 uc.maxNumberOfUsers = x.maxNumberOfUsers;
-                string configJson = JsonConvert.SerializeObject(uc, Formatting.Indented);
+                string configJson = JsonConvert.SerializeObject(uc, Formatting.None);
                 f.SaveJsonToFile(string.Format("users/{0}", x.userGroupId), configFile, configJson);
             }
             //**************************************************************************
@@ -313,7 +313,7 @@ public class Users : System.Web.Services.WebService {
     [WebMethod]
     public string Load(int? limit, int? page) {
         try {
-            return JsonConvert.SerializeObject(GetUsers(limit, page), Formatting.Indented);
+            return JsonConvert.SerializeObject(GetUsers(limit, page), Formatting.None);
         } catch (Exception e) {
             return (e.Message);
         }
@@ -335,7 +335,7 @@ public class Users : System.Web.Services.WebService {
             x.city = GetCityCount(users);
             x.monthly = GetMonthlyUsers(users, year);
             x.clientapp = ca.GetClientAppUsers();
-            return JsonConvert.SerializeObject(x, Formatting.Indented);
+            return JsonConvert.SerializeObject(x, Formatting.None);
         } catch (Exception e) {
             return (e.Message);
         }
@@ -359,7 +359,7 @@ public class Users : System.Web.Services.WebService {
                 xx.Add(x);
                 i++;
             }
-            return JsonConvert.SerializeObject(xx, Formatting.Indented);
+            return JsonConvert.SerializeObject(xx, Formatting.None);
         } catch (Exception e) {
             return (e.Message);
         }
@@ -416,7 +416,7 @@ public class Users : System.Web.Services.WebService {
                 xx.Add(x);
             }
             connection.Close();
-            return JsonConvert.SerializeObject(xx, Formatting.Indented);
+            return JsonConvert.SerializeObject(xx, Formatting.None);
         } catch (Exception e) { return (e.Message); }
     }
 
@@ -463,7 +463,7 @@ public class Users : System.Web.Services.WebService {
             }
             connection.Close();
             x.datasum = GetDataSum(x.userGroupId, x.userId, x.userType, x.adminType);
-            string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(x, Formatting.None);
             return json;
         } catch (Exception e) { return (e.Message); }
     }
@@ -510,7 +510,7 @@ public class Users : System.Web.Services.WebService {
                 xx.Add(x);
             }
             connection.Close();
-            string json = JsonConvert.SerializeObject(xx, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(xx, Formatting.None);
             return json;
         } catch (Exception e) { return ("error: " + e); }
     }
@@ -617,7 +617,7 @@ public class Users : System.Web.Services.WebService {
                 response = t.Tran("password has been sent to your e-mail", lang);
             }
 
-            string json = JsonConvert.SerializeObject(response, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(response, Formatting.None);
             return json;
         } catch (Exception e) { return ("error: " + e); }
     }
@@ -625,7 +625,7 @@ public class Users : System.Web.Services.WebService {
     [WebMethod]
     public string GetUserSum(string userGroupId, string userId, int userType, int adminType) {
         try {
-            return JsonConvert.SerializeObject(GetDataSum(userGroupId, userId, userType, adminType), Formatting.Indented);
+            return JsonConvert.SerializeObject(GetDataSum(userGroupId, userId, userType, adminType), Formatting.None);
         } catch (Exception e) {
             return (e.Message);
         }
@@ -656,7 +656,7 @@ public class Users : System.Web.Services.WebService {
                 response = "your account has been successfully activated";
             }
             connection.Close();
-            string json = JsonConvert.SerializeObject(response, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(response, Formatting.None);
             return json;
         } catch (Exception e) { return ("Error: " + e); }
     }
@@ -692,7 +692,7 @@ public class Users : System.Web.Services.WebService {
             command.ExecuteNonQuery();
             connection.Close();
 
-            return JsonConvert.SerializeObject("OK", Formatting.Indented);
+            return JsonConvert.SerializeObject("OK", Formatting.None);
         } catch (Exception e) {
             return (e.Message);
         }
@@ -776,7 +776,7 @@ public class Users : System.Web.Services.WebService {
         x.licenceStatus = active;
         x.ipAddress = "";
 
-        string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+        string json = JsonConvert.SerializeObject(x, Formatting.None);
         return json;
     }
 

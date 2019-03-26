@@ -71,7 +71,7 @@ public class Menues : System.Web.Services.WebService {
         data.meals = new List<Meals.NewMeal>();
         x.data = data;
 
-        string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+        string json = JsonConvert.SerializeObject(x, Formatting.None);
         return json;
     }
 
@@ -102,7 +102,7 @@ public class Menues : System.Web.Services.WebService {
                 xx.Add(x);
             }
             connection.Close();
-            string json = JsonConvert.SerializeObject(xx, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(xx, Formatting.None);
             return json;
         } catch (Exception e) { return (e.Message); }
     }
@@ -134,7 +134,7 @@ public class Menues : System.Web.Services.WebService {
                 xx.Add(x);
             }
             connection.Close();
-            string json = JsonConvert.SerializeObject(xx, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(xx, Formatting.None);
             return json;
         } catch (Exception e) { return (e.Message); }
     }
@@ -167,7 +167,7 @@ public class Menues : System.Web.Services.WebService {
                 x.client.clientData.myMeals = JsonConvert.DeserializeObject<MyMeals.NewMyMeals>(GetMyMealsJsonFile(userId, x.id));
             }
             connection.Close();
-            string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(x, Formatting.None);
             return json;
         } catch (Exception e) { return (e.Message); }
     }
@@ -208,15 +208,15 @@ public class Menues : System.Web.Services.WebService {
                 command.Parameters.Add(new SQLiteParameter("energy", x.energy));
                 command.ExecuteNonQuery();
                 connection.Close();
-                SaveJsonToFile(userId, x.id, JsonConvert.SerializeObject(x.data, Formatting.Indented));
+                SaveJsonToFile(userId, x.id, JsonConvert.SerializeObject(x.data, Formatting.None));
                 if(myMeals != null) {
                     if(myMeals.data != null) {
                         if(myMeals.data.meals.Count > 2) {
-                            SaveMyMealsJsonToFile(userId, x.id, JsonConvert.SerializeObject(myMeals, Formatting.Indented));
+                            SaveMyMealsJsonToFile(userId, x.id, JsonConvert.SerializeObject(myMeals, Formatting.None));
                         }
                     }
                 }
-                string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+                string json = JsonConvert.SerializeObject(x, Formatting.None);
                 return json;
             } catch (Exception e) { return (e.Message); }
         }
@@ -261,7 +261,7 @@ public class Menues : System.Web.Services.WebService {
                 xx.Add(x);
             }
             connection.Close();
-            string json = JsonConvert.SerializeObject(xx, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(xx, Formatting.None);
             return json;
         } catch (Exception e) { return (e.Message); }
     }
@@ -294,7 +294,7 @@ public class Menues : System.Web.Services.WebService {
 
             connection.Close();
 
-            string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(x, Formatting.None);
             return json;
         } catch (Exception e) { return (e.Message); }
     }
@@ -313,8 +313,8 @@ public class Menues : System.Web.Services.WebService {
             command = new SQLiteCommand(sql, connection);
             command.ExecuteNonQuery();
             connection.Close();
-            SaveAppMenuJsonToFile(id, lang, JsonConvert.SerializeObject(x.data, Formatting.Indented));
-            string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+            SaveAppMenuJsonToFile(id, lang, JsonConvert.SerializeObject(x.data, Formatting.None));
+            string json = JsonConvert.SerializeObject(x, Formatting.None);
             return json;
         } catch (Exception e) { return (e.Message); }
     }

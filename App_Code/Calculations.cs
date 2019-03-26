@@ -78,7 +78,7 @@ public class Calculations : System.Web.Services.WebService {
         x.recommendedEnergyExpenditure = 0;
         x.recommendedWeight = new RecommenderWeight();
         x.goal = new Goals.NewGoal();
-        return JsonConvert.SerializeObject(x, Formatting.Indented);
+        return JsonConvert.SerializeObject(x, Formatting.None);
     }
 
     [WebMethod]
@@ -93,7 +93,7 @@ public class Calculations : System.Web.Services.WebService {
         x.recommendedEnergyExpenditure = RecommendedEnergyExpenditure(client);
         x.recommendedWeight = RecommendedWeight(client);
         x.goal = RecommendedGoal(client);
-        return JsonConvert.SerializeObject(x, Formatting.Indented);
+        return JsonConvert.SerializeObject(x, Formatting.None);
     }
 
     [WebMethod]
@@ -116,7 +116,7 @@ public class Calculations : System.Web.Services.WebService {
                 xx.Add(x);
             }
             connection.Close();
-            string json = JsonConvert.SerializeObject(xx, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(xx, Formatting.None);
             return json;
         } catch (Exception e) { return ("Error: " + e); }
     }
@@ -128,7 +128,7 @@ public class Calculations : System.Web.Services.WebService {
         try {
             Pal x = new Pal();
             x = GetPal(palValue);
-            string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(x, Formatting.None);
             return json;
         } catch (Exception e) { return ("Error: " + e); }
     }
@@ -346,7 +346,7 @@ public class Calculations : System.Web.Services.WebService {
     [WebMethod]
     public string SaveMyCalculation(string userId, string clientId, Calculations.NewCalculation myCalculation) {
         try {
-            return SaveJsonToFile(userId, clientId, JsonConvert.SerializeObject(myCalculation, Formatting.Indented));
+            return SaveJsonToFile(userId, clientId, JsonConvert.SerializeObject(myCalculation, Formatting.None));
         } catch (Exception e) { return ("Error: " + e); }
     }
 
@@ -373,7 +373,7 @@ public class Calculations : System.Web.Services.WebService {
     [WebMethod]
     public string GetMyCalculation(string userId, string clientId) {
         try {
-            return JsonConvert.SerializeObject(GetJsonFile(userId, clientId), Formatting.Indented);
+            return JsonConvert.SerializeObject(GetJsonFile(userId, clientId), Formatting.None);
         } catch (Exception e) { return ("Error: " + e); }
     }
 

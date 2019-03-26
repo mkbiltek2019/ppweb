@@ -63,7 +63,7 @@ public class MyMeals : System.Web.Services.WebService {
         data.meals = mm;
         data.energyPerc = ee;
         x.data = data;
-        return JsonConvert.SerializeObject(x, Formatting.Indented);
+        return JsonConvert.SerializeObject(x, Formatting.None);
     }
 
     [WebMethod]
@@ -165,13 +165,13 @@ public class MyMeals : System.Web.Services.WebService {
         data.meals = mm;
         data.energyPerc = ee;
         x.data = data;
-        return JsonConvert.SerializeObject(x, Formatting.Indented);
+        return JsonConvert.SerializeObject(x, Formatting.None);
     }
 
     [WebMethod]
     public string Load(string userId) {
         try {
-            return JsonConvert.SerializeObject(LoadMeals(userId), Formatting.Indented);
+            return JsonConvert.SerializeObject(LoadMeals(userId), Formatting.None);
         } catch (Exception e) { return (e.Message); }
     }
 
@@ -193,7 +193,7 @@ public class MyMeals : System.Web.Services.WebService {
                 x.data = JsonConvert.DeserializeObject<JsonFile>(GetJsonFile(userId, id));
             }
             connection.Close();
-            return JsonConvert.SerializeObject(x, Formatting.Indented);
+            return JsonConvert.SerializeObject(x, Formatting.None);
         } catch (Exception e) { return (e.Message); }
     }
 
@@ -224,8 +224,8 @@ public class MyMeals : System.Web.Services.WebService {
                     x.data.energyPerc[idx].meal.code = m.code;
                     idx++;
                 }*/
-                SaveJsonToFile(userId, x.id, JsonConvert.SerializeObject(x.data, Formatting.Indented));
-                return JsonConvert.SerializeObject(x, Formatting.Indented);
+                SaveJsonToFile(userId, x.id, JsonConvert.SerializeObject(x.data, Formatting.None));
+                return JsonConvert.SerializeObject(x, Formatting.None);
             }
         } catch (Exception e) { return (e.Message); }
     }
@@ -241,7 +241,7 @@ public class MyMeals : System.Web.Services.WebService {
             connection.Close();
             DeleteJson(userId, id);
             List<NewMyMeals> xx = LoadMeals(userId);
-            return JsonConvert.SerializeObject(xx, Formatting.Indented);
+            return JsonConvert.SerializeObject(xx, Formatting.None);
         } catch (Exception e) { return (e.Message); }
     }
 

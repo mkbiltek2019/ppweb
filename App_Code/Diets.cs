@@ -52,7 +52,7 @@ public class Diets : System.Web.Services.WebService {
         x.saturatedFatsMin = 0;
         x.saturatedFatsMax = 0;
         x.note = "";
-        string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+        string json = JsonConvert.SerializeObject(x, Formatting.None);
         return json;
     }
 
@@ -85,7 +85,7 @@ public class Diets : System.Web.Services.WebService {
                 xx.Add(x);
             }
             connection.Close();
-            string json = JsonConvert.SerializeObject(xx, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(xx, Formatting.None);
             return json;
         } catch (Exception e) { return ("Error: " + e); }
     }
@@ -117,7 +117,7 @@ public class Diets : System.Web.Services.WebService {
                 x.note = reader.GetValue(11) == DBNull.Value ? "" : reader.GetString(11);
             }
             connection.Close();
-            string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(x, Formatting.None);
             return json;
         } catch (Exception e) { return ("Error: " + e); }
     }

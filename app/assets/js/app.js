@@ -4872,7 +4872,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $http({
                 url: $sessionStorage.config.backend + 'ShoppingList.asmx/Create',
                 method: "POST",
-                data: { x: x, consumers: c }
+                data: { x: x, consumers: c, lang: $rootScope.config.language }
             })
             .then(function (response) {
                 $scope.d = JSON.parse(response.data.d);
@@ -6297,7 +6297,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + 'ShoppingList.asmx/CreateWeeklyShoppingList',
             method: "POST",
-            data: { userId: $sessionStorage.usergroupid, menuList: x, consumers: c }
+            data: { userId: $sessionStorage.usergroupid, menuList: x, consumers: c, lang: $rootScope.config.language }
         })
         .then(function (response) {
             var shoppingList = JSON.parse(response.data.d);

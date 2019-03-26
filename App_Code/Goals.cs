@@ -30,7 +30,7 @@ public class Goals : System.Web.Services.WebService {
     public string Load() {
         try {
             List<NewGoal> xx = GetGoals();
-            string json = JsonConvert.SerializeObject(xx, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(xx, Formatting.None);
             return json;
         } catch (Exception e) { return ("Error: " + e); }
     }
@@ -39,7 +39,7 @@ public class Goals : System.Web.Services.WebService {
     public string Get(string code) {
         try {
             NewGoal x  = GetGoal(code);
-            string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(x, Formatting.None);
             return json;
         } catch (Exception e) { return ("Error: " + e); }
     }

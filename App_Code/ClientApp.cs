@@ -33,7 +33,7 @@ public class ClientApp : System.Web.Services.WebService {
     [WebMethod]
     public string Get(string clientId) {
         try {
-            return JsonConvert.SerializeObject(GetCode(clientId), Formatting.Indented);
+            return JsonConvert.SerializeObject(GetCode(clientId), Formatting.None);
         } catch (Exception e) { return null; }
     }
 
@@ -58,7 +58,7 @@ public class ClientApp : System.Web.Services.WebService {
                 command.ExecuteNonQuery();
                 connection.Close();
             }
-            return JsonConvert.SerializeObject(x, Formatting.Indented);
+            return JsonConvert.SerializeObject(x, Formatting.None);
         } catch (Exception e) {
             return null;
         }
@@ -83,7 +83,7 @@ public class ClientApp : System.Web.Services.WebService {
                 x.lang = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
             }
             connection.Close();
-            return JsonConvert.SerializeObject(x, Formatting.Indented);
+            return JsonConvert.SerializeObject(x, Formatting.None);
         } catch (Exception e) { return null; }
     }
     #endregion Web Methods

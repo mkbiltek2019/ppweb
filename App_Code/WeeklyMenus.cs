@@ -48,13 +48,13 @@ public class WeeklyMenus : System.Web.Services.WebService {
         x.client = client;
         x.userId = user.userId;
         x.userGroupId = user.userGroupId;
-        return JsonConvert.SerializeObject(x, Formatting.Indented);
+        return JsonConvert.SerializeObject(x, Formatting.None);
     }
 
      [WebMethod]
     public string Load(string userId, string lang) {
         try {
-            return JsonConvert.SerializeObject(LoadWeeklyMenus(userId, lang), Formatting.Indented);
+            return JsonConvert.SerializeObject(LoadWeeklyMenus(userId, lang), Formatting.None);
         } catch (Exception e) { return (e.Message); }
     }
 
@@ -86,7 +86,7 @@ public class WeeklyMenus : System.Web.Services.WebService {
                 x.userGroupId = reader.GetValue(11) == DBNull.Value ? "" : reader.GetString(11);
             }
             connection.Close();
-            return JsonConvert.SerializeObject(x, Formatting.Indented);
+            return JsonConvert.SerializeObject(x, Formatting.None);
         } catch (Exception e) { return (e.Message); }
     }
 
@@ -111,7 +111,7 @@ public class WeeklyMenus : System.Web.Services.WebService {
                 command = new SQLiteCommand(sql, connection);
                 command.ExecuteNonQuery();
                 connection.Close();
-                return JsonConvert.SerializeObject(x, Formatting.Indented);
+                return JsonConvert.SerializeObject(x, Formatting.None);
             }
         } catch (Exception e) { return (e.Message); }
     }
@@ -126,7 +126,7 @@ public class WeeklyMenus : System.Web.Services.WebService {
             command.ExecuteNonQuery();
             connection.Close();
             List<NewWeeklyMenus> xx = LoadWeeklyMenus(userId, lang);
-            return JsonConvert.SerializeObject(xx, Formatting.Indented);
+            return JsonConvert.SerializeObject(xx, Formatting.None);
         } catch (Exception e) { return (e.Message); }
     }
 

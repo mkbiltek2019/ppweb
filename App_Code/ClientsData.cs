@@ -82,7 +82,7 @@ public class ClientsData : System.Web.Services.WebService {
         x.userId = null;
         x.dailyActivities = new DetailEnergyExpenditure.Activities();
         x.myMeals = new MyMeals.NewMyMeals();
-        string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+        string json = JsonConvert.SerializeObject(x, Formatting.None);
         return json;
     }
 
@@ -127,7 +127,7 @@ public class ClientsData : System.Web.Services.WebService {
                 xx.Add(x);
             }
             connection.Close();
-            string json = JsonConvert.SerializeObject(xx, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(xx, Formatting.None);
             return json;
         } catch (Exception e) { return ("Error: " + e); }
     }
@@ -157,9 +157,9 @@ public class ClientsData : System.Web.Services.WebService {
             command.Parameters.Add(new SQLiteParameter("hip", x.hip));
             command.Parameters.Add(new SQLiteParameter("pal", x.pal.value));
             command.Parameters.Add(new SQLiteParameter("goal", x.goal.code));
-            command.Parameters.Add(new SQLiteParameter("activities", JsonConvert.SerializeObject(x.activities, Formatting.Indented)));
-            command.Parameters.Add(new SQLiteParameter("diet", JsonConvert.SerializeObject(x.diet, Formatting.Indented)));
-            command.Parameters.Add(new SQLiteParameter("meals", JsonConvert.SerializeObject(x.meals, Formatting.Indented)));
+            command.Parameters.Add(new SQLiteParameter("activities", JsonConvert.SerializeObject(x.activities, Formatting.None)));
+            command.Parameters.Add(new SQLiteParameter("diet", JsonConvert.SerializeObject(x.diet, Formatting.None)));
+            command.Parameters.Add(new SQLiteParameter("meals", JsonConvert.SerializeObject(x.meals, Formatting.None)));
             command.Parameters.Add(new SQLiteParameter("date", x.date));
             command.Parameters.Add(new SQLiteParameter("userId", x.userId));
             command.ExecuteNonQuery();
@@ -179,7 +179,7 @@ public class ClientsData : System.Web.Services.WebService {
             NewClientData x = new NewClientData();
             x = GetClientData(userId, clientId, connection);
             connection.Close();
-            string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(x, Formatting.None);
             return json;
         } catch (Exception e) { return ("Error: " + e); }
     }
@@ -223,7 +223,7 @@ public class ClientsData : System.Web.Services.WebService {
                 xx.Add(x);
             }
             connection.Close();
-            string json = JsonConvert.SerializeObject(xx, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(xx, Formatting.None);
             return json;
         } catch (Exception e) { return ("Error: " + e); }
     }
@@ -376,7 +376,7 @@ public class ClientsData : System.Web.Services.WebService {
                 string path = string.Format("~/App_Data/users/{0}/clients/{1}", userId, clientId);
                 string filepath = string.Format("{0}/myMeals.json", path);
                 CreateFolder(path);
-                WriteFile(filepath, JsonConvert.SerializeObject(myMeals, Formatting.Indented));
+                WriteFile(filepath, JsonConvert.SerializeObject(myMeals, Formatting.None));
             }
         }
         catch (Exception e) {}

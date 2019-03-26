@@ -22,6 +22,7 @@ public class PrintPdf : System.Web.Services.WebService {
     string dataBase = ConfigurationManager.AppSettings["UserDataBase"];
     DataBase db = new DataBase();
     Translate t = new Translate();
+    ShoppingList sl = new ShoppingList();
 
     Font courier = new Font(Font.COURIER, 9f);
     string logoPPPath = HttpContext.Current.Server.MapPath(string.Format("~/app/assets/img/logo.png"));
@@ -67,7 +68,7 @@ public class PrintPdf : System.Web.Services.WebService {
         x.showTotals = true;
         x.showPrice = false;
         x.showActivities = true;
-        return JsonConvert.SerializeObject(x, Formatting.Indented);
+        return JsonConvert.SerializeObject(x, Formatting.None);
     }
 
     [WebMethod]
@@ -903,8 +904,8 @@ public class PrintPdf : System.Web.Services.WebService {
             ShoppingList.NewShoppingList groupedFoods = sl.Deserialize(shoppingList);
             foreach (var f in groupedFoods.foods) {
                 table.AddCell(new PdfPCell(new Phrase(f.food, GetFont())) { Border = 0 });
-                table.AddCell(new PdfPCell(new Phrase((settings.showQty ? SmartQty(f, lang) : ""), GetFont())) { Border = 0 });
-                table.AddCell(new PdfPCell(new Phrase((settings.showMass ? SmartMass(f.mass, lang) : ""), GetFont())) { Border = 0 });
+                table.AddCell(new PdfPCell(new Phrase((settings.showQty ? sl.SmartQty(f.id, f.qty, f.unit, f.mass, lang) : ""), GetFont())) { Border = 0 });
+                table.AddCell(new PdfPCell(new Phrase((settings.showMass ? sl.SmartMass(f.mass, lang) : ""), GetFont())) { Border = 0 });
                 table.AddCell(new PdfPCell(new Phrase((settings.showPrice ? f.price.ToString() + " " + (string.IsNullOrEmpty(f.currency) ? "" : f.currency.ToUpper()) : ""), GetFont())) { Border = 0 });
             }
 
@@ -963,8 +964,8 @@ public class PrintPdf : System.Web.Services.WebService {
             ShoppingList.NewShoppingList groupedFoods = sl.Deserialize(shoppingList);
             foreach (var f in groupedFoods.foods) {
                 table.AddCell(new PdfPCell(new Phrase(f.food, GetFont())) { Border = 0 });
-                table.AddCell(new PdfPCell(new Phrase((settings.showQty ? SmartQty(f, lang) : ""), GetFont())) { Border = 0 });
-                table.AddCell(new PdfPCell(new Phrase((settings.showMass ? SmartMass(f.mass, lang) : ""), GetFont())) { Border = 0 });
+                table.AddCell(new PdfPCell(new Phrase((settings.showQty ? sl.SmartQty(f.id, f.qty, f.unit, f.mass, lang) : ""), GetFont())) { Border = 0 });
+                table.AddCell(new PdfPCell(new Phrase((settings.showMass ? sl.SmartMass(f.mass, lang) : ""), GetFont())) { Border = 0 });
                 table.AddCell(new PdfPCell(new Phrase((settings.showPrice ? f.price.ToString() + " " + (string.IsNullOrEmpty(f.currency) ? "" : f.currency.ToUpper()) : ""), GetFont())) { Border = 0 });
             }
 
@@ -1229,8 +1230,8 @@ IBAN HR8423400091160342496
                     foreach (Foods.NewFood food in meal) {
                         sb.AppendLine(string.Format(@"- {0}{1}{2}{3}"
                             , food.food
-                            , string.Format(@"{0}", settings.showQty ? string.Format(@", {0} {1}", food.quantity, food.unit) : "")
-                            , string.Format(@" {0}", settings.showMass ? SmartMass(food.mass, lang) : "")
+                            , string.Format(@", {0}", settings.showQty ? sl.SmartQty(food.id, food.quantity, food.unit, food.mass, lang) : "")
+                            , string.Format(@", {0}", settings.showMass ? sl.SmartMass(food.mass, lang) : "")
                             , string.Format(@"{0}", settings.showServ && !string.IsNullOrEmpty(getServingDescription(food.servings, lang)) ? string.Format(@", ({0})", getServingDescription(food.servings, lang)) : "")));
                     }
                     sb.AppendLine("________________________________________________________________________");
@@ -1330,8 +1331,8 @@ IBAN HR8423400091160342496
                         foreach (Foods.NewFood f in meal_) {
                             p.Add(new Chunk(string.Format(@"- {0}", f.food), GetFont()));
                             p.Add(new Chunk(string.Format(@"{0}{1}{2}"
-                                    , settings.showQty ? string.Format(", {0} {1}", f.quantity, f.unit) : ""
-                                    , settings.showMass ? string.Format(", {0}", SmartMass(f.mass, lang)) : ""
+                                    , settings.showQty ? string.Format(", {0}", sl.SmartQty(f.id, f.quantity, f.unit, f.mass, lang)) : ""
+                                    , settings.showMass ? string.Format(", {0}", sl.SmartMass(f.mass, lang)) : ""
                                     , settings.showServ && !string.IsNullOrEmpty(getServingDescription(f.servings, lang)) ? string.Format(", ({0})", getServingDescription(f.servings, lang)) : ""), font_qty));
                             p.Add(new Chunk("\n", GetFont()));
                         }
@@ -1510,42 +1511,6 @@ IBAN HR8423400091160342496
             , t.Tran("hip", lang), clientData.hip == 0 ? "---" : clientData.hip.ToString()
             , t.Tran("physical activity level", lang), t.Tran(clientData.pal.title, lang), t.Tran(clientData.pal.description, lang));
         return c;
-    }
-
-    private string SmartMass(double mass, string lang) {
-        if(mass > 999) {
-            return string.Format("{0} {1}", Math.Round((mass/1000),1), t.Tran("kg", lang));
-        } else {
-            return string.Format("{0} {1}", Math.Round(mass, 0), t.Tran("g", lang));
-        }
-    }
-
-    private string SmartQty(ShoppingList.Food f, string lang) {
-        //TODO
-        Foods food = new Foods();
-        double baseunit = 0;
-        double qty = f.qty;
-        string unit = f.unit;
-        string unit_ = food.GetUnit(qty, unit);
-        switch (f.id) {
-            case "4592323d-95aa-425f-8794-931886c0b70c":  // bread white
-                baseunit = 700;
-                unit = "loaf";
-                break;
-            case "a45d8e18-1310-48e1-878c-8d69655180a9":  // bread french
-                baseunit = 300;
-                unit = "loaf";
-                break;
-        }
-        if (baseunit > 0) {
-            qty = Math.Round(f.mass / baseunit, 1);
-            unit_ = food.GetUnit(qty, t.Tran(unit, lang));
-        }
-
-        return string.Format("{0} {1}{2}"
-            , qty.ToString()
-            , unit_
-            , baseunit > 0 ? string.Format(" (1 {0} = {1} {2})", t.Tran(unit, lang), baseunit, t.Tran("g", lang)) : "");
     }
     #endregion Methods
 

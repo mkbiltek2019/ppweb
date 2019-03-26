@@ -68,7 +68,7 @@ public class Orders : System.Web.Services.WebService {
             x.orderDate = DateTime.Now.ToString();
             x.additionalService = "";
             x.note = "";
-        string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+        string json = JsonConvert.SerializeObject(x, Formatting.None);
         return json;
     }
 
@@ -108,7 +108,7 @@ public class Orders : System.Web.Services.WebService {
                 xx.Add(x);
             }
             connection.Close();
-            string json = JsonConvert.SerializeObject(xx, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(xx, Formatting.None);
             return json;
         } catch (Exception e) { return ("Error: " + e); }
     }

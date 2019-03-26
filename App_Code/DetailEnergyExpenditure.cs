@@ -80,19 +80,19 @@ public class DetailEnergyExpenditure : System.Web.Services.WebService {
         x.to.min = 0;
         x.duration = 0;
         x.energy = 0;
-        string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+        string json = JsonConvert.SerializeObject(x, Formatting.None);
         return json;
     }
 
     [WebMethod]
     public string Save(string userId, string clientId, List<Activity> activities) {
         try {
-            SaveJsonToFile(userId, clientId, JsonConvert.SerializeObject(activities, Formatting.Indented));
+            SaveJsonToFile(userId, clientId, JsonConvert.SerializeObject(activities, Formatting.None));
             Activities x = new Activities();
             x.activities = activities;
             x.energy = x.activities.Sum(a => a.energy);
             x.duration = x.activities.Sum(a => a.duration);
-            return JsonConvert.SerializeObject(x, Formatting.Indented);
+            return JsonConvert.SerializeObject(x, Formatting.None);
         } catch (Exception e) { return ("Error: " + e); }
     }
 

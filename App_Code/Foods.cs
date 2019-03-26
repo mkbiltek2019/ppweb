@@ -372,7 +372,7 @@ public class Foods : System.Web.Services.WebService {
         data.foodGroups = GetMainFoodGroups(connection);
         data.units = Units();
 
-        string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+        string json = JsonConvert.SerializeObject(data, Formatting.None);
         return json;
     }
 
@@ -390,7 +390,7 @@ public class Foods : System.Web.Services.WebService {
         x.pantothenicAcid = 0;
         x.biotin = 0;
         x.vitaminC = 0;
-        string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+        string json = JsonConvert.SerializeObject(x, Formatting.None);
         return json;
     }
 
@@ -425,7 +425,7 @@ public class Foods : System.Web.Services.WebService {
             MyFoods.Data myf = new MyFoods.Data();
             foodData.myFoods = myf.GetMyFoods(userId);
 
-            string json = JsonConvert.SerializeObject(foodData, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(foodData, Formatting.None);
             return json;
         } catch (Exception e) { return ("Error: " + e); }
     }
@@ -525,7 +525,7 @@ public class Foods : System.Web.Services.WebService {
             x.price = p.GetUnitPrice(userId, x.id);
             x.price.value = (x.price.value * x.mass)/1000;
 
-            string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(x, Formatting.None);
             return json;
         }
         catch (Exception e) { return ("Error: " + e); }
@@ -608,7 +608,7 @@ public class Foods : System.Web.Services.WebService {
             //x.price.unit = selectedFoods[0].price.unit;
        // }
 
-        string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+        string json = JsonConvert.SerializeObject(x, Formatting.None);
         return json;
     }
 
@@ -683,7 +683,7 @@ public class Foods : System.Web.Services.WebService {
         x.vitaminC = VitaminCRecommendation(client);
         x.vitaminK = VitaminKRecommendation(client);
 
-        string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+        string json = JsonConvert.SerializeObject(x, Formatting.None);
         return json;
     }
 
@@ -713,19 +713,19 @@ public class Foods : System.Web.Services.WebService {
                 x = IncludeTT(initFood, x, thermalTreatment);
             }
         }
-        string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+        string json = JsonConvert.SerializeObject(x, Formatting.None);
         return json;
     }
 
     [WebMethod]
     public string GetUnits() {
-      return JsonConvert.SerializeObject(Units(), Formatting.Indented);
+      return JsonConvert.SerializeObject(Units(), Formatting.None);
     }
 
     [WebMethod]
     public string ChangeNumberOfConsumers(List<NewFood> foods, int number){
         try {
-            return JsonConvert.SerializeObject(MultipleConsumers(foods, number), Formatting.Indented);
+            return JsonConvert.SerializeObject(MultipleConsumers(foods, number), Formatting.None);
         } catch (Exception e) {
             return e.Message;
         }
@@ -752,7 +752,7 @@ public class Foods : System.Web.Services.WebService {
                 });
             }
             connection.Close();
-            string json = JsonConvert.SerializeObject(xx, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(xx, Formatting.None);
             return json;
         } catch (Exception e) { return ("Error: " + e); }
     }
@@ -760,14 +760,14 @@ public class Foods : System.Web.Services.WebService {
     [WebMethod]
     public string IncludeThermalTreatment(NewFood initFood, NewFood food, ThermalTreatment thermalTreatment) {
         try {
-            return JsonConvert.SerializeObject(IncludeTT(initFood, food, thermalTreatment), Formatting.Indented);
+            return JsonConvert.SerializeObject(IncludeTT(initFood, food, thermalTreatment), Formatting.None);
         } catch (Exception e) { return ("Error: " + e); }
     }
 
     [WebMethod]
     public string InitFoodForEdit(NewFood food) {
         try {
-            return JsonConvert.SerializeObject(InitFood(food), Formatting.Indented);
+            return JsonConvert.SerializeObject(InitFood(food), Formatting.None);
         } catch (Exception e) { return ("Error: " + e); }
     }
     #endregion

@@ -82,7 +82,7 @@ public class MyFoods : System.Web.Services.WebService {
             foodData.foodGroups = null;
 
             connection.Close();
-            string json = JsonConvert.SerializeObject(foodData, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(foodData, Formatting.None);
             return json;
         } catch (Exception e) { return ("Error: " + e); }
     }
@@ -185,7 +185,7 @@ public class MyFoods : System.Web.Services.WebService {
             Prices.NewPrice p = new Prices.NewPrice();
             x.price = p.GetUnitPrice(userId, x.id);
 
-            string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(x, Formatting.None);
             return json;
         } catch (Exception e) { return ("Error: " + e); }
     }

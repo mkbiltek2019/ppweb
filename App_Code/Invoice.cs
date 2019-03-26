@@ -87,7 +87,7 @@ public class Invoice : System.Web.Services.WebService {
         x.isPaid = false;
         x.paidAmount = 0;
         x.paidDate = null;
-        string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+        string json = JsonConvert.SerializeObject(x, Formatting.None);
         return json;
     }
 
@@ -113,7 +113,7 @@ public class Invoice : System.Web.Services.WebService {
         x.isPaid = false;
         x.paidAmount = 0;
         x.paidDate = null;
-        string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+        string json = JsonConvert.SerializeObject(x, Formatting.None);
         return json;
     }
 
@@ -156,7 +156,7 @@ public class Invoice : System.Web.Services.WebService {
             xx.data = xx.data.Where(a => a.year == year).OrderByDescending(a => a.number).ToList();
 
             connection.Close();
-            string json = JsonConvert.SerializeObject(xx, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(xx, Formatting.None);
             return json;
         } catch (Exception e) { return ("Error: " + e); }
     }
@@ -209,14 +209,14 @@ public class Invoice : System.Web.Services.WebService {
             command.Parameters.Add(new SQLiteParameter("country", x.country));
             command.Parameters.Add(new SQLiteParameter("pin", x.pin));
             command.Parameters.Add(new SQLiteParameter("note", x.note));
-            command.Parameters.Add(new SQLiteParameter("items", JsonConvert.SerializeObject(x.items, Formatting.Indented)));
+            command.Parameters.Add(new SQLiteParameter("items", JsonConvert.SerializeObject(x.items, Formatting.None)));
             command.Parameters.Add(new SQLiteParameter("isPaid", x.isPaid));
             command.Parameters.Add(new SQLiteParameter("paidAmount", x.paidAmount));
             command.Parameters.Add(new SQLiteParameter("paidDate", x.paidDate));
 
             command.ExecuteNonQuery();
             connection.Close();
-            return JsonConvert.SerializeObject(x, Formatting.Indented);
+            return JsonConvert.SerializeObject(x, Formatting.None);
         } catch (Exception e) { return e.Message; }
     }
 

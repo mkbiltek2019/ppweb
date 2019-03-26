@@ -42,7 +42,7 @@ public class Activities : System.Web.Services.WebService {
         x.activity = "";
         x.factorKcal = 0.0;
         x.isSport = 1;
-        string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+        string json = JsonConvert.SerializeObject(x, Formatting.None);
         return json;
     }
 
@@ -52,7 +52,7 @@ public class Activities : System.Web.Services.WebService {
         x.id = 0;
         x.activity = "";
         x.duration = 0.0;
-        string json = JsonConvert.SerializeObject(x, Formatting.Indented);
+        string json = JsonConvert.SerializeObject(x, Formatting.None);
         return json;
     }
 
@@ -79,7 +79,7 @@ public class Activities : System.Web.Services.WebService {
                 xx.Add(x);
             }
             connection.Close();
-            string json = JsonConvert.SerializeObject(xx, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(xx, Formatting.None);
             return json;
         } catch (Exception e) { return ("Error: " + e); }
     }
