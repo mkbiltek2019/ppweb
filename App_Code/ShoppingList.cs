@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Services;
+using System.Configuration;
 using Newtonsoft.Json;
+using System.Data.SQLite;
 using Igprog;
 
 /// <summary>
@@ -13,12 +15,13 @@ using Igprog;
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [System.Web.Script.Services.ScriptService]
 public class ShoppingList : System.Web.Services.WebService {
+    string dataBase = ConfigurationManager.AppSettings["AppDataBase"];
     Translate t = new Translate();
 
     public ShoppingList() {
     }
 
-
+    #region Classes
     public class NewShoppingList {
         public List<Food> foods;
         public Total total;
@@ -41,7 +44,15 @@ public class ShoppingList : System.Web.Services.WebService {
         public string currency;
     }
 
+    public class FoodQty {
+        public string id;
+        public string food;
+        public double qty;
+        public string unit;
+    }
+    #endregion
 
+    #region WebMethods
     [WebMethod]
     public string Create(List<Foods.NewFood> x, int consumers, string lang) {
         try {
@@ -67,8 +78,11 @@ public class ShoppingList : System.Web.Services.WebService {
             return e.Message;
         }
     }
+    #endregion
 
+    #region Methods
     public object CreateShoppingList(List<Foods.NewFood> x, int consumers, string lang) {
+        List<FoodQty> fq = LoadFoodQty();
         object res = new object();
         List<Foods.NewFood> list = new List<Foods.NewFood>();
         Foods f = new Foods();
@@ -88,6 +102,7 @@ public class ShoppingList : System.Web.Services.WebService {
                                 , a.Sum(q => q.quantity)
                                 , f.GetUnit(a.Sum(q => q.quantity), a.Select(u => u.unit).FirstOrDefault())
                                 , Math.Round(a.Sum(m => m.mass), 0)
+                                , fq
                                 , lang),
             smartMass = SmartMass(Math.Round(a.Sum(m => m.mass), 0), lang),
             price = Math.Round(a.Sum(p => p.price.value), 2),
@@ -105,6 +120,27 @@ public class ShoppingList : System.Web.Services.WebService {
         return res;
     }
 
+    public List<FoodQty> LoadFoodQty() {
+        try {
+            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
+            connection.Open();
+            string sql = "SELECT id, food, qty, unit FROM foodQty";
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+            List<FoodQty> xx = new List<FoodQty>();
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read()) {
+                FoodQty x = new FoodQty();
+                x.id = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
+                x.food = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
+                x.qty = reader.GetValue(2) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(2));
+                x.unit = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
+                xx.Add(x);
+            }
+            connection.Close();
+            return xx;
+        } catch (Exception e) { return new List<FoodQty>(); }
+    }
+
     public NewShoppingList Deserialize(object x) {
         NewShoppingList sl = new NewShoppingList();
         string json = JsonConvert.SerializeObject(x, Formatting.None);
@@ -119,29 +155,26 @@ public class ShoppingList : System.Web.Services.WebService {
         }
     }
 
-    public string SmartQty(string id, double qty, string unit, double mass, string lang) {
+    public string SmartQty(string id, double qty, string unit, double mass, List<FoodQty> foodQty, string lang) {
         Foods food = new Foods();
-        double baseunit = 0;
+        double baseQty = 0;
         string unit_ = food.GetUnit(qty, unit);
-        switch (id) {
-            case "4592323d-95aa-425f-8794-931886c0b70c":  // bread white
-                baseunit = 500;
-                unit = "loaf";
-                break;
-            case "a45d8e18-1310-48e1-878c-8d69655180a9":  // bread french
-                baseunit = 300;
-                unit = "loaf";
-                break;
+        FoodQty fq = foodQty.Where(a => a.id == id).FirstOrDefault();
+
+        if (fq != null) {
+            baseQty = fq.qty;
+            unit = fq.unit;
         }
-        if (baseunit > 0 && mass > baseunit) {
-            qty = Math.Round(mass / baseunit, 1);
+        if (baseQty > 0 && mass > baseQty) {
+            qty = Math.Round(mass / baseQty, 1);
             unit_ = food.GetUnit(qty, t.Tran(unit, lang));
         }
 
         return string.Format("{0} {1}{2}"
             , qty.ToString()
             , unit_
-            , baseunit > 0 && mass > baseunit ? string.Format(" (1 {0} = {1} {2})", t.Tran(unit, lang), baseunit, t.Tran("g", lang)) : "");
+            , baseQty > 0 && mass > baseQty ? string.Format(" (1 {0} = {1} {2})", t.Tran(unit, lang), baseQty, t.Tran("g", lang)) : "");
     }
+    #endregion
 
 }

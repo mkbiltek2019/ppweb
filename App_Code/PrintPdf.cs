@@ -902,9 +902,10 @@ public class PrintPdf : System.Web.Services.WebService {
 
             ShoppingList sl = new ShoppingList();
             ShoppingList.NewShoppingList groupedFoods = sl.Deserialize(shoppingList);
+            
             foreach (var f in groupedFoods.foods) {
                 table.AddCell(new PdfPCell(new Phrase(f.food, GetFont())) { Border = 0 });
-                table.AddCell(new PdfPCell(new Phrase((settings.showQty ? sl.SmartQty(f.id, f.qty, f.unit, f.mass, lang) : ""), GetFont())) { Border = 0 });
+                table.AddCell(new PdfPCell(new Phrase((settings.showQty ? sl.SmartQty(f.id, f.qty, f.unit, f.mass, sl.LoadFoodQty(), lang) : ""), GetFont())) { Border = 0 });
                 table.AddCell(new PdfPCell(new Phrase((settings.showMass ? sl.SmartMass(f.mass, lang) : ""), GetFont())) { Border = 0 });
                 table.AddCell(new PdfPCell(new Phrase((settings.showPrice ? f.price.ToString() + " " + (string.IsNullOrEmpty(f.currency) ? "" : f.currency.ToUpper()) : ""), GetFont())) { Border = 0 });
             }
@@ -964,7 +965,7 @@ public class PrintPdf : System.Web.Services.WebService {
             ShoppingList.NewShoppingList groupedFoods = sl.Deserialize(shoppingList);
             foreach (var f in groupedFoods.foods) {
                 table.AddCell(new PdfPCell(new Phrase(f.food, GetFont())) { Border = 0 });
-                table.AddCell(new PdfPCell(new Phrase((settings.showQty ? sl.SmartQty(f.id, f.qty, f.unit, f.mass, lang) : ""), GetFont())) { Border = 0 });
+                table.AddCell(new PdfPCell(new Phrase((settings.showQty ? sl.SmartQty(f.id, f.qty, f.unit, f.mass, sl.LoadFoodQty(), lang) : ""), GetFont())) { Border = 0 });
                 table.AddCell(new PdfPCell(new Phrase((settings.showMass ? sl.SmartMass(f.mass, lang) : ""), GetFont())) { Border = 0 });
                 table.AddCell(new PdfPCell(new Phrase((settings.showPrice ? f.price.ToString() + " " + (string.IsNullOrEmpty(f.currency) ? "" : f.currency.ToUpper()) : ""), GetFont())) { Border = 0 });
             }
@@ -1230,7 +1231,7 @@ IBAN HR8423400091160342496
                     foreach (Foods.NewFood food in meal) {
                         sb.AppendLine(string.Format(@"- {0}{1}{2}{3}"
                             , food.food
-                            , string.Format(@", {0}", settings.showQty ? sl.SmartQty(food.id, food.quantity, food.unit, food.mass, lang) : "")
+                            , string.Format(@", {0}", settings.showQty ? sl.SmartQty(food.id, food.quantity, food.unit, food.mass, sl.LoadFoodQty(), lang) : "")
                             , string.Format(@", {0}", settings.showMass ? sl.SmartMass(food.mass, lang) : "")
                             , string.Format(@"{0}", settings.showServ && !string.IsNullOrEmpty(getServingDescription(food.servings, lang)) ? string.Format(@", ({0})", getServingDescription(food.servings, lang)) : "")));
                     }
@@ -1331,7 +1332,7 @@ IBAN HR8423400091160342496
                         foreach (Foods.NewFood f in meal_) {
                             p.Add(new Chunk(string.Format(@"- {0}", f.food), GetFont()));
                             p.Add(new Chunk(string.Format(@"{0}{1}{2}"
-                                    , settings.showQty ? string.Format(", {0}", sl.SmartQty(f.id, f.quantity, f.unit, f.mass, lang)) : ""
+                                    , settings.showQty ? string.Format(", {0}", sl.SmartQty(f.id, f.quantity, f.unit, f.mass, sl.LoadFoodQty(), lang)) : ""
                                     , settings.showMass ? string.Format(", {0}", sl.SmartMass(f.mass, lang)) : ""
                                     , settings.showServ && !string.IsNullOrEmpty(getServingDescription(f.servings, lang)) ? string.Format(", ({0})", getServingDescription(f.servings, lang)) : ""), font_qty));
                             p.Add(new Chunk("\n", GetFont()));
