@@ -181,9 +181,12 @@ public class PrintPdf : System.Web.Services.WebService {
             if (settings.showClientData) {
                 ShowClientData(doc, weeklyMenu.client, lang);
             }
-            doc.Add(new Paragraph(weeklyMenu.title, GetFont(12)));
-            doc.Add(new Paragraph(weeklyMenu.note, GetFont(8)));
-
+            if (!string.IsNullOrEmpty(weeklyMenu.title)) {
+                doc.Add(new Paragraph(weeklyMenu.title, GetFont(12)));
+            }
+            if (!string.IsNullOrEmpty(weeklyMenu.note)) {
+                doc.Add(new Paragraph(weeklyMenu.note, GetFont(8)));
+            }
             if (consumers > 1) {
                 doc.Add(new Paragraph(t.Tran("number of consumers", lang) + ": " + consumers, GetFont(10)));
             } else {
