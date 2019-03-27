@@ -533,27 +533,28 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     var openReportABugPopupCtrl = function ($scope, $mdDialog, $http, d, $translate, functions) {
         $scope.d = {
             description: null,
-            email: d.user.email,
-            alert: null
+            email: functions.isNullOrEmpty(d.user) ? null : d.user.email,
+            alert_des: null,
+            alert_email: null
         }
 
         var send = function (x) {
             $scope.titlealert = null;
             $scope.emailalert = null;
             if (functions.isNullOrEmpty(x.description)) {
-                x.alert = $translate.instant('description is required');
+                x.alert_des = $translate.instant('description is required');
                 return false;
             }
             if (functions.isNullOrEmpty(x.email)) {
-                x.alert = $translate.instant('email is required');
+                x.alert_email = $translate.instant('email is required');
                 return false;
             }
             $mdDialog.hide();
-            var subject = x.description + ' E-mail: ' + x.email;
+            var body = x.description + ' E-mail: ' + x.email;
             $http({
                 url: $sessionStorage.config.backend + 'Mail.asmx/SendMessage',
                 method: "POST",
-                data: { sendTo: $sessionStorage.config.email, messageSubject: 'BUG - ' + x.title, messageBody: subject, lang: $rootScope.config.language }
+                data: { sendTo: $sessionStorage.config.email, messageSubject: 'BUG - ' + x.email, messageBody: body, lang: $rootScope.config.language }
             })
             .then(function (response) {
                 functions.alert(response.data.d, '');
@@ -570,17 +571,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.confirm = function (x) {
             send(x);
         }
-
     };
-
-
-    /************************/
-
-
-
-
-
-
 
 }])
 

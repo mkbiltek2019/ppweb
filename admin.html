@@ -131,7 +131,7 @@
                             <th>Aktivan</th>
                             <th class="nowrap">Status</th>
                             <th class="nowrap" style="min-width:150px">Licenca</th>
-                            <th class="nowrap">Max. br. korisnika</th>
+                            <th>Max. br. korisnika</th>
                             <th>Broj korisnika</th>
                             <th colspan="2"></th>
                         </tr>
@@ -168,7 +168,7 @@
                                 </select>
                             </td>
                             <td><input ng-disabled="!showDetails||x.userType<2||x.userId!=x.userGroupId" ng-model="x.maxNumberOfUsers" type="number" class="form-control" /></td>
-                            <td>{{x.subusers}}</td>
+                            <td>{{x.subusers + 1}}</td>
                             <td><button ng-disabled="!showDetails" ng-click="update(x)" class="btn btn-success"><i class="fa fa-floppy-o"></i> Spremi</button></td>
                             <td ng-if="config.debug"><button ng-disabled="!showDetails" ng-click="remove(x)" class="btn btn-danger"><i class="fa fa-thrash-o"></i> Briši</button></td>
                         </tr>
