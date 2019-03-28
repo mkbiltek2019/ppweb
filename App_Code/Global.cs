@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 /// <summary>
 /// Global
 /// </summary>
 namespace Igprog {
     public class Global {
+
         public Global() {
         }
 
@@ -39,7 +37,6 @@ namespace Igprog {
             }
         }
         /*************************************************/
-
 
     }
 }

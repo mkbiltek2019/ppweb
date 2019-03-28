@@ -30,6 +30,8 @@ public class Recipes : System.Web.Services.WebService {
         public string title { get; set; }
         public string description { get; set; }
         public double energy { get; set; }
+        //TODO #B#; #S#; #L#; #D#
+      //  public string mealGroup { get; set; }
 
         public JsonFile data = new JsonFile();
     }
@@ -37,8 +39,9 @@ public class Recipes : System.Web.Services.WebService {
     public class JsonFile {
         public List<Foods.NewFood> selectedFoods { get; set; }
         public List<Foods.NewFood> selectedInitFoods { get; set; }
-
     }
+
+    static string mealGroup = "mealGroup";
     #endregion Class
 
     #region WebMethods
@@ -59,10 +62,22 @@ public class Recipes : System.Web.Services.WebService {
         return json;
     }
 
+    //Test if column exists
+    [WebMethod]
+    public string CheckColumn(string userId, string column) {
+        try {
+            userId = "c67066a9-f3c1-432d-88c4-7f6e3278f616";
+            bool res = db.CheckColumn(userId, db.recipes, column);
+            return JsonConvert.SerializeObject(res, Formatting.None);
+        } catch (Exception e) { return (e.Message); }
+    }
+
     [WebMethod]
     public string Load(string userId) {
         try {
             db.CreateDataBase(userId, db.recipes);
+            //TODO add column group
+            //db.AddColumn(userId, db.GetDataBasePath(userId, dataBase), db.recipes, mealGroup);
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
             string sql = @"SELECT id, title, description, energy
@@ -113,6 +128,8 @@ public class Recipes : System.Web.Services.WebService {
     public string Save(string userId, NewRecipe x) {
         try {
             db.CreateDataBase(userId, db.recipes);
+            //TODO add column groups 
+            //db.AddColumn(userId, db.GetDataBasePath(userId, dataBase), db.recipes, mealGroup);
             string sql = "";
             if (x.id == null) {
                 x.id = Convert.ToString(Guid.NewGuid());
