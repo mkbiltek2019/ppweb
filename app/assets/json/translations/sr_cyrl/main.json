@@ -1843,6 +1843,9 @@
   "total price": "Укупна цена",
   "save as menu": "Спреми као јеловник",
   "this function is available only in premium package": "Ова функција ја доступна само у ПРЕМИУМ пакету",
-  "loaf": "векна"
+  "loaf": "векна",
+  "meal groups": "Група оброка",
+  "general": "Опћенито",
+  "snack": "Међуоброк"
 
 }

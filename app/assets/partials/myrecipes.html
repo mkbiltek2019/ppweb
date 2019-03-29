@@ -17,8 +17,20 @@
                     <label>{{'description, recipe preparation' | translate}}...</label>
                     <textarea ng-model="recipe.description" rows="3" class="area"></textarea>
                 </md-input-container>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <md-input-container class="md-block" flex-gt-xs style="margin-top:0px">
+                            <label>{{'meal groups' | translate}}</label>
+                            <md-select ng-model="recipe.mealGroup">
+                                <md-option ng-value="x.code" ng-repeat="x in recipe.mealGroups track by $index">
+                                    <md-checkbox ng-checked="x.code==recipe.mealGroup.code" class="md-primary text-capitalize" aria-label="mealgroup">{{x.title | translate}}</md-checkbox>
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                </div>
             </div>
-            <div class="table-responsive">
+            <div class="table-responsive mt20">
                 <table class="table table-condensed">
                     <tr class="text-capitalize">
                         <th></th>

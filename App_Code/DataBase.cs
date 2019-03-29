@@ -183,15 +183,13 @@ namespace Igprog {
         }
 
         public void Recipes(string path) {
-            //TODO add column group
             string sql = @"CREATE TABLE IF NOT EXISTS recipes
                 (id VARCHAR(50) PRIMARY KEY,
                 title NVARCHAR(50),
                 description NVARCHAR(200),
-                energy VARCHAR(50))";
+                energy VARCHAR(50),
+                mealGroup VARCHAR(50))";
             CreateTable(path, sql);
-            //TODO add column group
-            //AddColumn(userId, path, recipes, "group");
         }
 
         public void Meals(string path) {
@@ -398,16 +396,14 @@ namespace Igprog {
         }
 
         public void AddColumn(string userId, string path, string table, string column) {
-            if(CheckColumn(userId, table, column)) {
-                                          //ALTER TABLE recipes ADD mealGroup VARCHAR(255)
-                string sql = string.Format("ALTER TABLE {0} ADD COLUMN {1} VARCHAR(50)", table, column);
+            if(!CheckColumn(userId, table, column)) {
+                string sql = string.Format("ALTER TABLE {0} ADD COLUMN {1} VARCHAR (50)", table, column);
                 CreateTable(path, sql);
             }
         }
 
         /************** Check if column exists ***********/
-        //TODO private bool
-        public bool CheckColumn(string userId, string table, string column) {
+        private bool CheckColumn(string userId, string table, string column) {
             try {
                 string dataBase = ConfigurationManager.AppSettings["UserDataBase"];
                 DataBase db = new DataBase();
@@ -422,7 +418,6 @@ namespace Igprog {
                     name = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
                     if (name == column) {
                         exists = true;
-                        break;
                     }
                 }
                 connection.Close();

@@ -30,10 +30,11 @@ public class Recipes : System.Web.Services.WebService {
         public string title { get; set; }
         public string description { get; set; }
         public double energy { get; set; }
-        //TODO #B#; #S#; #L#; #D#
-      //  public string mealGroup { get; set; }
+        public string mealGroup { get; set; }
 
         public JsonFile data = new JsonFile();
+
+        public List<CodeMeal> mealGroups = new List<CodeMeal>();
     }
 
     public class JsonFile {
@@ -41,7 +42,12 @@ public class Recipes : System.Web.Services.WebService {
         public List<Foods.NewFood> selectedInitFoods { get; set; }
     }
 
-    static string mealGroup = "mealGroup";
+    public class CodeMeal {
+        public string code;
+        public string title;
+    }
+
+    static string mealGroup = "mealGroup";  // new column in recipes tbl.
     #endregion Class
 
     #region WebMethods
@@ -54,33 +60,24 @@ public class Recipes : System.Web.Services.WebService {
         x.title = null;
         x.description = null;
         x.energy = 0;
+        x.mealGroup = null;
         JsonFile data = new JsonFile();
         data.selectedFoods = new List<Foods.NewFood>();
         data.selectedInitFoods = new List<Foods.NewFood>();
         x.data = data;
+        x.mealGroups = InitMealGroups();
         string json = JsonConvert.SerializeObject(x, Formatting.None);
         return json;
-    }
-
-    //Test if column exists
-    [WebMethod]
-    public string CheckColumn(string userId, string column) {
-        try {
-            userId = "c67066a9-f3c1-432d-88c4-7f6e3278f616";
-            bool res = db.CheckColumn(userId, db.recipes, column);
-            return JsonConvert.SerializeObject(res, Formatting.None);
-        } catch (Exception e) { return (e.Message); }
     }
 
     [WebMethod]
     public string Load(string userId) {
         try {
             db.CreateDataBase(userId, db.recipes);
-            //TODO add column group
-            //db.AddColumn(userId, db.GetDataBasePath(userId, dataBase), db.recipes, mealGroup);
+            db.AddColumn(userId, db.GetDataBasePath(userId, dataBase), db.recipes, mealGroup);  //new column in recipes tbl.
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
-            string sql = @"SELECT id, title, description, energy
+            string sql = @"SELECT id, title, description, energy, mealGroup
                         FROM recipes
                         ORDER BY rowid DESC";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
@@ -92,6 +89,7 @@ public class Recipes : System.Web.Services.WebService {
                 x.title = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
                 x.description = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
                 x.energy = reader.GetValue(3) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(3));
+                x.mealGroup = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
                 xx.Add(x);
             }
             connection.Close();
@@ -104,7 +102,7 @@ public class Recipes : System.Web.Services.WebService {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
-            string sql = @"SELECT id, title, description, energy
+            string sql = @"SELECT id, title, description, energy, mealGroup
                         FROM recipes
                         WHERE id = @id";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
@@ -117,7 +115,9 @@ public class Recipes : System.Web.Services.WebService {
                 x.title = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
                 x.description = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
                 x.energy = reader.GetValue(3) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(3));
+                x.mealGroup = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
                 x.data = JsonConvert.DeserializeObject<JsonFile>(GetJsonFile(userId, x.id));
+                x.mealGroups = InitMealGroups();
             }
             connection.Close();
             return JsonConvert.SerializeObject(x, Formatting.None);
@@ -128,8 +128,7 @@ public class Recipes : System.Web.Services.WebService {
     public string Save(string userId, NewRecipe x) {
         try {
             db.CreateDataBase(userId, db.recipes);
-            //TODO add column groups 
-            //db.AddColumn(userId, db.GetDataBasePath(userId, dataBase), db.recipes, mealGroup);
+            db.AddColumn(userId, db.GetDataBasePath(userId, dataBase), db.recipes, mealGroup);  //new column in recipes tbl.
             string sql = "";
             if (x.id == null) {
                 x.id = Convert.ToString(Guid.NewGuid());
@@ -139,14 +138,15 @@ public class Recipes : System.Web.Services.WebService {
             connection.Open();
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             sql = @"BEGIN;
-                    INSERT OR REPLACE INTO recipes (id, title, description, energy)
-                    VALUES (@id, @title, @description, @energy);
+                    INSERT OR REPLACE INTO recipes (id, title, description, energy, mealGroup)
+                    VALUES (@id, @title, @description, @energy, @mealGroup);
                     COMMIT;";
             command = new SQLiteCommand(sql, connection);
             command.Parameters.Add(new SQLiteParameter("id", x.id));
             command.Parameters.Add(new SQLiteParameter("title", x.title));
             command.Parameters.Add(new SQLiteParameter("description", x.description));
             command.Parameters.Add(new SQLiteParameter("energy", x.energy));
+            command.Parameters.Add(new SQLiteParameter("mealGroup", x.mealGroup));
             command.ExecuteNonQuery();
             connection.Close();
             SaveJsonToFile(userId, x.id, JsonConvert.SerializeObject(x.data, Formatting.None));
@@ -191,6 +191,7 @@ public class Recipes : System.Web.Services.WebService {
     [WebMethod]
     public string LoadAppRecipes(string lang) {
         try {
+            //add mealGroup
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath(string.Format("~/App_Data/{0}", appDataBase)));
             connection.Open();
             string sql = string.Format(@"SELECT id, title, description, energy FROM recipes
@@ -361,6 +362,31 @@ public class Recipes : System.Web.Services.WebService {
         } catch (Exception e) {
             return new Foods.NewFood();
         }
+    }
+
+    private List<CodeMeal> InitMealGroups() {
+        List<CodeMeal> xx = new List<CodeMeal>();
+        CodeMeal x = new CodeMeal();
+        x.code = "G";
+        x.title = "general";
+        xx.Add(x);
+        x = new CodeMeal();
+        x.code = "B";
+        x.title = "breakfast";
+        xx.Add(x);
+        x = new CodeMeal();
+        x.code = "S";
+        x.title = "snack";
+        xx.Add(x);
+        x = new CodeMeal();
+        x.code = "L";
+        x.title = "lunch";
+        xx.Add(x);
+        x = new CodeMeal();
+        x.code = "D";
+        x.title = "dinner";
+        xx.Add(x);
+        return xx;
     }
     #endregion Methods
 

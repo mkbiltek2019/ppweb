@@ -5167,6 +5167,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             $scope.recipe = JSON.parse(response.data.d);
+          //  $scope.mealGroups = $scope.recipe.mealGroups;
             $scope.currentRecipe = null;
             recipeFromMenu();
             load();
