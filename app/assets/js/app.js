@@ -4518,6 +4518,24 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
         load();
 
+        var init = function () {
+            if ($rootScope.user.licenceStatus == 'demo') {
+                return false;
+            }
+            $http({
+                url: $sessionStorage.config.backend + 'Recipes.asmx/Init',
+                method: "POST",
+                data: ''
+            })
+           .then(function (response) {
+               $scope.recipe = JSON.parse(response.data.d);
+           },
+           function (response) {
+               alert(response.data.d);
+           });
+        }
+        init();
+
         $scope.load = function () {
             load();
         }
@@ -5391,6 +5409,24 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
            });
         }
         load();
+
+        var init = function () {
+            if ($rootScope.user.licenceStatus == 'demo') {
+                return false;
+            }
+            $http({
+                url: $sessionStorage.config.backend + 'Recipes.asmx/Init',
+                method: "POST",
+                data: ''
+            })
+           .then(function (response) {
+               $scope.recipe = JSON.parse(response.data.d);
+           },
+           function (response) {
+               alert(response.data.d);
+           });
+        }
+        init();
 
         $scope.cancel = function () {
             $mdDialog.cancel();
