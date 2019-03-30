@@ -1641,7 +1641,7 @@
   "recipe": "recipe",
   "recipes": "recipes",
   "enter recipe title": "Enter recipe title",
-  "you do not have any recipes": "you do not have any recipes",
+  "you do not have any recipes": "You do not have any recipes",
   "create recipe": "create recipe",
   "first name is required": "first name is required",
   "birth date is required": "birth date is required",
@@ -1840,6 +1840,7 @@
   "loaf": "loaf",
   "meal group": "Meal group",
   "general": "General",
-  "snack":  "Snack"
+  "snack": "Snack",
+  "choose food": "Choose food"
 
 }

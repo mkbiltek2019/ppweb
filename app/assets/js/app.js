@@ -5185,7 +5185,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             $scope.recipe = JSON.parse(response.data.d);
-          //  $scope.mealGroups = $scope.recipe.mealGroups;
             $scope.currentRecipe = null;
             recipeFromMenu();
             load();
@@ -5303,6 +5302,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
         if (recipe.title == '' || recipe.title == null) {
             functions.alert($translate.instant('enter recipe title'), '');
+            return false;
+        }
+        if (recipe.data.selectedFoods.length == 0) {
+            functions.alert($translate.instant('choose food'), '');
             return false;
         }
         $http({
@@ -5483,7 +5486,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 
     $scope.saveRecipeAsMyFood = function (recipe) {
-        if (recipe.data.selectedFoods.length == 0) { return false; }
+         if (recipe.data.selectedFoods.length == 0) {
+            functions.alert($translate.instant('choose food'), '');
+            return false;
+        }
         saveRecipeAsMyFoodPopup(recipe);
     }
 

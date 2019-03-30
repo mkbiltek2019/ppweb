@@ -1648,7 +1648,7 @@
   "recipe": "recept",
   "recipes": "recepti",
   "enter recipe title": "Upiši naziv recepta",
-  "you do not have any recipes": "nemate vlastitih recepata",
+  "you do not have any recipes": "Немате спремљених рецепата",
   "create recipe": "izradi recept",
   "first name is required": "ime je obavezno",
   "birth date is required": "datum rođenja je obavezan",
@@ -1849,6 +1849,7 @@
   "loaf": "vekna",
   "meal group": "Grupa obroka",
   "general": "Općenito",
-  "snack": "Međuobrok"
+  "snack": "Međuobrok",
+  "choose food": "Odaberi namirnicu"
 
 }
