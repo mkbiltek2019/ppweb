@@ -1990,6 +1990,10 @@ public class Foods : System.Web.Services.WebService {
                 if (qty > 1 && qty < 5) { unit = "štruce"; }
                 if (qty >= 5) { unit = "štruca"; }
                 break;
+            case "pakiranje":
+                if (qty > 1 && qty < 5) { unit = "pakiranja"; }
+                if (qty >= 5) { unit = "pakiranja"; }
+                break;
 
             #endregion hr
             #region sr
@@ -2025,6 +2029,15 @@ public class Foods : System.Web.Services.WebService {
                 if (qty > 1 && qty < 5) { unit = "flaše"; }
                 if (qty >= 5) { unit = "flaša"; }
                 break;
+
+            case "vekla":
+                if (qty > 1 && qty < 5) { unit = "vekle"; }
+                if (qty >= 5) { unit = "vekli"; }
+                break;
+            case "pakovanje":
+                if (qty > 1 && qty < 5) { unit = "pakovanja"; }
+                if (qty >= 5) { unit = "pakovanja"; }
+                break;
             #endregion sr
             default:
                 break;
@@ -2056,6 +2069,7 @@ public class Foods : System.Web.Services.WebService {
         if (unit == "srednja ploda" || unit == "srednjih plodova") { unit = "srednji plod"; }
 
         if (unit == "štruce") { unit = "štruca"; }
+        if (unit == "pakiranja") { unit = "pakiranje"; }
         #endregion hr
         #region sr
         if (unit == "šoljice") { unit = "šoljica"; }
@@ -2066,6 +2080,9 @@ public class Foods : System.Web.Services.WebService {
         if (unit == "velika parčeta" || unit == "velikih parčeta") { unit = "veliko parče"; }
         if (unit == "kašičice") { unit = "kašičica"; }
         if (unit == "flaše") { unit = "flaša"; }
+
+        if (unit == "vekle" || unit == "vekli") { unit = "vekla"; }
+        if (unit == "pakovanja") { unit = "pakovanje"; }
         #endregion sr
         return unit;
     }
