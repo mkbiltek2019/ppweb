@@ -1994,8 +1994,8 @@ public class Foods : System.Web.Services.WebService {
                 if (qty > 1 && qty < 5) { unit = "pakiranja"; }
                 if (qty >= 5) { unit = "pakiranja"; }
                 break;
-
             #endregion hr
+
             #region sr
             case "šoljica":
                 if (qty > 1 && qty < 5) { unit = "šoljice"; }
@@ -2039,6 +2039,55 @@ public class Foods : System.Web.Services.WebService {
                 if (qty >= 5) { unit = "pakovanja"; }
                 break;
             #endregion sr
+
+            #region en
+            case "cup":
+                if (qty > 1) { unit = "cups"; }
+                break;
+            case "piece":
+                if (qty > 1) { unit = "pieces"; }
+                break;
+            case "small piece":
+                if (qty > 1) { unit = "small pieces"; }
+                break;
+            case "medium fruit":
+                if (qty > 1) { unit = "medium fruits"; }
+                break;
+            case "tablespoon":
+                if (qty > 1) { unit = "tablespoons"; }
+                break;
+            case "grain":
+                if (qty > 1) { unit = "grains"; }
+                break;
+            case "great fruit":
+                if (qty > 1) { unit = "great fruits"; }
+                break;
+            case "slice":
+                if (qty > 1) { unit = "slices"; }
+                break;
+            case "glass":
+                if (qty > 1) { unit = "glasses"; }
+                break;
+            case "bottle":
+                if (qty > 1) { unit = "bottles"; }
+                break;
+            case "half":
+                if (qty > 1) { unit = "half"; }
+                break;
+            case "big piece":
+                if (qty > 1) { unit = "big pieces"; }
+                break;
+            case "loaf":
+                if (qty > 1) { unit = "loaves"; }
+                break;
+            case "shot glass":
+                if (qty > 1) { unit = "shot glasses"; }
+                break;
+            case "fillet":
+                if (qty > 1) { unit = "fillets"; }
+                break;
+            #endregion
+
             default:
                 break;
         }
@@ -2084,6 +2133,24 @@ public class Foods : System.Web.Services.WebService {
         if (unit == "vekle" || unit == "vekli") { unit = "vekla"; }
         if (unit == "pakovanja") { unit = "pakovanje"; }
         #endregion sr
+
+        #region en
+        if (unit == "cups") { unit = "cup"; }
+        if (unit == "pieces") { unit = "piece"; }
+        if (unit == "medium fruits") { unit = "medium fruit"; }
+        if (unit == "tablespoons") { unit = "tablespoon"; }
+        if (unit == "grains") { unit = "grain"; }
+        if (unit == "great fruits") { unit = "great fruit"; }
+        if (unit == "slices") { unit = "slice"; }
+        if (unit == "glasses") { unit = "glass"; }
+        if (unit == "bottles") { unit = "bottle"; }
+        if (unit == "half") { unit = "half"; }
+        if (unit == "big pieces") { unit = "big piece"; }
+        if (unit == "loaves") { unit = "loaf"; }
+        if (unit == "shot glasses") { unit = "shot glass"; }
+        if (unit == "fillets") { unit = "fillet"; }
+        #endregion
+
         return unit;
     }
 
