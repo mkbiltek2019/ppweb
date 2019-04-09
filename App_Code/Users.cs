@@ -172,11 +172,10 @@ public class Users : System.Web.Services.WebService {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
             connection.Open();
-            string sql = "SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress FROM users WHERE userName = @userName AND password = @password";
+            string sql = string.Format(@"SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress FROM users WHERE lower(userName) = '{0}' AND password = '{1}'"
+                                        ,userName.ToLower(), Encrypt(password));
             SQLiteCommand command = new SQLiteCommand(
                   sql, connection);
-            command.Parameters.Add(new SQLiteParameter("userName", userName));
-            command.Parameters.Add(new SQLiteParameter("password", Encrypt(password)));
             NewUser x = new NewUser();
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read()) {
@@ -215,8 +214,7 @@ public class Users : System.Web.Services.WebService {
             x.datasum = GetDataSum(x.userGroupId, x.userId, x.userType, x.adminType);
             string json = JsonConvert.SerializeObject(x, Formatting.None);
             return json;
-        }
-        catch (Exception e) { return ("Error: " + e); }
+        } catch (Exception e) { return ("Error: " + e); }
     }
 
     [WebMethod]

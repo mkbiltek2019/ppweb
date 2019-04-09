@@ -600,7 +600,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             }
         })
         .then(function (response) {
-            if (JSON.parse(response.data.d).userName == u) {
+            if (JSON.parse(response.data.d).userId != null) {
                 $rootScope.user = JSON.parse(response.data.d);
                 if ($rootScope.user.userId !== $rootScope.user.userGroupId && $rootScope.user.isActive === false) {
                     $rootScope.loading = false;
@@ -5709,7 +5709,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             var user = JSON.parse(response.data.d);
-            if (user.userName == u) {
+            if (user.userId != null) {
                 $scope.user.firstName = user.firstName;
                 $scope.user.lastName = user.lastName;
                 $scope.user.companyName = user.companyName;
@@ -5725,13 +5725,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 $scope.calculatePrice();
             } else {
                 $scope.showErrorAlert = true;
-                $scope.errorMesage = 'Korisnik nije pronađen.'
+                $scope.errorMesage = $translate.instant('wrong user name or password');
             }
         },
         function (response) {
             $scope.errorLogin = true;
             $scope.showErrorAlert = true;
-            $scope.errorMesage = 'Korisnik nije pronađen.'
+            $scope.errorMesage = $translate.instant('user was not found');
             $scope.showUserDetails = false;
         });
     }
@@ -5828,13 +5828,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.showErrorAlert = false;
         if (user.email == '' || user.firstName == '' || user.lastName == '' || user.address == '' || user.postalCode == '' || user.city == '' || user.country == '') {
             $scope.showErrorAlert = true;
-            $scope.errorMesage = $translate.instant('all fields are required');;
+            $scope.errorMesage = $translate.instant('all fields are required');
             return false;
         }
         if ($scope.userType == 1) {
             if (user.companyName == '' || user.pin == '') {
                 $scope.showErrorAlert = true;
-                $scope.errorMesage = $translate.instant('all fields are required');;
+                $scope.errorMesage = $translate.instant('all fields are required');
                 return false;
             }
         }

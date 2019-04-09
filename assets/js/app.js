@@ -375,7 +375,7 @@ angular.module('app', ['ngMaterial'])
         })
         .then(function (response) {
             var user = JSON.parse(response.data.d);
-            if (user.userName == u) {
+            if (user.userId != null) {
                 $scope.user.firstName = user.firstName;
                 $scope.user.lastName = user.lastName;
                 $scope.user.companyName = user.companyName;
