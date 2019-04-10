@@ -214,11 +214,13 @@ angular.module('app', [])
         });
     }
 
-    $scope.info = function (userGroupId, userId, userType, adminType) {
+    $scope.currUser = null;
+    $scope.info = function (x) {
+        $scope.currUser = x;
         $http({
             url: $rootScope.config.backend + 'Users.asmx/GetUserSum',
             method: 'POST',
-            data: { userGroupId: userGroupId, userId: userId, userType: userType, adminType: adminType }
+            data: { userGroupId: x.userGroupId, userId: x.userId, userType: x.userType, adminType: x.adminType }
         })
         .then(function (response) {
             $scope.userTotal = JSON.parse(response.data.d);
@@ -232,7 +234,6 @@ angular.module('app', [])
         var r = confirm("Briši " + user.firstName + " "  + user.lastName + "?");
         if (r == true) {
             remove(user);
-        } else {
         }
     }
 

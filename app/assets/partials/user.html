@@ -27,11 +27,11 @@
                     <div layout-gt-sm="row" class="text-capitalize">
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>{{'company name' | translate}}</label>
-                            <input ng-model="user.companyName">
+                            <input ng-disabled="loginUser.adminType==0?false:true" ng-model="user.companyName">
                         </md-input-container>
                         <md-input-container class="md-block" flex-gt-sm>
                             <label class="text-uppercase">{{'pin' | translate}}</label>
-                            <input ng-model="user.pin">
+                            <input ng-disabled="loginUser.adminType==0?false:true" ng-model="user.pin">
                         </md-input-container>
                     </div>
                     <div layout-gt-sm="row" class="text-capitalize">

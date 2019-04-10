@@ -411,6 +411,12 @@ public class Users : System.Web.Services.WebService {
                 x.rowid = reader.GetValue(20) == DBNull.Value ? 0 : reader.GetInt32(20);
                 x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection);
                 x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
+                x.package = GetPackage(x.licenceStatus, x.userType);
+                /****** SubUsers ******/
+                if (x.userId != x.userGroupId) {
+                    x = GetUserGroupInfo(x, connection);
+                }
+                /**********************/
                 xx.Add(x);
             }
             connection.Close();
@@ -1070,11 +1076,13 @@ public class Users : System.Web.Services.WebService {
     private NewUser GetUserGroupInfo(NewUser x, SQLiteConnection connection) {
         try {
             SQLiteCommand command = new SQLiteCommand(string.Format(@"
-                    SELECT userType, expirationDate FROM users WHERE userId  = '{0}'", x.userGroupId), connection);
+                    SELECT userType, companyName, pin, expirationDate FROM users WHERE userId  = '{0}'", x.userGroupId), connection);
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read()) {
                 x.userType = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
-                x.expirationDate = reader.GetValue(1) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(1);
+                x.companyName = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
+                x.pin = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+                x.expirationDate = reader.GetValue(3) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(3);
                 x.licenceStatus = GetLicenceStatus(x);
                 x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
                 x.package = GetPackage(x.licenceStatus, x.userType);
