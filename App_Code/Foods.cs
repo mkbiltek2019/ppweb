@@ -305,7 +305,7 @@ public class Foods : System.Web.Services.WebService {
 
     #region WebMethods
     [WebMethod]
-    public string Init() {
+    public string Init(string lang) {
         SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
 
         InitData data = new InitData();
@@ -370,7 +370,7 @@ public class Foods : System.Web.Services.WebService {
 
         data.food = x;
         data.foodGroups = GetMainFoodGroups(connection);
-        data.units = Units();
+        data.units = Units(lang);
 
         string json = JsonConvert.SerializeObject(data, Formatting.None);
         return json;
@@ -527,8 +527,7 @@ public class Foods : System.Web.Services.WebService {
 
             string json = JsonConvert.SerializeObject(x, Formatting.None);
             return json;
-        }
-        catch (Exception e) { return ("Error: " + e); }
+        } catch (Exception e) { return ("Error: " + e); }
     }
 
     [WebMethod]
@@ -718,8 +717,8 @@ public class Foods : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string GetUnits() {
-      return JsonConvert.SerializeObject(Units(), Formatting.None);
+    public string GetUnits(string lang) {
+      return JsonConvert.SerializeObject(Units(lang), Formatting.None);
     }
 
     [WebMethod]
@@ -1883,7 +1882,7 @@ public class Foods : System.Web.Services.WebService {
 
     /*****************************************************************************************************/
 
-    private List<string> Units() {
+    private List<string> Units(string lang) {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/"  + dataBase));
             connection.Open();
@@ -1894,7 +1893,7 @@ public class Foods : System.Web.Services.WebService {
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read()) {
                 x = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
-                xx.Add(x);
+                xx.Add(t.Tran(x, lang));
             }
             connection.Close();
             return xx;

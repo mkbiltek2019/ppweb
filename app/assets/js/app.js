@@ -2994,7 +2994,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + webService + '/Init',
             method: "POST",
-            data: ''
+            data: { lang: $rootScope.config.language }
         })
         .then(function (response) {
             $scope.food = response.data.d.food;
@@ -3128,7 +3128,17 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         .then(function (x) {
             $scope.addFoodBtnIcon = 'fa fa-plus';
             $scope.addFoodBtn = false;
-            $scope.addFoodToMeal(x.food, x.initFood, idx);
+            if (x.openAsMyFood !== undefined) {
+                if (x.openAsMyFood == true) {
+                    $rootScope.newTpl = './assets/partials/myfoods.html';
+                    $rootScope.selectedNavItem = 'myfoods';
+                    $rootScope.myFood_ = x.initFood;
+                } else {
+                    $scope.addFoodToMeal(x.food, x.initFood, idx);
+                }
+            } else {
+                $scope.addFoodToMeal(x.food, x.initFood, idx);
+            }
         }, function () {
             $scope.addFoodBtnIcon = 'fa fa-plus';
             $scope.addFoodBtn = false;
@@ -3341,6 +3351,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         $scope.loadMore = function () {
             $scope.limit = $scope.limit + $scope.foods.length;
+        }
+
+        $scope.openAsMyFood = function (x) {
+            var data = { food: x, initFood: initFood, openAsMyFood: true }
+            $mdDialog.hide(data);
         }
 
     };
@@ -4948,11 +4963,21 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + 'Foods.asmx/Init',
             method: "POST",
-            data: ''
+            data: { lang: $rootScope.config.language }
         })
         .then(function (response) {
             var res = JSON.parse(response.data.d);
-            $scope.myFood = res.food;
+            if ($rootScope.myFood_ !== undefined) {
+                if ($rootScope.myFood_ != null) {
+                    $scope.myFood = $rootScope.myFood_;
+                    $rootScope.myFood_ = null;
+                } else {
+                    $scope.myFood = res.food;
+                }
+            } else {
+                $scope.myFood = res.food;
+            }
+            //TODO translate unit for edit as my food
             $scope.units = res.units;
             $scope.mainFoodGroups = res.foodGroups;
             $('.selectpicker').selectpicker({
@@ -4965,6 +4990,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         });
     };
     init();
+
 
     $scope.new = function () {
         init();
@@ -5520,7 +5546,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $http({
                 url: $sessionStorage.config.backend + 'Foods.asmx/Init',
                 method: "POST",
-                data: ''
+                data: { lang: $rootScope.config.language }
             })
             .then(function (response) {
                 var res = JSON.parse(response.data.d);

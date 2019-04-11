@@ -20,7 +20,7 @@
                     <label>{{'unit' | translate}}</label>
                     <md-select ng-model="myFood.unit">
                         <md-option ng-value="x" ng-repeat="x in units">
-                            <md-checkbox ng-checked="x==myFood.unit" class="md-primary" aria-label="unit">{{x | translate}}</md-checkbox>
+                            <md-checkbox ng-checked="x==myFood.unit" class="md-primary" aria-label="unit">{{x}}</md-checkbox>
                         </md-option>
                     </md-select>
                 </md-input-container>

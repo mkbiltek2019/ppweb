@@ -22,7 +22,7 @@
                         <label class="text-capitalize">{{'unit' | translate}}</label>
                         <md-select ng-model="d.unit" ng-required="true">
                             <md-option ng-value="x" ng-repeat="x in d.units">
-                                <md-checkbox ng-checked="x==d.unit" class="md-primary" aria-label="unit">{{x | translate}}</md-checkbox>
+                                <md-checkbox ng-checked="x==d.unit" class="md-primary" aria-label="unit">{{x}}</md-checkbox>
                             </md-option>
                         </md-select>
                     </md-input-container>

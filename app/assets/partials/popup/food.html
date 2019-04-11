@@ -8,6 +8,9 @@
     </md-toolbar>
     <md-dialog-content>
         <div class="md-dialog-content">
+            <div class="text-right">
+                <a ng-if="food.id" href="" class="text-uppercase" ng-click="openAsMyFood(food)"><i class="fa fa-pencil"></i> {{'edit and save as my food' | translate}}</a>
+            </div>
             <div class="row text-small">
                 <form id="foodform">
                     <div class="col-sm-6">
