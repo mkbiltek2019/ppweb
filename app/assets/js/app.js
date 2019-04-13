@@ -4977,7 +4977,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             } else {
                 $scope.myFood = res.food;
             }
-            //TODO translate unit for edit as my food
             $scope.units = res.units;
             $scope.mainFoodGroups = res.foodGroups;
             $('.selectpicker').selectpicker({

@@ -38,7 +38,7 @@
                                 <label>{{'food group' | translate}}</label>
                                 <md-select ng-model="myFood.foodGroup.code">
                                     <md-option ng-value="x.group.code" ng-repeat="x in mainFoodGroups">
-                                        <md-checkbox ng-checked="x.group.code==myFood.foodGroup.code" class="md-primary" aria-label="serv">{{x.group.title | translate}}</md-checkbox>
+                                        <md-checkbox ng-checked="x.group.code==myFood.foodGroup.code" class="{{x.parent=='A'||x.parent==''?'md-primary':'md-primary small text-muted pl10'}}" aria-label="serv">{{x.group.title | translate}}</md-checkbox>
                                     </md-option>
                                 </md-select>
                             </md-input-container>
@@ -56,15 +56,15 @@
                                 <label>{{'fruit' | translate}} {{'serv' | translate}}.</label>
                                 <input ng-model="myFood.servings.fruitServ" allow-only-numbers>
                             </md-input-container>
-                            <md-input-container ng-if="myFood.foodGroup.code == 'M'  || myFood.foodGroup.code == 'MF' || myFood.foodGroup.code == 'PM'" >
+                            <md-input-container ng-if="myFood.foodGroup.code == 'M' || myFood.foodGroup.code == 'EUM' || myFood.foodGroup.code == 'NFM' || myFood.foodGroup.code == 'MFM' || myFood.foodGroup.code == 'FFM' || myFood.foodGroup.code == 'MF' || myFood.foodGroup.code == 'PM'" >
                                 <label>{{'meat' | translate}} {{'serv' | translate}}.</label>
                                 <input ng-model="myFood.servings.meatServ" allow-only-numbers>
                             </md-input-container>
-                            <md-input-container ng-if="myFood.foodGroup.code == 'MI' || myFood.foodGroup.code == 'PM'">
+                            <md-input-container ng-if="myFood.foodGroup.code == 'MI' || myFood.foodGroup.code == 'LFMI' || myFood.foodGroup.code == 'SMI' || myFood.foodGroup.code == 'FFMI' || myFood.foodGroup.code == 'PM'">
                                 <label>{{'milk' | translate}} {{'serv' | translate}}.</label>
                                 <input ng-model="myFood.servings.milkServ" allow-only-numbers>
                             </md-input-container>
-                            <md-input-container ng-if="myFood.foodGroup.code == 'FA' || myFood.foodGroup.code == 'PM'">
+                            <md-input-container ng-if="myFood.foodGroup.code == 'FA' || myFood.foodGroup.code == 'SF' || myFood.foodGroup.code == 'UF' || myFood.foodGroup.code == 'MUF' || myFood.foodGroup.code == 'PM'">
                                 <label>{{'fats' | translate}} {{'serv' | translate}}.</label>
                                 <input ng-model="myFood.servings.fatsServ" allow-only-numbers>
                             </md-input-container>
@@ -77,9 +77,9 @@
                                         <li ng-if="myFood.foodGroup.code == 'C' || myFood.foodGroup.code == 'MF' || myFood.foodGroup.code == 'PM'">{{'cereals_serv_desc' | translate}}.</li>
                                         <li ng-if="myFood.foodGroup.code == 'V' || myFood.foodGroup.code == 'PM'">{{'vegetables_serv_desc' | translate}}.</li>
                                         <li ng-if="myFood.foodGroup.code == 'F' || myFood.foodGroup.code == 'PM'">{{'fruit_serv_desc' | translate}}.</li>
-                                        <li ng-if="myFood.foodGroup.code == 'M' || myFood.foodGroup.code == 'MF' || myFood.foodGroup.code == 'PM'">{{'meat_serv_desc' | translate}}.</li>
-                                        <li ng-if="myFood.foodGroup.code == 'MI' || myFood.foodGroup.code == 'PM'">{{'milk_serv_desc' | translate}}.</li>
-                                        <li ng-if="myFood.foodGroup.code == 'FA' || myFood.foodGroup.code == 'PM'">{{'fats_serv_desc' | translate}}.</li>
+                                        <li ng-if="myFood.foodGroup.code == 'M' || myFood.foodGroup.code == 'EUM' || myFood.foodGroup.code == 'NFM' || myFood.foodGroup.code == 'MFM' || myFood.foodGroup.code == 'FFM' || myFood.foodGroup.code == 'MF' || myFood.foodGroup.code == 'PM'">{{'meat_serv_desc' | translate}}.</li>
+                                        <li ng-if="myFood.foodGroup.code == 'MI' || myFood.foodGroup.code == 'LFMI' || myFood.foodGroup.code == 'SMI'  || myFood.foodGroup.code == 'FFMI' || myFood.foodGroup.code == 'PM'">{{'milk_serv_desc' | translate}}.</li>
+                                        <li ng-if="myFood.foodGroup.code == 'FA' || myFood.foodGroup.code == 'SF' || myFood.foodGroup.code == 'UF'  || myFood.foodGroup.code == 'MUF' || myFood.foodGroup.code == 'PM'">{{'fats_serv_desc' | translate}}.</li>
                                     </ul>
                                 </div>
                             </div>

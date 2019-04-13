@@ -307,7 +307,7 @@ public class Foods : System.Web.Services.WebService {
     [WebMethod]
     public string Init(string lang) {
         SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
-
+        connection.Open();
         InitData data = new InitData();
 
         NewFood x = new NewFood();
@@ -369,7 +369,8 @@ public class Foods : System.Web.Services.WebService {
         x.price = new Prices.UnitPrice();
 
         data.food = x;
-        data.foodGroups = GetMainFoodGroups(connection);
+        data.foodGroups = GetFoodGroups(connection);
+        connection.Close();
         data.units = Units(lang);
 
         string json = JsonConvert.SerializeObject(data, Formatting.None);
@@ -802,8 +803,7 @@ public class Foods : System.Web.Services.WebService {
                 x.groupOrder = reader.GetValue(3) == DBNull.Value ? 0 : reader.GetInt32(3);
                 xx.Add(x);
             }
-        }
-        catch (Exception e) { return null; }
+        } catch (Exception e) { return null; }
         return xx;
     }
 
