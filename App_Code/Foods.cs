@@ -556,11 +556,7 @@ public class Foods : System.Web.Services.WebService {
 
         // x.servings.otherFoodsEnergy = SmartRound(selectedFoods.Sum(a => a.servings.otherFoodsEnergy)) + SmartRound(selectedFoods.Where(a => a.servings.otherFoodsServ == 1).Sum(a => a.energy));
 
-
-
-
-
-        x.mealsTotalEnergy = GetMealsTotalEnergy(selectedFoods, meals);
+        x.mealsTotalEnergy = GetMealsTotalEnergy(selectedFoods, meals);  // TODO: carbs, protein, fats totals by meals
         x.starch = SmartRound(selectedFoods.Sum(a => a.starch));
         x.totalSugar = SmartRound(selectedFoods.Sum(a => a.totalSugar));
         x.glucose = SmartRound(selectedFoods.Sum(a => a.glucose));
