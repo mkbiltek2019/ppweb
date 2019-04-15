@@ -94,12 +94,17 @@
                                                 <a href="" class="btn btn-default ml5" ng-click="openRecipePopup()"><i class="fa fa-file-text-o"></i> {{'add recipe' | translate}}</a>
                                             </td>
                                             <td colspan="3" class="text-right">
-                                                {{'meal' | translate}} {{'total' | translate}}:
+                                                <!--<span class="text-capitalize">{{'meal' | translate}}</span> {{'total' | translate}}:-->
                                                 <span ng-repeat="x in currentMenu.data.meals">
                                                     <span ng-if="x.code==currentMeal">
-                                                        <b>{{totals.mealsTotalEnergy[$index].meal.energy | number:1}} {{'kcal' | translate}}</b>
-                                                        <br />
-                                                        <span class="badge">{{totals.mealsTotalEnergy[$index].meal.energyPercentage| number:1}} %</span>
+                                                        <!--<b>{{totals.mealsTotalEnergy[$index].meal.energy | number:1}} {{'kcal' | translate}}</b>-->
+                                                        {{'energy' | translate}}: <b>{{totals.mealsTotal[$index].energy.val | number:1}} {{'kcal' | translate}} ({{totals.mealsTotal[$index].energy.perc| number:1}} %)</b><br />
+                                                        {{'carbohydrates' | translate}}: {{totals.mealsTotal[$index].carbohydrates.val | number:1}} {{'g' | translate}} ({{totals.mealsTotal[$index].carbohydrates.perc| number:1}} %)<br />
+                                                        {{'proteins' | translate}}: {{totals.mealsTotal[$index].proteins.val | number:1}} {{'g' | translate}} ({{totals.mealsTotal[$index].proteins.perc| number:1}} %)<br />
+                                                        {{'fats' | translate}}: {{totals.mealsTotal[$index].fats.val | number:1}} {{'g' | translate}} ({{totals.mealsTotal[$index].fats.perc| number:1}} %)<br />
+                                                        <!--<br />-->
+                                                        <!--<span class="badge">{{totals.mealsTotalEnergy[$index].meal.energyPercentage| number:1}} %</span>-->
+                                                        <!--<span class="badge">{{totals.mealsTotal[$index].energy.perc| number:1}} %</span>-->
                                                     </span>
                                                 </span>
                                             </td>
@@ -128,6 +133,10 @@
     </div>
     <div ng-if="config.debug">
         <div>
+            <h4>Meals Total</h4>
+            <div style="border:2px solid Blue">
+                <pre>{{totals.mealsTotal | json}}</pre>
+            </div>
             <h4>Shopping List</h4>
             <div style="border:2px solid Blue">
                 <pre>{{shoppingList | json}}</pre>

@@ -3901,6 +3901,22 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.mealsTitles = [];
         angular.forEach($rootScope.currentMenu.data.meals, function (value, key) {
             if (value.isSelected == true && angular.isDefined($rootScope.totals)) {
+
+                if (angular.isDefined($rootScope.totals.mealsTotal)) {
+                    if (key < $rootScope.recommendations.mealsRecommendationEnergy.length) {
+                        $scope.mealsTotals.push($rootScope.totals.mealsTotal.length > 0 ? $rootScope.totals.mealsTotal[key].energy.val.toFixed(1) : 0);
+                        if ($rootScope.recommendations !== undefined) {
+                            if (angular.isDefined($rootScope.recommendations.mealsRecommendationEnergy)) {
+                                $scope.mealsMin.push($rootScope.recommendations.mealsRecommendationEnergy[key].meal.energyMin);
+                                $scope.mealsMax.push($rootScope.recommendations.mealsRecommendationEnergy[key].meal.energyMax);
+                            }
+                        }
+                        $scope.mealsTitles.push($translate.instant($rootScope.getMealTitle(value)));
+                    }
+                }
+                
+                /* 
+                //OLD
                 if (angular.isDefined($rootScope.totals.mealsTotalEnergy)) {
                     if (key < $rootScope.recommendations.mealsRecommendationEnergy.length) {
                         $scope.mealsTotals.push($rootScope.totals.mealsTotalEnergy.length > 0 ? $rootScope.totals.mealsTotalEnergy[key].meal.energy.toFixed(1) : 0);
@@ -3913,6 +3929,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                         $scope.mealsTitles.push($translate.instant($rootScope.getMealTitle(value)));
                     }
                 }
+                */
+
+
             }
         })
 
@@ -4390,7 +4409,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     var mealEnergyChart = function (idx) {
         var recommended = $rootScope.recommendations.energy;
         var id = 'mealEnergyChart_' + idx;
-        var value = angular.isDefined($rootScope.totals) ? $rootScope.totals.mealsTotalEnergy[idx].meal.energy : 0;
+        //var value = angular.isDefined($rootScope.totals) ? $rootScope.totals.mealsTotalEnergy[idx].meal.energy : 0;
+        var value = angular.isDefined($rootScope.totals) ? $rootScope.totals.mealsTotal[idx].energy.val : 0;
 
         $scope.testmealenergy = value;
 
@@ -4790,11 +4810,21 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.getMealTotal = function (x) {
         var total = null;
+
+        angular.forEach($rootScope.totals.mealsTotal, function (value, key) {
+            if (value.code == x) {
+                total = value;
+            }
+        })
+        /*
+        //OLD
         angular.forEach($rootScope.totals.mealsTotalEnergy, function (value, key) {
             if (value.meal.code == x) {
                 total = value.meal;
             }
         })
+        */
+
         return total
     }
 
@@ -5900,7 +5930,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.backToApp = function () {
-        $rootScope.currTpl = './assets/partials/dashboard.html';
+        if ($rootScope.user.licenceStatus == 'expired') {
+            $rootScope.currTpl = './assets/partials/login.html';
+        } else {
+            $rootScope.currTpl = './assets/partials/dashboard.html';
+        }
     }
 
 }])

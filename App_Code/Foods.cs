@@ -196,19 +196,35 @@ public class Foods : System.Web.Services.WebService {
         public double vitaminC { get; set; }
         public double vitaminK { get; set; }
 
-        public List<MealsTotalEnergy> mealsTotalEnergy = new List<MealsTotalEnergy>();
+        //public List<MealsTotalEnergy> mealsTotalEnergy = new List<MealsTotalEnergy>();
+
+        public List<MealsTotal> mealsTotal = new List<MealsTotal>();
 
         public Prices.UnitPrice price = new Prices.UnitPrice();
     }
 
-    public class MealsTotalEnergy {
-        public CodeEnegy meal = new CodeEnegy();
+
+    //public class MealsTotalEnergy {
+    //    public CodeEnegy meal = new CodeEnegy();
+    //}
+
+    //public class CodeEnegy {
+    //    public string code { get; set; }
+    //    public double energy { get; set; }
+    //    public double energyPercentage { get; set; }
+    //}
+
+    public class MealsTotal {
+        public string code;
+        public ValPerc energy = new ValPerc();
+        public ValPerc carbohydrates = new ValPerc();
+        public ValPerc proteins = new ValPerc();
+        public ValPerc fats = new ValPerc();
     }
 
-    public class CodeEnegy {
-        public string code { get; set; }
-        public double energy { get; set; }
-        public double energyPercentage { get; set; }
+    public class ValPerc {
+        public double val;
+        public double perc;
     }
 
     public class Recommendations {
@@ -556,7 +572,10 @@ public class Foods : System.Web.Services.WebService {
 
         // x.servings.otherFoodsEnergy = SmartRound(selectedFoods.Sum(a => a.servings.otherFoodsEnergy)) + SmartRound(selectedFoods.Where(a => a.servings.otherFoodsServ == 1).Sum(a => a.energy));
 
-        x.mealsTotalEnergy = GetMealsTotalEnergy(selectedFoods, meals);  // TODO: carbs, protein, fats totals by meals
+       // x.mealsTotalEnergy = GetMealsTotalEnergy(selectedFoods, meals);  // TODO: remove
+
+        x.mealsTotal = GetMealsTotal(selectedFoods, meals);
+
         x.starch = SmartRound(selectedFoods.Sum(a => a.starch));
         x.totalSugar = SmartRound(selectedFoods.Sum(a => a.totalSugar));
         x.glucose = SmartRound(selectedFoods.Sum(a => a.glucose));
@@ -906,13 +925,31 @@ public class Foods : System.Web.Services.WebService {
         return percentage;
     }
 
-    private List<MealsTotalEnergy> GetMealsTotalEnergy(List<NewFood> selectedFoods, List<Meals.NewMeal> meals) {
-      List<MealsTotalEnergy> xx = new List<MealsTotalEnergy>();
+    //private List<MealsTotalEnergy> GetMealsTotalEnergy(List<NewFood> selectedFoods, List<Meals.NewMeal> meals) {
+    //  List<MealsTotalEnergy> xx = new List<MealsTotalEnergy>();
+    //    foreach (var obj in meals) {
+    //        MealsTotalEnergy x = new MealsTotalEnergy();
+    //        x.meal.code = obj.code;
+    //        x.meal.energy = selectedFoods.Where(a => a.meal.code == obj.code).Sum(a => a.energy);
+    //        x.meal.energyPercentage = (x.meal.energy / selectedFoods.Sum(a => a.energy)) * 100;
+    //        xx.Add(x);
+    //    }
+    //    return xx;
+    //}
+
+     private List<MealsTotal> GetMealsTotal(List<NewFood> selectedFoods, List<Meals.NewMeal> meals) {
+      List<MealsTotal> xx = new List<MealsTotal>();
         foreach (var obj in meals) {
-            MealsTotalEnergy x = new MealsTotalEnergy();
-            x.meal.code = obj.code;
-            x.meal.energy = selectedFoods.Where(a => a.meal.code == obj.code).Sum(a => a.energy);
-            x.meal.energyPercentage = (x.meal.energy / selectedFoods.Sum(a => a.energy)) * 100;
+            MealsTotal x = new MealsTotal();
+            x.code = obj.code;
+            x.energy.val = selectedFoods.Where(a => a.meal.code == obj.code).Sum(a => a.energy);
+            x.energy.perc = (x.energy.val / selectedFoods.Sum(a => a.energy)) * 100;
+            x.carbohydrates.val = selectedFoods.Where(a => a.meal.code == obj.code).Sum(a => a.carbohydrates);
+            x.carbohydrates.perc = (x.carbohydrates.val / selectedFoods.Sum(a => a.carbohydrates)) * 100;
+            x.proteins.val = selectedFoods.Where(a => a.meal.code == obj.code).Sum(a => a.proteins);
+            x.proteins.perc = (x.proteins.val / selectedFoods.Sum(a => a.proteins)) * 100;
+            x.fats.val = selectedFoods.Where(a => a.meal.code == obj.code).Sum(a => a.fats);
+            x.fats.perc = (x.fats.val / selectedFoods.Sum(a => a.fats)) * 100;
             xx.Add(x);
         }
         return xx;
