@@ -621,16 +621,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 if (typeof (Storage) !== "undefined") {
                     localStorage.lastvisit = new Date();
                 }
-
-                //   $rootScope.getUserSettings();  //TODO
-
                 if ($rootScope.user.licenceStatus == 'expired') {
                     $rootScope.isLogin = false;
-                    functions.alert($translate.instant('your account has expired'), $translate.instant('renew now'));
+                    functions.alert($translate.instant('your subscription has expired'), $translate.instant('renew subscription'));
                     $rootScope.currTpl = './assets/partials/order.html';
                 } else {
                     $rootScope.currTpl = './assets/partials/dashboard.html';
-                    //var daysToExpite = functions.getDateDiff($rootScope.user.expirationDate);
                     if ($rootScope.user.daysToExpite <= 10 && $rootScope.user.daysToExpite > 0) {
                         $rootScope.mainMessage = $translate.instant('your subscription will expire in') + ' ' + $rootScope.user.daysToExpite + ' ' + ($rootScope.user.daysToExpite == 1 ? $translate.instant('day') : $translate.instant('days')) + '.';
                         $rootScope.mainMessageBtn = $translate.instant('renew subscription');
@@ -4746,6 +4742,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
     $scope.toggleMenu('dailyMenuTpl');
 
+
+    /*
     var openPrintPdfPopup = function () {
         if ($rootScope.currentMenu.data.selectedFoods.length == 0) {
             return false;
@@ -4813,6 +4811,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.openPrintPdfPopup = function () {
         openPrintPdfPopup();
     }
+    */
 
     $scope.pdfLink == null;
     $scope.creatingPdf1 = false;

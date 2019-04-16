@@ -1249,7 +1249,7 @@ IBAN HR8423400091160342496
                             , t.Tran("proteins", lang), Math.Round(ft.proteins.val, 1), Math.Round(ft.proteins.perc, 1)
                             , t.Tran("fats", lang), Math.Round(ft.fats.val, 1), Math.Round(ft.fats.perc, 1))).ToString();
                 }
-                sb.AppendLine("_________________________________________________________________________________________________");
+                sb.AppendLine("__________________________________________________________________________________________________");
             }
         }
         return sb.ToString();
