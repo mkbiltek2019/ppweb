@@ -105,7 +105,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
             foreach (string m in orderedMeals) {
                 List<Foods.NewFood> meal = currentMenu.data.selectedFoods.Where(a => a.meal.code == m).ToList();
-                sb.AppendLine(AppendMeal(meal, currentMenu.data.meals, lang, settings));
+                sb.AppendLine(AppendMeal(meal, currentMenu.data.meals, lang, totals, settings));
             }
 
             doc.Add(new Paragraph(sb.ToString(), GetFont()));
@@ -1223,7 +1223,7 @@ IBAN HR8423400091160342496
         }
     }
 
-    private string AppendMeal(List<Foods.NewFood> meal, List<Meals.NewMeal> meals, string lang, PrintMenuSettings settings) {
+    private string AppendMeal(List<Foods.NewFood> meal, List<Meals.NewMeal> meals, string lang, Foods.Totals totals, PrintMenuSettings settings) {
         StringBuilder sb = new StringBuilder();
         if (meal.Count > 0) {
             if(meals.Find(a => a.code == meal[0].meal.code).isSelected == true) {
@@ -1240,8 +1240,16 @@ IBAN HR8423400091160342496
                             , string.Format(@", {0}", settings.showMass ? sl.SmartMass(food.mass, lang) : "")
                             , string.Format(@"{0}", settings.showServ && !string.IsNullOrEmpty(getServingDescription(food.servings, lang)) ? string.Format(@", ({0})", getServingDescription(food.servings, lang)) : "")));
                     }
-                    sb.AppendLine("________________________________________________________________________");
                 }
+                if (settings.showMealsTotal) {
+                    Foods.MealsTotal ft = totals.mealsTotal.Where(a => a.code == meal[0].meal.code).FirstOrDefault();
+                    sb.AppendLine(string.Format(@"{0}: {1} kcal ({2}%), {3}: {4} g ({5}%), {6}: {7} g ({8}%), {9}: {10} g ({11}%)"
+                            , t.Tran("energy", lang), Math.Round(ft.energy.val, 1), Math.Round(ft.energy.perc, 1)
+                            , t.Tran("carbohydrates", lang), Math.Round(ft.carbohydrates.val, 1), Math.Round(ft.carbohydrates.perc, 1)
+                            , t.Tran("proteins", lang), Math.Round(ft.proteins.val, 1), Math.Round(ft.proteins.perc, 1)
+                            , t.Tran("fats", lang), Math.Round(ft.fats.val, 1), Math.Round(ft.fats.perc, 1))).ToString();
+                }
+                sb.AppendLine("_________________________________________________________________________________________________");
             }
         }
         return sb.ToString();
@@ -1515,7 +1523,7 @@ IBAN HR8423400091160342496
 {0}: {1}
 {2}: {3}
 {4}: {5} cm
-{6}: {7} cm
+{6}: {7} kg
 {8}: {9} cm
 {10}: {11} cm
 {12}: {13} ({14})"

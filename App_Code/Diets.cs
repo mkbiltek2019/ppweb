@@ -123,8 +123,4 @@ public class Diets : System.Web.Services.WebService {
     }
     #endregion
 
-    
-
-
-
 }
