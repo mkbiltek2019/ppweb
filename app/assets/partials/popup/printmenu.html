@@ -10,106 +10,132 @@
         <md-dialog-content>
             <div class="md-dialog-content">
                 <div class="text-right">
-                    <button ng-click="copyToClipboard('menu_container')" class="btn btn-default"><span class="text-capitalize"><i class="fa fa-files-o"></i> {{'copy to clipboard' | translate}}</span></button>
+                    <button ng-click="copyToClipboard('menu_container')" class="btn btn-default" title="{{'copy to clipboard' | translate}}"><span class="text-capitalize"><i class="fa fa-files-o"></i> {{'copy' | translate}}</span></button>
+                    <!--TODO-->
+                    <a ng-if="pdfLink==null" href="" ng-click="printMenuPdf(consumers)" class="btn btn-default btn-block text-capitalize" ng-disabled="creatingPdf==true"><span class="text-danger"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</span></a>
+                    <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success btn-block text-capitalize" download ng-click="hidePdfLink()">
+                        <i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}
+                    </a>
                 </div>
-                <div>
-                    <fieldset class="fieldset-border">
-                        <legend class="fieldset-border text-capitalize">{{'settings' | translate}}</legend>
-                        <div>
-                            <md-input-container style="margin-right:80px">
-                                <label>{{'number of consumers' | translate}}</label>
-                                <input ng-model="consumers" type="number" min="1" ng-change="changeNumberOfConsumers(consumers)">
-                            </md-input-container>
-                        </div>
-                        <div>
-                            <md-checkbox ng-model="settings.showClientData" class="md-primary">
-                                {{'show client data' | translate}}
-                            </md-checkbox>
-                            <md-checkbox ng-model="settings.showTitle" class="md-primary">
-                                {{'show dish title' | translate}}
-                            </md-checkbox>
-                            <md-checkbox ng-model="settings.showDescription" class="md-primary">
-                                {{'show description' | translate}}
-                            </md-checkbox>
-                            <md-checkbox ng-model="settings.showFoods" class="md-primary">
-                                {{'show foods' | translate}}
-                            </md-checkbox>
-                        </div>
-                        <div>
-                            <md-checkbox ng-disabled="!settings.showFoods" ng-model="settings.showQty" class="md-primary">
-                                {{'show quantity' | translate}}
-                            </md-checkbox>
-                            <md-checkbox ng-disabled="!settings.showFoods" ng-model="settings.showMass" class="md-primary">
-                                {{'show mass' | translate}}
-                            </md-checkbox>
-                            <md-checkbox ng-disabled="!settings.showFoods" ng-model="settings.showServ" class="md-primary">
-                                {{'show servings' | translate}}
-                            </md-checkbox>
-                        </div>
-                        <div>
-                            <md-checkbox ng-model="settings.showTotals" class="md-primary">
-                                {{'show totals' | translate}}
-                            </md-checkbox>
-                            <md-checkbox ng-model="settings.showPrice" class="md-primary">
-                                {{'show price' | translate}}
-                            </md-checkbox>
-                            <md-checkbox ng-model="settings.showActivities" class="md-primary">
-                                {{'show additional activity' | translate}}
-                            </md-checkbox>
-                        </div>
-                    </fieldset>
-                </div>
-                <hr />
-                <div id="menu_container" class="well">
-                    <div ng-if="settings.showClientData">
-                        <p>{{currentMenu.client.firstName}} {{currentMenu.client.lastName}}</p>
-                        <p>
-                            {{'height' | translate}}: {{currentMenu.client.clientData.height}} cm, {{'weight' | translate}}: {{currentMenu.client.clientData.weight}} kg
-                            <span ng-if="currentMenu.client.clientData.waist>0">, {{'waist' | translate}}: {{currentMenu.client.clientData.waist}} cm</span><span ng-if="clientData.hip>0">, {{'hip' | translate}}: {{clientData.hip}} kg</span>
-                        </p>
-                        <p>{{currentMenu.client.clientData.diet.diet | translate}}</p>
-                        <hr />
+                <div class="row small">
+                    <div class="col-sm-3">
+                        <fieldset class="fieldset-border">
+                            <legend class="fieldset-border text-capitalize">{{'number of consumers' | translate}}</legend>
+                            <input ng-model="consumers" type="number" min="1" class="form-control" style="max-width:100px" ng-change="changeNumberOfConsumers(consumers)" allow-only-numberss>
+                        </fieldset>
+
+
+                        <fieldset class="fieldset-border">
+                            <legend class="fieldset-border text-capitalize">{{'show in print' | translate}}</legend>
+                            <!--<div>
+                                <md-input-container style="margin-right:80px" class="md-block">
+                                    <label>{{'number of consumers' | translate}}</label>
+                                    <input ng-model="consumers" type="number" min="1" ng-change="changeNumberOfConsumers(consumers)">
+                                </md-input-container>
+                            </div>-->
+                            <div>
+                                <md-checkbox ng-model="settings.showClientData" class="md-primary">
+                                    {{'client data' | translate}}
+                                </md-checkbox>
+                                <md-checkbox ng-model="settings.showTitle" class="md-primary">
+                                    {{'dish title' | translate}}
+                                </md-checkbox>
+                                <md-checkbox ng-model="settings.showDescription" class="md-primary">
+                                    {{'description' | translate}}
+                                </md-checkbox>
+                                <md-checkbox ng-model="settings.showFoods" class="md-primary">
+                                    {{'foods' | translate}}
+                                </md-checkbox>
+                            </div>
+                            <div>
+                                <md-checkbox ng-disabled="!settings.showFoods" ng-model="settings.showQty" class="md-primary">
+                                    {{'quantity' | translate}}
+                                </md-checkbox>
+                                <md-checkbox ng-disabled="!settings.showFoods" ng-model="settings.showMass" class="md-primary">
+                                    {{'mass' | translate}}
+                                </md-checkbox>
+                                <md-checkbox ng-disabled="!settings.showFoods" ng-model="settings.showServ" class="md-primary">
+                                    {{'servings' | translate}}
+                                </md-checkbox>
+                                <md-checkbox ng-model="settings.showMealsTotal" class="md-primary">
+                                    {{'meals total' | translate}}
+                                </md-checkbox>
+                            </div>
+                            <div>
+                                <md-checkbox ng-model="settings.showTotals" class="md-primary">
+                                    {{'totals' | translate}}
+                                </md-checkbox>
+                                <md-checkbox ng-model="settings.showPrice" class="md-primary">
+                                    {{'price' | translate}}
+                                </md-checkbox>
+                                <md-checkbox ng-model="settings.showActivities" class="md-primary">
+                                    {{'additional activity' | translate}}
+                                </md-checkbox>
+                            </div>
+                        </fieldset>
                     </div>
-                    <strong>{{currentMenu.title}}</strong>
-                    <p>{{currentMenu.note}}</p>
-                    <p ng-if="consumers > 1">{{'number of consumers' | translate}}: <strong>{{consumers}}</strong></p>
-                    <div ng-if="x.isSelected==1" ng-repeat="x in currentMenu.data.meals track by $index" class="m10">
-                        <label class="text-uppercase mt10">{{getMealTitle(x)}}</label>
-                        <div ng-if="x.description" class="mt10">
-                            <em ng-if="!isSeparatedDes(x.description)&&settings.showDescription">{{x.description}}</em>
-                            <div ng-if="isSeparatedDes(x.description)">
-                                <div ng-repeat="y in getTitleDes(x.description)">
-                                    <div ng-if="settings.showTitle">{{y.title}}</div>
-                                    <em ng-if="settings.showDescription">{{y.description}}</em>
+                    <div id="menu_container" class="col-sm-9">
+                        <fieldset class="fieldset-border">
+                            <legend class="fieldset-border text-capitalize">{{'menu' | translate}}</legend>
+
+                            <div ng-if="settings.showClientData">
+                                <p>{{currentMenu.client.firstName}} {{currentMenu.client.lastName}}</p>
+                                <p>
+                                    {{'height' | translate}}: {{currentMenu.client.clientData.height}} cm, {{'weight' | translate}}: {{currentMenu.client.clientData.weight}} kg
+                                    <span ng-if="currentMenu.client.clientData.waist>0">, {{'waist' | translate}}: {{currentMenu.client.clientData.waist}} cm</span><span ng-if="clientData.hip>0">, {{'hip' | translate}}: {{clientData.hip}} kg</span>
+                                </p>
+                                <p>{{currentMenu.client.clientData.diet.diet | translate}}</p>
+                                <hr />
+                            </div>
+                            <strong>{{currentMenu.title}}</strong>
+                            <p>{{currentMenu.note}}</p>
+                            <p ng-if="consumers > 1">{{'number of consumers' | translate}}: <strong>{{consumers}}</strong></p>
+                            <div ng-if="x.isSelected==1" ng-repeat="x in currentMenu.data.meals track by $index" class="m10">
+                                <label class="text-uppercase mt10">{{getMealTitle(x)}}</label>
+                                <div ng-if="x.description" class="mt10">
+                                    <em ng-if="!isSeparatedDes(x.description)&&settings.showDescription">{{x.description}}</em>
+                                    <div ng-if="isSeparatedDes(x.description)">
+                                        <div ng-repeat="y in getTitleDes(x.description)">
+                                            <div ng-if="settings.showTitle">{{y.title}}</div>
+                                            <em ng-if="settings.showDescription">{{y.description}}</em>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-if="settings.showFoods" class="mt10">
+                                    <div ng-if="y.meal.code==x.code" ng-repeat="y in foods track by $index">
+                                        - {{y.food}}<span ng-if="settings.showQty">, {{y.quantity}} {{y.unit}}</span><span ng-if="settings.showMass">, {{y.mass>999?(y.mass/1000).toFixed(1):y.mass}} {{y.mass>999?('kg' | translate):('g' | translate)}}</span> <span ng-if="settings.showServ&&getServDescription(y.servings)!=''">, ({{getServDescription(y.servings)}})</span>
+                                    </div>
+                                </div>
+                                <div ng-if="settings.showMealsTotal" class="mt10">
+                                    {{'energy' | translate}}: {{totals.mealsTotal[$index].energy.val | number:1}} {{'kcal' | translate}} ({{totals.mealsTotal[$index].energy.perc| number:1}} %),&nbsp;
+                                    {{'carbohydrates' | translate}}: {{totals.mealsTotal[$index].carbohydrates.val | number:1}} {{'g' | translate}} ({{totals.mealsTotal[$index].carbohydrates.perc| number:1}} %),&nbsp;
+                                    {{'proteins' | translate}}: {{totals.mealsTotal[$index].proteins.val | number:1}} {{'g' | translate}} ({{totals.mealsTotal[$index].proteins.perc| number:1}} %),&nbsp;
+                                    {{'fats' | translate}}: {{totals.mealsTotal[$index].fats.val | number:1}} {{'g' | translate}} ({{totals.mealsTotal[$index].fats.perc| number:1}} %)
                                 </div>
                             </div>
-                        </div>
-                        <div ng-if="settings.showFoods" class="mt10">
-                            <div ng-if="y.meal.code==x.code" ng-repeat="y in foods track by $index">
-                                - {{y.food}}<span ng-if="settings.showQty">, {{y.quantity}} {{y.unit}}</span><span ng-if="settings.showMass">, {{y.mass>999?(y.mass/1000).toFixed(1):y.mass}} {{y.mass>999?('kg' | translate):('g' | translate)}}</span> <span ng-if="settings.showServ&&getServDescription(y.servings)!=''">, ({{getServDescription(y.servings)}})</span>
+                            <div ng-if="settings.showTotals">
+                                <hr />
+                                <label><span class="text-uppercase">{{'total' | translate}}</span><span ng-if="consumers > 1"> ({{'per consumer' | translate}})</span>:</label>
+                                <p>{{'energy value' | translate}}: <span>{{totals.energy}} kcal</span></p>
+                                <p>{{'carbohydrates' | translate}}: <span>{{totals.carbohydrates | number:1}} g, ({{totals.carbohydratesPercentage | number:1}} %)</span></p>
+                                <p>{{'proteins' | translate}}: <span>{{totals.proteins | number:1}} g, ({{totals.proteinsPercentage | number:1}} %)</span></p>
+                                <p>{{'fats' | translate}}: <span>{{totals.fats | number:1}} g, ({{totals.fatsPercentage | number:1}} %)</span></p>
                             </div>
-                        </div>
-                    </div>
-                    <div ng-if="settings.showTotals">
-                        <hr />
-                        <label><span class="text-uppercase">{{'total' | translate}}</span><span ng-if="consumers > 1"> ({{'per consumer' | translate}})</span>:</label>
-                        <p>{{'energy value' | translate}}: <span>{{totals.energy}} kcal</span></p>
-                        <p>{{'carbohydrates' | translate}}: <span>{{totals.carbohydrates | number:1}} g, ({{totals.carbohydratesPercentage | number:1}} %)</span></p>
-                        <p>{{'proteins' | translate}}: <span>{{totals.proteins | number:1}} g, ({{totals.proteinsPercentage | number:1}} %)</span></p>
-                        <p>{{'fats' | translate}}: <span>{{totals.fats | number:1}} g, ({{totals.fatsPercentage | number:1}} %)</span></p>
-                    </div>
-                    <div ng-if="totals.price.value>0 && settings.showPrice">
-                        <hr />
-                        <em class="text-primary"><span class="text-capitalize">{{'price' | translate}}</span>: <span>{{totals.price.value | number:2}}</span> <span class="text-uppercase">{{config.currency}}</span></em>
-                    </div>
-                    <div ng-if="currentMenu.client.clientData.activities.length > 0 && settings.showActivities">
-                        <hr />
-                        <label class="text-uppercase">{{'additional activity' | translate}}</label>
-                        <ul ng-repeat="x in currentMenu.client.clientData.activities">
-                            <li>{{x.activity}} - {{x.duration}} min, {{x.energy | number:0}} kcal</li>
-                        </ul>
+                            <div ng-if="totals.price.value>0 && settings.showPrice">
+                                <hr />
+                                <em class="text-primary"><span class="text-capitalize">{{'price' | translate}}</span>: <span>{{totals.price.value | number:2}}</span> <span class="text-uppercase">{{config.currency}}</span></em>
+                            </div>
+                            <div ng-if="currentMenu.client.clientData.activities.length > 0 && settings.showActivities">
+                                <hr />
+                                <label class="text-uppercase">{{'additional activity' | translate}}</label>
+                                <ul ng-repeat="x in currentMenu.client.clientData.activities">
+                                    <li>{{x.activity}} - {{x.duration}} min, {{x.energy | number:0}} kcal</li>
+                                </ul>
+                            </div>
+                        </fieldset>
                     </div>
                 </div>
+
             </div>
         </md-dialog-content>
     </form>

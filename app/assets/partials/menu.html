@@ -26,7 +26,7 @@
                             <li><a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" ng-click="saveRecipeFromMenu(currentMenu.data, currentMeal)" title="{{'save current meal as recipe' | translate}}"><span class="text-primary">{{'save as recipe' | translate}}</span></a></li>
                         </ul>
                     </div>
-                    <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" title="{{'show menu preview' | translate}}" ng-click="printPreview()"><i class="fa fa-file-text-o"></i> <span class="hidden-xs">{{'print' | translate}}</span></a>
+                    <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" title="{{'show menu preview' | translate}}" ng-click="printPreview()"><i class="fa fa-print"></i> <span class="hidden-xs">{{'print' | translate}}</span></a>
                     <a ng-if="pdfLink==null" ng-disabled="currentMenu.data.selectedFoods.length==0" href="" title="{{'create pdf' | translate}}" class="btn btn-default" ng-click="openPrintPdfPopup()"><i class="fa fa-file-pdf-o"></i> <span class="hidden-xs">{{'pdf' | translate}}</span></a>
                     <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" title="{{'send menu to the clients email' | translate}}" ng-click="send()"><i class="fa fa-paper-plane-o"></i> <span class="hidden-xs">{{'send' | translate}}</span></a>
                     <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" title="{{'shopping list' | translate}}" ng-click="getShoppingList(currentMenu)"><i class="fa fa-shopping-basket"></i> <span class="hidden-xs">{{'shopping list' | translate}}</span></a>

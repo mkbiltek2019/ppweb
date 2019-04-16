@@ -50,6 +50,7 @@ public class PrintPdf : System.Web.Services.WebService {
         public bool showTotals;
         public bool showPrice;
         public bool showActivities;
+        public bool showMealsTotal;
     }
 
     #region WebMethods
@@ -68,6 +69,7 @@ public class PrintPdf : System.Web.Services.WebService {
         x.showTotals = true;
         x.showPrice = false;
         x.showActivities = true;
+        x.showMealsTotal = true;
         return JsonConvert.SerializeObject(x, Formatting.None);
     }
 

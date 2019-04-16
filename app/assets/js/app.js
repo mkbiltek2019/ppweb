@@ -3515,6 +3515,54 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 return x;
             }
         }
+
+
+        //New TODO
+        $scope.settings = d.settings;
+       // $scope.cancel = function () {
+         //   $mdDialog.cancel();
+      //  };
+        $scope.pdfLink == null;
+       // $scope.consumers = 1;
+        $scope.creatingPdf = false;
+        $scope.printMenuPdf = function (consumers) {
+            if (angular.isDefined($rootScope.currentMenu)) {
+                $scope.creatingPdf = true;
+                $http({
+                    url: $sessionStorage.config.backend + 'Foods.asmx/ChangeNumberOfConsumers',
+                    method: "POST",
+                    data: { foods: $rootScope.currentMenu.data.selectedFoods, number: consumers }
+                })
+                .then(function (response) {
+                    var foods = JSON.parse(response.data.d);
+                    var currentMenu = angular.copy($rootScope.currentMenu);
+                    currentMenu.data.selectedFoods = foods;
+                    $http({
+                        url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
+                        method: "POST",
+                        data: { userId: $sessionStorage.usergroupid, currentMenu: currentMenu, totals: $rootScope.totals, consumers: consumers, lang: $rootScope.config.language, settings: $scope.settings }
+                    })
+                    .then(function (response) {
+                        var fileName = response.data.d;
+                        $scope.creatingPdf = false;
+                        $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
+                    },
+                    function (response) {
+                        $scope.creatingPdf = false;
+                        alert(response.data.d)
+                    });
+                },
+                function (response) {
+                    alert(response.data.d)
+                });
+            }
+        }
+
+        $scope.hidePdfLink = function () {
+            $scope.pdfLink = null;
+        }
+
+
     };
   
     $scope.get = function () {
