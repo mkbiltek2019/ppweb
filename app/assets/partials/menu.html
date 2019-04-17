@@ -27,108 +27,96 @@
                         </ul>
                     </div>
                     <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" title="{{'show menu preview' | translate}}" ng-click="printPreview()"><i class="fa fa-print"></i> <span class="hidden-xs">{{'print' | translate}}</span></a>
-                    <!--<a ng-if="pdfLink==null" ng-disabled="currentMenu.data.selectedFoods.length==0" href="" title="{{'create pdf' | translate}}" class="btn btn-default" ng-click="openPrintPdfPopup()"><i class="fa fa-file-pdf-o"></i> <span class="hidden-xs">{{'pdf' | translate}}</span></a>-->
                     <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" title="{{'send menu to the clients email' | translate}}" ng-click="send()"><i class="fa fa-paper-plane-o"></i> <span class="hidden-xs">{{'send' | translate}}</span></a>
                     <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" title="{{'shopping list' | translate}}" ng-click="getShoppingList(currentMenu)"><i class="fa fa-shopping-basket"></i> <span class="hidden-xs">{{'shopping list' | translate}}</span></a>
                 </div>
                 <div class="panel-body">
-                        <div layout-gt-sm="row" style="height:60px; margin:0px">
-                            <md-input-container class="md-block" flex-gt-sm>
-                                <label class="text-capitalize">{{'menu title' | translate}}</label>
-                                <input ng-model="currentMenu.title" type="text">
-                            </md-input-container>
-                            <md-input-container class="md-block" flex-gt-sm>
-                                <label class="text-capitalize">{{'note' | translate}}</label>
-                                <input ng-model="currentMenu.note" type="text">
-                            </md-input-container>
+                    <div layout-gt-sm="row" style="height:60px; margin:0px">
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label class="text-capitalize">{{'menu title' | translate}}</label>
+                            <input ng-model="currentMenu.title" type="text">
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label class="text-capitalize">{{'note' | translate}}</label>
+                            <input ng-model="currentMenu.note" type="text">
+                        </md-input-container>
+                    </div>
+                    <div>
+                        <select ng-model="currentMeal" ng-change="toggleMeals(currentMeal)" class="form-control visible-xs text-capitalize">
+                            <option ng-selected="x.code==currentMeal?true:false" value="{{x.code}}" ng-if="x.isSelected==1" ng-repeat="x in currentMenu.data.meals">{{getMealTitle(x)}}</option>
+                        </select>
+                        <ul class="nav nav-tabs hidden-xs text-capitalize">
+                            <li ng-class="x.code==currentMeal?'active':''" ng-click="toggleMeals(x.code)" ng-if="x.isSelected==1" ng-repeat="x in currentMenu.data.meals"><a href="">{{getMealTitle(x)}}</a></li>
+                        </ul>
+                    </div>
+                    <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around">
+                        <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
+                    </div>
+                    <div ng-show="!loading" style="min-height:50%">
+                        <div class="table-responsive">
+                            <table class="table table-condensed table-hover">
+                                <tbody class="text-small">
+                                    <tr ng-repeat="x in currentMenu.data.selectedFoods | filter:filterMeal track by $index">
+                                        <td class="borderNone"><a href="" ng-click="removeFood(x, currentMenu.data.selectedFoods.indexOf(x))" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-times text-danger"></i></a></td>
+                                        <td class="borderNone">
+                                            <button class="fa fa-arrow-up text-primary" ng-click="moveUp(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move up' | translate}}"></button><br />
+                                            <button class="fa fa-arrow-down text-primary" ng-click="moveDown(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move down' | translate}}"></button>
+                                        </td>
+                                        <td class="borderNone" style="width:400px" ng-click="openFoodPopup(x, currentMenu.data.selectedFoods.indexOf(x))" title="{{x.foodGroup.title}}"><span>{{x.food}}</span></td>
+                                        <td class="borderNone text-right" style="min-width:140px">
+                                            <div class="input-group">
+                                                <span class="input-group-addon pointer" ng-click="change(-1, 'quantity', currentMenu.data.selectedFoods.indexOf(x))">-</span>
+                                                <input type="text" ng-model="x.quantity" class="form-control" ng-change="changeQuantity(x, 'quantity', currentMenu.data.selectedFoods.indexOf(x))" allow-only-numbers>
+                                                <span class="input-group-addon pointer" ng-click="change(1, 'quantity', currentMenu.data.selectedFoods.indexOf(x))">+</span>
+                                            </div>
+                                        </td>
+                                        <td class="borderNone" style="min-width:100px">{{x.unit}}</td>
+                                        <td class="borderNone text-right" style="min-width:160px">
+                                            <div class="input-group">
+                                                <span class="input-group-addon pointer" ng-click="change(-1, 'mass', currentMenu.data.selectedFoods.indexOf(x))">-</span>
+                                                <input type="text" ng-model="x.mass" class="form-control" ng-change="changeQuantity(x, 'mass', currentMenu.data.selectedFoods.indexOf(x))" allow-only-numbers>
+                                                <span class="input-group-addon pointer" ng-click="change(1, 'mass', currentMenu.data.selectedFoods.indexOf(x))">+</span>
+                                            </div>
+                                        </td>
+                                        <td class="borderNone" style="width:10px">{{'g' | translate}}</td>
+                                        <td class="borderNone text-right nowrap" style="width:150px">{{x.energy}} {{'kcal' | translate}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5" class="text-capitalize">
+                                            <a ng-disabled="addFoodBtn" href="" class="btn btn-primary" ng-click="openFoodPopup(null,null)"><i ng-class="addFoodBtnIcon"></i> {{'add food' | translate}}</a>
+                                            <a href="" class="btn btn-default ml5" ng-click="openRecipePopup()"><i class="fa fa-file-text-o"></i> {{'add recipe' | translate}}</a>
+                                        </td>
+                                        <td colspan="3" class="text-right">
+                                            <span ng-repeat="x in currentMenu.data.meals">
+                                                <span ng-if="x.code==currentMeal">
+                                                    <span class="text-capitalize">{{x.title}}</span>: {{'energy' | translate}}: {{totals.mealsTotal[$index].energy.val | number:1}} {{'kcal' | translate}} ({{totals.mealsTotal[$index].energy.perc| number:1}} %)<br />
+                                                    {{'carbohydrates' | translate}}: {{totals.mealsTotal[$index].carbohydrates.val | number:1}} {{'g' | translate}} ({{totals.mealsTotal[$index].carbohydrates.perc| number:1}} %)<br />
+                                                    {{'proteins' | translate}}: {{totals.mealsTotal[$index].proteins.val | number:1}} {{'g' | translate}} ({{totals.mealsTotal[$index].proteins.perc| number:1}} %)<br />
+                                                    {{'fats' | translate}}: {{totals.mealsTotal[$index].fats.val | number:1}} {{'g' | translate}} ({{totals.mealsTotal[$index].fats.perc| number:1}} %)<br />
+                                                </span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                         <div>
-                            <select ng-model="currentMeal" ng-change="toggleMeals(currentMeal)" class="form-control visible-xs text-capitalize">
-                                <option ng-selected="x.code==currentMeal?true:false" value="{{x.code}}" ng-if="x.isSelected==1" ng-repeat="x in currentMenu.data.meals">{{getMealTitle(x)}}</option>
-                            </select>
-                            <ul class="nav nav-tabs hidden-xs text-capitalize">
-                                <li ng-class="x.code==currentMeal?'active':''" ng-click="toggleMeals(x.code)" ng-if="x.isSelected==1" ng-repeat="x in currentMenu.data.meals"><a href="">{{getMealTitle(x)}}</a></li>
-                            </ul>
-                            <!--<select ng-model="currentMeal" ng-change="toggleMeals(currentMeal)" class="form-control visible-xs text-capitalize">
-                                <option ng-selected="x.code==currentMeal?true:false" value="{{x.code}}" ng-if="x.isSelected==1" ng-repeat="x in clientData.meals" >{{getMealTitle(x)}}</option>
-                            </select>
-                            <ul class="nav nav-tabs hidden-xs text-capitalize">
-                                <li ng-class="x.code==currentMeal?'active':''" ng-click="toggleMeals(x.code)" ng-if="x.isSelected==1" ng-repeat="x in clientData.meals"><a href="">{{getMealTitle(x)}}</a></li>
-                            </ul>-->
-                        </div>
-                        <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around">
-                            <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
-                        </div>
-                        <div ng-show="!loading" style="min-height:50%">
-                            <div class="table-responsive">
-                                <table class="table table-condensed table-hover">
-                                    <tbody class="text-small">
-                                        <tr ng-repeat="x in currentMenu.data.selectedFoods | filter:filterMeal track by $index">
-                                            <td class="borderNone"><a href="" ng-click="removeFood(x, currentMenu.data.selectedFoods.indexOf(x))" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-times text-danger"></i></a></td>
-                                            <td class="borderNone">
-                                                <button class="fa fa-arrow-up text-primary" ng-click="moveUp(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move up' | translate}}"></button><br />
-                                                <button class="fa fa-arrow-down text-primary" ng-click="moveDown(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move down' | translate}}"></button>
-                                            </td>
-                                            <td class="borderNone" style="width:400px" ng-click="openFoodPopup(x, currentMenu.data.selectedFoods.indexOf(x))" title="{{x.foodGroup.title}}"><span>{{x.food}}</span></td>
-                                            <td class="borderNone text-right" style="min-width:140px">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon pointer" ng-click="change(-1, 'quantity', currentMenu.data.selectedFoods.indexOf(x))">-</span>
-                                                    <input type="text" ng-model="x.quantity" class="form-control" ng-change="changeQuantity(x, 'quantity', currentMenu.data.selectedFoods.indexOf(x))" allow-only-numbers>
-                                                    <span class="input-group-addon pointer" ng-click="change(1, 'quantity', currentMenu.data.selectedFoods.indexOf(x))">+</span>
-                                                </div>
-                                            </td>
-                                            <td class="borderNone" style="min-width:100px">{{x.unit}}</td>
-                                            <td class="borderNone text-right" style="min-width:160px">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon pointer" ng-click="change(-1, 'mass', currentMenu.data.selectedFoods.indexOf(x))">-</span>
-                                                    <input type="text" ng-model="x.mass" class="form-control" ng-change="changeQuantity(x, 'mass', currentMenu.data.selectedFoods.indexOf(x))" allow-only-numbers>
-                                                    <span class="input-group-addon pointer" ng-click="change(1, 'mass', currentMenu.data.selectedFoods.indexOf(x))">+</span>
-                                                </div>
-                                            </td>
-                                            <td class="borderNone" style="width:10px">{{'g' | translate}}</td>
-                                            <td class="borderNone text-right nowrap" style="width:150px">{{x.energy}} {{'kcal' | translate}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="5" class="text-capitalize">
-                                                <a ng-disabled="addFoodBtn" href="" class="btn btn-primary" ng-click="openFoodPopup(null,null)"><i ng-class="addFoodBtnIcon"></i> {{'add food' | translate}}</a>
-                                                <a href="" class="btn btn-default ml5" ng-click="openRecipePopup()"><i class="fa fa-file-text-o"></i> {{'add recipe' | translate}}</a>
-                                            </td>
-                                            <td colspan="3" class="text-right">
-                                                <!--<span class="text-capitalize">{{'meal' | translate}}</span> {{'total' | translate}}:-->
-                                                <span ng-repeat="x in currentMenu.data.meals">
-                                                    <span ng-if="x.code==currentMeal">
-                                                        <!--<b>{{totals.mealsTotalEnergy[$index].meal.energy | number:1}} {{'kcal' | translate}}</b>-->
-                                                        <b>{{'energy' | translate}}: {{totals.mealsTotal[$index].energy.val | number:1}} {{'kcal' | translate}} ({{totals.mealsTotal[$index].energy.perc| number:1}} %)</b><br />
-                                                        {{'carbohydrates' | translate}}: {{totals.mealsTotal[$index].carbohydrates.val | number:1}} {{'g' | translate}} ({{totals.mealsTotal[$index].carbohydrates.perc| number:1}} %)<br />
-                                                        {{'proteins' | translate}}: {{totals.mealsTotal[$index].proteins.val | number:1}} {{'g' | translate}} ({{totals.mealsTotal[$index].proteins.perc| number:1}} %)<br />
-                                                        {{'fats' | translate}}: {{totals.mealsTotal[$index].fats.val | number:1}} {{'g' | translate}} ({{totals.mealsTotal[$index].fats.perc| number:1}} %)<br />
-                                                        <!--<br />-->
-                                                        <!--<span class="badge">{{totals.mealsTotalEnergy[$index].meal.energyPercentage| number:1}} %</span>-->
-                                                        <!--<span class="badge">{{totals.mealsTotal[$index].energy.perc| number:1}} %</span>-->
-                                                    </span>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div>
-                                <div ng-repeat="x in currentMenu.data.meals" >
-                                    <md-input-container ng-if="x.code==currentMeal" class="md-block" style="margin:0px" flex-gt-sm>
-                                        <label>{{'description, meal preparation' | translate}}...</label>
-                                        <textarea ng-model="x.description" rows="3" class="area" ></textarea>
-                                    </md-input-container>
-                                </div>
-                            </div>
-                            <div ng-if="totals.price.value>0" class="text-right m10">
-                                <em class="text-primary"><span class="text-capitalize">{{'price' | translate}}</span>: <span>{{totals.price.value | number:2}}</span> <span class="text-uppercase">{{config.currency}}</span></em>
+                            <div ng-repeat="x in currentMenu.data.meals">
+                                <md-input-container ng-if="x.code==currentMeal" class="md-block" style="margin:0px" flex-gt-sm>
+                                    <label>{{'description, meal preparation' | translate}}...</label>
+                                    <textarea ng-model="x.description" rows="3" class="area"></textarea>
+                                </md-input-container>
                             </div>
                         </div>
+                        <div ng-if="totals.price.value>0" class="text-right m10">
+                            <em class="text-primary"><span class="text-capitalize">{{'price' | translate}}</span>: <span>{{totals.price.value | number:2}}</span> <span class="text-uppercase">{{config.currency}}</span></em>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div ng-include="'chartsTpl'" class="table-scroll" style="height:75%"></div>
+            <div ng-include="'chartsTpl'" class="table-scroll" style="height:80%"></div>
         </div>
     </div>
     <div ng-if="config.debug">

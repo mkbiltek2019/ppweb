@@ -1848,6 +1848,11 @@
   "snack": "Међуоброк",
   "choose food": "Одабери намирницу",
   "pack": "паковање",
-  "edit and save as my food": "Уреди и спреми као моју намирницу"
+  "edit and save as my food": "Уреди и спреми као моју намирницу",
+  "show in print": "Прикажи у испису",
+  "dish title": "назив јела",
+  "total energy and nutritional value of the meals": "укупна енергетска и нутритивна вредност оброка",
+  "total energy and nutritional value of the meanu": "укупна енергетска и нутритивна вредност јеловника",
+  "copy": "копирај"
 
 }

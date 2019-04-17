@@ -841,7 +841,7 @@ public class PrintPdf : System.Web.Services.WebService {
                 table.AddCell(new PdfPCell(new Phrase(t.Tran("waist", lang).ToUpper() + ":", GetFont())) { Border = 0 });
                 table.AddCell(new PdfPCell(new Phrase(calculation.waist.value.ToString() + " cm", GetFont())) { Border = 0 });
                 table.AddCell(new PdfPCell(new Phrase("< " + calculation.waist.increasedRisk.ToString() + " cm", GetFont())) { Border = 0 });
-                table.AddCell(new PdfPCell(new Phrase(t.Tran(calculation.waist.title, lang) + " (" + t.Tran(calculation.waist.description, lang) + ")", GetFont())) { Border = 0 });
+                table.AddCell(new PdfPCell(new Phrase(t.Tran(calculation.waist.title, lang) + (!string.IsNullOrEmpty(calculation.waist.description)?" (" + t.Tran(calculation.waist.description, lang) + ")":""), GetFont())) { Border = 0 });
             }
 
             doc.Add(table);
@@ -1242,6 +1242,7 @@ IBAN HR8423400091160342496
                     }
                 }
                 if (settings.showMealsTotal) {
+                    sb.AppendLine(string.Format(@""));
                     Foods.MealsTotal ft = totals.mealsTotal.Where(a => a.code == meal[0].meal.code).FirstOrDefault();
                     sb.AppendLine(string.Format(@"{0}: {1} kcal ({2}%), {3}: {4} g ({5}%), {6}: {7} g ({8}%), {9}: {10} g ({11}%)"
                             , t.Tran("energy", lang), Math.Round(ft.energy.val, 1), Math.Round(ft.energy.perc, 1)

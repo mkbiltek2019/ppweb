@@ -31,7 +31,7 @@ namespace Igprog {
                 } else {
                     return title;
                 }
-            } catch (Exception e) { return (e.Message); }
+            } catch (Exception e) { return title; }
         }
 
         public string Tran(string title, string[] translations, string lang) {
@@ -52,7 +52,7 @@ namespace Igprog {
                 } else {
                     return title;
                 }
-            } catch (Exception e) { return (e.Message); }
+            } catch (Exception e) { return title; }
         }
 
         public string[] Translations(string lang) {

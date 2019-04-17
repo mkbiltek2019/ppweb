@@ -2758,7 +2758,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     var addNewRow = function () {
         if ($rootScope.user.userType < 2) { return false; }
-        if ($rootScope.myMeals.data.meals.length >= 8) {
+        if ($rootScope.myMeals.data.meals.length >= 9) {
             functions.alert($translate.instant('you have reached the maximum number of meals'), '');
             return false;
         }
@@ -3512,14 +3512,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             }
         }
 
-
-        //New TODO
         $scope.settings = d.settings;
-       // $scope.cancel = function () {
-         //   $mdDialog.cancel();
-      //  };
         $scope.pdfLink == null;
-       // $scope.consumers = 1;
         $scope.creatingPdf = false;
         $scope.printMenuPdf = function (consumers) {
             if (angular.isDefined($rootScope.currentMenu)) {
@@ -3557,7 +3551,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.hidePdfLink = function () {
             $scope.pdfLink = null;
         }
-
 
     };
   
@@ -4453,7 +4446,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     var mealEnergyChart = function (idx) {
         var recommended = $rootScope.recommendations.energy;
         var id = 'mealEnergyChart_' + idx;
-        //var value = angular.isDefined($rootScope.totals) ? $rootScope.totals.mealsTotalEnergy[idx].meal.energy : 0;
         var value = angular.isDefined($rootScope.totals) ? $rootScope.totals.mealsTotal[idx].energy.val : 0;
 
         $scope.testmealenergy = value;
@@ -4742,77 +4734,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
     $scope.toggleMenu('dailyMenuTpl');
 
-
-    /*
-    var openPrintPdfPopup = function () {
-        if ($rootScope.currentMenu.data.selectedFoods.length == 0) {
-            return false;
-        }
-        $mdDialog.show({
-            controller: printPdfCtrl,
-            templateUrl: 'assets/partials/popup/pdf.html',
-            parent: angular.element(document.body),
-            clickOutsideToClose: true,
-            d: { currentMenu: $rootScope.currentMenu, settings: $rootScope.printSettings },
-            config: $rootScope.config
-        })
-        .then(function (r) {
-            alert(r);
-        }, function () {
-        });
-    };
-
-    var printPdfCtrl = function ($scope, $rootScope, $mdDialog, $http, d, config, $translate, $translatePartialLoader, $timeout) {
-        $scope.settings = d.settings;
-        $scope.cancel = function () {
-            $mdDialog.cancel();
-        };
-        $scope.pdfLink == null;
-        $scope.consumers = 1;
-        $scope.creatingPdf = false;
-        $scope.printMenuPdf = function (consumers) {
-            if (angular.isDefined($rootScope.currentMenu)) {
-                $scope.creatingPdf = true;
-                $http({
-                    url: $sessionStorage.config.backend + 'Foods.asmx/ChangeNumberOfConsumers',
-                    method: "POST",
-                    data: { foods: $rootScope.currentMenu.data.selectedFoods, number: consumers }
-                })
-                .then(function (response) {
-                    var foods = JSON.parse(response.data.d);
-                    var currentMenu = angular.copy($rootScope.currentMenu);
-                    currentMenu.data.selectedFoods = foods;
-                    $http({
-                        url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
-                        method: "POST",
-                        data: { userId: $sessionStorage.usergroupid, currentMenu: currentMenu, totals: $rootScope.totals, consumers: consumers, lang: $rootScope.config.language, settings: $scope.settings }
-                    })
-                    .then(function (response) {
-                        var fileName = response.data.d;
-                        $scope.creatingPdf = false;
-                        $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
-                    },
-                    function (response) {
-                        $scope.creatingPdf = false;
-                        alert(response.data.d)
-                    });
-                },
-                function (response) {
-                    alert(response.data.d)
-                });
-            }
-        }
-
-        $scope.hidePdfLink = function () {
-            $scope.pdfLink = null;
-        }
-    };
-
-    $scope.openPrintPdfPopup = function () {
-        openPrintPdfPopup();
-    }
-    */
-
     $scope.pdfLink == null;
     $scope.creatingPdf1 = false;
     $scope.printMenuDetailsPdf = function () {
@@ -4857,21 +4778,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.getMealTotal = function (x) {
         var total = null;
-
         angular.forEach($rootScope.totals.mealsTotal, function (value, key) {
             if (value.code == x) {
                 total = value;
             }
         })
-        /*
-        //OLD
-        angular.forEach($rootScope.totals.mealsTotalEnergy, function (value, key) {
-            if (value.meal.code == x) {
-                total = value.meal;
-            }
-        })
-        */
-
         return total
     }
 

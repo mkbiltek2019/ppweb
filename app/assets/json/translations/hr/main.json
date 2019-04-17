@@ -1853,6 +1853,11 @@
   "snack": "Međuobrok",
   "choose food": "Odaberi namirnicu",
   "pack": "pakiranje",
-  "edit and save as my food": "Uredi i spremi kao moju namirnicu"
+  "edit and save as my food": "Uredi i spremi kao moju namirnicu",
+  "show in print": "Prikaži u ispisu",
+  "dish title": "naziv jela",
+  "total energy and nutritional value of the meals": "ukupna energetska i nutritivna vrijednost obroka",
+  "total energy and nutritional value of the meanu": "ukupna energetska i nutritivna vrijednost jelovnika",
+  "copy": "kopiraj"
 
 }
