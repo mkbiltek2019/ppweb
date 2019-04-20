@@ -1,6 +1,8 @@
 ﻿{
-  "debug": true,
+  "version": "1.3.3",
+  "date": "20.04.2019",
   "serverhostgreenwichtimediff": -1,
+  "debug": true,
   "backend": "../",
   "title": "nutrition program",
   "shortDescription": "meal planning web app",
@@ -37,8 +39,6 @@
       "title": "english"
     }
   ],
-  "version": "1.3.2",
-  "date": "14.04.2019",
   "eur": 7.4,
   "usd": 6.3,
   "currency": "hrk",
