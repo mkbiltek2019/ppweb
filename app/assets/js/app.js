@@ -1250,6 +1250,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
 }])
+
 .controller('dashboardCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions) {
 	var getUser = function () {
         $http({
@@ -2608,8 +2609,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
     defineMealsType();
 
-    
-    
 }])
 
 .controller('standardMealsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
@@ -3045,16 +3044,20 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         if ($rootScope.currentMenu === undefined) {
             init();
         } else {
-            var oldMeals = $rootScope.currentMenu.data.meals;
-            $rootScope.currentMenu.data.meals = angular.copy($rootScope.clientData.meals);
-            angular.forEach($rootScope.currentMenu.data.meals, function (value, key) {
-                if (key >= $rootScope.currentMenu.data.meals.length || key >= oldMeals.length) { return false; }
-                if (oldMeals[key].code == value.code && $rootScope.currentMenu.data.selectedFoods.length > 0) {
-                    value.description = oldMeals[key].description;
-                }
-            })
-            $rootScope.currentMenu.client = $rootScope.client;
-            $rootScope.currentMenu.client.clientData = $rootScope.clientData;  //TODO sredit
+            if ($rootScope.currentMenu.data.selectedFoods.length == 0) {
+                init();
+            } else {
+                var oldMeals = $rootScope.currentMenu.data.meals;
+                $rootScope.currentMenu.data.meals = angular.copy($rootScope.clientData.meals);
+                angular.forEach($rootScope.currentMenu.data.meals, function (value, key) {
+                    if (key >= $rootScope.currentMenu.data.meals.length || key >= oldMeals.length) { return false; }
+                    if (oldMeals[key].code == value.code && $rootScope.currentMenu.data.selectedFoods.length > 0) {
+                        value.description = oldMeals[key].description;
+                    }
+                })
+                $rootScope.currentMenu.client = $rootScope.client;
+                $rootScope.currentMenu.client.clientData = $rootScope.clientData;  //TODO sredit
+            }
         }
     }
 
