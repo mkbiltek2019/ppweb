@@ -1858,6 +1858,8 @@
   "dish title": "naziv jela",
   "total energy and nutritional value of the meals": "ukupna energetska i nutritivna vrijednost obroka",
   "total energy and nutritional value of the meanu": "ukupna energetska i nutritivna vrijednost jelovnika",
-  "copy": "kopiraj"
+  "copy": "kopiraj",
+  "bugmsg1": "Ako imate prijedlog za poboljšanje aplikacije ili želite prijaviti BUG, ovdje možete dati kratki opis.",
+  "bugmsg2": "Odgovorit ćemo Vam u najskorijem roku."
 
 }
