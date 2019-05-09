@@ -1,12 +1,28 @@
 ﻿<div ng-controller="menuCtrl">
     <div>
         <div class="mt10">
-            <div class="text-right">
-                <a ng-if="pdfLink==null" href="" ng-click="printMenuDetailsPdf()" class="btn btn-default text-capitalize" ng-disabled="creatingPdf1==true"><span class="text-danger"><i class="fa fa-{{creatingPdf1==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</span></a>
-                <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success text-capitalize" download ng-click="hidePdfLink()">
-                    <i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}
-                </a>
+            <div class="row">
+                <div class="col-sm-6 text-uppercase">
+                    <label ng-if="menuTpl=='dailyMenuTpl'">{{'daily menu' | translate}}</label>
+                    <label ng-if="menuTpl=='weeklyMenuTpl'">{{'weekly menu' | translate}} ({{'average' | translate}})</label>
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-right">
+                        <a ng-if="pdfLink==null" href="" ng-click="printMenuDetailsPdf()" class="btn btn-default text-capitalize" ng-disabled="creatingPdf1==true"><span class="text-danger"><i class="fa fa-{{creatingPdf1==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</span></a>
+                        <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success text-capitalize" download ng-click="hidePdfLink()">
+                            <i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}
+                        </a>
+                    </div>
+                </div>
             </div>
+
+            <div ng-if="config.debug&&menuTpl=='weeklyMenuTpl'">
+                <!--<pre>{{weeklyMenu }}</pre>-->
+                <button class="btn btn-default" ng-click="getWeeklyMenuTotals(weeklyMenu)">Get Weekly Menu Totals</button>
+            </div>
+
+
+
             <div class="row">
                 <div class="col-sm-5">
                     <ng-include src="'analysisTpl'"></ng-include>
@@ -164,7 +180,6 @@
         <div ng-include="parametersTpl" style="padding-top:20px"></div>
     </fieldset>
 </script>
-
 
 <script type="text/ng-template" id="parametersChartTpl">
     <div>

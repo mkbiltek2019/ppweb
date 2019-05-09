@@ -4725,17 +4725,43 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     };
 
+    var getWeeklyMenuTotals = function (x) {
+        $http({
+            url: $sessionStorage.config.backend + 'WeeklyMenus.asmx/GetWeeklyMenusTotals',
+            method: "POST",
+            data: { userId: $sessionStorage.usergroupid, menuList: x }
+        })
+        .then(function (response) {
+            $rootScope.totals = JSON.parse(response.data.d);
+            $rootScope.totals.price.currency = $rootScope.config.currency;
+            displayCharts();
+        },
+        function (response) {
+            alert(response.data.d);
+        });
+    }
+    $scope.getWeeklyMenuTotals = function () {
+        return getWeeklyMenuTotals($rootScope.weeklyMenu.menuList);
+    }
+
     $scope.toggleMenu = function (x) {
         $scope.loading = true;
         $timeout(function () {
             $scope.loading = false;
-            $scope.menuTpl = x;
+            $rootScope.menuTpl = x;
             if (x == 'dailyMenuTpl') {
                 getTotals($rootScope.currentMenu);
+            } else {
+                debugger;
+                getWeeklyMenuTotals($rootScope.weeklyMenu.menuList)
+                //alert('TODO');
             }
         }, 700);
     }
-    $scope.toggleMenu('dailyMenuTpl');
+    if ($rootScope.menuTpl !== 'weeklyMenuTpl') {
+        $rootScope.menuTpl = 'dailyMenuTpl';
+    }
+    //$scope.toggleMenu('dailyMenuTpl');
 
     $scope.pdfLink == null;
     $scope.creatingPdf1 = false;
@@ -4752,15 +4778,15 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 method: "POST",
                 data: { userId: $sessionStorage.usergroupid, currentMenu: currentMenu, calculation: $rootScope.calculation, totals: $rootScope.totals, recommendations: $rootScope.recommendations, lang: $rootScope.config.language }
             })
-              .then(function (response) {
-                  var fileName = response.data.d;
-                  $scope.creatingPdf1 = false;
-                  $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
-              },
-              function (response) {
-                  $scope.creatingPdf1 = false;
-                  alert(response.data.d);
-              });
+            .then(function (response) {
+                var fileName = response.data.d;
+                $scope.creatingPdf1 = false;
+                $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
+            },
+            function (response) {
+                $scope.creatingPdf1 = false;
+                alert(response.data.d);
+            });
         }
     }
 
@@ -5971,6 +5997,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
        .then(function (response) {
            $scope.weeklyMenu = JSON.parse(response.data.d);
+           $rootScope.weeklyMenu = $scope.weeklyMenu;  //New
            $scope.loading = false;
        },
        function (response) {

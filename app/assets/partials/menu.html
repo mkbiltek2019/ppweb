@@ -166,7 +166,7 @@
 </script>
 
 <script type="text/ng-template" id="weeklyMenuTpl">
-    <div class="noprint" ng-controller="weeklyMenuCtrl">
+    <div ng-controller="weeklyMenuCtrl">
         <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around" class="text-center">
             <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
         </div>
@@ -275,6 +275,10 @@
                     </fieldset>
                 </div>
             </div>
+        </div>
+        <div ng-if="config.debug">
+            weeklyMenu:
+            <pre>{{weeklyMenu | json}}</pre>
         </div>
     </div>
 </script>
