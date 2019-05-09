@@ -116,16 +116,13 @@ public class WeeklyMenus : System.Web.Services.WebService {
         } catch (Exception e) { return (e.Message); }
     }
 
-
-    //TODO:
     [WebMethod]
     public string GetWeeklyMenusTotals(string userId, List<string> menuList) {
         try {
             Foods f = new Foods();
             List<Foods.Totals> xx = new List<Foods.Totals>();
-
-            List<List<Foods.MealsTotal>> lmt = new List<List<Foods.MealsTotal>>();  
-
+            List<List<Foods.MealsTotal>> lmt = new List<List<Foods.MealsTotal>>();
+            List<Foods.MealsTotal> mt_ = new List<Foods.MealsTotal>();
             foreach (string menu in menuList) {
                 if (!string.IsNullOrEmpty(menu)) {
                     Menues m = new Menues();
@@ -134,19 +131,33 @@ public class WeeklyMenus : System.Web.Services.WebService {
                     Foods.Totals t = new Foods.Totals();
                     t = f.GetTotals_(nm.data.selectedFoods, nm.data.meals);
                     xx.Add(t);
-
                     List<Foods.MealsTotal> mt = new List<Foods.MealsTotal>();
                     mt = f.GetMealsTotal(nm.data.selectedFoods, nm.data.meals);
                     lmt.Add(mt);
-
-                    //TODO
-                    //foreach(List<Foods.MealsTotal> l in lmt) {
-                    //    List<Foods.MealsTotal> mt_ = new List<Foods.MealsTotal>();
-                    //}
-
-
+                    foreach (List<Foods.MealsTotal> l in lmt) {
+                        foreach (Foods.MealsTotal o in l) {
+                            mt_.Add(o);
+                        }
+                    }
                 }
             }
+
+            List<Foods.MealsTotal> distMeal = mt_.GroupBy(a => a.code).Select(b => b.First()).ToList();
+            List<Foods.MealsTotal> zz = new List<Foods.MealsTotal>();
+            foreach (var ii in distMeal) {
+                Foods.MealsTotal z = new Foods.MealsTotal();
+                z.code = ii.code;
+                z.energy.val = mt_.Where(a => a.code == ii.code).Average(a => a.energy.val);
+                z.energy.perc = mt_.Where(a => a.code == ii.code).Average(a => a.energy.perc);
+                z.carbohydrates.val = mt_.Where(a => a.code == ii.code).Average(a => a.carbohydrates.val);
+                z.carbohydrates.perc = mt_.Where(a => a.code == ii.code).Average(a => a.carbohydrates.perc);
+                z.proteins.val = mt_.Where(a => a.code == ii.code).Average(a => a.proteins.val);
+                z.proteins.perc = mt_.Where(a => a.code == ii.code).Average(a => a.proteins.perc);
+                z.fats.val = mt_.Where(a => a.code == ii.code).Average(a => a.fats.val);
+                z.fats.perc = mt_.Where(a => a.code == ii.code).Average(a => a.fats.perc);
+                zz.Add(z);
+            }
+
             Foods.Totals x = new Foods.Totals();
             x.mass = f.SmartRound(xx.Average(a => a.mass));
             x.energy = f.SmartRound(xx.Average(a => a.energy));
@@ -164,11 +175,7 @@ public class WeeklyMenus : System.Web.Services.WebService {
             x.servings.fatsServ = f.SmartRound(xx.Average(a => a.servings.fatsServ));
             x.servings.otherFoodsServ = f.SmartRound(xx.Average(a => a.servings.otherFoodsServ));
             x.servings.otherFoodsEnergy = f.SmartRound(xx.Average(a => a.servings.otherFoodsEnergy));
-
-
-            // x.mealsTotal = GetMealsTotal(selectedFoods, meals));  //TODO
-
-
+            x.mealsTotal = zz;
             x.starch = f.SmartRound(xx.Average(a => a.starch));
             x.totalSugar = f.SmartRound(xx.Average(a => a.totalSugar));
             x.glucose = f.SmartRound(xx.Average(a => a.glucose));
@@ -208,7 +215,6 @@ public class WeeklyMenus : System.Web.Services.WebService {
             x.biotin = f.SmartRound(xx.Average(a => a.biotin));
             x.vitaminC = f.SmartRound(xx.Average(a => a.vitaminC));
             x.vitaminK = f.SmartRound(xx.Average(a => a.vitaminK));
-
             x.price.value = Math.Round(xx.Average(a => a.price.value), 2);
             return JsonConvert.SerializeObject(x, Formatting.None);
         } catch (Exception e) { return (e.Message); }
