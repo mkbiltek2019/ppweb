@@ -148,14 +148,14 @@ public class WeeklyMenus : System.Web.Services.WebService {
                 Foods.MealsTotal z = new Foods.MealsTotal();
                 z.code = ii.code;
                 z.title = ii.title;
-                z.energy.val = Math.Round(mt_.Where(a => a.code == ii.code).Average(a => a.energy.val), 1);
-                z.energy.perc = Math.Round(mt_.Where(a => a.code == ii.code).Average(a => a.energy.perc), 1);
-                z.carbohydrates.val = Math.Round(mt_.Where(a => a.code == ii.code).Average(a => a.carbohydrates.val), 1);
-                z.carbohydrates.perc = Math.Round(mt_.Where(a => a.code == ii.code).Average(a => a.carbohydrates.perc), 1);
-                z.proteins.val = Math.Round(mt_.Where(a => a.code == ii.code).Average(a => a.proteins.val), 1);
-                z.proteins.perc = Math.Round(mt_.Where(a => a.code == ii.code).Average(a => a.proteins.perc), 1);
-                z.fats.val = Math.Round(mt_.Where(a => a.code == ii.code).Average(a => a.fats.val), 1);
-                z.fats.perc = Math.Round(mt_.Where(a => a.code == ii.code).Average(a => a.fats.perc), 1);
+                z.energy.val = Math.Round(mt_.Where(a => a.code == ii.code && a.energy.val > 0).Average(a => a.energy.val), 1);
+                z.energy.perc = Math.Round(mt_.Where(a => a.code == ii.code && a.energy.perc > 0).Average(a => a.energy.perc), 1);
+                z.carbohydrates.val = Math.Round(mt_.Where(a => a.code == ii.code && a.carbohydrates.val > 0).Average(a => a.carbohydrates.val), 1);
+                z.carbohydrates.perc = Math.Round(mt_.Where(a => a.code == ii.code && a.carbohydrates.perc > 0).Average(a => a.carbohydrates.perc), 1);
+                z.proteins.val = Math.Round(mt_.Where(a => a.code == ii.code && a.proteins.val > 0).Average(a => a.proteins.val), 1);
+                z.proteins.perc = Math.Round(mt_.Where(a => a.code == ii.code && a.proteins.perc > 0).Average(a => a.proteins.perc), 1);
+                z.fats.val = Math.Round(mt_.Where(a => a.code == ii.code && a.fats.val > 0).Average(a => a.fats.val), 1);
+                z.fats.perc = Math.Round(mt_.Where(a => a.code == ii.code && a.fats.perc > 0).Average(a => a.fats.perc), 1);
                 zz.Add(z);
             }
 
