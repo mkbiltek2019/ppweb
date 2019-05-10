@@ -15,14 +15,6 @@
                     </div>
                 </div>
             </div>
-
-            <div ng-if="config.debug&&menuTpl=='weeklyMenuTpl'">
-                <!--<pre>{{weeklyMenu }}</pre>-->
-                <button class="btn btn-default" ng-click="getWeeklyMenuTotals(weeklyMenu)">Get Weekly Menu Totals</button>
-            </div>
-
-
-
             <div class="row">
                 <div class="col-sm-5">
                     <ng-include src="'analysisTpl'"></ng-include>
@@ -46,10 +38,9 @@
                         <th>{{'choosen' | translate}}</th>
                         <th>{{'recommended' | translate}}</th>
                     </tr>
-                    <tr ng-repeat="x in currentMenu.data.meals | filter: { 'isSelected': true }">
-                        <td class="nowrap">{{getMealTitle(x)}}</td>
-                        <!--<td class="text-bold">{{getMealTotal(x.code).energy | number:1}} {{'kcal' | translate}} ({{getMealTotal(x.code).energyPercentage | number:1}} %) <i class="{{checkTotal(getMealTotal(x.code).energyPercentage, getMealRecommendation(x.code).energyMinPercentage, getMealRecommendation(x.code).energyMaxPercentage)}}"></i></td>-->
-                        <td class="text-bold">{{getMealTotal(x.code).energy.val | number:1}} {{'kcal' | translate}} ({{getMealTotal(x.code).energy.perc | number:1}} %) <i class="{{checkTotal(getMealTotal(x.code).energy.perc, getMealRecommendation(x.code).energyMinPercentage, getMealRecommendation(x.code).energyMaxPercentage)}}"></i></td>
+                    <tr ng-repeat="x in totals.mealsTotal">
+                        <td class="nowrap">{{x.title}}</td>
+                        <td class="text-bold">{{x.energy.val | number:1}} {{'kcal' | translate}} ({{x.energy.perc | number:1}} %) <i class="{{checkTotal(x.energy.perc, getMealRecommendation(x.code).energyMinPercentage, getMealRecommendation(x.code).energyMaxPercentage)}}"></i></td>
                         <td>{{getMealRecommendation(x.code).energyMin}} - {{getMealRecommendation(x.code).energyMax}} {{'kcal' | translate}} ({{getMealRecommendation(x.code).energyMinPercentage}} - {{getMealRecommendation(x.code).energyMaxPercentage}} %)</td>
                     </tr>
                     <tr>
@@ -135,7 +126,7 @@
                 <table class="table table-condensed text-small">
                     <tr>
                         <th></th>
-                        <th>{{'choosen' | translate}}</th>
+                        <th style="width:30%">{{'choosen' | translate}}</th>
                         <th>{{'recommended' | translate}}</th>
                     </tr>
                     <tr>

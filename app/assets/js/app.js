@@ -3066,7 +3066,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $timeout(function () {
             $scope.loading = false;
             $scope.analyticsTpl = x;
-            getTotals($rootScope.currentMenu);
+            if ($rootScope.menuTpl == 'dailyMenuTpl') {
+                getTotals($rootScope.currentMenu);
+            } else {
+                getWeeklyMenuTotals($rootScope.weeklyMenu.menuList)
+            }
         }, 700);
     };
     $scope.toggleAnalytics('chartsTpl');
@@ -4740,8 +4744,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             alert(response.data.d);
         });
     }
-    $scope.getWeeklyMenuTotals = function () {
-        return getWeeklyMenuTotals($rootScope.weeklyMenu.menuList);
+    $scope.getWeeklyMenuTotals = function (x) {
+        return getWeeklyMenuTotals(x);
     }
 
     $scope.toggleMenu = function (x) {
@@ -4751,21 +4755,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $rootScope.menuTpl = x;
             if (x == 'dailyMenuTpl') {
                 getTotals($rootScope.currentMenu);
-            } else {
-                debugger;
-                getWeeklyMenuTotals($rootScope.weeklyMenu.menuList)
-                //alert('TODO');
-            }
+            } 
         }, 700);
     }
     if ($rootScope.menuTpl !== 'weeklyMenuTpl') {
         $rootScope.menuTpl = 'dailyMenuTpl';
     }
-    //$scope.toggleMenu('dailyMenuTpl');
 
-    $scope.pdfLink == null;
-    $scope.creatingPdf1 = false;
-    $scope.printMenuDetailsPdf = function () {
+    var printDailyMenu = function () {
         if ($rootScope.currentMenu.data.selectedFoods.length == 0) {
             functions.alert($translate.instant('menu is empty') + '!', '');
             return false;
@@ -4787,6 +4784,40 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 $scope.creatingPdf1 = false;
                 alert(response.data.d);
             });
+        }
+    }
+
+    var printWeeklyMenu = function () {
+        $scope.creatingPdf1 = true;
+        if (angular.isDefined($rootScope.currentMenu)) {
+            var currentMenu = angular.copy($rootScope.currentMenu);
+            currentMenu.title = $rootScope.weeklyMenu.title;
+            currentMenu.note = $rootScope.weeklyMenu.note;
+            currentMenu.diet = $rootScope.weeklyMenu.diet.diet;
+            $http({
+                url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuDetailsPdf',
+                method: "POST",
+                data: { userId: $sessionStorage.usergroupid, currentMenu: currentMenu, calculation: $rootScope.calculation, totals: $rootScope.totals, recommendations: $rootScope.recommendations, lang: $rootScope.config.language }
+            })
+            .then(function (response) {
+                var fileName = response.data.d;
+                $scope.creatingPdf1 = false;
+                $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
+            },
+            function (response) {
+                $scope.creatingPdf1 = false;
+                alert(response.data.d);
+            });
+        }
+    }
+
+    $scope.pdfLink == null;
+    $scope.creatingPdf1 = false;
+    $scope.printMenuDetailsPdf = function () {
+        if ($rootScope.menuTpl == 'dailyMenuTpl') {
+            printDailyMenu();
+        } else {
+            printWeeklyMenu();
         }
     }
 
@@ -4812,7 +4843,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 total = value;
             }
         })
-        return total
+        return total;
     }
 
     $scope.getMealRecommendation = function (x) {
@@ -4822,7 +4853,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 recommendations = value.meal;
             }
         })
-        return recommendations
+        return recommendations;
     }
 
     $scope.toggleParamTpl = function (x) {
@@ -5996,8 +6027,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { user: $rootScope.user, client: $rootScope.client, lang: $rootScope.config.language }
         })
        .then(function (response) {
-           $scope.weeklyMenu = JSON.parse(response.data.d);
-           $rootScope.weeklyMenu = $scope.weeklyMenu;  //New
+           $rootScope.weeklyMenu = JSON.parse(response.data.d);
            $scope.loading = false;
        },
        function (response) {
@@ -6005,7 +6035,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
            alert(response.data.d);
        });
     }
-    init();
+    if (!angular.isDefined($rootScope.weeklyMenu)) { init(); }
 
     $scope.new = function () {
         init();
@@ -6062,7 +6092,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + 'PrintPdf.asmx/WeeklyMenuPdf',
             method: "POST",
-            data: { userId: $sessionStorage.usergroupid, weeklyMenu: $scope.weeklyMenu, consumers: consumers, lang: $rootScope.config.language, settings: printSettings }
+            data: { userId: $sessionStorage.usergroupid, weeklyMenu: $rootScope.weeklyMenu, consumers: consumers, lang: $rootScope.config.language, settings: printSettings }
         })
           .then(function (response) {
               var fileName = response.data.d;
@@ -6093,9 +6123,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             d: {}
         })
        .then(function (response) {
-           $scope.weeklyMenu = response;
-           $scope.weeklyMenu.client = $rootScope.client;
-           $scope.weeklyMenu.diet = $rootScope.clientData.diet;
+           $rootScope.weeklyMenu = response;
+           $rootScope.weeklyMenu.client = $rootScope.client;
+           $rootScope.weeklyMenu.diet = $rootScope.clientData.diet;
        }, function () {
        });
     }
@@ -6203,10 +6233,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             templateUrl: 'assets/partials/popup/saveweeklymenu.html',
             parent: angular.element(document.body),
             clickOutsideToClose: true,
-            d: { weeklyMenu: $scope.weeklyMenu }
+            d: { weeklyMenu: $rootScope.weeklyMenu }
         })
        .then(function (response) {
-           $scope.weeklyMenu = response;
+           $rootScope.weeklyMenu = response;
        }, function () {
        });
     }

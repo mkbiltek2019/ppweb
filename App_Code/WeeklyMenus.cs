@@ -147,14 +147,15 @@ public class WeeklyMenus : System.Web.Services.WebService {
             foreach (var ii in distMeal) {
                 Foods.MealsTotal z = new Foods.MealsTotal();
                 z.code = ii.code;
-                z.energy.val = mt_.Where(a => a.code == ii.code).Average(a => a.energy.val);
-                z.energy.perc = mt_.Where(a => a.code == ii.code).Average(a => a.energy.perc);
-                z.carbohydrates.val = mt_.Where(a => a.code == ii.code).Average(a => a.carbohydrates.val);
-                z.carbohydrates.perc = mt_.Where(a => a.code == ii.code).Average(a => a.carbohydrates.perc);
-                z.proteins.val = mt_.Where(a => a.code == ii.code).Average(a => a.proteins.val);
-                z.proteins.perc = mt_.Where(a => a.code == ii.code).Average(a => a.proteins.perc);
-                z.fats.val = mt_.Where(a => a.code == ii.code).Average(a => a.fats.val);
-                z.fats.perc = mt_.Where(a => a.code == ii.code).Average(a => a.fats.perc);
+                z.title = ii.title;
+                z.energy.val = Math.Round(mt_.Where(a => a.code == ii.code).Average(a => a.energy.val), 1);
+                z.energy.perc = Math.Round(mt_.Where(a => a.code == ii.code).Average(a => a.energy.perc), 1);
+                z.carbohydrates.val = Math.Round(mt_.Where(a => a.code == ii.code).Average(a => a.carbohydrates.val), 1);
+                z.carbohydrates.perc = Math.Round(mt_.Where(a => a.code == ii.code).Average(a => a.carbohydrates.perc), 1);
+                z.proteins.val = Math.Round(mt_.Where(a => a.code == ii.code).Average(a => a.proteins.val), 1);
+                z.proteins.perc = Math.Round(mt_.Where(a => a.code == ii.code).Average(a => a.proteins.perc), 1);
+                z.fats.val = Math.Round(mt_.Where(a => a.code == ii.code).Average(a => a.fats.val), 1);
+                z.fats.perc = Math.Round(mt_.Where(a => a.code == ii.code).Average(a => a.fats.perc), 1);
                 zz.Add(z);
             }
 

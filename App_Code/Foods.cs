@@ -216,6 +216,7 @@ public class Foods : System.Web.Services.WebService {
 
     public class MealsTotal {
         public string code;
+        public string title;
         public ValPerc energy = new ValPerc();
         public ValPerc carbohydrates = new ValPerc();
         public ValPerc proteins = new ValPerc();
@@ -949,6 +950,7 @@ public class Foods : System.Web.Services.WebService {
         foreach (var obj in meals) {
             MealsTotal x = new MealsTotal();
             x.code = obj.code;
+            x.title = obj.title;
             x.energy.val = selectedFoods.Where(a => a.meal.code == obj.code).Sum(a => a.energy);
             x.energy.perc = (x.energy.val / selectedFoods.Sum(a => a.energy)) * 100;
             x.carbohydrates.val = selectedFoods.Where(a => a.meal.code == obj.code).Sum(a => a.carbohydrates);
