@@ -3206,6 +3206,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $scope.isShowMyFood = x;
         }
 
+        // TOOD: translate on server side
         $scope.getFoodDetails = function (x) {
             if ($scope.isShowMyFood == true) {
                 getMyFoodDetails(x);
@@ -3241,6 +3242,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             .then(function (response) {
                 $scope.food = JSON.parse(response.data.d);
                 $scope.food.unit = $translate.instant($scope.food.unit);
+                $scope.food.foodGroup.title = $translate.instant($scope.food.foodGroup.title);
                 initFood = angular.copy($scope.food);
             },
             function (response) {
@@ -5129,16 +5131,15 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     };
 
-    var checkIsOtherFood = function (x) {
-        if (x.foodGroup.code == 'OF') {
-            return true;
-        }
+    var checkIsOtherFood = (x) => {
         if (x.servings.cerealsServ > 0 ||
-             x.servings.vegetablesServ > 0 ||
-             x.servings.fruitServ > 0 ||
-             x.servings.meatServ > 0 ||
-             x.servings.milkServ > 0 ||
-             x.servings.fatsServ > 0) {
+            x.servings.vegetablesServ > 0 ||
+            x.servings.fruitServ > 0 ||
+            x.servings.meatServ > 0 ||
+            x.servings.milkServ > 0 ||
+            x.servings.fatsServ > 0) {
+            x.servings.otherFoodsServ = 0;
+            x.servings.otherFoodsEnergy = 0;
             return false;
         } else {
             return true;

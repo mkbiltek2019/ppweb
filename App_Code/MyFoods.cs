@@ -77,10 +77,8 @@ public class MyFoods : System.Web.Services.WebService {
                 x.foodGroup.parent = "A";
                 xx.Add(x);
             }
-
             foodData.foods = xx;
             foodData.foodGroups = null;
-
             connection.Close();
             string json = JsonConvert.SerializeObject(foodData, Formatting.None);
             return json;
@@ -110,7 +108,7 @@ public class MyFoods : System.Web.Services.WebService {
                 x.id = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
                 x.food = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
                 x.foodGroup.code = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
-                x.foodGroup.title = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
+                x.foodGroup.title = GetFoodGroupTitle(x.foodGroup.code); // reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
                 x.foodGroup.parent = "A";
                 x.foodGroupVitaminLost = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
                 x.thermalTreatments = null;
@@ -308,6 +306,32 @@ public class MyFoods : System.Web.Services.WebService {
             }
             return result;
         } catch (Exception e) { return false; }
+    }
+
+    private string GetFoodGroupTitle(string code) {
+        string title = null;
+        switch(code) {
+            case "C": title = "cereals and cereal products"; break;
+            case "V": title = "vegetables"; break;
+            case "F": title = "fruit"; break;
+            case "M": title = "meat and substitutes"; break;
+            case "EUM": title = "extremely unpasteurised meat and substitutes"; break;
+            case "NFM": title = "lean meat and substitutes"; break;
+            case "MFM": title = "medium - fat meat and substitutes"; break;
+            case "FFM": title = "fat meat and substitutes"; break;
+            case "MI": title = "milk and dairy products"; break;
+            case "LFMI": title = "skimmed milk and dairy products"; break;
+            case "SMI": title = "partially skimmed milk and dairy products"; break;
+            case "FFMI": title = "whole milk and dairy products"; break;
+            case "FA": title = "fat"; break;
+            case "SF": title = "saturated fats"; break;
+            case "UF": title = "monounsaturated fats"; break;
+            case "MUF": title = "polyunsaturated fats"; break;
+            case "MF": title = "mixed foods"; break;
+            case "PM": title = "prepared meals"; break;
+            case "OF": title = "other foods"; break;
+        }
+        return title;
     }
     #endregion Methods
 

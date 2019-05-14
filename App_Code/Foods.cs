@@ -468,7 +468,6 @@ public class Foods : System.Web.Services.WebService {
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             command.Parameters.Add(new SQLiteParameter("id", id));
             NewFood x = new NewFood();
-           
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read()) {
                 x.id = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
@@ -932,18 +931,6 @@ public class Foods : System.Web.Services.WebService {
         }
         return percentage;
     }
-
-    //private List<MealsTotalEnergy> GetMealsTotalEnergy(List<NewFood> selectedFoods, List<Meals.NewMeal> meals) {
-    //  List<MealsTotalEnergy> xx = new List<MealsTotalEnergy>();
-    //    foreach (var obj in meals) {
-    //        MealsTotalEnergy x = new MealsTotalEnergy();
-    //        x.meal.code = obj.code;
-    //        x.meal.energy = selectedFoods.Where(a => a.meal.code == obj.code).Sum(a => a.energy);
-    //        x.meal.energyPercentage = (x.meal.energy / selectedFoods.Sum(a => a.energy)) * 100;
-    //        xx.Add(x);
-    //    }
-    //    return xx;
-    //}
 
     public List<MealsTotal> GetMealsTotal(List<NewFood> selectedFoods, List<Meals.NewMeal> meals) {
       List<MealsTotal> xx = new List<MealsTotal>();
