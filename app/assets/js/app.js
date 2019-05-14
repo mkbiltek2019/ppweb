@@ -5131,7 +5131,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     };
 
-    var checkIsOtherFood = (x) => {
+    var checkIsOtherFood = function (x) {
         if (x.servings.cerealsServ > 0 ||
             x.servings.vegetablesServ > 0 ||
             x.servings.fruitServ > 0 ||
