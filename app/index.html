@@ -126,12 +126,12 @@
                 </strong>
                 <div>{{browserMsg.description | translate}}</div>
             </div>
-            <div ng-if="mainMessage && isLogin && client.clientId" class="alert alert-success alert-dismissable text-center m10" style="height:auto !important">
+            <div ng-if="mainMessage && isLogin && client.clientId" class="alert alert-danger alert-dismissable text-center m10" style="height:auto !important">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                 <strong>
                     <i class="fa fa-info-circle fa-2x" aria-hidden="true"></i><span class="text-uppercase ml5">{{mainMessage}}</span>
                     <button class="btn btn-default text-uppercase ml10" ng-click="toggleTpl('order'); hideMsg()">
-                        <span class="text-success"><i class="fa fa-hand-o-right fa-2x arrow1" aria-hidden="true"></i> {{mainMessageBtn}}</span>
+                        <span class="text-danger"><i class="fa fa-hand-o-right fa-2x arrow1" aria-hidden="true"></i> {{mainMessageBtn}}</span>
                     </button>
                 </strong>
             </div>

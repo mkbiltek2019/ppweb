@@ -29,17 +29,14 @@
                                     <li ng-if="x.parent == '' || x.parent == 'A' || x.parent == currentMainGroup" ng-repeat="x in foodGroups" ng-mousemove="showFoodSubGroups(x)" ng-click="changeFoodGroup(x.group)">
                                         <a href="#" ng-class="x.group.code == currentGroup.code?'text-bold':''"><span ng-class="x.parent == currentMainGroup?'p10 text-muted':''">{{x.group.title | translate}}</span></a>
                                     </li>
-                                    <li ng-click="showMyFoods(true)">{{'my foods' | translate}}</li>
+                                    <li ng-click="changeFoodGroup({code:'MYF', title:'my foods'})">{{'my foods' | translate}}</li>
                                 </ul>
                             </div>
                         </div>
                         <div>
                             <select ng-model="choosenFood" class="form-control" size="22" ng-change="getFoodDetails(choosenFood)">
-                                <option ng-if="checkIf(x)==true" ng-repeat="x in isShowMyFood == true ? myFoods : foods | filter:{food:searchFood} | limitTo:limit" value="{{x}}">{{x.food}}</option>
+                                <option ng-if="checkIf(x)===true" ng-repeat="x in isShowMyFood === true ? myFoods : foods | filter:{food:searchFood} | orderBy:'food' | limitTo:limit" value="{{x}}">{{x.food}}</option>
                             </select>
-                            <!--<select ng-model="choosenFood" class="form-control" size="22" ng-change="getFoodDetails(choosenFood)">
-                                <option ng-if="checkIf(x)==true" ng-repeat="x in isShowMyFood == true ? myFoods : foods | filter:{food:searchFood} | limitTo:limit | orderBy:'food'" value="{{x}}">{{x.food}}</option>
-                            </select>-->
                         </div>
                         <div class="pull-right m10">
                             <a href="" ng-if="limit<foods.length+1" class="btn btn-default" ng-click="loadMore()"><i class="fa fa-arrow-down"></i> {{'show all' | translate}}...</a>

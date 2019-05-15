@@ -36,7 +36,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.today = new Date();
     $rootScope.unitSystem = 1;
 
-    if ((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )) {
+    if ((navigator.userAgent.indexOf("MSIE") !== -1 ) || (!!document.documentMode === true )) {
         $rootScope.browserMsg = {
             title: 'you are currently using internet explorer',
             description: 'for a better experience in using the application, please use some of the modern browsers such as google chrome, mozilla firefox, microsoft edge etc.'
@@ -44,8 +44,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     if (angular.isDefined($sessionStorage.user)) {
-        if ($sessionStorage.user != null) {
-            if ($sessionStorage.user.licenceStatus == 'demo') {
+        if ($sessionStorage.user !== null) {
+            if ($sessionStorage.user.licenceStatus === 'demo') {
                 $rootScope.mainMessage = $translate.instant('you are currently working in a demo version') + '. ' + $translate.instant('some functions are disabled') + '.';
                 $rootScope.mainMessageBtn = $translate.instant('activate full version');
             }
@@ -149,7 +149,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             var data = JSON.parse(response.data.d);
-            $rootScope.foods = data.foods;
+            $rootScope.foods = data.foods.concat(data.myFoods);
             $rootScope.myFoods = data.myFoods;
             $rootScope.foodGroups = data.foodGroups;
             $rootScope.loading = false;
@@ -3219,14 +3219,18 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             })
             .then(function (response) {
                 $scope.food = JSON.parse(response.data.d);
-                $scope.food.food = $translate.instant($scope.food.food);
-                $scope.food.unit = $translate.instant($scope.food.unit);
-                $scope.food.foodGroup.title = $translate.instant($scope.food.foodGroup.title);
-                $scope.food.meal.title = $translate.instant($scope.food.meal.title);
-                angular.forEach($scope.food.thermalTreatments, function (value, key) {
-                    $scope.food.thermalTreatments[key].thermalTreatment.title = $translate.instant($scope.food.thermalTreatments[key].thermalTreatment.title);
-                })
-                initFood = angular.copy($scope.food);
+                if ($scope.food.id === null) {
+                    getMyFoodDetails(x);
+                } else {
+                    $scope.food.food = $translate.instant($scope.food.food);
+                    $scope.food.unit = $translate.instant($scope.food.unit);
+                    $scope.food.foodGroup.title = $translate.instant($scope.food.foodGroup.title);
+                    $scope.food.meal.title = $translate.instant($scope.food.meal.title);
+                    angular.forEach($scope.food.thermalTreatments, function (value, key) {
+                        $scope.food.thermalTreatments[key].thermalTreatment.title = $translate.instant($scope.food.thermalTreatments[key].thermalTreatment.title);
+                    })
+                    initFood = angular.copy($scope.food);
+                }
             },
             function (response) {
                 alert(response.data.d)
@@ -3333,7 +3337,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.changeFoodGroup = function (x) {
             $scope.searchFood = '';
             $scope.limit = $scope.foods.length + 1;
-            $scope.showMyFoods(false);
+            if (x.code === 'MYF') {
+                $scope.showMyFoods(true);
+            } else {
+                $scope.showMyFoods(false);
+            }
             $scope.currentGroup = {
                 code: x.code,
                 title: x.title

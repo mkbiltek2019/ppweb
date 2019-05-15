@@ -151,7 +151,7 @@ public class ShoppingList : System.Web.Services.WebService {
         if (mass > 999) {
             return string.Format("{0} {1}", Math.Round((mass / 1000), 1), t.Tran("kg", lang));
         } else {
-            return string.Format("{0} {1}", Math.Round(mass, 0), t.Tran("g", lang));
+            return string.Format("{0} {1}", mass, t.Tran("g", lang));
         }
     }
 

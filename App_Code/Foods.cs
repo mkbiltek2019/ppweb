@@ -408,8 +408,7 @@ public class Foods : System.Web.Services.WebService {
         x.pantothenicAcid = 0;
         x.biotin = 0;
         x.vitaminC = 0;
-        string json = JsonConvert.SerializeObject(x, Formatting.None);
-        return json;
+        return JsonConvert.SerializeObject(x, Formatting.None);
     }
 
     [WebMethod]
@@ -442,9 +441,7 @@ public class Foods : System.Web.Services.WebService {
 
             MyFoods.Data myf = new MyFoods.Data();
             foodData.myFoods = myf.GetMyFoods(userId);
-
-            string json = JsonConvert.SerializeObject(foodData, Formatting.None);
-            return json;
+            return JsonConvert.SerializeObject(foodData, Formatting.None);
         } catch (Exception e) { return ("Error: " + e); }
     }
 
