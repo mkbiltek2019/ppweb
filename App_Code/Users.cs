@@ -106,24 +106,24 @@ public class Users : System.Web.Services.WebService {
         public int appointments;
     }
 
-
     public class CheckUser {
         public bool CheckUserId(string userId, bool isActive) {
             try {
                 bool result = false;
                 string dataBase = ConfigurationManager.AppSettings["UsersDataBase"];
                 string path = HttpContext.Current.Server.MapPath("~/App_Data/" + dataBase);
-                SQLiteConnection connection = new SQLiteConnection("Data Source=" + path);
-                connection.Open();
-                SQLiteCommand command = new SQLiteCommand(
-                     "SELECT EXISTS (SELECT userId FROM users WHERE userId = @userId AND isActive = @isActive)", connection);
-                command.Parameters.Add(new SQLiteParameter("userId", userId));
-                command.Parameters.Add(new SQLiteParameter("isActive", isActive));
-                SQLiteDataReader reader = command.ExecuteReader();
-                while (reader.Read()) {
-                    result = reader.GetBoolean(0);
+                using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + path)) {
+                    connection.Open();
+                    string sql = string.Format("SELECT EXISTS (SELECT userId FROM users WHERE userId = '{0}' AND isActive = '{1}')", userId, isActive);
+                    using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                        using (SQLiteDataReader reader = command.ExecuteReader()) {
+                            while (reader.Read()) {
+                                result = reader.GetBoolean(0);
+                            }
+                        }
+                    }
+                    connection.Close();
                 }
-                connection.Close();
                 return result;
             } catch (Exception e) { return false; }
         }
@@ -162,58 +162,57 @@ public class Users : System.Web.Services.WebService {
             x.maxNumberOfUsers = 1;
             x.package = "";
             x.datasum = new DataSum();
-            string json = JsonConvert.SerializeObject(x, Formatting.None);
-            return json;
+            return JsonConvert.SerializeObject(x, Formatting.None);
         } catch (Exception e) { return ("Error: " + e); }
     }
 
     [WebMethod]
     public string Login(string userName, string password) {
         try {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
-            connection.Open();
-            string sql = string.Format(@"SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress FROM users WHERE lower(userName) = '{0}' AND password = '{1}'"
-                                        ,userName.ToLower(), Encrypt(password));
-            SQLiteCommand command = new SQLiteCommand(
-                  sql, connection);
             NewUser x = new NewUser();
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read()) {
-                x.userId = reader.GetString(0);
-                x.userType = reader.GetInt32(1);
-                x.firstName = reader.GetString(2);
-                x.lastName = reader.GetString(3);
-                x.companyName = reader.GetString(4);
-                x.address = reader.GetString(5);
-                x.postalCode = reader.GetString(6);
-                x.city = reader.GetString(7);
-                x.country = reader.GetString(8);
-                x.pin = reader.GetString(9);
-                x.phone = reader.GetString(10);
-                x.email = reader.GetString(11);
-                x.userName = reader.GetString(12);
-                x.password = Decrypt(reader.GetString(13));
-                x.adminType = reader.GetInt32(14);
-                x.userGroupId = reader.GetString(15);
-                x.activationDate = reader.GetString(16);
-                x.expirationDate = reader.GetString(17);
-                x.daysToExpite = G.DateDiff(x.expirationDate);
-                x.isActive = Convert.ToBoolean(reader.GetInt32(18));
-                x.licenceStatus = GetLicenceStatus(x);
-                x.ipAddress = reader.GetString(19);
-                x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection);
-                x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
-                x.package = GetPackage(x.licenceStatus, x.userType);
-                /****** SubUsers ******/
-                if (x.userId != x.userGroupId) {
-                    x = GetUserGroupInfo(x, connection);
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase))) {
+                connection.Open();
+                string sql = string.Format(@"SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress FROM users WHERE lower(userName) = '{0}' AND password = '{1}'"
+                                            , userName.ToLower(), Encrypt(password));
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    SQLiteDataReader reader = command.ExecuteReader();
+                    while (reader.Read()) {
+                        x.userId = reader.GetString(0);
+                        x.userType = reader.GetInt32(1);
+                        x.firstName = reader.GetString(2);
+                        x.lastName = reader.GetString(3);
+                        x.companyName = reader.GetString(4);
+                        x.address = reader.GetString(5);
+                        x.postalCode = reader.GetString(6);
+                        x.city = reader.GetString(7);
+                        x.country = reader.GetString(8);
+                        x.pin = reader.GetString(9);
+                        x.phone = reader.GetString(10);
+                        x.email = reader.GetString(11);
+                        x.userName = reader.GetString(12);
+                        x.password = Decrypt(reader.GetString(13));
+                        x.adminType = reader.GetInt32(14);
+                        x.userGroupId = reader.GetString(15);
+                        x.activationDate = reader.GetString(16);
+                        x.expirationDate = reader.GetString(17);
+                        x.daysToExpite = G.DateDiff(x.expirationDate);
+                        x.isActive = Convert.ToBoolean(reader.GetInt32(18));
+                        x.licenceStatus = GetLicenceStatus(x);
+                        x.ipAddress = reader.GetString(19);
+                        x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection);
+                        x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
+                        x.package = GetPackage(x.licenceStatus, x.userType);
+                        /****** SubUsers ******/
+                        if (x.userId != x.userGroupId) {
+                            x = GetUserGroupInfo(x, connection);
+                        }
+                        /**********************/
+                    }
                 }
-                /**********************/
+                connection.Close();
             }
-            connection.Close();
             x.datasum = GetDataSum(x.userGroupId, x.userId, x.userType, x.adminType);
-            string json = JsonConvert.SerializeObject(x, Formatting.None);
-            return json;
+            return JsonConvert.SerializeObject(x, Formatting.None);
         } catch (Exception e) { return ("Error: " + e); }
     }
 
@@ -226,36 +225,38 @@ public class Users : System.Web.Services.WebService {
         }
         else {
             try {
-                SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
-                x.userId = Convert.ToString(Guid.NewGuid());
-                x.userGroupId = x.userGroupId == null ? x.userId : x.userGroupId;
-                x.password = Encrypt(x.password);
-                connection.Open();
-                string sql = @"INSERT INTO users VALUES  
+                using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase))) {
+                    x.userId = Convert.ToString(Guid.NewGuid());
+                    x.userGroupId = x.userGroupId == null ? x.userId : x.userGroupId;
+                    x.password = Encrypt(x.password);
+                    connection.Open();
+                    string sql = @"INSERT INTO users VALUES  
                        (@UserId, @UserType, @FirstName, @LastName, @CompanyName, @Address, @PostalCode, @City, @Country, @Pin, @Phone, @Email, @UserName, @Password, @AdminType, @UserGroupId, @ActivationDate, @ExpirationDate, @IsActive, @IPAddress)";
-                SQLiteCommand command = new SQLiteCommand(sql, connection);
-                command.Parameters.Add(new SQLiteParameter("userId", x.userId));
-                command.Parameters.Add(new SQLiteParameter("UserType", x.userType));
-                command.Parameters.Add(new SQLiteParameter("FirstName", x.firstName));
-                command.Parameters.Add(new SQLiteParameter("LastName", x.lastName));
-                command.Parameters.Add(new SQLiteParameter("CompanyName", x.companyName));
-                command.Parameters.Add(new SQLiteParameter("Address", x.address));
-                command.Parameters.Add(new SQLiteParameter("PostalCode", x.postalCode));
-                command.Parameters.Add(new SQLiteParameter("City", x.city));
-                command.Parameters.Add(new SQLiteParameter("Country", x.country));
-                command.Parameters.Add(new SQLiteParameter("Pin", x.pin));
-                command.Parameters.Add(new SQLiteParameter("Phone", x.phone));
-                command.Parameters.Add(new SQLiteParameter("Email", x.email.Trim().ToLower()));
-                command.Parameters.Add(new SQLiteParameter("UserName", x.userName.Trim().ToLower()));
-                command.Parameters.Add(new SQLiteParameter("Password", x.password));
-                command.Parameters.Add(new SQLiteParameter("adminType", x.adminType));
-                command.Parameters.Add(new SQLiteParameter("UserGroupId", x.userGroupId = x.userGroupId == null ? x.userId : x.userGroupId));
-                command.Parameters.Add(new SQLiteParameter("ActivationDate", x.activationDate));
-                command.Parameters.Add(new SQLiteParameter("ExpirationDate", x.expirationDate));
-                command.Parameters.Add(new SQLiteParameter("IsActive", x.isActive));
-                command.Parameters.Add(new SQLiteParameter("IPAddress", x.ipAddress));
-                command.ExecuteNonQuery();
-                connection.Close();
+                    using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                        command.Parameters.Add(new SQLiteParameter("userId", x.userId));
+                        command.Parameters.Add(new SQLiteParameter("UserType", x.userType));
+                        command.Parameters.Add(new SQLiteParameter("FirstName", x.firstName));
+                        command.Parameters.Add(new SQLiteParameter("LastName", x.lastName));
+                        command.Parameters.Add(new SQLiteParameter("CompanyName", x.companyName));
+                        command.Parameters.Add(new SQLiteParameter("Address", x.address));
+                        command.Parameters.Add(new SQLiteParameter("PostalCode", x.postalCode));
+                        command.Parameters.Add(new SQLiteParameter("City", x.city));
+                        command.Parameters.Add(new SQLiteParameter("Country", x.country));
+                        command.Parameters.Add(new SQLiteParameter("Pin", x.pin));
+                        command.Parameters.Add(new SQLiteParameter("Phone", x.phone));
+                        command.Parameters.Add(new SQLiteParameter("Email", x.email.Trim().ToLower()));
+                        command.Parameters.Add(new SQLiteParameter("UserName", x.userName.Trim().ToLower()));
+                        command.Parameters.Add(new SQLiteParameter("Password", x.password));
+                        command.Parameters.Add(new SQLiteParameter("adminType", x.adminType));
+                        command.Parameters.Add(new SQLiteParameter("UserGroupId", x.userGroupId = x.userGroupId == null ? x.userId : x.userGroupId));
+                        command.Parameters.Add(new SQLiteParameter("ActivationDate", x.activationDate));
+                        command.Parameters.Add(new SQLiteParameter("ExpirationDate", x.expirationDate));
+                        command.Parameters.Add(new SQLiteParameter("IsActive", x.isActive));
+                        command.Parameters.Add(new SQLiteParameter("IPAddress", x.ipAddress));
+                        command.ExecuteNonQuery();
+                    }
+                    connection.Close();
+                }
                 SendMail(x, lang);
                 return ("registration completed successfully");
             } catch (Exception e) { return ("error: " + e); }
@@ -266,35 +267,36 @@ public class Users : System.Web.Services.WebService {
     public string Update(NewUser x) {
         try {
             x.password = Encrypt(x.password);
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
-            connection.Open();
-            string sql = @"UPDATE Users SET  
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase))) {
+                connection.Open();
+                string sql = @"UPDATE Users SET  
                             UserType = @UserType, FirstName = @FirstName, LastName = @LastName, CompanyName = @CompanyName, Address = @Address, PostalCode = @PostalCode, City = @City, Country = @Country, Pin = @Pin, Phone = @Phone, Email = @Email, UserName = @UserName, Password = @Password, AdminType = @AdminType, UserGroupId = @UserGroupId, ActivationDate = @ActivationDate, ExpirationDate = @ExpirationDate, IsActive = @IsActive, IPAddress = @IPAddress
                             WHERE UserId = @UserId";
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
-            command.Parameters.Add(new SQLiteParameter("UserId", x.userId));
-            command.Parameters.Add(new SQLiteParameter("UserType", x.userType));
-            command.Parameters.Add(new SQLiteParameter("FirstName", x.firstName));
-            command.Parameters.Add(new SQLiteParameter("LastName", x.lastName));
-            command.Parameters.Add(new SQLiteParameter("CompanyName", x.companyName));
-            command.Parameters.Add(new SQLiteParameter("Address", x.address));
-            command.Parameters.Add(new SQLiteParameter("PostalCode", x.postalCode));
-            command.Parameters.Add(new SQLiteParameter("City", x.city));
-            command.Parameters.Add(new SQLiteParameter("Country", x.country));
-            command.Parameters.Add(new SQLiteParameter("Pin", x.pin));
-            command.Parameters.Add(new SQLiteParameter("Phone", x.phone));
-            command.Parameters.Add(new SQLiteParameter("Email", x.email));
-            command.Parameters.Add(new SQLiteParameter("UserName", x.userName));
-            command.Parameters.Add(new SQLiteParameter("Password", x.password));
-            command.Parameters.Add(new SQLiteParameter("adminType", x.adminType));
-            command.Parameters.Add(new SQLiteParameter("UserGroupId", x.userGroupId));
-            command.Parameters.Add(new SQLiteParameter("ActivationDate", x.activationDate));
-            command.Parameters.Add(new SQLiteParameter("ExpirationDate", x.expirationDate));
-            command.Parameters.Add(new SQLiteParameter("IsActive", x.isActive));
-            command.Parameters.Add(new SQLiteParameter("IPAddress", x.ipAddress));
-            command.ExecuteNonQuery();
-            connection.Close();
-
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    command.Parameters.Add(new SQLiteParameter("UserId", x.userId));
+                    command.Parameters.Add(new SQLiteParameter("UserType", x.userType));
+                    command.Parameters.Add(new SQLiteParameter("FirstName", x.firstName));
+                    command.Parameters.Add(new SQLiteParameter("LastName", x.lastName));
+                    command.Parameters.Add(new SQLiteParameter("CompanyName", x.companyName));
+                    command.Parameters.Add(new SQLiteParameter("Address", x.address));
+                    command.Parameters.Add(new SQLiteParameter("PostalCode", x.postalCode));
+                    command.Parameters.Add(new SQLiteParameter("City", x.city));
+                    command.Parameters.Add(new SQLiteParameter("Country", x.country));
+                    command.Parameters.Add(new SQLiteParameter("Pin", x.pin));
+                    command.Parameters.Add(new SQLiteParameter("Phone", x.phone));
+                    command.Parameters.Add(new SQLiteParameter("Email", x.email));
+                    command.Parameters.Add(new SQLiteParameter("UserName", x.userName));
+                    command.Parameters.Add(new SQLiteParameter("Password", x.password));
+                    command.Parameters.Add(new SQLiteParameter("adminType", x.adminType));
+                    command.Parameters.Add(new SQLiteParameter("UserGroupId", x.userGroupId));
+                    command.Parameters.Add(new SQLiteParameter("ActivationDate", x.activationDate));
+                    command.Parameters.Add(new SQLiteParameter("ExpirationDate", x.expirationDate));
+                    command.Parameters.Add(new SQLiteParameter("IsActive", x.isActive));
+                    command.Parameters.Add(new SQLiteParameter("IPAddress", x.ipAddress));
+                    command.ExecuteNonQuery();
+                }
+                connection.Close();
+            }
             //*********** Only for userType == 2 and more than 5 users (Schools) **************
             if (x.userType == 2 && x.maxNumberOfUsers > 5) {
                 Files f = new Files();
@@ -366,60 +368,63 @@ public class Users : System.Web.Services.WebService {
     [WebMethod]
     public string Search(string query, int? limit, int? page, bool activeUsers) {
         try {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
-            connection.Open();
-            string limitSql = "";
-            if (limit != null && page != null) {
-                limitSql = string.Format("LIMIT {0} OFFSET {1}", limit, (page - 1) * limit);
-            }
-            string aciveUsersSql = "";
-            if (activeUsers == true) {
-                aciveUsersSql = "AND isActive = 1";
-            }
-            string sql = string.Format(@"
+            List<NewUser> xx = new List<NewUser>();
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase))) {
+                connection.Open();
+                string limitSql = "";
+                if (limit != null && page != null) {
+                    limitSql = string.Format("LIMIT {0} OFFSET {1}", limit, (page - 1) * limit);
+                }
+                string aciveUsersSql = "";
+                if (activeUsers == true) {
+                    aciveUsersSql = "AND isActive = 1";
+                }
+                string sql = string.Format(@"
                         SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress, rowid
                         FROM users                       
                         WHERE (firstName LIKE '%{0}%' OR lastName LIKE '%{0}%' OR companyName LIKE '%{0}%' OR email LIKE '%{0}%') {2}
                         ORDER BY rowid DESC {1}", query, limitSql, aciveUsersSql);
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
-            List<NewUser> xx = new List<NewUser>();
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read()) {
-                NewUser x = new NewUser();
-                x.userId = reader.GetString(0);
-                x.userType = reader.GetValue(1) == DBNull.Value ? 0 : reader.GetInt32(1);
-                x.firstName = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
-                x.lastName = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
-                x.companyName = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
-                x.address = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
-                x.postalCode = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
-                x.city = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
-                x.country = reader.GetValue(8) == DBNull.Value ? "" : reader.GetString(8);
-                x.pin = reader.GetValue(9) == DBNull.Value ? "" : reader.GetString(9);
-                x.phone = reader.GetValue(10) == DBNull.Value ? "" : reader.GetString(10);
-                x.email = reader.GetValue(11) == DBNull.Value ? "" : reader.GetString(11);
-                x.userName = reader.GetValue(12) == DBNull.Value ? "" : reader.GetString(12);
-                x.password = reader.GetValue(13) == DBNull.Value ? "" : Decrypt(reader.GetString(13));
-                x.adminType = reader.GetValue(14) == DBNull.Value ? 0 : reader.GetInt32(14);
-                x.userGroupId = reader.GetString(15);
-                x.activationDate = reader.GetValue(16) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(16);
-                x.expirationDate = reader.GetValue(17) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(17);
-                x.daysToExpite = G.DateDiff(x.expirationDate);
-                x.isActive = reader.GetValue(18) == DBNull.Value ? true : Convert.ToBoolean(reader.GetInt32(18));
-                x.licenceStatus = GetLicenceStatus(x);
-                x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
-                x.rowid = reader.GetValue(20) == DBNull.Value ? 0 : reader.GetInt32(20);
-                x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection);
-                x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
-                x.package = GetPackage(x.licenceStatus, x.userType);
-                /****** SubUsers ******/
-                if (x.userId != x.userGroupId) {
-                    x = GetUserGroupInfo(x, connection);
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    using (SQLiteDataReader reader = command.ExecuteReader()) {
+                        while (reader.Read()) {
+                            NewUser x = new NewUser();
+                            x.userId = reader.GetString(0);
+                            x.userType = reader.GetValue(1) == DBNull.Value ? 0 : reader.GetInt32(1);
+                            x.firstName = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+                            x.lastName = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
+                            x.companyName = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
+                            x.address = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
+                            x.postalCode = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
+                            x.city = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
+                            x.country = reader.GetValue(8) == DBNull.Value ? "" : reader.GetString(8);
+                            x.pin = reader.GetValue(9) == DBNull.Value ? "" : reader.GetString(9);
+                            x.phone = reader.GetValue(10) == DBNull.Value ? "" : reader.GetString(10);
+                            x.email = reader.GetValue(11) == DBNull.Value ? "" : reader.GetString(11);
+                            x.userName = reader.GetValue(12) == DBNull.Value ? "" : reader.GetString(12);
+                            x.password = reader.GetValue(13) == DBNull.Value ? "" : Decrypt(reader.GetString(13));
+                            x.adminType = reader.GetValue(14) == DBNull.Value ? 0 : reader.GetInt32(14);
+                            x.userGroupId = reader.GetString(15);
+                            x.activationDate = reader.GetValue(16) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(16);
+                            x.expirationDate = reader.GetValue(17) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(17);
+                            x.daysToExpite = G.DateDiff(x.expirationDate);
+                            x.isActive = reader.GetValue(18) == DBNull.Value ? true : Convert.ToBoolean(reader.GetInt32(18));
+                            x.licenceStatus = GetLicenceStatus(x);
+                            x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
+                            x.rowid = reader.GetValue(20) == DBNull.Value ? 0 : reader.GetInt32(20);
+                            x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection);
+                            x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
+                            x.package = GetPackage(x.licenceStatus, x.userType);
+                            /****** SubUsers ******/
+                            if (x.userId != x.userGroupId) {
+                                x = GetUserGroupInfo(x, connection);
+                            }
+                            /**********************/
+                            xx.Add(x);
+                        }
+                    }
                 }
-                /**********************/
-                xx.Add(x);
+                connection.Close();
             }
-            connection.Close();
             return JsonConvert.SerializeObject(xx, Formatting.None);
         } catch (Exception e) { return (e.Message); }
     }
@@ -427,45 +432,48 @@ public class Users : System.Web.Services.WebService {
     [WebMethod]
     public string Get(string userId) {
         try {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
-            connection.Open();
-            SQLiteCommand command = new SQLiteCommand("SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress FROM users WHERE userId = @userId", connection);
-            command.Parameters.Add(new SQLiteParameter("userId", userId));
             NewUser x = new NewUser();
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read()) {
-                x.userId = reader.GetString(0);
-                x.userType = reader.GetValue(1) == DBNull.Value ? 0 : reader.GetInt32(1);
-                x.firstName = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
-                x.lastName = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
-                x.companyName = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
-                x.address = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
-                x.postalCode = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
-                x.city = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
-                x.country = reader.GetValue(8) == DBNull.Value ? "" : reader.GetString(8);
-                x.pin = reader.GetValue(9) == DBNull.Value ? "" : reader.GetString(9);
-                x.phone = reader.GetValue(10) == DBNull.Value ? "" : reader.GetString(10);
-                x.email = reader.GetValue(11) == DBNull.Value ? "" : reader.GetString(11);
-                x.userName = reader.GetValue(12) == DBNull.Value ? "" : reader.GetString(12);
-                x.password = reader.GetValue(13) == DBNull.Value ? "" : Decrypt(reader.GetString(13));
-                x.adminType = reader.GetValue(14) == DBNull.Value ? 0 : reader.GetInt32(14);
-                x.userGroupId = reader.GetString(15);
-                x.activationDate = reader.GetValue(16) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(16);
-                x.expirationDate = reader.GetValue(17) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(17);
-                x.daysToExpite = G.DateDiff(x.expirationDate);
-                x.isActive = reader.GetValue(18) == DBNull.Value ? true : Convert.ToBoolean(reader.GetInt32(18));
-                x.licenceStatus = GetLicenceStatus(x);
-                x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
-                x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection);
-                x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
-                x.package = GetPackage(x.licenceStatus, x.userType);
-                /****** SubUsers ******/
-                if (x.userId != x.userGroupId) {
-                    x = GetUserGroupInfo(x, connection);
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase))) {
+                connection.Open();
+                string sql = string.Format("SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress FROM users WHERE userId = '{0}'", userId);
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    using (SQLiteDataReader reader = command.ExecuteReader()) {
+                        while (reader.Read()) {
+                            x.userId = reader.GetString(0);
+                            x.userType = reader.GetValue(1) == DBNull.Value ? 0 : reader.GetInt32(1);
+                            x.firstName = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+                            x.lastName = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
+                            x.companyName = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
+                            x.address = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
+                            x.postalCode = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
+                            x.city = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
+                            x.country = reader.GetValue(8) == DBNull.Value ? "" : reader.GetString(8);
+                            x.pin = reader.GetValue(9) == DBNull.Value ? "" : reader.GetString(9);
+                            x.phone = reader.GetValue(10) == DBNull.Value ? "" : reader.GetString(10);
+                            x.email = reader.GetValue(11) == DBNull.Value ? "" : reader.GetString(11);
+                            x.userName = reader.GetValue(12) == DBNull.Value ? "" : reader.GetString(12);
+                            x.password = reader.GetValue(13) == DBNull.Value ? "" : Decrypt(reader.GetString(13));
+                            x.adminType = reader.GetValue(14) == DBNull.Value ? 0 : reader.GetInt32(14);
+                            x.userGroupId = reader.GetString(15);
+                            x.activationDate = reader.GetValue(16) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(16);
+                            x.expirationDate = reader.GetValue(17) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(17);
+                            x.daysToExpite = G.DateDiff(x.expirationDate);
+                            x.isActive = reader.GetValue(18) == DBNull.Value ? true : Convert.ToBoolean(reader.GetInt32(18));
+                            x.licenceStatus = GetLicenceStatus(x);
+                            x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
+                            x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection);
+                            x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
+                            x.package = GetPackage(x.licenceStatus, x.userType);
+                            /****** SubUsers ******/
+                            if (x.userId != x.userGroupId) {
+                                x = GetUserGroupInfo(x, connection);
+                            }
+                            /**********************/
+                        }
+                    }   
                 }
-                /**********************/
+                connection.Close();
             }
-            connection.Close();
             x.datasum = GetDataSum(x.userGroupId, x.userId, x.userType, x.adminType);
             string json = JsonConvert.SerializeObject(x, Formatting.None);
             return json;
@@ -475,60 +483,63 @@ public class Users : System.Web.Services.WebService {
     [WebMethod]
     public string GetUsersByUserGroup(string userGroupId) {
         try {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
-            connection.Open();
-            SQLiteCommand command = new SQLiteCommand("SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress FROM users WHERE userGroupId = @userGroupId", connection);
-            command.Parameters.Add(new SQLiteParameter("userGroupId", userGroupId));
-            SQLiteDataReader reader = command.ExecuteReader();
             List<NewUser> xx = new List<NewUser>();
-            while (reader.Read()) {
-                NewUser x = new NewUser();
-                x.userId = reader.GetString(0);
-                x.userType = reader.GetValue(1) == DBNull.Value ? 0 : reader.GetInt32(1);
-                x.firstName = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
-                x.lastName = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
-                x.companyName = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
-                x.address = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
-                x.postalCode = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
-                x.city = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
-                x.country = reader.GetValue(8) == DBNull.Value ? "" : reader.GetString(8);
-                x.pin = reader.GetValue(9) == DBNull.Value ? "" : reader.GetString(9);
-                x.phone = reader.GetValue(10) == DBNull.Value ? "" : reader.GetString(10);
-                x.email = reader.GetValue(11) == DBNull.Value ? "" : reader.GetString(11);
-                x.userName = reader.GetValue(12) == DBNull.Value ? "" : reader.GetString(12);
-                x.password = reader.GetValue(13) == DBNull.Value ? "" : Decrypt(reader.GetString(13));
-                x.adminType = reader.GetValue(14) == DBNull.Value ? 0 : reader.GetInt32(14);
-                x.userGroupId = reader.GetString(15);
-                x.activationDate = reader.GetValue(16) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(16);
-                x.expirationDate = reader.GetValue(17) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(17);
-                x.daysToExpite = G.DateDiff(x.expirationDate);
-                x.isActive = reader.GetValue(18) == DBNull.Value ? true : Convert.ToBoolean(reader.GetInt32(18));
-                x.licenceStatus = GetLicenceStatus(x);
-                x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
-                /****** SubUsers ******/
-                if (x.userId != x.userGroupId) {
-                    x = GetUserGroupInfo(x, connection);
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase))) {
+                connection.Open();
+                string sql = string.Format("SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress FROM users WHERE userGroupId = '{0}'", userGroupId);
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    using (SQLiteDataReader reader = command.ExecuteReader()) {
+                        while (reader.Read()) {
+                            NewUser x = new NewUser();
+                            x.userId = reader.GetString(0);
+                            x.userType = reader.GetValue(1) == DBNull.Value ? 0 : reader.GetInt32(1);
+                            x.firstName = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+                            x.lastName = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
+                            x.companyName = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
+                            x.address = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
+                            x.postalCode = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
+                            x.city = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
+                            x.country = reader.GetValue(8) == DBNull.Value ? "" : reader.GetString(8);
+                            x.pin = reader.GetValue(9) == DBNull.Value ? "" : reader.GetString(9);
+                            x.phone = reader.GetValue(10) == DBNull.Value ? "" : reader.GetString(10);
+                            x.email = reader.GetValue(11) == DBNull.Value ? "" : reader.GetString(11);
+                            x.userName = reader.GetValue(12) == DBNull.Value ? "" : reader.GetString(12);
+                            x.password = reader.GetValue(13) == DBNull.Value ? "" : Decrypt(reader.GetString(13));
+                            x.adminType = reader.GetValue(14) == DBNull.Value ? 0 : reader.GetInt32(14);
+                            x.userGroupId = reader.GetString(15);
+                            x.activationDate = reader.GetValue(16) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(16);
+                            x.expirationDate = reader.GetValue(17) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(17);
+                            x.daysToExpite = G.DateDiff(x.expirationDate);
+                            x.isActive = reader.GetValue(18) == DBNull.Value ? true : Convert.ToBoolean(reader.GetInt32(18));
+                            x.licenceStatus = GetLicenceStatus(x);
+                            x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
+                            /****** SubUsers ******/
+                            if (x.userId != x.userGroupId) {
+                                x = GetUserGroupInfo(x, connection);
+                            }
+                            x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
+                            /**********************/
+                            xx.Add(x);
+                        } 
+                    }
                 }
-                x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
-                /**********************/
-                xx.Add(x);
-            }
-            connection.Close();
-            string json = JsonConvert.SerializeObject(xx, Formatting.None);
-            return json;
+                connection.Close();
+            }   
+            return JsonConvert.SerializeObject(xx, Formatting.None);
         } catch (Exception e) { return ("error: " + e); }
     }
 
     [WebMethod]
     public string Delete(NewUser x) {
         try {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
-            connection.Open();
-            string sql = @"DELETE FROM users WHERE userId = @userId";
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
-            command.Parameters.Add(new SQLiteParameter("userId", x.userId));
-            command.ExecuteNonQuery();
-            connection.Close();
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase))) {
+                connection.Open();
+                string sql = string.Format("DELETE FROM users WHERE userId = '{0}'", x.userId);
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    command.ExecuteNonQuery();
+                }
+                connection.Close();
+            }
             return "ok";
         } catch (Exception e) { return ("error: " + e); }
     }
@@ -536,46 +547,49 @@ public class Users : System.Web.Services.WebService {
     [WebMethod]
     public string ForgotPassword(string email, string lang) {
         try {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
-            connection.Open();
-            SQLiteCommand command = new SQLiteCommand("SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress FROM users WHERE email = @email", connection);
-            command.Parameters.Add(new SQLiteParameter("email", email));
             NewUser x = new NewUser();
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read()) {
-                x.userId = reader.GetString(0);
-                x.userType = reader.GetValue(1) == DBNull.Value ? 0 : reader.GetInt32(1);
-                x.firstName = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
-                x.lastName = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
-                x.companyName = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
-                x.address = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
-                x.postalCode = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
-                x.city = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
-                x.country = reader.GetValue(8) == DBNull.Value ? "" : reader.GetString(8);
-                x.pin = reader.GetValue(9) == DBNull.Value ? "" : reader.GetString(9);
-                x.phone = reader.GetValue(10) == DBNull.Value ? "" : reader.GetString(10);
-                x.email = reader.GetValue(11) == DBNull.Value ? "" : reader.GetString(11);
-                x.userName = reader.GetValue(12) == DBNull.Value ? "" : reader.GetString(12);
-                x.password = reader.GetValue(13) == DBNull.Value ? "" : Decrypt(reader.GetString(13));
-                x.adminType = reader.GetValue(14) == DBNull.Value ? 0 : reader.GetInt32(14);
-                x.userGroupId = reader.GetString(15);
-                x.activationDate = reader.GetValue(16) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(16);
-                x.expirationDate = reader.GetValue(17) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(17);
-                x.daysToExpite = G.DateDiff(x.expirationDate);
-                x.isActive = reader.GetValue(18) == DBNull.Value ? true : Convert.ToBoolean(reader.GetInt32(18));
-                x.licenceStatus = GetLicenceStatus(x);
-                x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
-                x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection);
-                x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
-                x.package = GetPackage(x.licenceStatus, x.userType);
-                /****** SubUsers ******/
-                if (x.userId != x.userGroupId) {
-                    x = GetUserGroupInfo(x, connection);
-                }
-                /**********************/
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase))) {
+                connection.Open();
+                string sql = string.Format("SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress FROM users WHERE email = '{0}'", email);
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    using (SQLiteDataReader reader = command.ExecuteReader()) {
+                        while (reader.Read()) {
+                            x.userId = reader.GetString(0);
+                            x.userType = reader.GetValue(1) == DBNull.Value ? 0 : reader.GetInt32(1);
+                            x.firstName = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+                            x.lastName = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
+                            x.companyName = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
+                            x.address = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
+                            x.postalCode = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
+                            x.city = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
+                            x.country = reader.GetValue(8) == DBNull.Value ? "" : reader.GetString(8);
+                            x.pin = reader.GetValue(9) == DBNull.Value ? "" : reader.GetString(9);
+                            x.phone = reader.GetValue(10) == DBNull.Value ? "" : reader.GetString(10);
+                            x.email = reader.GetValue(11) == DBNull.Value ? "" : reader.GetString(11);
+                            x.userName = reader.GetValue(12) == DBNull.Value ? "" : reader.GetString(12);
+                            x.password = reader.GetValue(13) == DBNull.Value ? "" : Decrypt(reader.GetString(13));
+                            x.adminType = reader.GetValue(14) == DBNull.Value ? 0 : reader.GetInt32(14);
+                            x.userGroupId = reader.GetString(15);
+                            x.activationDate = reader.GetValue(16) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(16);
+                            x.expirationDate = reader.GetValue(17) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(17);
+                            x.daysToExpite = G.DateDiff(x.expirationDate);
+                            x.isActive = reader.GetValue(18) == DBNull.Value ? true : Convert.ToBoolean(reader.GetInt32(18));
+                            x.licenceStatus = GetLicenceStatus(x);
+                            x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
+                            x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection);
+                            x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
+                            x.package = GetPackage(x.licenceStatus, x.userType);
+                            /****** SubUsers ******/
+                            if (x.userId != x.userGroupId) {
+                                x = GetUserGroupInfo(x, connection);
+                            }
+                            /**********************/
+                        }
+                    }  
+                    connection.Close();
+                } 
             }
-            connection.Close();
-
+                
             Mail mail = new Mail();
             string messageSubject = t.Tran("nutrition program", lang).ToUpper() + " - " + t.Tran("password", lang);
             string messageBody = string.Format(
@@ -621,8 +635,7 @@ public class Users : System.Web.Services.WebService {
                 response = t.Tran("password has been sent to your e-mail", lang);
             }
 
-            string json = JsonConvert.SerializeObject(response, Formatting.None);
-            return json;
+            return JsonConvert.SerializeObject(response, Formatting.None);
         } catch (Exception e) { return ("error: " + e); }
     }
 
@@ -640,28 +653,29 @@ public class Users : System.Web.Services.WebService {
         try {
             string userId = null;
             string response = "";
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
-            connection.Open();
-            string sql = string.Format("SELECT userId FROM users WHERE userName = '{0}' AND password = '{1}'", userName, Encrypt(password));
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
-            NewUser x = new NewUser();
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read()) {
-                userId = reader.GetString(0);
-            }
-            if (string.IsNullOrEmpty(userId)) {
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase))) {
+                connection.Open();
+                string sql = string.Format("SELECT userId FROM users WHERE userName = '{0}' AND password = '{1}'", userName, Encrypt(password));
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    NewUser x = new NewUser();
+                    using (SQLiteDataReader reader = command.ExecuteReader()) {
+                        while (reader.Read()) {
+                            userId = reader.GetString(0);
+                        }
+                    }
+                }
+                if (string.IsNullOrEmpty(userId)) {
+                    response = t.Tran("user not found", lang);
+                } else {
+                    sql = string.Format(@"UPDATE Users SET ExpirationDate = '{0}', IsActive = '1' WHERE UserId = '{1}' AND IsActive = '0'", DateTime.Now.AddYears(2), userId);
+                    using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                        command.ExecuteNonQuery();
+                    }
+                    response = "your account has been successfully activated";
+                }
                 connection.Close();
-                response = t.Tran("user not found", lang);
-            } else {
-                sql = string.Format(@"UPDATE Users SET ExpirationDate = '{0}', IsActive = '1' WHERE UserId = '{1}' AND IsActive = '0'", DateTime.Now.AddYears(2), userId);
-                command = new SQLiteCommand(sql, connection);
-                command.ExecuteNonQuery();
-                connection.Close();
-                response = "your account has been successfully activated";
-            }
-            connection.Close();
-            string json = JsonConvert.SerializeObject(response, Formatting.None);
-            return json;
+            } 
+            return JsonConvert.SerializeObject(response, Formatting.None);
         } catch (Exception e) { return ("Error: " + e); }
     }
 
@@ -669,33 +683,36 @@ public class Users : System.Web.Services.WebService {
     [WebMethod]
     public string UpdateUserInfoFromOrdersTbl(string email) {
         try {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + webDataBase));
-            connection.Open();
-            string sql = string.Format(@"SELECT companyName, address, postalCode, city, country, pin, email
-                        FROM orders where email='{0}' ORDER BY rowid DESC LIMIT 1", email);
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
             Orders.NewUser x = new Orders.NewUser();
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read()) {
-                x.companyName = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
-                x.address = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
-                x.postalCode = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
-                x.city = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
-                x.country = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
-                x.pin = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
-                x.email = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + webDataBase))) {
+                connection.Open();
+                string sql = string.Format(@"SELECT companyName, address, postalCode, city, country, pin, email
+                        FROM orders where email='{0}' ORDER BY rowid DESC LIMIT 1", email);
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    using (SQLiteDataReader reader = command.ExecuteReader()) {
+                        while (reader.Read()) {
+                            x.companyName = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
+                            x.address = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
+                            x.postalCode = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+                            x.city = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
+                            x.country = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
+                            x.pin = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
+                            x.email = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
+                        }
+                    }   
+                }   
+                connection.Close();
             }
-            connection.Close();
-
-            connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
-            connection.Open();
-            string sql1 = string.Format(@"UPDATE Users SET  
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase))) {
+                connection.Open();
+                string sql1 = string.Format(@"UPDATE Users SET  
                             CompanyName='{0}', Address='{1}', PostalCode='{2}', City='{3}', Country='{4}', Pin='{5}'
                             WHERE email='{6}'", x.companyName, x.address, x.postalCode, x.city, x.country, x.pin, x.email);
-            command = new SQLiteCommand(sql1, connection);
-            command.ExecuteNonQuery();
-            connection.Close();
-
+                using (SQLiteCommand command = new SQLiteCommand(sql1, connection)) {
+                    command.ExecuteNonQuery();
+                }   
+                connection.Close();
+            }
             return JsonConvert.SerializeObject("OK", Formatting.None);
         } catch (Exception e) {
             return (e.Message);
@@ -742,16 +759,18 @@ public class Users : System.Web.Services.WebService {
     private bool Check(NewUser x) {
         try {
             bool result = false;
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
-            connection.Open();
-            SQLiteCommand command = new SQLiteCommand(
-                 "SELECT EXISTS (SELECT userId FROM users WHERE email = @email)", connection);
-            command.Parameters.Add(new SQLiteParameter("email", x.email.Trim().ToLower()));
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read()) {
-                result = reader.GetBoolean(0);
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase))) {
+                string sql = string.Format("SELECT EXISTS(SELECT userId FROM users WHERE email = '{0}')", x.email.Trim().ToLower()); 
+                connection.Open();
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    using (SQLiteDataReader reader = command.ExecuteReader()) {
+                        while (reader.Read()) {
+                            result = reader.GetBoolean(0);
+                        }
+                    }
+                }
+                connection.Close();
             }
-            connection.Close();
             return result;
         } catch (Exception e) { return false; }
     }
@@ -845,171 +864,173 @@ public class Users : System.Web.Services.WebService {
     }
 
     private List<NewUser> GetUsers(int? limit, int? page) {
-        SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
-        connection.Open();
-        string limitSql = "";
-        if (limit != null && page != null) {
-            limitSql = string.Format("LIMIT {0} OFFSET {1}", limit, (page - 1) * limit);
-        }
-        string sql = string.Format(@"
+        List<NewUser> xx = new List<NewUser>();
+        using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase))) {
+            connection.Open();
+            string limitSql = "";
+            if (limit != null && page != null) {
+                limitSql = string.Format("LIMIT {0} OFFSET {1}", limit, (page - 1) * limit);
+            }
+            string sql = string.Format(@"
                     SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress, rowid
                     FROM users
                     ORDER BY rowid DESC {0}", limitSql);
-        SQLiteCommand command = new SQLiteCommand(sql, connection);
-        SQLiteDataReader reader = command.ExecuteReader();
-        List<NewUser> xx = new List<NewUser>();
-        while (reader.Read()) {
-            NewUser x = new NewUser();
-            x.userId = reader.GetString(0);
-            x.userType = reader.GetValue(1) == DBNull.Value ? 0 : reader.GetInt32(1);
-            x.firstName = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
-            x.lastName = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
-            x.companyName = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
-            x.address = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
-            x.postalCode = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
-            x.city = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
-            x.country = reader.GetValue(8) == DBNull.Value ? "" : reader.GetString(8);
-            x.pin = reader.GetValue(9) == DBNull.Value ? "" : reader.GetString(9);
-            x.phone = reader.GetValue(10) == DBNull.Value ? "" : reader.GetString(10);
-            x.email = reader.GetValue(11) == DBNull.Value ? "" : reader.GetString(11);
-            x.userName = reader.GetValue(12) == DBNull.Value ? "" : reader.GetString(12);
-            x.password = reader.GetValue(13) == DBNull.Value ? "" : Decrypt(reader.GetString(13));
-            x.adminType = reader.GetValue(14) == DBNull.Value ? 0 : reader.GetInt32(14);
-            x.userGroupId = reader.GetString(15);
-            x.activationDate = reader.GetValue(16) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(16);
-            x.expirationDate = reader.GetValue(17) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(17);
-            x.isActive = reader.GetValue(18) == DBNull.Value ? true : Convert.ToBoolean(reader.GetInt32(18));
-            x.licenceStatus = GetLicenceStatus(x);
-            x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
-            x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection);
-            x.rowid = reader.GetValue(20) == DBNull.Value ? 0 : reader.GetInt32(20);
-            x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
-            /****** SubUsers ******/
-            if (x.userId != x.userGroupId) {
-                x = GetUserGroupInfo(x, connection);
+            using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read()) {
+                    NewUser x = new NewUser();
+                    x.userId = reader.GetString(0);
+                    x.userType = reader.GetValue(1) == DBNull.Value ? 0 : reader.GetInt32(1);
+                    x.firstName = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+                    x.lastName = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
+                    x.companyName = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
+                    x.address = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
+                    x.postalCode = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
+                    x.city = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
+                    x.country = reader.GetValue(8) == DBNull.Value ? "" : reader.GetString(8);
+                    x.pin = reader.GetValue(9) == DBNull.Value ? "" : reader.GetString(9);
+                    x.phone = reader.GetValue(10) == DBNull.Value ? "" : reader.GetString(10);
+                    x.email = reader.GetValue(11) == DBNull.Value ? "" : reader.GetString(11);
+                    x.userName = reader.GetValue(12) == DBNull.Value ? "" : reader.GetString(12);
+                    x.password = reader.GetValue(13) == DBNull.Value ? "" : Decrypt(reader.GetString(13));
+                    x.adminType = reader.GetValue(14) == DBNull.Value ? 0 : reader.GetInt32(14);
+                    x.userGroupId = reader.GetString(15);
+                    x.activationDate = reader.GetValue(16) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(16);
+                    x.expirationDate = reader.GetValue(17) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(17);
+                    x.isActive = reader.GetValue(18) == DBNull.Value ? true : Convert.ToBoolean(reader.GetInt32(18));
+                    x.licenceStatus = GetLicenceStatus(x);
+                    x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
+                    x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection);
+                    x.rowid = reader.GetValue(20) == DBNull.Value ? 0 : reader.GetInt32(20);
+                    x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
+                    /****** SubUsers ******/
+                    if (x.userId != x.userGroupId) {
+                        x = GetUserGroupInfo(x, connection);
+                    }
+                    /**********************/
+                    xx.Add(x);
+                }
             }
-            /**********************/
-            xx.Add(x);
-        }
-        connection.Close();
+            connection.Close();
+        }  
         return xx;
     }
 
     private DataSum GetDataSum(string userGroupId, string userId, int userType, int adminType) {
         DataSum x = new DataSum();
         try {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userGroupId, userDataBase));
-            connection.Open();
-            string sql = "";
-            string tbl = "";
-            SQLiteCommand command = null;
-            SQLiteDataReader reader = null;
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userGroupId, userDataBase))) {
+                connection.Open();
+                string sql = "";
+                string tbl = "";
+                SQLiteCommand command = null;
+                SQLiteDataReader reader = null;
 
-            tbl = "clients";
-            sql = CheckTblExistsSql(tbl);
-            command = new SQLiteCommand(sql, connection);
-            reader = command.ExecuteReader();
-            if (IsTblExists(reader)) {
-                sql = string.Format("SELECT COUNT(rowid) FROM {0}", tbl);
+                tbl = "clients";
+                sql = CheckTblExistsSql(tbl);
                 command = new SQLiteCommand(sql, connection);
                 reader = command.ExecuteReader();
-                while (reader.Read()) {
-                    x.clients.total = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                if (IsTblExists(reader)) {
+                    sql = string.Format("SELECT COUNT(rowid) FROM {0}", tbl);
+                    command = new SQLiteCommand(sql, connection);
+                    reader = command.ExecuteReader();
+                    while (reader.Read()) {
+                        x.clients.total = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                    }
+                    Clients c = new Clients();
+                    x.clients.currMonth = DateTime.Now.Month.ToString();
+                    x.clients.currYear = DateTime.Now.Year.ToString();
+                    x.clients.currMonthTotal = c.NumberOfClientsPerMonth(userGroupId);
+                    x.clients.maxMonthlyNumberOfClients = c.MonthlyLimitOfClients(userType);
                 }
-                Clients c = new Clients();
-                x.clients.currMonth = DateTime.Now.Month.ToString();
-                x.clients.currYear = DateTime.Now.Year.ToString();
-                x.clients.currMonthTotal = c.NumberOfClientsPerMonth(userGroupId);
-                x.clients.maxMonthlyNumberOfClients = c.MonthlyLimitOfClients(userType);
-            }
 
-            tbl = "menues";
-            sql = CheckTblExistsSql(tbl);
-            command = new SQLiteCommand(sql, connection);
-            reader = command.ExecuteReader();
-            if (IsTblExists(reader)) {
-                sql = string.Format("SELECT COUNT(id) FROM {0}", tbl);
+                tbl = "menues";
+                sql = CheckTblExistsSql(tbl);
                 command = new SQLiteCommand(sql, connection);
                 reader = command.ExecuteReader();
-                while (reader.Read()) {
-                    x.menues = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                if (IsTblExists(reader)) {
+                    sql = string.Format("SELECT COUNT(id) FROM {0}", tbl);
+                    command = new SQLiteCommand(sql, connection);
+                    reader = command.ExecuteReader();
+                    while (reader.Read()) {
+                        x.menues = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                    }
                 }
-            }
 
-            tbl = "weeklymenus";
-            sql = CheckTblExistsSql(tbl);
-            command = new SQLiteCommand(sql, connection);
-            reader = command.ExecuteReader();
-            if (IsTblExists(reader)) {
-                sql = string.Format("SELECT COUNT(id) FROM {0}", tbl);
+                tbl = "weeklymenus";
+                sql = CheckTblExistsSql(tbl);
                 command = new SQLiteCommand(sql, connection);
                 reader = command.ExecuteReader();
-                while (reader.Read()) {
-                    x.weeklyMenus = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                if (IsTblExists(reader)) {
+                    sql = string.Format("SELECT COUNT(id) FROM {0}", tbl);
+                    command = new SQLiteCommand(sql, connection);
+                    reader = command.ExecuteReader();
+                    while (reader.Read()) {
+                        x.weeklyMenus = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                    }
                 }
-            }
 
-            tbl = "myfoods";
-            sql = CheckTblExistsSql(tbl);
-            command = new SQLiteCommand(sql, connection);
-            reader = command.ExecuteReader();
-            if (IsTblExists(reader)) {
-                sql = string.Format("SELECT COUNT(id) FROM {0}", tbl);
+                tbl = "myfoods";
+                sql = CheckTblExistsSql(tbl);
                 command = new SQLiteCommand(sql, connection);
                 reader = command.ExecuteReader();
-                while (reader.Read()) {
-                    x.myfoods = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                if (IsTblExists(reader)) {
+                    sql = string.Format("SELECT COUNT(id) FROM {0}", tbl);
+                    command = new SQLiteCommand(sql, connection);
+                    reader = command.ExecuteReader();
+                    while (reader.Read()) {
+                        x.myfoods = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                    }
                 }
-            }
 
-            tbl = "recipes";
-            sql = CheckTblExistsSql(tbl);
-            command = new SQLiteCommand(sql, connection);
-            reader = command.ExecuteReader();
-            if (IsTblExists(reader)) {
-                sql = string.Format("SELECT COUNT(id) FROM {0}", tbl);
+                tbl = "recipes";
+                sql = CheckTblExistsSql(tbl);
                 command = new SQLiteCommand(sql, connection);
                 reader = command.ExecuteReader();
-                while (reader.Read()) {
-                    x.recipes = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                if (IsTblExists(reader)) {
+                    sql = string.Format("SELECT COUNT(id) FROM {0}", tbl);
+                    command = new SQLiteCommand(sql, connection);
+                    reader = command.ExecuteReader();
+                    while (reader.Read()) {
+                        x.recipes = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                    }
                 }
-            }
 
-            tbl = "meals";
-            sql = CheckTblExistsSql(tbl);
-            command = new SQLiteCommand(sql, connection);
-            reader = command.ExecuteReader();
-            if (IsTblExists(reader)) {
-                sql = string.Format("SELECT COUNT(id) FROM {0}", tbl);
+                tbl = "meals";
+                sql = CheckTblExistsSql(tbl);
                 command = new SQLiteCommand(sql, connection);
                 reader = command.ExecuteReader();
-                while (reader.Read()) {
-                    x.meals = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                if (IsTblExists(reader)) {
+                    sql = string.Format("SELECT COUNT(id) FROM {0}", tbl);
+                    command = new SQLiteCommand(sql, connection);
+                    reader = command.ExecuteReader();
+                    while (reader.Read()) {
+                        x.meals = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                    }
                 }
-            }
 
-            tbl = "scheduler";
-            sql = CheckTblExistsSql(tbl);
-            command = new SQLiteCommand(sql, connection);
-            reader = command.ExecuteReader();
-            if (IsTblExists(reader)) {
-                sql = string.Format(@"SELECT COUNT(rowid) FROM {0} {1}"
-                                , tbl, adminType == 0 ? "" : string.Format(" WHERE userId = '{0}'", userId));
+                tbl = "scheduler";
+                sql = CheckTblExistsSql(tbl);
                 command = new SQLiteCommand(sql, connection);
                 reader = command.ExecuteReader();
-                while (reader.Read()) {
-                    x.scheduler.total = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                if (IsTblExists(reader)) {
+                    sql = string.Format(@"SELECT COUNT(rowid) FROM {0} {1}"
+                                    , tbl, adminType == 0 ? "" : string.Format(" WHERE userId = '{0}'", userId));
+                    command = new SQLiteCommand(sql, connection);
+                    reader = command.ExecuteReader();
+                    while (reader.Read()) {
+                        x.scheduler.total = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                    }
+                    sql = string.Format(@"SELECT COUNT(rowid) FROM {0} WHERE CAST((startDate/1000) AS INT) > CAST(strftime('%s', 'now') AS INT) {1}"
+                                      , tbl, adminType == 0 ? "" : string.Format(" AND userId = '{0}'", userId));
+                    command = new SQLiteCommand(sql, connection);
+                    reader = command.ExecuteReader();
+                    while (reader.Read()) {
+                        x.scheduler.appointments = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                    }
                 }
-                sql = string.Format(@"SELECT COUNT(rowid) FROM {0} WHERE CAST((startDate/1000) AS INT) > CAST(strftime('%s', 'now') AS INT) {1}"
-                                  , tbl, adminType == 0 ? "" : string.Format(" AND userId = '{0}'", userId));
-                command = new SQLiteCommand(sql, connection);
-                reader = command.ExecuteReader();
-                while (reader.Read()) {
-                    x.scheduler.appointments = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
-                }
-            }
-
-            connection.Close();
+                connection.Close();
+            };
             return x;
         } catch (Exception e) { return x; }
     }
@@ -1017,11 +1038,13 @@ public class Users : System.Web.Services.WebService {
     private int GetUsersCountByUserGroup(string userGroupId, SQLiteConnection connection) {
         int x = 0;
         string sql = string.Format("SELECT COUNT(userId) FROM users WHERE userGroupId = '{0}'", userGroupId);
-        SQLiteCommand command = new SQLiteCommand(sql, connection);
-        SQLiteDataReader reader = command.ExecuteReader();
-        List<NewUser> xx = new List<NewUser>();
-        while (reader.Read()) {
-            x = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0)-1;
+        using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+            using (SQLiteDataReader reader = command.ExecuteReader()) {
+                List<NewUser> xx = new List<NewUser>();
+                while (reader.Read()) {
+                    x = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0) - 1;
+                }
+            }  
         }
         return x;
     }
@@ -1075,17 +1098,19 @@ public class Users : System.Web.Services.WebService {
 
     private NewUser GetUserGroupInfo(NewUser x, SQLiteConnection connection) {
         try {
-            SQLiteCommand command = new SQLiteCommand(string.Format(@"
-                    SELECT userType, companyName, pin, expirationDate FROM users WHERE userId  = '{0}'", x.userGroupId), connection);
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read()) {
-                x.userType = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
-                x.companyName = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
-                x.pin = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
-                x.expirationDate = reader.GetValue(3) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(3);
-                x.licenceStatus = GetLicenceStatus(x);
-                x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
-                x.package = GetPackage(x.licenceStatus, x.userType);
+            string sql = string.Format(@"SELECT userType, companyName, pin, expirationDate FROM users WHERE userId  = '{0}'", x.userGroupId);
+            using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                using (SQLiteDataReader reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        x.userType = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                        x.companyName = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
+                        x.pin = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+                        x.expirationDate = reader.GetValue(3) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(3);
+                        x.licenceStatus = GetLicenceStatus(x);
+                        x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
+                        x.package = GetPackage(x.licenceStatus, x.userType);
+                    }
+                }   
             }
             return x;
         } catch (Exception e) { return new NewUser(); }

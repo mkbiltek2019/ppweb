@@ -23,27 +23,28 @@ public class MyFoods : System.Web.Services.WebService {
 
     public class Data {
         public List<Foods.NewFood> GetMyFoods(string userId) {
-            string dataBase = ConfigurationManager.AppSettings["UserDataBase"];
-            DataBase db = new DataBase();
             try {
-                SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
-                connection.Open();
-                string sql = @"SELECT f.id, f.food, f.foodGroup
-                        FROM myfoods AS f
-                        ORDER BY food ASC";
-                SQLiteCommand command = new SQLiteCommand(sql, connection);
+                string dataBase = ConfigurationManager.AppSettings["UserDataBase"];
+                DataBase db = new DataBase();
                 List<Foods.NewFood> xx = new List<Foods.NewFood>();
-                SQLiteDataReader reader = command.ExecuteReader();
-                while (reader.Read()) {
-                    Foods.NewFood x = new Foods.NewFood();
-                    x.id = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
-                    x.food = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
-                    x.foodGroup.code = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
-                    x.foodGroup.title = "";
-                    x.foodGroup.parent = "A";
-                    xx.Add(x);
+                using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase))) {
+                    connection.Open();
+                    string sql = @"SELECT f.id, f.food, f.foodGroup FROM myfoods AS f ORDER BY food ASC";
+                    using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                        using (SQLiteDataReader reader = command.ExecuteReader()) {
+                            while (reader.Read()) {
+                                Foods.NewFood x = new Foods.NewFood();
+                                x.id = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
+                                x.food = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
+                                x.foodGroup.code = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+                                x.foodGroup.title = "";
+                                x.foodGroup.parent = "A";
+                                xx.Add(x);
+                            }
+                        }
+                    }
+                    connection.Close();
                 }
-                connection.Close();
                 return xx;
             } catch (Exception e) { return null; }
         }

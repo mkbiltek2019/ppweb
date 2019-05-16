@@ -323,75 +323,71 @@ public class Foods : System.Web.Services.WebService {
     #region WebMethods
     [WebMethod]
     public string Init(string lang) {
-        SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
-        connection.Open();
         InitData data = new InitData();
-
-        NewFood x = new NewFood();
-        x.id = null;
-        x.food = null;
-        x.foodGroup = new Group();
-        x.foodGroupVitaminLost = "";
-        x.thermalTreatments = new List<ThermalTreatment>();
-        x.meal.code = "B";
-        x.meal.title = Meals.GetMealTitle(x.meal.code, connection);
-        x.quantity = 1;
-        x.unit = "";
-        x.mass = 0;
-        x.energy = 0;
-        x.carbohydrates = 0;
-        x.proteins = 0;
-        x.fats = 0;
-        x.servings = new Servings();
-        x.starch = 0;
-        x.totalSugar = 0;
-        x.glucose = 0;
-        x.fructose = 0;
-        x.saccharose = 0;
-        x.maltose = 0;
-        x.lactose = 0;
-        x.fibers = 0;
-        x.saturatedFats = 0;
-        x.monounsaturatedFats = 0;
-        x.polyunsaturatedFats = 0;
-        x.trifluoroaceticAcid = 0;
-        x.cholesterol = 0;
-        x.sodium = 0;
-        x.potassium = 0;
-        x.calcium = 0;
-        x.magnesium = 0;
-        x.phosphorus = 0;
-        x.iron = 0;
-        x.copper = 0;
-        x.zinc = 0;
-        x.chlorine = 0;
-        x.manganese = 0;
-        x.selenium = 0;
-        x.iodine = 0;
-        x.retinol = 0;
-        x.carotene = 0;
-        x.vitaminD = 0;
-        x.vitaminE = 0;
-        x.vitaminB1 = 0;
-        x.vitaminB2 = 0;
-        x.vitaminB3 = 0;
-        x.vitaminB6 = 0;
-        x.vitaminB12 = 0;
-        x.folate = 0;
-        x.pantothenicAcid = 0;
-        x.biotin = 0;
-        x.vitaminC = 0;
-        x.vitaminK = 0;
-
-        x.price = new Prices.UnitPrice();
-
-        data.food = x;
-        data.foodGroups = GetFoodGroups(connection);
-        connection.Close();
+        using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase))) {
+            connection.Open();
+            NewFood x = new NewFood();
+            x.id = null;
+            x.food = null;
+            x.foodGroup = new Group();
+            x.foodGroupVitaminLost = "";
+            x.thermalTreatments = new List<ThermalTreatment>();
+            x.meal.code = "B";
+            x.meal.title = Meals.GetMealTitle(x.meal.code, connection);
+            x.quantity = 1;
+            x.unit = "";
+            x.mass = 0;
+            x.energy = 0;
+            x.carbohydrates = 0;
+            x.proteins = 0;
+            x.fats = 0;
+            x.servings = new Servings();
+            x.starch = 0;
+            x.totalSugar = 0;
+            x.glucose = 0;
+            x.fructose = 0;
+            x.saccharose = 0;
+            x.maltose = 0;
+            x.lactose = 0;
+            x.fibers = 0;
+            x.saturatedFats = 0;
+            x.monounsaturatedFats = 0;
+            x.polyunsaturatedFats = 0;
+            x.trifluoroaceticAcid = 0;
+            x.cholesterol = 0;
+            x.sodium = 0;
+            x.potassium = 0;
+            x.calcium = 0;
+            x.magnesium = 0;
+            x.phosphorus = 0;
+            x.iron = 0;
+            x.copper = 0;
+            x.zinc = 0;
+            x.chlorine = 0;
+            x.manganese = 0;
+            x.selenium = 0;
+            x.iodine = 0;
+            x.retinol = 0;
+            x.carotene = 0;
+            x.vitaminD = 0;
+            x.vitaminE = 0;
+            x.vitaminB1 = 0;
+            x.vitaminB2 = 0;
+            x.vitaminB3 = 0;
+            x.vitaminB6 = 0;
+            x.vitaminB12 = 0;
+            x.folate = 0;
+            x.pantothenicAcid = 0;
+            x.biotin = 0;
+            x.vitaminC = 0;
+            x.vitaminK = 0;
+            x.price = new Prices.UnitPrice();
+            data.food = x;
+            data.foodGroups = GetFoodGroups(connection);
+            connection.Close();
+        }
         data.units = Units(lang);
-
-        string json = JsonConvert.SerializeObject(data, Formatting.None);
-        return json;
+        return JsonConvert.SerializeObject(data, Formatting.None);
     }
 
     [WebMethod]
@@ -414,31 +410,33 @@ public class Foods : System.Web.Services.WebService {
     [WebMethod]
     public string Load(string userId, string userType, string lang) {
         try {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
-            connection.Open();
-            string sql = string.Format(@"SELECT f.id, f.food, f.foodGroup, fg.title
-                        FROM foods AS f
-                        LEFT OUTER JOIN foodGroups AS fg
-                        ON f.foodGroup = fg.code {0}", userType=="0"?string.Format("LIMIT {0}", userType0FoodLimit):"");
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
             List<NewFood> xx = new List<NewFood>();
             FoodData foodData = new FoodData();
             List<FoodGroup> foodGroups = new List<FoodGroup>();
-            string[] translations = t.Translations(lang);
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read()) {
-                NewFood x = new NewFood();
-                x.id = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
-                x.food = reader.GetValue(1) == DBNull.Value ? "" : t.Tran(reader.GetString(1), translations, string.IsNullOrEmpty(lang)?"hr":lang);
-                x.foodGroup.code = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
-                x.foodGroup.title = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
-                x.foodGroup.parent = GetParentGroup(connection, x.foodGroup.code);
-                xx.Add(x);
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase))) {
+                connection.Open();
+                string sql = string.Format(@"SELECT f.id, f.food, f.foodGroup, fg.title
+                        FROM foods AS f
+                        LEFT OUTER JOIN foodGroups AS fg
+                        ON f.foodGroup = fg.code {0}", userType == "0" ? string.Format("LIMIT {0}", userType0FoodLimit) : "");
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    string[] translations = t.Translations(lang);
+                    using (SQLiteDataReader reader = command.ExecuteReader()) {
+                        while (reader.Read()) {
+                            NewFood x = new NewFood();
+                            x.id = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
+                            x.food = reader.GetValue(1) == DBNull.Value ? "" : t.Tran(reader.GetString(1), translations, string.IsNullOrEmpty(lang) ? "hr" : lang);
+                            x.foodGroup.code = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+                            x.foodGroup.title = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
+                            x.foodGroup.parent = GetParentGroup(connection, x.foodGroup.code);
+                            xx.Add(x);
+                        }
+                    }
+                }
+                foodData.foods = xx.OrderBy(a => a.food).ToList();
+                foodData.foodGroups = GetFoodGroups(connection);
+                connection.Close();
             }
-            foodData.foods = xx.OrderBy(a=>a.food).ToList();
-            foodData.foodGroups = GetFoodGroups(connection);
-            connection.Close();
-
             MyFoods.Data myf = new MyFoods.Data();
             foodData.myFoods = myf.GetMyFoods(userId);
             return JsonConvert.SerializeObject(foodData, Formatting.None);
@@ -654,8 +652,7 @@ public class Foods : System.Web.Services.WebService {
                 x = IncludeTT(initFood, x, thermalTreatment);
             }
         }
-        string json = JsonConvert.SerializeObject(x, Formatting.None);
-        return json;
+        return JsonConvert.SerializeObject(x, Formatting.None);
     }
 
     [WebMethod]
@@ -734,43 +731,45 @@ public class Foods : System.Web.Services.WebService {
             string sql = @"SELECT code, title, parent, groupOrder
                         FROM foodGroups
                         ORDER BY groupOrder ASC";
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read()) {
-                FoodGroup x = new FoodGroup();
-                x.group.code = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
-                x.group.title = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
-                x.parent = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
-                x.groupOrder = reader.GetValue(3) == DBNull.Value ? 0 : reader.GetInt32(3);
-                xx.Add(x);
+            using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                using (SQLiteDataReader reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        FoodGroup x = new FoodGroup();
+                        x.group.code = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
+                        x.group.title = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
+                        x.parent = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+                        x.groupOrder = reader.GetValue(3) == DBNull.Value ? 0 : reader.GetInt32(3);
+                        xx.Add(x);
+                    }
+                }
             }
         } catch (Exception e) { return null; }
         return xx;
     }
 
-    public List<FoodGroup> GetMainFoodGroups(SQLiteConnection connection) {
-        List<FoodGroup> xx = new List<FoodGroup>();
-        try {
-            connection.Open();
-            string sql = @"SELECT code, title, parent, groupOrder
-                        FROM foodGroups
-                        WHERE parent = 'A'
-                        ORDER BY groupOrder ASC";
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read()) {
-                FoodGroup x = new FoodGroup();
-                x.group.code = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
-                x.group.title = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
-                x.parent = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
-                x.groupOrder = reader.GetValue(3) == DBNull.Value ? 0 : reader.GetInt32(3);
-                xx.Add(x);
-            }
-            connection.Close();
-        }
-        catch (Exception e) { return null; }
-        return xx;
-    }
+    //public List<FoodGroup> GetMainFoodGroups(SQLiteConnection connection) {
+    //    List<FoodGroup> xx = new List<FoodGroup>();
+    //    try {
+    //        connection.Open();
+    //        string sql = @"SELECT code, title, parent, groupOrder
+    //                    FROM foodGroups
+    //                    WHERE parent = 'A'
+    //                    ORDER BY groupOrder ASC";
+    //        SQLiteCommand command = new SQLiteCommand(sql, connection);
+    //        SQLiteDataReader reader = command.ExecuteReader();
+    //        while (reader.Read()) {
+    //            FoodGroup x = new FoodGroup();
+    //            x.group.code = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
+    //            x.group.title = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
+    //            x.parent = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+    //            x.groupOrder = reader.GetValue(3) == DBNull.Value ? 0 : reader.GetInt32(3);
+    //            xx.Add(x);
+    //        }
+    //        connection.Close();
+    //    }
+    //    catch (Exception e) { return null; }
+    //    return xx;
+    //}
 
     private CodeTitle GetFoodGroupServ(SQLiteConnection connection, string code) {
         CodeTitle x = new CodeTitle();

@@ -91,7 +91,6 @@ public class ClientsData : System.Web.Services.WebService {
         try {
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
-
             string sql = @"SELECT cd.rowid, cd.clientId, c.birthDate, c.gender, cd.height, cd.weight, cd.waist, cd.hip, cd.pal, cd.goal, cd.activities, cd.diet, cd.meals, cd.date, cd.userId
                         FROM clientsdata as cd
                         LEFT OUTER JOIN clients as c
@@ -127,8 +126,7 @@ public class ClientsData : System.Web.Services.WebService {
                 xx.Add(x);
             }
             connection.Close();
-            string json = JsonConvert.SerializeObject(xx, Formatting.None);
-            return json;
+            return JsonConvert.SerializeObject(xx, Formatting.None);
         } catch (Exception e) { return ("Error: " + e); }
     }
 
@@ -136,34 +134,34 @@ public class ClientsData : System.Web.Services.WebService {
     public string Save(string userId, NewClientData x, int userType) {
         try {
             db.CreateDataBase(userId, db.clientsData);
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
-            connection.Open();
-            string sql = "";
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
-            if (Check(userId, x) != false) {
-                sql = @"INSERT INTO clientsdata (clientId, height, weight, waist, hip, pal, goal, activities, diet, meals, date, userId)
-                        VALUES (@clientId, @height, @weight, @waist, @hip, @pal, @goal, @activities, @diet, @meals, @date, @userId)";
-                command = new SQLiteCommand(sql, connection);
-            } else {
-                sql = @"UPDATE clientsdata SET  
-                          clientId = @clientId, height = @height, weight = @weight, waist = @waist, hip = @hip, pal = @pal, goal = @goal, activities = @activities, diet = @diet, meals = @meals, date = @date, userId = @userId
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase))) {
+                connection.Open();
+                string sql = "";
+                if (Check(userId, x) != false) {
+                    sql = @"INSERT INTO clientsdata (clientId, height, weight, waist, hip, pal, goal, activities, diet, meals, date, userId)
+                            VALUES (@clientId, @height, @weight, @waist, @hip, @pal, @goal, @activities, @diet, @meals, @date, @userId)";
+                } else {
+                    sql = @"UPDATE clientsdata SET  
+                            clientId = @clientId, height = @height, weight = @weight, waist = @waist, hip = @hip, pal = @pal, goal = @goal, activities = @activities, diet = @diet, meals = @meals, date = @date, userId = @userId
                             WHERE clientId = @clientId AND date = @date";
-                command = new SQLiteCommand(sql, connection);
+                }
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    command.Parameters.Add(new SQLiteParameter("clientId", x.clientId));
+                    command.Parameters.Add(new SQLiteParameter("height", x.height));
+                    command.Parameters.Add(new SQLiteParameter("weight", x.weight));
+                    command.Parameters.Add(new SQLiteParameter("waist", x.waist));
+                    command.Parameters.Add(new SQLiteParameter("hip", x.hip));
+                    command.Parameters.Add(new SQLiteParameter("pal", x.pal.value));
+                    command.Parameters.Add(new SQLiteParameter("goal", x.goal.code));
+                    command.Parameters.Add(new SQLiteParameter("activities", JsonConvert.SerializeObject(x.activities, Formatting.None)));
+                    command.Parameters.Add(new SQLiteParameter("diet", JsonConvert.SerializeObject(x.diet, Formatting.None)));
+                    command.Parameters.Add(new SQLiteParameter("meals", JsonConvert.SerializeObject(x.meals, Formatting.None)));
+                    command.Parameters.Add(new SQLiteParameter("date", x.date));
+                    command.Parameters.Add(new SQLiteParameter("userId", x.userId));
+                    command.ExecuteNonQuery();
+                }
+                connection.Close();
             }
-            command.Parameters.Add(new SQLiteParameter("clientId", x.clientId));
-            command.Parameters.Add(new SQLiteParameter("height", x.height));
-            command.Parameters.Add(new SQLiteParameter("weight", x.weight));
-            command.Parameters.Add(new SQLiteParameter("waist", x.waist));
-            command.Parameters.Add(new SQLiteParameter("hip", x.hip));
-            command.Parameters.Add(new SQLiteParameter("pal", x.pal.value));
-            command.Parameters.Add(new SQLiteParameter("goal", x.goal.code));
-            command.Parameters.Add(new SQLiteParameter("activities", JsonConvert.SerializeObject(x.activities, Formatting.None)));
-            command.Parameters.Add(new SQLiteParameter("diet", JsonConvert.SerializeObject(x.diet, Formatting.None)));
-            command.Parameters.Add(new SQLiteParameter("meals", JsonConvert.SerializeObject(x.meals, Formatting.None)));
-            command.Parameters.Add(new SQLiteParameter("date", x.date));
-            command.Parameters.Add(new SQLiteParameter("userId", x.userId));
-            command.ExecuteNonQuery();
-            connection.Close();
             if (userType > 1) {
                 SaveMyMeals(userId, x.clientId, x.myMeals);
             }
@@ -187,44 +185,45 @@ public class ClientsData : System.Web.Services.WebService {
     [WebMethod]
     public string GetClientLog(string userId, string clientId) {
         try {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
-            connection.Open();
-            string sql = @"SELECT cd.rowid, cd.clientId, c.birthDate, c.gender, cd.height, cd.weight, cd.waist, cd.hip, cd.pal, cd.goal, cd.activities, cd.diet, cd.meals, cd.date, cd.userId
+            List<NewClientData> xx = new List<NewClientData>();
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase))) {
+                connection.Open();
+                string sql = string.Format(@"SELECT cd.rowid, cd.clientId, c.birthDate, c.gender, cd.height, cd.weight, cd.waist, cd.hip, cd.pal, cd.goal, cd.activities, cd.diet, cd.meals, cd.date, cd.userId
                         FROM clientsdata as cd
                         LEFT OUTER JOIN clients as c
                         ON cd.clientId = c.clientId
-                        WHERE cd.clientId = @clientId
-                        ORDER BY cd.date ASC";
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
-            command.Parameters.Add(new SQLiteParameter("clientId", clientId));
-            List<NewClientData> xx = new List<NewClientData>();
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read()) {
-                NewClientData x = new NewClientData();
-                Calculations c = new Calculations();
-                Goals g = new Goals();
-                x.id = reader.GetInt32(0);
-                x.clientId = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
-                x.age = calculation.Age(reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2));
-                x.gender.value = reader.GetValue(3) == DBNull.Value ? 0 : reader.GetInt32(3);
-                x.gender.title = GetGender(x.gender.value).title;
-                x.height = reader.GetValue(4) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(4));
-                x.weight = reader.GetValue(5) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(5));
-                x.waist = reader.GetValue(6) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(6));
-                x.hip = reader.GetValue(7) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(7));
-                x.pal = c.GetPal(reader.GetValue(8) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(8)));
-                x.goal.code = reader.GetValue(9) == DBNull.Value ? "" : reader.GetString(9);
-                x.goal.title = g.GetGoal(x.goal.code).title;
-                x.activities = JsonConvert.DeserializeObject<List<Activities.ClientActivity>>(reader.GetString(10));
-                x.diet = JsonConvert.DeserializeObject<Diets.NewDiet>(reader.GetString(11));
-                x.meals = JsonConvert.DeserializeObject<List<Meals.NewMeal>>(reader.GetString(12));
-                x.date = reader.GetValue(13) == DBNull.Value ? DateTime.UtcNow : Convert.ToDateTime(reader.GetString(13));
-                x.userId = reader.GetValue(14) == DBNull.Value ? "" : reader.GetString(14);
-                xx.Add(x);
+                        WHERE cd.clientId = '{0}'
+                        ORDER BY cd.date ASC", clientId);
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    using (SQLiteDataReader reader = command.ExecuteReader()) {
+                        while (reader.Read()) {
+                            NewClientData x = new NewClientData();
+                            Calculations c = new Calculations();
+                            Goals g = new Goals();
+                            x.id = reader.GetInt32(0);
+                            x.clientId = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
+                            x.age = calculation.Age(reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2));
+                            x.gender.value = reader.GetValue(3) == DBNull.Value ? 0 : reader.GetInt32(3);
+                            x.gender.title = GetGender(x.gender.value).title;
+                            x.height = reader.GetValue(4) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(4));
+                            x.weight = reader.GetValue(5) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(5));
+                            x.waist = reader.GetValue(6) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(6));
+                            x.hip = reader.GetValue(7) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(7));
+                            x.pal = c.GetPal(reader.GetValue(8) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(8)));
+                            x.goal.code = reader.GetValue(9) == DBNull.Value ? "" : reader.GetString(9);
+                            x.goal.title = g.GetGoal(x.goal.code).title;
+                            x.activities = JsonConvert.DeserializeObject<List<Activities.ClientActivity>>(reader.GetString(10));
+                            x.diet = JsonConvert.DeserializeObject<Diets.NewDiet>(reader.GetString(11));
+                            x.meals = JsonConvert.DeserializeObject<List<Meals.NewMeal>>(reader.GetString(12));
+                            x.date = reader.GetValue(13) == DBNull.Value ? DateTime.UtcNow : Convert.ToDateTime(reader.GetString(13));
+                            x.userId = reader.GetValue(14) == DBNull.Value ? "" : reader.GetString(14);
+                            xx.Add(x);
+                        }
+                    } 
+                } 
+                connection.Close();
             }
-            connection.Close();
-            string json = JsonConvert.SerializeObject(xx, Formatting.None);
-            return json;
+            return JsonConvert.SerializeObject(xx, Formatting.None);
         } catch (Exception e) { return ("Error: " + e); }
     }
 
@@ -232,22 +231,23 @@ public class ClientsData : System.Web.Services.WebService {
     public string UpdateClientLog(string userId, NewClientData clientData) {
         try {
             db.CreateDataBase(userId, db.clientsData);
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
-            connection.Open();
-            string sql = @"UPDATE clientsdata SET  
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase))) {
+                connection.Open();
+                string sql = @"UPDATE clientsdata SET  
                         clientId = @clientId, height = @height, weight = @weight, waist = @waist, hip = @hip, date = @date
                         WHERE clientId = @clientId AND rowid = @id";
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
-            command = new SQLiteCommand(sql, connection);
-            command.Parameters.Add(new SQLiteParameter("clientId", clientData.clientId));
-            command.Parameters.Add(new SQLiteParameter("height", clientData.height));
-            command.Parameters.Add(new SQLiteParameter("weight", clientData.weight));
-            command.Parameters.Add(new SQLiteParameter("waist", clientData.waist));
-            command.Parameters.Add(new SQLiteParameter("hip", clientData.hip));
-            command.Parameters.Add(new SQLiteParameter("date", clientData.date));
-            command.Parameters.Add(new SQLiteParameter("id", clientData.id));
-            command.ExecuteNonQuery();
-            connection.Close();
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    command.Parameters.Add(new SQLiteParameter("clientId", clientData.clientId));
+                    command.Parameters.Add(new SQLiteParameter("height", clientData.height));
+                    command.Parameters.Add(new SQLiteParameter("weight", clientData.weight));
+                    command.Parameters.Add(new SQLiteParameter("waist", clientData.waist));
+                    command.Parameters.Add(new SQLiteParameter("hip", clientData.hip));
+                    command.Parameters.Add(new SQLiteParameter("date", clientData.date));
+                    command.Parameters.Add(new SQLiteParameter("id", clientData.id));
+                    command.ExecuteNonQuery();
+                } 
+                connection.Close();
+            }
             return "saved";
         } catch (Exception e) { return ("Error: " + e.Message); }
     }
@@ -255,16 +255,16 @@ public class ClientsData : System.Web.Services.WebService {
     [WebMethod]
     public string Delete(string userId, NewClientData clientData) {
         try {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
-            connection.Open();
-            string sql = "delete from clientsdata where rowid=@rowid AND clientId=@clientId ";
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
-            command.Parameters.Add(new SQLiteParameter("rowid", clientData.id));
-            command.Parameters.Add(new SQLiteParameter("clientId", clientData.clientId));
-            command.ExecuteNonQuery();
-            connection.Close();
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase))) {
+                connection.Open();
+                string sql = string.Format("delete from clientsdata where rowid='{0}' AND clientId='{1}'", clientData.id, clientData.clientId);
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    command.ExecuteNonQuery();
+                } 
+                connection.Close();
+            }
+            return "OK";
         } catch (Exception e) { return ("Error: " + e); }
-        return "OK";
     }
 
     #region ClientApp
@@ -272,10 +272,11 @@ public class ClientsData : System.Web.Services.WebService {
     public string SaveClientDataFromAndroid(string clientId, string height, string weight, string waist, string hip, string pal, string date, string userId) {
         try {
             NewClientData x = new NewClientData();
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
-            connection.Open();
-            x = GetClientData(userId, clientId, connection);
-            connection.Close();
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase))) {
+                connection.Open();
+                x = GetClientData(userId, clientId, connection);
+                connection.Close();
+            }
             if (x.clientId == null) {
                 x.pal = new Calculations.Pal();
                 x.goal = new Goals.NewGoal();
@@ -307,17 +308,20 @@ public class ClientsData : System.Web.Services.WebService {
     private bool Check(string userId, NewClientData x){
         try {
             int count = 0;
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
-            connection.Open();
-            SQLiteCommand command = new SQLiteCommand(
-                "SELECT COUNT([rowid]) FROM clientsdata WHERE clientId = @clientId AND date = @date", connection);
-            command.Parameters.Add(new SQLiteParameter("clientId", x.clientId));
-            command.Parameters.Add(new SQLiteParameter("date", x.date));
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read()) {
-                count = reader.GetInt32(0);
-            }
-            connection.Close();
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase))) {
+                connection.Open();
+                string sql = string.Format(@"SELECT COUNT([rowid]) FROM clientsdata 
+                    WHERE clientId = '{0}' AND strftime('%d', date) = '{1}' AND strftime('%m', date) = '{2}' AND strftime('%Y', date) = '{3}'"
+                            , x.clientId, x.date.Day, (x.date.Month < 10 ? string.Format("0{0}", x.date.Month): x.date.Month.ToString()), x.date.Year);
+                using (SQLiteCommand command = new SQLiteCommand(sql , connection)) {
+                    using (SQLiteDataReader reader = command.ExecuteReader()) {
+                        while (reader.Read()) {
+                            count = reader.GetInt32(0);
+                        }
+                    } 
+                }  
+                connection.Close();
+            } 
             if (count == 0) { return true; }
             else { return false; }
         } catch (Exception e) { return false; }
@@ -332,39 +336,40 @@ public class ClientsData : System.Web.Services.WebService {
 
     public NewClientData GetClientData(string userId, string clientId, SQLiteConnection connection) {
          try {
-            string sql = @"SELECT cd.rowid, cd.clientId, c.birthDate, c.gender, cd.height, cd.weight, cd.waist, cd.hip, cd.pal, cd.goal, cd.activities, cd.diet, cd.meals, cd.date, cd.userId
+            NewClientData x = new NewClientData();
+            string sql = string.Format(@"SELECT cd.rowid, cd.clientId, c.birthDate, c.gender, cd.height, cd.weight, cd.waist, cd.hip, cd.pal, cd.goal, cd.activities, cd.diet, cd.meals, cd.date, cd.userId
                         FROM clientsdata as cd
                         LEFT OUTER JOIN clients as c
                         ON cd.clientId = c.clientId
-                        WHERE cd.clientId = @clientId
-                        ORDER BY cd.date DESC LIMIT 1";
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
-            command.Parameters.Add(new SQLiteParameter("clientId", clientId));
-            NewClientData x = new NewClientData();
-            Calculations c = new Calculations();
-            Goals g = new Goals();
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read()) {
-                x.id = reader.GetInt32(0);
-                x.clientId = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
-                x.age = calculation.Age(reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2));
-                x.gender.value = reader.GetValue(3) == DBNull.Value ? 0 : reader.GetInt32(3);
-                x.gender.title = GetGender(x.gender.value).title;
-                x.height = reader.GetValue(4) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(4));
-                x.weight = reader.GetValue(5) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(5));
-                x.waist = reader.GetValue(6) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(6));
-                x.hip = reader.GetValue(7) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(7));
-                x.pal = c.GetPal(reader.GetValue(8) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(8)));
-                x.goal.code = reader.GetValue(9) == DBNull.Value ? "" : reader.GetString(9);
-                x.goal.title = g.GetGoal(x.goal.code).title;
-                x.activities = JsonConvert.DeserializeObject<List<Activities.ClientActivity>>(reader.GetString(10));
-                x.diet = JsonConvert.DeserializeObject<Diets.NewDiet>(reader.GetString(11));
-                x.meals = JsonConvert.DeserializeObject<List<Meals.NewMeal>>(reader.GetString(12));
-                x.date = reader.GetValue(13) == DBNull.Value ? DateTime.UtcNow : Convert.ToDateTime(reader.GetString(13));
-                x.userId = reader.GetValue(14) == DBNull.Value ? "" : reader.GetString(14);
-                DetailEnergyExpenditure.DailyActivities da = new DetailEnergyExpenditure.DailyActivities();
-                x.dailyActivities = da.getDailyActivities(userId, x.clientId);
-                x.myMeals = GetMyMeals(userId, x.clientId);
+                        WHERE cd.clientId = '{0}'
+                        ORDER BY cd.date DESC LIMIT 1", clientId);
+            using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                Calculations c = new Calculations();
+                Goals g = new Goals();
+                using (SQLiteDataReader reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        x.id = reader.GetInt32(0);
+                        x.clientId = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
+                        x.age = calculation.Age(reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2));
+                        x.gender.value = reader.GetValue(3) == DBNull.Value ? 0 : reader.GetInt32(3);
+                        x.gender.title = GetGender(x.gender.value).title;
+                        x.height = reader.GetValue(4) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(4));
+                        x.weight = reader.GetValue(5) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(5));
+                        x.waist = reader.GetValue(6) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(6));
+                        x.hip = reader.GetValue(7) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(7));
+                        x.pal = c.GetPal(reader.GetValue(8) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(8)));
+                        x.goal.code = reader.GetValue(9) == DBNull.Value ? "" : reader.GetString(9);
+                        x.goal.title = g.GetGoal(x.goal.code).title;
+                        x.activities = JsonConvert.DeserializeObject<List<Activities.ClientActivity>>(reader.GetString(10));
+                        x.diet = JsonConvert.DeserializeObject<Diets.NewDiet>(reader.GetString(11));
+                        x.meals = JsonConvert.DeserializeObject<List<Meals.NewMeal>>(reader.GetString(12));
+                        x.date = reader.GetValue(13) == DBNull.Value ? DateTime.UtcNow : Convert.ToDateTime(reader.GetString(13));
+                        x.userId = reader.GetValue(14) == DBNull.Value ? "" : reader.GetString(14);
+                        DetailEnergyExpenditure.DailyActivities da = new DetailEnergyExpenditure.DailyActivities();
+                        x.dailyActivities = da.getDailyActivities(userId, x.clientId);
+                        x.myMeals = GetMyMeals(userId, x.clientId);
+                    }
+                }
             }
             return x;
         } catch (Exception e) { return new NewClientData(); }

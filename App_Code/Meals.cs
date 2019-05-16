@@ -68,11 +68,13 @@ public class Meals : System.Web.Services.WebService {
             string sql = @"SELECT title
                         FROM codeBook 
                         WHERE code = @code AND codeGroup = 'MEALS'";
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
-            command.Parameters.Add(new SQLiteParameter("code", code));
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read()) {
-                title = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
+            using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                command.Parameters.Add(new SQLiteParameter("code", code));
+                using (SQLiteDataReader reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        title = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
+                    }
+                } 
             }
         } catch (Exception e) { return null; }
         return title;
