@@ -1482,7 +1482,7 @@
   "there is already a menu with the same name": "There is already a menu with the same name",
   "you do not have permission to open this file": "you do not have permission to open this file",
   "the email address you have entered is already registered": "the email address you have entered is already registered",
-  "registration completed successfully": "registration completed successfully",
+  "registration completed successfully": "Registration completed successfully",
   "wrong e-mail": "wrong e-mail",
   "password has been sent to your e-mail": "password has been sent to your e-mail",
   "physical activity level": "physical activity level",
@@ -1850,7 +1850,8 @@
   "copy": "copy",
   "bugmsg1": "If you have any suggestion for improving the application or You want to report a BUG, you can give a brief description here.",
   "bugmsg2": "We will reply to you as soon as possible.",
-  "average": "average"
+  "average": "average",
+  "enter application": "Enter Application"
 
 
 }

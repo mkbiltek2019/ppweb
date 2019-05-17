@@ -77,6 +77,14 @@ public class Files : System.Web.Services.WebService {
     protected void WriteFile(string path, string value) {
         File.WriteAllText(Server.MapPath(path), value);
     }
+
+    public void DeleteUserFolder(string userId) {
+        string path = Server.MapPath(string.Format("~/App_Data/users/{0}/", userId));
+        if (Directory.Exists(path)) {
+            Directory.Delete(path, true);
+        }
+    }
+
     #endregion Methods
 
 

@@ -1485,7 +1485,7 @@
   "there is already a menu with the same name": "Bећ постоји јеловник са истим називом",
   "you do not have permission to open this file": "немате дозволу да отворање ове датотеке",
   "the email address you have entered is already registered": "е-маил адреса коју сте уписали је већ регистрована",
-  "registration completed successfully": "регистрација успешно завршена",
+  "registration completed successfully": "Pегистрација успешно завршена",
   "wrong e-mail": "погрешан е-маил",
   "password has been sent to your e-mail": "лозинка је послана на ваш е-маил",
   "physical activity level": "интензитет физицке активности",
@@ -1856,6 +1856,7 @@
   "copy": "копирај",
   "bugmsg1": "Ако имате предлог за побољшање апликације или желите да пријавите БУГ, овде можете дати кратки опис.",
   "bugmsg2": "Одговорит ћемо Вам у најскоријем року.",
-  "average": "просек"
+  "average": "просек",
+  "enter application": "Улаз у Апликацију"
 
 }

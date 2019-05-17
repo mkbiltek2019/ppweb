@@ -239,7 +239,7 @@ angular.module('app', [])
 
     var remove = function (user) {
         $http({
-            url: $rootScope.config.backend + 'Users.asmx/Delete',
+            url: $rootScope.config.backend + 'Users.asmx/DeleteAllUserGroup',
             method: 'POST',
             data: { x: user }
         })

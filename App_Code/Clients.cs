@@ -149,17 +149,20 @@ public class Clients : System.Web.Services.WebService {
                     string sql = @"INSERT OR REPLACE INTO clients VALUES
                             (@clientId, @firstName, @lastName, @birthDate, @gender, @phone, @email, @userId, @date, @isActive)";
                     using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
-                        command.Parameters.Add(new SQLiteParameter("clientId", x.clientId));
-                        command.Parameters.Add(new SQLiteParameter("firstName", x.firstName));
-                        command.Parameters.Add(new SQLiteParameter("lastName", x.lastName));
-                        command.Parameters.Add(new SQLiteParameter("birthDate", x.birthDate));
-                        command.Parameters.Add(new SQLiteParameter("gender", x.gender.value));
-                        command.Parameters.Add(new SQLiteParameter("phone", x.phone));
-                        command.Parameters.Add(new SQLiteParameter("email", x.email));
-                        command.Parameters.Add(new SQLiteParameter("userId", x.userId));
-                        command.Parameters.Add(new SQLiteParameter("date", x.date));
-                        command.Parameters.Add(new SQLiteParameter("isActive", x.isActive));
-                        command.ExecuteNonQuery();
+                        using (SQLiteTransaction transaction = connection.BeginTransaction()) {
+                            command.Parameters.Add(new SQLiteParameter("clientId", x.clientId));
+                            command.Parameters.Add(new SQLiteParameter("firstName", x.firstName));
+                            command.Parameters.Add(new SQLiteParameter("lastName", x.lastName));
+                            command.Parameters.Add(new SQLiteParameter("birthDate", x.birthDate));
+                            command.Parameters.Add(new SQLiteParameter("gender", x.gender.value));
+                            command.Parameters.Add(new SQLiteParameter("phone", x.phone));
+                            command.Parameters.Add(new SQLiteParameter("email", x.email));
+                            command.Parameters.Add(new SQLiteParameter("userId", x.userId));
+                            command.Parameters.Add(new SQLiteParameter("date", x.date));
+                            command.Parameters.Add(new SQLiteParameter("isActive", x.isActive));
+                            command.ExecuteNonQuery();
+                            transaction.Commit();
+                        }
                     } 
                     connection.Close();
                 }  
@@ -231,7 +234,10 @@ public class Clients : System.Web.Services.WebService {
                                         WHERE clientId = '{6}'"
                                         , x.firstName, x.lastName, x.birthDate, x.gender.value, x.phone, x.email, x.clientId);
                 using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
-                    command.ExecuteNonQuery();
+                    using (SQLiteTransaction transaction = connection.BeginTransaction()) {
+                        command.ExecuteNonQuery();
+                        transaction.Commit();
+                    }
                 }  
                 connection.Close();
             }

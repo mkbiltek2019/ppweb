@@ -52,7 +52,7 @@
                 </div>-->
             </div>
             <div class="text-right">
-                <a href="" class="btn btn-primary text-capitalize" ng-click="signup()"><i class="fa fa-user-plus"></i> {{'sign up' | translate}}</a>
+                <button ng-disabled="creatingNewUser" class="btn btn-primary text-capitalize" ng-click="signup()"><i class="fa fa-{{creatingNewUser===true?'spinner fa-spin':'user-plus'}}"></i> {{'sign up' | translate}}</button>
             </div>
         </fieldset>
         <div id="signupMessage" hidden="hidden" class="alert alert-danger">

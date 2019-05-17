@@ -760,12 +760,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             functions.alert($translate.instant('you must agree to the terms and conditions'), '');
             return false;
         }
+        $scope.signingUp = true;
         $http({
             url: $sessionStorage.config.backend + webService + '/Signup',
             method: "POST",
             data: { x: $scope.newUser, lang: $rootScope.config.language }
         })
         .then(function (response) {
+            $scope.signingUp = false;
             if (response.data.d == 'registration completed successfully') {
                 $scope.alertMessage = response.data.d;
                 $scope.showAlert = true;
@@ -776,6 +778,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         function (response) {
             $scope.showAlert = false;
             $scope.signupdisabled = false;
+            $scope.signingUp = false;
             functions.alert($translate.instant(response.data.d), '');
         });
     }
@@ -1071,7 +1074,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             functions.alert($translate.instant('passwords are not the same'), '');
             return false;
         }
-
+        $scope.creatingNewUser = true;
         $http({
             url: $sessionStorage.config.backend + webService + '/Signup',
             method: "POST",
@@ -1079,9 +1082,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             load();
+            $scope.creatingNewUser = false;
             functions.alert($translate.instant(response.data.d));
         },
         function (response) {
+            $scope.creatingNewUser = false;
             functions.alert($translate.instant(response.data.d));
         });
     }
@@ -1370,12 +1375,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $rootScope.client = response;
             $rootScope.currTpl = './assets/partials/main.html';
             $scope.toggleNewTpl('clientsdata');
-            if ($rootScope.user.licenceStatus == 'demo') {
-                init($rootScope.client);
-                $rootScope.client.clientId = 'demo';
-            } else {
-                $scope.get($rootScope.client);
-            }
+            //if ($rootScope.user.licenceStatus == 'demo') {
+            //    init($rootScope.client);
+            //    $rootScope.client.clientId = 'demo';
+            //} else {
+            //    $scope.get($rootScope.client);
+            //}
+            $scope.get($rootScope.client);
         }, function () {
         });
     };
