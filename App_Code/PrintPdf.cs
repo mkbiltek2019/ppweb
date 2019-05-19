@@ -1438,8 +1438,8 @@ IBAN HR8423400091160342496
             doc.Add(new Paragraph(string.Format("{0}, {1} {2} {3}"
             , string.Format("{0}: {1} cm", t.Tran("height", lang), client.clientData.height)
             , string.Format("{0}: {1} kg", t.Tran("weight", lang), client.clientData.weight)
-            , client.clientData.waist > 0 ? string.Format(", {0}: {1} kg", t.Tran("waist", lang), client.clientData.waist) : ""
-            , client.clientData.hip > 0 ? string.Format(", {0}: {1} kg", t.Tran("hip", lang), client.clientData.hip) : "")
+            , client.clientData.waist > 0 ? string.Format(", {0}: {1} cm", t.Tran("waist", lang), client.clientData.waist) : ""
+            , client.clientData.hip > 0 ? string.Format(", {0}: {1} cm", t.Tran("hip", lang), client.clientData.hip) : "")
             , GetFont(8)));
             doc.Add(new Paragraph(string.Format("{0}: {1}", t.Tran("diet", lang), t.Tran(client.clientData.diet.diet, lang)), GetFont(8)));
     }
