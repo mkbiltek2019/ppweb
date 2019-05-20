@@ -115,8 +115,9 @@ public class PrintPdf : System.Web.Services.WebService {
             doc.Add(new Paragraph(sb.ToString(), GetFont()));
 
             if (settings.showTotals) {
+                doc.Add(new Chunk(line));
                 string tot = string.Format(@"
-{0}
+{0}:
 {1}: {5} kcal
 {2}: {6} g ({7})%
 {3}: {8} g ({9})%
@@ -144,7 +145,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
             if (currentMenu.client.clientData.activities.Count > 0 && settings.showActivities) {
                 doc.Add(new Chunk(line));
-                doc.Add(new Paragraph(t.Tran("additional activity", lang).ToUpper(), GetFont()));
+                doc.Add(new Paragraph(string.Format("{0}:", t.Tran("additional activity", lang).ToUpper(), GetFont())));
                 sb = new StringBuilder();
                 foreach(var a in currentMenu.client.clientData.activities) {
                     sb.AppendLine(string.Format(@"- {0} - {1} min, {2} kcal",a.activity, a.duration, Math.Round(a.energy, 0)));
@@ -152,24 +153,10 @@ public class PrintPdf : System.Web.Services.WebService {
                 doc.Add(new Paragraph(sb.ToString(), GetFont()));
             }
 
-            if (settings.showDate || settings.showAuthor) {
-                doc.Add(new Chunk(line));
-                PdfPTable table = new PdfPTable(2);
-                table.WidthPercentage = 100f;
-                string date_p = "";
-                string author_p = "";
-                if (settings.showDate) {
-                    date_p = string.Format("{0}: {1}", t.Tran("creation date", lang), date);
-                }
-                if (settings.showAuthor) {
-                    author_p = string.Format("{0}: {1}", t.Tran("author of the menu", lang), author);
-                }
-                table.AddCell(new PdfPCell(new Phrase(date_p, GetFont())) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, PaddingTop = 10 });
-                table.AddCell(new PdfPCell(new Phrase(author_p, GetFont())) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, PaddingTop = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
-                doc.Add(table);
-            }
-
             doc.Add(new Chunk(line));
+
+            AppendFooter(doc, settings, date, author, lang);
+
             doc.Close();
 
             return fileName;
@@ -179,7 +166,7 @@ public class PrintPdf : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string WeeklyMenuPdf(string userId, WeeklyMenus.NewWeeklyMenus weeklyMenu, int consumers, string lang, PrintMenuSettings settings) {
+    public string WeeklyMenuPdf(string userId, WeeklyMenus.NewWeeklyMenus weeklyMenu, int consumers, string lang, PrintMenuSettings settings, string date, string author) {
         try {
             Rectangle ps = PageSize.A3;
             switch (settings.pageSize) {
@@ -291,6 +278,8 @@ public class PrintPdf : System.Web.Services.WebService {
                 doc.Add(table);
             }
             //*******************************************
+
+            AppendFooter(doc, settings, date, author, lang);
 
             doc.Close();
 
@@ -1271,7 +1260,7 @@ IBAN HR8423400091160342496
                             , t.Tran("proteins", lang), Math.Round(ft.proteins.val, 1), Math.Round(ft.proteins.perc, 1)
                             , t.Tran("fats", lang), Math.Round(ft.fats.val, 1), Math.Round(ft.fats.perc, 1))).ToString();
                 }
-                sb.AppendLine("__________________________________________________________________________________________________");
+                //sb.AppendLine("__________________________________________________________________________________________________");
             }
         }
         return sb.ToString();
@@ -1305,7 +1294,26 @@ IBAN HR8423400091160342496
         }
     }
 
-     private void AppendMealDistribution(PdfPTable tblMeals, Foods.Totals totals, Foods.Recommendations recommendations, string lang, int i, Foods.MealsTotal meal) {
+    private void AppendFooter(Document doc, PrintMenuSettings settings, string date, string author, string lang) {
+        if (settings.showDate || settings.showAuthor) {
+            doc.Add(new Chunk(line));
+            PdfPTable table = new PdfPTable(2);
+            table.WidthPercentage = 100f;
+            string date_p = "";
+            string author_p = "";
+            if (settings.showDate) {
+                date_p = string.Format("{0}: {1}", t.Tran("creation date", lang), date);
+            }
+            if (settings.showAuthor) {
+                author_p = string.Format("{0}: {1}", t.Tran("author of the menu", lang), author);
+            }
+            table.AddCell(new PdfPCell(new Phrase(date_p, GetFont())) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, PaddingTop = 10 });
+            table.AddCell(new PdfPCell(new Phrase(author_p, GetFont())) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, PaddingTop = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+            doc.Add(table);
+        }
+    }
+
+    private void AppendMealDistribution(PdfPTable tblMeals, Foods.Totals totals, Foods.Recommendations recommendations, string lang, int i, Foods.MealsTotal meal) {
         if (totals.mealsTotal[i].energy.val > 0) {
             tblMeals.AddCell(new PdfPCell(new Phrase(t.Tran(GetMealTitle(meal.code, meal.title), lang), GetFont())) { Border = 0 });
             tblMeals.AddCell(new PdfPCell(new Phrase(totals.mealsTotal[i].energy.val.ToString() + " " + t.Tran("kcal", lang) + " (" + Math.Round(Convert.ToDouble(totals.mealsTotal[i].energy.perc), 1).ToString() + " %)", GetFont(CheckTotal(totals.mealsTotal[i].energy.perc, recommendations.mealsRecommendationEnergy[i].meal.energyMinPercentage, recommendations.mealsRecommendationEnergy[i].meal.energyMaxPercentage)))) { Border = 0 });

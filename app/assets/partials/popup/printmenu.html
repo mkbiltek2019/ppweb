@@ -79,16 +79,16 @@
                                     {{'price' | translate}}
                                 </md-checkbox>
                             </md-input-container>
-                            <md-input-container class="md-block">
-                                <md-checkbox ng-model="settings.showDate" class="md-primary">
+                            <md-input-container class="md-block" style="margin-bottom:2px">
+                                <md-checkbox ng-model="settings.showDate" class="md-primary" style="margin-bottom:2px">
                                     {{'date' | translate}}
                                 </md-checkbox>
                             </md-input-container>
                             <div ng-if="settings.showDate">
                                 <input ng-model="date" class="form-control" ng-change="setDate(date)" />
                             </div>
-                            <md-input-container class="md-block">
-                                <md-checkbox ng-model="settings.showAuthor" class="md-primary">
+                            <md-input-container class="md-block" style="margin-bottom:2px">
+                                <md-checkbox ng-model="settings.showAuthor" class="md-primary" style="margin-bottom:2px">
                                     {{'author' | translate}}
                                 </md-checkbox>
                             </md-input-container>
@@ -150,7 +150,7 @@
                                 </div>
                                 <div ng-if="currentMenu.client.clientData.activities.length > 0 && settings.showActivities">
                                     <hr />
-                                    <label class="text-uppercase">{{'additional activity' | translate}}</label>
+                                    <label class="text-uppercase">{{'additional activity' | translate}}:</label>
                                     <ul ng-repeat="x in currentMenu.client.clientData.activities">
                                         <li>{{x.activity}} - {{x.duration}} min, {{x.energy | number:0}} kcal</li>
                                     </ul>

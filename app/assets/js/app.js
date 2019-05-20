@@ -6016,6 +6016,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 .controller('weeklyMenuCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
     var webService = 'WeeklyMenus.asmx';
     $scope.consumers = 1;
+    $scope.date = new Date(new Date($rootScope.currentMenu.date)).toLocaleDateString();
+    $scope.author = $rootScope.user.firstName + ' ' + $rootScope.user.lastName;
 
     $scope.getDay = function (x) {
         switch(x) {
@@ -6108,7 +6110,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $rootScope.printSettings.showDescription = false;
     $rootScope.printSettings.orientation = 'L';
 
-    $scope.printWeeklyMenu = function (consumers, printSettings) {
+    $scope.printWeeklyMenu = function (consumers, printSettings, date, author) {
         if (emptyMenuList) {
             functions.alert($translate.instant('select menus'), '');
             return false;
@@ -6118,7 +6120,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + 'PrintPdf.asmx/WeeklyMenuPdf',
             method: "POST",
-            data: { userId: $sessionStorage.usergroupid, weeklyMenu: $rootScope.weeklyMenu, consumers: consumers, lang: $rootScope.config.language, settings: printSettings }
+            data: { userId: $sessionStorage.usergroupid, weeklyMenu: $rootScope.weeklyMenu, consumers: consumers, lang: $rootScope.config.language, settings: printSettings, date: date, author: author }
         })
           .then(function (response) {
               var fileName = response.data.d;
@@ -6472,6 +6474,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.hidePdfSLLink = function () {
         $scope.pdfSLLink = null;
+    }
+
+    $scope.setAuthor = function (x) {
+        $scope.author = x;
+    }
+
+    $scope.setDate = function (x) {
+        $scope.date = x;
     }
 
 }])
