@@ -51,6 +51,8 @@ public class PrintPdf : System.Web.Services.WebService {
         public bool showPrice;
         public bool showActivities;
         public bool showMealsTotal;
+        public bool showDate;
+        public bool showAuthor;
     }
 
     #region WebMethods
@@ -70,11 +72,13 @@ public class PrintPdf : System.Web.Services.WebService {
         x.showPrice = false;
         x.showActivities = true;
         x.showMealsTotal = true;
+        x.showDate = true;
+        x.showAuthor = true;
         return JsonConvert.SerializeObject(x, Formatting.None);
     }
 
     [WebMethod]
-    public string MenuPdf(string userId, Menues.NewMenu currentMenu, Foods.Totals totals, int consumers, string lang, PrintMenuSettings settings) {
+    public string MenuPdf(string userId, Menues.NewMenu currentMenu, Foods.Totals totals, int consumers, string lang, PrintMenuSettings settings, string date, string author) {
         try {
             var doc = new Document();
             string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
@@ -146,6 +150,23 @@ public class PrintPdf : System.Web.Services.WebService {
                     sb.AppendLine(string.Format(@"- {0} - {1} min, {2} kcal",a.activity, a.duration, Math.Round(a.energy, 0)));
                 }
                 doc.Add(new Paragraph(sb.ToString(), GetFont()));
+            }
+
+            if (settings.showDate || settings.showAuthor) {
+                doc.Add(new Chunk(line));
+                PdfPTable table = new PdfPTable(2);
+                table.WidthPercentage = 100f;
+                string date_p = "";
+                string author_p = "";
+                if (settings.showDate) {
+                    date_p = string.Format("{0}: {1}", t.Tran("creation date", lang), date);
+                }
+                if (settings.showAuthor) {
+                    author_p = string.Format("{0}: {1}", t.Tran("author of the menu", lang), author);
+                }
+                table.AddCell(new PdfPCell(new Phrase(date_p, GetFont())) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, PaddingTop = 10 });
+                table.AddCell(new PdfPCell(new Phrase(author_p, GetFont())) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, PaddingTop = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+                doc.Add(table);
             }
 
             doc.Add(new Chunk(line));

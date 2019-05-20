@@ -3447,7 +3447,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             targetEvent: '',
             clickOutsideToClose: true,
             fullscreen: $scope.customFullscreen,
-            d: { currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData, client: $rootScope.client, totals: $rootScope.totals, settings: $rootScope.printSettings, config: $rootScope.config }
+            d: { currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData, client: $rootScope.client, totals: $rootScope.totals, settings: $rootScope.printSettings, config: $rootScope.config, user: $rootScope.user }
         })
         .then(function () {
         }, function () {
@@ -3461,6 +3461,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.totals = d.totals;
         $scope.settings = d.settings;
         $scope.config = d.config;
+        $scope.date = new Date(new Date($scope.currentMenu.date)).toLocaleDateString();
+        $scope.author = d.user.firstName + ' ' + d.user.lastName;
+
 
         $scope.cancel = function () {
             $mdDialog.cancel();
@@ -3538,7 +3541,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.settings = d.settings;
         $scope.pdfLink == null;
         $scope.creatingPdf = false;
-        $scope.printMenuPdf = function (consumers) {
+        $scope.printMenuPdf = function (consumers, date, author) {
             if (angular.isDefined($rootScope.currentMenu)) {
                 $scope.creatingPdf = true;
                 $http({
@@ -3553,7 +3556,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     $http({
                         url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
                         method: "POST",
-                        data: { userId: $sessionStorage.usergroupid, currentMenu: currentMenu, totals: $rootScope.totals, consumers: consumers, lang: $rootScope.config.language, settings: $scope.settings }
+                        data: { userId: $sessionStorage.usergroupid, currentMenu: currentMenu, totals: $rootScope.totals, consumers: consumers, lang: $rootScope.config.language, settings: $scope.settings, date: date, author: author }
                     })
                     .then(function (response) {
                         var fileName = response.data.d;
@@ -3573,6 +3576,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         $scope.hidePdfLink = function () {
             $scope.pdfLink = null;
+        }
+
+        $scope.setAuthor = function (x) {
+            $scope.author = x;
+        }
+
+        $scope.setDate = function (x) {
+            $scope.date = x;
         }
 
     };

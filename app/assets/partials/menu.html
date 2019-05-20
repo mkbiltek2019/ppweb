@@ -82,11 +82,11 @@
                                         <td class="borderNone text-right nowrap" style="width:150px">{{x.energy}} {{'kcal' | translate}}</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="5" class="text-capitalize">
+                                        <td colspan="4" class="text-capitalize">
                                             <a ng-disabled="addFoodBtn" href="" class="btn btn-primary" ng-click="openFoodPopup(null,null)"><i ng-class="addFoodBtnIcon"></i> {{'add food' | translate}}</a>
                                             <a href="" class="btn btn-default ml5" ng-click="openRecipePopup()"><i class="fa fa-file-text-o"></i> {{'add recipe' | translate}}</a>
                                         </td>
-                                        <td colspan="3" class="text-right">
+                                        <td colspan="4" class="text-right">
                                             <span ng-repeat="x in currentMenu.data.meals">
                                                 <span ng-if="x.code==currentMeal">
                                                     <span class="text-capitalize">{{x.title}}</span>: {{'energy' | translate}}: {{totals.mealsTotal[$index].energy.val | number:1}} {{'kcal' | translate}} ({{totals.mealsTotal[$index].energy.perc| number:1}} %)<br />
@@ -271,6 +271,18 @@
                             <md-checkbox ng-model="printSettings.showTotals" class="md-primary">
                                 {{'show totals' | translate}}
                             </md-checkbox>
+                        </div>
+                        <div>
+                            <md-checkbox ng-model="settings.showDate" class="md-primary">
+                                {{'date' | translate}}
+                            </md-checkbox>
+                            <input ng-if="settings.showDate" ng-model="date" class="form-control" ng-change="setDate(date)" />
+                        </div>
+                        <div>
+                            <md-checkbox ng-model="settings.showAuthor" class="md-primary">
+                                {{'author' | translate}}
+                            </md-checkbox>
+                            <input ng-if="settings.showAuthor" ng-model="author" class="form-control" ng-change="setAuthor(author)" />
                         </div>
                     </fieldset>
                 </div>

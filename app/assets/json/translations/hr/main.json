@@ -1862,6 +1862,8 @@
   "bugmsg1": "Ako imate prijedlog za poboljšanje aplikacije ili želite prijaviti BUG, ovdje možete dati kratki opis.",
   "bugmsg2": "Odgovorit ćemo Vam u najskorijem roku.",
   "average": "prosjek",
-  "enter application": "Ulaz u Aplikaciju"
+  "enter application": "Ulaz u Aplikaciju",
+  "creation date": "Datum izrade",
+  "author of the menu": "Jelovnik izradio"
 
 }

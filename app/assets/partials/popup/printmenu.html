@@ -11,7 +11,7 @@
             <div class="md-dialog-content">
                 <div class="text-right">
                     <button ng-click="copyToClipboard('menu_container')" class="btn btn-default" title="{{'copy to clipboard' | translate}}"><span class="text-capitalize"><i class="fa fa-files-o"></i> {{'copy' | translate}}</span></button>
-                    <a ng-if="pdfLink==null" href="" ng-click="printMenuPdf(consumers)" class="btn btn-default text-capitalize" ng-disabled="creatingPdf==true"><span class="text-danger"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</span></a>
+                    <a ng-if="pdfLink==null" href="" ng-click="printMenuPdf(consumers, date, author)" class="btn btn-default text-capitalize" ng-disabled="creatingPdf==true"><span class="text-danger"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</span></a>
                     <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success text-capitalize" download ng-click="hidePdfLink()">
                         <i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}
                     </a>
@@ -79,6 +79,22 @@
                                     {{'price' | translate}}
                                 </md-checkbox>
                             </md-input-container>
+                            <md-input-container class="md-block">
+                                <md-checkbox ng-model="settings.showDate" class="md-primary">
+                                    {{'date' | translate}}
+                                </md-checkbox>
+                            </md-input-container>
+                            <div ng-if="settings.showDate">
+                                <input ng-model="date" class="form-control" ng-change="setDate(date)" />
+                            </div>
+                            <md-input-container class="md-block">
+                                <md-checkbox ng-model="settings.showAuthor" class="md-primary">
+                                    {{'author' | translate}}
+                                </md-checkbox>
+                            </md-input-container>
+                            <div ng-if="settings.showAuthor">
+                                <input ng-model="author" class="form-control" ng-change="setAuthor(author)" />
+                            </div>
                         </fieldset>
                     </div>
                     <div class="col-sm-9">
@@ -138,6 +154,22 @@
                                     <ul ng-repeat="x in currentMenu.client.clientData.activities">
                                         <li>{{x.activity}} - {{x.duration}} min, {{x.energy | number:0}} kcal</li>
                                     </ul>
+                                </div>
+
+                                <div ng-if="settings.showAuthor||settings.showDate">
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div ng-if="settings.showDate">
+                                                <label>{{'creation date' | translate}}</label>: {{date}}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div ng-if="settings.showAuthor" class="text-right">
+                                                <label>{{'author of the menu' | translate}}</label>: {{author}}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </fieldset>

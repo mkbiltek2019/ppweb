@@ -38,7 +38,7 @@ public class Mail : System.Web.Services.WebService {
 <p>{3}: {4}</p>
 <p>{5}: {6}</p>", t.Tran("new inquiry", lang), t.Tran("name", lang), name, t.Tran("email", lang), email, t.Tran("message", lang), message);
         try {
-            bool sent = SendMail(myEmail, messageSubject, messageBody, lang);
+            bool sent = SendMail_new(myEmail, messageSubject, messageBody, lang, null); /*SendMail(myEmail, messageSubject, messageBody, lang);*/
             return sent == true ? t.Tran("ok", lang) : t.Tran("mail is not sent", lang);
 
         } catch (Exception e) { return ("Error: " + e); }
@@ -100,7 +100,7 @@ public class Mail : System.Web.Services.WebService {
                 , !string.IsNullOrWhiteSpace(user.companyName) ? user.companyName : string.Format("{0} {1}", user.firstName, user.lastName)
                 , currentMenu.title);
 
-            bool sent = SendMail(email, subject, sb.ToString(), lang);
+            bool sent = SendMail_menu(email, subject, sb.ToString(), lang, null);  // SendMail(email, subject, sb.ToString(), lang);
             return sent == true ? t.Tran("menu sent successfully", lang) : t.Tran("menu is not sent", lang);
 
         } catch (Exception e) { return ("error: " + e); }
@@ -121,7 +121,7 @@ public class Mail : System.Web.Services.WebService {
                 , !string.IsNullOrWhiteSpace(user.companyName) ? user.companyName : string.Format("{0} {1}", user.firstName, user.lastName)
                 , title);
 
-            bool sent = SendMail(email, subject, sb.ToString(), lang, pdfLink);
+            bool sent = SendMail_menu(email, subject, sb.ToString(), lang, pdfLink); /*SendMail(email, subject, sb.ToString(), lang, pdfLink);*/
             return sent == true ? t.Tran("menu sent successfully", lang) : t.Tran("menu is not sent", lang);
         } catch (Exception e) { return ("error: " + e); }
     }
@@ -183,6 +183,7 @@ public class Mail : System.Web.Services.WebService {
         return sent;
     }
 
+
     public bool SendMail(string sendTo, string messageSubject, string messageBody, string lang) {
         try {
             string my_email = lang == "en" ? myEmail_en : myEmail;
@@ -226,6 +227,77 @@ public class Mail : System.Web.Services.WebService {
             Smtp_Server.Send(mailMessage);
             return true;
         } catch (Exception e) { return false; }
+    }
+
+    /**New Mail**/
+    public bool SendMail_new(string sendTo, string subject, string body, string lang, string file) {
+        try {
+            myServerHost = "mail.programprehrane.com";
+            myServerPort = 25;
+            myEmail = "info@programprehrane.com";
+            myPassword = "Ipp123456$";
+
+            string footer = @"
+<br>
+<br>
+<br>
+<div><img alt=""ProgramPrehrane.com"" height=""40"" src=""https://www.programprehrane.com/assets/img/logo.svg"" style=""float:left"" width=""190"" /></div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div>Web:&nbsp;&nbsp;&nbsp;<a href = ""https://www.programprehrane.com"">https://www.programprehrane.com</a></div>
+<div>E-mail:&nbsp;<a href=""mailto:info@programprehrane@com?subject=Upit"">info@programprehrane @com</a></div>
+<div>Mob:&nbsp;&nbsp;<a href=""tel:+385 98 330 966"">+385 98 330 966</a></div>";
+
+
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress(myEmail);
+            mail.To.Add(sendTo);
+            mail.Subject =  subject;
+            mail.Body = string.Format(@"
+{0}
+
+{1}", body, footer);
+            mail.IsBodyHtml = true;
+            if (!string.IsNullOrEmpty(file)) {
+                Attachment attachment = new Attachment(Server.MapPath(file.Replace("../", "~/")));
+                mail.Attachments.Add(attachment);
+            }
+            SmtpClient smtp = new SmtpClient(myServerHost, myServerPort);
+            NetworkCredential Credentials = new NetworkCredential(myEmail, myPassword);
+            smtp.Credentials = Credentials;
+            smtp.Send(mail);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public bool SendMail_menu(string sendTo, string subject, string body, string lang, string file) {
+        try {
+            myServerHost = "mail.programprehrane.com";
+            myServerPort = 25;
+            myEmail = "jelovnik@programprehrane.com";
+            myPassword = "Jpp123456$";
+
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress(myEmail);
+            mail.To.Add(sendTo);
+            mail.Subject = subject;
+            mail.Body = body;
+            mail.IsBodyHtml = true;
+            if(!string.IsNullOrEmpty(file)) {
+                Attachment attachment = new Attachment(Server.MapPath(file.Replace("../", "~/")));
+                mail.Attachments.Add(attachment);
+            }
+            SmtpClient smtp = new SmtpClient(myServerHost, myServerPort);
+            NetworkCredential Credentials = new NetworkCredential(myEmail, myPassword);
+            smtp.Credentials = Credentials;
+            smtp.Send(mail);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 
