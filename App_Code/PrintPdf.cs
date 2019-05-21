@@ -78,7 +78,7 @@ public class PrintPdf : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string MenuPdf(string userId, Menues.NewMenu currentMenu, Foods.Totals totals, int consumers, string lang, PrintMenuSettings settings, string date, string author) {
+    public string MenuPdf(string userId, Menues.NewMenu currentMenu, Foods.Totals totals, int consumers, string lang, PrintMenuSettings settings, string date, string author, string headerInfo) {
         try {
             var doc = new Document();
             string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
@@ -89,7 +89,7 @@ public class PrintPdf : System.Web.Services.WebService {
             PdfWriter.GetInstance(doc, new FileStream(filePath, FileMode.Create));
 
             doc.Open();
-            AppendHeader(doc, userId);
+            AppendHeader(doc, userId, headerInfo);
             if (settings.showClientData) {
                 ShowClientData(doc, currentMenu.client, lang);
             }
@@ -166,7 +166,7 @@ public class PrintPdf : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string WeeklyMenuPdf(string userId, WeeklyMenus.NewWeeklyMenus weeklyMenu, int consumers, string lang, PrintMenuSettings settings, string date, string author) {
+    public string WeeklyMenuPdf(string userId, WeeklyMenus.NewWeeklyMenus weeklyMenu, int consumers, string lang, PrintMenuSettings settings, string date, string author, string headerInfo) {
         try {
             Rectangle ps = PageSize.A3;
             switch (settings.pageSize) {
@@ -186,7 +186,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
             doc.Open();
 
-            AppendHeader(doc, userId);
+            AppendHeader(doc, userId, headerInfo);
 
             if (settings.showClientData) {
                 ShowClientData(doc, weeklyMenu.client, lang);
@@ -290,7 +290,7 @@ public class PrintPdf : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string MenuDetailsPdf(string userId, Menues.NewMenu currentMenu, Calculations.NewCalculation calculation, Foods.Totals totals, Foods.Recommendations recommendations, string lang) {
+    public string MenuDetailsPdf(string userId, Menues.NewMenu currentMenu, Calculations.NewCalculation calculation, Foods.Totals totals, Foods.Recommendations recommendations, string lang, string headerInfo) {
         try {
             var doc = new Document();
             string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
@@ -301,7 +301,7 @@ public class PrintPdf : System.Web.Services.WebService {
             PdfWriter.GetInstance(doc, new FileStream(filePath, FileMode.Create));
 
             doc.Open();
-            AppendHeader(doc, userId);
+            AppendHeader(doc, userId, headerInfo);
             doc.Add(new Paragraph(t.Tran("manu analysis", lang).ToUpper(), GetFont(10)));
 
             string menu = string.Format(@"
@@ -390,7 +390,7 @@ public class PrintPdf : System.Web.Services.WebService {
             doc.Add(tblTotal);
 
             doc.NewPage();
-            AppendHeader(doc, userId);
+            AppendHeader(doc, userId, headerInfo);
             doc.Add(new Paragraph(t.Tran("parameters", lang).ToUpper(), GetFont(10)));
 
             string note = string.Format(@"
@@ -698,7 +698,7 @@ public class PrintPdf : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string ClientPdf(string userId, Clients.NewClient client, ClientsData.NewClientData clientData, string lang) {
+    public string ClientPdf(string userId, Clients.NewClient client, ClientsData.NewClientData clientData, string lang, string headerInfo) {
         try {
             var doc = new Document();
             string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
@@ -710,7 +710,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
             doc.Open();
 
-            AppendHeader(doc, userId);
+            AppendHeader(doc, userId, headerInfo);
             doc.Add(new Paragraph((client.firstName + " " + client.lastName), GetFont(12)));
             doc.Add(new Paragraph(((!string.IsNullOrEmpty(client.email) ? t.Tran("email", lang) + ": " + client.email + "   " : "") + (!string.IsNullOrEmpty(client.phone) ? t.Tran("phone", lang) + ": " + client.phone : "")), GetFont(10)));
             doc.Add(new Chunk(line));
@@ -725,7 +725,7 @@ public class PrintPdf : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string ClientLogPdf(string userId, Clients.NewClient client, ClientsData.NewClientData clientData, List<ClientsData.NewClientData> clientLog, string lang, string imageData) {
+    public string ClientLogPdf(string userId, Clients.NewClient client, ClientsData.NewClientData clientData, List<ClientsData.NewClientData> clientLog, string lang, string imageData, string headerInfo) {
         try {
             var doc = new Document();
             string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
@@ -737,7 +737,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
             doc.Open();
 
-            AppendHeader(doc, userId);
+            AppendHeader(doc, userId, headerInfo);
 
             doc.Add(new Paragraph(string.Format("{0} {1}" , client.firstName, client.lastName), GetFont(12)));
             doc.Add(new Paragraph(string.Format("{0}: {1}", t.Tran("gender", lang), t.Tran(clientData.gender.title, lang)), GetFont(9)));
@@ -794,7 +794,7 @@ public class PrintPdf : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string CalculationPdf(string userId, Clients.NewClient client, ClientsData.NewClientData clientData, Calculations.NewCalculation calculation, Calculations.NewCalculation myCalculation, string goal, string lang) {
+    public string CalculationPdf(string userId, Clients.NewClient client, ClientsData.NewClientData clientData, Calculations.NewCalculation calculation, Calculations.NewCalculation myCalculation, string goal, string lang, string headerInfo) {
         try {
             var doc = new Document();
             string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
@@ -806,7 +806,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
             doc.Open();
 
-            AppendHeader(doc, userId);
+            AppendHeader(doc, userId, headerInfo);
             doc.Add(new Paragraph((client.firstName + " " + client.lastName), GetFont(12)));
             doc.Add(new Paragraph(AppendClientInfo(clientData, lang), GetFont()));
             doc.Add(new Chunk(line));
@@ -884,7 +884,7 @@ public class PrintPdf : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string ShoppingList(string userId, object shoppingList, Menues.NewMenu currentMenu, int consumers, string lang, PrintMenuSettings settings) {
+    public string ShoppingList(string userId, object shoppingList, Menues.NewMenu currentMenu, int consumers, string lang, PrintMenuSettings settings, string headerInfo) {
         try {
             var doc = new Document();
             string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
@@ -896,7 +896,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
             doc.Open();
 
-            AppendHeader(doc, userId);
+            AppendHeader(doc, userId, headerInfo);
 
             doc.Add(new Paragraph(currentMenu.title, GetFont(12)));
             doc.Add(new Paragraph(currentMenu.note, GetFont(8)));
@@ -945,7 +945,7 @@ public class PrintPdf : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string WeeklyMenuShoppingList(string userId, object shoppingList, int consumers, string lang, PrintMenuSettings settings) {
+    public string WeeklyMenuShoppingList(string userId, object shoppingList, int consumers, string lang, PrintMenuSettings settings, string headerInfo) {
         try {
             var doc = new Document();
             string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
@@ -957,7 +957,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
             doc.Open();
 
-            AppendHeader(doc, userId);
+            AppendHeader(doc, userId, headerInfo);
 
            // doc.Add(new Paragraph(currentMenu.title, GetFont(12)));
             //doc.Add(new Paragraph(currentMenu.note, GetFont(8)));
@@ -1281,7 +1281,9 @@ IBAN HR8423400091160342496
         return string.Format("{0}{1} serv. {2}", (string.IsNullOrEmpty(des) ? "" : string.Format("{0}, ", des)), Math.Round(serv, 1), t.Tran(title, lang));
     }
 
-    private void AppendHeader(Document doc, string userId) {
+     private void AppendHeader(Document doc, string userId, string headerInfo) {
+        PdfPTable table = new PdfPTable(2);
+        table.WidthPercentage = 100f;
         string logoPath = null;
         string logoClientPath = Server.MapPath(string.Format("~/upload/users/{0}/logo.png", userId));
         logoPath = File.Exists(logoClientPath) ? logoClientPath : logoPPPath;
@@ -1290,8 +1292,14 @@ IBAN HR8423400091160342496
             logo.Alignment = Image.ALIGN_RIGHT;
             logo.ScaleToFit(160f, 30f);
             logo.SpacingAfter = 15f;
-            doc.Add(logo);
+            table.AddCell(new PdfPCell(logo) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, PaddingBottom = 10 });
+        } else {
+            table.AddCell(new PdfPCell(new Phrase("", GetFont())) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, PaddingBottom = 10 });
         }
+        table.AddCell(new PdfPCell(new Phrase(headerInfo, GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, PaddingBottom = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        doc.Add(table);
+        doc.Add(new Chunk(line));
+
     }
 
     private void AppendFooter(Document doc, PrintMenuSettings settings, string date, string author, string lang) {
@@ -1460,10 +1468,7 @@ IBAN HR8423400091160342496
     }
 	
 	private void ShowClientData(Document doc, Clients.NewClient client, string lang) {
-            doc.Add(new Paragraph(string.Format("{0} {1}"
-            , client.firstName
-            , client.lastName)
-            , GetFont(8)));
+            doc.Add(new Paragraph(string.Format("{0}: {1} {2}", t.Tran("client", lang), client.firstName, client.lastName), GetFont(8)));
             doc.Add(new Paragraph(string.Format("{0}, {1} {2} {3}"
             , string.Format("{0}: {1} cm", t.Tran("height", lang), client.clientData.height)
             , string.Format("{0}: {1} kg", t.Tran("weight", lang), client.clientData.weight)
@@ -1502,8 +1507,7 @@ IBAN HR8423400091160342496
     }
 
     private Font GetFont(int size, int style) {
-        Font font = FontFactory.GetFont(HttpContext.Current.Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, size, style);
-        return font;
+       return FontFactory.GetFont(HttpContext.Current.Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, size, style);
     }
 
     private Font GetFont() {

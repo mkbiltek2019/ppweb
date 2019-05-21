@@ -85,6 +85,27 @@ public class Files : System.Web.Services.WebService {
         }
     }
 
+    public void SaveFile(string userId, string fileName, string value) {
+        try {
+            string path = string.Format("~/App_Data/users/{0}", userId);
+            string filePath = string.Format("{0}/{1}", path, fileName);
+            CreateFolder(path);
+            WriteFile(filePath, value);
+        } catch (Exception e) {}
+    }
+
+    public string ReadFile(string userId, string fileName) {
+        try {
+            string filePath = string.Format("~/App_Data/users/{0}/{1}", userId, fileName);
+            if (File.Exists(Server.MapPath(filePath))) {
+                return File.ReadAllText(Server.MapPath(filePath));
+            } else {
+                return null;
+            }
+        } catch (Exception e) { return ("Error: " + e); }
+    }
+
+
     #endregion Methods
 
 

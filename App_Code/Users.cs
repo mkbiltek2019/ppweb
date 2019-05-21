@@ -23,10 +23,12 @@ public class Users : System.Web.Services.WebService {
     DataBase db = new DataBase();
     Translate t = new Translate();
     Global G = new Global();
+    Files f = new Files();
     string EncryptionKey = ConfigurationManager.AppSettings["EncryptionKey"];
     string supervisorUserName = ConfigurationManager.AppSettings["SupervisorUserName"];
     string supervisorPassword = ConfigurationManager.AppSettings["SupervisorPassword"];
     string trialDays = ConfigurationManager.AppSettings["TrialDays"];
+    string headerinfo = "headerinfo.txt";
     public Users() {
     }
     public class NewUser {
@@ -58,6 +60,9 @@ public class Users : System.Web.Services.WebService {
         public string package { get; set; }
 
         public DataSum datasum = new DataSum();
+
+        public string headerInfo { get; set; }  //TODO
+
     }
 
     public const string demo = "demo";
@@ -162,6 +167,7 @@ public class Users : System.Web.Services.WebService {
             x.maxNumberOfUsers = 1;
             x.package = "";
             x.datasum = new DataSum();
+            x.headerInfo = "";
             return JsonConvert.SerializeObject(x, Formatting.None);
         } catch (Exception e) { return ("Error: " + e); }
     }
@@ -202,6 +208,7 @@ public class Users : System.Web.Services.WebService {
                         x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection);
                         x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
                         x.package = GetPackage(x.licenceStatus, x.userType);
+                        x.headerInfo = f.ReadFile(x.userGroupId, headerinfo);
                         /****** SubUsers ******/
                         if (x.userId != x.userGroupId) {
                             x = GetUserGroupInfo(x, connection);
@@ -303,15 +310,18 @@ public class Users : System.Web.Services.WebService {
                 }
                 connection.Close();
             }
-            //*********** Only for userType == 2 and more than 5 users (Schools) **************
-            if (x.userType == 2 && x.maxNumberOfUsers > 5) {
-                Files f = new Files();
-                UserConfig uc = new UserConfig();
-                uc.maxNumberOfUsers = x.maxNumberOfUsers;
-                string configJson = JsonConvert.SerializeObject(uc, Formatting.None);
-                f.SaveJsonToFile(string.Format("users/{0}", x.userGroupId), configFile, configJson);
+            if(x.userType == 2) {
+                //*********** Only for userType == 2 and more than 5 users (Schools) **************
+                if (x.maxNumberOfUsers > 5) {
+                    UserConfig uc = new UserConfig();
+                    uc.maxNumberOfUsers = x.maxNumberOfUsers;
+                    string configJson = JsonConvert.SerializeObject(uc, Formatting.None);
+                    f.SaveJsonToFile(string.Format("users/{0}", x.userGroupId), configFile, configJson);
+                }
+                //**************************************************************************
+                f.SaveFile(x.userGroupId, headerinfo, x.headerInfo);
             }
-            //**************************************************************************
+
             return ("saved");
         } catch (Exception e) { return ("error: " + e); }
     }
@@ -470,6 +480,7 @@ public class Users : System.Web.Services.WebService {
                             x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection);
                             x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
                             x.package = GetPackage(x.licenceStatus, x.userType);
+                            x.headerInfo = f.ReadFile(x.userGroupId, headerinfo);
                             /****** SubUsers ******/
                             if (x.userId != x.userGroupId) {
                                 x = GetUserGroupInfo(x, connection);
@@ -602,6 +613,7 @@ public class Users : System.Web.Services.WebService {
                             x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection);
                             x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
                             x.package = GetPackage(x.licenceStatus, x.userType);
+                            x.headerInfo = f.ReadFile(x.userGroupId, headerinfo);
                             /****** SubUsers ******/
                             if (x.userId != x.userGroupId) {
                                 x = GetUserGroupInfo(x, connection);
@@ -926,6 +938,7 @@ public class Users : System.Web.Services.WebService {
                     x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection);
                     x.rowid = reader.GetValue(20) == DBNull.Value ? 0 : reader.GetInt32(20);
                     x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
+                    x.headerInfo = f.ReadFile(x.userGroupId, headerinfo);
                     /****** SubUsers ******/
                     if (x.userId != x.userGroupId) {
                         x = GetUserGroupInfo(x, connection);
