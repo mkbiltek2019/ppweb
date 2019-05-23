@@ -627,6 +627,30 @@ public class Users : System.Web.Services.WebService {
                 
             Mail mail = new Mail();
             string messageSubject = t.Tran("nutrition program", lang).ToUpper() + " - " + t.Tran("password", lang);
+
+            string messageBody = string.Format(
+                @"
+<p>{0}</p>
+<p><i>{1}:</i></p>
+<hr/>
+<p>{2}: <strong>{3}</strong></p>
+<p>{4}: <strong>{5}</strong></p>
+<p>{6}: {7}</p>
+<hr/>
+{8}
+<br />
+<br />"
+, t.Tran("nutrition program", lang).ToUpper()
+, t.Tran("login details", lang)
+, t.Tran("user name", lang)
+, x.userName
+, t.Tran("password", lang)
+, x.password
+, t.Tran("app access link", lang)
+, string.Format("<a href='https://www.{0}/app'>https://www.{0}/app</a>", GetWebPage(lang))
+, string.Format(@"<i>* {0}</i>", t.Tran("this is an automatically generated email – please do not reply to it", lang)));
+
+            /*
             string messageBody = string.Format(
                 @"
 <p>{0}</p>
@@ -660,13 +684,14 @@ public class Users : System.Web.Services.WebService {
 , lang == "en" ? "" : string.Format("<p>{0}</p>", "+385 98 330 966")
 , string.Format("<a href='mailto:{0}'>{0}</a>", GetEmail(lang))
 , string.Format("<a href='https://www.{0}'>www.{0}</a>", GetWebPage(lang)));
+*/
 
             string response = "";
             if (x.userName == null) {
                 response = t.Tran("user not found", lang);
             }
             else {
-                mail.SendMail(x.email, messageSubject, messageBody, lang);
+                mail.SendMail(x.email, messageSubject, messageBody, lang, null, false);
                 response = t.Tran("password has been sent to your e-mail", lang);
             }
 
@@ -841,6 +866,35 @@ public class Users : System.Web.Services.WebService {
     private void SendMail(NewUser x, string lang) {
         Mail mail = new Mail();
         string messageSubject = t.Tran("nutrition program", lang).ToUpper() + " - " + t.Tran("registration", lang);
+
+        string messageBody = string.Format(
+                @"
+<p>{0}</p>
+<p>{1}</p>
+<br />
+<p><i>{2}:</i></p>
+<hr/>
+<p>{3}: <strong>{4}</strong></p>
+<p>{5}: <strong>{6}</strong></p>
+<p>{7}: {8}</p>
+<p>({9})</p>
+<hr/>
+{10}
+<br />
+<br />"
+, t.Tran("nutrition program", lang).ToUpper()
+, t.Tran("registration completed successfully", lang).ToUpper()
+, t.Tran("login details", lang)
+, t.Tran("user name", lang)
+, x.userName
+, t.Tran("password", lang)
+, Decrypt(x.password)
+, t.Tran("app access link", lang)
+, string.Format("<a href='https://www.{0}/app'>https://www.{0}/app</a>", GetWebPage(lang))
+, string.Format(@"<i>{0}</i>", t.Tran("for a better experience in using the application, please use some of the modern browsers such as google chrome, mozilla firefox, microsoft edge etc.", lang))
+, string.Format(@"<i>* {0}</i>", t.Tran("this is an automatically generated email – please do not reply to it", lang)));
+
+        /*
         string messageBody = string.Format(
                 @"
 <p>{0}</p>
@@ -879,8 +933,9 @@ public class Users : System.Web.Services.WebService {
 , lang == "en" ? "" : string.Format("<p>{0}</p>", "+385 98 330 966")
 , string.Format("<a href='mailto:{0}'>{0}</a>", GetEmail(lang))
 , string.Format("<a href='https://www.{0}'>www.{0}</a>", GetWebPage(lang)));
+*/
 
-        mail.SendMail(x.email, messageSubject, messageBody, lang);
+        mail.SendMail(x.email, messageSubject, messageBody, lang, null, false);
     }
 
     private string GetLicenceStatus(NewUser x) {

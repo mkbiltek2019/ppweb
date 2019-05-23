@@ -18,10 +18,13 @@ using Igprog;
 public class Mail : System.Web.Services.WebService {
     string myEmail = ConfigurationManager.AppSettings["myEmail"];
     string myPassword = ConfigurationManager.AppSettings["myPassword"];
-    string myEmail_en = ConfigurationManager.AppSettings["myEmail_en"];
-    string myPassword_en = ConfigurationManager.AppSettings["myPassword_en"];
     int myServerPort = Convert.ToInt32(ConfigurationManager.AppSettings["myServerPort"]);
     string myServerHost = ConfigurationManager.AppSettings["myServerHost"];
+    string myEmail_en = ConfigurationManager.AppSettings["myEmail_en"];
+    string myPassword_en = ConfigurationManager.AppSettings["myPassword_en"];
+    int myServerPort_en = Convert.ToInt32(ConfigurationManager.AppSettings["myServerPort_en"]);
+    string myServerHost_en = ConfigurationManager.AppSettings["myServerHost_en"];
+    string myEmail_cc = ConfigurationManager.AppSettings["myEmail_cc"];
     double usd = Convert.ToDouble(ConfigurationManager.AppSettings["USD"]);
     Translate t = new Translate();
 
@@ -38,7 +41,7 @@ public class Mail : System.Web.Services.WebService {
 <p>{3}: {4}</p>
 <p>{5}: {6}</p>", t.Tran("new inquiry", lang), t.Tran("name", lang), name, t.Tran("email", lang), email, t.Tran("message", lang), message);
         try {
-            bool sent = SendMail_new(myEmail, messageSubject, messageBody, lang, null); /*SendMail(myEmail, messageSubject, messageBody, lang);*/
+            bool sent = SendMail(myEmail, messageSubject, messageBody, lang, null, true); /*SendMail(myEmail, messageSubject, messageBody, lang);*/
             return sent == true ? t.Tran("ok", lang) : t.Tran("mail is not sent", lang);
 
         } catch (Exception e) { return ("Error: " + e); }
@@ -129,7 +132,7 @@ public class Mail : System.Web.Services.WebService {
     [WebMethod]
     public string SendMessage(string sendTo, string messageSubject, string messageBody, string lang) {
         try {
-            bool sent = SendMail(sendTo, messageSubject, messageBody, lang);
+            bool sent = SendMail(sendTo, messageSubject, messageBody, lang, null, true);
             return sent == true ? t.Tran("mail sent successfully", lang) : t.Tran("mail is not sent", lang);
         } catch (Exception e) { return (e.Message); }
     }
@@ -167,13 +170,13 @@ public class Mail : System.Web.Services.WebService {
         , user.licenceNumber
         , GetLicenceDuration(user.licence));
 
-        bool sentToMe = SendMail(myEmail, messageSubject, messageBody, lang);
+        bool sentToMe = SendMail(myEmail, messageSubject, messageBody, lang, null, true);
         //**************************************************
 
         //************ Send mail to customer****************
         messageSubject = (user.application == "Program Prehrane 5.0" ? user.application : t.Tran("nutrition program", lang).ToUpper()) + " - " + t.Tran("payment details", lang);
         messageBody = PaymentDetails(user, lang);
-        bool sentToCustomer = SendMail(user.email, messageSubject, messageBody, lang);
+        bool sentToCustomer = SendMail(user.email, messageSubject, messageBody, lang, null, false);
         //**************************************************
         if(sentToMe == false || sentToCustomer == false) {
             sent = false;
@@ -183,7 +186,7 @@ public class Mail : System.Web.Services.WebService {
         return sent;
     }
 
-
+    /*  //OLD
     public bool SendMail(string sendTo, string messageSubject, string messageBody, string lang) {
         try {
             string my_email = lang == "en" ? myEmail_en : myEmail;
@@ -228,31 +231,58 @@ public class Mail : System.Web.Services.WebService {
             return true;
         } catch (Exception e) { return false; }
     }
+    */
 
     /**New Mail**/
-    public bool SendMail_new(string sendTo, string subject, string body, string lang, string file) {
+    public bool SendMail(string sendTo, string subject, string body, string lang, string file, bool send_cc) {
         try {
-            myServerHost = "mail.programprehrane.com";
-            myServerPort = 25;
-            myEmail = "info@programprehrane.com";
-            myPassword = "Ipp123456$";
-
-            string footer = @"
+            string footer = "";
+            if (lang == "en") {
+                myServerHost = myServerHost_en;
+                myServerPort = myServerPort_en;
+                myEmail = myEmail_en;
+                myPassword = myPassword_en;
+                footer = @"
 <br>
 <br>
 <br>
-<div><img alt=""ProgramPrehrane.com"" height=""40"" src=""https://www.programprehrane.com/assets/img/logo.svg"" style=""float:left"" width=""190"" /></div>
-<div>&nbsp;</div>
-<div>&nbsp;</div>
-<div>&nbsp;</div>
-<div>Web:&nbsp;&nbsp;&nbsp;<a href = ""https://www.programprehrane.com"">https://www.programprehrane.com</a></div>
-<div>E-mail:&nbsp;<a href=""mailto:info@programprehrane@com?subject=Upit"">info@programprehrane @com</a></div>
-<div>Mob:&nbsp;&nbsp;<a href=""tel:+385 98 330 966"">+385 98 330 966</a></div>";
-
+<div><img alt=""nutriprog.com"" height=""40"" src=""https://www.nutriprog.com/assets/img/logo.svg"" style=""float:left"" width=""190"" /></div>
+<br>
+<br>
+<br>
+<div>IG PROG</div>
+<div><a href=""mailto:nutrition.plan@yahoo.com?subject=Upit"">nutrition.plan@yahoo.com</a></div>
+<div><a href = ""https://www.nutriprog.com"">www.nutriprog.com</a></div>";
+            } else {
+                footer = @"
+<br>
+<br>
+<br>
+<div>
+    <img alt=""ProgramPrehrane.com"" height=""40"" src=""https://www.programprehrane.com/assets/img/logo.svg"" style=""float:left"" width=""190"" />
+</div>
+<br>
+<br>
+<br>
+<div style=""color:gray"">
+    IG PROG - obrt za računalno programiranje<br>
+    Ludvetov breg 5, 51000 Rijeka, HR<br>
+    <a href=""tel:+385 98 330 966"">+385 98 330 966</a><br>
+    <a href=""mailto:info@programprehrane@com?subject=Upit"">info@programprehrane@com</a><br>
+    <a href=""https://www.programprehrane.com"">www.programprehrane.com</a>
+</div>";
+            }
+            //myServerHost = "mail.programprehrane.com";
+            //myServerPort = 25;
+            //myEmail = "info@programprehrane.com";
+            //myPassword = "Ipp123456$";
 
             MailMessage mail = new MailMessage();
             mail.From = new MailAddress(myEmail);
             mail.To.Add(sendTo);
+            if (send_cc) {
+                mail.CC.Add(myEmail_cc);
+            }
             mail.Subject =  subject;
             mail.Body = string.Format(@"
 {0}
@@ -275,11 +305,16 @@ public class Mail : System.Web.Services.WebService {
 
     public bool SendMail_menu(string sendTo, string subject, string body, string lang, string file) {
         try {
-            myServerHost = "mail.programprehrane.com";
-            myServerPort = 25;
-            myEmail = "jelovnik@programprehrane.com";
-            myPassword = "Jpp123456$";
-
+            if (lang == "en") {
+                myServerHost = myServerHost_en;
+                myServerPort = myServerPort_en;
+                myEmail = myEmail_en;
+                myPassword = myPassword_en;
+            } else {
+                myEmail = "jelovnik@programprehrane.com";
+                myPassword = "Jpp123456$";
+            }
+                
             MailMessage mail = new MailMessage();
             mail.From = new MailAddress(myEmail);
             mail.To.Add(sendTo);
@@ -422,9 +457,9 @@ public class Mail : System.Web.Services.WebService {
 <p>IG PROG - obrt za računalno programiranje</p>
 <p>Ludvetov breg 5, 51000 Rijeka, HR</p>
 <p>+385 98 330 966</p>
-<a href=""mailto:program.prehrane@yahoo.com"">program.prehrane@yahoo.com</a>
+<a href=""mailto:info@programprehrane.com"">info@programprehrane.com</a>
 <br />
-<a href=""http://www.programprehrane.com"">www.programprehrane.com</a>
+<a href=""https://www.programprehrane.com"">www.programprehrane.com</a>
 </div>"
 , user.application
 , user.version
