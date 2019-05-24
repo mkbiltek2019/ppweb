@@ -1437,7 +1437,7 @@
   "city": "city",
   "country": "country",
   "go back": "go back",
-  "you are currently working in a demo version": "you are currently working in a demo version",
+  "you are currently using internet explorer. some functionality may not work properly": "You are currently using Internet Explorer. Some functionality may not work properly.",
   "some functions are disabled": "some functions are disabled",
   "this function is not available in demo version": "this function is not available in demo version",
   "yes": "yes",

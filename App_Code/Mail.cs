@@ -375,6 +375,88 @@ public class Mail : System.Web.Services.WebService {
         }
     }
 
+     private string PaymentDetails(Orders.NewUser user, string lang) {
+        switch (lang){
+            case "en":
+                return
+                    string.Format(
+@"
+<p>{0},</p>
+<p>{1} <b>{2} {3}</b>.</p>
+<p>{4}: <a href=""mailto:nutrition.plan@yahoo.com"">nutrition.plan@yahoo.com</a></p> 
+<br />
+<b>{5}:</b>
+<hr/>
+<p>IBAN: HR84 2340 0091 1603 4249 6</p>
+<p>SWIFT CODE: PBZGHR2X</p>
+<p>{6}: Privredna banka Zagreb d.d., Račkoga 6, 10000 Zagreb, {7}</p>
+<p>{8}: IG PROG, vl. Igor Gasparovic</p>
+<p>{9}: Ludvetov breg 5, 51000 Rijeka, {7}</p>
+<p>{10}: {2} {3}</p>
+<p>{11}: <b>{12} {13}</b></p>
+<hr/>
+<a href=""https://www.nutriprog.com/paypal.html""><img alt=""PayPal"" src=""https://www.nutriprog.com/assets/img/paypal.jpg""></a>
+<hr/>
+<br />
+<br />
+<p>{14}</p>
+<br />"
+, t.Tran("dear", lang)
+, t.Tran("thank you for your interest in", lang)
+, user.application
+, user.version
+, t.Tran("your account will be active within 24 hours of your payment receipt or after you send us a payment confirmation to email", lang)
+, t.Tran("payment details", lang)
+, t.Tran("bank", lang)
+, t.Tran("croatia", lang)
+, t.Tran("recipient", lang)
+, "Address"
+, t.Tran("payment description", lang)
+, t.Tran("amount", lang)
+, Math.Round(user.price / usd, 2)
+, "$"
+, t.Tran("best regards", lang));
+            default:
+                return
+                    string.Format(
+@"
+<p>Poštovani/a,</p>
+<p>Zahvaljujemo na Vašem interesu za <b>{0} {1}</b>.</p>
+<p>{6}.</p> 
+<br />
+<b>Podaci za uplatu:</b>
+<hr/>
+<p>IBAN: HR84 2340 0091 1603 4249 6</p>
+<p>Banka: Privredna banka Zagreb d.d., Račkoga 6, 10000 Zagreb, Hrvatska</p>
+<p>Primatelj: IG PROG, vl. Igor Gašparović</p>
+<p>Adresa: Ludvetov breg 5, 51000 Rijeka, Hrvatska</p>
+<p>Opis plaćanja: {0} {1}</p>
+<p>Iznos: <b>{2} kn</b></p>
+<p>Model: {5}</p>
+<p>{3}</p>
+<hr/>
+<br />
+<b>Podaci za uplatu izvan Hrvatske:</b>
+<hr/>
+<p>IBAN: HR84 2340 0091 1603 4249 6</p>
+<p>SWIFT CODE: PBZGHR2X</p>
+<p>Iznos: <b>{4} €</b></p>
+<a href=""https://www.programprehrane.com/paypal.html""><img alt=""PayPal"" src=""https://www.programprehrane.com/assets/img/paypal.jpg""></a>
+<hr/>
+<br />
+<p>Srdačan pozdrav</p>
+<br />"
+, user.application
+, user.version
+, user.price
+, string.IsNullOrWhiteSpace(user.pin) ? "" : string.Format("Poziv na broj: {0}", user.pin)
+, Math.Round(user.priceEur, 2)
+, string.IsNullOrWhiteSpace(user.pin) ? "HR99" : "HR00"
+, user.application == "Program Prehrane 5.0" ? "Nakon primitka Vaše uplate ili nakon što nam pošaljete potvrdu o uplati, aktivacijski kod šaljemo na Vašu E-mail adresu" : "Aplikacija će biti aktivna nakon primitka Vaše uplate ili nakon što nam pošaljete potvrdu o uplati");
+        }
+    }
+
+    /* //OLD
     private string PaymentDetails(Orders.NewUser user, string lang) {
         switch (lang){
             case "en":
@@ -470,6 +552,7 @@ public class Mail : System.Web.Services.WebService {
 , user.application == "Program Prehrane 5.0" ? "Nakon primitka Vaše uplate ili nakon što nam pošaljete potvrdu o uplati, aktivacijski kod šaljemo na Vašu E-mail adresu" : "Aplikacija će biti aktivna nakon primitka Vaše uplate ili nakon što nam pošaljete potvrdu o uplati");
         }
     }
+    */
     #endregion methods
 
 
