@@ -40,7 +40,7 @@ Kupac ima pravo da u svakom trenutku zatraži prestanak obrade svojih korisničk
 VLASNIK će zatim u cijelosti prestati sa obradom korisničkih podataka i ukloniti korisnika iz baze podataka.
 KORISNIK može na vlastiti zahtjev zatražiti brisanje svojih osobnih podataka iz baze VLASNIK-a trgovine putem naših web stranica, telefonskim putem ili putem e-maila.
 Prilikom registracije na www.programprehrane.com biti ćete dužni kreirati lozinku koju morate zadržati samo za sebe i ne dijeliti je s drugim osobama.
-Preporučujemo da koristite jedinstvenu lozinku za pristup našem sustavu. Ako znate ili sumnjate da još netko zna Vašu lozinku, ljubazno Vas molimo da nas kontaktirate putem e-maila program.prehrane@yahoo.com, a kako bismo Vam dali upute za izmjenu Vaše lozinke.
+Preporučujemo da koristite jedinstvenu lozinku za pristup našem sustavu. Ako znate ili sumnjate da još netko zna Vašu lozinku, ljubazno Vas molimo da nas kontaktirate putem e-maila info@programprehrane.com, a kako bismo Vam dali upute za izmjenu Vaše lozinke.
 Ukoliko postoji bilo kakva sumnja da postoji propust u sigurnosti, VLASNIK ima pravo od Vas tražiti da promijenite lozinku ili može blokirati Vaš korisnički račun. Sve stranice i podstranice programprehrane.com na kojima se vrši razmjena povjerljivih podataka (lozinka, plaćanje putem interneta..) zaštićene su uporabom SSL sigurnosnog protokola.
 SSL enkripcija je standardna tehnologija zaštite podataka koja omogućava sigurnu razmjenu podataka između Vašeg preglednika i stranica programprehrane.com.
 Ukoliko postoji bilo kakva sumnja da postoji propust u sigurnosti ili su tajni korisnički podaci ugroženi, VLASNIK je dužan obavijestiti registrirane korisnike o tim događajima u roku od 48h.

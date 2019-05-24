@@ -240,27 +240,27 @@ public class Users : System.Web.Services.WebService {
                     string sql = @"INSERT INTO users VALUES  
                        (@UserId, @UserType, @FirstName, @LastName, @CompanyName, @Address, @PostalCode, @City, @Country, @Pin, @Phone, @Email, @UserName, @Password, @AdminType, @UserGroupId, @ActivationDate, @ExpirationDate, @IsActive, @IPAddress)";
                     using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                        command.Parameters.Add(new SQLiteParameter("userId", x.userId));
+                        command.Parameters.Add(new SQLiteParameter("UserType", x.userType));
+                        command.Parameters.Add(new SQLiteParameter("FirstName", x.firstName));
+                        command.Parameters.Add(new SQLiteParameter("LastName", x.lastName));
+                        command.Parameters.Add(new SQLiteParameter("CompanyName", x.companyName));
+                        command.Parameters.Add(new SQLiteParameter("Address", x.address));
+                        command.Parameters.Add(new SQLiteParameter("PostalCode", x.postalCode));
+                        command.Parameters.Add(new SQLiteParameter("City", x.city));
+                        command.Parameters.Add(new SQLiteParameter("Country", x.country));
+                        command.Parameters.Add(new SQLiteParameter("Pin", x.pin));
+                        command.Parameters.Add(new SQLiteParameter("Phone", x.phone));
+                        command.Parameters.Add(new SQLiteParameter("Email", x.email.Trim().ToLower()));
+                        command.Parameters.Add(new SQLiteParameter("UserName", x.userName.Trim().ToLower()));
+                        command.Parameters.Add(new SQLiteParameter("Password", x.password));
+                        command.Parameters.Add(new SQLiteParameter("adminType", x.adminType));
+                        command.Parameters.Add(new SQLiteParameter("UserGroupId", x.userGroupId = x.userGroupId == null ? x.userId : x.userGroupId));
+                        command.Parameters.Add(new SQLiteParameter("ActivationDate", x.activationDate));
+                        command.Parameters.Add(new SQLiteParameter("ExpirationDate", x.expirationDate));
+                        command.Parameters.Add(new SQLiteParameter("IsActive", x.isActive));
+                        command.Parameters.Add(new SQLiteParameter("IPAddress", x.ipAddress));
                         using (SQLiteTransaction transaction = connection.BeginTransaction()) {
-                            command.Parameters.Add(new SQLiteParameter("userId", x.userId));
-                            command.Parameters.Add(new SQLiteParameter("UserType", x.userType));
-                            command.Parameters.Add(new SQLiteParameter("FirstName", x.firstName));
-                            command.Parameters.Add(new SQLiteParameter("LastName", x.lastName));
-                            command.Parameters.Add(new SQLiteParameter("CompanyName", x.companyName));
-                            command.Parameters.Add(new SQLiteParameter("Address", x.address));
-                            command.Parameters.Add(new SQLiteParameter("PostalCode", x.postalCode));
-                            command.Parameters.Add(new SQLiteParameter("City", x.city));
-                            command.Parameters.Add(new SQLiteParameter("Country", x.country));
-                            command.Parameters.Add(new SQLiteParameter("Pin", x.pin));
-                            command.Parameters.Add(new SQLiteParameter("Phone", x.phone));
-                            command.Parameters.Add(new SQLiteParameter("Email", x.email.Trim().ToLower()));
-                            command.Parameters.Add(new SQLiteParameter("UserName", x.userName.Trim().ToLower()));
-                            command.Parameters.Add(new SQLiteParameter("Password", x.password));
-                            command.Parameters.Add(new SQLiteParameter("adminType", x.adminType));
-                            command.Parameters.Add(new SQLiteParameter("UserGroupId", x.userGroupId = x.userGroupId == null ? x.userId : x.userGroupId));
-                            command.Parameters.Add(new SQLiteParameter("ActivationDate", x.activationDate));
-                            command.Parameters.Add(new SQLiteParameter("ExpirationDate", x.expirationDate));
-                            command.Parameters.Add(new SQLiteParameter("IsActive", x.isActive));
-                            command.Parameters.Add(new SQLiteParameter("IPAddress", x.ipAddress));
                             command.ExecuteNonQuery();
                             transaction.Commit();
                         }
@@ -283,27 +283,27 @@ public class Users : System.Web.Services.WebService {
                             UserType = @UserType, FirstName = @FirstName, LastName = @LastName, CompanyName = @CompanyName, Address = @Address, PostalCode = @PostalCode, City = @City, Country = @Country, Pin = @Pin, Phone = @Phone, Email = @Email, UserName = @UserName, Password = @Password, AdminType = @AdminType, UserGroupId = @UserGroupId, ActivationDate = @ActivationDate, ExpirationDate = @ExpirationDate, IsActive = @IsActive, IPAddress = @IPAddress
                             WHERE UserId = @UserId";
                 using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    command.Parameters.Add(new SQLiteParameter("UserId", x.userId));
+                    command.Parameters.Add(new SQLiteParameter("UserType", x.userType));
+                    command.Parameters.Add(new SQLiteParameter("FirstName", x.firstName));
+                    command.Parameters.Add(new SQLiteParameter("LastName", x.lastName));
+                    command.Parameters.Add(new SQLiteParameter("CompanyName", x.companyName));
+                    command.Parameters.Add(new SQLiteParameter("Address", x.address));
+                    command.Parameters.Add(new SQLiteParameter("PostalCode", x.postalCode));
+                    command.Parameters.Add(new SQLiteParameter("City", x.city));
+                    command.Parameters.Add(new SQLiteParameter("Country", x.country));
+                    command.Parameters.Add(new SQLiteParameter("Pin", x.pin));
+                    command.Parameters.Add(new SQLiteParameter("Phone", x.phone));
+                    command.Parameters.Add(new SQLiteParameter("Email", x.email));
+                    command.Parameters.Add(new SQLiteParameter("UserName", x.userName));
+                    command.Parameters.Add(new SQLiteParameter("Password", x.password));
+                    command.Parameters.Add(new SQLiteParameter("adminType", x.adminType));
+                    command.Parameters.Add(new SQLiteParameter("UserGroupId", x.userGroupId));
+                    command.Parameters.Add(new SQLiteParameter("ActivationDate", x.activationDate));
+                    command.Parameters.Add(new SQLiteParameter("ExpirationDate", x.expirationDate));
+                    command.Parameters.Add(new SQLiteParameter("IsActive", x.isActive));
+                    command.Parameters.Add(new SQLiteParameter("IPAddress", x.ipAddress));
                     using (SQLiteTransaction transaction = connection.BeginTransaction()) {
-                        command.Parameters.Add(new SQLiteParameter("UserId", x.userId));
-                        command.Parameters.Add(new SQLiteParameter("UserType", x.userType));
-                        command.Parameters.Add(new SQLiteParameter("FirstName", x.firstName));
-                        command.Parameters.Add(new SQLiteParameter("LastName", x.lastName));
-                        command.Parameters.Add(new SQLiteParameter("CompanyName", x.companyName));
-                        command.Parameters.Add(new SQLiteParameter("Address", x.address));
-                        command.Parameters.Add(new SQLiteParameter("PostalCode", x.postalCode));
-                        command.Parameters.Add(new SQLiteParameter("City", x.city));
-                        command.Parameters.Add(new SQLiteParameter("Country", x.country));
-                        command.Parameters.Add(new SQLiteParameter("Pin", x.pin));
-                        command.Parameters.Add(new SQLiteParameter("Phone", x.phone));
-                        command.Parameters.Add(new SQLiteParameter("Email", x.email));
-                        command.Parameters.Add(new SQLiteParameter("UserName", x.userName));
-                        command.Parameters.Add(new SQLiteParameter("Password", x.password));
-                        command.Parameters.Add(new SQLiteParameter("adminType", x.adminType));
-                        command.Parameters.Add(new SQLiteParameter("UserGroupId", x.userGroupId));
-                        command.Parameters.Add(new SQLiteParameter("ActivationDate", x.activationDate));
-                        command.Parameters.Add(new SQLiteParameter("ExpirationDate", x.expirationDate));
-                        command.Parameters.Add(new SQLiteParameter("IsActive", x.isActive));
-                        command.Parameters.Add(new SQLiteParameter("IPAddress", x.ipAddress));
                         command.ExecuteNonQuery();
                         transaction.Commit();
                     }
@@ -323,7 +323,9 @@ public class Users : System.Web.Services.WebService {
             }
 
             return ("saved");
-        } catch (Exception e) { return ("error: " + e); }
+        } catch (Exception e) {
+            return ("error: " + e);
+        }
     }
 
     [WebMethod]
@@ -955,16 +957,16 @@ public class Users : System.Web.Services.WebService {
 
     private List<NewUser> GetUsers(int? limit, int? page) {
         List<NewUser> xx = new List<NewUser>();
-        using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase))) {
-            connection.Open();
-            string limitSql = "";
-            if (limit != null && page != null) {
-                limitSql = string.Format("LIMIT {0} OFFSET {1}", limit, (page - 1) * limit);
-            }
-            string sql = string.Format(@"
+        string limitSql = "";
+        if (limit != null && page != null) {
+            limitSql = string.Format("LIMIT {0} OFFSET {1}", limit, (page - 1) * limit);
+        }
+        string sql = string.Format(@"
                     SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress, rowid
                     FROM users
                     ORDER BY rowid DESC {0}", limitSql);
+        using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase))) {
+            connection.Open();
             using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
                 SQLiteDataReader reader = command.ExecuteReader();
                 while (reader.Read()) {
