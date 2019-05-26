@@ -268,7 +268,7 @@ public class Mail : System.Web.Services.WebService {
     IG PROG - obrt za računalno programiranje<br>
     Ludvetov breg 5, 51000 Rijeka, HR<br>
     <a href=""tel:+385 98 330 966"">+385 98 330 966</a><br>
-    <a href=""mailto:info@programprehrane@com?subject=Upit"">info@programprehrane@com</a><br>
+    <a href=""mailto:info@programprehrane.com?subject=Upit"">info@programprehrane.com</a><br>
     <a href=""https://www.programprehrane.com"">www.programprehrane.com</a>
 </div>";
             }
