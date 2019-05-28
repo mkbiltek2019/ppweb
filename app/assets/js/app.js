@@ -36,6 +36,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.today = new Date();
     $rootScope.unitSystem = 1;
 
+    window.onbeforeunload = function () {
+        return "Your work will be lost.";
+    };
+
     if ((navigator.userAgent.indexOf("MSIE") !== -1 ) || (!!document.documentMode === true )) {
         $rootScope.browserMsg = {
             title: 'you are currently using internet explorer. some functionality may not work properly',
@@ -5680,6 +5684,163 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             });
         }
     }
+
+    //TODO: Print recipe
+    $scope.printRecipePreview = function (x) {
+        if ($rootScope.user.userType < 2 || $rootScope.user.licenceStatus == 'demo') {
+            functions.demoAlert('this function is available only in premium package');
+            return false;
+        }
+        $mdDialog.show({
+            controller: $scope.printRecipePreviewCtrl,
+            templateUrl: 'assets/partials/popup/printrecipe.html',
+            parent: angular.element(document.body),
+            targetEvent: '',
+            clickOutsideToClose: true,
+            fullscreen: $scope.customFullscreen,
+            d: { recipe: x, settings: $rootScope.printSettings, config: $rootScope.config, user: $rootScope.user }
+        })
+        .then(function () {
+        }, function () {
+        });
+    };
+
+    $scope.printRecipePreviewCtrl = function ($scope, $mdDialog, d, $http) {
+        $scope.recipe = d.recipe;
+        //$scope.totals = d.totals;
+        $scope.settings = d.settings;
+        $scope.config = d.config;
+        $scope.author = d.user.firstName + ' ' + d.user.lastName;
+        $scope.date = new Date(new Date()).toLocaleDateString();
+
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+
+        $scope.consumers = 1;
+        $scope.changeNumberOfConsumers = function (x) {
+            if (x < 1 || functions.isNullOrEmpty(x)) { return false }
+            $scope.consumers = x;
+            $http({
+                url: $sessionStorage.config.backend + 'Foods.asmx/ChangeNumberOfConsumers',
+                method: "POST",
+                data: { foods: $scope.recipe.data.selectedInitFoods, number: x }
+            })
+           .then(function (response) {
+               $scope.recipe.data.selectedFoods = JSON.parse(response.data.d);
+           },
+           function (response) {
+               alert(response.data.d)
+           });
+        }
+        if (angular.isDefined($scope.recipe)) { $scope.changeNumberOfConsumers($scope.consumers); }
+
+        $scope.copyToClipboard = function (id) {
+            return functions.copyToClipboard(id);
+        }
+
+        //$scope.getMealTitle = function (x) {
+        //    return $rootScope.getMealTitle(x);
+        //}
+
+        $scope.getServDescription = function (x) {
+            var des = "";
+            if (x.cerealsServ > 0) { des = servDes(des, x.cerealsServ, "cereals_"); }
+            if (x.vegetablesServ > 0) { des = servDes(des, x.vegetablesServ, "vegetables_"); }
+            if (x.fruitServ > 0) { des = servDes(des, x.fruitServ, "fruit_"); }
+            if (x.meatServ > 0) { des = servDes(des, x.meatServ, "meat_"); }
+            if (x.milkServ > 0) { des = servDes(des, x.milkServ, "milk_"); }
+            if (x.fatsServ > 0) { des = servDes(des, x.fatsServ, "fats_"); }
+            return des;
+        }
+
+        function servDes(des, serv, title) {
+            return (functions.isNullOrEmpty(des) ? '' : (des + ', ')) + serv + ' serv. ' + $translate.instant(title);
+        }
+
+        //$scope.isSeparatedDes = function (x) {
+        //    return x.includes('~');
+        //}
+
+        //var currDes = null;
+        //$scope.list = [];
+        //var currList = [];
+        //$scope.getTitleDes = function (x) {
+        //    if (currList === x) { return currList; }
+        //    if (!functions.isNullOrEmpty(x) && !$scope.list.includes(x)) {
+        //        $scope.list.push(x);
+        //        var desList = x.split('|');
+        //        var list = [];
+        //        angular.forEach(desList, function (value, key) {
+        //            list.push({
+        //                title: value.split('~')[0],
+        //                description: value.split('~')[1],
+        //            })
+        //        });
+        //        currDes = x;
+        //        currList = list;
+        //        return list.length > 0 ? list : x;
+        //    } else {
+        //        currList = x;
+        //        return x;
+        //    }
+        //}
+
+      //  $scope.settings = d.settings;
+        $scope.pdfLink == null;
+        $scope.creatingPdf = false;
+        $scope.printRecipePdf = function (consumers, date, author) {
+            if (angular.isDefined($scope.recipe)) {
+                $scope.creatingPdf = true;
+                $http({
+                    url: $sessionStorage.config.backend + 'Foods.asmx/ChangeNumberOfConsumers',
+                    method: "POST",
+                    data: { foods: $scope.recipe.data.selectedInitFoods, number: consumers }
+                })
+                .then(function (response) {
+                    //var foods = JSON.parse(response.data.d);
+                    //var currentMenu = angular.copy($rootScope.currentMenu);
+                    //currentMenu.data.selectedFoods = foods;
+                    $http({
+                        url: $sessionStorage.config.backend + 'PrintPdf.asmx/RecipePdf',
+                        method: "POST",
+                        data: { userId: $sessionStorage.usergroupid, recipe: $scope.recipe, consumers: consumers, lang: $rootScope.config.language, settings: $scope.settings, date: date, author: author, headerInfo: d.user.headerInfo }
+                    })
+                    .then(function (response) {
+                        var fileName = response.data.d;
+                        $scope.creatingPdf = false;
+                        $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
+                    },
+                    function (response) {
+                        $scope.creatingPdf = false;
+                        alert(response.data.d)
+                    });
+                },
+                function (response) {
+                    alert(response.data.d)
+                });
+            }
+        }
+
+        $scope.hidePdfLink = function () {
+            $scope.pdfLink = null;
+        }
+
+        $scope.setAuthor = function (x) {
+            $scope.author = x;
+        }
+
+        $scope.setDate = function (x) {
+            $scope.date = x;
+        }
+
+    };
+
+
+
+
+
 
 }])
 
