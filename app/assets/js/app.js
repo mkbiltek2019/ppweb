@@ -5289,6 +5289,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         .then(function (response) {
             $scope.recipe = JSON.parse(response.data.d);
             $scope.currentRecipe = null;
+            $rootScope.totals = null;
             recipeFromMenu();
             load();
         },
@@ -5341,13 +5342,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.recipe.push(x);
     }
 
-    $scope.getTotEnergy = function (x) {
-        var sum = 0;
-        angular.forEach(x, function (value, key) {
-            sum += value.energy;
-        })
-        return sum;
-    }
+    //$scope.getTotEnergy = function (x) {
+    //    var sum = 0;
+    //    angular.forEach(x, function (value, key) {
+    //        sum += value.energy;
+    //    })
+    //    return sum;
+    //}
 
     $scope.openFoodPopup = function (food, idx) {
         $scope.addFoodBtn = true;
@@ -5368,6 +5369,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $scope.recipe.data.selectedFoods[idx] = x.food;
             $scope.recipe.data.selectedInitFoods[idx] = x.initFood;
         }
+        getTotals($scope.recipe);
         $scope.addFoodBtnIcon = 'fa fa-plus';
         $scope.addFoodBtn = false;
         }, function () {
@@ -5392,6 +5394,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             $scope.recipe = JSON.parse(response.data.d);
+            getTotals($scope.recipe);
         },
         function (response) {
             alert(response.data.d);
@@ -5439,6 +5442,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $mdDialog.show(confirm).then(function () {
             $scope.recipe.data.selectedFoods.splice(idx, 1);
             $scope.recipe.data.selectedInitFoods.splice(idx, 1);
+            getTotals($scope.recipe);
         }, function () {
         });
     }
@@ -5484,6 +5488,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (recipe) {
             $scope.recipe = recipe;
+            getTotals($scope.recipe);
         }, function () {
         });
     };
@@ -5698,7 +5703,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             targetEvent: '',
             clickOutsideToClose: true,
             fullscreen: $scope.customFullscreen,
-            d: { recipe: x, settings: $rootScope.printSettings, config: $rootScope.config, user: $rootScope.user }
+            d: { recipe: x, totals: $scope.totals, settings: $rootScope.printSettings, config: $rootScope.config, user: $rootScope.user }
         })
         .then(function () {
         }, function () {
@@ -5707,7 +5712,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.printRecipePreviewCtrl = function ($scope, $mdDialog, d, $http) {
         $scope.recipe = d.recipe;
-        //$scope.totals = d.totals;
+        $scope.totals = d.totals;
         $scope.settings = d.settings;
         $scope.config = d.config;
         $scope.author = d.user.firstName + ' ' + d.user.lastName;
@@ -5805,7 +5810,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     $http({
                         url: $sessionStorage.config.backend + 'PrintPdf.asmx/RecipePdf',
                         method: "POST",
-                        data: { userId: $sessionStorage.usergroupid, recipe: $scope.recipe, consumers: consumers, lang: $rootScope.config.language, settings: $scope.settings, date: date, author: author, headerInfo: d.user.headerInfo }
+                        data: { userId: $sessionStorage.usergroupid, recipe: $scope.recipe, totals: $scope.totals, consumers: consumers, lang: $rootScope.config.language, settings: $scope.settings, date: date, author: author, headerInfo: d.user.headerInfo }
                     })
                     .then(function (response) {
                         var fileName = response.data.d;
@@ -5837,9 +5842,20 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     };
 
-
-
-
+    var getTotals = function (x) {
+        $http({
+            url: $sessionStorage.config.backend + 'Foods.asmx/GetTotals',
+            method: "POST",
+            data: { selectedFoods: x.data.selectedFoods, meals: null }
+        })
+       .then(function (response) {
+           $scope.totals = JSON.parse(response.data.d);
+           $scope.totals.price.currency = $rootScope.config.currency;
+       },
+       function (response) {
+           alert(response.data.d)
+       });
+    }
 
 
 }])

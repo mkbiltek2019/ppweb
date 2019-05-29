@@ -1005,6 +1005,116 @@ public class PrintPdf : System.Web.Services.WebService {
     }
 
     [WebMethod]
+    public string RecipePdf(string userId, Recipes.NewRecipe recipe, Foods.Totals totals, int consumers, string lang, PrintMenuSettings settings, string date, string author, string headerInfo) {
+        try {
+            var doc = new Document();
+            string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
+            DeleteFolder(path);
+            CreateFolder(path);
+            string fileName = Guid.NewGuid().ToString();
+            string filePath = Path.Combine(path, string.Format("{0}.pdf", fileName));
+            PdfWriter.GetInstance(doc, new FileStream(filePath, FileMode.Create));
+
+            doc.Open();
+            AppendHeader(doc, userId, headerInfo);
+            //if (settings.showClientData) {
+            //    ShowClientData(doc, recipe.client, lang);
+            //}
+            doc.Add(new Paragraph(" ", GetFont()));
+            doc.Add(new Paragraph(string.Format("{0}: {1}", t.Tran("recipe", lang).ToUpper(), recipe.title), GetFont(12)));
+            doc.Add(new Paragraph(" ", GetFont()));
+            if (settings.showDescription) {
+                doc.Add(new Paragraph("", GetFont()));
+                doc.Add(new Paragraph(string.Format("{0}:", t.Tran("description", lang).ToUpper()), GetFont(12)));
+                doc.Add(new Paragraph(recipe.description, GetFont(8)));
+            }
+            
+            if(consumers > 1) {
+                doc.Add(new Paragraph(t.Tran("number of consumers", lang) + ": " + consumers, GetFont(8)));
+            }
+
+            doc.Add(new Chunk(line));
+
+            if (settings.showFoods) {
+                doc.Add(new Paragraph(" ", GetFont()));
+                doc.Add(new Paragraph(string.Format("{0}:", t.Tran("ingredients", lang).ToUpper()), GetFont(12)));
+                StringBuilder sb = new StringBuilder();
+                foreach (Foods.NewFood food in recipe.data.selectedFoods) {
+                    sb.AppendLine(AppendFoods(food, settings, lang));
+                    //sb.AppendLine(string.Format(@"- {0}{1}{2}{3}"
+                    //    , food.food
+                    //    , string.Format(@", {0}", settings.showQty ? sl.SmartQty(food.id, food.quantity, food.unit, food.mass, sl.LoadFoodQty(), lang) : "")
+                    //    , string.Format(@", {0}", settings.showMass ? sl.SmartMass(food.mass, lang) : "")
+                    //    , string.Format(@"{0}", settings.showServ && !string.IsNullOrEmpty(getServingDescription(food.servings, lang)) ? string.Format(@", ({0})", getServingDescription(food.servings, lang)) : "")));
+                }
+                doc.Add(new Paragraph(sb.ToString(), GetFont()));
+            }
+
+            //var meals = recipe.data.selectedFoods.Select(a => a.meal.code).Distinct().ToList();
+            //List<string> orderedMeals = GetOrderedMeals(meals);
+            //StringBuilder sb = new StringBuilder();
+            //sb.AppendLine(string.Format(@"
+            //                            "));
+
+            //foreach (string m in orderedMeals) {
+            //    List<Foods.NewFood> meal = recipe.data.selectedFoods.Where(a => a.meal.code == m).ToList();
+            //    sb.AppendLine(AppendMeal(meal, recipe.data.meals, lang, null, settings));
+            //}
+
+
+
+            if (settings.showTotals) {
+                doc.Add(new Chunk(line));
+                string tot = string.Format(@"
+{0}:
+{1}: {5} kcal
+{2}: {6} g ({7})%
+{3}: {8} g ({9})%
+{4}: {10} g ({11})%",
+                        t.Tran("total", lang).ToUpper() + (consumers > 1 ? " (" + t.Tran("per consumer", lang) + ")" : ""),
+                        t.Tran("energy value", lang),
+                        t.Tran("carbohydrates", lang),
+                        t.Tran("proteins", lang),
+                        t.Tran("fats", lang),
+                        Convert.ToString(totals.energy),
+                        Convert.ToString(totals.carbohydrates),
+                        Convert.ToString(totals.carbohydratesPercentage),
+                        Convert.ToString(totals.proteins),
+                        Convert.ToString(totals.proteinsPercentage),
+                        Convert.ToString(totals.fats),
+                        Convert.ToString(totals.fatsPercentage)
+                        );
+                doc.Add(new Paragraph(tot, GetFont()));
+            }
+
+            if (totals.price.value > 0 && settings.showPrice) {
+                doc.Add(new Chunk(line));
+                doc.Add(new Paragraph(string.Format(@"{0}: {1} {2}", t.Tran("price", lang).ToUpper(), Math.Round(totals.price.value, 2), totals.price.currency.ToUpper()), GetFont()));
+            }
+
+            //if (currentMenu.client.clientData.activities.Count > 0 && settings.showActivities) {
+            //    doc.Add(new Chunk(line));
+            //    doc.Add(new Paragraph(string.Format("{0}:", t.Tran("additional activity", lang).ToUpper(), GetFont())));
+            //    sb = new StringBuilder();
+            //    foreach(var a in currentMenu.client.clientData.activities) {
+            //        sb.AppendLine(string.Format(@"- {0} - {1} min, {2} kcal",a.activity, a.duration, Math.Round(a.energy, 0)));
+            //    }
+            //    doc.Add(new Paragraph(sb.ToString(), GetFont()));
+            //}
+
+            doc.Add(new Chunk(line));
+
+            AppendFooter(doc, settings, date, author, lang, "recipe");
+
+            doc.Close();
+
+            return fileName;
+        } catch(Exception e) {
+            return e.Message;
+        }
+    }
+
+    [WebMethod]
     public string InvoicePdf(Invoice.NewInvoice invoice, bool isForeign, double totPrice_eur, int clientLeftSpacing) {
         try {
             GetFont(8, Font.ITALIC).SetColor(255, 122, 56);
@@ -1219,106 +1329,6 @@ IBAN HR8423400091160342496
         }
     }
 
-    [WebMethod]
-    public string RecipePdf(string userId, Recipes.NewRecipe recipe, int consumers, string lang, PrintMenuSettings settings, string date, string author, string headerInfo) {
-        try {
-            var doc = new Document();
-            string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
-            DeleteFolder(path);
-            CreateFolder(path);
-            string fileName = Guid.NewGuid().ToString();
-            string filePath = Path.Combine(path, string.Format("{0}.pdf", fileName));
-            PdfWriter.GetInstance(doc, new FileStream(filePath, FileMode.Create));
-
-            doc.Open();
-            AppendHeader(doc, userId, headerInfo);
-            //if (settings.showClientData) {
-            //    ShowClientData(doc, recipe.client, lang);
-            //}
-            doc.Add(new Paragraph(recipe.title, GetFont(12)));
-            doc.Add(new Paragraph(recipe.description, GetFont(8)));
-            if(consumers > 1) {
-                doc.Add(new Paragraph(t.Tran("number of consumers", lang) + ": " + consumers, GetFont(8)));
-            }
-
-            doc.Add(new Chunk(line));
-
-            if (settings.showFoods) {
-                StringBuilder sb = new StringBuilder();
-                foreach (Foods.NewFood food in recipe.data.selectedFoods) {
-                    sb.AppendLine(AppendFoods(food, settings, lang));
-                    //sb.AppendLine(string.Format(@"- {0}{1}{2}{3}"
-                    //    , food.food
-                    //    , string.Format(@", {0}", settings.showQty ? sl.SmartQty(food.id, food.quantity, food.unit, food.mass, sl.LoadFoodQty(), lang) : "")
-                    //    , string.Format(@", {0}", settings.showMass ? sl.SmartMass(food.mass, lang) : "")
-                    //    , string.Format(@"{0}", settings.showServ && !string.IsNullOrEmpty(getServingDescription(food.servings, lang)) ? string.Format(@", ({0})", getServingDescription(food.servings, lang)) : "")));
-                }
-                doc.Add(new Paragraph(sb.ToString(), GetFont()));
-            }
-
-            //var meals = recipe.data.selectedFoods.Select(a => a.meal.code).Distinct().ToList();
-            //List<string> orderedMeals = GetOrderedMeals(meals);
-            //StringBuilder sb = new StringBuilder();
-            //sb.AppendLine(string.Format(@"
-            //                            "));
-
-            //foreach (string m in orderedMeals) {
-            //    List<Foods.NewFood> meal = recipe.data.selectedFoods.Where(a => a.meal.code == m).ToList();
-            //    sb.AppendLine(AppendMeal(meal, recipe.data.meals, lang, null, settings));
-            //}
-
-            
-
-//            if (settings.showTotals) {
-//                doc.Add(new Chunk(line));
-//                string tot = string.Format(@"
-//{0}:
-//{1}: {5} kcal
-//{2}: {6} g ({7})%
-//{3}: {8} g ({9})%
-//{4}: {10} g ({11})%",
-//                        t.Tran("total", lang).ToUpper() + (consumers > 1 ? " (" + t.Tran("per consumer", lang) + ")" : ""),
-//                        t.Tran("energy value", lang),
-//                        t.Tran("carbohydrates", lang),
-//                        t.Tran("proteins", lang),
-//                        t.Tran("fats", lang),
-//                        Convert.ToString(totals.energy),
-//                        Convert.ToString(totals.carbohydrates),
-//                        Convert.ToString(totals.carbohydratesPercentage),
-//                        Convert.ToString(totals.proteins),
-//                        Convert.ToString(totals.proteinsPercentage),
-//                        Convert.ToString(totals.fats),
-//                        Convert.ToString(totals.fatsPercentage)
-//                        );
-//                doc.Add(new Paragraph(tot, GetFont()));
-//            }
-
-            //if (totals.price.value > 0 && settings.showPrice) {
-            //    doc.Add(new Chunk(line));
-            //    doc.Add(new Paragraph(string.Format(@"{0}: {1} {2}", t.Tran("price", lang).ToUpper(), Math.Round(totals.price.value, 2), totals.price.currency.ToUpper()), GetFont()));
-            //}
-
-            //if (currentMenu.client.clientData.activities.Count > 0 && settings.showActivities) {
-            //    doc.Add(new Chunk(line));
-            //    doc.Add(new Paragraph(string.Format("{0}:", t.Tran("additional activity", lang).ToUpper(), GetFont())));
-            //    sb = new StringBuilder();
-            //    foreach(var a in currentMenu.client.clientData.activities) {
-            //        sb.AppendLine(string.Format(@"- {0} - {1} min, {2} kcal",a.activity, a.duration, Math.Round(a.energy, 0)));
-            //    }
-            //    doc.Add(new Paragraph(sb.ToString(), GetFont()));
-            //}
-
-            doc.Add(new Chunk(line));
-
-            AppendFooter(doc, settings, date, author, lang, "recipe");
-
-            doc.Close();
-
-            return fileName;
-        } catch(Exception e) {
-            return e.Message;
-        }
-    }
     #endregion WebMethods
 
     #region Methods

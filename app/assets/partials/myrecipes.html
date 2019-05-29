@@ -64,12 +64,16 @@
                         <td class="text-right">
                             <label>{{'total' | translate}}:</label>
                         </td>
-                        <td class="text-right"><label>{{getTotEnergy(recipe.data.selectedFoods) | number : 1}} kcal</label></td>
+                        <td class="text-right"><label>{{totals.energy}} kcal</label></td>
+                        <!--<td class="text-right"><label>{{getTotEnergy(recipe.data.selectedFoods) | number : 1}} kcal</label></td>-->
                     </tr>
                 </table>
             </div>
         </div>
         <div ng-if="config.debug">
+            totals:
+            <pre>{{totals | json}}</pre>
+            recipe:
             <pre>{{recipe | json}}</pre>
         </div>
     </div>

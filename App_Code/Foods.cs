@@ -3079,7 +3079,7 @@ public class Foods : System.Web.Services.WebService {
 
         // x.mealsTotalEnergy = GetMealsTotalEnergy(selectedFoods, meals);  // TODO: remove
 
-        x.mealsTotal = GetMealsTotal(selectedFoods, meals);
+        x.mealsTotal = meals != null ? GetMealsTotal(selectedFoods, meals) : null;
 
         x.starch = SmartRound(selectedFoods.Sum(a => a.starch));
         x.totalSugar = SmartRound(selectedFoods.Sum(a => a.totalSugar));

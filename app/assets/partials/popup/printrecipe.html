@@ -29,11 +29,11 @@
                                     {{'client data' | translate}}
                                 </md-checkbox>
                             </md-input-container>-->
-                            <md-input-container class="md-block">
+                            <!--<md-input-container class="md-block">
                                 <md-checkbox ng-model="settings.showTitle" class="md-primary">
                                     {{'dish title' | translate}}
                                 </md-checkbox>
-                            </md-input-container>
+                            </md-input-container>-->
                             <md-input-container class="md-block">
                                 <md-checkbox ng-model="settings.showDescription" class="md-primary">
                                     {{'description' | translate}}
@@ -97,7 +97,7 @@
                             </div>
                         </fieldset>
                     </div>
-                    <div class="col-sm-9 lead">
+                    <div class="col-sm-9">
                         <fieldset class="fieldset-border">
                             <legend class="fieldset-border text-capitalize">{{'recipe' | translate}}</legend>
                             <div id="menu_container">
@@ -110,11 +110,15 @@
                                     <p>{{currentMenu.client.clientData.diet.diet | translate}}</p>
                                     <hr />
                                 </div>-->
-                                <strong ng-if="settings.showTitle">{{recipe.title}}</strong>
-                                <p ng-if="settings.showDescription">{{recipe.description}}</p>
+                                <strong><span class="text-uppercase">{{'recipe' | translate}}:</span> {{recipe.title}}</strong>
+                                <div ng-if="settings.showDescription" class="mt10">
+                                    <label class="text-uppercase">{{'description' | translate}}:</label>
+                                    <p>{{recipe.description}}</p>
+                                </div>
                                 <p ng-if="consumers > 1">{{'number of consumers' | translate}}: <strong>{{consumers}}</strong></p>
 
                                 <div ng-if="settings.showFoods" class="mt10">
+                                    <label class="text-uppercase">{{'ingredients' | translate}}:</label>
                                     <div ng-repeat="y in recipe.data.selectedFoods track by $index">
                                         - {{y.food}}<span ng-if="settings.showQty">, {{y.quantity}} {{y.unit}}</span><span ng-if="settings.showMass">, {{y.mass>999?(y.mass/1000).toFixed(1):y.mass}} {{y.mass>999?('kg' | translate):('g' | translate)}}</span> <span ng-if="settings.showServ&&getServDescription(y.servings)!=''">, ({{getServDescription(y.servings)}})</span>
                                     </div>
@@ -144,7 +148,7 @@
                                         {{'proteins' | translate}}: {{totals.mealsTotal[$index].proteins.val | number:1}} {{'g' | translate}} ({{totals.mealsTotal[$index].proteins.perc| number:1}} %),&nbsp;
                                         {{'fats' | translate}}: {{totals.mealsTotal[$index].fats.val | number:1}} {{'g' | translate}} ({{totals.mealsTotal[$index].fats.perc| number:1}} %)
                                     </div>
-                                </div>
+                                </div>-->
 
                                 <div ng-if="settings.showTotals">
                                     <hr />
@@ -158,7 +162,7 @@
                                 <div ng-if="totals.price.value>0 && settings.showPrice">
                                     <hr />
                                     <em class="text-primary"><span class="text-capitalize">{{'price' | translate}}</span>: <span>{{totals.price.value | number:2}}</span> <span class="text-uppercase">{{config.currency}}</span></em>
-                                </div>-->
+                                </div>
 
                                 <!--<div ng-if="currentMenu.client.clientData.activities.length > 0 && settings.showActivities">
                                     <hr />
