@@ -672,26 +672,28 @@ public class Foods : System.Web.Services.WebService {
     [WebMethod]
     public string LoadFoods(string lang) {
         try {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
-            connection.Open();
-            string sql = "SELECT id, food, quantity, unit, mass, energy FROM foods";
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
-            string[] translations = t.Translations(lang);
-            SQLiteDataReader reader = command.ExecuteReader();
             var xx = new List<object>();
-            while (reader.Read()) {
-                xx.Add(new {
-                    id = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0),
-                    food = reader.GetValue(1) == DBNull.Value ? "" : t.Tran(reader.GetString(1), translations, string.IsNullOrEmpty(lang) ? "hr" : lang),
-                    quantity = reader.GetValue(2) == DBNull.Value ? 0 : reader.GetInt32(2),
-                    unit = reader.GetValue(3) == DBNull.Value ? "" : t.Tran(reader.GetString(3), translations, string.IsNullOrEmpty(lang) ? "hr" : lang),
-                    mass = reader.GetValue(4) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(4)),
-                    energy = reader.GetValue(5) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(5))
-                });
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase))) {
+                connection.Open();
+                string sql = "SELECT id, food, quantity, unit, mass, energy FROM foods";
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    string[] translations = t.Translations(lang);
+                    using (SQLiteDataReader reader = command.ExecuteReader()) {
+                        while (reader.Read()) {
+                            xx.Add(new {
+                                id = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0),
+                                food = reader.GetValue(1) == DBNull.Value ? "" : t.Tran(reader.GetString(1), translations, string.IsNullOrEmpty(lang) ? "hr" : lang),
+                                quantity = reader.GetValue(2) == DBNull.Value ? 0 : reader.GetInt32(2),
+                                unit = reader.GetValue(3) == DBNull.Value ? "" : t.Tran(reader.GetString(3), translations, string.IsNullOrEmpty(lang) ? "hr" : lang),
+                                mass = reader.GetValue(4) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(4)),
+                                energy = reader.GetValue(5) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(5))
+                            });
+                        }
+                    } 
+                } 
+                connection.Close();
             }
-            connection.Close();
-            string json = JsonConvert.SerializeObject(xx, Formatting.None);
-            return json;
+            return JsonConvert.SerializeObject(xx, Formatting.None);
         } catch (Exception e) { return ("Error: " + e); }
     }
 
@@ -728,9 +730,7 @@ public class Foods : System.Web.Services.WebService {
     private List<FoodGroup> GetFoodGroups(SQLiteConnection connection) {
         List<FoodGroup> xx = new List<FoodGroup>();
         try {
-            string sql = @"SELECT code, title, parent, groupOrder
-                        FROM foodGroups
-                        ORDER BY groupOrder ASC";
+            string sql = "SELECT code, title, parent, groupOrder FROM foodGroups ORDER BY groupOrder ASC";
             using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
                 using (SQLiteDataReader reader = command.ExecuteReader()) {
                     while (reader.Read()) {
@@ -3124,6 +3124,26 @@ public class Foods : System.Web.Services.WebService {
         x.price.value = Math.Round(selectedFoods.Sum(a => a.price.value), 2);
 
         return x;
+    }
+
+     public List<string> LoadFoodsId() {
+        try {
+            List<string> xx = new List<string>();
+            string sql = "SELECT id FROM foods";
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase))) {
+                connection.Open();
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    using (SQLiteDataReader reader = command.ExecuteReader()) {
+                        while (reader.Read()) {
+                            string x = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
+                            xx.Add(x);
+                        }
+                    } 
+                } 
+                connection.Close();
+            }
+            return xx;
+        } catch (Exception e) { return null; }
     }
     #endregion
 

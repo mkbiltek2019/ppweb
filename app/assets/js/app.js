@@ -5094,7 +5094,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { userId: $rootScope.user.userGroupId, id: x.id }
         })
      .then(function (response) {
-         loadMyFoods();
+         $rootScope.loadFoods();
+         //loadMyFoods();
          init();
      },
      function (response) {
@@ -5149,7 +5150,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         .then(function (response) {
             if (response.data.d != 'there is already a food with the same name') {
                 functions.alert($translate.instant(response.data.d), '');
-                loadMyFoods();
+                $rootScope.loadFoods();
+                //loadMyFoods();
             } else {
                 functions.alert($translate.instant('there is already a food with the same name'), '');
             }
@@ -5264,7 +5266,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 data: { userId: $rootScope.user.userGroupId, id: x.id }
             })
              .then(function (response) {
-                 loadMyFoods();
+                 $rootScope.loadFoods();
+                 //loadMyFoods();
                  init();
              },
              function (response) {
@@ -5665,7 +5668,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 data: { userId: $rootScope.user.userGroupId, recipe: x.recipe, unit: x.unit }
             })
             .then(function (response) {
-                loadMyFoods();
+                $rootScope.loadFoods();
+               // loadMyFoods();
                 $mdDialog.hide(x.recipe);
                 functions.alert($translate.instant(response.data.d), '');
             },

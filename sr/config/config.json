@@ -2,6 +2,7 @@
   "backend": "../",
   "appurl": "../app/",
   "apk": "http://app.appsgeyser.com/5983009/ProgramPrehrane",
+  "domain": "programprehrane.com",
   "debug": true,
   "eur": 7.4,
   "iban": "HR84 2340 0091 1603 4249 6",
@@ -11,6 +12,7 @@
   "address": "Ludvetov breg 5, 51000 Rijeka, Hrvatska",
   "oib": 58331314923,
   "email": "info@programprehrane.com",
+  "phone": "+385 98 330 966",
   "language": "sr",
   "freetrial": false,
   "menus": [ "jelovnik1", "jelovnik2", "jelovnik3", "jelovnik4" ]

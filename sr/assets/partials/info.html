@@ -3,13 +3,13 @@
         <div ng-controller="contactCtrl" class="row mb20">
             <div class="col-sm-5">
                 <h2>KONTAKT</h2>
-                <label> IG PROG, obrt za računalno programiranje</label>
+                <label>IG PROG, obrt za računalno programiranje</label>
                 <p>OIB {{config.oib}}</p>
                 <p>IBAN {{config.iban}}</p>
-                <p><span class="fa fa-home"></span> Ludvetov breg 5, 51000 Rijeka, Hrvatska</p>
-                <p><a href="tel:+385 98 330 966"><span class="fa fa-phone"></span> +385 98 330 966</a></p>
-                <p><a href="mailto:igprog@yahoo.com"><span class="fa fa-envelope"></span> igprog@yahoo.com</a></p>
-                <p><a href="https://www.programprehrane.com"><span class="fa fa-globe"></span> www.programprehrane.com</a> | <a href="https://www.igprog.hr" target="_blank"> www.igprog.hr</a></p>
+                <p><span class="fa fa-home"></span> {{config.address}}</p>
+                <p><a href="tel:{{config.phone}}" title="tel"><span class="fa fa-phone"></span> {{config.phone}}</a></p>
+                <p><a href="mailto:{{config.email}}" title="email"><span class="fa fa-envelope"></span> {{config.email}}</a></p>
+                <p><a href="https://www.{{config.domain}}" title="web"><span class="fa fa-globe"></span> www.{{config.domain}}</a> | <a href="https://www.igprog.hr" title="ig prog" target="_blank"> www.igprog.hr</a></p>
             </div>
             <div class="col-sm-7">
                 <div ng-include="'./assets/partials/contact.html'"></div>

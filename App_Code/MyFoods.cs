@@ -29,7 +29,7 @@ public class MyFoods : System.Web.Services.WebService {
                 List<Foods.NewFood> xx = new List<Foods.NewFood>();
                 using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase))) {
                     connection.Open();
-                    string sql = @"SELECT f.id, f.food, f.foodGroup FROM myfoods AS f ORDER BY food ASC";
+                    string sql = "SELECT f.id, f.food, f.foodGroup FROM myfoods AS f ORDER BY food ASC";
                     using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
                         using (SQLiteDataReader reader = command.ExecuteReader()) {
                             while (reader.Read()) {
@@ -196,7 +196,7 @@ public class MyFoods : System.Web.Services.WebService {
             if (Check(userId, x) != false) {
                 return "there is already a food with the same name";
             }
-            x.id = x.id != null ? x.id : Guid.NewGuid().ToString();
+            x.id = CheckId(userId, x);
             SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
             connection.Open();
             string sql = "";
@@ -333,6 +333,19 @@ public class MyFoods : System.Web.Services.WebService {
             case "OF": title = "other foods"; break;
         }
         return title;
+    }
+
+    private string CheckId(string userId, Foods.NewFood x) {
+        string id = null;
+        Foods f = new Foods();
+        List<string> xx = f.LoadFoodsId();
+        if(xx.Contains(x.id)) {
+            Delete(userId, x.id);   // ************ Fix BUG with duplicate id when my food is created from app food.***********
+            id = Guid.NewGuid().ToString();
+        } else {
+            id = x.id != null ? x.id : Guid.NewGuid().ToString();
+        }
+        return id;
     }
     #endregion Methods
 
