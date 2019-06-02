@@ -245,6 +245,7 @@ public class MyMeals : System.Web.Services.WebService {
         } catch (Exception e) { return (e.Message); }
     }
 
+
     public List<NewMyMeals> LoadMeals(string userId) {
         db.CreateDataBase(userId, db.meals);
         SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));

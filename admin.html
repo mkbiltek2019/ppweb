@@ -301,7 +301,11 @@
                                 <li class="list-group-item">Klijenti: <span class="badge">Ukupno: {{userTotal.clients.total}}, Tekući mjesec: {{userTotal.clients.currMonthTotal}} ({{userTotal.clients.maxMonthlyNumberOfClients}})</span></li>
                                 <li class="list-group-item">Jelovnici: <span class="badge">{{userTotal.menues}}</span></li>
 								<li class="list-group-item">Tjedni jelovnici: <span class="badge">{{userTotal.weeklyMenus}}</span></li>
-                                <li class="list-group-item">Namirnice: <span class="badge">{{userTotal.myfoods}}</span></li>
+                                <li class="list-group-item">Namirnice: 
+                                    <button ng-if="userTotal.myfoods>0" ng-click="countMyFoodsWithSameIdAsAppFoods(currUser)" class="btn btn-default"><i class="fa fa-check"></i> Provjeri Moje Namirnice</button> 
+                                    <button ng-if="userTotal.myfoods>0" ng-click="fixMyFoodsId(currUser)" class="btn btn-default"><i class="fa fa-wrench"></i> Popravi ID</button> 
+                                    <span class="badge">{{userTotal.myfoods}}</span>
+                                </li>
                                 <li class="list-group-item">Recepti: <span class="badge">{{userTotal.recipes}}</span></li>
                                 <li class="list-group-item">Obroci: <span class="badge">{{userTotal.meals}}</span></li>
                                 <li class="list-group-item">Kalendar: <span class="badge">{{userTotal.scheduler.total}}</span></li>

@@ -89,7 +89,7 @@ angular.module('app', [])
 
 }])
 
-.controller('webAppCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
+.controller('webAppCtrl', ['$scope', '$http', '$rootScope', 'functions', function ($scope, $http, $rootScope, functions) {
     $scope.showDetails = false;
     $scope.showActive = false;
     $scope.loading = false;
@@ -291,37 +291,33 @@ angular.module('app', [])
         });
     }
 
+    $scope.countMyFoodsWithSameIdAsAppFoods = function (x) {
+        functions.post('MyFoods', 'CountMyFoodsWithSameIdAsAppFoods', {userId: x.userGroupId}).then(function(d) {
+            alert(d);
+        });
+    }
+
+    $scope.fixMyFoodsId = function (x) {
+        functions.post('MyFoods', 'FixMyFoodsId', {userId: x.userGroupId}).then(function(d) {
+            alert(d);
+        });
+    }
+
 }])
 
-.controller('ordersCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
+.controller('ordersCtrl', ['$scope', '$http', '$rootScope', 'functions', function ($scope, $http, $rootScope, functions) {
     var load = function () {
-        $http({
-            url: $rootScope.config.backend + 'Orders.asmx/Load',
-            method: 'POST',
-            data: ''
-        })
-     .then(function (response) {
-         $scope.orders = JSON.parse(response.data.d);
-     },
-     function (response) {
-         alert(response.data.d);
-     });
+        functions.post('Orders', 'Load', {}).then(function(d) {
+            $scope.orders = d;
+        });
     }
     load();
 
     $scope.createInvoice = function (order, tpl) {
-        $http({
-            url: $rootScope.config.backend + 'Invoice.asmx/InitPP',
-            method: 'POST',
-            data: { order: order }
-        })
-     .then(function (response) {
-         $rootScope.i = JSON.parse(response.data.d);
-         $rootScope.tpl = tpl;
-     },
-     function (response) {
-         alert(response.data.d);
-     });
+        functions.post('Invoice', 'InitPP', {order: order}).then(function(d) {
+            $rootScope.i = d;
+            $rootScope.tpl = tpl;
+        });
     }
 
 }])
@@ -337,7 +333,6 @@ angular.module('app', [])
     }
 
     var getLocalDateAndTime = function () {
-        debugger;
         var date = new Date();
         var month = parseInt(date.getMonth()) + 1;
         var min = parseInt(date.getMinutes()) < 10 ? '0' + date.getMinutes() : date.getMinutes();
@@ -528,6 +523,20 @@ angular.module('app', [])
     }
 
 }])
+
+.factory('functions', ['$http', function ($http) {
+    return {
+        post: function (service, webmethod, data) {
+            return $http({
+                url: '../' + service + '.asmx/' + webmethod, method: 'POST', data: data
+            }).then(function (response) {
+                return JSON.parse(response.data.d);
+            },function (response) {
+                return response.data.d;
+            });
+        }
+    }
+}]);
 
 
 ;

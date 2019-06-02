@@ -17,6 +17,7 @@ using Igprog;
 public class MyFoods : System.Web.Services.WebService {
     string dataBase = ConfigurationManager.AppSettings["UserDataBase"];
     DataBase db = new DataBase();
+    Foods f = new Foods();
     public MyFoods() {
 
     }
@@ -49,7 +50,8 @@ public class MyFoods : System.Web.Services.WebService {
             } catch (Exception e) { return null; }
         }
     }
-   
+
+    #region WebMethods
     [WebMethod]
     public string Load(string userId) {
         try {
@@ -286,6 +288,56 @@ public class MyFoods : System.Web.Services.WebService {
         } catch (Exception e) { return ("Error: " + e); }
     }
 
+
+    /*********** BUG Fix (MyFoods with the same Id as App foods) ***********/
+    [WebMethod]
+    public string CountMyFoodsWithSameIdAsAppFoods(string userId) {
+        try {
+            int count = 0;
+            List<string> appFoods = f.LoadFoodsId();
+            List<string> myFoods = LoadMyFoodsId(userId);
+            if(myFoods != null) {
+                if (myFoods.Count > 0) {
+                    foreach (string id in myFoods) {
+                        if (appFoods.Contains(id)) {
+                            count++;
+                        }
+                    }
+                }
+            }
+            return JsonConvert.SerializeObject(string.Format("there are {0} foods with the same id", count), Formatting.None);
+        }
+        catch (Exception e) { return ("Error: " + e); }
+    }
+
+    [WebMethod]
+    public string FixMyFoodsId(string userId) {
+        try {
+            int count = 0;
+            List<string> appFoods = f.LoadFoodsId();
+            List<string> myFoods = LoadMyFoodsId(userId);
+            if (myFoods != null) {
+                if (myFoods.Count > 0) {
+                    foreach (string id in myFoods) {
+                        if (appFoods.Contains(id)) {
+                            UpdateMyFoodsId(userId, id);
+                            count++;
+                        }
+                    }
+                }
+            }
+            return JsonConvert.SerializeObject(string.Format("{0} foods id updated succesfully", count), Formatting.None);
+        } catch (Exception e) {
+            return e.Message;
+        }
+    }
+
+
+
+    /*******************************/
+
+    #endregion WebMethods
+
     #region Methods
     private bool Check(string userId, Foods.NewFood x) {
         try {
@@ -337,7 +389,6 @@ public class MyFoods : System.Web.Services.WebService {
 
     private string CheckId(string userId, Foods.NewFood x) {
         string id = null;
-        Foods f = new Foods();
         List<string> xx = f.LoadFoodsId();
         if(xx.Contains(x.id)) {
             Delete(userId, x.id);   // ************ Fix BUG with duplicate id when my food is created from app food.***********
@@ -346,6 +397,40 @@ public class MyFoods : System.Web.Services.WebService {
             id = x.id != null ? x.id : Guid.NewGuid().ToString();
         }
         return id;
+    }
+
+    public List<string> LoadMyFoodsId(string userId) {
+        try {
+            List<string> xx = new List<string>();
+            string sql = "SELECT id FROM myfoods";
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase))) {
+                connection.Open();
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    using (SQLiteDataReader reader = command.ExecuteReader()) {
+                        while (reader.Read()) {
+                            string x = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
+                            xx.Add(x);
+                        }
+                    }
+                }
+                connection.Close();
+            }
+            return xx;
+        }
+        catch (Exception e) { return null; }
+    }
+
+    private void UpdateMyFoodsId(string userId, string id) {
+        string sql = string.Format(@"BEGIN;
+                    UPDATE myfoods SET id = '{0}' WHERE id = '{1}';
+                    COMMIT;", Guid.NewGuid().ToString(), id);
+        using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase))) {
+            connection.Open();
+            using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                command.ExecuteNonQuery();
+            }
+            connection.Close();
+        } 
     }
     #endregion Methods
 
