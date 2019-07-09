@@ -1318,7 +1318,7 @@ IBAN HR8423400091160342496
             doc.Add(sign_table);
 
             PdfPTable footer_table = new PdfPTable(1);
-            footer_table.AddCell(new PdfPCell(new Phrase("mob: +385 98 330 966   |   email: igprog@yahoo.com   |   web: www.igprog.hr", GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 80, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
+            footer_table.AddCell(new PdfPCell(new Phrase("mob: +385 98 330 966   |   email: info@igprog.hr   |   web: www.igprog.hr", GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingTop = 80, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
             doc.Add(footer_table);
 
             doc.Close();
