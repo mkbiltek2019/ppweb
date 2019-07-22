@@ -34,7 +34,7 @@ namespace Igprog {
         #region CreateTable (users.ddb)
         public void Users(string path) {
             string sql = @"CREATE TABLE IF NOT EXISTS users
-                        (userId NVARCHER (50),
+                        (userId NVARCHAR (50),
                         userType INTEGER,
                         firstName NVARCHAR (50),
                         lastName NVARCHAR (50),
