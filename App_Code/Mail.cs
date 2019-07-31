@@ -17,10 +17,12 @@ using Igprog;
 [System.Web.Script.Services.ScriptService]
 public class Mail : System.Web.Services.WebService {
     string myEmail = ConfigurationManager.AppSettings["myEmail"];
+    string myEmailName = ConfigurationManager.AppSettings["myEmailName"];
     string myPassword = ConfigurationManager.AppSettings["myPassword"];
     int myServerPort = Convert.ToInt32(ConfigurationManager.AppSettings["myServerPort"]);
     string myServerHost = ConfigurationManager.AppSettings["myServerHost"];
     string myEmail_en = ConfigurationManager.AppSettings["myEmail_en"];
+    string myEmailName_en = ConfigurationManager.AppSettings["myEmailName_en"];
     string myPassword_en = ConfigurationManager.AppSettings["myPassword_en"];
     int myServerPort_en = Convert.ToInt32(ConfigurationManager.AppSettings["myServerPort_en"]);
     string myServerHost_en = ConfigurationManager.AppSettings["myServerHost_en"];
@@ -186,54 +188,6 @@ public class Mail : System.Web.Services.WebService {
         return sent;
     }
 
-    /*  //OLD
-    public bool SendMail(string sendTo, string messageSubject, string messageBody, string lang) {
-        try {
-            string my_email = lang == "en" ? myEmail_en : myEmail;
-            string my_password = lang == "en" ? myPassword_en : myPassword;
-            MailMessage mailMessage = new MailMessage();
-            SmtpClient Smtp_Server = new SmtpClient();
-            Smtp_Server.UseDefaultCredentials = false;
-            Smtp_Server.Credentials = new NetworkCredential(my_email, my_password);
-            Smtp_Server.Port = myServerPort;
-            Smtp_Server.EnableSsl = true;
-            Smtp_Server.Host = myServerHost;
-            mailMessage.To.Add(sendTo);
-            mailMessage.From = new MailAddress(my_email);
-            mailMessage.Subject = messageSubject;
-            mailMessage.Body = messageBody;
-            mailMessage.IsBodyHtml = true;
-            Smtp_Server.Send(mailMessage);
-            return true;
-        } catch (Exception e) { return false; }
-    }
-
-    
-    public bool SendMail(string sendTo, string messageSubject, string messageBody, string lang, string file){
-        try {
-            string my_email = lang == "en" ? myEmail_en : myEmail;
-            string my_password = lang == "en" ? myPassword_en : myPassword;
-            MailMessage mailMessage = new MailMessage();
-            SmtpClient Smtp_Server = new SmtpClient();
-            Smtp_Server.UseDefaultCredentials = false;
-            Smtp_Server.Credentials = new NetworkCredential(my_email, my_password);
-            Smtp_Server.Port = myServerPort;
-            Smtp_Server.EnableSsl = true;
-            Smtp_Server.Host = myServerHost;
-            mailMessage.To.Add(sendTo);
-            mailMessage.From = new MailAddress(my_email);
-            mailMessage.Subject = messageSubject;
-            mailMessage.Body = messageBody;
-            mailMessage.IsBodyHtml = true;
-            Attachment attachment = new Attachment(Server.MapPath(file.Replace("../","~/")));
-            mailMessage.Attachments.Add(attachment);
-            Smtp_Server.Send(mailMessage);
-            return true;
-        } catch (Exception e) { return false; }
-    }
-    */
-
-    /**New Mail**/
     public bool SendMail(string sendTo, string subject, string body, string lang, string file, bool send_cc) {
         try {
             string footer = "";
@@ -241,6 +195,7 @@ public class Mail : System.Web.Services.WebService {
                 myServerHost = myServerHost_en;
                 myServerPort = myServerPort_en;
                 myEmail = myEmail_en;
+                myEmailName = myEmailName_en;
                 myPassword = myPassword_en;
                 footer = @"
 <br>
@@ -272,13 +227,9 @@ public class Mail : System.Web.Services.WebService {
     <a href=""https://www.programprehrane.com"">www.programprehrane.com</a>
 </div>";
             }
-            //myServerHost = "mail.programprehrane.com";
-            //myServerPort = 25;
-            //myEmail = "info@programprehrane.com";
-            //myPassword = "Ipp123456$";
 
             MailMessage mail = new MailMessage();
-            mail.From = new MailAddress(myEmail);
+            mail.From = new MailAddress(myEmail, myEmailName);
             mail.To.Add(sendTo);
             if (send_cc) {
                 mail.CC.Add(myEmail_cc);
@@ -309,14 +260,16 @@ public class Mail : System.Web.Services.WebService {
                 myServerHost = myServerHost_en;
                 myServerPort = myServerPort_en;
                 myEmail = myEmail_en;
+                myEmailName = string.Format("{0} - Menu", myEmailName_en);
                 myPassword = myPassword_en;
             } else {
                 myEmail = "jelovnik@programprehrane.com";
+                myEmailName = string.Format("{0} - Jelovnik", myEmailName);
                 myPassword = "Jpp123456$";
             }
                 
             MailMessage mail = new MailMessage();
-            mail.From = new MailAddress(myEmail);
+            mail.From = new MailAddress(myEmail, myEmailName);
             mail.To.Add(sendTo);
             mail.Subject = subject;
             mail.Body = body;
@@ -334,7 +287,6 @@ public class Mail : System.Web.Services.WebService {
             return false;
         }
     }
-
 
     private string AppendMeal(Meals.NewMeal meal, List<Foods.NewFood> selectedFoods) {
         StringBuilder sb = new StringBuilder();
@@ -455,104 +407,6 @@ public class Mail : System.Web.Services.WebService {
 , user.application == "Program Prehrane 5.0" ? "Nakon primitka Vaše uplate ili nakon što nam pošaljete potvrdu o uplati, aktivacijski kod šaljemo na Vašu E-mail adresu" : "Aplikacija će biti aktivna nakon primitka Vaše uplate ili nakon što nam pošaljete potvrdu o uplati");
         }
     }
-
-    /* //OLD
-    private string PaymentDetails(Orders.NewUser user, string lang) {
-        switch (lang){
-            case "en":
-                return
-                    string.Format(
-@"
-<p>{0},</p>
-<p>{1} <b>{2} {3}</b>.</p>
-<p>{4}: <a href=""mailto:nutrition.plan@yahoo.com"">nutrition.plan@yahoo.com</a></p> 
-<br />
-<b>{5}:</b>
-<hr/>
-<p>IBAN: HR84 2340 0091 1603 4249 6</p>
-<p>SWIFT CODE: PBZGHR2X</p>
-<p>{6}: Privredna banka Zagreb d.d., Račkoga 6, 10000 Zagreb, {7}</p>
-<p>{8}: IG PROG, vl. Igor Gasparovic</p>
-<p>{9}: Ludvetov breg 5, 51000 Rijeka, {7}</p>
-<p>{10}: {2} {3}</p>
-<p>{11}: <b>{12} {13}</b></p>
-<hr/>
-<a href=""https://www.nutriprog.com/paypal.html""><img alt=""PayPal"" src=""https://www.nutriprog.com/assets/img/paypal.jpg""></a>
-<hr/>
-<br />
-<br />
-<p>{14}</p>
-<br />
-<div style=""color:gray"">
-<p>IG PROG</p>
-<p>Ludvetov breg 5, 51000 Rijeka, {7}</p>
-<a href=""mailto:nutrition.plan@yahoo.com"">nutrition.plan@yahoo.com</a>
-<br />
-<a href=""https://www.nutriprog.com/"">www.nutriprog.com</a>
-</div>"
-, t.Tran("dear", lang)
-, t.Tran("thank you for your interest in", lang)
-, user.application
-, user.version
-, t.Tran("your account will be active within 24 hours of your payment receipt or after you send us a payment confirmation to email", lang)
-, t.Tran("payment details", lang)
-, t.Tran("bank", lang)
-, t.Tran("croatia", lang)
-, t.Tran("recipient", lang)
-, "Address"
-, t.Tran("payment description", lang)
-, t.Tran("amount", lang)
-, Math.Round(user.price / usd, 2)
-, "$"
-, t.Tran("best regards", lang));
-            default:
-                return
-                    string.Format(
-@"
-<p>Poštovani/a,</p>
-<p>Zahvaljujemo na Vašem interesu za <b>{0} {1}</b>.</p>
-<p>{6}.</p> 
-<br />
-<b>Podaci za uplatu:</b>
-<hr/>
-<p>IBAN: HR84 2340 0091 1603 4249 6</p>
-<p>Banka: Privredna banka Zagreb d.d., Račkoga 6, 10000 Zagreb, Hrvatska</p>
-<p>Primatelj: IG PROG, vl. Igor Gašparović</p>
-<p>Adresa: Ludvetov breg 5, 51000 Rijeka, Hrvatska</p>
-<p>Opis plaćanja: {0} {1}</p>
-<p>Iznos: <b>{2} kn</b></p>
-<p>Model: {5}</p>
-<p>{3}</p>
-<hr/>
-<br />
-<b>Podaci za uplatu izvan Hrvatske:</b>
-<hr/>
-<p>IBAN: HR84 2340 0091 1603 4249 6</p>
-<p>SWIFT CODE: PBZGHR2X</p>
-<p>Iznos: <b>{4} €</b></p>
-<a href=""https://www.programprehrane.com/paypal.html""><img alt=""PayPal"" src=""https://www.programprehrane.com/assets/img/paypal.jpg""></a>
-<hr/>
-<br />
-<p>Srdačan pozdrav</p>
-<br />
-<div style=""color:gray"">
-<p>IG PROG - obrt za računalno programiranje</p>
-<p>Ludvetov breg 5, 51000 Rijeka, HR</p>
-<p>+385 98 330 966</p>
-<a href=""mailto:info@programprehrane.com"">info@programprehrane.com</a>
-<br />
-<a href=""https://www.programprehrane.com"">www.programprehrane.com</a>
-</div>"
-, user.application
-, user.version
-, user.price
-, string.IsNullOrWhiteSpace(user.pin) ? "" : string.Format("Poziv na broj: {0}", user.pin)
-, Math.Round(user.priceEur, 2)
-, string.IsNullOrWhiteSpace(user.pin) ? "HR99" : "HR00"
-, user.application == "Program Prehrane 5.0" ? "Nakon primitka Vaše uplate ili nakon što nam pošaljete potvrdu o uplati, aktivacijski kod šaljemo na Vašu E-mail adresu" : "Aplikacija će biti aktivna nakon primitka Vaše uplate ili nakon što nam pošaljete potvrdu o uplati");
-        }
-    }
-    */
     #endregion methods
 
 
