@@ -420,6 +420,9 @@
                             <option ng-selected="x==year?true:false"  ng-repeat="x in invoices.years">{{x}}</option>
                         </select>
                     </div>
+                    <div class="col-sm-4">
+                        <input ng-model="searchInvoices" class="form-control" placeholder="Pretraži..." />
+                    </div>
                 </div>
                 <div class="table-responsive table-scroll" style="max-height:600px">
                     <table class="table table-condensed text-small">
@@ -440,7 +443,7 @@
                             <th class="nowrap">Uplaćeno (kn)</th>
                             <th>Datum uplate</th>
                         </tr>
-                        <tr ng-repeat="x in invoices.data" class="{{x.isPaid==0?'bg-danger':''}}">
+                        <tr ng-repeat="x in invoices.data | filter:searchInvoices" class="{{x.isPaid==0?'bg-danger':''}}">
                             <td class="nowrap">
                                 <button class="btn btn-primary m2" ng-click="get(x)" title="Uredi"><i class="fa fa-eye"></i></button>
                                 <a href="{{config.backend + 'upload/invoice/' + x.year + '/'+ x.fileName + '.pdf'}}" class="btn btn-danger m2" download title="PDF"><i class="fa fa-file-pdf-o" style="color:white"></i></a>
