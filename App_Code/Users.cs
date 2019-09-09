@@ -400,7 +400,7 @@ public class Users : System.Web.Services.WebService {
                 string sql = string.Format(@"
                         SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress, rowid
                         FROM users                       
-                        WHERE (firstName LIKE '%{0}%' OR lastName LIKE '%{0}%' OR companyName LIKE '%{0}%' OR email LIKE '%{0}%') {2}
+                        WHERE (firstName LIKE '%{0}%' OR lastName LIKE '%{0}%' OR companyName LIKE '%{0}%' OR email LIKE '%{0}%' OR userId LIKE '%{0}%' OR userGroupId LIKE '%{0}%') {2}
                         ORDER BY rowid DESC {1}", query, limitSql, aciveUsersSql);
                 using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
                     using (SQLiteDataReader reader = command.ExecuteReader()) {
