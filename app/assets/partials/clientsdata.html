@@ -9,7 +9,7 @@
                  </div>
                  <div class="text-right text-small col-sm-6">
                      <div ng-if="client.clientId" class="p10">
-                         <strong><i class="fa fa-user-o"></i> <span class="text-capitalize">{{'client' | translate}}:</span> </strong> <a href="" ng-if="client.clientId!=null" ng-click="edit(client)" style="color:gray">{{client.firstName}} {{client.lastName}}, {{client.gender.title | translate}}, {{'age' | translate}}: {{clientData.age}}</a>
+                         <strong><i class="fa fa-male"></i> <span class="text-capitalize">{{'client' | translate}}:</span> </strong> <a href="" ng-if="client.clientId!=null" ng-click="edit(client)" style="color:gray">{{client.firstName}} {{client.lastName}}, {{client.gender.title | translate}}, {{'age' | translate}}: {{clientData.age}}</a>
                      </div>
                  </div>
              </div>
@@ -17,7 +17,7 @@
          <div class="mt10">
              <div ng-if="client.clientId">
                  <ul class="nav nav-tabs">
-                     <li ng-class="clientDataTpl=='inputData'?'active':''" ng-click="toggleTpl('inputData')"><a href="#"><i class="fa fa-thermometer-empty"></i> <span class="hidden-xs text-capitalize">{{'input data' | translate}}</span></a></li>
+                     <li ng-class="clientDataTpl=='inputData'?'active':''" ng-click="toggleTpl('inputData')"><a href="#"><i class="fa fa-thermometer-half"></i> <span class="hidden-xs text-capitalize">{{'input data' | translate}}</span></a></li>
                      <li ng-class="clientDataTpl=='clientStatictic'?'active':''"><a href="#" ng-click="getClientLog(client)"><i class="fa fa-line-chart"></i> <span class="hidden-xs text-capitalize">{{'tracking of anthropometric measures' | translate}}</span></a></li>
                  </ul>
              </div>

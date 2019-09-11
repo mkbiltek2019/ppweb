@@ -3,7 +3,7 @@
         <div class="panel-body mb20">
             <!--<div ng-include="'client'" style="padding-top:20px"></div>-->
             <ul class="nav nav-tabs">
-                <li ng-class="tpl=='inputData'?'active':''" ng-click="toggleTpl('inputData')"><a href="#"><i class="fa fa-thermometer-empty"></i> <span class="text-capitalize">{{'measures' | translate}}</span></a></li>
+                <li ng-class="tpl=='inputData'?'active':''" ng-click="toggleTpl('inputData')"><a href="#"><i class="fa fa-thermometer-half"></i> <span class="text-capitalize">{{'measures' | translate}}</span></a></li>
                 <li ng-class="tpl=='clientMenues'||tpl=='menu'?'active':''" ng-click="toggleTpl('clientMenues'); loadMenues()"><a href="#"><i class="fa fa-cutlery"></i> <span class="text-capitalize">{{'menus' | translate}}</span></a></li>
             </ul>
             <div ng-include="tpl" style="padding-top:20px; min-height:400px;"></div>
@@ -21,7 +21,7 @@
 </div>
 
 <script type="text/ng-template" id="client">
-    <div class="p5"><i class="fa fa-user-o fa-2x"></i> {{client.firstName}} {{client.lastName}}</div>
+    <div class="p5"><i class="fa fa-male fa-2x"></i> {{client.firstName}} {{client.lastName}}</div>
     <hr />
 </script>
 
