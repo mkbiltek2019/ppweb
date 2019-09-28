@@ -388,14 +388,7 @@ public class Mail : System.Web.Services.WebService {
 <p>{3}</p>
 <hr/>
 <br />
-<b>Podaci za uplatu izvan Hrvatske:</b>
-<hr/>
-<p>IBAN: HR84 2340 0091 1603 4249 6</p>
-<p>SWIFT CODE: PBZGHR2X</p>
-<p>Iznos: <b>{4} €</b></p>
-<a href=""https://www.programprehrane.com/paypal.html""><img alt=""PayPal"" src=""https://www.programprehrane.com/assets/img/paypal.jpg""></a>
-<hr/>
-<br />
+{7}
 <p>Srdačan pozdrav</p>
 <br />"
 , user.application
@@ -404,7 +397,17 @@ public class Mail : System.Web.Services.WebService {
 , string.IsNullOrWhiteSpace(user.pin) ? "" : string.Format("Poziv na broj: {0}", user.pin)
 , Math.Round(user.priceEur, 2)
 , string.IsNullOrWhiteSpace(user.pin) ? "HR99" : "HR00"
-, user.application == "Program Prehrane 5.0" ? "Nakon primitka Vaše uplate ili nakon što nam pošaljete potvrdu o uplati, aktivacijski kod šaljemo na Vašu E-mail adresu" : "Aplikacija će biti aktivna nakon primitka Vaše uplate ili nakon što nam pošaljete potvrdu o uplati");
+, user.application == "Program Prehrane 5.0" ? "Nakon primitka Vaše uplate ili nakon što nam pošaljete potvrdu o uplati, aktivacijski kod šaljemo na Vašu E-mail adresu" : "Aplikacija će biti aktivna nakon primitka Vaše uplate ili nakon što nam pošaljete potvrdu o uplati"
+, !user.country.ToLower().StartsWith("hr") && !user.country.ToLower().StartsWith("cr")
+                    ? string.Format(@"
+<b>Podaci za uplatu izvan Hrvatske:</b>
+<hr/>
+<p>IBAN: HR84 2340 0091 1603 4249 6</p>
+<p>SWIFT CODE: PBZGHR2X</p>
+<p>Iznos: <b>{0} €</b></p>
+<a href=""https://www.programprehrane.com/paypal.html""><img alt=""PayPal"" src=""https://www.programprehrane.com/assets/img/paypal.jpg""></a>
+<hr/>
+<br />", Math.Round(user.priceEur, 2)) : "");
         }
     }
     #endregion methods

@@ -189,18 +189,20 @@ Model: <span ng-if="user.pin">HR00</span><span ng-if="!user.pin">HR99</span>
 <span ng-if="user.pin">Poziv na broj: {{user.pin}}</span> 
             </pre>
                 </div>
-                <b>Podaci za uplatu izvan Hrvatske:</b>
-                <div>
-                    <pre>
+                <div ng-hide="user.country.toLowerCase().startsWith('hr') || user.country.toLowerCase().startsWith('cr')">
+                    <b>Podaci za uplatu izvan Hrvatske:</b>
+                    <div>
+                        <pre>
 IBAN računa: {{config.iban}}
 SWIFT CODE: {{config.swift}}
 Iznos: <span>{{user.priceEur | number:2}}</span> €
-            </pre>
+                        </pre>
+                    </div>
+                    <b>Plaćanje putem PayPal-a:</b>
+                    <div ng-if="user.application!='Program Prehrane 5.0'" ng-include="'./app/assets/partials/paypal.html'"></div>
+                    <div ng-if="user.application=='Program Prehrane 5.0'" ng-include="'./assets/partials/paypal.html'"></div>
                 </div>
             </div>
-            <b>Plaćanje putem PayPal-a:</b>
-            <div ng-if="user.application!='Program Prehrane 5.0'" ng-include="'./app/assets/partials/paypal.html'"></div>
-            <div ng-if="user.application=='Program Prehrane 5.0'" ng-include="'./assets/partials/paypal.html'"></div>
         </div>
 
         <div ng-if="showPaymentDetails" class="text-center">

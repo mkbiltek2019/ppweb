@@ -138,13 +138,15 @@ Model: <span ng-if="user.pin">HR00</span><span ng-if="!user.pin">HR99</span>
 <span ng-if="user.pin">Poziv na broj: {{user.pin}}</span> 
                     </pre>
                 </div>
-                <b>Podaci za uplatu izvan Hrvatske:</b>
-                <div>
-                    <pre>
+                <div ng-hide="user.country.toLowerCase().startsWith('hr') || user.country.toLowerCase().startsWith('cr')">
+                    <b>Podaci za uplatu izvan Hrvatske:</b>
+                    <div>
+                        <pre>
 IBAN računa: HR84 2340 0091 1603 4249 6
 SWIFT CODE: PBZGHR2X
 {{'amount' | translate}}: <span>{{user.priceEur | number:2}}</span> €
-            </pre>
+                        </pre>
+                    </div>
                 </div>
             </div>
             <div ng-if="config.language=='en'">
@@ -161,8 +163,10 @@ SWIFT CODE: PBZGHR2X
                     </pre>
                 </div>
             </div>
-            <div ng-if="config.language!='en'" ng-include="'./assets/partials/paypal.html'"></div>
-            <div ng-if="config.language=='en'" ng-include="'./assets/partials/paypal_usd.html'"></div>
+            <div ng-hide="user.country.toLowerCase().startsWith('hr') || user.country.toLowerCase().startsWith('cr')">
+                <div ng-if="config.language!='en'" ng-include="'./assets/partials/paypal.html'"></div>
+                <div ng-if="config.language=='en'" ng-include="'./assets/partials/paypal_usd.html'"></div>
+            </div>
         </div>
     </div>
     <pre ng-if="config.debug">{{user | json}}</pre>
