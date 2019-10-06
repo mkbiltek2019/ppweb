@@ -1863,6 +1863,7 @@
   "headers print": "Испис заглавља",
   "author of the recipe": "Рецепт израдио",
   "ingredients": "Састојци",
-  "show recipe preview": "прикажи испис рецепта"
+  "show recipe preview": "прикажи испис рецепта",
+  "maximum number of characters is": "Максималан број знакова је"
 
 }

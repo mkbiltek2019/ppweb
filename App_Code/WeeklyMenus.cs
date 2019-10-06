@@ -134,11 +134,12 @@ public class WeeklyMenus : System.Web.Services.WebService {
                     List<Foods.MealsTotal> mt = new List<Foods.MealsTotal>();
                     mt = f.GetMealsTotal(nm.data.selectedFoods, nm.data.meals);
                     lmt.Add(mt);
-                    foreach (List<Foods.MealsTotal> l in lmt) {
-                        foreach (Foods.MealsTotal o in l) {
-                            mt_.Add(o);
-                        }
-                    }
+                }
+            }
+
+            foreach (List<Foods.MealsTotal> l in lmt) {
+                foreach (Foods.MealsTotal o in l) {
+                    mt_.Add(o);
                 }
             }
 
@@ -148,7 +149,7 @@ public class WeeklyMenus : System.Web.Services.WebService {
                 Foods.MealsTotal z = new Foods.MealsTotal();
                 z.code = ii.code;
                 z.title = ii.title;
-            
+
                 List<Foods.MealsTotal> fmt_energy = mt_.Where(a => a.code == ii.code && a.energy.val > 0).ToList();
                 z.energy.val = fmt_energy.Count() > 0 ? Math.Round(fmt_energy.Average(a => a.energy.val), 1) : 0;
 

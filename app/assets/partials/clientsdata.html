@@ -175,7 +175,9 @@
             </div>
             <div class="col-lg-5">
                 <fieldset class="fieldset-border" style="padding-top:0; margin-top:0">
-                    <legend class="fieldset-border text-capitalize">{{'note' | translate}}</legend>
+                    <!--<a href="" style="color:deepskyblue" note="{{'note' | translate}}" class="btn btn-default" custom-popover popover-html="{{x.note}}" popover-placement="bottom" popover-label=""></a>-->
+
+                    <legend class="fieldset-border text-capitalize">{{'note' | translate}} <span custom-popover popover-html="{{'maximum number of characters is' | translate}} 500" popover-placement="bottom" popover-label=""></span></legend>
                     <div>
                         <textarea ng-model="clientData.clientNote" class="form-control" maxlength="500" style="height:238px"></textarea>
                     </div>
@@ -183,7 +185,6 @@
             </div>
         </div>
         
-
         <!--<div ng-if="config.debug" class="col-sm-4">
             <a href="assets/3d/body.html?bmi:25" target="_blank" class="btn btn-default"><span class="text-primary"><i class="fa fa-arrows-alt"></i> {{'full screen' | translate}}</span></a>
             <div class="embed-responsive embed-responsive-16by9">
@@ -348,7 +349,6 @@
                         <td class="borderNone" style="width:100px">
                             <a href="" style="color:red" ng-click="removeClientLog(x)" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-times"></i></a>
                             <a href="" style="color:green" ng-click="updateClientLog(x)" class="btn btn-default" title="{{'save' | translate}}"><i class="fa fa-floppy-o"></i></a>
-                            <!--<a href="" style="color:deepskyblue" note="{{'note' | translate}}" class="btn btn-default" custom-popover popover-html="{{x.note}}" popover-placement="bottom" popover-label=""></a>-->
                         </td>
                         <td>{{clientLog.length - $index}}</td>
                         <td>

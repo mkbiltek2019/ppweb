@@ -6825,7 +6825,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 .directive('customPopover', function () {
     return {
         restrict: 'A',
-        template: '<span><i class="fa fa-info"></i> {{label}}</span>',
+        template: '<span><i class="fa fa-info-circle text-info" style="cursor:pointer"></i> {{label}}</span>',
         link: function (scope, el, attrs) {
             scope.label = attrs.popoverLabel;
             $(el).popover({
