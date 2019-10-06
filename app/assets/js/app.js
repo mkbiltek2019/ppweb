@@ -2414,9 +2414,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     if ($rootScope.activities == undefined) { $rootScope.loadActivities(); };
     if (angular.isDefined($rootScope.appCalculation) && angular.isDefined($rootScope.myCalculation)) {
-        $rootScope.calculation.recommendedEnergyExpenditure = functions.isNullOrEmpty($rootScope.myCalculation.recommendedEnergyExpenditure)
-            ? $rootScope.appCalculation.recommendedEnergyExpenditure
-            : $rootScope.myCalculation.recommendedEnergyExpenditure;
+        if (!functions.isNullOrEmpty($rootScope.myCalculation.recommendedEnergyExpenditure)) {
+            $rootScope.calculation.recommendedEnergyExpenditure = $rootScope.myCalculation.recommendedEnergyExpenditure;
+        }
     } else {
         $rootScope.newTpl = './assets/partials/calculation.html';
         $rootScope.selectedNavItem = 'calculation';

@@ -351,14 +351,13 @@ public class ClientsData : System.Web.Services.WebService {
     public NewClientData GetClientData(string userId, string clientId, SQLiteConnection connection) {
          try {
             NewClientData x = new NewClientData();
-            //TODO get client note from Clients tbl
             db.AddColumn(userId, db.GetDataBasePath(userId, dataBase), db.clients, "note");  //new column in clients tbl.
             string sql = string.Format(@"SELECT cd.rowid, cd.clientId, c.birthDate, c.gender, cd.height, cd.weight, cd.waist, cd.hip, cd.pal, cd.goal, cd.activities, cd.diet, cd.meals, cd.date, cd.userId, c.note
                         FROM clientsdata as cd
                         LEFT OUTER JOIN clients as c
                         ON cd.clientId = c.clientId
                         WHERE cd.clientId = '{0}'
-                        ORDER BY cd.date DESC LIMIT 1", clientId);
+                        ORDER BY cd.rowid DESC LIMIT 1", clientId);
             using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
                 Calculations c = new Calculations();
                 Goals g = new Goals();

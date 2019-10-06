@@ -150,39 +150,30 @@ public class WeeklyMenus : System.Web.Services.WebService {
                 z.code = ii.code;
                 z.title = ii.title;
 
-                List<Foods.MealsTotal> fmt_energy = mt_.Where(a => a.code == ii.code && a.energy.val > 0).ToList();
+                List<Foods.MealsTotal> fmt_energy = mt_.Where(a => a.code == ii.code).ToList();
                 z.energy.val = fmt_energy.Count() > 0 ? Math.Round(fmt_energy.Average(a => a.energy.val), 1) : 0;
 
-                List<Foods.MealsTotal> fmt_energyPerc = mt_.Where(a => a.code == ii.code && a.energy.perc > 0).ToList();
+                List<Foods.MealsTotal> fmt_energyPerc = mt_.Where(a => a.code == ii.code).ToList();
                 z.energy.perc = fmt_energyPerc.Count() > 0 ? Math.Round(fmt_energyPerc.Average(a => a.energy.perc), 1) : 0;
 
-                List<Foods.MealsTotal> fmt_carbohydrates = mt_.Where(a => a.code == ii.code && a.carbohydrates.val > 0).ToList();
+                List<Foods.MealsTotal> fmt_carbohydrates = mt_.Where(a => a.code == ii.code).ToList();
                 z.carbohydrates.val = fmt_carbohydrates.Count() > 0 ? Math.Round(fmt_carbohydrates.Average(a => a.carbohydrates.val), 1) : 0;
 
-                List<Foods.MealsTotal> fmt_carbohydratesPerc = mt_.Where(a => a.code == ii.code && a.carbohydrates.perc > 0).ToList();
+                List<Foods.MealsTotal> fmt_carbohydratesPerc = mt_.Where(a => a.code == ii.code).ToList();
                 z.carbohydrates.perc = fmt_carbohydratesPerc.Count() > 0 ? Math.Round(fmt_carbohydratesPerc.Average(a => a.carbohydrates.perc), 1) : 0;
 
-                List<Foods.MealsTotal> fmt_proteins = mt_.Where(a => a.code == ii.code && a.proteins.val > 0).ToList();
+                List<Foods.MealsTotal> fmt_proteins = mt_.Where(a => a.code == ii.code).ToList();
                 z.proteins.val = fmt_proteins.Count() > 0 ? Math.Round(fmt_proteins.Average(a => a.proteins.val), 1) : 0;
 
-                List<Foods.MealsTotal> fmt_proteinsPerc = mt_.Where(a => a.code == ii.code && a.proteins.perc > 0).ToList();
+                List<Foods.MealsTotal> fmt_proteinsPerc = mt_.Where(a => a.code == ii.code).ToList();
                 z.proteins.perc = fmt_proteinsPerc.Count() > 0 ? Math.Round(fmt_proteinsPerc.Average(a => a.proteins.perc), 1) : 0;
 
-                List<Foods.MealsTotal> fmt_fats = mt_.Where(a => a.code == ii.code && a.fats.val > 0).ToList();
+                List<Foods.MealsTotal> fmt_fats = mt_.Where(a => a.code == ii.code).ToList();
                 z.fats.val = fmt_fats.Count() > 0 ? Math.Round(fmt_fats.Average(a => a.fats.val), 1) : 0;
 
-                List<Foods.MealsTotal> fmt_fatsPerc = mt_.Where(a => a.code == ii.code && a.fats.perc > 0).ToList();
+                List<Foods.MealsTotal> fmt_fatsPerc = mt_.Where(a => a.code == ii.code).ToList();
                 z.fats.perc = fmt_fatsPerc.Count() > 0 ? Math.Round(fmt_fatsPerc.Average(a => a.fats.perc), 1) : 0;
-          
-                //OLD - BUG
-                //z.energy.val = Math.Round(mt_.Where(a => a.code == ii.code && a.energy.val > 0).Average(a => a.energy.val), 1);
-                //z.energy.perc = Math.Round(mt_.Where(a => a.code == ii.code && a.energy.perc > 0).Average(a => a.energy.perc), 1);
-                //z.carbohydrates.val = Math.Round(mt_.Where(a => a.code == ii.code && a.carbohydrates.val > 0).Average(a => a.carbohydrates.val), 1);
-                //z.carbohydrates.perc = Math.Round(mt_.Where(a => a.code == ii.code && a.carbohydrates.perc > 0).Average(a => a.carbohydrates.perc), 1);
-                //z.proteins.val = Math.Round(mt_.Where(a => a.code == ii.code && a.proteins.val > 0).Average(a => a.proteins.val), 1);
-                //z.proteins.perc = Math.Round(mt_.Where(a => a.code == ii.code && a.proteins.perc > 0).Average(a => a.proteins.perc), 1);
-                //z.fats.val = Math.Round(mt_.Where(a => a.code == ii.code && a.fats.val > 0).Average(a => a.fats.val), 1);
-                //z.fats.perc = Math.Round(mt_.Where(a => a.code == ii.code && a.fats.perc > 0).Average(a => a.fats.perc), 1);
+
                 zz.Add(z);
             }
 
