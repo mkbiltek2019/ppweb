@@ -39,6 +39,7 @@ public class Clients : System.Web.Services.WebService {
         public string userId { get; set; }
         public string date { get; set; }
         public int isActive { get; set; }
+        public string note { get; set; }
 
         public ClientsData.NewClientData clientData = new ClientsData.NewClientData();
     }
@@ -60,6 +61,7 @@ public class Clients : System.Web.Services.WebService {
         public NewClient GetClient(string userId, string clientId) {
             DataBase db = new DataBase();
             string dataBase = ConfigurationManager.AppSettings["UserDataBase"];
+            db.AddColumn(userId, db.GetDataBasePath(userId, dataBase), db.clients, "note");  //new column in clients tbl.
             try {
                 if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(clientId)) {
                     return new NewClient();
@@ -67,7 +69,7 @@ public class Clients : System.Web.Services.WebService {
                     NewClient x = new NewClient();
                     using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase))) {
                         connection.Open();
-                        string sql = string.Format("SELECT clientId, firstName, lastName, birthDate, gender, phone, email, userId, date, isActive FROM clients WHERE clientId = '{0}'", clientId);
+                        string sql = string.Format("SELECT clientId, firstName, lastName, birthDate, gender, phone, email, userId, date, isActive, note FROM clients WHERE clientId = '{0}'", clientId);
                         using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
                             Gender g = new Gender();
                             using (SQLiteDataReader reader = command.ExecuteReader()) {
@@ -83,6 +85,7 @@ public class Clients : System.Web.Services.WebService {
                                     x.userId = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
                                     x.date = reader.GetValue(8) == DBNull.Value ? DateTime.Today.ToString() : reader.GetString(8);
                                     x.isActive = reader.GetValue(9) == DBNull.Value ? 1 : reader.GetInt32(9);
+                                    x.note = reader.GetValue(10) == DBNull.Value ? "" : reader.GetString(10);
                                     x.clientData = null;
                                 }
                             }
@@ -111,6 +114,7 @@ public class Clients : System.Web.Services.WebService {
         x.userId = null;
         x.date = DateTime.UtcNow.ToString();
         x.isActive = 1;
+        x.note = null;
         x.clientData = new ClientsData.NewClientData();
         return JsonConvert.SerializeObject(x, Formatting.None);
     }
@@ -127,6 +131,7 @@ public class Clients : System.Web.Services.WebService {
     public string Save(Users.NewUser user, NewClient x, string lang) {
         try {
             db.CreateDataBase(user.userGroupId, db.clients);
+            db.AddColumn(user.userGroupId, db.GetDataBasePath(user.userGroupId, dataBase), db.clients, "note");  //new column in clients tbl.
             SaveResponse r = new SaveResponse();
             if (x.clientId == null && Check(user.userGroupId, x) == false) {
                 r.data = null;
@@ -147,7 +152,7 @@ public class Clients : System.Web.Services.WebService {
                 using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(user.userGroupId, dataBase))) {
                     connection.Open();
                     string sql = @"INSERT OR REPLACE INTO clients VALUES
-                            (@clientId, @firstName, @lastName, @birthDate, @gender, @phone, @email, @userId, @date, @isActive)";
+                            (@clientId, @firstName, @lastName, @birthDate, @gender, @phone, @email, @userId, @date, @isActive, @note)";
                     using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
                         using (SQLiteTransaction transaction = connection.BeginTransaction()) {
                             command.Parameters.Add(new SQLiteParameter("clientId", x.clientId));
@@ -160,6 +165,7 @@ public class Clients : System.Web.Services.WebService {
                             command.Parameters.Add(new SQLiteParameter("userId", x.userId));
                             command.Parameters.Add(new SQLiteParameter("date", x.date));
                             command.Parameters.Add(new SQLiteParameter("isActive", x.isActive));
+                            command.Parameters.Add(new SQLiteParameter("note", x.note));
                             command.ExecuteNonQuery();
                             transaction.Commit();
                         }
@@ -180,7 +186,7 @@ public class Clients : System.Web.Services.WebService {
             NewClient xx = new NewClient();
             using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase))) {
                 connection.Open();
-                string sql = string.Format("SELECT clientId, firstName, lastName, birthDate, gender, phone, email, userId, date, isActive FROM clients WHERE clientId = '{0}'", clientId);
+                string sql = string.Format("SELECT clientId, firstName, lastName, birthDate, gender, phone, email, userId, date, isActive, note FROM clients WHERE clientId = '{0}'", clientId);
                 using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
                     ClientsData c = new ClientsData();
                     using (SQLiteDataReader reader = command.ExecuteReader()) {
@@ -196,6 +202,7 @@ public class Clients : System.Web.Services.WebService {
                             xx.userId = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
                             xx.date = reader.GetValue(8) == DBNull.Value ? DateTime.Today.ToString() : reader.GetString(8);
                             xx.isActive = reader.GetValue(9) == DBNull.Value ? 1 : reader.GetInt32(9);
+                            xx.note = reader.GetValue(10) == DBNull.Value ? "" : reader.GetString(10);
                             xx.clientData = c.GetClientData(userId, clientId, connection);
                         }
                     }    
@@ -296,10 +303,11 @@ public class Clients : System.Web.Services.WebService {
     public List<NewClient> GetClients(string userId, Users.NewUser user, string order, string dir) {
         List<NewClient> xx = new List<NewClient>();
         try {
+            db.AddColumn(userId, db.GetDataBasePath(userId, dataBase), db.clients, "note");  //new column in clients tbl.
             using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase))) {
                 connection.Open();
                 string sql = string.Format(@"
-                        SELECT clientId, firstName, lastName, birthDate, gender, phone, email, userId, date, isActive
+                        SELECT clientId, firstName, lastName, birthDate, gender, phone, email, userId, date, isActive, note
                         FROM clients {0} ORDER BY {1} {2}"
                                 , user.adminType > 0 ? string.Format("WHERE userId = '{0}' ", user.userId) : ""
                                 , string.IsNullOrEmpty(order) ? "rowid" : order
@@ -320,6 +328,7 @@ public class Clients : System.Web.Services.WebService {
                             x.userId = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
                             x.date = reader.GetValue(8) == DBNull.Value ? DateTime.Today.ToString() : reader.GetString(8);
                             x.isActive = reader.GetValue(9) == DBNull.Value ? 1 : reader.GetInt32(9);
+                            x.note = reader.GetValue(10) == DBNull.Value ? "" : reader.GetString(10);
                             xx.Add(x);
                         }
                     }   

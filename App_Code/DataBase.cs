@@ -70,7 +70,8 @@ namespace Igprog {
                 email VARCHAR(50),
                 userId VARCHAR(50),
                 date VARCHAR(50),
-                isActive INTEGER)";
+                isActive INTEGER,
+                note NVARCHAR(200))";
             CreateTable(path, sql);
         }
 
@@ -397,7 +398,7 @@ namespace Igprog {
 
         public void AddColumn(string userId, string path, string table, string column) {
             if(!CheckColumn(userId, table, column)) {
-                string sql = string.Format("ALTER TABLE {0} ADD COLUMN {1} VARCHAR (50)", table, column);
+                string sql = string.Format("ALTER TABLE {0} ADD COLUMN {1} NVARCHAR(200)", table, column);
                 CreateTable(path, sql);
             }
         }

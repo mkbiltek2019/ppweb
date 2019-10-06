@@ -307,7 +307,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     $rootScope.setMealCode();
                 }
             }
-            $rootScope.saveClientData($rootScope.clientData);
+            if (x !== 'clientsdata') {
+                $rootScope.saveClientData($rootScope.clientData);
+            }
         }
         $rootScope.newTpl = './assets/partials/' + x + '.html';
         $rootScope.selectedNavItem = x;
@@ -6818,7 +6820,23 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             });
         }
     }
-});
+})
+
+.directive('customPopover', function () {
+    return {
+        restrict: 'A',
+        template: '<span><i class="fa fa-info"></i> {{label}}</span>',
+        link: function (scope, el, attrs) {
+            scope.label = attrs.popoverLabel;
+            $(el).popover({
+                trigger: 'click',
+                html: true,
+                content: attrs.popoverHtml,
+                placement: attrs.popoverPlacement
+            });
+        }
+    };
+})
 
 
 ;

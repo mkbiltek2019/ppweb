@@ -50,6 +50,8 @@ public class ClientsData : System.Web.Services.WebService {
 
         public MyMeals.NewMyMeals myMeals = new MyMeals.NewMyMeals();
 
+        public string clientNote { get; set; }
+
         //public List<DetailEnergyExpenditure.Activity> dailyActivities = new List<DetailEnergyExpenditure.Activity>();
 
         //TODO add detailTee;
@@ -82,6 +84,7 @@ public class ClientsData : System.Web.Services.WebService {
         x.userId = null;
         x.dailyActivities = new DetailEnergyExpenditure.Activities();
         x.myMeals = new MyMeals.NewMyMeals();
+        x.clientNote = null;
         string json = JsonConvert.SerializeObject(x, Formatting.None);
         return json;
     }
@@ -134,26 +137,32 @@ public class ClientsData : System.Web.Services.WebService {
     public string Save(string userId, NewClientData x, int userType) {
         try {
             db.CreateDataBase(userId, db.clientsData);
+            db.AddColumn(userId, db.GetDataBasePath(userId, dataBase), db.clients, "note");  //new column in clients tbl.
             using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase))) {
                 connection.Open();
                 string sql = "";
                 if (Check(userId, x) != false) {
                     sql = string.Format(@"INSERT INTO clientsdata (clientId, height, weight, waist, hip, pal, goal, activities, diet, meals, date, userId)
-                            VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}')"
+                            VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}');
+                            UPDATE clients SET note = '{12}' WHERE clientId = '{0}';"
                             , x.clientId, x.height, x.weight, x.waist, x.hip, x.pal.value, x.goal.code
                             , JsonConvert.SerializeObject(x.activities, Formatting.None)
                             , JsonConvert.SerializeObject(x.diet, Formatting.None)
                             , JsonConvert.SerializeObject(x.meals, Formatting.None)
-                            , x.date, x.userId);
+                            , x.date, x.userId
+                            , x.clientNote);
                 } else {
                     sql = string.Format(@"UPDATE clientsdata SET  
                             height = '{0}', weight = '{1}', waist = '{2}', hip = '{3}', pal = '{4}', goal = '{5}', activities = '{6}', diet = '{7}', meals = '{8}', date = '{9}'
-                            WHERE clientId = '{10}' AND ((strftime('%d', date) = '{11}' AND strftime('%m', date) = '{12}' AND strftime('%Y', date) = '{13}') OR date = '{9}')"
+                            WHERE clientId = '{10}' AND ((strftime('%d', date) = '{11}' AND strftime('%m', date) = '{12}' AND strftime('%Y', date) = '{13}') OR date = '{9}');
+                            UPDATE clients SET note = '{14}' WHERE clientId = '{10}';"
                             , x.height, x.weight, x.waist, x.hip, x.pal.value, x.goal.code
                             , JsonConvert.SerializeObject(x.activities, Formatting.None)
                             , JsonConvert.SerializeObject(x.diet, Formatting.None)
                             , JsonConvert.SerializeObject(x.meals, Formatting.None)
-                            , x.date, x.clientId, x.date.Day, (x.date.Month < 10 ? string.Format("0{0}", x.date.Month) : x.date.Month.ToString()), x.date.Year);
+                            , x.date, x.clientId, x.date.Day, (x.date.Month < 10 ? string.Format("0{0}", x.date.Month) : x.date.Month.ToString())
+                            , x.date.Year
+                            , x.clientNote);
                 }
                 using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
                     using (SQLiteTransaction transaction = connection.BeginTransaction()) {
@@ -342,7 +351,9 @@ public class ClientsData : System.Web.Services.WebService {
     public NewClientData GetClientData(string userId, string clientId, SQLiteConnection connection) {
          try {
             NewClientData x = new NewClientData();
-            string sql = string.Format(@"SELECT cd.rowid, cd.clientId, c.birthDate, c.gender, cd.height, cd.weight, cd.waist, cd.hip, cd.pal, cd.goal, cd.activities, cd.diet, cd.meals, cd.date, cd.userId
+            //TODO get client note from Clients tbl
+            db.AddColumn(userId, db.GetDataBasePath(userId, dataBase), db.clients, "note");  //new column in clients tbl.
+            string sql = string.Format(@"SELECT cd.rowid, cd.clientId, c.birthDate, c.gender, cd.height, cd.weight, cd.waist, cd.hip, cd.pal, cd.goal, cd.activities, cd.diet, cd.meals, cd.date, cd.userId, c.note
                         FROM clientsdata as cd
                         LEFT OUTER JOIN clients as c
                         ON cd.clientId = c.clientId
@@ -370,6 +381,7 @@ public class ClientsData : System.Web.Services.WebService {
                         x.meals = JsonConvert.DeserializeObject<List<Meals.NewMeal>>(reader.GetString(12));
                         x.date = reader.GetValue(13) == DBNull.Value ? DateTime.UtcNow : Convert.ToDateTime(reader.GetString(13));
                         x.userId = reader.GetValue(14) == DBNull.Value ? "" : reader.GetString(14);
+                        x.clientNote = reader.GetValue(15) == DBNull.Value ? "" : reader.GetString(15);
                         DetailEnergyExpenditure.DailyActivities da = new DetailEnergyExpenditure.DailyActivities();
                         x.dailyActivities = da.getDailyActivities(userId, x.clientId);
                         x.myMeals = GetMyMeals(userId, x.clientId);

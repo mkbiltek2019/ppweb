@@ -64,112 +64,125 @@
             </div>
         </div>
 
-        <fieldset class="fieldset-border" style="padding-top:0; margin-top:0">
-            <legend class="fieldset-border text-capitalize">{{'anthropometric parameters' | translate}}</legend>
-            <div class="row">
-                <div class="col-sm-4">
-                    <div ng-if="unitSystem==1" class="p20">
-                        <table>
-                            <tr>
-                                <td class="p5 text-capitalize">{{'height' | translate}}:</td>
-                                <td class="p5">
-                                    <div class="input-group">
-                                        <input ng-model="clientData.height" class="form-control" style="width:75px" required allow-only-numbers>
-                                        <span class="input-group-addon" style="width:50px">cm</span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="p5 text-capitalize">{{'weight' | translate}}:</td>
-                                <td class="p5" colspan="2">
-                                    <div class="input-group">
-                                        <input ng-model="clientData.weight" class="form-control" style="width:75px" required allow-only-numbers>
-                                        <span class="input-group-addon" style="width:50px">kg</span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="p5 text-capitalize">{{'waist' | translate}}:</td>
-                                <td class="p5" colspan="2">
-                                    <div class="input-group">
-                                        <input ng-model="clientData.waist" class="form-control" style="width:75px" allow-only-numbers>
-                                        <span class="input-group-addon" style="width:50px">cm</span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="p5 text-capitalize">{{'hip' | translate}}:</td>
-                                <td class="p5" colspan="2">
-                                    <div class="input-group">
-                                        <input ng-model="clientData.hip" class="form-control" style="width:75px" allow-only-numbers>
-                                        <span class="input-group-addon" style="width:50px">cm</span>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
+        <div class="row">
+            <div class="col-lg-7">
+                <fieldset class="fieldset-border" style="padding-top:0; margin-top:0">
+                    <legend class="fieldset-border text-capitalize">{{'anthropometric parameters' | translate}}</legend>
+                    <div class="row">
+                        <div class="col-sm-6" style="padding:20px 20px 5px 20px">
+                            <div ng-if="unitSystem==1">
+                                <table>
+                                    <tr>
+                                        <td class="p5 text-capitalize">{{'height' | translate}}:</td>
+                                        <td class="p5">
+                                            <div class="input-group">
+                                                <input ng-model="clientData.height" class="form-control" style="width:75px" required allow-only-numbers>
+                                                <span class="input-group-addon" style="width:50px">cm</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p5 text-capitalize">{{'weight' | translate}}:</td>
+                                        <td class="p5" colspan="2">
+                                            <div class="input-group">
+                                                <input ng-model="clientData.weight" class="form-control" style="width:75px" required allow-only-numbers>
+                                                <span class="input-group-addon" style="width:50px">kg</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p5 text-capitalize">{{'waist' | translate}}:</td>
+                                        <td class="p5" colspan="2">
+                                            <div class="input-group">
+                                                <input ng-model="clientData.waist" class="form-control" style="width:75px" allow-only-numbers>
+                                                <span class="input-group-addon" style="width:50px">cm</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p5 text-capitalize">{{'hip' | translate}}:</td>
+                                        <td class="p5" colspan="2">
+                                            <div class="input-group">
+                                                <input ng-model="clientData.hip" class="form-control" style="width:75px" allow-only-numbers>
+                                                <span class="input-group-addon" style="width:50px">cm</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div ng-if="unitSystem==0">
+                                <table>
+                                    <tr>
+                                        <td class="p5 text-capitalize">{{'height' | translate}}:</td>
+                                        <td class="p5">
+                                            <div class="input-group">
+                                                <select ng-model="standard.height_feet" class="form-control" ng-click="convertToMetricSystem(standard)" style="width:75px">
+                                                    <option ng-repeat="x in populateDdl(4,7)" ng-selected="x==standard.height_feet?true:false" ng-value="x">{{x}}</option>
+                                                </select>
+                                                <span class="input-group-addon" style="width:70px">{{'foot' | translate}}</span>
+                                            </div>
+                                        </td>
+                                        <td class="p5">
+                                            <div class="input-group">
+                                                <select ng-model="standard.height_inches" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:75px">
+                                                    <option ng-repeat="x in populateDdl(0,11)" ng-selected="x==standard.height_inches?true:false" ng-value="x">{{x}}</option>
+                                                </select>
+                                                <span class="input-group-addon" style="width:70px">{{'inches' | translate}}</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p5 text-capitalize">{{'weight' | translate}}:</td>
+                                        <td class="p5" colspan="2">
+                                            <div class="input-group">
+                                                <select ng-model="standard.weight" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:75px">
+                                                    <option ng-repeat="x in populateDdl(22,440)" ng-selected="x==standard.weight?true:false" ng-value="x">{{x}}</option>
+                                                </select>
+                                                <span class="input-group-addon" style="width:70px">{{'pounds' | translate}}</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p5 text-capitalize">{{'waist' | translate}}:</td>
+                                        <td class="p5" colspan="2">
+                                            <div class="input-group">
+                                                <select ng-model="standard.waist" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:75px">
+                                                    <option ng-repeat="x in populateDdl(23,70)" ng-selected="x==standard.waist?true:false" ng-value="x">{{x}}</option>
+                                                </select>
+                                                <span class="input-group-addon" style="width:70px">{{'inches' | translate}}</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p5 text-capitalize">{{'hip' | translate}}:</td>
+                                        <td class="p5" colspan="2">
+                                            <div class="input-group">
+                                                <select ng-model="standard.hip" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:75px">
+                                                    <option ng-repeat="x in populateDdl(35,70)" ng-selected="x==standard.hip?true:false" ng-value="x">{{x}}</option>
+                                                </select>
+                                                <span class="input-group-addon" style="width:70px">{{'inches' | translate}}</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <ng-include src="'humanSvg'"></ng-include>
+                        </div>
                     </div>
-                    <div ng-if="unitSystem==0" class="p20">
-                        <table>
-                            <tr>
-                                <td class="p5 text-capitalize">{{'height' | translate}}:</td>
-                                <td class="p5">
-                                    <div class="input-group">
-                                        <select ng-model="standard.height_feet" class="form-control" ng-click="convertToMetricSystem(standard)" style="width:75px">
-                                            <option ng-repeat="x in populateDdl(4,7)" ng-selected="x==standard.height_feet?true:false" ng-value="x">{{x}}</option>
-                                        </select>
-                                        <span class="input-group-addon" style="width:70px">{{'foot' | translate}}</span>
-                                    </div>
-                                </td>
-                                <td class="p5">
-                                    <div class="input-group">
-                                        <select ng-model="standard.height_inches" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:75px">
-                                            <option ng-repeat="x in populateDdl(0,11)" ng-selected="x==standard.height_inches?true:false" ng-value="x">{{x}}</option>
-                                        </select>
-                                        <span class="input-group-addon" style="width:70px">{{'inches' | translate}}</span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="p5 text-capitalize">{{'weight' | translate}}:</td>
-                                <td class="p5" colspan="2">
-                                    <div class="input-group">
-                                        <select ng-model="standard.weight" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:75px">
-                                            <option ng-repeat="x in populateDdl(22,440)" ng-selected="x==standard.weight?true:false" ng-value="x">{{x}}</option>
-                                        </select>
-                                        <span class="input-group-addon" style="width:70px">{{'pounds' | translate}}</span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="p5 text-capitalize">{{'waist' | translate}}:</td>
-                                <td class="p5" colspan="2">
-                                    <div class="input-group">
-                                        <select ng-model="standard.waist" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:75px">
-                                            <option ng-repeat="x in populateDdl(23,70)" ng-selected="x==standard.waist?true:false" ng-value="x">{{x}}</option>
-                                        </select>
-                                        <span class="input-group-addon" style="width:70px">{{'inches' | translate}}</span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="p5 text-capitalize">{{'hip' | translate}}:</td>
-                                <td class="p5" colspan="2">
-                                    <div class="input-group">
-                                        <select ng-model="standard.hip" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:75px">
-                                            <option ng-repeat="x in populateDdl(35,70)" ng-selected="x==standard.hip?true:false" ng-value="x">{{x}}</option>
-                                        </select>
-                                        <span class="input-group-addon" style="width:70px">{{'inches' | translate}}</span>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-sm-8">
-                    <ng-include src="'humanSvg'"></ng-include>
-                </div>
+                </fieldset>
             </div>
-        </fieldset>
+            <div class="col-lg-5">
+                <fieldset class="fieldset-border" style="padding-top:0; margin-top:0">
+                    <legend class="fieldset-border text-capitalize">{{'note' | translate}}</legend>
+                    <div>
+                        <textarea ng-model="clientData.clientNote" class="form-control" maxlength="500" style="height:238px"></textarea>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        
 
         <!--<div ng-if="config.debug" class="col-sm-4">
             <a href="assets/3d/body.html?bmi:25" target="_blank" class="btn btn-default"><span class="text-primary"><i class="fa fa-arrows-alt"></i> {{'full screen' | translate}}</span></a>
@@ -178,23 +191,26 @@
             </div>
         </div>-->
 
-        <fieldset class="fieldset-border">
-        <legend class="fieldset-border text-capitalize">{{'physical activity level' | translate}}</legend>
-        <div class="row p20">
-            <div class="col-sm-12">
-                <md-radio-group ng-model="clientData.pal.value" ng-change="getPalDetails(clientData.pal.value)">
-                    <md-radio-button ng-repeat="x in pals" value="{{x.value}}" class="md-primary">
-                        {{x.title | translate}}
-                        <span ng-if="clientData.pal.value==x.value" class="p10">
-                            <span style="font-size:1.1em" class="bg-primary">{{pal.description | translate}}</span>
-                        </span>
-                    </md-radio-button>
-                </md-radio-group>
+        <div class="row">
+            <div class="col-lg-12">
+                <fieldset class="fieldset-border">
+                    <legend class="fieldset-border text-capitalize">{{'physical activity level' | translate}}</legend>
+                    <div class="row p20">
+                        <div class="col-sm-12">
+                            <md-radio-group ng-model="clientData.pal.value" ng-change="getPalDetails(clientData.pal.value)">
+                                <md-radio-button ng-repeat="x in pals" value="{{x.value}}" class="md-primary">
+                                    {{x.title | translate}}
+                                    <span ng-if="clientData.pal.value==x.value" class="p10">
+                                        <span style="font-size:1.1em" class="bg-primary">{{pal.description | translate}}</span>
+                                    </span>
+                                </md-radio-button>
+                            </md-radio-group>
+                        </div>
+                    </div>
+                    <div ng-include="'detailCalculationOfEnergyExpenditure'" class="p20"></div>
+                </fieldset>
             </div>
         </div>
-        <div ng-include="'detailCalculationOfEnergyExpenditure'" class="p20"></div>
-    </fieldset>
-
     </div>
 </script>
 
@@ -332,6 +348,7 @@
                         <td class="borderNone" style="width:100px">
                             <a href="" style="color:red" ng-click="removeClientLog(x)" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-times"></i></a>
                             <a href="" style="color:green" ng-click="updateClientLog(x)" class="btn btn-default" title="{{'save' | translate}}"><i class="fa fa-floppy-o"></i></a>
+                            <!--<a href="" style="color:deepskyblue" note="{{'note' | translate}}" class="btn btn-default" custom-popover popover-html="{{x.note}}" popover-placement="bottom" popover-label=""></a>-->
                         </td>
                         <td>{{clientLog.length - $index}}</td>
                         <td>
