@@ -43,6 +43,19 @@
             font-family: 'Encode Sans Expanded';
             font-size: 16px;
         }
+        /***** Price box *****/
+        * {
+            box-sizing: border-box;
+        }
+        .zoom {
+            transition: transform .6s;
+        }
+        .zoom:hover {
+            -ms-transform: scale(1.03); /* IE 9 */
+            -webkit-transform: scale(1.03); /* Safari 3-8 */
+            transform: scale(1.03);
+        }
+        /***** Price box *****/
     </style>
 </head>
 <body id="home" ng-app="app" ng-controller="appCtrl" data-spy="scroll" data-target=".navbar" data-offset="60" >
@@ -204,7 +217,7 @@
         </div>
         <div class="row slideanim">
             <div class="col-sm-4">
-                <div class="panel panel-default text-center" style="padding:0">
+                <div class="panel panel-default text-center zoom" style="padding:0">
                     <div class="panel-heading main">
                         <h3>START</h3>
                     </div>
@@ -233,7 +246,7 @@
             </div>
             <div class="col-sm-4">
                 <div class="ribbon"><span>Preporuka</span></div>
-                <div class="panel panel-default text-center" style="padding:0; box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)">
+                <div class="panel panel-default text-center zoom" style="padding:0; box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)">
                     <div class="panel-heading main">
                         <h3>STANDARD</h3>
                     </div>
@@ -261,7 +274,7 @@
                 </div>
             </div>
             <div class="col-sm-4">
-                <div class="panel panel-default text-center" style="padding:0">
+                <div class="panel panel-default text-center zoom" style="padding:0">
                     <div class="panel-heading main">
                         <h3>PREMIUM</h3>
                     </div>
