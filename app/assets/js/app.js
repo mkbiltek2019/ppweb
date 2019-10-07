@@ -364,7 +364,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             return false;
         }*/
         x.userId = $rootScope.user.userId;
-        x.clientId = x.clientId == null ? $rootScope.client.clientId: x.clientId;
+        x.clientId = x.clientId == null ? $rootScope.client.clientId : x.clientId;
         $http({
             url: $sessionStorage.config.backend + 'ClientsData.asmx/Save',
             method: 'POST',
