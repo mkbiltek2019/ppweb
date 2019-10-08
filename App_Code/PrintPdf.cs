@@ -1674,14 +1674,18 @@ IBAN HR8423400091160342496
 {6}: {7} kg
 {8}: {9} cm
 {10}: {11} cm
-{12}: {13} ({14})"
+
+{12}: {13} ({14})
+
+{15}"
             , t.Tran("gender", lang), t.Tran(clientData.gender.title, lang)
             , t.Tran("age", lang), clientData.age
             , t.Tran("height", lang), clientData.height
             , t.Tran("weight", lang), clientData.weight
             , t.Tran("waist", lang), clientData.waist == 0 ? "---" : clientData.waist.ToString()
             , t.Tran("hip", lang), clientData.hip == 0 ? "---" : clientData.hip.ToString()
-            , t.Tran("physical activity level", lang), t.Tran(clientData.pal.title, lang), t.Tran(clientData.pal.description, lang));
+            , t.Tran("physical activity level", lang), t.Tran(clientData.pal.title, lang), t.Tran(clientData.pal.description, lang)
+            , !string.IsNullOrWhiteSpace(clientData.clientNote) ? string.Format("{0}: {1}", t.Tran("note", lang), clientData.clientNote) :"" );
         return c;
     }
     #endregion Methods
