@@ -36,6 +36,19 @@ namespace Igprog {
                 return 0;
             }
         }
+
+        public string FormatDate(DateTime date) {
+            int day = date.Day;
+            int month = date.Month;
+            int year = date.Year;
+            return SetDate(day, month, year);
+        }
+
+        public string SetDate(int day, int month, int year) {
+            string day_ = day < 10 ? string.Format("0{0}", day) : day.ToString();
+            string month_ = month < 10 ? string.Format("0{0}", month) : month.ToString();
+            return string.Format("{0}-{1}-{2}", year, month_, day_);
+        }
         /*************************************************/
 
     }

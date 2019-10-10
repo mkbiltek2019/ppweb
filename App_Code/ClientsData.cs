@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Services;
 using System.IO;
 using System.Configuration;
@@ -20,6 +21,8 @@ public class ClientsData : System.Web.Services.WebService {
     DataBase db = new DataBase();
     Users.CheckUser c = new Users.CheckUser();
     Calculations calculation = new Calculations();
+    Global g = new Global();
+
     public ClientsData() {
     }
 
@@ -149,7 +152,7 @@ public class ClientsData : System.Web.Services.WebService {
                             , JsonConvert.SerializeObject(x.activities, Formatting.None)
                             , JsonConvert.SerializeObject(x.diet, Formatting.None)
                             , JsonConvert.SerializeObject(x.meals, Formatting.None)
-                            , x.date, x.userId
+                            , g.FormatDate(x.date), x.userId
                             , x.clientNote);
                 } else {
                     sql = string.Format(@"UPDATE clientsdata SET  
@@ -160,7 +163,7 @@ public class ClientsData : System.Web.Services.WebService {
                             , JsonConvert.SerializeObject(x.activities, Formatting.None)
                             , JsonConvert.SerializeObject(x.diet, Formatting.None)
                             , JsonConvert.SerializeObject(x.meals, Formatting.None)
-                            , x.date, x.clientId, x.date.Day, (x.date.Month < 10 ? string.Format("0{0}", x.date.Month) : x.date.Month.ToString())
+                            , g.FormatDate(x.date), x.clientId, x.date.Day, (x.date.Month < 10 ? string.Format("0{0}", x.date.Month) : x.date.Month.ToString())
                             , x.date.Year
                             , x.clientNote);
                 }
@@ -203,8 +206,7 @@ public class ClientsData : System.Web.Services.WebService {
                         FROM clientsdata as cd
                         LEFT OUTER JOIN clients as c
                         ON cd.clientId = c.clientId
-                        WHERE cd.clientId = '{0}'
-                        ORDER BY cd.date ASC", clientId);
+                        WHERE cd.clientId = '{0}'", clientId);
                 using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
                     using (SQLiteDataReader reader = command.ExecuteReader()) {
                         while (reader.Read()) {
@@ -234,6 +236,7 @@ public class ClientsData : System.Web.Services.WebService {
                 } 
                 connection.Close();
             }
+            xx = xx.OrderByDescending(a => a.date).ToList();
             return JsonConvert.SerializeObject(xx, Formatting.None);
         } catch (Exception e) { return ("Error: " + e); }
     }
@@ -244,18 +247,11 @@ public class ClientsData : System.Web.Services.WebService {
             db.CreateDataBase(userId, db.clientsData);
             using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase))) {
                 connection.Open();
-                string sql = @"UPDATE clientsdata SET  
-                        clientId = @clientId, height = @height, weight = @weight, waist = @waist, hip = @hip, date = @date
-                        WHERE clientId = @clientId AND rowid = @id";
+                string sql = string.Format(@"UPDATE clientsdata SET clientId = '{0}', height = '{1}', weight ='{2}', waist = '{3}', hip = '{4}', date = '{5}'
+                                           WHERE clientId = '{0}' AND rowid = '{6}'"
+                                           , clientData.clientId, clientData.height, clientData.weight, clientData.waist, clientData.hip, g.FormatDate(clientData.date), clientData.id);
                 using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
                     using (SQLiteTransaction transaction = connection.BeginTransaction()) {
-                        command.Parameters.Add(new SQLiteParameter("clientId", clientData.clientId));
-                        command.Parameters.Add(new SQLiteParameter("height", clientData.height));
-                        command.Parameters.Add(new SQLiteParameter("weight", clientData.weight));
-                        command.Parameters.Add(new SQLiteParameter("waist", clientData.waist));
-                        command.Parameters.Add(new SQLiteParameter("hip", clientData.hip));
-                        command.Parameters.Add(new SQLiteParameter("date", clientData.date));
-                        command.Parameters.Add(new SQLiteParameter("id", clientData.id));
                         command.ExecuteNonQuery();
                         transaction.Commit();
                     }
@@ -326,7 +322,7 @@ public class ClientsData : System.Web.Services.WebService {
                 connection.Open();
                 string sql = string.Format(@"SELECT COUNT([rowid]) FROM clientsdata 
                     WHERE clientId = '{0}' AND ((strftime('%d', date) = '{1}' AND strftime('%m', date) = '{2}' AND strftime('%Y', date) = '{3}') OR date = '{4}')"
-                            , x.clientId, x.date.Day, (x.date.Month < 10 ? string.Format("0{0}", x.date.Month): x.date.Month.ToString()), x.date.Year, x.date);
+                            , x.clientId, x.date.Day, (x.date.Month < 10 ? string.Format("0{0}", x.date.Month): x.date.Month.ToString()), x.date.Year, g.FormatDate(x.date));
                 using (SQLiteCommand command = new SQLiteCommand(sql , connection)) {
                     using (SQLiteDataReader reader = command.ExecuteReader()) {
                         while (reader.Read()) {
@@ -348,21 +344,22 @@ public class ClientsData : System.Web.Services.WebService {
         return x;
     }
 
-    public NewClientData GetClientData(string userId, string clientId, SQLiteConnection connection) {
+     public NewClientData GetClientData(string userId, string clientId, SQLiteConnection connection) {
          try {
+            List<NewClientData> xx = new List<NewClientData>();
             NewClientData x = new NewClientData();
             db.AddColumn(userId, db.GetDataBasePath(userId, dataBase), db.clients, "note");  //new column in clients tbl.
             string sql = string.Format(@"SELECT cd.rowid, cd.clientId, c.birthDate, c.gender, cd.height, cd.weight, cd.waist, cd.hip, cd.pal, cd.goal, cd.activities, cd.diet, cd.meals, cd.date, cd.userId, c.note
                         FROM clientsdata as cd
                         LEFT OUTER JOIN clients as c
                         ON cd.clientId = c.clientId
-                        WHERE cd.clientId = '{0}'
-                        ORDER BY cd.rowid DESC LIMIT 1", clientId);
+                        WHERE cd.clientId = '{0}'", clientId);
             using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
                 Calculations c = new Calculations();
                 Goals g = new Goals();
                 using (SQLiteDataReader reader = command.ExecuteReader()) {
                     while (reader.Read()) {
+                        x = new NewClientData();
                         x.id = reader.GetInt32(0);
                         x.clientId = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
                         x.age = calculation.Age(reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2));
@@ -384,9 +381,11 @@ public class ClientsData : System.Web.Services.WebService {
                         DetailEnergyExpenditure.DailyActivities da = new DetailEnergyExpenditure.DailyActivities();
                         x.dailyActivities = da.getDailyActivities(userId, x.clientId);
                         x.myMeals = GetMyMeals(userId, x.clientId);
+                        xx.Add(x);
                     }
                 }
             }
+            x = xx.OrderByDescending(a => a.date).FirstOrDefault();
             return x;
         } catch (Exception e) { return new NewClientData(); }
     }

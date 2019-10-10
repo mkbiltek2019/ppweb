@@ -1685,7 +1685,7 @@ IBAN HR8423400091160342496
             , t.Tran("waist", lang), clientData.waist == 0 ? "---" : clientData.waist.ToString()
             , t.Tran("hip", lang), clientData.hip == 0 ? "---" : clientData.hip.ToString()
             , t.Tran("physical activity level", lang), t.Tran(clientData.pal.title, lang), t.Tran(clientData.pal.description, lang)
-            , !string.IsNullOrWhiteSpace(clientData.clientNote) ? string.Format("{0}: {1}", t.Tran("note", lang), clientData.clientNote) :"" );
+            , !string.IsNullOrWhiteSpace(clientData.clientNote) ? string.Format("{0}: {1}", t.Tran("note", lang), clientData.clientNote) : "" );
         return c;
     }
     #endregion Methods
