@@ -1,6 +1,6 @@
 ﻿/*!
 admin.js
-(c) 2018 IG PROG, www.igprog.hr
+(c) 2018-2019 IG PROG, www.igprog.hr
 */
 angular.module('app', [])
 
@@ -116,7 +116,6 @@ angular.module('app', [])
         })
         .then(function (response) {
             $scope.t = JSON.parse(response.data.d);
-            //drawChart();
             $scope.loading = false;
         },
         function (response) {
@@ -124,7 +123,6 @@ angular.module('app', [])
             alert(response.data.d);
         });
     }
-    total($scope.year);
 
     $scope.total = function (year) {
         $scope.showUsers = false;

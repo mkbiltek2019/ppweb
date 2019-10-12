@@ -429,7 +429,8 @@
                         <tr>
                             <td colspan="6"></td>
                             <td class="text-right">Ukupno:</td>
-                            <td class="text-right nowrap"><label class="main p5">{{invoices.total | currency : ""}} kn</label></td>
+                            <td class="text-right nowrap"><label class="bg-info p5">{{invoices.total | currency : ""}} kn</label></td>
+                            <td class="text-right nowrap"><label class="bg-success p5">{{invoices.paidAmount | currency : ""}} kn</label></td>
                             <td></td>
                         </tr>
                         <tr>
@@ -440,6 +441,7 @@
                             <th>Prezime</th>
                             <th>Tvrtka</th>
                             <th>Proizvod</th>
+                            <th class="nowrap">Iznos (kn)</th>
                             <th class="nowrap">Uplaćeno (kn)</th>
                             <th>Datum uplate</th>
                         </tr>
@@ -457,6 +459,7 @@
                             <td>
                                 <div ng-repeat="y in x.items"><span>{{$index+1}}.</span> {{y.title}}, {{y.qty}} kom., {{y.unitPrice}} kn</div>
                             </td>
+                            <td class="text-right">{{x.total | currency : ""}}</td>
                             <td class="text-right">{{x.paidAmount | currency : ""}}</td>
                             <td>{{x.paidDate}}</td>
                         </tr>
@@ -599,14 +602,14 @@
 
             <!--invoice
             <pre>{{i | json}}</pre>
+            invoices
+            <pre>{{invoices | json}}</pre>
             order
             <pre>{{o | json}}</pre>-->
 
         </div>
     </script>
 
-
-   
     <script src="../assets/js/admin.js"></script>
 
     <script>

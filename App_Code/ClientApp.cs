@@ -93,20 +93,23 @@ public class ClientApp : System.Web.Services.WebService {
         try {
             string path = Server.MapPath(string.Format("~/App_Data/{0}", dataBase));
             db.CreateGlobalDataBase(path, db.clientapp);
-            SQLiteConnection connection = new SQLiteConnection(string.Format("Data Source={0}", path));
-            connection.Open();
-            string sql = string.Format(@"SELECT id, clientId, userId, code, lang FROM clientapp WHERE clientId = '{0}'", clientId);
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
-            SQLiteDataReader reader = command.ExecuteReader();
             NewClientApp x = new NewClientApp();
-            while (reader.Read()) {
-                x.id = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
-                x.clientId = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
-                x.userId = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
-                x.code = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
-                x.lang = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
+            using (SQLiteConnection connection = new SQLiteConnection(string.Format("Data Source={0}", path))) {
+                connection.Open();
+                string sql = string.Format(@"SELECT id, clientId, userId, code, lang FROM clientapp WHERE clientId = '{0}'", clientId);
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    using (SQLiteDataReader reader = command.ExecuteReader()) {
+                        while (reader.Read()) {
+                            x.id = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
+                            x.clientId = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
+                            x.userId = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+                            x.code = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
+                            x.lang = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
+                        }
+                    }
+                }
+                connection.Close();
             }
-            connection.Close();
             return x;
         } catch (Exception e) { return new NewClientApp(); }
     }
@@ -116,10 +119,10 @@ public class ClientApp : System.Web.Services.WebService {
         string code = null;
         for (int i=0; i<20; i++) {
             code = r.Next(10000, 100000).ToString();
-            if(Check(code)) { break; }
+            if (Check(code)) { break; }
             code = null;
         }
-        if(code == null) { code = r.Next(100000, 1000000).ToString(); }
+        if (code == null) { code = r.Next(100000, 1000000).ToString(); }
         return code;
     }
 
@@ -127,15 +130,18 @@ public class ClientApp : System.Web.Services.WebService {
         try {
             int count = 0;
             string path = Server.MapPath(string.Format("~/App_Data/{0}", dataBase));
-            SQLiteConnection connection = new SQLiteConnection(string.Format("Data Source={0}", path));
-            connection.Open();
-            string sql = string.Format("SELECT COUNT([rowid]) FROM clientapp WHERE code = '{0}'", code);
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read()) {
-                count = reader.GetInt32(0);
+            using (SQLiteConnection connection = new SQLiteConnection(string.Format("Data Source={0}", path))) {
+                connection.Open();
+                string sql = string.Format("SELECT COUNT([rowid]) FROM clientapp WHERE code = '{0}'", code);
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    using (SQLiteDataReader reader = command.ExecuteReader()) {
+                        while (reader.Read()) {
+                            count = reader.GetInt32(0);
+                        }
+                    }
+                }
+                connection.Close();
             }
-            connection.Close();
             if (count == 0) { return true; }
             else { return false; }
         } catch (Exception e) { return false; }
@@ -145,15 +151,18 @@ public class ClientApp : System.Web.Services.WebService {
         try {
             int count = 0;
             string path = Server.MapPath(string.Format("~/App_Data/{0}", dataBase));
-            SQLiteConnection connection = new SQLiteConnection(string.Format("Data Source={0}", path));
-            connection.Open();
-            string sql = "SELECT COUNT([rowid]) FROM clientapp";
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read()) {
-                count = reader.GetInt32(0);
+            using (SQLiteConnection connection = new SQLiteConnection(string.Format("Data Source={0}", path))) {
+                connection.Open();
+                string sql = "SELECT COUNT([rowid]) FROM clientapp";
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    using (SQLiteDataReader reader = command.ExecuteReader()) {
+                        while (reader.Read()) {
+                            count = reader.GetInt32(0);
+                        }
+                    }  
+                }
+                connection.Close();
             }
-            connection.Close();
             return count;
         } catch (Exception e) {
             return 0;

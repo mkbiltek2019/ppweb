@@ -40,6 +40,7 @@ public class Invoice : System.Web.Services.WebService {
         public string note { get; set; }
 
         public List<Item> items = new List<Item>();
+        public double total { get; set; }
         public bool isPaid { get; set; }
         public double paidAmount { get; set; }
         public string paidDate { get; set; }
@@ -54,6 +55,7 @@ public class Invoice : System.Web.Services.WebService {
     public class Invoices {
         public List<NewInvoice> data = new List<NewInvoice>();
         public double total { get; set; }
+        public double paidAmount { get; set; }
         public int[] years { get; set; }
 
     }
@@ -83,6 +85,7 @@ public class Invoice : System.Web.Services.WebService {
         item.title = null;
         item.qty = 1;
         item.unitPrice = 0;
+        x.total = 0;
         x.items.Add(item);
         x.isPaid = false;
         x.paidAmount = 0;
@@ -110,6 +113,7 @@ public class Invoice : System.Web.Services.WebService {
         x.pin = order.pin;
         x.note = null;
         x.items = GetItems(order);
+        x.total = 0;
         x.isPaid = false;
         x.paidAmount = 0;
         x.paidDate = null;
@@ -120,42 +124,46 @@ public class Invoice : System.Web.Services.WebService {
     [WebMethod]
     public string Load(int year) {
         try {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
-            connection.Open();
-            string sql = @"SELECT id, number, fileName, orderNumber, dateAndTime, year, firstName, lastName, companyName, address, postalCode, city, country, pin, note, items, isPaid, paidAmount, paidDate
+            Invoices xx = new Invoices();
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase))) {
+                connection.Open();
+                string sql = @"SELECT id, number, fileName, orderNumber, dateAndTime, year, firstName, lastName, companyName, address, postalCode, city, country, pin, note, items, isPaid, paidAmount, paidDate
                         FROM invoices
                         ORDER BY rowid DESC";
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
-            Invoices xx = new Invoices();
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read()) {
-                NewInvoice x = new NewInvoice();
-                x.id = reader.GetValue(0) == DBNull.Value ? null : reader.GetString(0);
-                x.number = reader.GetValue(1) == DBNull.Value ? 0 : reader.GetInt32(1);
-                x.fileName = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
-                x.orderNumber = reader.GetValue(3) == DBNull.Value ? 0 : reader.GetInt32(3);
-                x.dateAndTime = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
-                x.year = reader.GetValue(5) == DBNull.Value ? DateTime.Now.Year : reader.GetInt32(5);
-                x.firstName = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
-                x.lastName = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
-                x.companyName = reader.GetValue(8) == DBNull.Value ? "" : reader.GetString(8);
-                x.address = reader.GetValue(9) == DBNull.Value ? "" : reader.GetString(9);
-                x.postalCode = reader.GetValue(10) == DBNull.Value ? "" : reader.GetString(10);
-                x.city = reader.GetValue(11) == DBNull.Value ? "" : reader.GetString(11);
-                x.country = reader.GetValue(12) == DBNull.Value ? "" : reader.GetString(12);
-                x.pin = reader.GetValue(13) == DBNull.Value ? "" : reader.GetString(13);
-                x.note = reader.GetValue(14) == DBNull.Value ? "" : reader.GetString(14);
-                x.items = reader.GetValue(15) == DBNull.Value ? new List<Item>() : JsonConvert.DeserializeObject<List<Item>>(reader.GetString(15));
-                x.isPaid = reader.GetValue(16) == DBNull.Value ? false : Convert.ToBoolean(reader.GetInt32(16));
-                x.paidAmount = reader.GetValue(17) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(17));
-                x.paidDate = reader.GetValue(18) == DBNull.Value ? null : reader.GetString(18);
-                xx.data.Add(x);
-            }
-            xx.total = xx.data.Where(a => a.isPaid == true && a.year == year).Sum(a => a.paidAmount);
-            xx.years = xx.data.Select(a => a.year).Distinct().ToArray();
-            xx.data = xx.data.Where(a => a.year == year).OrderByDescending(a => a.number).ToList();
-
-            connection.Close();
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    using (SQLiteDataReader reader = command.ExecuteReader()) {
+                        while (reader.Read()) {
+                            NewInvoice x = new NewInvoice();
+                            x.id = reader.GetValue(0) == DBNull.Value ? null : reader.GetString(0);
+                            x.number = reader.GetValue(1) == DBNull.Value ? 0 : reader.GetInt32(1);
+                            x.fileName = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+                            x.orderNumber = reader.GetValue(3) == DBNull.Value ? 0 : reader.GetInt32(3);
+                            x.dateAndTime = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
+                            x.year = reader.GetValue(5) == DBNull.Value ? DateTime.Now.Year : reader.GetInt32(5);
+                            x.firstName = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
+                            x.lastName = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
+                            x.companyName = reader.GetValue(8) == DBNull.Value ? "" : reader.GetString(8);
+                            x.address = reader.GetValue(9) == DBNull.Value ? "" : reader.GetString(9);
+                            x.postalCode = reader.GetValue(10) == DBNull.Value ? "" : reader.GetString(10);
+                            x.city = reader.GetValue(11) == DBNull.Value ? "" : reader.GetString(11);
+                            x.country = reader.GetValue(12) == DBNull.Value ? "" : reader.GetString(12);
+                            x.pin = reader.GetValue(13) == DBNull.Value ? "" : reader.GetString(13);
+                            x.note = reader.GetValue(14) == DBNull.Value ? "" : reader.GetString(14);
+                            x.items = reader.GetValue(15) == DBNull.Value ? new List<Item>() : JsonConvert.DeserializeObject<List<Item>>(reader.GetString(15));
+                            x.total = x.items.Sum(a => a.qty * a.unitPrice);
+                            x.isPaid = reader.GetValue(16) == DBNull.Value ? false : Convert.ToBoolean(reader.GetInt32(16));
+                            x.paidAmount = reader.GetValue(17) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(17));
+                            x.paidDate = reader.GetValue(18) == DBNull.Value ? null : reader.GetString(18);
+                            xx.data.Add(x);
+                        }
+                    } 
+                    xx.total = xx.data.Where(a => a.year == year).Sum(a => a.total);
+                    xx.paidAmount = xx.data.Where(a => a.isPaid == true && a.year == year).Sum(a => a.paidAmount);
+                    xx.years = xx.data.Select(a => a.year).Distinct().ToArray();
+                    xx.data = xx.data.Where(a => a.year == year).OrderByDescending(a => a.number).ToList();
+                }
+                connection.Close();
+            } 
             string json = JsonConvert.SerializeObject(xx, Formatting.None);
             return json;
         } catch (Exception e) { return ("Error: " + e); }
@@ -188,34 +196,34 @@ public class Invoice : System.Web.Services.WebService {
             x.fileName = string.Format("{0}_{1}", x.number, year);
             db.CreateGlobalDataBase(path, db.invoices);
             x.id = string.IsNullOrEmpty(x.id) ? Guid.NewGuid().ToString() : x.id;
-
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
-            connection.Open();
-            string sql = @"INSERT OR REPLACE INTO invoices VALUES  
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase))) {
+                connection.Open();
+                string sql = @"INSERT OR REPLACE INTO invoices VALUES  
                        (@id, @number, @fileName, @orderNumber, @dateAndTime, @year, @firstName, @lastName, @companyName, @address, @postalCode, @city, @country, @pin, @note, @items, @isPaid, @paidAmount, @paidDate)";
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
-            command.Parameters.Add(new SQLiteParameter("id", x.id));
-            command.Parameters.Add(new SQLiteParameter("number", x.number));
-            command.Parameters.Add(new SQLiteParameter("fileName", x.fileName));
-            command.Parameters.Add(new SQLiteParameter("orderNumber", x.orderNumber));
-            command.Parameters.Add(new SQLiteParameter("dateAndTime", x.dateAndTime));
-            command.Parameters.Add(new SQLiteParameter("year", x.year));
-            command.Parameters.Add(new SQLiteParameter("firstName", x.firstName));
-            command.Parameters.Add(new SQLiteParameter("lastName", x.lastName));
-            command.Parameters.Add(new SQLiteParameter("companyName", x.companyName));
-            command.Parameters.Add(new SQLiteParameter("address", x.address));
-            command.Parameters.Add(new SQLiteParameter("postalCode", x.postalCode));
-            command.Parameters.Add(new SQLiteParameter("city", x.city));
-            command.Parameters.Add(new SQLiteParameter("country", x.country));
-            command.Parameters.Add(new SQLiteParameter("pin", x.pin));
-            command.Parameters.Add(new SQLiteParameter("note", x.note));
-            command.Parameters.Add(new SQLiteParameter("items", JsonConvert.SerializeObject(x.items, Formatting.None)));
-            command.Parameters.Add(new SQLiteParameter("isPaid", x.isPaid));
-            command.Parameters.Add(new SQLiteParameter("paidAmount", x.paidAmount));
-            command.Parameters.Add(new SQLiteParameter("paidDate", x.paidDate));
-
-            command.ExecuteNonQuery();
-            connection.Close();
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    command.Parameters.Add(new SQLiteParameter("id", x.id));
+                    command.Parameters.Add(new SQLiteParameter("number", x.number));
+                    command.Parameters.Add(new SQLiteParameter("fileName", x.fileName));
+                    command.Parameters.Add(new SQLiteParameter("orderNumber", x.orderNumber));
+                    command.Parameters.Add(new SQLiteParameter("dateAndTime", x.dateAndTime));
+                    command.Parameters.Add(new SQLiteParameter("year", x.year));
+                    command.Parameters.Add(new SQLiteParameter("firstName", x.firstName));
+                    command.Parameters.Add(new SQLiteParameter("lastName", x.lastName));
+                    command.Parameters.Add(new SQLiteParameter("companyName", x.companyName));
+                    command.Parameters.Add(new SQLiteParameter("address", x.address));
+                    command.Parameters.Add(new SQLiteParameter("postalCode", x.postalCode));
+                    command.Parameters.Add(new SQLiteParameter("city", x.city));
+                    command.Parameters.Add(new SQLiteParameter("country", x.country));
+                    command.Parameters.Add(new SQLiteParameter("pin", x.pin));
+                    command.Parameters.Add(new SQLiteParameter("note", x.note));
+                    command.Parameters.Add(new SQLiteParameter("items", JsonConvert.SerializeObject(x.items, Formatting.None)));
+                    command.Parameters.Add(new SQLiteParameter("isPaid", x.isPaid));
+                    command.Parameters.Add(new SQLiteParameter("paidAmount", x.paidAmount));
+                    command.Parameters.Add(new SQLiteParameter("paidDate", x.paidDate));
+                    command.ExecuteNonQuery();
+                }
+                connection.Close();
+            }
             return JsonConvert.SerializeObject(x, Formatting.None);
         } catch (Exception e) { return e.Message; }
     }
@@ -250,16 +258,19 @@ public class Invoice : System.Web.Services.WebService {
         try {
             string path = Server.MapPath("~/App_Data/" + dataBase);
             db.CreateGlobalDataBase(path, db.invoices);
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
-            connection.Open();
-            string sql = string.Format("SELECT MAX(CAST(number as int)) FROM (SELECT number FROM invoices WHERE year = '{0}')", year);
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
-            SQLiteDataReader reader = command.ExecuteReader();
             int nextNumber = 0;
-            while (reader.Read()) {
-                nextNumber = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase))) {
+                connection.Open();
+                string sql = string.Format("SELECT MAX(CAST(number as int)) FROM (SELECT number FROM invoices WHERE year = '{0}')", year);
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    using (SQLiteDataReader reader = command.ExecuteReader()) {
+                        while (reader.Read()) {
+                            nextNumber = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
+                        }
+                    }
+                }
+                connection.Close();
             }
-            connection.Close();
             return nextNumber + 1;
         } catch (Exception e) { return 0; }
     }
