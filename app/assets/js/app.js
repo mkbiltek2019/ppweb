@@ -1618,7 +1618,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $scope.clientLog = JSON.parse(response.data.d);
             angular.forEach($scope.clientLog, function (x, key) {
                 x.date = new Date(x.date);
-                x.date = functions.correctDate(x.date);
+                //x.date = functions.correctDate(x.date);  // TODO
             });
             if ($rootScope.goalWeightValue_ == null) {
                 getCalculation();
@@ -3661,7 +3661,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                $scope.d = JSON.parse(response.data.d);
                angular.forEach($scope.d, function (x, key) {
                    x.date = new Date(x.date);
-                   x.date = functions.correctDate(x.date);
+                   //x.date = functions.correctDate(x.date);
                });
                $scope.loading = false;
            },
