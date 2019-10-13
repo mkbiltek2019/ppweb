@@ -326,6 +326,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
     }
 
     var bmiChart = function () {
+        if (!angular.isDefined($scope.calculation)) { return false; }
         var id = 'bmiChart';
         var value = $scope.calculation.bmi.value.toFixed(1);
         var unit = 'BMI';
@@ -418,7 +419,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         var goalTo = [];
         var goalWeight = [];
         var labels = [];
-
+        if (!angular.isDefined($scope.calculation)) { return false; }
         if (angular.isDefined($scope.calculation.recommendedWeight)) {
             var days = 30;
             var goal = 0;

@@ -142,7 +142,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="x in clientLog_ | orderBy: '-id'">
+                    <tr ng-repeat="x in clientLog_">
                         <td class="borderNone" style="width:100px">
                             <a href="" style="color:red !important" ng-click="removeClientLog(x)" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-trash-o"></i></a>
                             <a href="" ng-click="updateClientLog(x)" class="btn btn-default text-primary" title="{{'save' | translate}}"><i class="fa fa-floppy-o"></i></a>

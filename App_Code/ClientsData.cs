@@ -239,7 +239,7 @@ public class ClientsData : System.Web.Services.WebService {
                 } 
                 connection.Close();
             }
-            xx = xx.OrderByDescending(a => a.date).ToList();
+            xx = xx.OrderByDescending(a => Convert.ToDateTime(a.date)).ToList();
             return JsonConvert.SerializeObject(xx, Formatting.None);
         } catch (Exception e) { return ("Error: " + e); }
     }
