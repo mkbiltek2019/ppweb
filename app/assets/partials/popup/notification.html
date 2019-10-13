@@ -6,7 +6,6 @@
                     <span ng-if="d.clientId==null">{{'notification' | translate}} !</span>
                 </h2>
                 <span flex></span>
-                <a href="" class="btn btn-primary" ng-click="cancel()" title="{{'close' | translate}}">x</a>
             </div>
         </md-toolbar>
         <md-dialog-content >
@@ -17,10 +16,11 @@
                         {{'a new application upgrade is available' | translate}}.<br />
                         <em><span class="text-capitalize">{{'version' | translate}}</span>: {{config.version}}</em>
                     </p>
+                    <a href="" class="btn btn-default text-uppercase" ng-click="hide()"><i class="fa fa-refresh"></i> {{'refresh page' | translate}}</a>
                 </div>
+                <hr />
                 <div>
                     <a ng-hide="config.language=='en'" href="" ng-click="toggleUpdates()" title="{{'what is new' | translate}}?" class="text-uppercase">{{'what is new' | translate}}? <i class="fa fa-caret-{{showUpdates==false?'right':'down'}}" aria-hidden="true"></i></a>
-                    <a href="" class="btn btn-default text-uppercase pull-right" ng-click="hide()"><i class="fa fa-arrow-right"></i> {{'continue' | translate}}</a>
                     <div ng-if="showUpdates==true" ng-include="'./assets/partials/updates.html'" class="text-center"></div>
                 </div>
             </div>

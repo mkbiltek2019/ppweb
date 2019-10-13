@@ -47,6 +47,14 @@ angular.module('functions', [])
             var diffDays = Math.abs(parseInt((date2 - date1) / (1000 * 60 * 60 * 24)));
             return diffDays;
         },
+        dateToString: function (x) {
+            var day = x.getDate();
+            day = day < 10 ? '0' + day : day;
+            var mo = x.getMonth();
+            mo = mo + 1 < 10 ? '0' + (mo + 1) : mo + 1;
+            var yr = x.getFullYear();
+            return yr + '-' + mo + '-' + day;
+        },
         correctDate: function (date) {
             var offset = date.getTimezoneOffset() / 60;
             var diff = offset < 0 ? $sessionStorage.config.serverhostgreenwichtimediff + Math.abs(offset) : $sessionStorage.config.serverhostgreenwichtimediff - offset;

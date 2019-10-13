@@ -37,7 +37,7 @@
             <div class="row mt10">
                 <span class="col-sm-6 text-capitalize">{{'weight' | translate}}:</span>
                 <div class="col-sm-6">
-                    <div class="input-group" style="border:solid 2px green; border-radius:8px; height:50px">
+                    <div class="input-group" style="border:solid 2px #3fa86d; border-radius:8px; height:50px">
                         <input ng-model="clientData.weight" class="form-control input-lg" style="height:50px" ng-change="calculate()" allow-only-numbers required>
                         <span class="input-group-addon"><em>{{'kg' | translate}}</em></span>
                     </div>
@@ -88,7 +88,7 @@
             <div class="row mt10">
                 <span class="col-sm-6"></span>
                 <div class="col-sm-6">
-                    <button class="btn btn-success btn-lg btn-block text-capitalize" ng-click="save(clientData)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</button>
+                    <button class="btn btn-primary btn-lg btn-block text-capitalize" ng-click="save(clientData)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</button>
                 </div>
             </div>
         </div>
@@ -144,8 +144,8 @@
                 <tbody>
                     <tr ng-repeat="x in clientLog_ | orderBy: '-id'">
                         <td class="borderNone" style="width:100px">
-                            <a href="" style="color:red!important" ng-click="removeClientLog(x)" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-trash-o"></i></a>
-                            <a href="" style="color:green" ng-click="updateClientLog(x)" class="btn btn-default" title="{{'save' | translate}}"><i class="fa fa-floppy-o"></i></a>
+                            <a href="" style="color:red !important" ng-click="removeClientLog(x)" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-trash-o"></i></a>
+                            <a href="" ng-click="updateClientLog(x)" class="btn btn-default text-primary" title="{{'save' | translate}}"><i class="fa fa-floppy-o"></i></a>
                         </td>
                         <td>{{clientLog.length - $index}}</td>
                         <td>
@@ -221,12 +221,12 @@
         </div>
         <div ng-if="menus.length>0" class="table-responsive table-scroll" style="max-height:600px; min-height:70%">
             <table class="table table-condensed table-hover">
-                <tr>
+                <tr class="text-capitalize">
                     <th></th>
                     <th>{{'number' | translate}}</th>
                     <th>{{'title' | translate}}</th>
                     <th>{{'date' | translate}}</th>
-                    <th>{{'energy' | translate}} ({{'kcal' | translate}})</th>
+                    <th>{{'energy value' | translate}} ({{'kcal' | translate}})</th>
                 </tr>
                 <tr ng-repeat="x in menus" ng-click="getMenu(x)" class="pointer">
                     <td><button class="btn btn-primary"><i class="fa fa-eye"></i></button></td>
@@ -243,18 +243,19 @@
 
 <script type="text/ng-template" id="menu">
     <div class="p10">
-        <button class="btn btn-default pull-right text-capitalize" ng-click="toggleTpl('clientMenues')"><i class="fa fa-list"></i> {{'menus' | translate}}</button>
-        <div>
+        
+        <div class="text-right">
             <button ng-if="!pdfLink" class="btn btn-danger text-capitalize" ng-click="createMenuPdf()" ng-disabled="creatingPdf==true"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</button>
             <a ng-if="pdfLink" href="{{pdfLink}}" class="btn btn-primary text-capitalize" download>{{'take pdf' | translate}}</a>
+            <button class="btn btn-info text-capitalize" ng-click="toggleTpl('clientMenues')"><i class="fa fa-list"></i> {{'menus' | translate}}</button>
             <hr />
         </div>
-        <div class="well">
+        <div>
             <strong>{{menu.title}}</strong>
             <p>{{menu.note}}</p>
             <hr />
             <div ng-if="x.isSelected" ng-repeat="x in menu.data.meals track by $index">
-                <label class="text-uppercase">{{getMealTitle(x)}}</label>
+                <div class="text-uppercase"><strong>{{getMealTitle(x)}}</strong></div>
                 <div ng-if="x.description">
                     <em class="text-justify">{{x.description}}</em>
                 </div>
@@ -264,11 +265,11 @@
                 <hr />
             </div>
             <div>
-                <label><span class="text-uppercase">{{'total' | translate}}</span></label>
-                <p>{{'energy' | translate}}: <span>{{totals.energy}} {{'kcal' | translate}}</span></p>
-                <p>{{'carbohydrates' | translate}}: <span>{{totals.carbohydrates | number:1}} {{'g' | translate}}, ({{totals.carbohydratesPercentage | number:1}} %)</span></p>
-                <p>{{'proteins' | translate}}: <span>{{totals.proteins | number:1}} {{'g' | translate}}, ({{totals.proteinsPercentage | number:1}} %)</span></p>
-                <p>{{'fats' | translate}}: <span>{{totals.fats | number:1}} {{'g' | translate}}, ({{totals.fatsPercentage | number:1}} %)</span></p>
+                <div><strong class="text-uppercase">{{'total' | translate}}</strong></div>
+                <p><span  class="text-capitalize">{{'energy value' | translate}}:</span> <span>{{totals.energy}} {{'kcal' | translate}}</span></p>
+                <p><span class="text-capitalize">{{'carbohydrates' | translate}}:</span> <span>{{totals.carbohydrates | number:1}} {{'g' | translate}}, ({{totals.carbohydratesPercentage | number:1}} %)</span></p>
+                <p><span class="text-capitalize">{{'proteins' | translate}}:</span> <span>{{totals.proteins | number:1}} {{'g' | translate}}, ({{totals.proteinsPercentage | number:1}} %)</span></p>
+                <p><span class="text-capitalize">{{'fats' | translate}}:</span> <span>{{totals.fats | number:1}} {{'g' | translate}}, ({{totals.fatsPercentage | number:1}} %)</span></p>
             </div>
         </div>
         <pre ng-if="config.debug">{{menu | json}}</pre>

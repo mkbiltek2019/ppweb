@@ -755,7 +755,7 @@ public class PrintPdf : System.Web.Services.WebService {
                 table.AddCell(new PdfPCell(new Phrase(t.Tran("hip", lang) + " (cm)", GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
 
                 foreach (ClientsData.NewClientData cl in clientLog) {
-                    PdfPCell cell1 = new PdfPCell(new Phrase(cl.date.ToString("dd.MM.yyyy"), courier));
+                    PdfPCell cell1 = new PdfPCell(new Phrase(Convert.ToDateTime(cl.date).ToString("dd.MM.yyyy"), courier));
                     cell1.Border = 0;
                     table.AddCell(cell1);
                     PdfPCell cell2 = new PdfPCell(new Phrase(cl.height.ToString(), courier));
@@ -1433,10 +1433,10 @@ IBAN HR8423400091160342496
             table.WidthPercentage = 100f;
             string date_p = "";
             string author_p = "";
-            if (settings.showDate) {
+            if (settings.showDate && !string.IsNullOrEmpty(date)) {
                 date_p = string.Format("{0}: {1}", t.Tran("creation date", lang), date);
             }
-            if (settings.showAuthor) {
+            if (settings.showAuthor && !string.IsNullOrEmpty(author)) {
                 author_p = string.Format("{0}: {1}", type == "recipe" ? t.Tran("author of the recipe", lang) : t.Tran("author of the menu", lang), author);
             }
             table.AddCell(new PdfPCell(new Phrase(date_p, GetFont())) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, PaddingTop = 10 });

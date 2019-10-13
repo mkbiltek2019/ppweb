@@ -27,7 +27,7 @@ public class Menues : System.Web.Services.WebService {
         public string id;
         public string title;
         public string diet;
-        public DateTime date;
+        public string date;
         public string note;
         public string userId;
 
@@ -59,7 +59,7 @@ public class Menues : System.Web.Services.WebService {
         x.id = null;
         x.title = "";
         x.diet = "";
-        x.date = DateTime.UtcNow;
+        x.date = DateTime.UtcNow.ToString();
         x.note = "";
         x.userId = null;
         x.client =  new Clients.NewClient();
@@ -93,7 +93,7 @@ public class Menues : System.Web.Services.WebService {
                 x.id = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
                 x.title = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
                 x.diet = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
-                x.date = reader.GetValue(3) == DBNull.Value ? DateTime.UtcNow : Convert.ToDateTime(reader.GetString(3));
+                x.date = reader.GetValue(3) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(3);
                 x.note = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
                 x.userId = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
                 x.client = (reader.GetValue(6) == DBNull.Value || reader.GetValue(7) == DBNull.Value) ? new Clients.NewClient() : client.GetClient(reader.GetString(7), reader.GetString(6));
@@ -125,7 +125,7 @@ public class Menues : System.Web.Services.WebService {
                 x.id = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
                 x.title = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
                 x.diet = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
-                x.date = reader.GetValue(3) == DBNull.Value ? DateTime.UtcNow : Convert.ToDateTime(reader.GetString(3));
+                x.date = reader.GetValue(3) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(3);
                 x.note = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
                 x.userId = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
                 x.client = (reader.GetValue(6) == DBNull.Value || reader.GetValue(7) == DBNull.Value) ? new Clients.NewClient() : client.GetClient(reader.GetString(7), reader.GetString(6));
@@ -156,7 +156,7 @@ public class Menues : System.Web.Services.WebService {
                 x.id = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
                 x.title = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
                 x.diet = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
-                x.date = reader.GetValue(3) == DBNull.Value ? DateTime.UtcNow : Convert.ToDateTime(reader.GetString(3));
+                x.date = reader.GetValue(3) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(3);
                 x.note = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
                 x.userId = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
                 x.client = (reader.GetValue(6) == DBNull.Value || reader.GetValue(7) == DBNull.Value) ? new Clients.NewClient() : client.GetClient(reader.GetString(7), reader.GetString(6));
@@ -452,7 +452,7 @@ public class Menues : System.Web.Services.WebService {
                     x.id = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
                     x.title = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
                     x.diet = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
-                    x.date = reader.GetValue(3) == DBNull.Value ? DateTime.UtcNow : Convert.ToDateTime(reader.GetString(3));
+                    x.date = reader.GetValue(3) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(3);
                     x.note = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
                     x.userId = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
                     x.client = reader.GetValue(6) == DBNull.Value ? new Clients.NewClient() : client.GetClient(x.userId, reader.GetString(6));

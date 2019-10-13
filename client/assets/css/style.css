@@ -1,6 +1,6 @@
 ﻿ /*!
 style.css
-(c) 2018 IG PROG, www.igprog.hr
+(c) 2018-2019 IG PROG, www.igprog.hr
 */
 
 
@@ -121,8 +121,8 @@ navbar-brand {
 
 @media (max-width: 767px) {
     .panel {
-        background-color: #487413;
-        background-image: linear-gradient(to bottom right, #e3f7ca, #487413);
+        background-color: #3fa86d;
+        background-image: linear-gradient(to bottom right, #e3f7ca, #3fa86d);
     }
     .lang {
         text-align: right;
@@ -131,26 +131,25 @@ navbar-brand {
 
 /************ main colors ***************/
 .background {
-    background-color: #487413;
-    background-image: linear-gradient(to bottom right, #96C161, #487413);
+    background-color: #f1f1f1;
+    background-image: linear-gradient(to bottom right, #f1f1f1, #f1f1f1);
 }
 .text-primary, a {
-    color:#487413;
+    color:#3fa86d;
 }
 
 .navbar, .btn-primary, .bg-subpanel {
-    background-color: #487413 !important;
+    background-color: #3fa86d !important;
     color: white !important; 
 }
 
 .btn-primary {
-    border: 1px solid #487413 !important;
+    border: 1px solid #3fa86d !important;
 }
 
 label {
-    color:#487413 !important;
+    color:#f1f1f1 !important;
 }
-
 /************ main colors ***************/
 
 
@@ -163,7 +162,7 @@ label {
     z-index: 3;
     top: 0;
     left: 0;
-    background-color: #111;
+    background-color: #3fa86d;
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 80px;
@@ -173,7 +172,7 @@ label {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
     font-size: 25px;
-    color: #818181;
+    color: #000;
     display: block;
     transition: 0.3s;
 }

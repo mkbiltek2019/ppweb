@@ -27,7 +27,8 @@ public class WeeklyMenus : System.Web.Services.WebService {
         public string note;
         public Diets.NewDiet diet;
         public List<string> menuList;
-        public DateTime date;
+        //public DateTime date;
+        public string date;
         public Clients.NewClient client;
         public string userId;
         public string userGroupId;
@@ -44,7 +45,7 @@ public class WeeklyMenus : System.Web.Services.WebService {
         x.diet.id = client.clientData.diet.id;
         x.diet.diet = t.Tran(client.clientData.diet.diet, lang);
         x.menuList = new List<string>() { "", "", "", "", "", "", "" };
-        x.date = DateTime.UtcNow;
+        x.date = DateTime.UtcNow.ToString();
         x.client = client;
         x.userId = user.userId;
         x.userGroupId = user.userGroupId;
@@ -77,7 +78,7 @@ public class WeeklyMenus : System.Web.Services.WebService {
                 x.diet.id = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
                 x.diet.diet = reader.GetValue(4) == DBNull.Value ? "" : t.Tran(reader.GetString(4), lang);
                 x.menuList = reader.GetValue(5) == DBNull.Value ? new List<string>() : reader.GetString(5).Split(',').ToList();
-                x.date = reader.GetValue(6) == DBNull.Value ? DateTime.UtcNow : Convert.ToDateTime(reader.GetString(6));
+                x.date = reader.GetValue(6) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(6);
                 x.client = new Clients.NewClient();
                 x.client.clientId = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
                 x.client.firstName = reader.GetValue(8) == DBNull.Value ? "" : reader.GetString(8);
@@ -273,7 +274,7 @@ public class WeeklyMenus : System.Web.Services.WebService {
             x.diet.id = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
             x.diet.diet = reader.GetValue(4) == DBNull.Value ? "" : t.Tran(reader.GetString(4), lang);
             x.menuList = reader.GetValue(5) == DBNull.Value ? new List<string>() : reader.GetString(5).Split(',').ToList();
-            x.date = reader.GetValue(6) == DBNull.Value ? DateTime.UtcNow : Convert.ToDateTime(reader.GetString(6));
+            x.date = reader.GetValue(6) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(6);
             x.client = new Clients.NewClient();
             x.client.clientId = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
             x.client.firstName = reader.GetValue(8) == DBNull.Value ? "" : reader.GetString(8);

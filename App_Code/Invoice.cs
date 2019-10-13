@@ -43,6 +43,7 @@ public class Invoice : System.Web.Services.WebService {
         public double total { get; set; }
         public bool isPaid { get; set; }
         public double paidAmount { get; set; }
+        public double restToPaid { get; set; }
         public string paidDate { get; set; }
     }
 
@@ -56,6 +57,7 @@ public class Invoice : System.Web.Services.WebService {
         public List<NewInvoice> data = new List<NewInvoice>();
         public double total { get; set; }
         public double paidAmount { get; set; }
+        public double restToPaid { get; set; }
         public int[] years { get; set; }
 
     }
@@ -89,6 +91,7 @@ public class Invoice : System.Web.Services.WebService {
         x.items.Add(item);
         x.isPaid = false;
         x.paidAmount = 0;
+        x.restToPaid = 0;
         x.paidDate = null;
         string json = JsonConvert.SerializeObject(x, Formatting.None);
         return json;
@@ -117,6 +120,7 @@ public class Invoice : System.Web.Services.WebService {
         x.isPaid = false;
         x.paidAmount = 0;
         x.paidDate = null;
+        x.restToPaid = 0;
         string json = JsonConvert.SerializeObject(x, Formatting.None);
         return json;
     }
@@ -154,11 +158,13 @@ public class Invoice : System.Web.Services.WebService {
                             x.isPaid = reader.GetValue(16) == DBNull.Value ? false : Convert.ToBoolean(reader.GetInt32(16));
                             x.paidAmount = reader.GetValue(17) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(17));
                             x.paidDate = reader.GetValue(18) == DBNull.Value ? null : reader.GetString(18);
+                            x.restToPaid = x.paidAmount - x.total;
                             xx.data.Add(x);
                         }
                     } 
                     xx.total = xx.data.Where(a => a.year == year).Sum(a => a.total);
                     xx.paidAmount = xx.data.Where(a => a.isPaid == true && a.year == year).Sum(a => a.paidAmount);
+                    xx.restToPaid = xx.paidAmount - xx.total;
                     xx.years = xx.data.Select(a => a.year).Distinct().ToArray();
                     xx.data = xx.data.Where(a => a.year == year).OrderByDescending(a => a.number).ToList();
                 }

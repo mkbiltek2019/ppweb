@@ -71,7 +71,7 @@
     </script>
 
     <script type="text/ng-template" id="programPrehraneWeb">
-        <div ng-controller="webAppCtrl" class="container" style="padding-bottom:40px">
+        <div ng-controller="webAppCtrl" class="container-fluid" style="padding-bottom:40px">
             <h2>Program Prehrane Web</h2>
             <div>
                 <ul class="nav nav-tabs">
@@ -321,7 +321,7 @@
     </script>
 
     <script type="text/ng-template" id="programPrehrane5">
-        <div ng-controller="applicationCtrl" class="container">
+        <div ng-controller="applicationCtrl" class="container-fluid">
             <h2>Program Prehrane 5.0</h2>
             <h3>Instalacije i aktivacije</h3>
             <div class="table-responsive table-scroll" style="max-height:600px">
@@ -348,7 +348,7 @@
     </script>
 
     <script type="text/ng-template" id="orders">
-        <div ng-controller="ordersCtrl" class="container">
+        <div ng-controller="ordersCtrl" class="container-fluid">
             <h2>Narudžbe</h2>
             <div class="row" style="padding-bottom:10px">
                 <div class="col-sm-4">
@@ -405,7 +405,7 @@
     </script>
 
     <script type="text/ng-template" id="invoices">
-        <div ng-controller="invoiceCtrl" class="container">
+        <div ng-controller="invoiceCtrl" class="container-fluid">
             <h2>Računi</h2>
             <div>
                 <ul class="nav nav-tabs">
@@ -431,6 +431,7 @@
                             <td class="text-right">Ukupno:</td>
                             <td class="text-right nowrap"><label class="bg-info p5">{{invoices.total | currency : ""}} kn</label></td>
                             <td class="text-right nowrap"><label class="bg-success p5">{{invoices.paidAmount | currency : ""}} kn</label></td>
+                            <td class="text-right nowrap"><label class="bg-{{invoices.restToPaid>=0?'success':'danger'}} p5">{{invoices.restToPaid | currency : ""}} kn</label></td>
                             <td></td>
                         </tr>
                         <tr>
@@ -441,8 +442,9 @@
                             <th>Prezime</th>
                             <th>Tvrtka</th>
                             <th>Proizvod</th>
-                            <th class="nowrap">Iznos (kn)</th>
-                            <th class="nowrap">Uplaćeno (kn)</th>
+                            <th class="nowrap text-right">Iznos (kn)</th>
+                            <th class="nowrap text-right">Uplaćeno (kn)</th>
+                            <th class="nowrap text-right">Ostatak (kn)</th>
                             <th>Datum uplate</th>
                         </tr>
                         <tr ng-repeat="x in invoices.data | filter:searchInvoices" class="{{x.isPaid==0?'bg-danger':''}}">
@@ -461,6 +463,7 @@
                             </td>
                             <td class="text-right">{{x.total | currency : ""}}</td>
                             <td class="text-right">{{x.paidAmount | currency : ""}}</td>
+                            <td class="text-right {{x.restToPaid>=0?'':'text-danger'}}">{{x.restToPaid | currency : ""}}</td>
                             <td>{{x.paidDate}}</td>
                         </tr>
                     </table>

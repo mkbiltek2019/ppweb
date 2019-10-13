@@ -46,7 +46,9 @@ public class ClientsData : System.Web.Services.WebService {
 
         public Diets.NewDiet diet { get; set; }
         public List<Meals.NewMeal> meals { get; set; }
-        public DateTime date { get; set; }
+
+        public string date { get; set; }
+
         public string userId { get; set; }
 
         public DetailEnergyExpenditure.Activities dailyActivities = new DetailEnergyExpenditure.Activities();
@@ -83,7 +85,7 @@ public class ClientsData : System.Web.Services.WebService {
         x.activities = new List<Activities.ClientActivity>();
         x.diet = new Diets.NewDiet();
         x.meals = new List<Meals.NewMeal>();
-        x.date = DateTime.UtcNow;
+        x.date = DateTime.UtcNow.ToString();
         x.userId = null;
         x.dailyActivities = new DetailEnergyExpenditure.Activities();
         x.myMeals = new MyMeals.NewMyMeals();
@@ -124,7 +126,7 @@ public class ClientsData : System.Web.Services.WebService {
                 x.activities = JsonConvert.DeserializeObject<List<Activities.ClientActivity>>(reader.GetString(10));
                 x.diet = JsonConvert.DeserializeObject<Diets.NewDiet>(reader.GetString(11));
                 x.meals = JsonConvert.DeserializeObject<List<Meals.NewMeal>>(reader.GetString(12));
-                x.date = reader.GetValue(13) == DBNull.Value ? DateTime.UtcNow : Convert.ToDateTime(reader.GetString(13));
+                x.date = reader.GetValue(13) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(13);
                 x.userId = reader.GetValue(14) == DBNull.Value ? "" : reader.GetString(14);
                 DetailEnergyExpenditure.DailyActivities da = new DetailEnergyExpenditure.DailyActivities();
                 x.dailyActivities = da.getDailyActivities(userId, x.clientId);
@@ -152,7 +154,7 @@ public class ClientsData : System.Web.Services.WebService {
                             , JsonConvert.SerializeObject(x.activities, Formatting.None)
                             , JsonConvert.SerializeObject(x.diet, Formatting.None)
                             , JsonConvert.SerializeObject(x.meals, Formatting.None)
-                            , g.FormatDate(x.date), x.userId
+                            , x.date, x.userId
                             , x.clientNote);
                 } else {
                     sql = string.Format(@"UPDATE clientsdata SET  
@@ -163,8 +165,8 @@ public class ClientsData : System.Web.Services.WebService {
                             , JsonConvert.SerializeObject(x.activities, Formatting.None)
                             , JsonConvert.SerializeObject(x.diet, Formatting.None)
                             , JsonConvert.SerializeObject(x.meals, Formatting.None)
-                            , g.FormatDate(x.date), x.clientId, x.date.Day, (x.date.Month < 10 ? string.Format("0{0}", x.date.Month) : x.date.Month.ToString())
-                            , x.date.Year
+                            , x.date, x.clientId, Convert.ToDateTime(x.date).Day, (Convert.ToDateTime(x.date).Month < 10 ? string.Format("0{0}", Convert.ToDateTime(x.date).Month) : Convert.ToDateTime(x.date).Month.ToString())
+                            , Convert.ToDateTime(x.date).Year
                             , x.clientNote);
                 }
                 using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
@@ -186,11 +188,12 @@ public class ClientsData : System.Web.Services.WebService {
     [WebMethod]
     public string Get(string userId, string clientId) {
         try {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase));
-            connection.Open();
             NewClientData x = new NewClientData();
-            x = GetClientData(userId, clientId, connection);
-            connection.Close();
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase))) {
+                connection.Open();
+                x = GetClientData(userId, clientId, connection);
+                connection.Close();
+            } 
             string json = JsonConvert.SerializeObject(x, Formatting.None);
             return json;
         } catch (Exception e) { return ("Error: " + e); }
@@ -228,7 +231,7 @@ public class ClientsData : System.Web.Services.WebService {
                             x.activities = JsonConvert.DeserializeObject<List<Activities.ClientActivity>>(reader.GetString(10));
                             x.diet = JsonConvert.DeserializeObject<Diets.NewDiet>(reader.GetString(11));
                             x.meals = JsonConvert.DeserializeObject<List<Meals.NewMeal>>(reader.GetString(12));
-                            x.date = reader.GetValue(13) == DBNull.Value ? DateTime.UtcNow : Convert.ToDateTime(reader.GetString(13));
+                            x.date = reader.GetValue(13) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(13);
                             x.userId = reader.GetValue(14) == DBNull.Value ? "" : reader.GetString(14);
                             xx.Add(x);
                         }
@@ -249,7 +252,7 @@ public class ClientsData : System.Web.Services.WebService {
                 connection.Open();
                 string sql = string.Format(@"UPDATE clientsdata SET clientId = '{0}', height = '{1}', weight ='{2}', waist = '{3}', hip = '{4}', date = '{5}'
                                            WHERE clientId = '{0}' AND rowid = '{6}'"
-                                           , clientData.clientId, clientData.height, clientData.weight, clientData.waist, clientData.hip, g.FormatDate(clientData.date), clientData.id);
+                                           , clientData.clientId, clientData.height, clientData.weight, clientData.waist, clientData.hip, clientData.date, clientData.id);
                 using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
                     using (SQLiteTransaction transaction = connection.BeginTransaction()) {
                         command.ExecuteNonQuery();
@@ -293,7 +296,7 @@ public class ClientsData : System.Web.Services.WebService {
                 x.activities = new List<Activities.ClientActivity>();
                 x.diet = new Diets.NewDiet();
                 x.meals = new List<Meals.NewMeal>();
-                x.date = DateTime.UtcNow;
+                x.date = g.FormatDate(DateTime.UtcNow);
                 x.dailyActivities = new DetailEnergyExpenditure.Activities();
                 x.myMeals = new MyMeals.NewMyMeals();
             } else {
@@ -303,7 +306,7 @@ public class ClientsData : System.Web.Services.WebService {
                 x.waist = Convert.ToDouble(waist);
                 x.hip = Convert.ToDouble(hip);
                 x.pal.value = Convert.ToDouble(pal);
-                x.date = Convert.ToDateTime(date);
+                x.date = g.FormatDate(Convert.ToDateTime(date));
                 x.userId = userId;
             }
             return Save(userId, x, 0);
@@ -322,7 +325,7 @@ public class ClientsData : System.Web.Services.WebService {
                 connection.Open();
                 string sql = string.Format(@"SELECT COUNT([rowid]) FROM clientsdata 
                     WHERE clientId = '{0}' AND ((strftime('%d', date) = '{1}' AND strftime('%m', date) = '{2}' AND strftime('%Y', date) = '{3}') OR date = '{4}')"
-                            , x.clientId, x.date.Day, (x.date.Month < 10 ? string.Format("0{0}", x.date.Month): x.date.Month.ToString()), x.date.Year, g.FormatDate(x.date));
+                            , x.clientId, Convert.ToDateTime(x.date).Day, (Convert.ToDateTime(x.date).Month < 10 ? string.Format("0{0}", Convert.ToDateTime(x.date).Month): Convert.ToDateTime(x.date).Month.ToString()), Convert.ToDateTime(x.date).Year, g.FormatDate(Convert.ToDateTime(x.date)));
                 using (SQLiteCommand command = new SQLiteCommand(sql , connection)) {
                     using (SQLiteDataReader reader = command.ExecuteReader()) {
                         while (reader.Read()) {
@@ -375,7 +378,7 @@ public class ClientsData : System.Web.Services.WebService {
                         x.activities = JsonConvert.DeserializeObject<List<Activities.ClientActivity>>(reader.GetString(10));
                         x.diet = JsonConvert.DeserializeObject<Diets.NewDiet>(reader.GetString(11));
                         x.meals = JsonConvert.DeserializeObject<List<Meals.NewMeal>>(reader.GetString(12));
-                        x.date = reader.GetValue(13) == DBNull.Value ? DateTime.UtcNow : Convert.ToDateTime(reader.GetString(13));
+                        x.date = reader.GetValue(13) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(13);
                         x.userId = reader.GetValue(14) == DBNull.Value ? "" : reader.GetString(14);
                         x.clientNote = reader.GetValue(15) == DBNull.Value ? "" : reader.GetString(15);
                         DetailEnergyExpenditure.DailyActivities da = new DetailEnergyExpenditure.DailyActivities();
@@ -385,7 +388,7 @@ public class ClientsData : System.Web.Services.WebService {
                     }
                 }
             }
-            x = xx.OrderByDescending(a => a.date).FirstOrDefault();
+            x = xx.OrderByDescending(a => Convert.ToDateTime(a.date)).FirstOrDefault();
             return x;
         } catch (Exception e) { return new NewClientData(); }
     }

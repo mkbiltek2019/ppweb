@@ -231,7 +231,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         $rootScope.mainMessage = null;
     }
 
-
     //********** New *****************
     var getClient = function () {
         $http({
@@ -276,7 +275,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
             $scope.clientLog = JSON.parse(response.data.d);
             angular.forEach($scope.clientLog, function (x, key) {
                 x.date = new Date(x.date);
-                functions.correctDate(x.date);
             });
             setClientLogGraphData(0, $scope.clientLogsDays);
         },
@@ -286,6 +284,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
     }
 
     $scope.save = function (x) {
+        x.date = functions.dateToString(x.date);
         $http({
             url: $sessionStorage.config.backend + 'ClientsData.asmx/Save',
             method: "POST",
@@ -301,7 +300,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
     $scope.updateClientLog = function (x) {
         var cd = angular.copy(x);
-        cd.date = cd.date.toISOString();
+        cd.date = functions.dateToString(cd.date);
         $http({
             url: $sessionStorage.config.backend + 'ClientsData.asmx/UpdateClientLog',
             method: "POST",
@@ -361,7 +360,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
             alert(response.data.d)
         });
     };
-
 
     $scope.calculate = function () {
         getCalculation();
@@ -517,7 +515,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
            $scope.menus = JSON.parse(response.data.d);
            angular.forEach($scope.menus, function (x, key) {
                var date_ = new Date(x.date);
-               functions.correctDate(date_);
                x.date = date_.toLocaleDateString();
            });
            $scope.loading = false;
@@ -580,7 +577,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         $http({
             url: $sessionStorage.config.backend + 'PrintPdf.asmx/MenuPdf',
             method: "POST",
-            data: { userId: $scope.userId, currentMenu: $scope.menu, totals: $scope.totals, consumers: consumers, lang: $scope.config.language, settings: $scope.settings }
+            data: { userId: $scope.userId, currentMenu: $scope.menu, totals: $scope.totals, consumers: consumers, lang: $scope.config.language, settings: $scope.settings, date: null, author: null, headerInfo: null }
         })
         .then(function (response) {
             var fileName = response.data.d;
@@ -680,7 +677,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
     var updateClient = function (x) {
         var c = angular.copy(x);
-        c.birthDate = c.birthDate.toISOString();
+        c.birthDate = functions.dateToString(c.birthDate);
         $http({
             url: $sessionStorage.config.backend + 'Clients.asmx/UpdateClient',
             method: 'POST',

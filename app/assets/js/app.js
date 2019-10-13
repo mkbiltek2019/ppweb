@@ -365,6 +365,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }*/
         x.userId = $rootScope.user.userId;
         x.clientId = x.clientId == null ? $rootScope.client.clientId : x.clientId;
+        x.date = functions.dateToString(x.date);
         $http({
             url: $sessionStorage.config.backend + 'ClientsData.asmx/Save',
             method: 'POST',
@@ -1426,6 +1427,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             //    return false;
             //}
             x.userId = $sessionStorage.userid;
+            x.birthDate = functions.dateToString(x.birthDate);
             $http({
                 url: $sessionStorage.config.backend + webService + '/Save',
                 method: 'POST',
@@ -1618,7 +1620,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $scope.clientLog = JSON.parse(response.data.d);
             angular.forEach($scope.clientLog, function (x, key) {
                 x.date = new Date(x.date);
-                //x.date = functions.correctDate(x.date);  // TODO
             });
             if ($rootScope.goalWeightValue_ == null) {
                 getCalculation();
@@ -1660,7 +1661,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.updateClientLog = function (x) {
         var cd = angular.copy(x);
-        cd.date = cd.date.toISOString();
+        cd.date = functions.dateToString(cd.date);
         $http({
             url: $sessionStorage.config.backend + 'ClientsData.asmx/UpdateClientLog',
             method: "POST",
@@ -3828,23 +3829,24 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 if (currentMenu.data.meals[0].code != 'B') {
                     myMeals = $scope.d.client.clientData.myMeals;
                 }
-            } 
+            }
+            currentMenu.date = functions.dateToString(currentMenu.date);
             $http({
                 url: $sessionStorage.config.backend + 'Menues.asmx/Save',
                 method: "POST",
                 data: { userId: $rootScope.user.userGroupId, x: currentMenu, user: $scope.d.user, myMeals: myMeals }
             })
-          .then(function (response) {
-              if (response.data.d != 'error') {
-                  $scope.d.currentMenu = JSON.parse(response.data.d);
-                  $mdDialog.hide($scope.d.currentMenu);
-              } else {
-                  functions.alert($translate.instant('there is already a menu with the same name'), '');
-              }
-          },
-          function (response) {
-              functions.alert($translate.instant(response.data.d), '');
-          });
+            .then(function (response) {
+                if (response.data.d != 'error') {
+                    $scope.d.currentMenu = JSON.parse(response.data.d);
+                    $mdDialog.hide($scope.d.currentMenu);
+                } else {
+                    functions.alert($translate.instant('there is already a menu with the same name'), '');
+                }
+            },
+            function (response) {
+                functions.alert($translate.instant(response.data.d), '');
+            });
         }
 
         $scope.cancel = function () {
