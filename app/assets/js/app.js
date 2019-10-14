@@ -36,9 +36,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.today = new Date();
     $rootScope.unitSystem = 1;
 
-    window.onbeforeunload = function () {
-        return "Your work will be lost.";
-    };
+    //window.onbeforeunload = function () {
+    //    return "Your work will be lost.";
+    //};
 
     if ((navigator.userAgent.indexOf("MSIE") !== -1 ) || (!!document.documentMode === true )) {
         $rootScope.browserMsg = {
