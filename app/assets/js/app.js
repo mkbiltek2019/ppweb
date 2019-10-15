@@ -1247,7 +1247,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 }])
 
 //-------------- Program Prehrane Controllers---------------
-.controller('mainCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions) {
+.controller('mainCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
     if ($rootScope.client) {
         if ($rootScope.client.clientId) {
             $rootScope.newTpl = 'assets/partials/clientsdata.html',
@@ -1263,7 +1263,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 }])
 
-.controller('dashboardCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions) {
+.controller('dashboardCtrl', ['$scope', '$http', '$sessionStorage', '$rootScope', 'functions', '$translate', function ($scope, $http, $sessionStorage, $rootScope, functions, $translate) {
 	var getUser = function () {
         $http({
             url: $sessionStorage.config.backend + 'Users.asmx/Get',
