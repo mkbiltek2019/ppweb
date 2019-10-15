@@ -36,9 +36,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.today = new Date();
     $rootScope.unitSystem = 1;
 
-    //window.onbeforeunload = function () {
-    //    return "Your work will be lost.";
-    //};
+    /***** Back button and refresh page Alert *****/
+    /*window.onbeforeunload = function () {
+        return "Your work will be lost.";
+    };*/
+    /*********/
 
     if ((navigator.userAgent.indexOf("MSIE") !== -1 ) || (!!document.documentMode === true )) {
         $rootScope.browserMsg = {
@@ -493,7 +495,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             }
         }
     }
-    socialSharePopup();
+    //socialSharePopup();
     
     var openSocialSharePopup = function () {
         $mdDialog.show({
