@@ -183,7 +183,7 @@ public class Clients : System.Web.Services.WebService {
     [WebMethod]
     public string Get(string userId, string clientId) {
         try {
-            NewClient xx = new NewClient();
+            NewClient x = new NewClient();
             using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase))) {
                 connection.Open();
                 string sql = string.Format("SELECT clientId, firstName, lastName, birthDate, gender, phone, email, userId, date, isActive, note FROM clients WHERE clientId = '{0}'", clientId);
@@ -191,25 +191,25 @@ public class Clients : System.Web.Services.WebService {
                     ClientsData c = new ClientsData();
                     using (SQLiteDataReader reader = command.ExecuteReader()) {
                         while (reader.Read()) {
-                            xx.clientId = reader.GetValue(0) == DBNull.Value ? null : reader.GetString(0);
-                            xx.firstName = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
-                            xx.lastName = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
-                            xx.birthDate = reader.GetValue(3) == DBNull.Value ? DateTime.Now.ToString() : reader.GetString(3);
-                            xx.gender.value = reader.GetValue(4) == DBNull.Value ? 0 : reader.GetInt32(4);
-                            xx.gender.title = GetGender(xx.gender.value).title;
-                            xx.phone = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
-                            xx.email = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
-                            xx.userId = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
-                            xx.date = reader.GetValue(8) == DBNull.Value ? DateTime.Today.ToString() : reader.GetString(8);
-                            xx.isActive = reader.GetValue(9) == DBNull.Value ? 1 : reader.GetInt32(9);
-                            xx.note = reader.GetValue(10) == DBNull.Value ? "" : reader.GetString(10);
-                            xx.clientData = c.GetClientData(userId, clientId, connection);
+                            x.clientId = reader.GetValue(0) == DBNull.Value ? null : reader.GetString(0);
+                            x.firstName = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
+                            x.lastName = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+                            x.birthDate = reader.GetValue(3) == DBNull.Value ? DateTime.Now.ToString() : reader.GetString(3);
+                            x.gender.value = reader.GetValue(4) == DBNull.Value ? 0 : reader.GetInt32(4);
+                            x.gender.title = GetGender(x.gender.value).title;
+                            x.phone = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
+                            x.email = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
+                            x.userId = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
+                            x.date = reader.GetValue(8) == DBNull.Value ? DateTime.Today.ToString() : reader.GetString(8);
+                            x.isActive = reader.GetValue(9) == DBNull.Value ? 1 : reader.GetInt32(9);
+                            x.note = reader.GetValue(10) == DBNull.Value ? "" : reader.GetString(10);
+                            x.clientData = c.GetClientData(userId, clientId, connection);
                         }
                     }    
                 }
                 connection.Close();
             }  
-            return JsonConvert.SerializeObject(xx, Formatting.None);
+            return JsonConvert.SerializeObject(x, Formatting.None);
         } catch (Exception e) { return ("error: " + e); }
     }
 

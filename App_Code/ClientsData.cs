@@ -388,7 +388,9 @@ public class ClientsData : System.Web.Services.WebService {
                     }
                 }
             }
-            x = xx.OrderByDescending(a => Convert.ToDateTime(a.date)).FirstOrDefault();
+            if (xx.Count > 0) {
+                x = xx.OrderByDescending(a => Convert.ToDateTime(a.date)).FirstOrDefault();
+            }
             return x;
         } catch (Exception e) { return new NewClientData(); }
     }
