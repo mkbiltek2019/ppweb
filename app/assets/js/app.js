@@ -563,7 +563,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $http({
                 url: $sessionStorage.config.backend + 'Mail.asmx/SendMessage',
                 method: "POST",
-                data: { sendTo: $sessionStorage.config.email, messageSubject: 'BUG - ' + x.email, messageBody: body, lang: $rootScope.config.language }
+                data: { sendTo: $sessionStorage.config.email, messageSubject: 'BUG - ' + x.email, messageBody: body, lang: $rootScope.config.language, send_cc: true }
             })
             .then(function (response) {
                 functions.alert(response.data.d, '');
@@ -6767,7 +6767,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + 'Mail.asmx/SendMessage',
             method: "POST",
-            data: { sendTo: client.email, messageSubject: messageSubject, messageBody: messageBody, lang: $rootScope.config.language }
+            data: { sendTo: client.email, messageSubject: messageSubject, messageBody: messageBody, lang: $rootScope.config.language, send_cc: false }
         })
         .then(function (response) {
             $scope.sendingMail = false;

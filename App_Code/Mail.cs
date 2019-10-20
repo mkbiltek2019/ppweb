@@ -132,9 +132,9 @@ public class Mail : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string SendMessage(string sendTo, string messageSubject, string messageBody, string lang) {
+    public string SendMessage(string sendTo, string messageSubject, string messageBody, string lang, bool send_cc) {
         try {
-            bool sent = SendMail(sendTo, messageSubject, messageBody, lang, null, true);
+            bool sent = SendMail(sendTo, messageSubject, messageBody, lang, null, send_cc);
             return sent == true ? t.Tran("mail sent successfully", lang) : t.Tran("mail is not sent", lang);
         } catch (Exception e) { return (e.Message); }
     }
