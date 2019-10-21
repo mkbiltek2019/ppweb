@@ -27,7 +27,7 @@
                         </ul>
                     </div>
                     <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" title="{{'show menu preview' | translate}}" ng-click="printPreview()"><i class="fa fa-print"></i> <span class="hidden-xs">{{'print' | translate}}</span></a>
-                    <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" title="{{'send menu to the clients email' | translate}}" ng-click="send()"><i class="fa fa-paper-plane-o"></i> <span class="hidden-xs">{{'send' | translate}}</span></a>
+                    <a ng-if="loginUser.adminType<2" ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" title="{{'send menu to the clients email' | translate}}" ng-click="send()"><i class="fa fa-paper-plane-o"></i> <span class="hidden-xs">{{'send' | translate}}</span></a>
                     <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" title="{{'shopping list' | translate}}" ng-click="getShoppingList(currentMenu)"><i class="fa fa-shopping-basket"></i> <span class="hidden-xs">{{'shopping list' | translate}}</span></a>
                 </div>
                 <div class="panel-body">

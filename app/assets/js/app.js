@@ -1001,6 +1001,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
        {
            value: 1,
            text: 'Admin'
+       },
+       {
+           value: 2,
+           text: 'Student'
        }
     ];
 
@@ -1012,6 +1016,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             $scope.newUser = JSON.parse(response.data.d);
+            $scope.newUser.adminType = 1;
             load();
         },
         function (response) {
@@ -1043,6 +1048,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             case 1:
                 return 'Admin';
                 break;
+            case 2:
+                return 'Student';
+                break;
             default:
                 return '';
         }
@@ -1072,7 +1080,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.newUser.userGroupId = $rootScope.user.userGroupId;
         $scope.newUser.expirationDate = $rootScope.user.expirationDate;
         $scope.newUser.isActive = true;
-        $scope.newUser.adminType = 1;
+        //$scope.newUser.adminType = 1;
         $scope.newUser.userType = $rootScope.user.userType;
 
         if ($scope.newUser.password == "" || $scope.passwordConfirm == "") {

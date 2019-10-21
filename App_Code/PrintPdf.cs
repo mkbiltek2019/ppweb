@@ -911,8 +911,8 @@ public class PrintPdf : System.Web.Services.WebService {
             table.SetWidths(new float[] { 3f, 2f, 1f, 1f });
             table.AddCell(new PdfPCell(new Phrase(t.Tran("food", lang).ToUpper(), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
             table.AddCell(new PdfPCell(new Phrase((settings.showQty ? t.Tran("quantity", lang).ToUpper() : ""), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
-            table.AddCell(new PdfPCell(new Phrase((settings.showMass ? t.Tran("mass", lang).ToUpper() : ""), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
-            table.AddCell(new PdfPCell(new Phrase((settings.showPrice ? t.Tran("price", lang).ToUpper() : ""), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+            table.AddCell(new PdfPCell(new Phrase((settings.showMass ? t.Tran("mass", lang).ToUpper() : ""), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+            table.AddCell(new PdfPCell(new Phrase((settings.showPrice ? t.Tran("price", lang).ToUpper() : ""), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
 
 
             ShoppingList sl = new ShoppingList();
@@ -921,8 +921,8 @@ public class PrintPdf : System.Web.Services.WebService {
             foreach (var f in groupedFoods.foods) {
                 table.AddCell(new PdfPCell(new Phrase(f.food, GetFont())) { Border = 0 });
                 table.AddCell(new PdfPCell(new Phrase((settings.showQty ? sl.SmartQty(f.id, f.qty, f.unit, f.mass, sl.LoadFoodQty(), lang) : ""), GetFont())) { Border = 0 });
-                table.AddCell(new PdfPCell(new Phrase((settings.showMass ? sl.SmartMass(f.mass, lang) : ""), GetFont())) { Border = 0 });
-                table.AddCell(new PdfPCell(new Phrase((settings.showPrice ? f.price.ToString() + " " + (string.IsNullOrEmpty(f.currency) ? "" : f.currency.ToUpper()) : ""), GetFont())) { Border = 0 });
+                table.AddCell(new PdfPCell(new Phrase((settings.showMass ? sl.SmartMass(f.mass, lang) : ""), GetFont())) { Border = 0, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+                table.AddCell(new PdfPCell(new Phrase((settings.showPrice ? f.price.ToString() + " " + (string.IsNullOrEmpty(f.currency) ? "" : f.currency.ToUpper()) : ""), GetFont())) { Border = 0, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
             }
 
             doc.Add(table);
@@ -972,8 +972,8 @@ public class PrintPdf : System.Web.Services.WebService {
             table.SetWidths(new float[] { 3f, 2f, 1f, 1f });
             table.AddCell(new PdfPCell(new Phrase(t.Tran("food", lang).ToUpper(), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
             table.AddCell(new PdfPCell(new Phrase((settings.showQty ? t.Tran("quantity", lang).ToUpper() : ""), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
-            table.AddCell(new PdfPCell(new Phrase((settings.showMass ? t.Tran("mass", lang).ToUpper() : ""), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
-            table.AddCell(new PdfPCell(new Phrase((settings.showPrice ? t.Tran("price", lang).ToUpper() : ""), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+            table.AddCell(new PdfPCell(new Phrase((settings.showMass ? t.Tran("mass", lang).ToUpper() : ""), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+            table.AddCell(new PdfPCell(new Phrase((settings.showPrice ? t.Tran("price", lang).ToUpper() : ""), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
 
 
             ShoppingList sl = new ShoppingList();
@@ -981,8 +981,8 @@ public class PrintPdf : System.Web.Services.WebService {
             foreach (var f in groupedFoods.foods) {
                 table.AddCell(new PdfPCell(new Phrase(f.food, GetFont())) { Border = 0 });
                 table.AddCell(new PdfPCell(new Phrase((settings.showQty ? sl.SmartQty(f.id, f.qty, f.unit, f.mass, sl.LoadFoodQty(), lang) : ""), GetFont())) { Border = 0 });
-                table.AddCell(new PdfPCell(new Phrase((settings.showMass ? sl.SmartMass(f.mass, lang) : ""), GetFont())) { Border = 0 });
-                table.AddCell(new PdfPCell(new Phrase((settings.showPrice ? f.price.ToString() + " " + (string.IsNullOrEmpty(f.currency) ? "" : f.currency.ToUpper()) : ""), GetFont())) { Border = 0 });
+                table.AddCell(new PdfPCell(new Phrase((settings.showMass ? sl.SmartMass(f.mass, lang) : ""), GetFont())) { Border = 0, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+                table.AddCell(new PdfPCell(new Phrase((settings.showPrice ? f.price.ToString() + " " + (string.IsNullOrEmpty(f.currency) ? "" : f.currency.ToUpper()) : ""), GetFont())) { Border = 0, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
             }
 
             doc.Add(table);

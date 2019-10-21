@@ -1,7 +1,7 @@
 ﻿<div ng-controller="userCtrl" class="mt20">
     <div class="col-md-6 col-md-offset-3">
         <fieldset class="fieldset-border">
-            <legend class="fieldset-border text-capitalize">{{'add new user' | translate}}:</legend>
+            <legend class="fieldset-border text-capitalize">{{'new user' | translate}}:</legend>
             <div class="text-right">
                 <a href="" class="btn btn-default text-capitalize m10" title="{{'close' | translate}}" ng-click="isLogin?toggleTpl('dashboard'):toggleTpl('login')"><i class="fa fa-times"></i><span class="hidden-xs"> {{'cancel' | translate}}</span></a>
             </div>
@@ -20,8 +20,8 @@
                 </div>
                 <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
-                        <label>{{'email' | translate}}</label>
-                        <input name="email" ng-model="newUser.email" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" />
+                        <label>{{'email' | translate}} / {{'user name' | translate}}</label>
+                        <input name="email" ng-model="newUser.email" minlength="5" maxlength="100" />
                     </md-input-container>
                 </div>
                 <!--<div layout-gt-sm="row">
@@ -42,14 +42,14 @@
                         <input ng-model="passwordConfirm" type="password">
                     </md-input-container>
                 </div>
-                <!--<div layout-gt-sm="row">
+                <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
                         <label style="margin-bottom: 30px">{{'admin type' | translate}}</label>
                         <select ng-model="newUser.adminType" class="form-control">
-                            <option ng-repeat="x in adminTypes" ng-value="{{x.value}}">{{x.text}}</option>
+                            <option ng-repeat="x in adminTypes" ng-value="x.value">{{x.text}}</option>
                         </select>
                     </md-input-container>
-                </div>-->
+                </div>
             </div>
             <div class="text-right">
                 <button ng-disabled="creatingNewUser" class="btn btn-primary text-capitalize" ng-click="signup()"><i class="fa fa-{{creatingNewUser===true?'spinner fa-spin':'user-plus'}}"></i> {{'sign up' | translate}}</button>

@@ -267,7 +267,9 @@ public class Users : System.Web.Services.WebService {
                     }
                     connection.Close();
                 }
-                SendMail(x, lang);
+                if(x.email.Contains("@")) {
+                    SendMail(x, lang);
+                }
                 return ("registration completed successfully");
             } catch (Exception e) { return ("error: " + e); }
         }
