@@ -1756,7 +1756,7 @@
   "close": "zatvori",
   "adminType0_des": "Supervizor može dodavati i brisati korisnike, ima pristup svim klijentima, jelovnicima, receptima i namirnicama spremljenih od strane svih članova unutar grupe",
   "adminType1_des": "Administrator ima pristup svim jelovnicima unutar grupe korisnika ali može uređivati i spremati samo jelovnike koje je sam izradio i ima pristup samo klijentima koje je sam spremio u aplikaciju. Administrator ima pristup svim receptima i namirnicama spremljenih od strane ostalih članova grupe",
-  "adminType2_des": "",
+  "adminType2_des": "Student ima pristup svim funkcijama programa koja ima i administrator osim što nema pravo pristupa administracijskom sučelju, ne može slati jelovnike na email klijenta i ne može koristiti kalendar",
   "account settings": "postavke računa",
   "enter user name (email) and password": "Upišite korisničko ime (Email) i lozinku",
   "your account is not active": "Vaš račun nije aktivan",

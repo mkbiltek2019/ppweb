@@ -46,7 +46,7 @@
                     <md-input-container class="md-block" flex-gt-sm>
                         <label style="margin-bottom: 30px">{{'admin type' | translate}}</label>
                         <select ng-model="newUser.adminType" class="form-control">
-                            <option ng-repeat="x in adminTypes" ng-value="x.value">{{x.text}}</option>
+                            <option ng-if="x.value>0" ng-selected="newUser.adminType==x.value?true:false" ng-repeat="x in adminTypes" ng-value="x.value">{{x.text}}</option>
                         </select>
                     </md-input-container>
                 </div>

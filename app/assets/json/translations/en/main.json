@@ -1745,7 +1745,7 @@
   "close": "close",
   "adminType0_des": "The supervisor can add and delete users and access to all clients, menus, recipes and foods saved by all members within the group",
   "adminType1_des": "The administrator has access to all menus within the user group, but he can edit and save only the menus that he has created and has access only to the clients he has saved in the app. The administrator has access to all recipes and foods saved by other members of the group",
-  "adminType2_des": "",
+  "adminType2_des": "The student has access to all the features of the program that the administrator has, except that he is not authorized to access the administrative interface, cannot send menus to the clients email and cannot use the scheduler",
   "account settings": "account settings",
   "enter user name (email) and password": "enter user name (email) and password",
   "your account is not active": "Your account is not active",
