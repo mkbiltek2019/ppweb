@@ -654,42 +654,6 @@ public class Users : System.Web.Services.WebService {
 , string.Format("<a href='https://www.{0}/app'>https://www.{0}/app</a>", GetWebPage(lang))
 , string.Format(@"<i>* {0}</i>", t.Tran("this is an automatically generated email – please do not reply to it", lang)));
 
-            /*
-            string messageBody = string.Format(
-                @"
-<p>{0}</p>
-<p><i>{1}:</i></p>
-<hr/>
-<p>{2}: <strong>{3}</strong></p>
-<p>{4}: <strong>{5}</strong></p>
-<p>{6}: {7}</p>
-<hr/>
-{8}
-<br />
-<br />
-<div style=""color:gray"">
-<p>{9}</p>
-<p>Ludvetov breg 5, 51000 Rijeka, HR</p>
-{10}
-{11}
-<br />
-{12}
-</div>"
-, t.Tran("nutrition program", lang).ToUpper()
-, t.Tran("login details", lang)
-, t.Tran("user name", lang)
-, x.userName
-, t.Tran("password", lang)
-, x.password
-, t.Tran("app access link", lang)
-, string.Format("<a href='https://www.{0}/app'>https://www.{0}/app</a>", GetWebPage(lang))
-, string.Format(@"<i>* {0}</i>", t.Tran("this is an automatically generated email – please do not reply to it", lang))
-, lang == "en" ? "IG PROG" : "IG PROG - obrt za računalno programiranje"
-, lang == "en" ? "" : string.Format("<p>{0}</p>", "+385 98 330 966")
-, string.Format("<a href='mailto:{0}'>{0}</a>", GetEmail(lang))
-, string.Format("<a href='https://www.{0}'>www.{0}</a>", GetWebPage(lang)));
-*/
-
             string response = "";
             if (x.userName == null) {
                 response = t.Tran("user not found", lang);
@@ -743,7 +707,7 @@ public class Users : System.Web.Services.WebService {
         } catch (Exception e) { return ("Error: " + e); }
     }
 
-    //******** Only for correcting User tbl ******************
+    //******** Only for correcting User tbl ***********
     [WebMethod]
     public string UpdateUserInfoFromOrdersTbl(string email) {
         try {
@@ -779,10 +743,46 @@ public class Users : System.Web.Services.WebService {
             }
             return JsonConvert.SerializeObject("OK", Formatting.None);
         } catch (Exception e) {
-            return (e.Message);
+            return (JsonConvert.SerializeObject(e.Message, Formatting.None));
         }
     }
-    //*****************************************************
+    //**********************************************
+
+
+    //******** Creating subuserf from admin (For Schools) ***********
+    [WebMethod]
+    public string CreateSubusers(NewUser x, string prefix) {
+        try {
+            for (int i = 1; i < x.maxNumberOfUsers; i++) {
+                if (Check(x)) {
+                    using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase))) {
+                        x.userId = Convert.ToString(Guid.NewGuid());
+                        x.firstName = prefix;
+                        x.lastName = i.ToString();
+                        x.email = string.Format("{0}{1}", prefix, i);
+                        x.userName = x.email;
+                        x.password = x.email;
+                        x.password = Encrypt(x.password);
+                        x.adminType = 2;
+                        connection.Open();
+                        string sql = string.Format(@"INSERT INTO users VALUES  
+                                       ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}', '{13}', '{14}', '{15}', '{16}', '{17}', '{18}', '{19}')",
+                                       x.userId, x.userType, x.firstName, x.lastName, x.companyName, x.address, x.postalCode, x.city, x.country, x.pin, x.phone, x.email, x.userName, x.password, x.adminType, x.userGroupId, x.activationDate, x.expirationDate, Convert.ToInt16(x.isActive), x.ipAddress);
+                        using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                            using (SQLiteTransaction transaction = connection.BeginTransaction()) {
+                                command.ExecuteNonQuery();
+                                transaction.Commit();
+                            }
+                        }
+                        connection.Close();
+                    }
+                }
+            }
+            return JsonConvert.SerializeObject("OK", Formatting.None);
+        } catch (Exception e) {
+            return JsonConvert.SerializeObject(e.Message, Formatting.None);
+        }
+    }
     #endregion
 
     #region Methods
@@ -897,47 +897,6 @@ public class Users : System.Web.Services.WebService {
 , string.Format("<a href='https://www.{0}/app'>https://www.{0}/app</a>", GetWebPage(lang))
 , string.Format(@"<i>{0}</i>", t.Tran("for a better experience in using the application, please use some of the modern browsers such as google chrome, mozilla firefox, microsoft edge etc.", lang))
 , string.Format(@"<i>* {0}</i>", t.Tran("this is an automatically generated email – please do not reply to it", lang)));
-
-        /*
-        string messageBody = string.Format(
-                @"
-<p>{0}</p>
-<p>{1}</p>
-<br />
-<p><i>{2}:</i></p>
-<hr/>
-<p>{3}: <strong>{4}</strong></p>
-<p>{5}: <strong>{6}</strong></p>
-<p>{7}: {8}</p>
-<p>({9})</p>
-<hr/>
-{10}
-<br />
-<br />
-<div style=""color:gray"">
-<p>{11}</p>
-<p>Ludvetov breg 5, 51000 Rijeka, HR</p>
-{12}
-{13}
-<br />
-{14}
-</div>"
-, t.Tran("nutrition program", lang).ToUpper()
-, t.Tran("registration completed successfully", lang).ToUpper()
-, t.Tran("login details", lang)
-, t.Tran("user name", lang)
-, x.userName
-, t.Tran("password", lang)
-, Decrypt(x.password)
-, t.Tran("app access link", lang)
-, string.Format("<a href='https://www.{0}/app'>https://www.{0}/app</a>", GetWebPage(lang))
-, string.Format(@"<i>{0}</i>", t.Tran("for a better experience in using the application, please use some of the modern browsers such as google chrome, mozilla firefox, microsoft edge etc.", lang))
-, string.Format(@"<i>* {0}</i>", t.Tran("this is an automatically generated email – please do not reply to it", lang))
-, lang == "en" ? "IG PROG" : "IG PROG - obrt za računalno programiranje"
-, lang == "en" ? "" : string.Format("<p>{0}</p>", "+385 98 330 966")
-, string.Format("<a href='mailto:{0}'>{0}</a>", GetEmail(lang))
-, string.Format("<a href='https://www.{0}'>www.{0}</a>", GetWebPage(lang)));
-*/
 
         mail.SendMail(x.email, messageSubject, messageBody, lang, null, false);
     }

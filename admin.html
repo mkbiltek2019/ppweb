@@ -133,7 +133,7 @@
                             <th class="nowrap" style="min-width:150px">Licenca</th>
                             <th>Max. br. korisnika</th>
                             <th>Broj korisnika</th>
-                            <th colspan="2"></th>
+                            <th colspan="3"></th>
                         </tr>
                         <!--<tr ng-if="$index>=idxStart && $index<idxEnd" ng-repeat="x in d | filter:searchsignup" ng-class="x.userId!=x.userGroupId?'text-muted':''">-->
                         <tr ng-class="x.userId!=x.userGroupId?'text-muted':''" ng-repeat="x in d track by $index">
@@ -170,6 +170,16 @@
                             <td><input ng-disabled="!showDetails||x.userType<2||x.userId!=x.userGroupId" ng-model="x.maxNumberOfUsers" type="number" class="form-control" /></td>
                             <td>{{x.subusers + 1}}</td>
                             <td><button ng-disabled="!showDetails" ng-click="update(x)" class="btn btn-success"><i class="fa fa-floppy-o"></i> Spremi</button></td>
+                            <td>
+                                <div ng-if="config.debug&&x.maxNumberOfUsers>5&&showDetails&&x.userType==2&&x.userId==x.userGroupId" class="input-group">
+                                    <input ng-model="prefix" type="text" class="form-control" placeholder="Prefiks..." style="min-width:100px">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-warning" ng-click="createSubusers(x, prefix)">
+                                            Kreiraj korisnike
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
                             <td ng-if="config.debug"><button ng-disabled="!showDetails" ng-click="remove(x)" class="btn btn-danger"><i class="fa fa-thrash-o"></i> Briši</button></td>
                         </tr>
                     </table>

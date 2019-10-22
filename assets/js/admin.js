@@ -301,6 +301,12 @@ angular.module('app', [])
         });
     }
 
+    $scope.createSubusers = function (x, prefix) {
+        functions.post('Users', 'CreateSubusers', { x: x, prefix: prefix }).then(function (d) {
+            alert(d);
+        });
+    }
+
 }])
 
 .controller('ordersCtrl', ['$scope', '$http', '$rootScope', 'functions', function ($scope, $http, $rootScope, functions) {
