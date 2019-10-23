@@ -122,8 +122,7 @@ public class Clients : System.Web.Services.WebService {
     [WebMethod]
     public string Load(string userId, Users.NewUser user) {
         try {
-            string json = JsonConvert.SerializeObject(GetClients(userId, user, null, null), Formatting.None);
-            return json;
+            return JsonConvert.SerializeObject(GetClients(userId, user, null, null), Formatting.None);
         } catch (Exception e) { return ("Error: " + e); }
     }
 

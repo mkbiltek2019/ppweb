@@ -749,7 +749,7 @@ public class Users : System.Web.Services.WebService {
     //**********************************************
 
 
-    //******** Creating subuserf from admin (For Schools) ***********
+    //******** Creating subusers from admin (For Schools) ***********
     [WebMethod]
     public string CreateSubusers(NewUser x, string prefix) {
         try {
