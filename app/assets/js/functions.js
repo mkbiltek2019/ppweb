@@ -18,15 +18,15 @@ angular.module('functions', [])
             });
         },
         demoAlert: function (alert) {
-                var confirm = $mdDialog.confirm()
-                   .title($translate.instant(alert))
-                   .textContent($translate.instant('activate full version'))
-                   .ok($translate.instant('yes'))
-                   .cancel($translate.instant('not now'));
-                $mdDialog.show(confirm).then(function () {
-                    $rootScope.currTpl = './assets/partials/order.html';
-                }, function () {
-                });
+            var confirm = $mdDialog.confirm()
+                .title($translate.instant(alert))
+                .textContent($translate.instant('activate full version'))
+                .ok($translate.instant('yes'))
+                .cancel($translate.instant('not now'));
+            $mdDialog.show(confirm).then(function () {
+                $rootScope.currTpl = './assets/partials/order.html';
+            }, function () {
+            });
         },
         isNullOrEmpty: function (x) {
             var res = false;

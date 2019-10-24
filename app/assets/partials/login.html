@@ -45,7 +45,7 @@
 <script type="text/ng-template" id="signupTpl">
     <div ng-controller="signupCtrl">
         <div ng-if="showAlert" class="alert alert-success text-center">
-            <h3><span class="fa fa-smile-o fa-lg"></span> {{alertMessage | translate}}.</h3>
+            <h3><span class="fa fa-check fa-lg"></span> {{alertMessage | translate}}.</h3>
             <div class="mt10">
                 <a href="" ng-controller="loginCtrl" class="btn btn-success btn-lg" ng-click="login(newUser.userName, newUser.password)"><i class="fa fa-sign-in"></i> <span class="text-uppercase">{{'enter application' | translate}}</span></a>
             </div>

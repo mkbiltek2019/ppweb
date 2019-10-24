@@ -1273,7 +1273,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 }])
 
-.controller('dashboardCtrl', ['$scope', '$http', '$sessionStorage', '$rootScope', 'functions', '$translate', function ($scope, $http, $sessionStorage, $rootScope, functions, $translate) {
+.controller('dashboardCtrl', ['$scope', '$http', '$sessionStorage', '$rootScope', 'functions', '$translate', '$timeout', function ($scope, $http, $sessionStorage, $rootScope, functions, $translate, $timeout) {
 	var getUser = function () {
         $http({
             url: $sessionStorage.config.backend + 'Users.asmx/Get',
@@ -1288,6 +1288,28 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
        });
     }
 	getUser();
+
+	var showHelpAlert = function () {
+	    $timeout(function () {
+	        if ($rootScope.currTpl == './assets/partials/dashboard.html') {
+	            $http({
+	                url: $sessionStorage.config.backend + 'Clients.asmx/Load',
+	                method: 'POST',
+	                data: { userId: $sessionStorage.usergroupid, user: $rootScope.user }
+	            })
+            .then(function (response) {
+                var clients = JSON.parse(response.data.d);
+                if (clients.length == 0) {
+                    functions.alert($translate.instant('need help') + '?', $translate.instant('contact our technical support by email') + ': ' + $rootScope.config.email + ' ' + $translate.instant('or phone') + ': ' + $rootScope.config.phone + '.');
+                    $sessionStorage.showHelpAlert = true;
+                }
+            }, function (response) { });
+	        }
+	    }, 8000);
+	}
+	if ($rootScope.user.licenceStatus == 'demo' && $rootScope.config.language == 'hr' && $sessionStorage.showHelpAlert === undefined) {
+	    showHelpAlert();
+	}
 
 }])
 
