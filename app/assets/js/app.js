@@ -6721,6 +6721,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 
     $scope.get = function (x) {
+        $scope.client = x;
         $scope.show = false;
         $scope.showTitle = $translate.instant('show access data');
         $http({
@@ -6801,6 +6802,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             $scope.sendingMail = false;
+            $scope.client = null;
+            $scope.show = false;
             functions.alert(response.data.d, '');
         },
         function (response) {
