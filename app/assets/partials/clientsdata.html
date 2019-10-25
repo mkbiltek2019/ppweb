@@ -116,7 +116,7 @@
                                         <td class="p5 text-capitalize">{{'height' | translate}}:</td>
                                         <td class="p5">
                                             <div class="input-group">
-                                                <select ng-model="standard.height_feet" class="form-control" ng-click="convertToMetricSystem(standard)" style="width:75px">
+                                                <select ng-model="standard.height_feet" class="form-control" ng-click="convertToMetricSystem(standard)" style="width:55px">
                                                     <option ng-repeat="x in populateDdl(4,7)" ng-selected="x==standard.height_feet?true:false" ng-value="x">{{x}}</option>
                                                 </select>
                                                 <span class="input-group-addon" style="width:70px">{{'foot' | translate}}</span>
@@ -124,7 +124,7 @@
                                         </td>
                                         <td class="p5">
                                             <div class="input-group">
-                                                <select ng-model="standard.height_inches" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:75px">
+                                                <select ng-model="standard.height_inches" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:55px">
                                                     <option ng-repeat="x in populateDdl(0,11)" ng-selected="x==standard.height_inches?true:false" ng-value="x">{{x}}</option>
                                                 </select>
                                                 <span class="input-group-addon" style="width:70px">{{'inches' | translate}}</span>

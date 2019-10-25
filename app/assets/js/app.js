@@ -1326,10 +1326,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.subTpl = x;
     };
 
-    $scope.toggleCurrTpl = function (x) {
-        $rootScope.currTpl = './assets/partials/' + x + '.html';
-    };
-
     var init = function (x) {
         $http({
             url: $sessionStorage.config.backend + 'ClientsData.asmx/Init',
@@ -6811,6 +6807,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             functions.alert($translate.instant(response.data.d), '');
         });
     }
+
+    $scope.toggleCurrTpl = function (x) {
+        $rootScope.currTpl = './assets/partials/' + x + '.html';
+    };
 
     $scope.backToApp = function () {
         $rootScope.currTpl = './assets/partials/dashboard.html';
