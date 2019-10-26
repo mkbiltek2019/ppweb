@@ -5001,7 +5001,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.settings = d.settings;
         $scope.consumers = 1;
         $scope.pdfLink == null;
-        $scope.creatingPdf1 = false;
+        $scope.creatingPdf = false;
 
         var createShoppingList = function(x, c){
             $http({
@@ -5033,7 +5033,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         $scope.printShoppingListPdf = function (sl, n, s) {
-            $scope.creatingPdf1 = true;
+            $scope.creatingPdf = true;
             if (angular.isDefined($scope.currentMenu)) {
                 $http({
                     url: $sessionStorage.config.backend + 'PrintPdf.asmx/ShoppingList',
@@ -5042,11 +5042,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 })
                 .then(function (response) {
                     var fileName = response.data.d;
-                    $scope.creatingPdf1 = false;
+                    $scope.creatingPdf = false;
                     $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
                 },
                 function (response) {
-                    $scope.creatingPdf1 = false;
+                    $scope.creatingPdf = false;
                     alert(response.data.d);
                 });
             }
