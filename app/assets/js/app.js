@@ -6420,7 +6420,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $http({
                 url: $sessionStorage.config.backend + webService + '/Delete',
                 method: "POST",
-                data: { userId: $rootScope.user.userGroupId, id: x.id }
+                data: { userId: $rootScope.user.userGroupId, id: x.id, lang: $rootScope.config.language }
             })
           .then(function (response) {
               $scope.d = JSON.parse(response.data.d);
@@ -6568,7 +6568,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + webService + '/Delete',
             method: "POST",
-            data: { userId: $rootScope.user.userGroupId, id: x.id }
+            data: { userId: $rootScope.user.userGroupId, id: x.id, lang: $rootScope.config.language }
         })
       .then(function (response) {
           $scope.d = JSON.parse(response.data.d);
