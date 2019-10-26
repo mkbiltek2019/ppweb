@@ -185,32 +185,23 @@ public class Menues : System.Web.Services.WebService {
             return "error";
         } else {
             try {
-                string sql = "";
+                string sql = null;
+                if (x.id == null) {
+                    x.id = Convert.ToString(Guid.NewGuid());
+                    sql = string.Format(@"BEGIN;
+                    INSERT INTO menues (id, title, diet, date, note, userId, clientId, userGroupId, energy)
+                    VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}');
+                    COMMIT;", x.id, x.title, x.diet, x.date, x.note, user.userId, x.client.clientId, string.IsNullOrEmpty(x.userGroupId) ? userId : x.userGroupId, x.energy);
+                } else {
+                    sql = string.Format(@"BEGIN;
+                    UPDATE menues SET
+                    title = '{1}', diet = '{2}', date = '{3}', note = '{4}', userId = '{5}', clientId = '{6}', userGroupId = '{7}', energy = '{8}'
+                    WHERE id = '{0}';
+                    COMMIT;", x.id, x.title, x.diet, x.date, x.note, user.userId, x.client.clientId, string.IsNullOrEmpty(x.userGroupId) ? userId : x.userGroupId, x.energy);
+                }
                 using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase))) {
                     connection.Open();
                     using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
-                        if (x.id == null) {
-                            x.id = Convert.ToString(Guid.NewGuid());
-                            sql = @"BEGIN;
-                    INSERT INTO menues (id, title, diet, date, note, userId, clientId, userGroupId, energy)
-                    VALUES (@id, @title, @diet, @date, @note, @userId, @clientId, @userGroupId, @energy);
-                    COMMIT;";
-                        } else {
-                            sql = @"BEGIN;
-                    UPDATE menues SET
-                    id = @id, title = @title, diet = @diet, date = @date, note = @note, userId = @userId, clientId = @clientId, userGroupId = @userGroupId, energy = @energy
-                    WHERE id = @id;
-                    COMMIT;";
-                        }
-                        command.Parameters.Add(new SQLiteParameter("id", x.id));
-                        command.Parameters.Add(new SQLiteParameter("title", x.title));
-                        command.Parameters.Add(new SQLiteParameter("diet", x.diet));
-                        command.Parameters.Add(new SQLiteParameter("date", x.date));
-                        command.Parameters.Add(new SQLiteParameter("note", x.note));
-                        command.Parameters.Add(new SQLiteParameter("userId", user.userId));
-                        command.Parameters.Add(new SQLiteParameter("clientId", x.client.clientId));
-                        command.Parameters.Add(new SQLiteParameter("userGroupId", string.IsNullOrEmpty(x.userGroupId) ? userId : x.userGroupId));
-                        command.Parameters.Add(new SQLiteParameter("energy", x.energy));
                         command.ExecuteNonQuery();
                     }
                     connection.Close();
