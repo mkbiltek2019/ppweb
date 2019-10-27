@@ -80,5 +80,6 @@
       "title": "PREMIUM",
       "price": 1850
     }
-  ]
+  ],
+  "showmenuslimit": 20
 }

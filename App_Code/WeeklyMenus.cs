@@ -27,11 +27,18 @@ public class WeeklyMenus : System.Web.Services.WebService {
         public string note;
         public Diets.NewDiet diet;
         public List<string> menuList;
+        public List<MenuDes> menuDes;
         //public DateTime date;
         public string date;
         public Clients.NewClient client;
         public string userId;
         public string userGroupId;
+    }
+
+    public class MenuDes {
+        public string title;
+        public string diet;
+        public double energy;
     }
 
  
@@ -45,6 +52,7 @@ public class WeeklyMenus : System.Web.Services.WebService {
         x.diet.id = client.clientData.diet.id;
         x.diet.diet = t.Tran(client.clientData.diet.diet, lang);
         x.menuList = new List<string>() { "", "", "", "", "", "", "" };
+        x.menuDes = new List<MenuDes>() { new MenuDes(), new MenuDes(), new MenuDes(), new MenuDes(), new MenuDes(), new MenuDes(), new MenuDes() };
         x.date = DateTime.UtcNow.ToString();
         x.client = client;
         x.userId = user.userId;
@@ -78,6 +86,8 @@ public class WeeklyMenus : System.Web.Services.WebService {
                 x.diet.id = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
                 x.diet.diet = reader.GetValue(4) == DBNull.Value ? "" : t.Tran(reader.GetString(4), lang);
                 x.menuList = reader.GetValue(5) == DBNull.Value ? new List<string>() : reader.GetString(5).Split(',').ToList();
+                //TODO: menu data
+                x.menuDes = GetMenuDes(connection, x.menuList, lang);
                 x.date = reader.GetValue(6) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(6);
                 x.client = new Clients.NewClient();
                 x.client.clientId = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
@@ -89,6 +99,30 @@ public class WeeklyMenus : System.Web.Services.WebService {
             connection.Close();
             return JsonConvert.SerializeObject(x, Formatting.None);
         } catch (Exception e) { return (e.Message); }
+    }
+
+    public List<MenuDes> GetMenuDes(SQLiteConnection connection, List<string> menuList, string lang) {
+        List<MenuDes> xx = new List<MenuDes>();
+        foreach (string m in menuList) {
+            MenuDes x = GetMenuDesSql(connection, m, lang);
+            xx.Add(x);
+        }
+        return xx;
+    }
+
+    MenuDes GetMenuDesSql(SQLiteConnection connection, string m, string lang) {
+        MenuDes x = new MenuDes();
+        string sql = string.Format(@"SELECT title, diet, energy FROM menues WHERE id = '{0}'", m);
+        using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+            using (SQLiteDataReader reader = command.ExecuteReader()) {
+                while (reader.Read()) {
+                    x.title = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
+                    x.diet = reader.GetValue(1) == DBNull.Value ? "" : t.Tran(reader.GetString(1), lang);
+                    x.energy = reader.GetValue(2) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(2));
+                }
+            }
+        }
+        return x;
     }
 
     [WebMethod]

@@ -76,16 +76,20 @@ public class Menues : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string Load(string userId) {
+    public string Load(string userId, int limit, int offset, string search) {
         try {
             //TODO:  limit 15
             db.CreateDataBase(userId, db.menues);
             List<NewMenu> xx = new List<NewMenu>();
             using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase))) {
                 connection.Open();
-                string sql = @"SELECT id, title, diet, date, note, userId, clientId, userGroupId, energy
+                string sql = string.Format(@"SELECT id, title, diet, date, note, userId, clientId, userGroupId, energy
                         FROM menues
-                        ORDER BY rowid DESC";
+                        {0}
+                        ORDER BY rowid DESC LIMIT {1} OFFSET {2} "
+                        , !string.IsNullOrWhiteSpace(search) ? string.Format("WHERE title LIKE '%{0}%' OR note LIKE '%{0}%' OR energy LIKE '%{0}%'", search) : ""
+                        , limit
+                        , offset);
                 using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
                     Clients.Client client = new Clients.Client();
                     using (SQLiteDataReader reader = command.ExecuteReader()) {
@@ -109,6 +113,43 @@ public class Menues : System.Web.Services.WebService {
             return JsonConvert.SerializeObject(xx, Formatting.None);
         } catch (Exception e) { return (e.Message); }
     }
+
+
+    //OLD
+    //[WebMethod]
+    //public string Load(string userId) {
+    //    try {
+    //        //TODO:  limit 15
+    //        db.CreateDataBase(userId, db.menues);
+    //        List<NewMenu> xx = new List<NewMenu>();
+    //        using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase))) {
+    //            connection.Open();
+    //            string sql = @"SELECT id, title, diet, date, note, userId, clientId, userGroupId, energy
+    //                    FROM menues
+    //                    ORDER BY rowid DESC";
+    //            using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+    //                Clients.Client client = new Clients.Client();
+    //                using (SQLiteDataReader reader = command.ExecuteReader()) {
+    //                    while (reader.Read()) {
+    //                        NewMenu x = new NewMenu();
+    //                        x.id = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
+    //                        x.title = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
+    //                        x.diet = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+    //                        x.date = reader.GetValue(3) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(3);
+    //                        x.note = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
+    //                        x.userId = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
+    //                        x.client = (reader.GetValue(6) == DBNull.Value || reader.GetValue(7) == DBNull.Value) ? new Clients.NewClient() : client.GetClient(reader.GetString(7), reader.GetString(6));
+    //                        x.userGroupId = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
+    //                        x.energy = reader.GetValue(8) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(8));
+    //                        xx.Add(x);
+    //                    }
+    //                }
+    //            }
+    //            connection.Close();
+    //        }
+    //        return JsonConvert.SerializeObject(xx, Formatting.None);
+    //    } catch (Exception e) { return (e.Message); }
+    //}
 
     [WebMethod]
     public string LoadClientMenues(string userId, string clientId) {
@@ -325,7 +366,6 @@ public class Menues : System.Web.Services.WebService {
     #endregion AppMenues
 
     #endregion
-
 
     #region Methods
     public void SaveAppMenuJsonToFile(string id, string lang, string json) {

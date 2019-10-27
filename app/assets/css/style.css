@@ -298,6 +298,10 @@ a[class*="btn-default"], button[class*="btn-default"], input[class*="search"] {
     border-radius: 10px;
 }
 
+.hover:hover {
+  background-color: #f5f5f5;
+}
+
 #floatingSocialShare .facebook {
     background-color: #337ab7
 }

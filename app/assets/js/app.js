@@ -3673,25 +3673,49 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.toTranslate = false;
         $scope.toLanguage = '';
         $scope.limit = 20;
+        $scope.searchValue = null;
+        var limit = $rootScope.config.showmenuslimit;
+        var offset = 0;
 
-        $scope.loadMore = function () {
-            $scope.limit += 20;
+        $scope.toggle = function (type) {
+            if (type == 'myMenus') {
+                $scope.d = [];
+                limit = $rootScope.config.showmenuslimit;
+                offset = 0;
+                load(null);
+            } else if (type == 'appMenus') {
+                loadAppMenues();
+            }
         }
 
-        var load = function () {
+        $scope.loadMore = function (search) {
+            //$scope.limit += 20;
+            offset += $rootScope.config.showmenuslimit;
+            load(search);
+        }
+
+        $scope.d = [];
+        var load = function (search) {
             $scope.loading = true;
             $scope.appMenues = false;
             $http({
                 url: $sessionStorage.config.backend + 'Menues.asmx/Load',
                 method: "POST",
-                data: { userId: $rootScope.user.userGroupId }
+                //data: { userId: $rootScope.user.userGroupId }
+                data: { userId: $rootScope.user.userGroupId, limit: limit, offset: offset, search: search }
             })
            .then(function (response) {
-               $scope.d = JSON.parse(response.data.d);
-               angular.forEach($scope.d, function (x, key) {
+               //$scope.d = JSON.parse(response.data.d);
+               var d = JSON.parse(response.data.d);
+               angular.forEach(d, function (x, key) {
                    x.date = new Date(x.date);
                    //x.date = functions.correctDate(x.date);
                });
+               //angular.forEach($scope.d, function (x, key) {
+               //    x.date = new Date(x.date);
+               //    //x.date = functions.correctDate(x.date);
+               //});
+               $scope.d = $scope.d.concat(d);
                $scope.loading = false;
            },
            function (response) {
@@ -3699,10 +3723,17 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                alert(response.data.d);
            });
         }
-        load();
+        load(null);
 
-        $scope.load = function () {
-            load();
+        //$scope.load = function (search) {
+        //    load(search);
+        //}
+
+        $scope.search = function (search) {
+            $scope.d = [];
+            limit = $rootScope.config.showmenuslimit;
+            offset = 0;
+            load(search);
         }
 
         $scope.remove = function (x) {
@@ -3751,7 +3782,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             });
         }
 
-        $scope.loadAppMenues = function () {
+        var loadAppMenues = function () {
             $scope.appMenues = true;
             $http({
                 url: $sessionStorage.config.backend + 'Menues.asmx/LoadAppMenues',
@@ -6294,27 +6325,257 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             window.open($scope.pdfLink, window.innerWidth <= 800 && window.innerHeight <= 600 ? '_self' : '_blank');
         }
     }
-  
-    var getMenues = function () {
-        $scope.loading = true;
-        $http({
-            url: $sessionStorage.config.backend + 'Menues.asmx/Load',
-            method: "POST",
-            data: { userId: $rootScope.user.userGroupId }
-        })
-       .then(function (response) {
-           $scope.menus = JSON.parse(response.data.d);
-           if ($scope.menus.length == 0) {
-               functions.alert($translate.instant('first you need to create daily menus'), '');
-           }
-           $scope.loading = false;
-       },
-       function (response) {
-           $scope.loading = false;
-           alert(response.data.d);
-       });
+
+    // NEW TODO
+    $scope.get = function (idx) {
+        if ($rootScope.user.licenceStatus == 'demo') {
+            functions.demoAlert('this function is not available in demo version');
+        } else {
+            getMenuPopup(idx);
+        }
     }
-    getMenues();
+
+    var getMenuPopup = function (idx) {
+        $mdDialog.show({
+            controller: getMenuPopupCtrl,
+            templateUrl: 'assets/partials/popup/getmenu.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true,
+            data: { config: $rootScope.config, clientData: $rootScope.clientData }
+        })
+        .then(function (x) {
+            $scope.weeklyMenu.menuList[idx] = x.id;
+            $scope.weeklyMenu.menuDes[idx].title = x.title;
+            $scope.weeklyMenu.menuDes[idx].diet = $translate.instant(x.diet);
+            $scope.weeklyMenu.menuDes[idx].energy = x.energy;
+            //$rootScope.currentMenu.id = x.id;
+            //$rootScope.currentMenu.title = x.title;
+            //$rootScope.currentMenu.note = x.note;
+            //$rootScope.currentMenu.userId = x.userId;
+            //$rootScope.currentMenu.data = x.data;
+            //$rootScope.currentMenu.client.clientData = $rootScope.clientData;
+            //$rootScope.currentMenu.client.clientData.meals = x.data.meals;
+            //$rootScope.currentMenu.client.clientData.myMeals = x.client.clientData.myMeals;
+            //$rootScope.isMyMeals = false;
+            //if ($rootScope.currentMenu.client.clientData.myMeals != null) {
+            //    if ($rootScope.currentMenu.client.clientData.myMeals.data != null) {
+            //        if ($rootScope.currentMenu.client.clientData.myMeals.data.meals.length >= 2) {
+            //            $rootScope.isMyMeals = true;
+            //        }
+            //    }
+            //}
+
+            //getRecommendations(angular.copy($rootScope.currentMenu.client.clientData));
+            //getTotals($rootScope.currentMenu);
+            //$rootScope.currentMeal = x.data.meals[0].code;
+        }, function () {
+        });
+    };
+
+    var getMenuPopupCtrl = function ($scope, $mdDialog, $http, data, $translate, $translatePartialLoader, $timeout) {
+        $scope.config = data.config;
+        $scope.clientData = data.clientData;
+        $scope.loadType = 0;
+        $scope.type = 0;
+        $scope.appMenues = false;
+        $scope.toTranslate = false;
+        $scope.toLanguage = '';
+        $scope.limit = 20;
+        $scope.searchValue = null;
+        var limit = $rootScope.config.showmenuslimit;
+        var offset = 0;
+
+        $scope.toggle = function (type) {
+            if (type == 'myMenus') {
+                $scope.d = [];
+                limit = $rootScope.config.showmenuslimit;
+                offset = 0;
+                load(null);
+            } else if (type == 'appMenus') {
+                loadAppMenues();
+            }
+        }
+
+        $scope.loadMore = function (search) {
+            //$scope.limit += 20;
+            offset += $rootScope.config.showmenuslimit;
+            load(search);
+        }
+
+        $scope.d = [];
+        var load = function (search) {
+            $scope.loading = true;
+            $scope.appMenues = false;
+            $http({
+                url: $sessionStorage.config.backend + 'Menues.asmx/Load',
+                method: "POST",
+                //data: { userId: $rootScope.user.userGroupId }
+                data: { userId: $rootScope.user.userGroupId, limit: limit, offset: offset, search: search }
+            })
+           .then(function (response) {
+               //$scope.d = JSON.parse(response.data.d);
+               var d = JSON.parse(response.data.d);
+               angular.forEach(d, function (x, key) {
+                   x.date = new Date(x.date);
+                   //x.date = functions.correctDate(x.date);
+               });
+               //angular.forEach($scope.d, function (x, key) {
+               //    x.date = new Date(x.date);
+               //    //x.date = functions.correctDate(x.date);
+               //});
+               $scope.d = $scope.d.concat(d);
+               $scope.loading = false;
+           },
+           function (response) {
+               $scope.loading = false;
+               alert(response.data.d);
+           });
+        }
+        load(null);
+
+        //$scope.load = function (search) {
+        //    load(search);
+        //}
+
+        $scope.search = function (search) {
+            $scope.d = [];
+            limit = $rootScope.config.showmenuslimit;
+            offset = 0;
+            load(search);
+        }
+
+        $scope.remove = function (x) {
+            var confirm = $mdDialog.confirm()
+                 .title($translate.instant('remove menu') + '?')
+                 .textContent(x.title)
+                 .targetEvent(x)
+                 .ok($translate.instant('yes'))
+                 .cancel($translate.instant('no'));
+            $mdDialog.show(confirm).then(function () {
+                remove(x);
+            }, function () {
+            });
+        }
+
+        var remove = function (x) {
+            $http({
+                url: $sessionStorage.config.backend + 'Menues.asmx/Delete',
+                method: "POST",
+                data: { userId: $rootScope.user.userGroupId, id: x.id }
+            })
+          .then(function (response) {
+              $scope.d = JSON.parse(response.data.d);
+          },
+          function (response) {
+              alert(response.data.d)
+          });
+        }
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+
+        var get = function (x) {
+            $http({
+                url: $sessionStorage.config.backend + 'Menues.asmx/Get',
+                method: "POST",
+                data: { userId: $rootScope.user.userGroupId, id: x.id, }
+            })
+            .then(function (response) {
+                var menu = JSON.parse(response.data.d);
+                $mdDialog.hide(menu);
+            },
+            function (response) {
+                alert(response.data.d)
+            });
+        }
+
+        var loadAppMenues = function () {
+            $scope.appMenues = true;
+            $http({
+                url: $sessionStorage.config.backend + 'Menues.asmx/LoadAppMenues',
+                method: "POST",
+                data: { lang: $rootScope.config.language }
+            })
+           .then(function (response) {
+               $scope.d = JSON.parse(response.data.d);
+           },
+           function (response) {
+               alert(response.data.d)
+           });
+        }
+
+        var getAppMenu = function (x) {
+            $http({
+                url: $sessionStorage.config.backend + 'Menues.asmx/GetAppMenu',
+                method: "POST",
+                data: { id: x.id, lang: $rootScope.config.language, toTranslate: $scope.toTranslate }
+            })
+            .then(function (response) {
+                var menu = JSON.parse(response.data.d);
+                if ($scope.toTranslate == true) {
+                    translateFoods(menu);
+                }
+                $mdDialog.hide(menu);
+            },
+            function (response) {
+                alert(response.data.d)
+            });
+        }
+
+        $scope.confirm = function (x) {
+            $scope.appMenues == true ? getAppMenu(x) : get(x);
+        }
+
+        $scope.setToTranslate = function (x) {
+            $scope.toTranslate = x;
+        }
+
+        $scope.setToLanguage = function (x) {
+            $scope.toLanguage = x;
+        }
+
+        var translateFoods = function (menu) {
+            $rootScope.setLanguage($scope.toLanguage);
+            $timeout(function () {
+                angular.forEach(menu.data.selectedFoods, function (value, key) {
+                    value.food = $translate.instant(value.food);
+                    value.unit = $translate.instant(value.unit);
+                })
+                angular.forEach(menu.data.selectedInitFoods, function (value, key) {
+                    value.food = $translate.instant(value.food);
+                    value.unit = $translate.instant(value.unit);
+                })
+                $mdDialog.hide(menu);
+                $rootScope.setLanguage('hr');
+            }, 500);
+        }
+
+    };
+
+
+  
+    //OLD
+    //var getMenues = function () {
+    //    $scope.loading = true;
+    //    $http({
+    //        url: $sessionStorage.config.backend + 'Menues.asmx/Load',
+    //        method: "POST",
+    //        data: { userId: $rootScope.user.userGroupId }
+    //    })
+    //   .then(function (response) {
+    //       $scope.menus = JSON.parse(response.data.d);
+    //       if ($scope.menus.length == 0) {
+    //           functions.alert($translate.instant('first you need to create daily menus'), '');
+    //       }
+    //       $scope.loading = false;
+    //   },
+    //   function (response) {
+    //       $scope.loading = false;
+    //       alert(response.data.d);
+    //   });
+    //}
+    //getMenues();
 
     $scope.creatingPdf = false;
     $scope.pageSizes = ['A4', 'A3', 'A2', 'A1'];
