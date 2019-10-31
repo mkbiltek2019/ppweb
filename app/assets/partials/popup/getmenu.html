@@ -30,13 +30,8 @@
                                         <span class="input-group-btn">
                                             <button class="btn btn-default" type="submit" ng-click="search(searchValue)"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
                                         </span>
-                                        <!--<input ng-model="searchValue" class="form-control search" type="text" placeholder="{{'search' | translate}}..." />
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
-                    </span>-->
                                     </div>
                                 </form>
-
                             </div>
                             <div class="col-sm-4 p10 ml10">
                                 <md-radio-group ng-show="appMenues==false" ng-model="type" layout="row" ng-click="loadMore(searchValue)">
@@ -66,20 +61,9 @@
                                 <td>{{x.client.firstName}} {{x.client.lastName}}</td>
                                 <td ng-click="remove(x)"><a href="" style="color:red" class="btn btn-default"><i class="fa fa-trash-o"></i></a></td>
                             </tr>
-                                                <!--<tr ng-if="type==1?x.client.clientId==clientData.clientId:1==1" ng-repeat="x in d | filter:searchValue | limitTo:limit" ng-click="confirm(x)">
-                            <td class="nowrap">{{x.title}}</td>
-                            <td class="nowrap">{{x.diet | translate}}</td>
-                            <td class="nowrap"><span ng-if="x.energy>0">{{x.energy | number:0}} {{'kcal' | translate}}</span></td>
-                            <td>{{x.date | date:'dd.MM.yyyy'}}</td>
-                            <td class="nowrap">{{x.note}}</td>
-                            <td ng-if="config.debug">{{x.client.clientId}}</td>
-                            <td>{{x.client.firstName}} {{x.client.lastName}}</td>
-                            <td><a href="" style="color:red" ng-click="remove(x)" class="btn btn-default"><i class="fa fa-trash-o"></i></a></td>
-                        </tr>-->
                         </table>
                         <div class="text-right" style="margin-right:26px">
                             <a href="" class="btn btn-default" ng-click="loadMore(searchValue)"><i class="fa fa-arrow-down"></i> {{'show more' | translate}}...</a>
-                            <!--<a href="" ng-if="limit<d.length+1" class="btn btn-default" ng-click="loadMore()"><i class="fa fa-arrow-down"></i> {{'show more' | translate}}...</a>-->
                         </div>
                     </div>
                     <div ng-if="appMenues==true">
@@ -107,12 +91,6 @@
                                 <td class="nowrap"><span ng-if="x.energy>0">{{x.energy | number:0}} {{'kcal' | translate}}</span></td>
                                 <td class="nowrap">{{x.note}}</td>
                             </tr>
-                            <!--<tr ng-repeat="x in d | filter:searchValue | limitTo:limit" ng-click="confirm(x)">
-                                <td class="nowrap">{{x.title}}</td>
-                                <td class="nowrap">{{x.diet | translate}}</td>
-                                <td class="nowrap"><span ng-if="x.energy>0">{{x.energy | number:0}} {{'kcal' | translate}}</span></td>
-                                <td class="nowrap">{{x.note}}</td>
-                            </tr>-->
                         </table>
                     </div>
                 </div>

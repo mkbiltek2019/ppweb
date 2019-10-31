@@ -78,7 +78,6 @@ public class Menues : System.Web.Services.WebService {
     [WebMethod]
     public string Load(string userId, int limit, int offset, string search) {
         try {
-            //TODO:  limit 15
             db.CreateDataBase(userId, db.menues);
             List<NewMenu> xx = new List<NewMenu>();
             using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase))) {
@@ -87,7 +86,7 @@ public class Menues : System.Web.Services.WebService {
                         FROM menues
                         {0}
                         ORDER BY rowid DESC LIMIT {1} OFFSET {2} "
-                        , !string.IsNullOrWhiteSpace(search) ? string.Format("WHERE title LIKE '%{0}%' OR note LIKE '%{0}%' OR energy LIKE '%{0}%'", search) : ""
+                        , !string.IsNullOrWhiteSpace(search) ? string.Format("WHERE title LIKE '%{0}%' OR note LIKE '%{0}%' OR energy LIKE '{0}%'", search) : ""
                         , limit
                         , offset);
                 using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {

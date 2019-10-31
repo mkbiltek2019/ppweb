@@ -202,40 +202,18 @@
                 <div class="col-sm-7">
                     <fieldset class="fieldset-border">
                         <legend class="fieldset-border text-capitalize">{{'menus' | translate}}</legend>
-                        <div ng-repeat="x in weeklyMenu.menuList track by $index" class="hover" ng-click="get($index)" title="{{'add menu' | translate}}">
-                            <label class="text-capitalize" style="margin:0px">{{getDay($index) | translate}}</label>
-                            <!--<div class="text-right">
-                                <button class="btn btn-primary" ng-click="get($index)"><i class="fa fa-plus"></i> {{'add menu' | translate}}</button>
-                            </div>-->
+                        <div ng-repeat="x in weeklyMenu.menuList track by $index" class="hover" ng-click="get($index)" title="{{'add menu' | translate}}" style="cursor:pointer">
+                            <span class="text-capitalize {{x!==''?'text-muted small':''}}">{{getDay($index) | translate}}</span>
                             <div class="row" style="margin:0px">
                                 <div class="col-sm-11" style="padding:0px">
                                     <span ng-if="x!==''">{{weeklyMenu.menuDes[$index].title}} - {{weeklyMenu.menuDes[$index].diet}} ({{weeklyMenu.menuDes[$index].energy}} kcal)</span>
                                 </div>
                                 <div class="col-sm-1 text-right" style="padding:0px">
-                                    <!--<button class="btn btn-default"><i class="fa fa-caret-down"></i></button>-->
                                     <i class="fa fa-caret-down"></i>
                                 </div>
                             </div>
                             <hr style="margin:0px 0px 15px 0px" />
                         </div>
-
-
-                        <!--<md-input-container class="md-block" flex-gt-sm ng-repeat="x in weeklyMenu.menuList track by $index">
-                            <label>{{getDay($index) | translate}}</label>
-                            <md-select ng-click="get($index)">
-                                <md-option>
-                                    <span ng-if="x!==''">{{weeklyMenu.menuDes[$index].title}} - {{weeklyMenu.menuDes[$index].diet}} ({{weeklyMenu.menuDes[$index].energy}} kcal)</span>
-                                </md-option>
-                            </md-select>
-                        </md-input-container>-->
-                        <!--<md-input-container class="md-block" flex-gt-sm ng-repeat="x in weeklyMenu.menuList track by $index">
-                            <label>{{getDay($index) | translate}}</label>
-                            <md-select ng-model="weeklyMenu.menuList[$index]">
-                                <md-option ng-repeat="y in menus" ng-value="y.id">
-                                    {{y.title}}, {{y.energy}} {{'kcal' | translate}} - {{y.diet | translate}} ({{y.client.firstName}} {{y.client.lastName}})
-                                </md-option>
-                            </md-select>
-                        </md-input-container>-->
                     </fieldset>
                 </div>
                 <div class="col-sm-5">

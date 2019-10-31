@@ -810,32 +810,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 on: {
                     save: function (event) {
                         addEvent(this.getTemplateData(), event);
-                        //  alert('Save Event:' + this.isNew() + ' --- ' + this.getContentNode().val());
                     },
                     edit: function (event) {
                         addEvent(this.getTemplateData(), event);
-                       /* var startDatePrev = null;
-                        var endDatePrev = null;
-                        event.newSchedulerEvent.on("startDateChange", function (event) {
-                            startDatePrev = event.prevVal;
-                          //  var DateNew = event.newVal;
-                            alert(startDatePrev)
-                        });
-                        addEvent(this.getTemplateData(), event, startDatePrev, endDatePrev);*/
-                       //  editEvent(this.getTemplateData(), event);
-                       // alert('Edit Event:' + this.isNew() + ' --- ' + this.getContentNode().val() + ' --- ' + JSON.stringify(this.getTemplateData()));
                     },
                     delete: function (event) {
                         removeEvent(this.getTemplateData(), event);
-                        // alert('Delete Event:' + this.isNew() + ' --- ' + this.getContentNode().val());
-                        //  Note: The cancel event seems to be buggy and occurs at the wrong times, so I commented it out.
                     }
-                    //endDateChange: function (event) {
-                    //    alert('ok')
-                    //}
-                    //          cancel: function(event) {
-                    //              alert('Cancel Event:' + this.isNew() + ' --- ' + this.getContentNode().val());
-                    //}
                 }
             });
 
@@ -931,6 +912,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     var save = function (x) {
         if ($rootScope.user.licenceStatus == 'demo') {
             functions.demoAlert('the saving function is disabled in demo version');
+            return false;
+        }
+        if ($rootScope.user.userType < 1) {
+            functions.demoAlert('this function is available only in standard and premium package');
             return false;
         }
         $http({
@@ -6326,7 +6311,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     }
 
-    // NEW TODO
     $scope.get = function (idx) {
         if ($rootScope.user.licenceStatus == 'demo') {
             functions.demoAlert('this function is not available in demo version');
@@ -6348,26 +6332,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $scope.weeklyMenu.menuDes[idx].title = x.title;
             $scope.weeklyMenu.menuDes[idx].diet = $translate.instant(x.diet);
             $scope.weeklyMenu.menuDes[idx].energy = x.energy;
-            //$rootScope.currentMenu.id = x.id;
-            //$rootScope.currentMenu.title = x.title;
-            //$rootScope.currentMenu.note = x.note;
-            //$rootScope.currentMenu.userId = x.userId;
-            //$rootScope.currentMenu.data = x.data;
-            //$rootScope.currentMenu.client.clientData = $rootScope.clientData;
-            //$rootScope.currentMenu.client.clientData.meals = x.data.meals;
-            //$rootScope.currentMenu.client.clientData.myMeals = x.client.clientData.myMeals;
-            //$rootScope.isMyMeals = false;
-            //if ($rootScope.currentMenu.client.clientData.myMeals != null) {
-            //    if ($rootScope.currentMenu.client.clientData.myMeals.data != null) {
-            //        if ($rootScope.currentMenu.client.clientData.myMeals.data.meals.length >= 2) {
-            //            $rootScope.isMyMeals = true;
-            //        }
-            //    }
-            //}
-
-            //getRecommendations(angular.copy($rootScope.currentMenu.client.clientData));
-            //getTotals($rootScope.currentMenu);
-            //$rootScope.currentMeal = x.data.meals[0].code;
         }, function () {
         });
     };
@@ -6397,7 +6361,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         $scope.loadMore = function (search) {
-            //$scope.limit += 20;
             offset += $rootScope.config.showmenuslimit;
             load(search);
         }
@@ -6409,20 +6372,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $http({
                 url: $sessionStorage.config.backend + 'Menues.asmx/Load',
                 method: "POST",
-                //data: { userId: $rootScope.user.userGroupId }
                 data: { userId: $rootScope.user.userGroupId, limit: limit, offset: offset, search: search }
             })
            .then(function (response) {
-               //$scope.d = JSON.parse(response.data.d);
                var d = JSON.parse(response.data.d);
                angular.forEach(d, function (x, key) {
                    x.date = new Date(x.date);
-                   //x.date = functions.correctDate(x.date);
                });
-               //angular.forEach($scope.d, function (x, key) {
-               //    x.date = new Date(x.date);
-               //    //x.date = functions.correctDate(x.date);
-               //});
                $scope.d = $scope.d.concat(d);
                $scope.loading = false;
            },
@@ -6432,10 +6388,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
            });
         }
         load(null);
-
-        //$scope.load = function (search) {
-        //    load(search);
-        //}
 
         $scope.search = function (search) {
             $scope.d = [];
@@ -6552,30 +6504,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
     };
-
-
-  
-    //OLD
-    //var getMenues = function () {
-    //    $scope.loading = true;
-    //    $http({
-    //        url: $sessionStorage.config.backend + 'Menues.asmx/Load',
-    //        method: "POST",
-    //        data: { userId: $rootScope.user.userGroupId }
-    //    })
-    //   .then(function (response) {
-    //       $scope.menus = JSON.parse(response.data.d);
-    //       if ($scope.menus.length == 0) {
-    //           functions.alert($translate.instant('first you need to create daily menus'), '');
-    //       }
-    //       $scope.loading = false;
-    //   },
-    //   function (response) {
-    //       $scope.loading = false;
-    //       alert(response.data.d);
-    //   });
-    //}
-    //getMenues();
 
     $scope.creatingPdf = false;
     $scope.pageSizes = ['A4', 'A3', 'A2', 'A1'];
