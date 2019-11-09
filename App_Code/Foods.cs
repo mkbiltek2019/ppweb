@@ -2916,19 +2916,21 @@ public class Foods : System.Web.Services.WebService {
     }
 
     private NewFood ExcludeTT(NewFood food) {
-        ThermalTreatment tt = food.thermalTreatments.Find(a => a.isSelected == true);
-        if(tt != null) {
-            food.thermalTreatments.Find(a => a.thermalTreatment.code == tt.thermalTreatment.code).isSelected = false;
-            food.vitaminE = SmartRound(food.vitaminE / (1 - tt.vitaminE));
-            food.vitaminB1 = SmartRound(food.vitaminB1 / (1 - tt.vitaminB1));
-            food.vitaminB2 = SmartRound(food.vitaminB2 / (1 - tt.vitaminB2));
-            food.vitaminB3 = SmartRound(food.vitaminB3 / (1 - tt.vitaminB3));
-            food.vitaminB6 = SmartRound(food.vitaminB6 / (1 - tt.vitaminB6));
-            food.vitaminB12 = SmartRound(food.vitaminB12 / (1 - tt.vitaminB12));
-            food.folate = SmartRound(food.folate / (1 - tt.folate));
-            food.pantothenicAcid = SmartRound(food.pantothenicAcid / (1 - tt.pantothenicAcid));
-            food.biotin = SmartRound(food.biotin / (1 - tt.biotin));
-            food.vitaminC = SmartRound(food.vitaminC / (1 - tt.vitaminC));
+        if (food.thermalTreatments != null) {
+            ThermalTreatment tt = food.thermalTreatments.Find(a => a.isSelected == true);
+            if (tt != null) {
+                food.thermalTreatments.Find(a => a.thermalTreatment.code == tt.thermalTreatment.code).isSelected = false;
+                food.vitaminE = SmartRound(food.vitaminE / (1 - tt.vitaminE));
+                food.vitaminB1 = SmartRound(food.vitaminB1 / (1 - tt.vitaminB1));
+                food.vitaminB2 = SmartRound(food.vitaminB2 / (1 - tt.vitaminB2));
+                food.vitaminB3 = SmartRound(food.vitaminB3 / (1 - tt.vitaminB3));
+                food.vitaminB6 = SmartRound(food.vitaminB6 / (1 - tt.vitaminB6));
+                food.vitaminB12 = SmartRound(food.vitaminB12 / (1 - tt.vitaminB12));
+                food.folate = SmartRound(food.folate / (1 - tt.folate));
+                food.pantothenicAcid = SmartRound(food.pantothenicAcid / (1 - tt.pantothenicAcid));
+                food.biotin = SmartRound(food.biotin / (1 - tt.biotin));
+                food.vitaminC = SmartRound(food.vitaminC / (1 - tt.vitaminC));
+            }
         }
         return food;
     }

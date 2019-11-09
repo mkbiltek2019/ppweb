@@ -31,6 +31,9 @@
         <div ng-if="uid==null" id="myScheduler"></div>
         <div ng-if="uid==x.userId" id="{{x.userId}}" ng-repeat="x in users"></div>
     </div>
+    <div ng-hide="user.adminType>0" class="text-right mt20">
+        <button class="btn btn-danger" ng-click="removeAllEvents()"><i class="fa fa-trash-o"></i> {{'remove all events' | translate}}</button>
+    </div>
 </div>
 
 

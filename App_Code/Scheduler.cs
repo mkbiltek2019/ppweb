@@ -166,6 +166,22 @@ public class Scheduler : System.Web.Services.WebService {
             return JsonConvert.SerializeObject(cs, Formatting.None);
         } catch (Exception e) { return e.Message; }
     }
+
+    [WebMethod]
+    public string RemoveAllEvents(string userGroupId) {
+        db.CreateDataBase(userGroupId, db.scheduler);
+        try {
+            string sql = "DELETE FROM scheduler";
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userGroupId, dataBase))) {
+                connection.Open();
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    command.ExecuteNonQuery();
+                }
+                connection.Close();
+            }
+            return ("deleted");
+        } catch (Exception e) { return e.Message; }
+    }
     #endregion WebMethods
 
 }

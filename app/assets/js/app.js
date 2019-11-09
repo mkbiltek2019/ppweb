@@ -794,11 +794,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 }])
 
-.controller("schedulerCtrl", ['$scope', '$localStorage', '$http', '$rootScope', '$timeout', '$sessionStorage', 'functions', '$translate', function ($scope, $localStorage, $http, $rootScope, $timeout, $sessionStorage, functions, $translate) {
+.controller("schedulerCtrl", ['$scope', '$localStorage', '$http', '$rootScope', '$timeout', '$sessionStorage', '$mdDialog', 'functions', '$translate', function ($scope, $localStorage, $http, $rootScope, $timeout, $sessionStorage, $mdDialog, functions, $translate) {
     var webService = 'Scheduler.asmx';
     $scope.id = '#myScheduler';
     $scope.room = 0;
-    $scope.uid = null;
+    $scope.uid = $rootScope.user.userId;
 
     var showScheduler = function () {
         YUI().use('aui-scheduler', function (Y) {
@@ -852,7 +852,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
       .then(function (response) {
           $scope.users = JSON.parse(response.data.d);
-          $scope.getSchedulerEvents(null);
+          $scope.getSchedulerEvents($rootScope.user.userId);
       },
       function (response) {
           functions.alert($translate.instant(response.data.d));
@@ -971,6 +971,32 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
        function (response) {
            functions.alert($translate.instant(response.data.d));
        });
+    }
+
+    var removeAllEvents = function () {
+        $http({
+            url: $sessionStorage.config.backend + webService + '/RemoveAllEvents',
+            method: 'POST',
+            data: { userGroupId: $rootScope.user.userGroupId },
+        }).then(function (response) {
+            $scope.uid = null;
+            getAppointmentsCountByUserId();
+            $scope.toggleTpl('dashboard');
+        },
+       function (response) {
+           functions.alert($translate.instant(response.data.d));
+       });
+    }
+
+    $scope.removeAllEvents = function () {
+        var confirm = $mdDialog.confirm()
+              .title($translate.instant('remove all events') + '?')
+              .ok($translate.instant('yes') + '!')
+              .cancel($translate.instant('no'));
+        $mdDialog.show(confirm).then(function () {
+            removeAllEvents();
+        }, function () {
+        });
     }
 
 }])
@@ -5085,6 +5111,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 .controller('myFoodsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
     var webService = 'MyFoods.asmx';
+    $scope.unit = null;
 
     var init = function () {
         $http({
@@ -5175,10 +5202,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             functions.alert($translate.instant('food title is required'), '');
             return false;
         }
-        if (functions.isNullOrEmpty(x.unit)) {
-            functions.alert($translate.instant('choose unit'), '');
-            return false;
-        }
+        x.unit = $scope.unit;
         if (checkIsOtherFood(x) == true) {
             x.servings.cerealsServ = 0;
             x.servings.vegetablesServ = 0;
@@ -5316,7 +5340,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
              .then(function (response) {
                  $rootScope.loadFoods();
                  //loadMyFoods();
-                 init();
              },
              function (response) {
                  functions.alert($translate.instant(response.data.d), '');

@@ -16,14 +16,9 @@
                     <label>{{'quantity' | translate}}</label>
                     <input ng-model="myFood.quantity" disabled="disabled" allow-only-numbers required>
                 </md-input-container>
-                <md-input-container>
-                    <label>{{'unit' | translate}}</label>
-                    <md-select ng-model="myFood.unit">
-                        <md-option ng-value="x" ng-repeat="x in units">
-                            <md-checkbox ng-checked="x==myFood.unit" class="md-primary" aria-label="unit">{{x}}</md-checkbox>
-                        </md-option>
-                    </md-select>
-                </md-input-container>
+                <md-autocomplete md-no-cache="true" md-selected-item="myFood.unit" md-items="item in units" md-search-text="unit" md-item-text="item" md-floating-label="{{'unit' | translate}}">
+                    <span md-highlight-text="unit">{{item}}</span>
+                </md-autocomplete>
             </div>
             <fieldset class="fieldset-border">
                 <legend class="fieldset-border text-capitalize">{{'unit servings' | translate}}</legend>
