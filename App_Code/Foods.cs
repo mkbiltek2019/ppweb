@@ -1847,142 +1847,116 @@ public class Foods : System.Web.Services.WebService {
         } catch (Exception e) { return new List<string>(); }
     }
 
+    private string SmartUnit(double qty, string unit, string unit1, string unit2) {
+        if ((qty > 1 && qty < 5) || (qty > 0.1 && qty < 0.5)) { unit = unit1; }
+        if (qty >= 5 || (qty >= 0.5 && qty < 1)) { unit = unit2; }
+        return unit;
+    }
+
     public string GetUnit(double qty, string unit) {
         unit = InitUnit(unit);
         switch (unit){
             #region hr
             case "jušna žlica":
-                if (qty > 1 && qty < 5 ) { unit = "jušne žlice"; }
-                if (qty >= 5) { unit = "jušnih žlica"; }
+                unit = SmartUnit(qty, unit, "jušne žlice", "jušnih žlica");
                 break;
             case "šalica":
-                if (qty > 1 && qty < 5) { unit = "šalice"; }
-                if (qty >= 5) { unit = "šalica"; }
+                unit = SmartUnit(qty, unit, "šalice", "šalica");
                 break;
             case "plod":
-                if (qty > 1 && qty < 5) { unit = "ploda"; }
-                if (qty >= 5) { unit = "plodova"; }
+                unit = SmartUnit(qty, unit, "ploda", "plodova");
                 break;
             case "čajna žličica":
-                if (qty > 1 && qty < 5) { unit = "čajne žličice"; }
-                if (qty >= 5) { unit = "čajnih žličica"; }
+                unit = SmartUnit(qty, unit, "čajne žličice", "čajnih žličica");
                 break;
             case "porcija":
-                if (qty > 1 && qty < 5) { unit = "porcije"; }
-                if (qty >= 5) { unit = "porcija"; }
+                unit = SmartUnit(qty, unit, "porcije", "porcija");
                 break;
             case "limenka":
-                if (qty > 1 && qty < 5) { unit = "limenke"; }
-                if (qty >= 5) { unit = "limenki"; }
+                unit = SmartUnit(qty, unit, "limenke", "limenki");
                 break;
             case "kriška":
-                if (qty > 1 && qty < 5) { unit = "kriške"; }
-                if (qty >= 5) { unit = "kriški"; }
+                unit = SmartUnit(qty, unit, "kriške", "kriški");
                 break;
             case "boca":
-                if (qty > 1 && qty < 5) { unit = "boce"; }
-                if (qty >= 5) { unit = "boca"; }
+                unit = SmartUnit(qty, unit, "boce", "boca");
                 break;
             case "čaša":
-                if (qty > 1 && qty < 5) { unit = "čaše"; }
-                if (qty >= 5) { unit = "čaša"; }
+                unit = SmartUnit(qty, unit, "čaše", "čaša");
                 break;
             case "polovica":
-                if (qty > 1 && qty < 5) { unit = "polovice"; }
-                if (qty >= 5) { unit = "polovica"; }
+                unit = SmartUnit(qty, unit, "polovice", "polovica");
                 break;
             case "mali komad":
-                if (qty > 1 && qty < 5) { unit = "mala komada"; }
-                if (qty >= 5) { unit = "malih komada"; }
+                unit = SmartUnit(qty, unit, "mala komada", "malih komada");
                 break;
             case "listić":
-                if (qty > 1 && qty < 5) { unit = "listića"; }
-                if (qty >= 5) { unit = "listića"; }
+                unit = SmartUnit(qty, unit, "listića", "listića");
                 break;
             case "zrno":
-                if (qty > 1 && qty < 5) { unit = "zrna"; }
-                if (qty >= 5) { unit = "zrna"; }
+                unit = SmartUnit(qty, unit, "zrna", "zrna");
                 break;
             case "veliki plod":
-                if (qty > 1 && qty < 5) { unit = "velika ploda"; }
-                if (qty >= 5) { unit = "velikih plodova"; }
+                unit = SmartUnit(qty, unit, "velika ploda", "velikih plodova");
                 break;
             case "srednji plod":
-                if (qty > 1 && qty < 5) { unit = "srednja ploda"; }
-                if (qty >= 5) { unit = "srednjih plodova"; }
+                unit = SmartUnit(qty, unit, "srednja ploda", "srednjih plodova");
                 break;
             case "veliki komad":
-                if (qty > 1 && qty < 5) { unit = "velika komada"; }
-                if (qty >= 5) { unit = "velikih komada"; }
+                unit = SmartUnit(qty, unit, "velika komada", "velikih komada");
                 break;
             case "komad":
-                if (qty > 1 && qty < 5) { unit = "komada"; }
-                if (qty >= 5) { unit = "komada"; }
+                unit = SmartUnit(qty, unit, "komada", "komada");
                 break;
             case "list":
-                if (qty > 1 && qty < 5) { unit = "lista"; }
-                if (qty >= 5) { unit = "listova"; }
+                unit = SmartUnit(qty, unit, "lista", "listova");
                 break;
             case "filet":
-                if (qty > 1 && qty < 5) { unit = "fileta"; }
-                if (qty >= 5) { unit = "fileta"; }
+                unit = SmartUnit(qty, unit, "fileta", "fileta");
                 break;
             case "čašica":
-                if (qty > 1 && qty < 5) { unit = "čašice"; }
-                if (qty >= 5) { unit = "čašica"; }
+                unit = SmartUnit(qty, unit, "čašice", "čašica");
                 break;
 
             case "štruca":
-                if (qty > 1 && qty < 5) { unit = "štruce"; }
-                if (qty >= 5) { unit = "štruca"; }
+                unit = SmartUnit(qty, unit, "štruce", "štruca");
                 break;
             case "pakiranje":
-                if (qty > 1 && qty < 5) { unit = "pakiranja"; }
-                if (qty >= 5) { unit = "pakiranja"; }
+                unit = SmartUnit(qty, unit, "pakiranja", "pakiranja");
                 break;
             #endregion hr
 
             #region sr
             case "šoljica":
-                if (qty > 1 && qty < 5) { unit = "šoljice"; }
-                if (qty >= 5) { unit = "šoljica"; }
+                unit = SmartUnit(qty, unit, "šoljice", "šoljica");
                 break;
             case "parče":
-                if (qty > 1 && qty < 5) { unit = "parčeta"; }
-                if (qty >= 5) { unit = "parčeta"; }
+                unit = SmartUnit(qty, unit, "parčeta", "parčeta");
                 break;
             case "čajna kašika":
-                if (qty > 1 && qty < 5) { unit = "čajne kašike"; }
-                if (qty >= 5) { unit = "čajnih kašika"; }
+                unit = SmartUnit(qty, unit, "čajne kašike", "čajnih kašika");
                 break;
             case "supena kašika":
-                if (qty > 1 && qty < 5) { unit = "supene kašike"; }
-                if (qty >= 5) { unit = "supenih kašika"; }
+                unit = SmartUnit(qty, unit, "supene kašike", "supenih kašika");
                 break;
             case "malo parče":
-                if (qty > 1 && qty < 5) { unit = "mala parčeta"; }
-                if (qty >= 5) { unit = "malih parčeta"; }
+                unit = SmartUnit(qty, unit, "mala parčeta", "malih parčeta");
                 break;
             case "veliko parče":
-                if (qty > 1 && qty < 5) { unit = "velika parčeta"; }
-                if (qty >= 5) { unit = "velikih parčeta"; }
+                unit = SmartUnit(qty, unit, "velika parčeta", "velikih parčeta");
                 break;
             case "kašičica":
-                if (qty > 1 && qty < 5) { unit = "kašičice"; }
-                if (qty >= 5) { unit = "kašičica"; }
+                unit = SmartUnit(qty, unit, "kašičice", "kašičica");
                 break;
             case "flaša":
-                if (qty > 1 && qty < 5) { unit = "flaše"; }
-                if (qty >= 5) { unit = "flaša"; }
+                unit = SmartUnit(qty, unit, "flaše", "flaša");
                 break;
 
             case "vekla":
-                if (qty > 1 && qty < 5) { unit = "vekle"; }
-                if (qty >= 5) { unit = "vekli"; }
+                unit = SmartUnit(qty, unit, "vekle", "vekli");
                 break;
             case "pakovanje":
-                if (qty > 1 && qty < 5) { unit = "pakovanja"; }
-                if (qty >= 5) { unit = "pakovanja"; }
+                unit = SmartUnit(qty, unit, "pakovanja", "pakovanja");
                 break;
             #endregion sr
 
