@@ -27,6 +27,8 @@ public class Mail : System.Web.Services.WebService {
     int myServerPort_en = Convert.ToInt32(ConfigurationManager.AppSettings["myServerPort_en"]);
     string myServerHost_en = ConfigurationManager.AppSettings["myServerHost_en"];
     string myEmail_cc = ConfigurationManager.AppSettings["myEmail_cc"];
+    string myMenuEmail = ConfigurationManager.AppSettings["myMenuEmail"];
+    string myMenuPassword = ConfigurationManager.AppSettings["myMenuPassword"];
     double usd = Convert.ToDouble(ConfigurationManager.AppSettings["USD"]);
     Translate t = new Translate();
 
@@ -263,9 +265,9 @@ public class Mail : System.Web.Services.WebService {
                 myEmailName = string.Format("{0} - Menu", myEmailName_en);
                 myPassword = myPassword_en;
             } else {
-                myEmail = "jelovnik@programprehrane.com";
+                myEmail = myMenuEmail; // "jelovnik@programprehrane.com";
                 myEmailName = string.Format("{0} - Jelovnik", myEmailName);
-                myPassword = "Jpp123456$";
+                myPassword = myMenuPassword; // "Jpp123456$";
             }
                 
             MailMessage mail = new MailMessage();
