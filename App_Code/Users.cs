@@ -1160,6 +1160,7 @@ public class Users : System.Web.Services.WebService {
                         x.companyName = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
                         x.pin = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
                         x.expirationDate = reader.GetValue(3) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(3);
+                        x.daysToExpite = G.DateDiff(x.expirationDate);
                         x.licenceStatus = GetLicenceStatus(x);
                         x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
                         x.package = GetPackage(x.licenceStatus, x.userType);
