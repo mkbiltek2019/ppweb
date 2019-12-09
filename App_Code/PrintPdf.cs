@@ -1115,7 +1115,7 @@ public class PrintPdf : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string InvoicePdf(Invoice.NewInvoice invoice, bool isForeign, double totPrice_eur, int clientLeftSpacing) {
+    public string InvoicePdf(Invoice.NewInvoice invoice, bool isForeign, double totPrice_eur, int clientLeftSpacing, bool isOffer) {
         try {
             GetFont(8, Font.ITALIC).SetColor(255, 122, 56);
             Paragraph p = new Paragraph();
@@ -1171,8 +1171,8 @@ IBAN HR8423400091160342496
             doc.Add(client_paragrapf);
 
             p = new Paragraph();
-            p.Add(new Chunk("RAČUN R2", GetFont(12)));
-            if (isForeign) { p.Add(new Chunk(" / INVOICE", GetFont(8, Font.ITALIC))); }
+            p.Add(new Chunk(isOffer ? "PONUDA": "RAČUN R2", GetFont(12)));
+            if (isForeign) { p.Add(new Chunk(isOffer ? " / OFFER" : " / INVOICE", GetFont(8, Font.ITALIC))); }
             doc.Add(p);
 
             p = new Paragraph();
@@ -1181,8 +1181,8 @@ IBAN HR8423400091160342496
             doc.Add(p);
 
             p = new Paragraph();
-            p.Add(new Chunk("Broj računa", GetFont()));
-            if (isForeign) { p.Add(new Chunk(" / invoice number", GetFont(8, Font.ITALIC))); }
+            p.Add(new Chunk(isOffer ? "Broj ponude" : "Broj računa", GetFont()));
+            if (isForeign) { p.Add(new Chunk(isOffer ? " / offer number" : " / invoice number", GetFont(8, Font.ITALIC))); }
             p.Add(new Chunk(":", isForeign ? GetFont(8, Font.ITALIC) : GetFont(10)));
             p.Add(new Chunk(string.Format(" {0}/1/1", invoice.number), GetFont(10)));
             doc.Add(p);

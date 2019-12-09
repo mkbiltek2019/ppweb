@@ -21,6 +21,7 @@ public class Mail : System.Web.Services.WebService {
     string myPassword = ConfigurationManager.AppSettings["myPassword"];
     int myServerPort = Convert.ToInt32(ConfigurationManager.AppSettings["myServerPort"]);
     string myServerHost = ConfigurationManager.AppSettings["myServerHost"];
+    bool EnableSsl = Convert.ToBoolean(ConfigurationManager.AppSettings["EnableSsl"]);
     string myEmail_en = ConfigurationManager.AppSettings["myEmail_en"];
     string myEmailName_en = ConfigurationManager.AppSettings["myEmailName_en"];
     string myPassword_en = ConfigurationManager.AppSettings["myPassword_en"];
@@ -178,11 +179,11 @@ public class Mail : System.Web.Services.WebService {
         //**************************************************
 
         //************ Send mail to customer****************
-        messageSubject = (user.application == "Program Prehrane 5.0" ? user.application : t.Tran("nutrition program", lang).ToUpper()) + " - " + t.Tran("payment details", lang);
+        messageSubject = (user.application == "Program Prehrane 5.0" ? user.application : t.Tran("nutrition program", lang)) + " - " + t.Tran("payment details", lang);
         messageBody = PaymentDetails(user, lang);
         bool sentToCustomer = SendMail(user.email, messageSubject, messageBody, lang, null, false);
         //**************************************************
-        if(sentToMe == false || sentToCustomer == false) {
+        if (sentToMe == false || sentToCustomer == false) {
             sent = false;
         } else {
             sent = true;
@@ -249,6 +250,7 @@ public class Mail : System.Web.Services.WebService {
             SmtpClient smtp = new SmtpClient(myServerHost, myServerPort);
             NetworkCredential Credentials = new NetworkCredential(myEmail, myPassword);
             smtp.Credentials = Credentials;
+            smtp.EnableSsl = EnableSsl;
             smtp.Send(mail);
             return true;
         } catch (Exception e) {
@@ -283,6 +285,7 @@ public class Mail : System.Web.Services.WebService {
             SmtpClient smtp = new SmtpClient(myServerHost, myServerPort);
             NetworkCredential Credentials = new NetworkCredential(myEmail, myPassword);
             smtp.Credentials = Credentials;
+            smtp.EnableSsl = EnableSsl;
             smtp.Send(mail);
             return true;
         } catch (Exception e) {
