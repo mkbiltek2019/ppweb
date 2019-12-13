@@ -77,15 +77,4 @@
     </div>
 </div>
 
-
-
-<div ng-if="config.debug" class="bg-info debugBox">
-    choosen activities
-    <pre>{{clientData.activities | json}}</pre>
-
-    activities
-    <pre>{{activities}}</pre>
-
-    client data
-    <pre>{{clientData}}</pre>
-</div>
+<json-directive data="clientData.activities" desc="'clientData.activities'"></json-directive>

@@ -53,7 +53,7 @@ public class Mail : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string SendMenu(string email, Menues.NewMenu currentMenu, Users.NewUser user, string lang) {
+    public string SendMenu(string email, Menues.NewMenu currentMenu, Users.NewUser user, string lang, string pdfLink) {
         try {
             StringBuilder sb = new StringBuilder();
             StringBuilder meal1 = new StringBuilder();
@@ -67,39 +67,41 @@ public class Mail : System.Web.Services.WebService {
             if (!string.IsNullOrWhiteSpace(currentMenu.note)) {
                 sb.AppendLine(string.Format(@"<p>{0}</p>", currentMenu.note));
             }
-            sb.AppendLine("<hr />");
 
-            foreach (Meals.NewMeal x in currentMenu.data.meals) {
-                switch (x.code) {
-                    case "B":
-                        meal1.AppendLine(AppendMeal(x, currentMenu.data.selectedFoods));
-                        break;
-                    case "MS":
-                        meal2.AppendLine(AppendMeal(x, currentMenu.data.selectedFoods));
-                        break;
-                    case "L":
-                        meal3.AppendLine(AppendMeal(x, currentMenu.data.selectedFoods));
-                        break;
-                    case "AS":
-                        meal4.AppendLine(AppendMeal(x, currentMenu.data.selectedFoods));
-                        break;
-                    case "D":
-                        meal5.AppendLine(AppendMeal(x, currentMenu.data.selectedFoods));
-                        break;
-                    case "MBS":
-                        meal6.AppendLine(AppendMeal(x, currentMenu.data.selectedFoods));
-                        break;
-                    default:
-                        break;
+            if (!string.IsNullOrEmpty(pdfLink)) {
+                // sb.AppendLine(string.Format(@"<p>{0}.</p>", t.Tran("the menu is in the attachment", lang)));
+            } else {
+                foreach (Meals.NewMeal x in currentMenu.data.meals) {
+                    switch (x.code) {
+                        case "B":
+                            meal1.AppendLine(AppendMeal(x, currentMenu.data.selectedFoods));
+                            break;
+                        case "MS":
+                            meal2.AppendLine(AppendMeal(x, currentMenu.data.selectedFoods));
+                            break;
+                        case "L":
+                            meal3.AppendLine(AppendMeal(x, currentMenu.data.selectedFoods));
+                            break;
+                        case "AS":
+                            meal4.AppendLine(AppendMeal(x, currentMenu.data.selectedFoods));
+                            break;
+                        case "D":
+                            meal5.AppendLine(AppendMeal(x, currentMenu.data.selectedFoods));
+                            break;
+                        case "MBS":
+                            meal6.AppendLine(AppendMeal(x, currentMenu.data.selectedFoods));
+                            break;
+                        default:
+                            break;
+                    }
                 }
+                sb.AppendLine(meal1.ToString());
+                sb.AppendLine(meal2.ToString());
+                sb.AppendLine(meal3.ToString());
+                sb.AppendLine(meal4.ToString());
+                sb.AppendLine(meal5.ToString());
+                sb.AppendLine(meal6.ToString());
             }
-
-            sb.AppendLine(meal1.ToString());
-            sb.AppendLine(meal2.ToString());
-            sb.AppendLine(meal3.ToString());
-            sb.AppendLine(meal4.ToString());
-            sb.AppendLine(meal5.ToString());
-            sb.AppendLine(meal6.ToString());
 
             sb.AppendLine("<hr />");
             sb.AppendLine(string.Format(@"<i>* {0}</i>", t.Tran("this is an automatically generated email – please do not reply to it", lang)));
@@ -108,7 +110,7 @@ public class Mail : System.Web.Services.WebService {
                 , !string.IsNullOrWhiteSpace(user.companyName) ? user.companyName : string.Format("{0} {1}", user.firstName, user.lastName)
                 , currentMenu.title);
 
-            bool sent = SendMail_menu(email, subject, sb.ToString(), lang, null);  // SendMail(email, subject, sb.ToString(), lang);
+            bool sent = SendMail_menu(email, subject, sb.ToString(), lang, pdfLink);  // SendMail(email, subject, sb.ToString(), lang);
             return sent == true ? t.Tran("menu sent successfully", lang) : t.Tran("menu is not sent", lang);
 
         } catch (Exception e) { return ("error: " + e); }

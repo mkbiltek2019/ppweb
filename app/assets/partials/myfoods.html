@@ -293,10 +293,6 @@
             <a ng-disabled="myFood.food==null" href="" class="btn btn-primary" ng-click="save(myFood)"><i class="fa fa-floppy-o"></i> <span>{{'save' | translate}}</span></a>
         </div>
     </div>
-    <div ng-if="config.debug" class="bg-info debugBox">
-        my food:
-        <pre>{{myFood | json}}</pre>
-        <pre>{{mainFoodGroups}}</pre>
-    </div>
+    <json-directive data="myFood" desc="'myFood'"></json-directive>
 </div>
 

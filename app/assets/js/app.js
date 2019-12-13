@@ -3493,7 +3493,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             targetEvent: '',
             clickOutsideToClose: true,
             fullscreen: $scope.customFullscreen,
-            d: { currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData, client: $rootScope.client, totals: $rootScope.totals, settings: $rootScope.printSettings, config: $rootScope.config, user: $rootScope.user }
+            d: { currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData, client: $rootScope.client, totals: $rootScope.totals, settings: $rootScope.printSettings, config: $rootScope.config, user: $rootScope.user, loginUser: $rootScope.loginUser }
         })
         .then(function () {
         }, function () {
@@ -3509,7 +3509,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.config = d.config;
         $scope.date = new Date(new Date($scope.currentMenu.date)).toLocaleDateString();
         $scope.author = d.user.firstName + ' ' + d.user.lastName;
-
+        $scope.loginUser = d.loginUser;
+        $scope.pdfLink == null;
+        $scope.creatingPdf = false;
 
         $scope.cancel = function () {
             $mdDialog.cancel();
@@ -3585,8 +3587,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         $scope.settings = d.settings;
-        $scope.pdfLink == null;
-        $scope.creatingPdf = false;
+        //$scope.pdfLink == null;
+        //$scope.creatingPdf = false;
         $scope.printMenuPdf = function (consumers, date, author) {
             if (angular.isDefined($rootScope.currentMenu)) {
                 $scope.creatingPdf = true;
@@ -3631,6 +3633,77 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.setDate = function (x) {
             $scope.date = x;
         }
+
+
+        /**** send menu ***/
+        $scope.send = function () {
+            if ($rootScope.currentMenu.data.selectedFoods.length == 0) {
+                return false;
+            }
+            if ($rootScope.user.licenceStatus == 'demo') {
+                functions.demoAlert('this function is not available in demo version');
+                return false;
+            }
+            if ($rootScope.user.userType < 1) {
+                functions.demoAlert('this function is available only in standard and premium package');
+                return false;
+            }
+            openSendMenuPopup();
+        }
+
+        var openSendMenuPopup = function () {
+            $rootScope.client.clientData = $rootScope.clientData;
+            var pdfLink = $scope.pdfLink === undefined ? null : $scope.pdfLink;
+            $mdDialog.show({
+                controller: openSendMenuPopupCtrl,
+                templateUrl: 'assets/partials/popup/sendmenu.html',
+                parent: angular.element(document.body),
+                clickOutsideToClose: true,
+                d: { currentMenu: $rootScope.currentMenu, client: $rootScope.client, user: $rootScope.user, pdfLink: pdfLink }
+            })
+           .then(function (x) {
+           }, function () {
+           });
+        }
+
+        var openSendMenuPopupCtrl = function ($scope, $mdDialog, $http, d, $translate, functions) {
+            $scope.d = angular.copy(d);
+
+            var send = function (x) {
+                $scope.titlealert = null;
+                $scope.emailalert = null;
+                if (functions.isNullOrEmpty(x.currentMenu.title)) {
+                    $scope.titlealert = $translate.instant('menu title is required');
+                    return false;
+                }
+                if (functions.isNullOrEmpty(x.client.email)) {
+                    $scope.emailalert = $translate.instant('email is required');
+                    return false;
+                }
+                $mdDialog.hide();
+                $http({
+                    url: $sessionStorage.config.backend + 'Mail.asmx/SendMenu',
+                    method: "POST",
+                    data: { email: x.client.email, currentMenu: x.currentMenu, user: $scope.d.user, lang: $rootScope.config.language, pdfLink: $scope.d.pdfLink }
+                })
+                .then(function (response) {
+                    functions.alert(response.data.d, '');
+                },
+                function (response) {
+                    functions.alert($translate.instant(response.data.d), '');
+                });
+            }
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            $scope.confirm = function (x) {
+                send(x);
+            }
+
+        };
+        /*****send menu ***/
 
     };
   
@@ -3959,72 +4032,72 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     };
 
-    $scope.send = function () {
-        if ($rootScope.currentMenu.data.selectedFoods.length == 0) {
-            return false;
-        }
-        if ($rootScope.user.licenceStatus == 'demo') {
-            functions.demoAlert('this function is not available in demo version');
-            return false;
-        }
-        if ($rootScope.user.userType < 1) {
-            functions.demoAlert('this function is available only in standard and premium package');
-            return false;
-        }
-        openSendMenuPopup();
-    }
+    //$scope.send = function () {
+    //    if ($rootScope.currentMenu.data.selectedFoods.length == 0) {
+    //        return false;
+    //    }
+    //    if ($rootScope.user.licenceStatus == 'demo') {
+    //        functions.demoAlert('this function is not available in demo version');
+    //        return false;
+    //    }
+    //    if ($rootScope.user.userType < 1) {
+    //        functions.demoAlert('this function is available only in standard and premium package');
+    //        return false;
+    //    }
+    //    openSendMenuPopup();
+    //}
 
-    var openSendMenuPopup = function () {
-        $rootScope.client.clientData = $rootScope.clientData;
-        $mdDialog.show({
-            controller: openSendMenuPopupCtrl,
-            templateUrl: 'assets/partials/popup/sendmenu.html',
-            parent: angular.element(document.body),
-            clickOutsideToClose: true,
-            d: { currentMenu: $rootScope.currentMenu, client: $rootScope.client, user: $rootScope.user }
-        })
-       .then(function (x) {
-       }, function () {
-       });
-    }
+    //var openSendMenuPopup = function () {
+    //    $rootScope.client.clientData = $rootScope.clientData;
+    //    $mdDialog.show({
+    //        controller: openSendMenuPopupCtrl,
+    //        templateUrl: 'assets/partials/popup/sendmenu.html',
+    //        parent: angular.element(document.body),
+    //        clickOutsideToClose: true,
+    //        d: { currentMenu: $rootScope.currentMenu, client: $rootScope.client, user: $rootScope.user }
+    //    })
+    //   .then(function (x) {
+    //   }, function () {
+    //   });
+    //}
 
-    var openSendMenuPopupCtrl = function ($scope, $mdDialog, $http, d, $translate, functions) {
-        $scope.d = angular.copy(d);
+    //var openSendMenuPopupCtrl = function ($scope, $mdDialog, $http, d, $translate, functions) {
+    //    $scope.d = angular.copy(d);
 
-        var send = function (x) {
-            $scope.titlealert = null;
-            $scope.emailalert = null;
-            if (functions.isNullOrEmpty(x.currentMenu.title)) {
-                $scope.titlealert = $translate.instant('menu title is required');
-                return false;
-            }
-            if (functions.isNullOrEmpty(x.client.email)) {
-                $scope.emailalert = $translate.instant('email is required');
-                return false;
-            }
-            $mdDialog.hide();
-            $http({
-                url: $sessionStorage.config.backend + 'Mail.asmx/SendMenu',
-                method: "POST",
-                data: { email: x.client.email, currentMenu: x.currentMenu, user: $scope.d.user, lang: $rootScope.config.language }
-            })
-            .then(function (response) {
-                functions.alert(response.data.d, '');
-            },
-            function (response) {
-                functions.alert($translate.instant(response.data.d), '');
-            });
-        }
+    //    var send = function (x) {
+    //        $scope.titlealert = null;
+    //        $scope.emailalert = null;
+    //        if (functions.isNullOrEmpty(x.currentMenu.title)) {
+    //            $scope.titlealert = $translate.instant('menu title is required');
+    //            return false;
+    //        }
+    //        if (functions.isNullOrEmpty(x.client.email)) {
+    //            $scope.emailalert = $translate.instant('email is required');
+    //            return false;
+    //        }
+    //        $mdDialog.hide();
+    //        $http({
+    //            url: $sessionStorage.config.backend + 'Mail.asmx/SendMenu',
+    //            method: "POST",
+    //            data: { email: x.client.email, currentMenu: x.currentMenu, user: $scope.d.user, lang: $rootScope.config.language }
+    //        })
+    //        .then(function (response) {
+    //            functions.alert(response.data.d, '');
+    //        },
+    //        function (response) {
+    //            functions.alert($translate.instant(response.data.d), '');
+    //        });
+    //    }
 
-        $scope.cancel = function () {
-            $mdDialog.cancel();
-        };
+    //    $scope.cancel = function () {
+    //        $mdDialog.cancel();
+    //    };
 
-        $scope.confirm = function (x) {
-            send(x);
-        }
+    //    $scope.confirm = function (x) {
+    //        send(x);
+    //    }
 
-    };
+    //};
 
     var getTotals = function (x) {
         $http({
@@ -7086,6 +7159,25 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     };
 })
+
+.directive('jsonDirective', () => {
+    return {
+        restrict: 'E',
+        scope: {
+            data: '=',
+            desc: '='
+        },
+        templateUrl: './assets/partials/directive/json.html',
+        controller: 'jsonCtrl'
+    };
+})
+.controller('jsonCtrl', ['$scope', '$rootScope', ($scope, $rootScope) => {
+    $scope.isShow = false;
+    $scope.debug = $rootScope.config.debug;
+    $scope.show = () => {
+        $scope.isShow = !$scope.isShow;
+    }
+}])
 
 
 ;

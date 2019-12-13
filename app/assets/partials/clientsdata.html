@@ -29,16 +29,7 @@
      </div>
 </div>
 
-<div ng-if="config.debug" class="bg-info">
-    Pals:
-    <pre>{{pals | json}}</pre>
-    standard: <pre>{{standard | json}}</pre>
-    pal: <pre>{{pal}}</pre>
-    client:
-    <pre>{{client | json}}</pre>
-    clientData:
-  <pre>{{clientData | json}}</pre>
-</div>
+<json-directive data="clientData" desc="'clientData'"></json-directive>
 
 <script type="text/ng-template" id="inputData">
     <div ng-if="client.clientId">
@@ -284,9 +275,6 @@
                 </div>
             </div>
         </fieldset>
-        <div ng-if="config.debug">
-            activity: <pre>{{activity}}</pre>
-        </div>
     </div>
 </script>
 
@@ -380,15 +368,6 @@
                 </tbody>
             </table>
         </div>
-
-        <div ng-if="config.debug" class="bg-info">
-            Client Log:
-            <pre>{{clientLog}}</pre>
-
-            Calculation:
-            <pre>{{calculation}}</pre>
-        </div>
-
     </div>
 </script>
 

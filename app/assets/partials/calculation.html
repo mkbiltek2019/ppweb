@@ -163,12 +163,5 @@
     </div> 
 </div>
 
-<div ng-if="config.debug" class="bg-info debugBox">
-    calculation:
-   <pre>{{calculation | json}}</pre>
-    goals:
-    <pre>{{goals | json}}</pre>
-    client Data - goal:
-    <pre>{{clientData.goal | json}}</pre>
-</div>
+<json-directive data="calculation" desc="'calculation'"></json-directive>
 

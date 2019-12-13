@@ -29,6 +29,9 @@
                         <div ng-if="emailalert" class="text-danger">{{emailalert}}</div>
                     </md-input-container>
                 </div>
+                <div ng-if="d.pdfLink">
+                    <i class="fa fa-file-pdf-o fa-3x text-danger"></i>
+                </div>
                 <div class="row text-right text-capitalize m10">
                     <a href="" class="btn btn-primary" ng-click="confirm(d)" title="{{'send menu' | translate}}"><i class="fa fa-paper-plane-o"></i> {{'send' | translate }}</a>
                 </div>

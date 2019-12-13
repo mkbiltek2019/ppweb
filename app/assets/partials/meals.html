@@ -86,17 +86,7 @@
                 </table>
             </div>
         </div>
-        <div ng-if="config.debug">
-            <pre>{{myMeals | json}}</pre>
-            <!--<pre>{{clietData.myMeals}}</pre>
-           
-            myMeals:
-            <pre>{{myMeals | json}}</pre>
-            mealsList:
-            <pre>{{mealsList | json}}</pre>
-            clientData.meals:
-            <pre>{{clientData.meals | json}}</pre>-->
-        </div>
+        <json-directive data="clientData.meals" desc="'clientData.meals'"></json-directive>
     </div>
 </script>
 

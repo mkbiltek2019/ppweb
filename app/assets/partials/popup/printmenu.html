@@ -15,6 +15,7 @@
                     <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success text-capitalize" download ng-click="hidePdfLink()">
                         <i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}
                     </a>
+                    <a ng-if="loginUser.adminType<2" ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" title="{{'send menu to the clients email' | translate}}" ng-click="send()"><i class="fa fa-paper-plane-o"></i> <span class="hidden-xs text-capitalize">{{'send' | translate}}</span></a>
                 </div>
                 <div class="row small">
                     <div class="col-sm-3">

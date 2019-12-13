@@ -27,7 +27,7 @@
                         </ul>
                     </div>
                     <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" title="{{'show menu preview' | translate}}" ng-click="printPreview()"><i class="fa fa-print"></i> <span class="hidden-xs">{{'print' | translate}}</span></a>
-                    <a ng-if="loginUser.adminType<2" ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" title="{{'send menu to the clients email' | translate}}" ng-click="send()"><i class="fa fa-paper-plane-o"></i> <span class="hidden-xs">{{'send' | translate}}</span></a>
+                    <!--<a ng-if="loginUser.adminType<2" ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" title="{{'send menu to the clients email' | translate}}" ng-click="send()"><i class="fa fa-paper-plane-o"></i> <span class="hidden-xs">{{'send' | translate}}</span></a>-->
                     <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" title="{{'shopping list' | translate}}" ng-click="getShoppingList(currentMenu)"><i class="fa fa-shopping-basket"></i> <span class="hidden-xs">{{'shopping list' | translate}}</span></a>
                 </div>
                 <div class="panel-body">
@@ -119,50 +119,7 @@
             <div ng-include="'chartsTpl'" class="table-scroll" style="height:80%"></div>
         </div>
     </div>
-    <div ng-if="config.debug">
-        <div>
-            <h4>Meals Total</h4>
-            <div style="border:2px solid Blue">
-                <pre>{{totals.mealsTotal | json}}</pre>
-            </div>
-            <h4>Shopping List</h4>
-            <div style="border:2px solid Blue">
-                <pre>{{shoppingList | json}}</pre>
-            </div>
-            <h4>Meals</h4>
-            <div style="border:2px solid Blue">
-                <pre>{{clientData.meals}}</pre>
-            </div>
-            <h4>Current Menu</h4>
-            <div style="border:2px solid Red">
-                <pre>{{currentMenu | json}}</pre>
-            </div>
-            <h4>clientData.meals</h4>
-            <div style="border:2px solid Red">
-                <pre>{{clientData.meals | json}}</pre>
-            </div>
-            <h4>Calculation</h4>
-            <div style="border:2px solid Red">
-                <pre>{{calculation | json}}</pre>
-            </div>
-            <h4>Food</h4>
-            <div style="border:2px solid Green">
-                <pre>{{food}}</pre>
-            </div>
-            <h4>Menu</h4>
-            <div style="border:2px solid Green">
-                <pre>{{menu}}</pre>
-            </div>
-            <h4>Totals</h4>
-            <div style="border:2px solid Green">
-                <pre>{{totals}}</pre>
-            </div>
-            <h4>Recommendations</h4>
-            <div style="border:2px solid Green">
-                <pre>{{recommendations}}</pre>
-            </div>
-        </div>
-    </div>
+    <json-directive data="currentMenu" desc="'currentMenu'"></json-directive>
 </script>
 
 <script type="text/ng-template" id="weeklyMenuTpl">
@@ -299,10 +256,6 @@
                     </fieldset>
                 </div>
             </div>
-        </div>
-        <div ng-if="config.debug">
-            weeklyMenu:
-            <pre>{{weeklyMenu | json}}</pre>
         </div>
     </div>
 </script>
@@ -441,7 +394,6 @@
                 </tr>
             </table>
         </div>
-
     </div>
 </script>
 

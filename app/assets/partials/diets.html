@@ -66,9 +66,5 @@
         <a href="" ng-if="client.clientId" class="btn btn-default btn-lg center center-right" title="{{'forward' | translate}}" ng-click="toggleNewTpl('meals')"><i class="fa fa-angle-double-right fa-2x text-primary" aria-hidden="true"></i></a>
     </div>
 </div>
-<div ng-if="config.debug" class="bg-info debugBox">
-    client  diets:
-    <pre>{{clientData.diet}}</pre>
-    diets
-    <pre>{{diets | json}}</pre>
-</div>
+
+<json-directive data="clientData.diet" desc="'clientData.diet'"></json-directive>

@@ -70,11 +70,6 @@
                 </table>
             </div>
         </div>
-        <div ng-if="config.debug">
-            totals:
-            <pre>{{totals | json}}</pre>
-            recipe:
-            <pre>{{recipe | json}}</pre>
-        </div>
+        <json-directive data="recipe" desc="'recipe'"></json-directive>
     </div>
 </div>

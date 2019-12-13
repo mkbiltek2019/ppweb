@@ -99,10 +99,6 @@
                 <button ng-disabled="signupdisabled||signingUp" class="btn btn-primary btn-block" ng-click="signup()" ><i class="fa fa-{{signingUp===true?'spinner fa-spin':'check'}}"></i> {{'register' | translate}}</button>
             </div>
         </div>
-        <div ng-if="config.debug" class="bg-info debugBox">
-            newUser:
-            <pre>{{newUser | json}}</pre>
-        </div>
     </div>
 </script>
 
