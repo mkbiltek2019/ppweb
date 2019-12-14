@@ -7160,7 +7160,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 })
 
-.directive('jsonDirective', () => {
+.directive('jsonDirective', function () {
     return {
         restrict: 'E',
         scope: {
@@ -7171,10 +7171,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         controller: 'jsonCtrl'
     };
 })
-.controller('jsonCtrl', ['$scope', '$rootScope', ($scope, $rootScope) => {
+.controller('jsonCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
     $scope.isShow = false;
     $scope.debug = $rootScope.config.debug;
-    $scope.show = () => {
+    $scope.show = function () {
         $scope.isShow = !$scope.isShow;
     }
 }])
