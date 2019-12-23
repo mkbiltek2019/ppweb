@@ -420,18 +420,27 @@
             <div>
                 <ul class="nav nav-tabs">
                     <li ng-class="showInvoices==false?'active':''" ng-click="init()"><a href=""><i class="fa fa-file-text-o"></i> Novi račun</a></li>
-                    <li ng-class="showInvoices==true?'active':''" ng-click="load(year)"><a href=""><i class="fa fa-files-o"></i> Pregled računa</a></li>
+                    <li ng-class="showInvoices==true?'active':''" ng-click="load(year, null)"><a href=""><i class="fa fa-files-o"></i> Pregled računa</a></li>
                 </ul>
             </div>
             <div ng-if="showInvoices">
                 <div class="row m10">
                     <div class="col-sm-2">
-                        <select ng-model="year" class="form-control" ng-change="load(year)">
+                        <select ng-model="year" class="form-control" ng-change="load(year, searchInvoices)">
                             <option ng-selected="x==year?true:false"  ng-repeat="x in invoices.years">{{x}}</option>
                         </select>
                     </div>
-                    <div class="col-sm-4">
-                        <input ng-model="searchInvoices" class="form-control" placeholder="Pretraži..." />
+                    <div class="col-sm-3">
+                        <form>
+                            <div class="input-group">
+                                <input ng-model="searchInvoices" type="text" class="form-control" placeholder="Pretraži...">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit" ng-click="load(year, searchInvoices)">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <div class="table-responsive table-scroll" style="max-height:600px">
@@ -457,7 +466,7 @@
                             <th class="nowrap text-right">Ostatak (kn)</th>
                             <th>Datum uplate</th>
                         </tr>
-                        <tr ng-repeat="x in invoices.data | filter:searchInvoices" class="{{x.isPaid==0?'bg-danger':''}}">
+                        <tr ng-repeat="x in invoices.data" class="{{x.isPaid==0?'bg-danger':''}}">
                             <td class="nowrap">
                                 <button class="btn btn-primary m2" ng-click="get(x)" title="Uredi"><i class="fa fa-eye"></i></button>
                                 <a href="{{config.backend + 'upload/invoice/' + x.year + '/'+ x.fileName + '.pdf'}}" class="btn btn-danger m2" download title="PDF"><i class="fa fa-file-pdf-o" style="color:white"></i></a>

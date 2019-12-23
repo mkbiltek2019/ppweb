@@ -327,6 +327,7 @@ angular.module('app', [])
 }])
 
 .controller('invoiceCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
+    $scope.searchInvoices = null;
     $scope.getTotal = function (x) {
         var total = 0;
         angular.forEach(x, function (value, key) {
@@ -380,12 +381,12 @@ angular.module('app', [])
     }
     if(angular.isUndefined($rootScope.i)) { $scope.init(); }
 
-    $scope.load = function (year) {
+    $scope.load = function (year, search) {
         $scope.showInvoices = true;
         $http({
             url: $rootScope.config.backend + 'Invoice.asmx/Load',
             method: 'POST',
-            data: { year: year }
+            data: { year: year, search: search }
         })
      .then(function (response) {
          $scope.invoices = JSON.parse(response.data.d);
