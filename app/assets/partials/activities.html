@@ -63,8 +63,11 @@
                 <div class="table-responsive alert alert-success">
                     <table class="table text-small">
                         <tr ng-repeat="x in clientData.activities">
-                            <td><strong>{{x.activity}}</strong> - {{x.duration}} min,  {{x.energy | number:0}} kcal</td>
+                            <td><strong>{{x.activity}}</strong> - {{x.duration}} {{'min' | translate}},  {{x.energy | number:0}} {{'kcal' | translate}}</td>
                             <td width="50px"><a href="" style="color:red" ng-click="removeActivity(x, $index)" class="btn btn-default"><i class="fa fa-times"></i></a></td>
+                        </tr>
+                        <tr ng-if="clientData.activities.length>1">
+                            <td class="text-capitalize">{{'total' | translate}}: <strong>{{energy}} {{'kcal' | translate}}</strong></td>
                         </tr>
                     </table>
                 </div>

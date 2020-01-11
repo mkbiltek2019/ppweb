@@ -2270,6 +2270,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         var energy = 0;
         var activity = 0;
         $rootScope.goalWeightValue = 0;
+        debugger;
         switch (x) {
             case "G1":  // redukcija tjelesne mase
                 if ($rootScope.appCalculation.goal.code == "G1") {
@@ -2284,7 +2285,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     energy = $rootScope.appCalculation.recommendedEnergyIntake + 300;
                     activity = $rootScope.appCalculation.recommendedEnergyExpenditure;
                 }
-                $rootScope.goalWeightValue = Math.round(angular.copy($rootScope.calculation.recommendedWeight.max));
+                if ($rootScope.appCalculation.goal.code == "G2") {
+                    $rootScope.goalWeightValue = Math.round(angular.copy($rootScope.clientData.weight));
+                } else {
+                    $rootScope.goalWeightValue = Math.round(angular.copy($rootScope.calculation.recommendedWeight.max));
+                }
                 break;
             case "G2":  // zadrzavanje postojece tjelesne mase
                 if ($rootScope.appCalculation.goal.code == "G1") {
@@ -2318,7 +2323,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     energy = $rootScope.appCalculation.recommendedEnergyIntake + 500;
                     activity = $rootScope.appCalculation.recommendedEnergyExpenditure + 200;
                 }
-                $rootScope.goalWeightValue = $rootScope.clientData.weight < $rootScope.calculation.recommendedWeight.min ?  Math.round(angular.copy($rootScope.calculation.recommendedWeight.min)) :  Math.round(angular.copy($rootScope.clientData.weight + 10));  //TODO
+                if ($rootScope.appCalculation.goal.code == "G2") {
+                    $rootScope.goalWeightValue = Math.round(angular.copy($rootScope.calculation.recommendedWeight.max));
+                } else {
+                    $rootScope.goalWeightValue = $rootScope.clientData.weight < $rootScope.calculation.recommendedWeight.min ? Math.round(angular.copy($rootScope.calculation.recommendedWeight.min)) : Math.round(angular.copy($rootScope.clientData.weight + 10));  //TODO
+                }
                 break;
             case "G4":  // povecanje misicne mase
                 if ($rootScope.appCalculation.goal.code == "G1") {
@@ -2333,7 +2342,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                     energy = $rootScope.appCalculation.recommendedEnergyIntake + 400;
                     activity = $rootScope.appCalculation.recommendedEnergyExpenditure + 100;
                 }
-                $rootScope.goalWeightValue =  Math.round(angular.copy($rootScope.clientData.weight));
+                if ($rootScope.appCalculation.goal.code == "G2") {
+                    $rootScope.goalWeightValue = $rootScope.clientData.weight < $rootScope.calculation.recommendedWeight.min ? Math.round(angular.copy($rootScope.calculation.recommendedWeight.min)) : Math.round(angular.copy($rootScope.clientData.weight + 10));  //TODO
+                } else {
+                    $rootScope.goalWeightValue = Math.round(angular.copy($rootScope.clientData.weight));
+                }
                 break;
             default:
                 energy = 0;
@@ -2451,6 +2464,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.orderdirection = direction;
     }
     $scope.orderby('activity');
+    $scope.energy = 0;
 
     if ($rootScope.activities == undefined) { $rootScope.loadActivities(); };
     if (angular.isDefined($rootScope.appCalculation) && angular.isDefined($rootScope.myCalculation)) {
@@ -2468,8 +2482,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 energy = energy + value.energy;
             })
         }
+        $scope.energy = energy.toFixed();
         return $rootScope.calculation.recommendedEnergyExpenditure - energy;
     }
+    getEnergyLeft();
 
     $scope.openPopup = function (x) {
         energyLeft = getEnergyLeft();
@@ -2485,6 +2501,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             })
           .then(function (response) {
               energyLeft = response;
+              getEnergyLeft();
           }, function () {
           });
         } else {
@@ -2528,6 +2545,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             .cancel($translate.instant('no'));
         $mdDialog.show(confirm).then(function () {
             $rootScope.clientData.activities.splice(idx, 1);
+            getEnergyLeft();
         }, function () {
         });
     }

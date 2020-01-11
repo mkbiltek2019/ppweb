@@ -265,7 +265,10 @@
         <div class="panel panel-default">
             <table class="table table-bordered table-condensed text-small text-center">
                 <tr>
-                    <td class="bg-subpanel"><span class="text-uppercase">{{'energy value' | translate}}</span></td>
+                    <td class="bg-subpanel">
+                        <span class="text-uppercase">{{'energy value' | translate}}</span>
+                        <span custom-popover popover-html="{{'energy_value_info' | translate}}" popover-placement="bottom" popover-label=""></span>
+                    </td>
                     <td rowspan="3" style="width:120px"><div id="energyChart" class="guage"></div></td>
                 </tr>
                 <tr>
