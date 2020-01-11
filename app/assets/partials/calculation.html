@@ -85,8 +85,8 @@
                 <fieldset class="fieldset-border">
                     <legend class="fieldset-border text-capitalize">{{'goal' | translate}}:</legend>
                     <div>
-                        <md-radio-group ng-model="calculation.goal.code" ng-click="getGoal(calculation.goal.code)">
-                            <md-radio-button ng-value="x.code" class="md-primary" ng-repeat="x in goals" ng-disabled="x.isDisabled">{{x.title | translate}}</md-radio-button>
+                        <md-radio-group ng-model="calculation.goal.code">
+                            <md-radio-button ng-value="x.code" class="md-primary" ng-repeat="x in goals" ng-disabled="x.isDisabled" ng-click="getGoal(x)">{{x.title | translate}}</md-radio-button>
                         </md-radio-group>
                     </div>
                     <div class="row">
@@ -133,7 +133,8 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="input-group">
-                                    <input type="number" ng-model="myCalculation.recommendedEnergyIntake" class="form-control text-right" allow-only-numbers>                                    <div class="input-group-addon">
+                                    <input type="number" ng-model="myCalculation.recommendedEnergyIntake" style="min-width:75px" class="form-control text-right" allow-only-numbers>                                    
+                                    <div class="input-group-addon">
                                         <div class="input-group-text" style="width:20px">{{'kcal' | translate}}</div>
                                     </div>
                                 </div>
@@ -145,7 +146,8 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="input-group">
-                                    <input type="number" ng-model="myCalculation.recommendedEnergyExpenditure" class="form-control text-right" allow-only-numbers>                                    <div class="input-group-addon">
+                                    <input type="number" ng-model="myCalculation.recommendedEnergyExpenditure" style="min-width:75px" class="form-control text-right" allow-only-numbers>                                    
+                                    <div class="input-group-addon">
                                         <div class="input-group-text" style="width:20px">{{'kcal' | translate}}</div>
                                     </div>
                                 </div>
