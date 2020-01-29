@@ -1,11 +1,11 @@
 ﻿<div ng-controller="mealsCtrl">
     <div>
         <ul class="nav nav-tabs">
-            <li ng-class="tpl=='standardMeals'?'active':''" ng-click="toggleMealsTpl('standardMeals')"><a href="#"><i class="fa fa-thermometer-empty"></i> <span class="text-capitalize">{{'standard meals' | translate}}</span></a></li>
-            <li ng-class="tpl=='myMeals'?'active':''" ng-click="toggleMealsTpl('myMeals')"><a href="#"><i class="fa fa-line-chart"></i> <span class="text-capitalize">{{'my meals' | translate}}</span></a></li>
+            <li ng-class="mealsTpl=='standardMeals'?'active':''" ng-click="toggleMealsTpl('standardMeals')"><a href="#"><i class="fa fa-thermometer-empty"></i> <span class="text-capitalize">{{'standard meals' | translate}}</span></a></li>
+            <li ng-class="mealsTpl=='myMeals'?'active':''" ng-click="toggleMealsTpl('myMeals')"><a href="#"><i class="fa fa-line-chart"></i> <span class="text-capitalize">{{'my meals' | translate}}</span></a></li>
         </ul>
     </div>
-    <div ng-include="tpl"></div>
+    <div ng-include="mealsTpl"></div>
     <div>
         <a href="" ng-if="client.clientId" class="btn btn-default btn-lg center center-left" title="{{'back' | translate}}" ng-click="toggleNewTpl('diets')"><i class="fa fa-angle-double-left fa-2x text-primary" aria-hidden="true"></i></a>
         <a href="" ng-if="client.clientId" class="btn btn-default btn-lg center center-right" title="{{'forward' | translate}}" ng-click="toggleNewTpl('menu')"><i class="fa fa-angle-double-right fa-2x text-primary" aria-hidden="true"></i></a>

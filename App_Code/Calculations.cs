@@ -17,6 +17,7 @@ using Igprog;
 [System.Web.Script.Services.ScriptService]
 public class Calculations : System.Web.Services.WebService {
     string dataBase = ConfigurationManager.AppSettings["AppDataBase"];
+    Equations E = new Equations();
 
     public Calculations() {
     }
@@ -33,6 +34,8 @@ public class Calculations : System.Web.Services.WebService {
         public RecommenderWeight recommendedWeight { get; set; }
 
         public Goals.NewGoal goal = new Goals.NewGoal();
+
+        public List<Equations.BmrEquation> bmrEquations = new List<Equations.BmrEquation>();
     }
 
     public class ValueTitle {
@@ -63,6 +66,7 @@ public class Calculations : System.Web.Services.WebService {
         public double highRisk { get; set; }
         public double optimal { get; set; }
     }
+
     #endregion
 
     #region WebMethods
@@ -78,6 +82,7 @@ public class Calculations : System.Web.Services.WebService {
         x.recommendedEnergyExpenditure = 0;
         x.recommendedWeight = new RecommenderWeight();
         x.goal = new Goals.NewGoal();
+        x.bmrEquations = E.GetBmrEquations();
         return JsonConvert.SerializeObject(x, Formatting.None);
     }
 
@@ -87,12 +92,13 @@ public class Calculations : System.Web.Services.WebService {
         x.bmi = Bmi(client);
         x.whr = Whr(client);
         x.waist = Waist(client);
-        x.bmr = Bmr(client);
+        x.bmr = E.Bmr(client);
         x.tee = Tee(client);
         x.recommendedEnergyIntake = RecommendedEnergyIntake(client);
         x.recommendedEnergyExpenditure = RecommendedEnergyExpenditure(client);
         x.recommendedWeight = RecommendedWeight(client);
         x.goal = RecommendedGoal(client);
+        x.bmrEquations = E.GetBmrEquations();
         return JsonConvert.SerializeObject(x, Formatting.None);
     }
 
@@ -236,11 +242,69 @@ public class Calculations : System.Web.Services.WebService {
         return x;
     }
 
-    private double Bmr(ClientsData.NewClientData client) {
-        int a = client.gender.value == 0 ? 5 : -161;
-        double BMR = 10 * client.weight + 6.25 * client.height - 5 * client.age + a;
-        return BMR;
-    }
+    //private double Bmr_old(ClientsData.NewClientData client) {
+    //    /*********Mifflin - St.Jeor = 5 + 10(weight in kg) + 6.25(height in cm) − 5(age)***********/
+    //    int a = client.gender.value == 0 ? 5 : -161;
+    //    double BMR = 10 * client.weight + 6.25 * client.height - 5 * client.age + a;
+    //    /**************************/
+    //    return BMR;
+    //}
+
+    //private double Bmr(ClientsData.NewClientData client) {
+
+
+    //    //TODO: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5477436/
+    //    //Equations used to predict resting energy expenditure
+    //    //Harris - Benedicts = 66.47 + 13.75(weight in kg) + 5(height in cm) − 6.76(age)
+
+    //    //Mifflin - St.Jeor = 5 + 10(weight in kg) + 6.25(height in cm) − 5(age)
+
+    //    //FAO / WHO / UNU = 15.3(weight in kg) + 679
+
+    //    //ICMR = 14.5(weight in kg) + 645  << Indian
+
+    //    //Cunninghams = 500 + 22(lean body mass[LBM] in kg)
+
+    //    //Owen = 655.096 + 1.8496(height in cm) + 9.5634(weight in kg) − 4.6759(age)  <<A reappraisal of caloric requirements in healthy women.
+
+    //    //Katch - McArdle = 370 + 21.6(LBM in kg)
+
+    //    //Nelson = 25.80(fat free mass in kg) + 4.04(fat mass in kg).
+
+    //    double BMR = 0;
+    //    string type = client.bmrEquation;
+
+    //    if (type == E.HarrisBenedicts) {
+    //        /****** Harris - Benedicts = 66.47 + 13.75(weight in kg) + 5(height in cm) − 6.76(age) ******/
+    //    } else if(type== E.Mifflin) {
+    //        /****** Mifflin - St.Jeor = 5 + 10(weight in kg) + 6.25(height in cm) − 5(age) ******/
+    //        int a = client.gender.value == 0 ? 5 : -161;
+    //        BMR = 10 * client.weight + 6.25 * client.height - 5 * client.age + a;
+    //    } else if(type == E.Cunningham) {
+    //        /****** Cunninghams = 500 + 22(lean body mass[LBM] in kg) ******/
+    //    } else if (type == E.Owen) {
+    //        /****** Owen = 655.096 + 1.8496(height in cm) + 9.5634(weight in kg) − 4.6759(age) << A reappraisal of caloric requirements in healthy women. ******/
+    //        BMR = 655.096 + (1.8496 * client.height) + (9.5634 * client.weight) - (4.6759 * client.age);
+    //        //BMR = 655.096 * client.weight + 6.25 * client.height - 5 * client.age + a;
+    //    } else {
+    //        /****** DEFAULT:  Mifflin - St.Jeor = 5 + 10(weight in kg) + 6.25(height in cm) − 5(age) ******/
+    //        int a = client.gender.value == 0 ? 5 : -161;
+    //        BMR = 10 * client.weight + 6.25 * client.height - 5 * client.age + a;
+    //    }
+
+
+    //    /*********Mifflin - St.Jeor = 5 + 10(weight in kg) + 6.25(height in cm) − 5(age)***********/
+    //        //int a = client.gender.value == 0 ? 5 : -161;
+    //        //BMR = 10 * client.weight + 6.25 * client.height - 5 * client.age + a;
+    //        /**************************/
+    //        return BMR;
+
+
+    //}
+
+    //private double Bmr(ClientsData.NewClientData client) {
+    //    return E.Bmr(client);
+    //}
 
     private double Tee(ClientsData.NewClientData client) {
         if(client.dailyActivities.energy > 0 && client.dailyActivities.duration == 1440) {
@@ -270,7 +334,7 @@ public class Calculations : System.Web.Services.WebService {
                 //int a = client.gender.value == 0 ? 5 : -161;
                 //double BMR = 10 * client.weight + 6.25 * client.height - 5 * client.age + a;
 
-            double BMR = Bmr(client);
+            double BMR = E.Bmr(client);
             double DIT = 0.1 * (client.pal.value * BMR);
             double TEE = client.pal.value * BMR + DIT;
             return Math.Round(TEE, 2);
@@ -390,7 +454,7 @@ public class Calculations : System.Web.Services.WebService {
     }
 
     private double BmrTeeCoeff(ClientsData.NewClientData client) {
-        double BMR = Bmr(client);
+        double BMR = E.Bmr(client);
         double TEE = Tee(client);
         return Math.Round(BMR / TEE, 2);
     }

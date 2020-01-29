@@ -22,6 +22,7 @@ public class ClientsData : System.Web.Services.WebService {
     Users.CheckUser c = new Users.CheckUser();
     Calculations calculation = new Calculations();
     Global g = new Global();
+    Equations E = new Equations();
 
     public ClientsData() {
     }
@@ -57,6 +58,8 @@ public class ClientsData : System.Web.Services.WebService {
 
         public string clientNote { get; set; }
 
+        public string bmrEquation;
+
         //public List<DetailEnergyExpenditure.Activity> dailyActivities = new List<DetailEnergyExpenditure.Activity>();
 
         //TODO add detailTee;
@@ -90,6 +93,7 @@ public class ClientsData : System.Web.Services.WebService {
         x.dailyActivities = new DetailEnergyExpenditure.Activities();
         x.myMeals = new MyMeals.NewMyMeals();
         x.clientNote = null;
+        x.bmrEquation = E.Mifflin;
         string json = JsonConvert.SerializeObject(x, Formatting.None);
         return json;
     }
@@ -194,8 +198,7 @@ public class ClientsData : System.Web.Services.WebService {
                 x = GetClientData(userId, clientId, connection);
                 connection.Close();
             } 
-            string json = JsonConvert.SerializeObject(x, Formatting.None);
-            return json;
+            return JsonConvert.SerializeObject(x, Formatting.None);
         } catch (Exception e) { return ("Error: " + e); }
     }
 
@@ -384,6 +387,7 @@ public class ClientsData : System.Web.Services.WebService {
                         DetailEnergyExpenditure.DailyActivities da = new DetailEnergyExpenditure.DailyActivities();
                         x.dailyActivities = da.getDailyActivities(userId, x.clientId);
                         x.myMeals = GetMyMeals(userId, x.clientId);
+                        x.bmrEquation = E.Mifflin; // TODO GetBmrEquation() & SaveBMREquation()
                         xx.Add(x);
                     }
                 }

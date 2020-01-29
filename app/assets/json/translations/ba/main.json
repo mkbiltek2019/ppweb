@@ -1878,6 +1878,7 @@
   "remove all events": "Izbrišite sve termine",
   "the menu is in the attachment": "Jelovnik je u prilogu",
   "targeted_mass_info": "Ciljana tjelesna masa ne utjeće direktno na izračun preporučene energetske potrošnje već se samo korisisti kao vrijednost u grafičkom prikazu kod praćenja antropometsijskih parametara",
-  "energy_value_info": "Ukupna energetska vrijednost jelovnika uključujući i ostale namirnice"
+  "energy_value_info": "Ukupna energetska vrijednost jelovnika uključujući i ostale namirnice",
+  "equation": "Jednadžba"
 
 }

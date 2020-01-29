@@ -9,6 +9,16 @@
                 <fieldset class="fieldset-border">
                     <legend class="fieldset-border text-capitalize">{{'calculation' | translate}}:</legend>
                     <div>
+                        <div ng-if="config.debug" class="mt10">
+                            <md-input-container class="md-block" flex-gt-xs style="margin-top:0px">
+                                <label>{{'equation' | translate}}</label>
+                                <md-select ng-model="clientData.bmrEquation" ng-change="setBmrEquation(clientData.bmrEquation)">
+                                    <md-option ng-value="x.code" ng-repeat="x in calculation.bmrEquations track by $index">
+                                        <md-checkbox ng-checked="x.code===clientData.bmrEquation" class="md-primary text-capitalize" aria-label="mealgroup">{{x.title | translate}} <span ng-if="x.description" class="text-primary small">(<em>{{x.description | translate}}</em>)</span></md-checkbox>
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
                         <table class="table table-bordered text-small table-condensed">
                             <tr>
                                 <td class="bg-subpanel"><strong>BMR</strong><em class="text-small text-muted"> ({{'basal metabolic rate' | translate}})</em></td>

@@ -1868,6 +1868,7 @@
   "choose user": "Choose User",
   "the menu is in the attachment": "The Menu is in the Attachment",
   "targeted_mass_info": "Target body mass does not directly influence the calculation of the recommended energy consumption but is only used as a value in the graphical representation when monitoring anthropometric parameters",
-  "energy_value_info": "Total energy value of the menu, including other foods"
+  "energy_value_info": "Total energy value of the menu, including other foods",
+  "equation": "Equation"
 
 }

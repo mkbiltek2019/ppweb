@@ -2453,6 +2453,21 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
     getCalculation();
 
+
+    /*******BMR Equations*******/
+    $scope.setBmrEquation = function (x) {
+        if ($rootScope.user.licenceStatus == 'demo') {
+            functions.demoAlert('this function is not available in demo version');
+            return false;
+        }
+        if ($rootScope.user.userType < 1) {
+            functions.demoAlert('this function is available only in standard and premium package');
+            return false;
+        }
+        getCalculation();
+    }
+    /*******BMR Equations*******/
+
 }])
 
 .controller('activitiesCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
@@ -2646,8 +2661,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     var webService = 'Meals.asmx';
 
     $scope.toggleMealsTpl = function (x) {
-        $scope.tpl = x;
+        $rootScope.mealsTpl = x;
         $rootScope.mealsAreChanged = true;
+        if (x === 'myMeals') {
+            $rootScope.clientData.meals = $rootScope.myMeals.data.meals;
+        }
+
     }
 
     var defineMealsType = function () {
@@ -2655,9 +2674,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             if ($rootScope.currentMenu.id != null) {
                 if ($rootScope.currentMenu.data.meals.length > 0) {
                     if ($rootScope.currentMenu.data.meals[0].code == 'B') {
-                        $scope.tpl = 'standardMeals';
+                        $rootScope.mealsTpl = 'standardMeals';
                     } else {
-                        $scope.tpl = 'myMeals';
+                        $rootScope.mealsTpl = 'myMeals';
                     }
                     return false;
                 } 
@@ -2666,15 +2685,15 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         if ($rootScope.clientData.myMeals !== undefined && $rootScope.clientData.myMeals != null) {
             if ($rootScope.clientData.myMeals.data != null) {
                 if ($rootScope.clientData.myMeals.data.meals.length >= 2) {
-                    $scope.tpl = 'myMeals';
+                    $rootScope.mealsTpl = 'myMeals';
                 } else {
-                    $scope.tpl = 'standardMeals';
+                    $rootScope.mealsTpl = 'standardMeals';
                 }
             } else {
-                $scope.tpl = 'standardMeals';
+                $rootScope.mealsTpl = 'standardMeals';
             }
         } else {
-            $scope.tpl = 'standardMeals';
+            $rootScope.mealsTpl = 'standardMeals';
         }
     }
     defineMealsType();
@@ -3082,9 +3101,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $rootScope.currentMenu.client.clientData = $rootScope.clientData;  //TODO sredit
             $rootScope.currentMenu.data.meals = $rootScope.clientData.meals;
 
-            angular.forEach($rootScope.currentMenu.data.meals, function (value, key) {
-                $rootScope.currentMenu.data.meals[key].description = '';
-            })
+            if ($rootScope.mealsTpl === 'myMeals') {
+                $rootScope.currentMenu.data.meals = $rootScope.myMeals.data.meals;
+            }
+            //angular.forEach($rootScope.currentMenu.data.meals, function (value, key) {
+            //    $rootScope.currentMenu.data.meals[key].description = '';
+            //})
 
             $rootScope.currentMeal = 'B';
             if ($rootScope.currentMenu !== undefined) {
