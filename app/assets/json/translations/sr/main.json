@@ -1877,6 +1877,6 @@
   "the menu is in the attachment": "Jelovnik je u prilogu",
   "targeted_mass_info": "Ciljana telesna masa ne utjeće direktno na izračun preporučene energetske potrošnje već se samo korisisti kao vrednost u grafičkom prikazu kod praćenja antropometsijskih parametara",
   "energy_value_info": "Ukupna energetska vrednost jelovnika uključujući i ostale namirnice",
-  "equation": "Jednadžba"
+  "bmr equation": "Metoda izračuna BMR"
 
 }

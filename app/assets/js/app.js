@@ -3103,10 +3103,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
             if ($rootScope.mealsTpl === 'myMeals') {
                 $rootScope.currentMenu.data.meals = $rootScope.myMeals.data.meals;
+                angular.forEach($rootScope.currentMenu.data.meals, function (value, key) {
+                    if (value.description !== '') {
+                        $rootScope.currentMenu.data.meals[key].description = value.description + '~';
+                    }
+                })
             }
-            //angular.forEach($rootScope.currentMenu.data.meals, function (value, key) {
-            //    $rootScope.currentMenu.data.meals[key].description = '';
-            //})
 
             $rootScope.currentMeal = 'B';
             if ($rootScope.currentMenu !== undefined) {
