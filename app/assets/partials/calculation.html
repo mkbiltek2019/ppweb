@@ -26,13 +26,13 @@
                         <table class="table table-bordered text-small table-condensed">
                             <tr>
                                 <td class="bg-subpanel"><strong>BMR</strong><em class="text-small text-muted"> ({{'basal metabolic rate' | translate}})</em></td>
-                                <td width=120px class="text-center"><span class="text-primary" style="font-size:24px">{{calculation.bmr | number:0}} kcal</span></td>
+                                <td width=120px class="text-center"><span class="text-primary" style="font-size:24px">{{calculation.bmr | number:0}} {{'kcal' | translate}}</span></td>
                             </tr>
                         </table>
                         <table class="table table-bordered text-small table-condensed">
                             <tr>
                                 <td class="bg-subpanel"><strong>TEE</strong><em class="text-small text-muted"> ({{'total energy expenditure' | translate}})</em></td>
-                                <td width=120px class="text-center"><span class="text-primary" style="font-size:24px">{{calculation.tee | number:0}} kcal</span></td>
+                                <td width=120px class="text-center"><span class="text-primary" style="font-size:24px">{{calculation.tee | number:0}} {{'kcal' | translate}}</span></td>
                             </tr>
                         </table>
                         <table class="table table-bordered text-small table-condensed">
@@ -41,7 +41,7 @@
                                 <td rowspan="3" style="width:120px"><div id="bmiChart" class="guage"></div></td>
                             </tr>
                             <tr class="text-center">
-                                <td ng-class="getBmiClass(calculation.bmi.value).text"><span style="font-size:24px">{{calculation.bmi.value | number:1}} kg/m&sup2</span></td>
+                                <td ng-class="getBmiClass(calculation.bmi.value).text"><span style="font-size:24px">{{calculation.bmi.value | number:1}} {{'kg' | translate}}/m&sup2</span></td>
                             </tr>
                             <tr class="text-center">
                                 <td class="text-primary"><em>{{'recommended' | translate}}: (18.5 - 25)</em></td>
@@ -90,6 +90,12 @@
                                         <span> {{calculation.waist.description | translate}}</span>
                                     </span>
                                 </td>
+                            </tr>
+                        </table>
+                        <table ng-if="calculation.lbm>0" class="table table-bordered text-small table-condensed">
+                            <tr>
+                                <td class="bg-subpanel"><strong>LBM</strong><em class="text-small text-muted"> ({{'lean body mass' | translate}})</em></td>
+                                <td width=120px class="text-center"><span class="text-primary" style="font-size:24px">{{calculation.lbm | number:0}} {{'kg' | translate}}</span></td>
                             </tr>
                         </table>
                     </div>

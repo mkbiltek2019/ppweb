@@ -60,6 +60,10 @@ public class ClientsData : System.Web.Services.WebService {
 
         public string bmrEquation;
 
+        public double bodyFat; /*** (%) ***/
+        public double lbm;     /*** LBM lean body mass ***/
+
+
         //public List<DetailEnergyExpenditure.Activity> dailyActivities = new List<DetailEnergyExpenditure.Activity>();
 
         //TODO add detailTee;

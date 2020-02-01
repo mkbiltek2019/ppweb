@@ -1873,6 +1873,9 @@
   "The original Harris–Benedict equations published in 1918 and 1919": "The original Harris–Benedict equations published in 1918 and 1919",
   "The Harris–Benedict equations revised by Roza and Shizgal in 1984": "The Harris–Benedict equations revised by Roza and Shizgal in 1984",
   "The Harris–Benedict equations revised by Mifflin and St Jeor in 1990": "The Harris–Benedict equations revised by Mifflin and St Jeor in 1990",
-  "The older equation that is generally not as accurate as the others": "The older equation that is generally not as accurate as the others"
+  "The older equation that is generally not as accurate as the others": "The older equation that is generally not as accurate as the others",
+  "The equation that takes into account lean body mass": "The equation that takes into account lean body mass",
+  "body fat": "Body fat",
+  "lean body mass": "Lean body mass"
 
 }

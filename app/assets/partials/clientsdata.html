@@ -60,7 +60,7 @@
                 <fieldset class="fieldset-border" style="padding-top:0; margin-top:0">
                     <legend class="fieldset-border text-capitalize">{{'anthropometric parameters' | translate}}</legend>
                     <div class="row">
-                        <div class="col-sm-6" style="padding:20px 20px 5px 20px">
+                        <div class="col-sm-6" style="padding:10px 20px 5px 20px">
                             <div ng-if="unitSystem==1">
                                 <table>
                                     <tr>
@@ -96,6 +96,15 @@
                                             <div class="input-group">
                                                 <input ng-model="clientData.hip" class="form-control" style="width:75px" allow-only-numbers>
                                                 <span class="input-group-addon" style="width:50px">cm</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p5 text-capitalize">{{'body fat' | translate}}:</td>
+                                        <td class="p5" colspan="2">
+                                            <div class="input-group">
+                                                <input ng-model="clientData.bodyFat" class="form-control" style="width:75px" allow-only-numbers>
+                                                <span class="input-group-addon" style="width:50px">%</span>
                                             </div>
                                         </td>
                                     </tr>

@@ -19,6 +19,7 @@ namespace Igprog {
 
         public string MifflinStJeor = "MSJ";
         public string HarrisBenedictsRozaAndShizgal = "HBRS";
+        public string KatchMcArdle = "KMA";
         public string HarrisBenedicts = "HB";
         public string Cunningham = "C";
         public string Owen = "O";
@@ -27,6 +28,7 @@ namespace Igprog {
             List<BmrEquation> x = new List<BmrEquation>();
             x.Add(new BmrEquation { code = MifflinStJeor, title = "Mifflin-St Jeor", description = "The Harris–Benedict equations revised by Mifflin and St Jeor in 1990" });
             x.Add(new BmrEquation { code = HarrisBenedictsRozaAndShizgal, title = "Harris-Benedict (Roza and Shizgal)", description = "The Harris–Benedict equations revised by Roza and Shizgal in 1984" });
+            x.Add(new BmrEquation { code = KatchMcArdle, title = "Katch-McArdle", description = "The equation that takes into account lean body mass" });
             x.Add(new BmrEquation { code = HarrisBenedicts, title = "Harris-Benedict", description = "The original Harris–Benedict equations published in 1918 and 1919" });
             //x.Add(new BmrEquation { code = Cunningham, title = "Cunningham", description = "" });
             x.Add(new BmrEquation { code = Owen, title = "Owen", description = "The older equation that is generally not as accurate as the others" });
@@ -59,6 +61,12 @@ namespace Igprog {
                 //BMR (Women) = (10 × weight in kg) + (6.25 × height in cm) − (5 × age in years) − 161
                 int a = x.gender.value == 0 ? 5 : -161;
                 BMR = 10 * x.weight + 6.25 * x.height - 5 * x.age + a;
+            } else if (type == KatchMcArdle) {
+                //TODO:
+                //        Katch-Mcardle BMR Formula:
+                //BMR = 370 + (21.6 x Lean Body Mass(kg) )
+                //Lean Body Mass = (Weight(kg) x(100-(Body Fat)))/100
+                BMR = 370 + 21.6 * Lbm(x);
             } else if (type == Cunningham) {
                 //TODO:
                 /****** Cunninghams = 500 + 22(lean body mass[LBM] in kg) ******/
@@ -76,6 +84,15 @@ namespace Igprog {
                 BMR = 10 * x.weight + 6.25 * x.height - 5 * x.age + a;
             }
             return BMR;
+        }
+
+        public double Lbm(ClientsData.NewClientData x) {
+            double lbm = 0;
+            // Lean Body Mass = (Weight(kg) x(100-(Body Fat)))/100
+            if (x.bodyFat > 0) {
+                lbm = (x.weight * (100 - (x.bodyFat))) / 100;
+            }
+            return lbm;
         }
     }
 }

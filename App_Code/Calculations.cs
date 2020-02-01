@@ -36,6 +36,8 @@ public class Calculations : System.Web.Services.WebService {
         public Goals.NewGoal goal = new Goals.NewGoal();
 
         public List<Equations.BmrEquation> bmrEquations = new List<Equations.BmrEquation>();
+
+        public double lbm;
     }
 
     public class ValueTitle {
@@ -50,7 +52,6 @@ public class Calculations : System.Web.Services.WebService {
         public double value { get; set; }
         public double min { get; set; }
         public double max { get; set; }
-
     }
 
     public class RecommenderWeight {
@@ -83,6 +84,7 @@ public class Calculations : System.Web.Services.WebService {
         x.recommendedWeight = new RecommenderWeight();
         x.goal = new Goals.NewGoal();
         x.bmrEquations = E.GetBmrEquations();
+        x.lbm = 0;
         return JsonConvert.SerializeObject(x, Formatting.None);
     }
 
@@ -99,6 +101,7 @@ public class Calculations : System.Web.Services.WebService {
         x.recommendedWeight = RecommendedWeight(client);
         x.goal = RecommendedGoal(client);
         x.bmrEquations = E.GetBmrEquations();
+        x.lbm = E.Lbm(client);
         return JsonConvert.SerializeObject(x, Formatting.None);
     }
 
