@@ -1874,6 +1874,10 @@
   "the menu is in the attachment": "Јеловник је у прилогу",
   "targeted_mass_info": "Циљана телесна маса не утјеће директно на израчун препоручене енергетске потрошње већ се само корисисти као вредност у графичком приказу код праћења антропометсијских параметара",
   "energy_value_info": "Укупна енергетска вредност јеловника укључујући и остале намирнице",
-  "bmr equation": "Метод израчуна БМР"
+  "bmr equation": "Метод израчуна БМР",
+  "The original Harris–Benedict equations published in 1918 and 1919": "Оригинална Харрис–Бенедицт једнаџба објављена 1918 и 1919",
+  "The Harris–Benedict equations revised by Roza and Shizgal in 1984": "Харрис–Бенедицт једнаџба ревидирана од Роза и Схизгал 1984",
+  "The Harris–Benedict equations revised by Mifflin and St Jeor in 1990": "Харрис–Бенедицт ревидирана од Миффлин и Ст Јеор 1990",
+  "The older equation that is generally not as accurate as the others": "Старија једнаџба која опћенито није тако точна као остале"
 
 }

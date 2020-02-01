@@ -1869,6 +1869,10 @@
   "the menu is in the attachment": "The Menu is in the Attachment",
   "targeted_mass_info": "Target body mass does not directly influence the calculation of the recommended energy consumption but is only used as a value in the graphical representation when monitoring anthropometric parameters",
   "energy_value_info": "Total energy value of the menu, including other foods",
-  "bmr equation": "BMR Equation"
+  "bmr equation": "BMR Equation",
+  "The original Harris–Benedict equations published in 1918 and 1919": "The original Harris–Benedict equations published in 1918 and 1919",
+  "The Harris–Benedict equations revised by Roza and Shizgal in 1984": "The Harris–Benedict equations revised by Roza and Shizgal in 1984",
+  "The Harris–Benedict equations revised by Mifflin and St Jeor in 1990": "The Harris–Benedict equations revised by Mifflin and St Jeor in 1990",
+  "The older equation that is generally not as accurate as the others": "The older equation that is generally not as accurate as the others"
 
 }

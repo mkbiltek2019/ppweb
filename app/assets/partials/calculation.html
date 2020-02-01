@@ -14,7 +14,11 @@
                                 <label>{{'bmr equation' | translate}}</label>
                                 <md-select ng-model="clientData.bmrEquation" ng-change="setBmrEquation(clientData.bmrEquation)">
                                     <md-option ng-value="x.code" ng-repeat="x in calculation.bmrEquations track by $index">
-                                        <md-checkbox ng-checked="x.code===clientData.bmrEquation" class="md-primary text-capitalize" aria-label="mealgroup">{{x.title | translate}} <span ng-if="x.description" class="text-primary small">(<em>{{x.description | translate}}</em>)</span></md-checkbox>
+                                        <md-checkbox ng-checked="x.code===clientData.bmrEquation" class="md-primary" aria-label="mealgroup">{{x.title | translate}} 
+                                            <span ng-if="x.description" class="text-primary small">
+                                                <br /><em>{{x.description | translate}}</em>
+                                            </span>
+                                        </md-checkbox>
                                     </md-option>
                                 </md-select>
                             </md-input-container>

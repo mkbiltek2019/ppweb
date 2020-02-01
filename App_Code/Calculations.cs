@@ -242,69 +242,6 @@ public class Calculations : System.Web.Services.WebService {
         return x;
     }
 
-    //private double Bmr_old(ClientsData.NewClientData client) {
-    //    /*********Mifflin - St.Jeor = 5 + 10(weight in kg) + 6.25(height in cm) − 5(age)***********/
-    //    int a = client.gender.value == 0 ? 5 : -161;
-    //    double BMR = 10 * client.weight + 6.25 * client.height - 5 * client.age + a;
-    //    /**************************/
-    //    return BMR;
-    //}
-
-    //private double Bmr(ClientsData.NewClientData client) {
-
-
-    //    //TODO: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5477436/
-    //    //Equations used to predict resting energy expenditure
-    //    //Harris - Benedicts = 66.47 + 13.75(weight in kg) + 5(height in cm) − 6.76(age)
-
-    //    //Mifflin - St.Jeor = 5 + 10(weight in kg) + 6.25(height in cm) − 5(age)
-
-    //    //FAO / WHO / UNU = 15.3(weight in kg) + 679
-
-    //    //ICMR = 14.5(weight in kg) + 645  << Indian
-
-    //    //Cunninghams = 500 + 22(lean body mass[LBM] in kg)
-
-    //    //Owen = 655.096 + 1.8496(height in cm) + 9.5634(weight in kg) − 4.6759(age)  <<A reappraisal of caloric requirements in healthy women.
-
-    //    //Katch - McArdle = 370 + 21.6(LBM in kg)
-
-    //    //Nelson = 25.80(fat free mass in kg) + 4.04(fat mass in kg).
-
-    //    double BMR = 0;
-    //    string type = client.bmrEquation;
-
-    //    if (type == E.HarrisBenedicts) {
-    //        /****** Harris - Benedicts = 66.47 + 13.75(weight in kg) + 5(height in cm) − 6.76(age) ******/
-    //    } else if(type== E.Mifflin) {
-    //        /****** Mifflin - St.Jeor = 5 + 10(weight in kg) + 6.25(height in cm) − 5(age) ******/
-    //        int a = client.gender.value == 0 ? 5 : -161;
-    //        BMR = 10 * client.weight + 6.25 * client.height - 5 * client.age + a;
-    //    } else if(type == E.Cunningham) {
-    //        /****** Cunninghams = 500 + 22(lean body mass[LBM] in kg) ******/
-    //    } else if (type == E.Owen) {
-    //        /****** Owen = 655.096 + 1.8496(height in cm) + 9.5634(weight in kg) − 4.6759(age) << A reappraisal of caloric requirements in healthy women. ******/
-    //        BMR = 655.096 + (1.8496 * client.height) + (9.5634 * client.weight) - (4.6759 * client.age);
-    //        //BMR = 655.096 * client.weight + 6.25 * client.height - 5 * client.age + a;
-    //    } else {
-    //        /****** DEFAULT:  Mifflin - St.Jeor = 5 + 10(weight in kg) + 6.25(height in cm) − 5(age) ******/
-    //        int a = client.gender.value == 0 ? 5 : -161;
-    //        BMR = 10 * client.weight + 6.25 * client.height - 5 * client.age + a;
-    //    }
-
-
-    //    /*********Mifflin - St.Jeor = 5 + 10(weight in kg) + 6.25(height in cm) − 5(age)***********/
-    //        //int a = client.gender.value == 0 ? 5 : -161;
-    //        //BMR = 10 * client.weight + 6.25 * client.height - 5 * client.age + a;
-    //        /**************************/
-    //        return BMR;
-
-
-    //}
-
-    //private double Bmr(ClientsData.NewClientData client) {
-    //    return E.Bmr(client);
-    //}
 
     private double Tee(ClientsData.NewClientData client) {
         if(client.dailyActivities.energy > 0 && client.dailyActivities.duration == 1440) {

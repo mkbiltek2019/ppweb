@@ -93,7 +93,7 @@ public class ClientsData : System.Web.Services.WebService {
         x.dailyActivities = new DetailEnergyExpenditure.Activities();
         x.myMeals = new MyMeals.NewMyMeals();
         x.clientNote = null;
-        x.bmrEquation = E.Mifflin;
+        x.bmrEquation = E.MifflinStJeor;
         string json = JsonConvert.SerializeObject(x, Formatting.None);
         return json;
     }
@@ -387,7 +387,7 @@ public class ClientsData : System.Web.Services.WebService {
                         DetailEnergyExpenditure.DailyActivities da = new DetailEnergyExpenditure.DailyActivities();
                         x.dailyActivities = da.getDailyActivities(userId, x.clientId);
                         x.myMeals = GetMyMeals(userId, x.clientId);
-                        x.bmrEquation = E.Mifflin; // TODO GetBmrEquation() & SaveBMREquation()
+                        x.bmrEquation = E.MifflinStJeor; // TODO GetBmrEquation() & SaveBMREquation()
                         xx.Add(x);
                     }
                 }

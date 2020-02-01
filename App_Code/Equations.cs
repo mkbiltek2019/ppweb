@@ -17,50 +17,59 @@ namespace Igprog {
             public string description;
         }
 
+        public string MifflinStJeor = "MSJ";
+        public string HarrisBenedictsRozaAndShizgal = "HBRS";
         public string HarrisBenedicts = "HB";
-        public string Mifflin = "MSJ";
         public string Cunningham = "C";
         public string Owen = "O";
 
         public List<BmrEquation> GetBmrEquations() {
             List<BmrEquation> x = new List<BmrEquation>();
-            x.Add(new BmrEquation { code = HarrisBenedicts, title = "Harris - Benedict", description = "" });
-            x.Add(new BmrEquation { code = Mifflin, title = "Mifflin - St Jeor", description = "" });
+            x.Add(new BmrEquation { code = MifflinStJeor, title = "Mifflin-St Jeor", description = "The Harris–Benedict equations revised by Mifflin and St Jeor in 1990" });
+            x.Add(new BmrEquation { code = HarrisBenedictsRozaAndShizgal, title = "Harris-Benedict (Roza and Shizgal)", description = "The Harris–Benedict equations revised by Roza and Shizgal in 1984" });
+            x.Add(new BmrEquation { code = HarrisBenedicts, title = "Harris-Benedict", description = "The original Harris–Benedict equations published in 1918 and 1919" });
             //x.Add(new BmrEquation { code = Cunningham, title = "Cunningham", description = "" });
-            x.Add(new BmrEquation { code = Owen, title = "Owen", description = "" });
+            x.Add(new BmrEquation { code = Owen, title = "Owen", description = "The older equation that is generally not as accurate as the others" });
             return x;
         }
+
+        /*********  https://completehumanperformance.com/2013/10/08/calorie-needs/  ************/
 
         public double Bmr(ClientsData.NewClientData x) {
             double BMR = 0;
             string type = x.bmrEquation;
             if (type == HarrisBenedicts) {
-                /****** Harris - Benedicts = 66.47 + 13.75(weight in kg) + 5(height in cm) − 6.76(age) ******/
-
-                //TODO:
-                //Men: RMR = 66.47 + 13.75 X weight +5.003 X height – 6.755 X age
-                //Women: RMR = 655.1 + 9.563 X weight +1.85 X height – 4.676 X age
-
-                BMR = 66.47 + 13.75 * x.weight + 5 * x.height - 6.76 * x.age;
-            } else if (type == Mifflin) {
-                /****** Mifflin - St.Jeor = 5 + 10(weight in kg) + 6.25(height in cm) − 5(age) ******/
-
+                /***** The original Harris–Benedict equations published in 1918 and 1919 *****/
+                if (x.gender.value == 0) {
+                    BMR = 66.5 + 13.75 * x.weight + 5.003 * x.height - 6.755 * x.age;  // Men
+                } else {
+                    BMR = 655.1 + 9.563 * x.weight + 1.85 * x.height - 4.676 * x.age;  // Women
+                }
+            } else if (type == HarrisBenedictsRozaAndShizgal) {
+                /***** The Harris–Benedict equations revised by Roza and Shizgal in 1984 *****/
+                //Men BMR = 88.362 + (13.397 × weight in kg) +(4.799 × height in cm) -(5.677 × age in years)
+                //Women BMR = 447.593 + (9.247 × weight in kg) +(3.098 × height in cm) -(4.330 × age in years)
+                if (x.gender.value == 0) {
+                    BMR = 88.362 + (13.397 * x.weight) + (4.799 * x.height) - (5.677 * x.age);  // Men
+                } else {
+                    BMR = 447.593 + (9.247 * x.weight) + (3.098 * x.height) - (4.330 * x.age);  // Women
+                }
+            } else if (type == MifflinStJeor) {
                 //BMR (Men) = (10 × weight in kg) +(6.25 × height in cm) − (5 × age in years) +5
                 //BMR (Women) = (10 × weight in kg) + (6.25 × height in cm) − (5 × age in years) − 161
-
                 int a = x.gender.value == 0 ? 5 : -161;
                 BMR = 10 * x.weight + 6.25 * x.height - 5 * x.age + a;
             } else if (type == Cunningham) {
+                //TODO:
                 /****** Cunninghams = 500 + 22(lean body mass[LBM] in kg) ******/
             } else if (type == Owen) {
-                /****** Owen = 655.096 + 1.8496(height in cm) + 9.5634(weight in kg) − 4.6759(age) << A reappraisal of caloric requirements in healthy women. ******/
-
-                //TODO:
                 //Men: RMR = 879 + 10.2 X weight
                 //Women: RMR = 795 + 7.18 X weight
-
-                BMR = 655.096 + 1.8496 * x.height + 9.5634 * x.weight - 4.6759 * x.age;
-                //BMR = 655.096 * client.weight + 6.25 * client.height - 5 * client.age + a;
+                if (x.gender.value == 0) {
+                    BMR = 879 + 10.2 * x.weight;  // Men
+                } else {
+                    BMR = 795 + 7.18 * x.weight;  // Women
+                }
             } else {
                 /****** DEFAULT:  Mifflin - St.Jeor = 5 + 10(weight in kg) + 6.25(height in cm) − 5(age) ******/
                 int a = x.gender.value == 0 ? 5 : -161;
