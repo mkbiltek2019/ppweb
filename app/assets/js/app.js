@@ -62,7 +62,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + 'Calculations.asmx/Init',
             method: "POST",
-            data: ''
+            data: { userType: $rootScope.user.userType }
         })
         .then(function (response) {
             $rootScope.myCalculation = JSON.parse(response.data.d);
@@ -1718,7 +1718,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + 'Calculations.asmx/GetCalculation',
             method: "POST",
-            data: { client: $rootScope.clientData }
+            data: { client: $rootScope.clientData, userType: $rootScope.user.userType }
         })
         .then(function (response) {
             $rootScope.calculation = JSON.parse(response.data.d);
@@ -2429,7 +2429,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + webService + '/GetCalculation',
             method: "POST",
-            data: { client: $rootScope.clientData }
+            data: { client: $rootScope.clientData, userType: $rootScope.user.userType }
         })
         .then(function (response) {
             $rootScope.calculation = JSON.parse(response.data.d);
@@ -2455,16 +2455,28 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 
     /*******BMR Equations*******/
+    $scope.bmrIsDisabled = false;
     $scope.setBmrEquation = function (x) {
+        debugger;
         if ($rootScope.user.licenceStatus == 'demo') {
             functions.demoAlert('this function is not available in demo version');
             return false;
         }
-        if ($rootScope.user.userType < 1) {
+        if ($rootScope.user.userType < 1 && $scope.bmrIsDisabled) {
             functions.demoAlert('this function is available only in standard and premium package');
             return false;
         }
+        if ($rootScope.user.userType == 1 && $scope.bmrIsDisabled) {
+            functions.demoAlert('this function is available only in premium package');
+            return false;
+        }
         getCalculation();
+    }
+    $scope.checkBmrEquation = function (x) {
+        $scope.bmrIsDisabled = x.isDisabled;
+        if (x.isDisabled) {
+            return false;
+        }
     }
     /*******BMR Equations*******/
 

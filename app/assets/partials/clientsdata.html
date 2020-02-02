@@ -36,7 +36,7 @@
         <div class="row">
             <div class="col-sm-4">
                 <md-input-container class="md-block" flex-gt-sm style="margin-bottom:0">
-                    <label class="text-capitalize">{{'measurement date' | translate}}</label>
+                    <label>{{'measurement date' | translate}}</label>
                     <md-datepicker ng-model="clientData.date" md-open-on-focus ng-required="true"></md-datepicker>
                 </md-input-container>
             </div>
@@ -58,13 +58,13 @@
         <div class="row">
             <div class="col-lg-7">
                 <fieldset class="fieldset-border" style="padding-top:0; margin-top:0">
-                    <legend class="fieldset-border text-capitalize">{{'anthropometric parameters' | translate}}</legend>
+                    <legend class="fieldset-border">{{'anthropometric parameters' | translate}}</legend>
                     <div class="row">
                         <div class="col-sm-6" style="padding:10px 20px 5px 20px">
                             <div ng-if="unitSystem==1">
                                 <table>
                                     <tr>
-                                        <td class="p5 text-capitalize">{{'height' | translate}}:</td>
+                                        <td class="p5">{{'height' | translate}}:</td>
                                         <td class="p5">
                                             <div class="input-group">
                                                 <input ng-model="clientData.height" class="form-control" style="width:75px" required allow-only-numbers>
@@ -73,7 +73,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="p5 text-capitalize">{{'weight' | translate}}:</td>
+                                        <td class="p5">{{'weight' | translate}}:</td>
                                         <td class="p5" colspan="2">
                                             <div class="input-group">
                                                 <input ng-model="clientData.weight" class="form-control" style="width:75px" required allow-only-numbers>
@@ -82,7 +82,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="p5 text-capitalize">{{'waist' | translate}}:</td>
+                                        <td class="p5">{{'waist' | translate}}:</td>
                                         <td class="p5" colspan="2">
                                             <div class="input-group">
                                                 <input ng-model="clientData.waist" class="form-control" style="width:75px" allow-only-numbers>
@@ -91,7 +91,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="p5 text-capitalize">{{'hip' | translate}}:</td>
+                                        <td class="p5">{{'hip' | translate}}:</td>
                                         <td class="p5" colspan="2">
                                             <div class="input-group">
                                                 <input ng-model="clientData.hip" class="form-control" style="width:75px" allow-only-numbers>
@@ -100,10 +100,10 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="p5 text-capitalize">{{'body fat' | translate}}:</td>
+                                        <td class="p5">{{'body fat' | translate}}: <span ng-if="user.userType<2" custom-popover popover-html="{{'this function is available only in premium package' | translate}}" popover-placement="bottom" popover-label=""></span></td>
                                         <td class="p5" colspan="2">
                                             <div class="input-group">
-                                                <input ng-model="clientData.bodyFat" class="form-control" style="width:75px" allow-only-numbers>
+                                                <input ng-model="clientData.bodyFat.bodyFatPerc" class="form-control" style="width:75px" allow-only-numbers ng-disabled="user.userType<2">
                                                 <span class="input-group-addon" style="width:50px">%</span>
                                             </div>
                                         </td>
@@ -113,7 +113,7 @@
                             <div ng-if="unitSystem==0">
                                 <table>
                                     <tr>
-                                        <td class="p5 text-capitalize">{{'height' | translate}}:</td>
+                                        <td class="p5">{{'height' | translate}}:</td>
                                         <td class="p5">
                                             <div class="input-group">
                                                 <select ng-model="standard.height_feet" class="form-control" ng-click="convertToMetricSystem(standard)" style="width:55px">
@@ -132,7 +132,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="p5 text-capitalize">{{'weight' | translate}}:</td>
+                                        <td class="p5">{{'weight' | translate}}:</td>
                                         <td class="p5" colspan="2">
                                             <div class="input-group">
                                                 <select ng-model="standard.weight" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:75px">
@@ -143,7 +143,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="p5 text-capitalize">{{'waist' | translate}}:</td>
+                                        <td class="p5">{{'waist' | translate}}:</td>
                                         <td class="p5" colspan="2">
                                             <div class="input-group">
                                                 <select ng-model="standard.waist" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:75px">
@@ -154,7 +154,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="p5 text-capitalize">{{'hip' | translate}}:</td>
+                                        <td class="p5">{{'hip' | translate}}:</td>
                                         <td class="p5" colspan="2">
                                             <div class="input-group">
                                                 <select ng-model="standard.hip" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:75px">
@@ -193,7 +193,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <fieldset class="fieldset-border">
-                    <legend class="fieldset-border text-capitalize">{{'physical activity level' | translate}}</legend>
+                    <legend class="fieldset-border">{{'physical activity level' | translate}}</legend>
                     <div class="row p20">
                         <div class="col-sm-12">
                             <md-radio-group ng-model="clientData.pal.value" ng-change="getPalDetails(clientData.pal.value)">
@@ -216,11 +216,11 @@
 <script type="text/ng-template" id="detailCalculationOfEnergyExpenditure">
     <div ng-controller="detailCalculationOfEnergyExpenditureCtrl" ng-cloak>
         <fieldset class="fieldset-border">
-            <legend class="fieldset-border text-capitalize" ng-click="detailCalculationOfEnergyExpenditure()">{{'detail calculation of energy expenditure' | translate}} <i class="fa fa-chevron-{{showDetailCalculationOfEnergyExpenditure==true?'up':'right'}}"></i></legend>
+            <legend class="fieldset-border" ng-click="detailCalculationOfEnergyExpenditure()">{{'detail calculation of energy expenditure' | translate}} <i class="fa fa-chevron-{{showDetailCalculationOfEnergyExpenditure==true?'up':'right'}}"></i></legend>
             <div ng-if="showDetailCalculationOfEnergyExpenditure" class="row">
                 <div class="col-sm-6">
                     <fieldset class="fieldset-border">
-                        <legend class="fieldset-border text-capitalize">{{'activity duration' | translate}}:</legend>
+                        <legend class="fieldset-border">{{'activity duration' | translate}}:</legend>
                         <div class="m10">
                             <table>
                                 <tr>
@@ -252,7 +252,7 @@
                 </div>
                 <div class="col-sm-6">
                     <fieldset class="fieldset-border">
-                        <legend class="fieldset-border text-capitalize">{{'daily activities' | translate}}:</legend>
+                        <legend class="fieldset-border">{{'daily activities' | translate}}:</legend>
                         <div class="table-responsive">
                             <table class="table table-condensed text-small">
                                 <tr>

@@ -15,6 +15,7 @@ namespace Igprog {
             public string code;
             public string title;
             public string description;
+            public bool isDisabled;
         }
 
         public string MifflinStJeor = "MSJ";
@@ -24,14 +25,26 @@ namespace Igprog {
         public string Cunningham = "C";
         public string Owen = "O";
 
-        public List<BmrEquation> GetBmrEquations() {
+        //public class Lbm {
+        //    public double val;
+        //    public string desc;
+        //}
+
+        public class BodyFat {
+            public double bodyFatPerc; /*** (%) ***/
+            public double bodyFatMass; /*** (kg) ***/
+            public double lbm;     /*** LBM lean body mass ***/
+            public string description;
+        }
+
+        public List<BmrEquation> GetBmrEquations(int userType) {
             List<BmrEquation> x = new List<BmrEquation>();
-            x.Add(new BmrEquation { code = MifflinStJeor, title = "Mifflin-St Jeor", description = "The Harris–Benedict equations revised by Mifflin and St Jeor in 1990" });
-            x.Add(new BmrEquation { code = HarrisBenedictsRozaAndShizgal, title = "Harris-Benedict (Roza and Shizgal)", description = "The Harris–Benedict equations revised by Roza and Shizgal in 1984" });
-            x.Add(new BmrEquation { code = KatchMcArdle, title = "Katch-McArdle", description = "The equation that takes into account lean body mass" });
-            x.Add(new BmrEquation { code = HarrisBenedicts, title = "Harris-Benedict", description = "The original Harris–Benedict equations published in 1918 and 1919" });
-            //x.Add(new BmrEquation { code = Cunningham, title = "Cunningham", description = "" });
-            x.Add(new BmrEquation { code = Owen, title = "Owen", description = "The older equation that is generally not as accurate as the others" });
+            x.Add(new BmrEquation { code = MifflinStJeor, title = "Mifflin-St Jeor", description = "The Harris–Benedict equations revised by Mifflin and St Jeor in 1990", isDisabled = IsDisabled(MifflinStJeor, userType) });
+            x.Add(new BmrEquation { code = HarrisBenedictsRozaAndShizgal, title = "Harris-Benedict (Roza and Shizgal)", description = "The Harris–Benedict equations revised by Roza and Shizgal in 1984", isDisabled = IsDisabled(HarrisBenedictsRozaAndShizgal, userType) });
+            x.Add(new BmrEquation { code = KatchMcArdle, title = "Katch-McArdle", description = "The equation that takes into account lean body mass", isDisabled = IsDisabled(KatchMcArdle, userType) });
+            x.Add(new BmrEquation { code = HarrisBenedicts, title = "Harris-Benedict", description = "The original Harris–Benedict equations published in 1918 and 1919", isDisabled = IsDisabled(HarrisBenedicts, userType) });
+            //x.Add(new BmrEquation { code = Cunningham, title = "Cunningham", description = "", isDisabled = IsDisabled(Cunningham, userType) });
+            x.Add(new BmrEquation { code = Owen, title = "Owen", description = "The older equation that is generally not as accurate as the others", isDisabled = IsDisabled(Owen, userType) });
             return x;
         }
 
@@ -66,7 +79,7 @@ namespace Igprog {
                 //        Katch-Mcardle BMR Formula:
                 //BMR = 370 + (21.6 x Lean Body Mass(kg) )
                 //Lean Body Mass = (Weight(kg) x(100-(Body Fat)))/100
-                BMR = 370 + 21.6 * Lbm(x);
+                BMR = 370 + 21.6 * GetBodyFat(x).lbm;
             } else if (type == Cunningham) {
                 //TODO:
                 /****** Cunninghams = 500 + 22(lean body mass[LBM] in kg) ******/
@@ -86,13 +99,81 @@ namespace Igprog {
             return BMR;
         }
 
-        public double Lbm(ClientsData.NewClientData x) {
-            double lbm = 0;
+        /***** Lean Body Mass *****/
+        public BodyFat GetBodyFat(ClientsData.NewClientData x) {
+            BodyFat bf = new BodyFat();
             // Lean Body Mass = (Weight(kg) x(100-(Body Fat)))/100
-            if (x.bodyFat > 0) {
-                lbm = (x.weight * (100 - (x.bodyFat))) / 100;
+            if (x.bodyFat.bodyFatPerc > 0) {
+                bf.lbm = (x.weight * (100 - (x.bodyFat.bodyFatPerc))) / 100;
+                bf.bodyFatMass = x.weight - bf.lbm;
+                bf.bodyFatPerc = x.bodyFat.bodyFatPerc;
+                bf.description = GetLmbDesc(x);
             }
-            return lbm;
+            return bf;
+        }
+
+        public string GetLmbDesc(ClientsData.NewClientData x) {
+
+            /***** http://www.linear-software.com/online.html *****/
+            //            Body Fat Chart
+            //Classification  Women Men
+            //Essential Fat   10 - 12 % 2 - 4 %
+            //Athletes    14 - 20 % 6 - 13 %
+            //Fitness 21 - 24 % 14 - 17 %
+            //Acceptable  25 - 31 % 18 - 25 %
+            //Obese   32 % plus    25 % plus
+            string desc = null;
+            double val = x.bodyFat.bodyFatPerc;
+            if (x.gender.value == 0) {
+                if (val >= 2 && val < 6) {
+                    desc = "essential fat";
+                }
+                if (val >= 6 && val < 14) {
+                    desc = "athletes";
+                }
+                if (val >= 14 && val < 18) {
+                    desc = "ftness";
+                }
+                if (val >= 18 && val < 25) {
+                    desc = "acceptable";
+                }
+                if (val >= 25) {
+                    desc = "obese";
+                }
+            } else {
+                if (val >= 10 && val < 14) {
+                    desc = "essential fat";
+                }
+                if (val >= 14 && val < 21) {
+                    desc = "athletes";
+                }
+                if (val >= 21 && val < 25) {
+                    desc = "ftness";
+                }
+                if (val >= 25 && val < 32) {
+                    desc = "acceptable";
+                }
+                if (val >= 32) {
+                    desc = "Obese";
+                }
+            }
+            return desc;
+        }
+
+        public bool IsDisabled(string code, int userType) {
+            bool x = true;
+            if (userType < 1) {
+                if (code == MifflinStJeor) {
+                    x = false;
+                }
+            } else if (userType == 1) {
+                if (code == MifflinStJeor || code == HarrisBenedictsRozaAndShizgal || code == HarrisBenedicts) {
+                    x = false;
+                }
+            } else {
+                x = false;
+            }
+            return x;
         }
     }
 }

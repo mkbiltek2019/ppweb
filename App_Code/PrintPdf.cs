@@ -1669,24 +1669,29 @@ IBAN HR8423400091160342496
 
     private string AppendClientInfo(ClientsData.NewClientData clientData, string lang) {
         string c = string.Format(@"
-{0}: {1}
-{2}: {3}
-{4}: {5} cm
-{6}: {7} kg
-{8}: {9} cm
-{10}: {11} cm
+        {0}: {1}
+        {2}: {3}
+        {4}: {5} cm
+        {6}: {7} kg
+        {8}: {9} cm
+        {10}: {11} cm
+        {12}
 
-{12}: {13} ({14})
+        {13}: {14} ({15})
 
-{15}"
+        {16}"
             , t.Tran("gender", lang), t.Tran(clientData.gender.title, lang)
             , t.Tran("age", lang), clientData.age
             , t.Tran("height", lang), clientData.height
             , t.Tran("weight", lang), clientData.weight
             , t.Tran("waist", lang), clientData.waist == 0 ? "---" : clientData.waist.ToString()
             , t.Tran("hip", lang), clientData.hip == 0 ? "---" : clientData.hip.ToString()
+            , clientData.bodyFat.bodyFatPerc > 0 ? string.Format("{0}: {1} %", t.Tran("body fat", lang), clientData.bodyFat.ToString()) : ""
             , t.Tran("physical activity level", lang), t.Tran(clientData.pal.title, lang), t.Tran(clientData.pal.description, lang)
-            , !string.IsNullOrWhiteSpace(clientData.clientNote) ? string.Format("{0}: {1}", t.Tran("note", lang), clientData.clientNote) : "" );
+            , !string.IsNullOrWhiteSpace(clientData.clientNote) ? string.Format("{0}: {1}", t.Tran("note", lang), clientData.clientNote) : "");
+
+        
+
         return c;
     }
     #endregion Methods

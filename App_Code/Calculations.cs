@@ -37,7 +37,7 @@ public class Calculations : System.Web.Services.WebService {
 
         public List<Equations.BmrEquation> bmrEquations = new List<Equations.BmrEquation>();
 
-        public double lbm;
+        public Equations.BodyFat bodyFat;
     }
 
     public class ValueTitle {
@@ -72,7 +72,7 @@ public class Calculations : System.Web.Services.WebService {
 
     #region WebMethods
     [WebMethod]
-    public string Init() {
+    public string Init(int userType) {
         NewCalculation x = new NewCalculation();
         x.bmi = new ValueTitle();
         x.whr = new WaistHip();
@@ -83,13 +83,13 @@ public class Calculations : System.Web.Services.WebService {
         x.recommendedEnergyExpenditure = 0;
         x.recommendedWeight = new RecommenderWeight();
         x.goal = new Goals.NewGoal();
-        x.bmrEquations = E.GetBmrEquations();
-        x.lbm = 0;
+        x.bmrEquations = E.GetBmrEquations(userType);
+        x.bodyFat = new Equations.BodyFat();
         return JsonConvert.SerializeObject(x, Formatting.None);
     }
 
     [WebMethod]
-    public string GetCalculation(ClientsData.NewClientData client) {
+    public string GetCalculation(ClientsData.NewClientData client, int userType) {
         NewCalculation x = new NewCalculation();
         x.bmi = Bmi(client);
         x.whr = Whr(client);
@@ -100,8 +100,8 @@ public class Calculations : System.Web.Services.WebService {
         x.recommendedEnergyExpenditure = RecommendedEnergyExpenditure(client);
         x.recommendedWeight = RecommendedWeight(client);
         x.goal = RecommendedGoal(client);
-        x.bmrEquations = E.GetBmrEquations();
-        x.lbm = E.Lbm(client);
+        x.bmrEquations = E.GetBmrEquations(userType);
+        x.bodyFat = E.GetBodyFat(client);
         return JsonConvert.SerializeObject(x, Formatting.None);
     }
 

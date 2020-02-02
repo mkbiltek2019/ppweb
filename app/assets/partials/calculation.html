@@ -12,11 +12,12 @@
                         <div class="mt10">
                             <md-input-container class="md-block" flex-gt-xs style="margin-top:0px">
                                 <label>{{'bmr equation' | translate}}</label>
-                                <md-select ng-model="clientData.bmrEquation" ng-change="setBmrEquation(clientData.bmrEquation)">
-                                    <md-option ng-value="x.code" ng-repeat="x in calculation.bmrEquations track by $index">
-                                        <md-checkbox ng-checked="x.code===clientData.bmrEquation" class="md-primary" aria-label="mealgroup">{{x.title | translate}} 
-                                            <span ng-if="x.description" class="text-primary small">
-                                                <br /><em>{{x.description | translate}}</em>
+                                <md-select ng-model="clientData.bmrEquation" ng-change="setBmrEquation()">
+                                    <md-option ng-value="x.code" ng-repeat="x in calculation.bmrEquations track by $index" ng-click="checkBmrEquation(x)">
+                                        <md-checkbox ng-checked="x.code===clientData.bmrEquation" class="md-primary" aria-label="mealgroup" >
+                                            <span class="{{x.isDisabled?'text-muted':''}}">{{x.title | translate}}</span> 
+                                            <span ng-if="x.description" >
+                                                <br /><em class="{{x.isDisabled?'text-muted small':'text-primary small'}}">{{x.description | translate}}</em>
                                             </span>
                                         </md-checkbox>
                                     </md-option>
@@ -92,10 +93,36 @@
                                 </td>
                             </tr>
                         </table>
-                        <table ng-if="calculation.lbm>0" class="table table-bordered text-small table-condensed">
+                        <table ng-if="calculation.bodyFat.bodyFatPerc>0" class="table table-bordered text-small table-condensed">
                             <tr>
-                                <td class="bg-subpanel"><strong>LBM</strong><em class="text-small text-muted"> ({{'lean body mass' | translate}})</em></td>
-                                <td width=120px class="text-center"><span class="text-primary" style="font-size:24px">{{calculation.lbm | number:0}} {{'kg' | translate}}</span></td>
+                                <td class="bg-subpanel"><strong>BF</strong><em class="text-small text-muted"> ({{'body fat' | translate}})</em>
+                                </td>
+                                <td width=120px class="text-center"><span class="text-primary" style="font-size:24px">
+                                    {{calculation.bodyFat.bodyFatPerc | number:0}} %</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="bg-subpanel">
+                                    <strong>{{'Lbs/Kgs of Body Fat' | translate}}</strong><em class="text-small text-muted"> </em>
+                                </td>
+                                <td width=120px class="text-center">
+                                    <span class="text-primary" style="font-size:24px">
+                                        {{calculation.bodyFat.bodyFatMass | number:0}} {{'kg' | translate}}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="bg-subpanel">
+                                    <strong>LBM</strong><em class="text-small text-muted"> ({{'lean body mass' | translate}})</em>
+                                    <div class="text-uppercase">
+                                        <strong> {{calculation.bodyFat.description | translate}}</strong>
+                                    </div>
+                                </td>
+                                <td width=120px class="text-center">
+                                    <span class="text-primary" style="font-size:24px">
+                                        {{calculation.bodyFat.lbm | number:0}} {{'kg' | translate}}
+                                    </span>
+                                </td>
                             </tr>
                         </table>
                     </div>
