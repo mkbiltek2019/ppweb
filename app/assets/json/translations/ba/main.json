@@ -1887,6 +1887,9 @@
   "The equation that takes into account lean body mass": "Jednadžba koja uzima u obzir nemasnu masu",
   "body fat": "Masno tkivo",
   "lean body mass": "Nemasna masa",
-  "body fat is required": "Masno tkivo je obavezno"
+  "body fat is required": "Masno tkivo je obavezno",
+  "body fat calculator": "Kalkulator masnog tkiva",
+  "calculate": "Izračunaj",
+  "confirm": "Potvrdi"
 
 }

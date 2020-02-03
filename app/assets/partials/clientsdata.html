@@ -60,7 +60,7 @@
                 <fieldset class="fieldset-border" style="padding-top:0; margin-top:0">
                     <legend class="fieldset-border">{{'anthropometric parameters' | translate}}</legend>
                     <div class="row">
-                        <div class="col-sm-6" style="padding:10px 20px 5px 20px">
+                        <div class="col-sm-6" style="padding:20px 20px 5px 20px">
                             <div ng-if="unitSystem==1">
                                 <table>
                                     <tr>
@@ -99,7 +99,7 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr>
+                                    <!--<tr>
                                         <td class="p5">{{'body fat' | translate}}: <span ng-if="user.userType<2" custom-popover popover-html="{{'this function is available only in premium package' | translate}}" popover-placement="bottom" popover-label=""></span></td>
                                         <td class="p5" colspan="2">
                                             <div class="input-group">
@@ -107,7 +107,7 @@
                                                 <span class="input-group-addon" style="width:50px">%</span>
                                             </div>
                                         </td>
-                                    </tr>
+                                    </tr>-->
                                 </table>
                             </div>
                             <div ng-if="unitSystem==0">
@@ -164,7 +164,7 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr>
+                                    <!--<tr>
                                         <td class="p5">{{'body fat' | translate}}: <span ng-if="user.userType<2" custom-popover popover-html="{{'this function is available only in premium package' | translate}}" popover-placement="bottom" popover-label=""></span></td>
                                         <td class="p5" colspan="2">
                                             <div class="input-group">
@@ -172,12 +172,27 @@
                                                 <span class="input-group-addon" style="width:50px">%</span>
                                             </div>
                                         </td>
-                                    </tr>
+                                    </tr>-->
                                 </table>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <ng-include src="'humanSvg'"></ng-include>
+                        </div>
+                        <div class="col-sm-12">
+                            <hr />
+                            <table>
+                                <tr>
+                                    <td class="p5">{{'body fat' | translate}}: <span ng-if="user.userType<2" custom-popover popover-html="{{'this function is available only in premium package' | translate}}" popover-placement="bottom" popover-label=""></span></td>
+                                    <td class="p5">
+                                        <div class="input-group">
+                                            <input ng-model="clientData.bodyFat.bodyFatPerc" class="form-control" style="width:75px" allow-only-numbers ng-disabled="user.userType<2">
+                                            <span class="input-group-addon" style="width:50px">%</span>
+                                        </div>
+                                    </td>
+                                    <td><button class="btn btn-default" ng-click="bodyFatPopup(clientData)"><i class="fa fa-calculator"></i> {{'body fat calculator' | translate}}</button></td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </fieldset>

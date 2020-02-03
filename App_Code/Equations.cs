@@ -25,11 +25,6 @@ namespace Igprog {
         public string Cunningham = "C";
         public string Owen = "O";
 
-        //public class Lbm {
-        //    public double val;
-        //    public string desc;
-        //}
-
         public class BodyFat {
             public double bodyFatPerc; /*** (%) ***/
             public double bodyFatMass; /*** (kg) ***/
@@ -132,7 +127,7 @@ namespace Igprog {
                     desc = "athletes";
                 }
                 if (val >= 14 && val < 18) {
-                    desc = "ftness";
+                    desc = "fit";
                 }
                 if (val >= 18 && val < 25) {
                     desc = "acceptable";
@@ -148,7 +143,7 @@ namespace Igprog {
                     desc = "athletes";
                 }
                 if (val >= 21 && val < 25) {
-                    desc = "ftness";
+                    desc = "fit";
                 }
                 if (val >= 25 && val < 32) {
                     desc = "acceptable";
@@ -175,5 +170,140 @@ namespace Igprog {
             }
             return x;
         }
+
+
+        #region BodyFatCalculator
+
+        //Jackson/Pollock 3 Caliper Method
+        public class CaliperMeasurement {
+            public string code;
+            public string title;
+            public string description;
+            public double value;
+            public bool isSelected;
+        }
+
+        public class CaliperMethod {
+            public string code;
+            public string title;
+            public string description;
+            public List<CaliperMeasurement> measurements;
+        }
+
+        public class CaliperData {
+            public CaliperMethod data;
+            public List<CaliperMethod> methods;
+        }
+
+        public string Chest = "CH";
+        public string Abdominal = "AB";
+        public string Thigh = "TH";
+        public string Tricep = "TR";
+        public string Subscapular = "SUB";
+        public string Suprailiac = "SU";
+        public string Midaxillary = "MI";
+
+        //TODO: CalipherMethods
+        public string JacksonPollock3 = "JP3"; // Jackson/Pollock 3 Caliper Method
+        public string JacksonPollock4 = "JP4"; // Jackson/Pollock 4 Caliper Method
+        public string JacksonPollock7 = "JP7"; // Jackson/Pollock 7 Caliper Method
+
+        public CaliperData InitCaliperMeasurements(int gender) {
+            CaliperData x = new CaliperData();
+            x.methods = GetCaliperMethods(gender);
+            x.data = x.methods[0];  // Jackson/Pollock 3 Caliper Method
+            return x;
+        }
+
+        public List<CaliperMethod> GetCaliperMethods(int gender) {
+            List<CaliperMethod> x = new List<CaliperMethod>();
+            x.Add(GetCaliperMeasurements(JacksonPollock3, "Jackson/Pollock 3 Caliper Method", null, gender));
+            x.Add(GetCaliperMeasurements(JacksonPollock4, "Jackson/Pollock 4 Caliper Method", null, gender));
+            x.Add(GetCaliperMeasurements(JacksonPollock7, "Jackson/Pollock 7 Caliper Method", null, gender));
+            return x;
+        }
+
+        public CaliperMethod GetCaliperMeasurements(string code, string title, string description, int gender) {
+            CaliperMethod x = new CaliperMethod();
+            x.code = code;
+            x.title = title;
+            x.description = description;
+            x.measurements = new List<CaliperMeasurement>();
+            x.measurements.Add(new CaliperMeasurement { code = Chest, title = "Chest", description = "", value = 0, isSelected = CheckCaliperMethod(code, Chest, gender) });
+            x.measurements.Add(new CaliperMeasurement { code = Abdominal, title = "Abdominal", description = "", value = 0, isSelected = CheckCaliperMethod(code, Abdominal, gender) });
+            x.measurements.Add(new CaliperMeasurement { code = Thigh, title = "Thigh", description = "", value = 0, isSelected = CheckCaliperMethod(code, Thigh, gender) });
+            x.measurements.Add(new CaliperMeasurement { code = Tricep, title = "Tricep", description = "", value = 0, isSelected = CheckCaliperMethod(code, Tricep, gender) });
+            x.measurements.Add(new CaliperMeasurement { code = Subscapular, title = "Subscapular", description = "", value = 0, isSelected = CheckCaliperMethod(code, Subscapular, gender) });
+            x.measurements.Add(new CaliperMeasurement { code = Suprailiac, title = "Suprailiac", description = "", value = 0, isSelected = CheckCaliperMethod(code, Suprailiac, gender) });
+            x.measurements.Add(new CaliperMeasurement { code = Midaxillary, title = "Midaxillary", description = "", value = 0, isSelected = CheckCaliperMethod(code, Midaxillary, gender) });
+            return x;
+        }
+
+        public bool CheckCaliperMethod(string method, string measure, int gender) {
+            bool x = false;
+            if (method == JacksonPollock3) {
+                if (gender == 0) {
+                    if (measure == Chest || measure == Abdominal || measure == Thigh) {
+                        x = true;
+                    }
+                } else {
+                    if (measure == Thigh || measure == Tricep || measure == Suprailiac) {
+                        x = true;
+                    }
+                }
+            }
+            if (method == JacksonPollock4) {
+                if (measure == Abdominal || measure == Thigh || measure == Tricep || measure == Suprailiac) {
+                    x = true;
+                }
+            }
+            if (method == JacksonPollock7) {
+                if (measure == Chest || measure == Abdominal || measure == Thigh || measure == Tricep || measure == Subscapular || measure == Suprailiac || measure == Midaxillary) {
+                    x = true;
+                }
+            }
+            return x;
+        }
+
+        public double CaliperCalculate(CaliperMethod data, ClientsData.NewClientData clientData) {
+            double x = 0;
+            double skinfolds = data.measurements.Where(a => a.isSelected == true).Sum(a => a.value);
+            double bodyDensity = 0;
+
+            if (data.code == JacksonPollock3) {
+                if (clientData.gender.value == 0) {
+                    //Body Density = 1.10938 – (0.0008267 x sum of skinfolds) +(0.0000016 x square of the sum of skinfolds) – (0.0002574 x age)
+                    bodyDensity = 1.10938 - (0.0008267 * skinfolds) + (0.0000016 * skinfolds * skinfolds) - (0.0002574 * clientData.age);
+                } else {
+                    //Body Density = 1.0994921 – (0.0009929 x sum of skinfolds) +(0.0000023 x square of the sum of skinfolds) – (0.0001392 x age)
+                    bodyDensity = 1.0994921 - (0.0009929 * skinfolds) + (0.0000023 * skinfolds * skinfolds) - (0.0001392 * clientData.age);
+                }
+                x = (495 / bodyDensity) - 450;
+            }
+            if (data.code == JacksonPollock4) {
+                if (clientData.gender.value == 0) {
+                    //Body Density = (0.29288 x sum of skinfolds) – (0.0005 x square of the sum of skinfolds) + (0.15845 x age) – 5.76377
+                    x = (0.29288 * skinfolds) - (0.0005 * skinfolds * skinfolds) + (0.15845 * clientData.age) - 5.76377;
+                } else {
+                    //Body Density = (0.29669 x sum of skinfolds) – (0.00043 x square of the sum of skinfolds) + (0.02963 x age) + 1.4072
+                    x = (0.29669 * skinfolds) - (0.00043 * skinfolds * skinfolds) + (0.02963 * clientData.age) + 1.4072;
+                }
+            }
+            if (data.code == JacksonPollock7) {
+                if (clientData.gender.value == 0) {
+                    //Body Density = 1.112 – (0.00043499 x sum of skinfolds) + (0.00000055 x square of the sum of skinfold sites) – (0.00028826 x age)
+                    bodyDensity = 1.112 - (0.00043499 * skinfolds) + (0.00000055 * skinfolds * skinfolds) - (0.00028826 * clientData.age);
+                } else {
+                    //Body Density = 1.097 – (0.00046971 x sum of skinfolds) + (0.00000056 x square of the sum of skinfold sites) – (0.00012828 x age)
+                    bodyDensity = 1.097 - (0.00046971 * skinfolds) + (0.00000056 * skinfolds * skinfolds) - (0.00012828 * clientData.age);
+                }
+                x = (495 / bodyDensity) - 450;
+            }
+            return Math.Round(x, 1);
+
+        }
+        #endregion BodyFatCalculator
+
+
     }
 }

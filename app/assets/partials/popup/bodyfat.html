@@ -1,0 +1,59 @@
+﻿<md-dialog flex>
+    <form ng-cloak>
+        <md-toolbar class="main-background">
+            <div class="md-toolbar-tools">
+                <h2 class="text-capitalize">{{'body fat calculator' | translate}}</h2>
+                <span flex></span>
+                <a href="" class="btn btn-primary" ng-click="cancel()" title="{{'close' | translate}}">x</a>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="mt10">
+                            <md-input-container class="md-block" flex-gt-xs style="margin-top:0px">
+                                <label>{{'method' | translate}}</label>
+                                <md-select ng-model="method">
+                                    <md-option ng-value="x.code" ng-repeat="x in d.methods track by $index" ng-click="setMethod(x)">
+                                        <md-checkbox ng-checked="x.code===d.data.code" class="md-primary" aria-label="bodyfat">
+                                            <span>{{x.title | translate}}</span>
+                                            <span ng-if="x.description">
+                                                <br />{{x.description | translate}}
+                                            </span>
+                                        </md-checkbox>
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                        <div ng-if="d.description" class="text-primary">
+                            <em>{{d.description | translate}}</em>
+                        </div>
+                        <table>
+                            <tr ng-repeat="x in d.data.measurements | filter:{isSelected:true}">
+                                <td class="p5">{{x.title | translate}}:</td>
+                                <td class="p5">
+                                    <div class="input-group">
+                                        <input ng-model="x.value" class="form-control" style="width:75px" allow-only-numbers>
+                                        <span class="input-group-addon" style="width:50px">mm</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <hr />
+                        <div class="text-right">
+                            <button class="btn btn-default" ng-click="calculate(d.data)"><i class="fa fa-calculator"></i> {{'calculate' | translate}}</button>
+                        </div>
+                        <div ng-if="bodyMass>0" class="text-primary" style="font-size:24px">
+                            <label>{{'body fat' | translate}}: {{bodyMass}} %</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <button class="btn btn-default" ng-click="confirm(bodyMass)"><i class="fa fa-check"></i> {{'confirm' | translate}}</button>
+                </div>
+                <json-directive data="d.data" desc="'d.data'"></json-directive>
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>

@@ -130,8 +130,6 @@ public class Calculations : System.Web.Services.WebService {
         } catch (Exception e) { return ("Error: " + e); }
     }
 
-   
-
     [WebMethod]
     public string GetPalDetails(double palValue) {
         try {
@@ -140,6 +138,21 @@ public class Calculations : System.Web.Services.WebService {
             string json = JsonConvert.SerializeObject(x, Formatting.None);
             return json;
         } catch (Exception e) { return ("Error: " + e); }
+    }
+
+    [WebMethod]
+    public string InitCaliperMeasurements(string method, int gender) {
+        try {
+            return JsonConvert.SerializeObject(E.InitCaliperMeasurements(gender), Formatting.None);
+        } catch (Exception e) { return ("Error: " + e); }
+    }
+
+    [WebMethod]
+    public string CaliperCalculate(Equations.CaliperMethod data, ClientsData.NewClientData clientData) {
+        try {
+            return JsonConvert.SerializeObject(E.CaliperCalculate(data, clientData), Formatting.None);
+        }
+        catch (Exception e) { return ("Error: " + e); }
     }
 
     #endregion

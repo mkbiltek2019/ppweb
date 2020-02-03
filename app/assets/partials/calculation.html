@@ -14,9 +14,9 @@
                                 <label>{{'bmr equation' | translate}}</label>
                                 <md-select ng-model="clientData.bmrEquation" ng-change="setBmrEquation(clientData.bmrEquation)">
                                     <md-option ng-value="x.code" ng-repeat="x in calculation.bmrEquations track by $index" ng-click="checkBmrEquation(x)">
-                                        <md-checkbox ng-checked="x.code===clientData.bmrEquation" class="md-primary" aria-label="mealgroup" >
-                                            <span class="{{x.isDisabled?'text-muted':''}}">{{x.title | translate}}</span> 
-                                            <span ng-if="x.description" >
+                                        <md-checkbox ng-checked="x.code===clientData.bmrEquation" class="md-primary" aria-label="bmr">
+                                            <span class="{{x.isDisabled?'text-muted':''}}">{{x.title | translate}}</span>
+                                            <span ng-if="x.description">
                                                 <br /><em class="{{x.isDisabled?'text-muted small':'text-primary small'}}">{{x.description | translate}}</em>
                                             </span>
                                         </md-checkbox>
@@ -93,29 +93,30 @@
                                 </td>
                             </tr>
                         </table>
+
                         <table ng-if="calculation.bodyFat.bodyFatPerc>0" class="table table-bordered text-small table-condensed">
                             <tr>
                                 <td class="bg-subpanel">
                                     <strong>BF</strong><em class="text-small text-muted"> ({{'body fat' | translate}})</em>
-                                    <div class="text-uppercase">
-                                        <strong> {{calculation.bodyFat.description | translate}}</strong>
-                                    </div>
                                 </td>
-                                <td width=120px class="text-center text-primary" style="font-size:24px">
-                                    <span>{{calculation.bodyFat.bodyFatPerc | number:1}} %</span>
+                                <td rowspan="3" style="width:120px"><div id="bfChart" class="guage"></div></td>
+                            </tr>
+                            <tr class="text-center">
+                                <td>
+                                    <span style="font-size:24px">{{calculation.bodyFat.bodyFatPerc | number:1}} %</span>
                                     <div>
-                                        (<em>{{calculation.bodyFat.bodyFatMass | number:1}} {{'kg' | translate}}</em>)
+                                        <em>({{calculation.bodyFat.bodyFatMass | number:1}} {{'kg' | translate}})</em>
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
-                                <td class="bg-subpanel">
-                                    <strong>LBM</strong><em class="text-small text-muted"> ({{'lean body mass' | translate}})</em>
+                            <tr class="text-center">
+                                <td class="text-primary"><em><strong>LBM</strong><em class="text-small text-muted"> ({{'lean body mass' | translate}})</em>:
+                                     {{calculation.bodyFat.lbm | number:0}} {{'kg' | translate}}</em>
                                 </td>
-                                <td width=120px class="text-center text-primary">
-                                    <span style="font-size:24px">
-                                        {{calculation.bodyFat.lbm | number:0}} {{'kg' | translate}}
-                                    </span>
+                            </tr>
+                            <tr>
+                                <td colspan="2" >
+                                    <strong class="text-uppercase"> {{calculation.bodyFat.description | translate}}</strong>
                                 </td>
                             </tr>
                         </table>

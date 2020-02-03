@@ -1,6 +1,6 @@
 ﻿/*!
 app.js
-(c) 2017-2019 IG PROG, www.igprog.hr
+(c) 2017-2020 IG PROG, www.igprog.hr
 */
 angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'chart.js', 'ngStorage', 'functions', 'charts'])
 
@@ -1994,6 +1994,71 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     }
 
+    $scope.bodyFatPopup = function (x) {
+        debugger
+        $mdDialog.show({
+            controller: $scope.bodyFatPopupCtrl,
+            templateUrl: 'assets/partials/popup/bodyfat.html',
+            parent: angular.element(document.body),
+            targetEvent: '',
+            clickOutsideToClose: true,
+            fullscreen: $scope.customFullscreen, // Only for -xs, -sm breakpoints.
+            d: { clientData: x }
+        })
+      .then(function (response) {
+          debugger;
+          $rootScope.clientData.bodyFat.bodyFatPerc = response;
+      }, function () {
+      });
+    };
+
+    $scope.bodyFatPopupCtrl = function ($scope, $mdDialog, d, $http) {
+        var clientData = d.clientData;
+        $scope.d = null;
+        $scope.bodyMass = 0;
+        $scope.method = 'JP3';
+        debugger;
+
+        //TODO: methods
+        var method = 'Jackson/Pollock 3 Caliper Method';
+
+        var init = function () {
+            $http({
+                url: $sessionStorage.config.backend + 'Calculations.asmx/InitCaliperMeasurements',
+                method: "POST",
+                data: { method: method, gender: clientData.gender.value }
+            })
+            .then(function (response) {
+                $scope.d = JSON.parse(response.data.d);
+            });
+        }
+        init();
+
+        $scope.calculate = function (x) {
+            debugger;
+            $http({
+                url: $sessionStorage.config.backend + 'Calculations.asmx/CaliperCalculate',
+                method: "POST",
+                data: { data: x, clientData: clientData }
+            })
+            .then(function (response) {
+                $scope.bodyMass = JSON.parse(response.data.d);
+            });
+        }
+
+        $scope.setMethod = function (x) {
+            $scope.d.data = x;
+        }
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+
+        $scope.confirm = function (x) {
+            $mdDialog.hide(x);
+        }
+    };
+
 }])
 
 .controller('detailCalculationOfEnergyExpenditureCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', '$timeout', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate, $timeout) {
@@ -2181,6 +2246,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             bmiChart();
             whrChart();
             waistChart();
+            bfChart();
         }, 1000);
     }
 
@@ -2241,6 +2307,27 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             yellowTo: highRisk,
             redFrom: highRisk,
             redTo: 140,
+            minorTicks: 5
+        };
+        google.charts.setOnLoadCallback(charts.guageChart(id, value, unit, options));
+    }
+
+    var bfChart = function () {
+        var id = 'bfChart';
+        var value = $rootScope.calculation.bodyFat.bodyFatPerc.toFixed(1);
+        var unit = '%';
+        var gender = $rootScope.client.gender.value;
+        debugger;
+        var options = {
+            title: '%',
+            min: 0,
+            max: 60,
+            greenFrom: gender == 0 ? 6 : 14,
+            greenTo: gender == 0 ? 18 : 25,
+            yellowFrom: gender == 0 ? 18 : 25,
+            yellowTo: gender == 0 ? 25 : 32,
+            redFrom: gender == 0 ? 25 : 32,
+            redTo: 60,
             minorTicks: 5
         };
         google.charts.setOnLoadCallback(charts.guageChart(id, value, unit, options));
