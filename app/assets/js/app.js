@@ -2426,6 +2426,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var getCalculation = function () {
+        if ($rootScope.clientData.bmrEquation === 'KMA' && $rootScope.clientData.bodyFat.bodyFatPerc == 0) {
+            $rootScope.clientData.bmrEquation = 'MSJ';  /*** MifflinStJeor ***/
+        }
         $http({
             url: $sessionStorage.config.backend + webService + '/GetCalculation',
             method: "POST",
@@ -2451,10 +2454,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             }
         });
     };
-    getCalculation();
-
 
     /*******BMR Equations*******/
+    if ($rootScope.clientData.bodyFat.bodyFatPerc !== 0) {
+        $rootScope.clientData.bmrEquation = 'KMA'; /*** KatchMcArdle ***/
+    }
     $scope.bmrIsDisabled = false;
     $scope.setBmrEquation = function (x) {
         debugger;
@@ -2470,6 +2474,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             functions.demoAlert('this function is available only in premium package');
             return false;
         }
+        if (x === 'KMA' && $rootScope.clientData.bodyFat.bodyFatPerc == 0) {
+            functions.alert($translate.instant('body fat is required'), '');
+            $rootScope.newTpl = './assets/partials/clientsdata.html';
+            return false;
+        }
         getCalculation();
     }
     $scope.checkBmrEquation = function (x) {
@@ -2479,6 +2488,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     }
     /*******BMR Equations*******/
+
+    getCalculation();
 
 }])
 

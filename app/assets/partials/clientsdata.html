@@ -164,6 +164,15 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td class="p5">{{'body fat' | translate}}: <span ng-if="user.userType<2" custom-popover popover-html="{{'this function is available only in premium package' | translate}}" popover-placement="bottom" popover-label=""></span></td>
+                                        <td class="p5" colspan="2">
+                                            <div class="input-group">
+                                                <input ng-model="clientData.bodyFat.bodyFatPerc" class="form-control" style="width:75px" allow-only-numbers ng-disabled="user.userType<2">
+                                                <span class="input-group-addon" style="width:50px">%</span>
+                                            </div>
+                                        </td>
+                                    </tr>
                                 </table>
                             </div>
                         </div>

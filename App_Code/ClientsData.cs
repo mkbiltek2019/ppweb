@@ -101,6 +101,7 @@ public class ClientsData : System.Web.Services.WebService {
         x.myMeals = new MyMeals.NewMyMeals();
         x.clientNote = null;
         x.bmrEquation = E.MifflinStJeor;
+        x.bodyFat = new Equations.BodyFat();
         string json = JsonConvert.SerializeObject(x, Formatting.None);
         return json;
     }
@@ -395,6 +396,7 @@ public class ClientsData : System.Web.Services.WebService {
                         x.dailyActivities = da.getDailyActivities(userId, x.clientId);
                         x.myMeals = GetMyMeals(userId, x.clientId);
                         x.bmrEquation = E.MifflinStJeor; // TODO GetBmrEquation() & SaveBMREquation()
+                        x.bodyFat = E.GetBodyFat(x);
                         xx.Add(x);
                     }
                 }

@@ -1881,6 +1881,7 @@
   "The older equation that is generally not as accurate as the others": "Старија једнаџба која опћенито није тако точна као остале",
   "The equation that takes into account lean body mass": "Једначина која узима у обзир немасну масу",
   "body fat": "Масно ткиво",
-  "lean body mass": "Немасна маса"
+  "lean body mass": "Немасна маса",
+  "body fat is required": "Масно ткиво је обавезно"
 
 }

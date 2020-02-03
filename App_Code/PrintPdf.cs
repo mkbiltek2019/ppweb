@@ -857,6 +857,17 @@ public class PrintPdf : System.Web.Services.WebService {
             doc.Add(table);
             doc.Add(new Chunk(line));
 
+            if (calculation.bodyFat.lbm > 0) {
+                string bf = string.Format(@"
+{0}: {1} kg
+{2}: {3} kg
+{4}"
+            , t.Tran("body fat", lang).ToUpper() , calculation.bodyFat.bodyFatMass
+            , t.Tran("lean body mass", lang).ToUpper(), calculation.bodyFat.lbm
+            , t.Tran(calculation.bodyFat.description, lang));
+                doc.Add(new Paragraph(bf, GetFont()));
+            }
+
             string g = string.Format(@"
 {0}: {1}
 {2}"
@@ -1686,11 +1697,9 @@ IBAN HR8423400091160342496
             , t.Tran("weight", lang), clientData.weight
             , t.Tran("waist", lang), clientData.waist == 0 ? "---" : clientData.waist.ToString()
             , t.Tran("hip", lang), clientData.hip == 0 ? "---" : clientData.hip.ToString()
-            , clientData.bodyFat.bodyFatPerc > 0 ? string.Format("{0}: {1} %", t.Tran("body fat", lang), clientData.bodyFat.ToString()) : ""
+            , clientData.bodyFat.bodyFatPerc > 0 ? string.Format("{0}: {1} %", t.Tran("body fat", lang), clientData.bodyFat.bodyFatPerc.ToString()) : ""
             , t.Tran("physical activity level", lang), t.Tran(clientData.pal.title, lang), t.Tran(clientData.pal.description, lang)
             , !string.IsNullOrWhiteSpace(clientData.clientNote) ? string.Format("{0}: {1}", t.Tran("note", lang), clientData.clientNote) : "");
-
-        
 
         return c;
     }
