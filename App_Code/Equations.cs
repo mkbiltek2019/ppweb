@@ -109,6 +109,9 @@ namespace Igprog {
 
         public string GetLmbDesc(ClientsData.NewClientData x) {
 
+            //TODO depending of ages ???: https://www.thecalculator.co/health/Body-Fat-4-Site-Skinfold-Measurement-Calculator-1114.html
+
+
             /***** http://www.linear-software.com/online.html *****/
             //            Body Fat Chart
             //Classification  Women Men

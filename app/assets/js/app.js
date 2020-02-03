@@ -2017,6 +2017,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.d = null;
         $scope.bodyMass = 0;
         $scope.method = 'JP3';
+        $scope.svg = clientData.gender.value === 0 ? 'manSvg' : 'womanSvg';
         debugger;
 
         //TODO: methods
