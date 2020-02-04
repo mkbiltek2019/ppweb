@@ -16,6 +16,11 @@ Pravo korištenja
 KORISNIK ima pravo KORISTITI APLIKACIJU na proizvoljnom broju računala, s time da WEB APLIKACIJU može istovremeno UPOTREBLJAVATI onoliko KORISNIKA, za koliko ima pridobivenih licenci.
 Korisnik nema pravo prijenosa prava iz i u svezi ovog ugovora na treće osobe, kao što nema pravo odustati ili prenijeti taj ugovor, djelomično ili u cijelosti, na treće osobe, ili im ustupiti pravo korištenja predmeta licence (podlicenca).
 
+Pravo na registraciju dodatnih korisnika
+
+KORISNIK STANDARD i PREMIUM paketa ima pravo registrirati jednog ili više dodatnih korisnika. Dodatne korisnike je dozvoljeno registrirati samo ako se nalaze u sklopu zajedničke radne organizacije (ustanove).
+Nije dozoljeno dijeliti ili prodavati licence drugim osobama. Ukoliko VLASNIK sazna za nedozvoljeno ustupanje licence, ima pravo KORISNIKU blokirati pristup aplikaciji i tražiti naknadu štete sukladno odredbama zakona. 
+
 Pravo na podršku
 
 Kao korisnik imate pravo na podršku, koju vrši sam VLASNIK ili preko ovlaštenih osoba. Za podršku, VLASNIK ili ovlaštena osoba imaju pravo na povrat troškova nastalih pružanjem iste, a visina kojih je određena važečim cjenikom.
@@ -26,7 +31,7 @@ Pravo na otklanjanje GREŠAKA
 GREŠKA u programskom kodu je samo ono ponašanje WEB APLIKACIJE, koje je u suprotnosti s načinom djelovanja, opisanim u uputstvima za upotrebu.
 U slučaju otkrića GREŠKE u WEB APLIKACIJI, VLASNIK ju je dužan otkloniti.
 Otklanjanje grešaka je uređeno AUTOMATSKIM OSVJEŽAVANJEM.
-U slučaju da VLASNIK ne otkloni GREŠKU i ako ista u znatnoj mjeri utječe na funkcionalnost APLIKACIJE, KORISNIK može zahtijevati raskid UGOVORA i plaćanje ODŠTETE.
+U slučaju da VLASNIK ne otkloni GREŠKU i ako ista u znatnoj mjeri utječe na funkcionalnost APLIKACIJE, KORISNIK može zahtijevati raskid UGOVORA i povrat dijela uplaćenog iznosa za licencu.
 
     
 Dodatne odredbe
@@ -73,7 +78,7 @@ WEB APLIKACIJA djeluje u okviru specifikacija i namjene programa, na način koji
 Ograničenje i isključenje odgovornosti, NAKNADA ŠTETE
 
 VLASNIKOVA cjelokupna odgovornost i korisnikovo jedino pravo na NAKNADU ŠTETE je da u slučaju iz »Ograničene garancije« po prosudbi VLASNIKA:
-VLASNIK ne može popraviti RAČUNALNI PROGRAM nakon što ju je KORISNIK reklamirao VLASNIKU
+VLASNIK ne može popraviti WEB APLIKACIJU nakon što ju je KORISNIK reklamirao VLASNIKU
 Odštetni zahtjev nema osnove ako je do greške, koja je dovela do uvažavanja »Ograničene garancije« došlo zbog nesreće, zloupotrebe, pogrešne upotrebe ili više sile, na što VLASNIK nije imao utjecaja.
 IZNOS NAKANADE ŠTETE ne može biti viši od vrijednosti kupljene licence.
 

@@ -205,11 +205,13 @@ namespace Igprog {
         public string Subscapular = "SUB";
         public string Suprailiac = "SU";
         public string Midaxillary = "MI";
+        public string Bicep = "BI";
 
         //TODO: CalipherMethods
         public string JacksonPollock3 = "JP3"; // Jackson/Pollock 3 Caliper Method
         public string JacksonPollock4 = "JP4"; // Jackson/Pollock 4 Caliper Method
         public string JacksonPollock7 = "JP7"; // Jackson/Pollock 7 Caliper Method
+        public string DurninWomersley = "DW"; // Durnin/Womersley Caliper Method
 
         public CaliperData InitCaliperMeasurements(int gender) {
             CaliperData x = new CaliperData();
@@ -223,6 +225,7 @@ namespace Igprog {
             x.Add(GetCaliperMeasurements(JacksonPollock3, "Jackson/Pollock 3 Caliper Method", null, gender));
             x.Add(GetCaliperMeasurements(JacksonPollock4, "Jackson/Pollock 4 Caliper Method", null, gender));
             x.Add(GetCaliperMeasurements(JacksonPollock7, "Jackson/Pollock 7 Caliper Method", null, gender));
+            x.Add(GetCaliperMeasurements(DurninWomersley, "Durnin/Womersley Caliper Method", null, gender));
             return x;
         }
 
@@ -239,6 +242,8 @@ namespace Igprog {
             x.measurements.Add(new CaliperMeasurement { code = Subscapular, title = "Subscapular", description = "", value = 0, isSelected = CheckCaliperMethod(code, Subscapular, gender) });
             x.measurements.Add(new CaliperMeasurement { code = Suprailiac, title = "Suprailiac", description = "", value = 0, isSelected = CheckCaliperMethod(code, Suprailiac, gender) });
             x.measurements.Add(new CaliperMeasurement { code = Midaxillary, title = "Midaxillary", description = "", value = 0, isSelected = CheckCaliperMethod(code, Midaxillary, gender) });
+            x.measurements.Add(new CaliperMeasurement { code = Bicep, title = "Bicep", description = "", value = 0, isSelected = CheckCaliperMethod(code, Bicep, gender) });
+
             return x;
         }
 
@@ -265,6 +270,11 @@ namespace Igprog {
                     x = true;
                 }
             }
+            if (method == DurninWomersley) {
+                if (measure == Bicep || measure == Tricep || measure == Subscapular || measure == Suprailiac) {
+                    x = true;
+                }
+            }
             return x;
         }
 
@@ -272,38 +282,82 @@ namespace Igprog {
             double x = 0;
             double skinfolds = data.measurements.Where(a => a.isSelected == true).Sum(a => a.value);
             double bodyDensity = 0;
+            int gender = clientData.gender.value;
+            int age = clientData.age;
 
             if (data.code == JacksonPollock3) {
-                if (clientData.gender.value == 0) {
+                if (gender == 0) {
                     //Body Density = 1.10938 – (0.0008267 x sum of skinfolds) +(0.0000016 x square of the sum of skinfolds) – (0.0002574 x age)
-                    bodyDensity = 1.10938 - (0.0008267 * skinfolds) + (0.0000016 * skinfolds * skinfolds) - (0.0002574 * clientData.age);
+                    bodyDensity = 1.10938 - (0.0008267 * skinfolds) + (0.0000016 * skinfolds * skinfolds) - (0.0002574 * age);
                 } else {
                     //Body Density = 1.0994921 – (0.0009929 x sum of skinfolds) +(0.0000023 x square of the sum of skinfolds) – (0.0001392 x age)
-                    bodyDensity = 1.0994921 - (0.0009929 * skinfolds) + (0.0000023 * skinfolds * skinfolds) - (0.0001392 * clientData.age);
+                    bodyDensity = 1.0994921 - (0.0009929 * skinfolds) + (0.0000023 * skinfolds * skinfolds) - (0.0001392 * age);
                 }
                 x = (495 / bodyDensity) - 450;
             }
             if (data.code == JacksonPollock4) {
-                if (clientData.gender.value == 0) {
+                if (gender == 0) {
                     //Body Density = (0.29288 x sum of skinfolds) – (0.0005 x square of the sum of skinfolds) + (0.15845 x age) – 5.76377
-                    x = (0.29288 * skinfolds) - (0.0005 * skinfolds * skinfolds) + (0.15845 * clientData.age) - 5.76377;
+                    x = (0.29288 * skinfolds) - (0.0005 * skinfolds * skinfolds) + (0.15845 * age) - 5.76377;
                 } else {
                     //Body Density = (0.29669 x sum of skinfolds) – (0.00043 x square of the sum of skinfolds) + (0.02963 x age) + 1.4072
-                    x = (0.29669 * skinfolds) - (0.00043 * skinfolds * skinfolds) + (0.02963 * clientData.age) + 1.4072;
+                    x = (0.29669 * skinfolds) - (0.00043 * skinfolds * skinfolds) + (0.02963 * age) + 1.4072;
                 }
             }
             if (data.code == JacksonPollock7) {
-                if (clientData.gender.value == 0) {
+                if (gender == 0) {
                     //Body Density = 1.112 – (0.00043499 x sum of skinfolds) + (0.00000055 x square of the sum of skinfold sites) – (0.00028826 x age)
-                    bodyDensity = 1.112 - (0.00043499 * skinfolds) + (0.00000055 * skinfolds * skinfolds) - (0.00028826 * clientData.age);
+                    bodyDensity = 1.112 - (0.00043499 * skinfolds) + (0.00000055 * skinfolds * skinfolds) - (0.00028826 * age);
                 } else {
                     //Body Density = 1.097 – (0.00046971 x sum of skinfolds) + (0.00000056 x square of the sum of skinfold sites) – (0.00012828 x age)
-                    bodyDensity = 1.097 - (0.00046971 * skinfolds) + (0.00000056 * skinfolds * skinfolds) - (0.00012828 * clientData.age);
+                    bodyDensity = 1.097 - (0.00046971 * skinfolds) + (0.00000056 * skinfolds * skinfolds) - (0.00012828 * age);
                 }
                 x = (495 / bodyDensity) - 450;
             }
-            return Math.Round(x, 1);
+            if (data.code == DurninWomersley) {
+                double log = Math.Log10(skinfolds); //Log of the sum of skinfolds
+                if (gender == 0) {
+                    if (age < 17) {
+                        bodyDensity = 1.1533 - (0.0643 * log);
+                    }
+                    if (age > 17 && age < 20) {
+                        bodyDensity = 1.1620 - (0.0630 * log);
+                    }
+                    if (age > 20 && age < 30) {
+                        bodyDensity = 1.1631 - (0.0632 * log);
+                    }
+                    if (age > 30 && age < 40) {
+                        bodyDensity = 1.1422 - (0.0544 * log);
+                    }
+                    if (age > 40 && age < 50) {
+                        bodyDensity = 1.1620 - (0.0700 * log);
+                    } if (age > 50) {
+                        bodyDensity = 1.1715 - (0.0779 * log);
+                    }
+                } else {
+                    if (age < 17) {
+                        bodyDensity = 1.1369 - (0.0598 * log);
+                    }
+                    if (age > 17 && age < 20) {
+                        bodyDensity = 1.1549 - (0.0678 * log);
+                    }
+                    if (age > 20 && age < 30) {
+                        bodyDensity = 1.1599 - (0.0717 * log);
+                    }
+                    if (age > 30 && age < 40) {
+                        bodyDensity = 1.1423 - (0.0632 * log);
+                    }
+                    if (age > 40 && age < 50) {
+                        bodyDensity = 1.1333 - (0.0612 * log);
+                    }
+                    if (age > 50) {
+                        bodyDensity = 1.1339 - (0.0645 * log);
+                    }
+                }
+                x = (495 / bodyDensity) - 450;
+            }
 
+            return Math.Round(x, 1);
         }
         #endregion BodyFatCalculator
 

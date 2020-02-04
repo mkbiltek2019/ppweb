@@ -2047,6 +2047,48 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             });
         }
 
+        initColor = function () {
+            $scope.pointColor = {
+                CH: '#fff',
+                AB: '#fff',
+                TH: '#fff',
+                TR: '#fff',
+                SUB: '#fff',
+                SU: '#fff',
+                MI: '#fff',
+                BI: '#fff',
+            }
+        }
+        initColor();
+        $scope.selectPoint = function (x) {
+            initColor();
+            var selectColor = '#33cc33';
+            if (x === 'CH') {
+                $scope.pointColor.CH = selectColor;
+            } else if (x == 'AB') {
+                $scope.pointColor.AB = selectColor;
+            }
+            else if (x == 'TH') {
+                $scope.pointColor.TH = selectColor;
+            }
+            else if (x == 'TR') {
+                $scope.pointColor.TR = selectColor;
+            }
+            else if (x == 'SUB') {
+                $scope.pointColor.SUB = selectColor;
+            }
+            else if (x == 'SU') {
+                $scope.pointColor.SU = selectColor;
+            }
+            else if (x == 'MI') {
+                $scope.pointColor.MI = selectColor;
+            }
+            else if (x == 'BI') {
+                $scope.pointColor.BI = selectColor;
+            }
+
+        }
+
         $scope.setMethod = function (x) {
             $scope.d.data = x;
         }
