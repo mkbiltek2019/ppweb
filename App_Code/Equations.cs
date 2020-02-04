@@ -222,9 +222,9 @@ namespace Igprog {
 
         public List<CaliperMethod> GetCaliperMethods(int gender) {
             List<CaliperMethod> x = new List<CaliperMethod>();
-            x.Add(GetCaliperMeasurements(JacksonPollock3, "Jackson/Pollock 3 Caliper Method", null, gender));
-            x.Add(GetCaliperMeasurements(JacksonPollock4, "Jackson/Pollock 4 Caliper Method", null, gender));
-            x.Add(GetCaliperMeasurements(JacksonPollock7, "Jackson/Pollock 7 Caliper Method", null, gender));
+            x.Add(GetCaliperMeasurements(JacksonPollock3, "Jackson/Pollock 3-Site Caliper Method", null, gender));
+            x.Add(GetCaliperMeasurements(JacksonPollock4, "Jackson/Pollock 4-Site Caliper Method", null, gender));
+            x.Add(GetCaliperMeasurements(JacksonPollock7, "Jackson/Pollock 7-Site Caliper Method", null, gender));
             x.Add(GetCaliperMeasurements(DurninWomersley, "Durnin/Womersley Caliper Method", null, gender));
             return x;
         }

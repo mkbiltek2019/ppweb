@@ -1890,6 +1890,20 @@
   "body fat is required": "Masno tkivo je obavezno",
   "body fat calculator": "Kalkulator masnog tkiva",
   "calculate": "Izračunaj",
-  "confirm": "Potvrdi"
+  "confirm": "Potvrdi",
+  "body fat measurement using caliper": "Mjerenje debljine masnog tkiva pomoću kalipera",
+  "method": "Metoda",
+  "Jackson/Pollock 3-Site Caliper Method": "Mjerenje na 3 točke prema Jackson/Pollock",
+  "Jackson/Pollock 4-Site Caliper Method": "Mjerenje na 4 točke prema Caliper Method",
+  "Jackson/Pollock 7-Site Caliper Method": "Mjerenje na 7 točaka prema Caliper Method",
+  "Durnin/Womersley Caliper Method": "Mjerenje prema Durnin/Womersley",
+  "Chest": "Prsa",
+  "Abdominal": "Stomak",
+  "Thigh": "Bedro",
+  "Tricep": "Triceps",
+  "Subscapular": "Subscapular",
+  "Suprailiac": "Suprailiac",
+  "Midaxillary": "Midaxillary",
+  "Bicep": "Biceps"
 
 }

@@ -1880,6 +1880,20 @@
   "body fat is required": "Body fat is required",
   "body fat calculator": "Body fat calculator",
   "calculate": "Calculate",
-  "confirm": "Confirm"
+  "confirm": "Confirm",
+  "body fat measurement using caliper": "Body fat measurement using caliper",
+  "method": "Method",
+  "Jackson/Pollock 3-Site Caliper Method": "Jackson/Pollock 3-Site Caliper Method",
+  "Jackson/Pollock 4-Site Caliper Method": "Jackson/Pollock 4-Site Caliper Method",
+  "Jackson/Pollock 7-Site Caliper Method": "Jackson/Pollock 7-Site Caliper Method",
+  "Durnin/Womersley Caliper Method": "Durnin/Womersley Caliper Method",
+  "Chest": "Chest",
+  "Abdominal": "Abdominal",
+  "Thigh": "Thigh",
+  "Tricep": "Tricep",
+  "Subscapular": "Subscapular",
+  "Suprailiac": "Suprailiac",
+  "Midaxillary": "Midaxillary",
+  "Bicep": "Bicep"
 
 }
