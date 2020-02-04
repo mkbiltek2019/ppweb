@@ -10,13 +10,13 @@
         <md-dialog-content>
             <div class="md-dialog-content p20">
                 <div class="row">
-                    <div class="col-sm-5">
+                    <div class="col-sm-4" style="padding:20px 0 0 50px">
                         <div>
                             <img src="/app/assets/img/caliper.png" />
                             <em class="text-primary">{{'body fat measurement using caliper' | translate}}</em>
                         </div>
                         <div class="mt20 pt20">
-                            <md-input-container class="md-block" flex-gt-xs style="margin-top:0px">
+                            <md-input-container class="md-block" flex style="margin-top:0px">
                                 <label>{{'method' | translate}}</label>
                                 <md-select ng-model="method">
                                     <md-option ng-value="x.code" ng-repeat="x in d.methods track by $index" ng-click="setMethod(x)">
@@ -52,7 +52,7 @@
                             <label>{{'body fat' | translate}}: {{bodyMass}} %</label>
                         </div>
                     </div>
-                    <div class="col-sm-7">
+                    <div class="col-sm-8" style="padding:10px 0 0 0">
                         <ng-include src="svg"></ng-include>
                     </div>
                 </div>
@@ -60,16 +60,14 @@
                     <hr />
                     <button class="btn btn-default" ng-click="confirm(bodyMass)"><i class="fa fa-check"></i> {{'confirm' | translate}}</button>
                 </div>
-                <json-directive data="d.data" desc="'d.data'"></json-directive>
             </div>
         </md-dialog-content>
     </form>
 </md-dialog>
 
 <script type="text/ng-template" id="manSvg">
-
     <div class="row">
-        <div class="col-xs-4">
+        <div class="col-xs-4" >
             <svg width="450" height="450" xmlns="http://www.w3.org/2000/svg">
                 <g>
                     <title>background</title>
@@ -118,7 +116,7 @@
 
 <script type="text/ng-template" id="womanSvg">
     <div class="row">
-        <div class="col-xs-4">
+        <div class="col-xs-4" style="padding-left:50px">
             <svg width="175" height="450" xmlns="http://www.w3.org/2000/svg">
                 <g>
                     <title>background</title>
