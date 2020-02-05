@@ -396,13 +396,18 @@ public class ClientsData : System.Web.Services.WebService {
                         x.dailyActivities = da.getDailyActivities(userId, x.clientId);
                         x.myMeals = GetMyMeals(userId, x.clientId);
                         x.bmrEquation = E.MifflinStJeor; // TODO GetBmrEquation() & SaveBMREquation()
-                        x.bodyFat = E.GetBodyFat(x);
                         xx.Add(x);
                     }
                 }
             }
             if (xx.Count > 0) {
                 x = xx.OrderByDescending(a => Convert.ToDateTime(a.date)).FirstOrDefault();
+                x.bodyFat = new Equations.BodyFat();
+                BodyFat bf = new BodyFat();
+                BodyFat.CaliperMethod bfc = bf.GetLastMeasurement(x);
+                if (bfc != null) {
+                    x.bodyFat.bodyFatPerc = bf.GetLastMeasurement(x).bodyFat;
+                }
             }
             return x;
         } catch (Exception e) { return new NewClientData(); }

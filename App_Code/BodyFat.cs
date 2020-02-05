@@ -75,19 +75,25 @@ public class BodyFat : System.Web.Services.WebService {
     public string CaliperCalculate(CaliperMethod data) {
         try {
             return JsonConvert.SerializeObject(CaliperCalc(data), Formatting.None);
-        }
-        catch (Exception e) { return ("Error: " + e); }
+        } catch (Exception e) { return ("Error: " + e); }
     }
 
     [WebMethod]
     public string Save(CaliperMethod x) {
         try {
             db.CreateDataBase(x.clientData.userId, db.bodyfat);
-            //TODO: save measurements (code:val;code:val)
+            string measurements = null;
+            List<string> list = new List<string>();
+            foreach(var m in x.measurements) {
+                if (m.isSelected) {
+                    list.Add(string.Format("{0}:{1}", m.code, m.value));
+                }
+            }
+            measurements = string.Join(";", list);
             string sql = string.Format(@"BEGIN;
                     INSERT OR REPLACE INTO bodyfat (recordDate, clientId, bodyFat, records, recordMethod)
                     VALUES ('{0}', '{1}', '{2}', '{3}', '{4}');
-                    COMMIT;", x.recordDate, x.clientData.clientId, x.bodyFat, "TODO: Measurements", x.code);
+                    COMMIT;", x.recordDate, x.clientData.clientId, x.bodyFat, measurements, x.code);
             using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(x.clientData.userId, dataBase))) {
                 connection.Open();
                 using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
@@ -101,41 +107,68 @@ public class BodyFat : System.Web.Services.WebService {
 
 
     public CaliperMethod GetLastMeasurement(ClientsData.NewClientData clientData) {
-        List<CaliperMethod> xx = new List<CaliperMethod>();
-        CaliperMethod lastRecord = new CaliperMethod();
-        db.CreateDataBase(clientData.userId, db.bodyfat);
-        string sql = string.Format("SELECT recordDate, bodyFat, records, recordMethod FROM bodyfat WHERE clientId = '{0}'", clientData.clientId);
-        using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(clientData.userId, dataBase))) {
-            connection.Open();
-            using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
-                using (SQLiteDataReader reader = command.ExecuteReader()) {
-                    while (reader.Read()) {
-                        CaliperMethod x = new CaliperMethod();
-                        x.recordDate = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
-                        x.bodyFat = reader.GetValue(1) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(1));
-                        //x.measurements = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);  //todo
-                        x.code = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
-                        xx.Add(x);
+        try {
+            List<CaliperMethod> xx = new List<CaliperMethod>();
+            CaliperMethod lastRecord = new CaliperMethod();
+            string measurements = null;
+            db.CreateDataBase(clientData.userId, db.bodyfat);
+            string sql = string.Format("SELECT recordDate, bodyFat, records, recordMethod FROM bodyfat WHERE clientId = '{0}'", clientData.clientId);
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(clientData.userId, dataBase))) {
+                connection.Open();
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    using (SQLiteDataReader reader = command.ExecuteReader()) {
+                        while (reader.Read()) {
+                            CaliperMethod x = new CaliperMethod();
+                            x.recordDate = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
+                            x.bodyFat = reader.GetValue(1) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(1));
+                            measurements = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+                            x.measurements = GetMeasurements(measurements);
+                            x.code = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
+                            xx.Add(x);
+                        }
                     }
                 }
+                connection.Close();
             }
-            connection.Close();
+            if (xx.Count > 0) {
+                lastRecord = xx.OrderByDescending(a => Convert.ToDateTime(a.recordDate)).FirstOrDefault();
+            }
+            return lastRecord;
+        } catch (Exception e) {
+            return new CaliperMethod();
         }
-        lastRecord = xx.OrderByDescending(a => Convert.ToDateTime(a.recordDate)).FirstOrDefault();
-        return lastRecord;
+        
     }
 
-
+    private List<CaliperMeasurement> GetMeasurements(string str) {
+        List<CaliperMeasurement> xx = new List<CaliperMeasurement>();
+        if (!string.IsNullOrEmpty(str)) {
+            CaliperMeasurement x = new CaliperMeasurement();
+            CaliperMethod cm = GetCaliperMeasurements(null, null, null, 0);
+            CaliperMeasurement calM = new CaliperMeasurement();
+            string[] ss = str.Split(';');
+            string[] m;
+            foreach (var s in ss) {
+                m = s.Split(':');
+                x = new CaliperMeasurement();
+                x.code = m[0];
+                x.value = Convert.ToDouble(m[1]);
+                calM = cm.measurements.Where(a => a.code == x.code).FirstOrDefault();
+                x.title = calM.title;
+                x.description = calM.description;
+                x.isSelected = true;
+                xx.Add(x);
+            }
+        }
+        return xx;
+    }
     #endregion WebMethods
-
-
 
     public CaliperData InitCaliper(ClientsData.NewClientData clientData) {
         CaliperData x = new CaliperData();
         x.methods = GetCaliperMethods(clientData.gender.value);
         x.data = GetLastMeasurement(clientData);
-
-        if (string.IsNullOrEmpty(x.data.code)) {
+        if (string.IsNullOrEmpty(x.data.code) || x.data.measurements == null) {
             x.data = x.methods[0];  // Jackson/Pollock 3 Caliper Method
         }
         x.data.clientData = clientData;
@@ -157,14 +190,14 @@ public class BodyFat : System.Web.Services.WebService {
         x.title = title;
         x.description = description;
         x.measurements = new List<CaliperMeasurement>();
-        x.measurements.Add(new CaliperMeasurement { code = Chest, title = "Chest", description = "", value = 0, isSelected = CheckCaliperMethod(code, Chest, gender) });
-        x.measurements.Add(new CaliperMeasurement { code = Abdominal, title = "Abdominal", description = "", value = 0, isSelected = CheckCaliperMethod(code, Abdominal, gender) });
-        x.measurements.Add(new CaliperMeasurement { code = Thigh, title = "Thigh", description = "", value = 0, isSelected = CheckCaliperMethod(code, Thigh, gender) });
-        x.measurements.Add(new CaliperMeasurement { code = Tricep, title = "Tricep", description = "", value = 0, isSelected = CheckCaliperMethod(code, Tricep, gender) });
-        x.measurements.Add(new CaliperMeasurement { code = Subscapular, title = "Subscapular", description = "", value = 0, isSelected = CheckCaliperMethod(code, Subscapular, gender) });
-        x.measurements.Add(new CaliperMeasurement { code = Suprailiac, title = "Suprailiac", description = "", value = 0, isSelected = CheckCaliperMethod(code, Suprailiac, gender) });
-        x.measurements.Add(new CaliperMeasurement { code = Midaxillary, title = "Midaxillary", description = "", value = 0, isSelected = CheckCaliperMethod(code, Midaxillary, gender) });
-        x.measurements.Add(new CaliperMeasurement { code = Bicep, title = "Bicep", description = "", value = 0, isSelected = CheckCaliperMethod(code, Bicep, gender) });
+        x.measurements.Add(new CaliperMeasurement { code = Chest, title = "Chest", description = null, value = 0, isSelected = CheckCaliperMethod(code, Chest, gender) });
+        x.measurements.Add(new CaliperMeasurement { code = Abdominal, title = "Abdominal", description = null, value = 0, isSelected = CheckCaliperMethod(code, Abdominal, gender) });
+        x.measurements.Add(new CaliperMeasurement { code = Thigh, title = "Thigh", description = null, value = 0, isSelected = CheckCaliperMethod(code, Thigh, gender) });
+        x.measurements.Add(new CaliperMeasurement { code = Tricep, title = "Tricep", description = null, value = 0, isSelected = CheckCaliperMethod(code, Tricep, gender) });
+        x.measurements.Add(new CaliperMeasurement { code = Subscapular, title = "Subscapular", description = null, value = 0, isSelected = CheckCaliperMethod(code, Subscapular, gender) });
+        x.measurements.Add(new CaliperMeasurement { code = Suprailiac, title = "Suprailiac", description = null, value = 0, isSelected = CheckCaliperMethod(code, Suprailiac, gender) });
+        x.measurements.Add(new CaliperMeasurement { code = Midaxillary, title = "Midaxillary", description = null, value = 0, isSelected = CheckCaliperMethod(code, Midaxillary, gender) });
+        x.measurements.Add(new CaliperMeasurement { code = Bicep, title = "Bicep", description = null, value = 0, isSelected = CheckCaliperMethod(code, Bicep, gender) });
 
         return x;
     }

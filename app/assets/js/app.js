@@ -2015,11 +2015,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.bodyFatPopupCtrl = function ($scope, $mdDialog, d, $http) {
         var webService = 'BodyFat.asmx';
         var clientData = d.clientData;
-        console.log(clientData);
         $scope.d = null;
         $scope.method = 'JP3';
         $scope.svg = clientData.gender.value === 0 ? 'manSvg' : 'womanSvg';
-        debugger;
 
         var init = function () {
             $http({
@@ -2035,7 +2033,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         init();
 
         $scope.calculate = function (x) {
-            debugger;
             $http({
                 url: $sessionStorage.config.backend + webService + '/CaliperCalculate',
                 method: "POST",
@@ -2047,8 +2044,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         $scope.confirm = function (x) {
-            debugger;
-            //TODO: recordDate
             $http({
                 url: $sessionStorage.config.backend + webService + '/Save',
                 method: "POST",
@@ -2105,6 +2100,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         $scope.setMethod = function (x) {
             $scope.d.data = x;
+            $scope.d.data.clientData = clientData;
+            $scope.d.data.recordDate = functions.dateToString(clientData.date);
         }
 
         $scope.cancel = function () {
