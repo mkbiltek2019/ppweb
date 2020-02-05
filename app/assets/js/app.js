@@ -2013,24 +2013,23 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 
     $scope.bodyFatPopupCtrl = function ($scope, $mdDialog, d, $http) {
+        var webService = 'BodyFat.asmx';
         var clientData = d.clientData;
+        console.log(clientData);
         $scope.d = null;
-        $scope.bodyMass = 0;
         $scope.method = 'JP3';
         $scope.svg = clientData.gender.value === 0 ? 'manSvg' : 'womanSvg';
         debugger;
 
-        //TODO: methods
-        var method = 'Jackson/Pollock 3 Caliper Method';
-
         var init = function () {
             $http({
-                url: $sessionStorage.config.backend + 'Calculations.asmx/InitCaliperMeasurements',
+                url: $sessionStorage.config.backend + webService + '/InitCaliperMeasurements',
                 method: "POST",
-                data: { method: method, gender: clientData.gender.value }
+                data: { clientData: clientData }
             })
             .then(function (response) {
                 $scope.d = JSON.parse(response.data.d);
+                $scope.d.data.recordDate = functions.dateToString(clientData.date);
             });
         }
         init();
@@ -2038,13 +2037,28 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.calculate = function (x) {
             debugger;
             $http({
-                url: $sessionStorage.config.backend + 'Calculations.asmx/CaliperCalculate',
+                url: $sessionStorage.config.backend + webService + '/CaliperCalculate',
                 method: "POST",
-                data: { data: x, clientData: clientData }
+                data: { data: x }
             })
             .then(function (response) {
-                $scope.bodyMass = JSON.parse(response.data.d);
+                $scope.d.data.bodyFat = JSON.parse(response.data.d);
             });
+        }
+
+        $scope.confirm = function (x) {
+            debugger;
+            //TODO: recordDate
+            $http({
+                url: $sessionStorage.config.backend + webService + '/Save',
+                method: "POST",
+                data: { x: x }
+            })
+            .then(function (response) {
+                var res = JSON.parse(response.data.d);
+                $mdDialog.hide(res);
+            });
+            //$mdDialog.hide(x);
         }
 
         initColor = function () {
@@ -2097,9 +2111,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $mdDialog.cancel();
         };
 
-        $scope.confirm = function (x) {
-            $mdDialog.hide(x);
-        }
     };
 
 }])

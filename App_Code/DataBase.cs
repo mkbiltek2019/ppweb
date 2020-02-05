@@ -29,6 +29,7 @@ namespace Igprog {
         public string meals = "meals";
         public string weeklymenus = "weeklymenus";
         public string clientapp = "clientapp";
+        public string bodyfat = "bodyfat";
 
 
         #region CreateTable (users.ddb)
@@ -229,6 +230,17 @@ namespace Igprog {
                 userId VARCHAR(50))";
             CreateTable(path, sql);
         }
+
+        public void BodyFat(string path) {
+            string sql = @"CREATE TABLE IF NOT EXISTS bodyfat
+                (recordDate VARCHAR(20) PRIMARY KEY,
+                clientId VARCHAR(50),
+                bodyFat VARCHAR(20),
+                records VARCHAR(200),
+                recordMethod VARCHAR(20))";
+            CreateTable(path, sql);
+        }
+
         #endregion
 
         #region CreateTable (web page)
@@ -374,6 +386,9 @@ namespace Igprog {
                     break;
                 case "clientapp":
                     ClientApp(path);
+                    break;
+                case "bodyfat":
+                    BodyFat(path);
                     break;
                 default:
                     break;

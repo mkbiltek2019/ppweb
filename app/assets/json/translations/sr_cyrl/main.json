@@ -1899,6 +1899,12 @@
   "Subscapular": "Subscapular",
   "Suprailiac": "Suprailiac",
   "Midaxillary": "Midaxillary",
-  "Bicep": "Бицепс"
+  "Bicep": "Бицепс",
+  "fat level": "Разина масног ткива",
+  "very low": "Врло ниска",
+  "low": "Ниска",
+  "average_": "Просечна",
+  "very high": "Врло висока",
+  "overFat": "Прекомерна"
 
 }

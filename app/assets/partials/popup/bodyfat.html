@@ -48,8 +48,8 @@
                         <div class="text-right">
                             <button class="btn btn-default" ng-click="calculate(d.data)"><i class="fa fa-calculator"></i> {{'calculate' | translate}}</button>
                         </div>
-                        <div ng-if="bodyMass>0" class="text-center text-primary pt20" style="font-size:24px">
-                            <label>{{'body fat' | translate}}: {{bodyMass}} %</label>
+                        <div ng-if="d.data.bodyFat>0" class="text-center text-primary pt20" style="font-size:24px">
+                            <label>{{'body fat' | translate}}: {{d.data.bodyFat}} %</label>
                         </div>
                     </div>
                     <div class="col-sm-8" style="padding:10px 0 0 0">
@@ -58,9 +58,10 @@
                 </div>
                 <div class="text-right">
                     <hr />
-                    <button class="btn btn-default" ng-click="confirm(bodyMass)"><i class="fa fa-check"></i> {{'confirm' | translate}}</button>
+                    <button class="btn btn-default" ng-click="confirm(d.data)"><i class="fa fa-check"></i> {{'confirm' | translate}}</button>
                 </div>
             </div>
+            <json-directive data="d" desc="'d'"></json-directive>
         </md-dialog-content>
     </form>
 </md-dialog>

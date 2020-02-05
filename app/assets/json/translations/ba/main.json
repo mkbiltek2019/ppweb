@@ -1904,6 +1904,12 @@
   "Subscapular": "Subscapular",
   "Suprailiac": "Suprailiac",
   "Midaxillary": "Midaxillary",
-  "Bicep": "Biceps"
+  "Bicep": "Biceps",
+  "fat level": "Razina masnog tkiva",
+  "very low": "Vrlo niska",
+  "low": "Niska",
+  "average_": "Prosječna",
+  "very high": "Vrlo visoka",
+  "overFat": "Prekomjerna"
 
 }

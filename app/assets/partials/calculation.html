@@ -114,9 +114,9 @@
                                      {{calculation.bodyFat.lbm | number:0}} {{'kg' | translate}}</em>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr ng-if="calculation.bodyFat.description">
                                 <td colspan="2" >
-                                    <strong class="text-uppercase"> {{calculation.bodyFat.description | translate}}</strong>
+                                    {{'fat level' | translate}}: <strong class="text-uppercase"> {{calculation.bodyFat.description | translate}}</strong>
                                 </td>
                             </tr>
                         </table>

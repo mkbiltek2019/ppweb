@@ -864,7 +864,9 @@ public class PrintPdf : System.Web.Services.WebService {
 {4}"
             , t.Tran("body fat", lang).ToUpper() , calculation.bodyFat.bodyFatMass
             , t.Tran("lean body mass", lang).ToUpper(), calculation.bodyFat.lbm
-            , t.Tran(calculation.bodyFat.description, lang));
+            , !string.IsNullOrEmpty(calculation.bodyFat.description) 
+                    ? string.Format("{0}: {1}", t.Tran("fat level", lang).ToUpper(), t.Tran(calculation.bodyFat.description, lang))
+                    : "");
                 doc.Add(new Paragraph(bf, GetFont()));
             }
 
@@ -1368,11 +1370,6 @@ IBAN HR8423400091160342496
                 if (settings.showFoods) {
                     foreach (Foods.NewFood food in meal) {
                         sb.AppendLine(AppendFoods(food, settings, lang));
-                        //sb.AppendLine(string.Format(@"- {0}{1}{2}{3}"
-                        //    , food.food
-                        //    , string.Format(@", {0}", settings.showQty ? sl.SmartQty(food.id, food.quantity, food.unit, food.mass, sl.LoadFoodQty(), lang) : "")
-                        //    , string.Format(@", {0}", settings.showMass ? sl.SmartMass(food.mass, lang) : "")
-                        //    , string.Format(@"{0}", settings.showServ && !string.IsNullOrEmpty(getServingDescription(food.servings, lang)) ? string.Format(@", ({0})", getServingDescription(food.servings, lang)) : "")));
                     }
                 }
                 if (settings.showMealsTotal) {

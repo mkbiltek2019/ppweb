@@ -1894,6 +1894,11 @@
   "Subscapular": "Subscapular",
   "Suprailiac": "Suprailiac",
   "Midaxillary": "Midaxillary",
-  "Bicep": "Bicep"
-
+  "Bicep": "Bicep",
+  "fat level": "Fat level",
+  "very low": "Very low",
+  "low": "low",
+  "average_": "Average",
+  "very high": "Very high",
+  "overFat": "over fat"
 }
