@@ -18,8 +18,14 @@ using Igprog;
 public class BodyFat : System.Web.Services.WebService {
     string dataBase = ConfigurationManager.AppSettings["UserDataBase"];
     DataBase db = new DataBase();
-    Equations E = new Equations();
     public BodyFat() {
+    }
+
+    public class NewBodyFat{
+        public double bodyFatPerc; /*** (%) ***/
+        public double bodyFatMass; /*** (kg) ***/
+        public double lbm;     /*** LBM lean body mass ***/
+        public string description;
     }
 
     //Jackson/Pollock 3 Caliper Method
@@ -163,6 +169,175 @@ public class BodyFat : System.Web.Services.WebService {
         return xx;
     }
     #endregion WebMethods
+
+
+    /***** Lean Body Mass *****/
+    public NewBodyFat GetBodyFat(ClientsData.NewClientData x) {
+            NewBodyFat bf = new NewBodyFat();
+            // Lean Body Mass = (Weight(kg) x(100-(Body Fat)))/100
+            if (x.bodyFat.bodyFatPerc > 0) {
+                bf.lbm = (x.weight * (100 - (x.bodyFat.bodyFatPerc))) / 100;
+                bf.bodyFatMass = x.weight - bf.lbm;
+                bf.bodyFatPerc = x.bodyFat.bodyFatPerc;
+                bf.description = GetLmbDesc(x);
+            }
+            return bf;
+        }
+
+    public string GetLmbDesc(ClientsData.NewClientData x) {
+        /*** depending of ages: https://www.thecalculator.co/health/Body-Fat-4-Site-Skinfold-Measurement-Calculator-1114.html ***/
+        string desc = null;
+        double val = x.bodyFat.bodyFatPerc;
+        int gender = x.gender.value;
+        int age = x.age;
+        string veryLow = "very low";
+        string low = "low";
+        string average = "average_";
+        string veryHigh = "very high";
+        string OverFat = "overFat";
+
+        //Fat level
+        if (gender == 0) {
+            if (age >= 20 && age < 30 ) {
+                if (val < 9) {
+                    desc = veryLow;
+                }
+                if (val >= 9 && val < 13) {
+                    desc = low;
+                }
+                if (val >= 13 && val < 17) {
+                    desc = average;
+                }
+                if (val >= 17 && val < 20) {
+                    desc = veryHigh;
+                }
+                if (val >= 20) {
+                    desc = OverFat;
+                }
+            }
+            if (age >= 30 && age < 40 ) {
+                if (val < 11) {
+                    desc = veryLow;
+                }
+                if (val >= 11 && val < 14) {
+                    desc = low;
+                }
+                if (val >= 14 && val < 18) {
+                    desc = average;
+                }
+                if (val >= 18 && val < 23) {
+                    desc = veryHigh;
+                }
+                if (val >= 23) {
+                    desc = OverFat;
+                }
+            }
+            if (age >= 40 && age < 50 ) {
+                if (val < 12) {
+                    desc = veryLow;
+                }
+                if (val >= 12 && val < 16) {
+                    desc = low;
+                }
+                if (val >= 16 && val < 21) {
+                    desc = average;
+                }
+                if (val >= 21 && val < 26) {
+                    desc = veryHigh;
+                }
+                if (val >= 26) {
+                    desc = OverFat;
+                }
+            }
+            if (age >= 50) {
+                if (val < 13) {
+                    desc = veryLow;
+                }
+                if (val >= 13 && val < 17) {
+                    desc = low;
+                }
+                if (val >= 17 && val < 22) {
+                    desc = average;
+                }
+                if (val >= 22 && val < 28) {
+                    desc = veryHigh;
+                }
+                if (val >= 28) {
+                    desc = OverFat;
+                }
+            }
+        } else {
+            if (age >= 20 && age < 30 ) {
+                if (val < 17) {
+                    desc = veryLow;
+                }
+                if (val >= 17 && val < 21) {
+                    desc = low;
+                }
+                if (val >= 21 && val < 24) {
+                    desc = average;
+                }
+                if (val >= 24 && val < 28) {
+                    desc = veryHigh;
+                }
+                if (val >= 28) {
+                    desc = OverFat;
+                }
+            }
+            if (age >= 30 && age < 40 ) {
+                if (val < 18) {
+                    desc = veryLow;
+                }
+                if (val >= 18 && val < 22) {
+                    desc = low;
+                }
+                if (val >= 22 && val < 25) {
+                    desc = average;
+                }
+                if (val >= 25 && val < 30) {
+                    desc = veryHigh;
+                }
+                if (val >= 30) {
+                    desc = OverFat;
+                }
+            }
+            if (age >= 40 && age < 50 ) {
+                if (val < 20) {
+                    desc = veryLow;
+                }
+                if (val >= 20 && val < 24) {
+                    desc = low;
+                }
+                if (val >= 24 && val < 28) {
+                    desc = average;
+                }
+                if (val >= 28 && val < 32) {
+                    desc = veryHigh;
+                }
+                if (val >= 32) {
+                    desc = OverFat;
+                }
+            }
+            if (age >= 50) {
+                if (val < 21) {
+                    desc = veryLow;
+                }
+                if (val >= 21 && val < 24) {
+                    desc = low;
+                }
+                if (val >= 24 && val < 32) {
+                    desc = average;
+                }
+                if (val >= 32 && val < 36) {
+                    desc = veryHigh;
+                }
+                if (val >= 36) {
+                    desc = OverFat;
+                }
+            }
+        }
+        return desc;
+    }
 
     public CaliperData InitCaliper(ClientsData.NewClientData clientData) {
         CaliperData x = new CaliperData();
@@ -314,6 +489,5 @@ public class BodyFat : System.Web.Services.WebService {
 
         return Math.Round(x, 1);
     }
-
 
 }

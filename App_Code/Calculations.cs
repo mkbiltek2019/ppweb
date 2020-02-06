@@ -17,7 +17,9 @@ using Igprog;
 [System.Web.Script.Services.ScriptService]
 public class Calculations : System.Web.Services.WebService {
     string dataBase = ConfigurationManager.AppSettings["AppDataBase"];
-    Equations E = new Equations();
+    //Equations E = new Equations();
+    //Calculations C = new Calculations();
+    BodyFat BF = new BodyFat();
 
     public Calculations() {
     }
@@ -35,9 +37,9 @@ public class Calculations : System.Web.Services.WebService {
 
         public Goals.NewGoal goal = new Goals.NewGoal();
 
-        public List<Equations.BmrEquation> bmrEquations = new List<Equations.BmrEquation>();
+        public List<BmrEquation> bmrEquations = new List<BmrEquation>();
 
-        public Equations.BodyFat bodyFat;
+        public BodyFat.NewBodyFat bodyFat;
     }
 
     public class ValueTitle {
@@ -83,8 +85,8 @@ public class Calculations : System.Web.Services.WebService {
         x.recommendedEnergyExpenditure = 0;
         x.recommendedWeight = new RecommenderWeight();
         x.goal = new Goals.NewGoal();
-        x.bmrEquations = E.GetBmrEquations(userType);
-        x.bodyFat = new Equations.BodyFat();
+        x.bmrEquations = GetBmrEquations(userType);
+        x.bodyFat = new BodyFat.NewBodyFat();
         return JsonConvert.SerializeObject(x, Formatting.None);
     }
 
@@ -94,14 +96,14 @@ public class Calculations : System.Web.Services.WebService {
         x.bmi = Bmi(client);
         x.whr = Whr(client);
         x.waist = Waist(client);
-        x.bmr = E.Bmr(client);
+        x.bmr = Bmr(client);
         x.tee = Tee(client);
         x.recommendedEnergyIntake = RecommendedEnergyIntake(client);
         x.recommendedEnergyExpenditure = RecommendedEnergyExpenditure(client);
         x.recommendedWeight = RecommendedWeight(client);
         x.goal = RecommendedGoal(client);
-        x.bmrEquations = E.GetBmrEquations(userType);
-        x.bodyFat = E.GetBodyFat(client);
+        x.bmrEquations = GetBmrEquations(userType);
+        x.bodyFat = BF.GetBodyFat(client);
         return JsonConvert.SerializeObject(x, Formatting.None);
     }
 
@@ -139,22 +141,6 @@ public class Calculations : System.Web.Services.WebService {
             return json;
         } catch (Exception e) { return ("Error: " + e); }
     }
-
-    //[WebMethod]
-    //public string InitCaliperMeasurements(string method, int gender) {
-    //    try {
-    //        return JsonConvert.SerializeObject(E.InitCaliperMeasurements(gender), Formatting.None);
-    //    } catch (Exception e) { return ("Error: " + e); }
-    //}
-
-    //[WebMethod]
-    //public string CaliperCalculate(Equations.CaliperMethod data, ClientsData.NewClientData clientData) {
-    //    try {
-    //        return JsonConvert.SerializeObject(E.CaliperCalculate(data, clientData), Formatting.None);
-    //    }
-    //    catch (Exception e) { return ("Error: " + e); }
-    //}
-
     #endregion
 
     #region Methods
@@ -258,7 +244,6 @@ public class Calculations : System.Web.Services.WebService {
         return x;
     }
 
-
     private double Tee(ClientsData.NewClientData client) {
         if(client.dailyActivities.energy > 0 && client.dailyActivities.duration == 1440) {
             return Math.Round(client.dailyActivities.energy, 2);
@@ -287,7 +272,7 @@ public class Calculations : System.Web.Services.WebService {
                 //int a = client.gender.value == 0 ? 5 : -161;
                 //double BMR = 10 * client.weight + 6.25 * client.height - 5 * client.age + a;
 
-            double BMR = E.Bmr(client);
+            double BMR = Bmr(client);
             double DIT = 0.1 * (client.pal.value * BMR);
             double TEE = client.pal.value * BMR + DIT;
             return Math.Round(TEE, 2);
@@ -358,6 +343,101 @@ public class Calculations : System.Web.Services.WebService {
     }
     #endregion
 
+    #region BMR
+        public class BmrEquation {
+            public string code;
+            public string title;
+            public string description;
+            public bool isDisabled;
+        }
+
+        public string MifflinStJeor = "MSJ";
+        public string HarrisBenedictsRozaAndShizgal = "HBRS";
+        public string KatchMcArdle = "KMA";
+        public string HarrisBenedicts = "HB";
+        public string Cunningham = "C";
+        public string Owen = "O";
+
+        public List<BmrEquation> GetBmrEquations(int userType) {
+            List<BmrEquation> x = new List<BmrEquation>();
+            x.Add(new BmrEquation { code = MifflinStJeor, title = "Mifflin-St Jeor", description = "The Harris–Benedict equations revised by Mifflin and St Jeor in 1990", isDisabled = IsDisabled(MifflinStJeor, userType) });
+            x.Add(new BmrEquation { code = HarrisBenedictsRozaAndShizgal, title = "Harris-Benedict (Roza and Shizgal)", description = "The Harris–Benedict equations revised by Roza and Shizgal in 1984", isDisabled = IsDisabled(HarrisBenedictsRozaAndShizgal, userType) });
+            x.Add(new BmrEquation { code = KatchMcArdle, title = "Katch-McArdle", description = "The equation that takes into account lean body mass", isDisabled = IsDisabled(KatchMcArdle, userType) });
+            x.Add(new BmrEquation { code = HarrisBenedicts, title = "Harris-Benedict", description = "The original Harris–Benedict equations published in 1918 and 1919", isDisabled = IsDisabled(HarrisBenedicts, userType) });
+            //x.Add(new BmrEquation { code = Cunningham, title = "Cunningham", description = "", isDisabled = IsDisabled(Cunningham, userType) });
+            x.Add(new BmrEquation { code = Owen, title = "Owen", description = "The older equation that is generally not as accurate as the others", isDisabled = IsDisabled(Owen, userType) });
+            return x;
+        }
+
+        /*********  https://completehumanperformance.com/2013/10/08/calorie-needs/  ************/
+
+        public double Bmr(ClientsData.NewClientData x) {
+            double BMR = 0;
+            string type = x.bmrEquation;
+            if (type == HarrisBenedicts) {
+                /***** The original Harris–Benedict equations published in 1918 and 1919 *****/
+                if (x.gender.value == 0) {
+                    BMR = 66.5 + 13.75 * x.weight + 5.003 * x.height - 6.755 * x.age;  // Men
+                } else {
+                    BMR = 655.1 + 9.563 * x.weight + 1.85 * x.height - 4.676 * x.age;  // Women
+                }
+            } else if (type == HarrisBenedictsRozaAndShizgal) {
+                /***** The Harris–Benedict equations revised by Roza and Shizgal in 1984 *****/
+                //Men BMR = 88.362 + (13.397 × weight in kg) +(4.799 × height in cm) -(5.677 × age in years)
+                //Women BMR = 447.593 + (9.247 × weight in kg) +(3.098 × height in cm) -(4.330 × age in years)
+                if (x.gender.value == 0) {
+                    BMR = 88.362 + (13.397 * x.weight) + (4.799 * x.height) - (5.677 * x.age);  // Men
+                } else {
+                    BMR = 447.593 + (9.247 * x.weight) + (3.098 * x.height) - (4.330 * x.age);  // Women
+                }
+            } else if (type == MifflinStJeor) {
+                //BMR (Men) = (10 × weight in kg) +(6.25 × height in cm) − (5 × age in years) +5
+                //BMR (Women) = (10 × weight in kg) + (6.25 × height in cm) − (5 × age in years) − 161
+                int a = x.gender.value == 0 ? 5 : -161;
+                BMR = 10 * x.weight + 6.25 * x.height - 5 * x.age + a;
+            } else if (type == KatchMcArdle) {
+                //TODO:
+                //        Katch-Mcardle BMR Formula:
+                //BMR = 370 + (21.6 x Lean Body Mass(kg) )
+                //Lean Body Mass = (Weight(kg) x(100-(Body Fat)))/100
+                BodyFat bf = new BodyFat();
+                BMR = 370 + 21.6 * bf.GetBodyFat(x).lbm;
+            } else if (type == Cunningham) {
+                //TODO:
+                /****** Cunninghams = 500 + 22(lean body mass[LBM] in kg) ******/
+            } else if (type == Owen) {
+                //Men: RMR = 879 + 10.2 X weight
+                //Women: RMR = 795 + 7.18 X weight
+                if (x.gender.value == 0) {
+                    BMR = 879 + 10.2 * x.weight;  // Men
+                } else {
+                    BMR = 795 + 7.18 * x.weight;  // Women
+                }
+            } else {
+                /****** DEFAULT:  Mifflin - St.Jeor = 5 + 10(weight in kg) + 6.25(height in cm) − 5(age) ******/
+                int a = x.gender.value == 0 ? 5 : -161;
+                BMR = 10 * x.weight + 6.25 * x.height - 5 * x.age + a;
+            }
+            return BMR;
+        }
+
+        public bool IsDisabled(string code, int userType) {
+            bool x = true;
+            if (userType < 1) {
+                if (code == MifflinStJeor) {
+                    x = false;
+                }
+            } else if (userType == 1) {
+                if (code == MifflinStJeor || code == HarrisBenedictsRozaAndShizgal || code == HarrisBenedicts) {
+                    x = false;
+                }
+            } else {
+                x = false;
+            }
+            return x;
+        }
+        #endregion BMR
+
     #region MyCalculations
     private string myCalculation = "myCalculation";
     [WebMethod]
@@ -407,7 +487,7 @@ public class Calculations : System.Web.Services.WebService {
     }
 
     private double BmrTeeCoeff(ClientsData.NewClientData client) {
-        double BMR = E.Bmr(client);
+        double BMR = Bmr(client);
         double TEE = Tee(client);
         return Math.Round(BMR / TEE, 2);
     }

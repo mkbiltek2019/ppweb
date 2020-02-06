@@ -89,7 +89,8 @@ namespace Igprog {
                 diet NVARCHAR(200),
                 meals NVARCHAR(200),
                 date VARCHAR(50),
-                userId VARCHAR(50))";
+                userId VARCHAR(50),
+                bodyFatPerc VARCHAR(50))";
             CreateTable(path, sql);
         }
 
@@ -233,11 +234,12 @@ namespace Igprog {
 
         public void BodyFat(string path) {
             string sql = @"CREATE TABLE IF NOT EXISTS bodyfat
-                (recordDate VARCHAR(20) PRIMARY KEY,
+                (recordDate VARCHAR(20),
                 clientId VARCHAR(50),
                 bodyFat VARCHAR(20),
                 records VARCHAR(200),
-                recordMethod VARCHAR(20))";
+                recordMethod VARCHAR(20),
+                PRIMARY KEY (recordDate, clientId))";
             CreateTable(path, sql);
         }
 

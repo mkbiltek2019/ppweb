@@ -19,10 +19,8 @@ public class ClientsData : System.Web.Services.WebService {
     string usersDataBase = ConfigurationManager.AppSettings["UsersDataBase"];
 
     DataBase db = new DataBase();
-    Users.CheckUser c = new Users.CheckUser();
-    Calculations calculation = new Calculations();
+    Calculations C = new Calculations();
     Global g = new Global();
-    Equations E = new Equations();
 
     public ClientsData() {
     }
@@ -60,11 +58,7 @@ public class ClientsData : System.Web.Services.WebService {
 
         public string bmrEquation;
 
-        //public double bodyFat; /*** (%) ***/
-        //public double bodyFatMass; /*** (kg) ***/
-        //public double lbm;     /*** LBM lean body mass ***/
-
-        public Equations.BodyFat bodyFat = new Equations.BodyFat();
+        public BodyFat.NewBodyFat bodyFat = new BodyFat.NewBodyFat();
 
 
         //public List<DetailEnergyExpenditure.Activity> dailyActivities = new List<DetailEnergyExpenditure.Activity>();
@@ -83,7 +77,7 @@ public class ClientsData : System.Web.Services.WebService {
         NewClientData x = new NewClientData();
         x.id = null;
         x.clientId = client.clientId;
-        x.age = calculation.Age(client.birthDate);
+        x.age = C.Age(client.birthDate);
         x.gender = GetGender(client.gender.value);
         x.gender.title = client.gender.title;
         x.height = 0;
@@ -100,8 +94,8 @@ public class ClientsData : System.Web.Services.WebService {
         x.dailyActivities = new DetailEnergyExpenditure.Activities();
         x.myMeals = new MyMeals.NewMyMeals();
         x.clientNote = null;
-        x.bmrEquation = E.MifflinStJeor;
-        x.bodyFat = new Equations.BodyFat();
+        x.bmrEquation = C.MifflinStJeor;
+        x.bodyFat = new BodyFat.NewBodyFat();
         string json = JsonConvert.SerializeObject(x, Formatting.None);
         return json;
     }
@@ -125,7 +119,7 @@ public class ClientsData : System.Web.Services.WebService {
                 Goals g = new Goals();
                 x.id = reader.GetInt32(0);
                 x.clientId = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
-                x.age = calculation.Age(reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2));
+                x.age = C.Age(reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2));
                 x.gender.value = reader.GetValue(3) == DBNull.Value ? 0 : reader.GetInt32(3);
                 x.gender.title = GetGender(x.gender.value).title;
                 x.height = reader.GetValue(4) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(4));
@@ -155,29 +149,36 @@ public class ClientsData : System.Web.Services.WebService {
         try {
             db.CreateDataBase(userId, db.clientsData);
             db.AddColumn(userId, db.GetDataBasePath(userId, dataBase), db.clients, "note");  //new column in clients tbl.
+            db.AddColumn(userId, db.GetDataBasePath(userId, dataBase), db.clientsData, "bodyFatPerc");  //new column in clients tbl.
             using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + db.GetDataBasePath(userId, dataBase))) {
                 connection.Open();
                 string sql = "";
                 if (Check(userId, x) != false) {
-                    sql = string.Format(@"INSERT INTO clientsdata (clientId, height, weight, waist, hip, pal, goal, activities, diet, meals, date, userId)
-                            VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}');
-                            UPDATE clients SET note = '{12}' WHERE clientId = '{0}';"
+                    sql = string.Format(@"INSERT INTO clientsdata (clientId, height, weight, waist, hip, pal, goal, activities, diet, meals, date, userId, bodyFatPerc)
+                            VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}');
+                            UPDATE clients SET note = '{13}' WHERE clientId = '{0}';"
                             , x.clientId, x.height, x.weight, x.waist, x.hip, x.pal.value, x.goal.code
                             , JsonConvert.SerializeObject(x.activities, Formatting.None)
                             , JsonConvert.SerializeObject(x.diet, Formatting.None)
                             , JsonConvert.SerializeObject(x.meals, Formatting.None)
-                            , x.date, x.userId
+                            , x.date
+                            , x.userId
+                            , x.bodyFat.bodyFatPerc
                             , x.clientNote);
                 } else {
                     sql = string.Format(@"UPDATE clientsdata SET  
-                            height = '{0}', weight = '{1}', waist = '{2}', hip = '{3}', pal = '{4}', goal = '{5}', activities = '{6}', diet = '{7}', meals = '{8}', date = '{9}'
-                            WHERE clientId = '{10}' AND ((strftime('%d', date) = '{11}' AND strftime('%m', date) = '{12}' AND strftime('%Y', date) = '{13}') OR date = '{9}');
-                            UPDATE clients SET note = '{14}' WHERE clientId = '{10}';"
+                            height = '{0}', weight = '{1}', waist = '{2}', hip = '{3}', pal = '{4}', goal = '{5}', activities = '{6}', diet = '{7}', meals = '{8}', date = '{9}', bodyFatPerc = '{10}' 
+                            WHERE clientId = '{11}' AND ((strftime('%d', date) = '{12}' AND strftime('%m', date) = '{13}' AND strftime('%Y', date) = '{14}') OR date = '{9}');
+                            UPDATE clients SET note = '{15}' WHERE clientId = '{10}';"
                             , x.height, x.weight, x.waist, x.hip, x.pal.value, x.goal.code
                             , JsonConvert.SerializeObject(x.activities, Formatting.None)
                             , JsonConvert.SerializeObject(x.diet, Formatting.None)
                             , JsonConvert.SerializeObject(x.meals, Formatting.None)
-                            , x.date, x.clientId, Convert.ToDateTime(x.date).Day, (Convert.ToDateTime(x.date).Month < 10 ? string.Format("0{0}", Convert.ToDateTime(x.date).Month) : Convert.ToDateTime(x.date).Month.ToString())
+                            , x.date
+                            , x.bodyFat.bodyFatPerc
+                            , x.clientId
+                            , Convert.ToDateTime(x.date).Day
+                            , (Convert.ToDateTime(x.date).Month < 10 ? string.Format("0{0}", Convert.ToDateTime(x.date).Month) : Convert.ToDateTime(x.date).Month.ToString())
                             , Convert.ToDateTime(x.date).Year
                             , x.clientNote);
                 }
@@ -229,7 +230,7 @@ public class ClientsData : System.Web.Services.WebService {
                             Goals g = new Goals();
                             x.id = reader.GetInt32(0);
                             x.clientId = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
-                            x.age = calculation.Age(reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2));
+                            x.age = C.Age(reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2));
                             x.gender.value = reader.GetValue(3) == DBNull.Value ? 0 : reader.GetInt32(3);
                             x.gender.title = GetGender(x.gender.value).title;
                             x.height = reader.GetValue(4) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(4));
@@ -363,7 +364,8 @@ public class ClientsData : System.Web.Services.WebService {
             List<NewClientData> xx = new List<NewClientData>();
             NewClientData x = new NewClientData();
             db.AddColumn(userId, db.GetDataBasePath(userId, dataBase), db.clients, "note");  //new column in clients tbl.
-            string sql = string.Format(@"SELECT cd.rowid, cd.clientId, c.birthDate, c.gender, cd.height, cd.weight, cd.waist, cd.hip, cd.pal, cd.goal, cd.activities, cd.diet, cd.meals, cd.date, cd.userId, c.note
+            db.AddColumn(userId, db.GetDataBasePath(userId, dataBase), db.clientsData, "bodyFatPerc");  //new column in clients tbl.
+            string sql = string.Format(@"SELECT cd.rowid, cd.clientId, c.birthDate, c.gender, cd.height, cd.weight, cd.waist, cd.hip, cd.pal, cd.goal, cd.activities, cd.diet, cd.meals, cd.date, cd.userId, c.note, cd.bodyFatPerc
                         FROM clientsdata as cd
                         LEFT OUTER JOIN clients as c
                         ON cd.clientId = c.clientId
@@ -376,7 +378,7 @@ public class ClientsData : System.Web.Services.WebService {
                         x = new NewClientData();
                         x.id = reader.GetInt32(0);
                         x.clientId = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
-                        x.age = calculation.Age(reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2));
+                        x.age = C.Age(reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2));
                         x.gender.value = reader.GetValue(3) == DBNull.Value ? 0 : reader.GetInt32(3);
                         x.gender.title = GetGender(x.gender.value).title;
                         x.height = reader.GetValue(4) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(4));
@@ -392,22 +394,18 @@ public class ClientsData : System.Web.Services.WebService {
                         x.date = reader.GetValue(13) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(13);
                         x.userId = reader.GetValue(14) == DBNull.Value ? "" : reader.GetString(14);
                         x.clientNote = reader.GetValue(15) == DBNull.Value ? "" : reader.GetString(15);
+                        x.bodyFat = new BodyFat.NewBodyFat();
+                        x.bodyFat.bodyFatPerc = reader.GetValue(16) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(16));
                         DetailEnergyExpenditure.DailyActivities da = new DetailEnergyExpenditure.DailyActivities();
                         x.dailyActivities = da.getDailyActivities(userId, x.clientId);
                         x.myMeals = GetMyMeals(userId, x.clientId);
-                        x.bmrEquation = E.MifflinStJeor; // TODO GetBmrEquation() & SaveBMREquation()
+                        x.bmrEquation = C.MifflinStJeor; // TODO GetBmrEquation() & SaveBMREquation()
                         xx.Add(x);
                     }
                 }
             }
             if (xx.Count > 0) {
                 x = xx.OrderByDescending(a => Convert.ToDateTime(a.date)).FirstOrDefault();
-                x.bodyFat = new Equations.BodyFat();
-                BodyFat bf = new BodyFat();
-                BodyFat.CaliperMethod bfc = bf.GetLastMeasurement(x);
-                if (bfc != null) {
-                    x.bodyFat.bodyFatPerc = bf.GetLastMeasurement(x).bodyFat;
-                }
             }
             return x;
         } catch (Exception e) { return new NewClientData(); }

@@ -2003,7 +2003,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             targetEvent: '',
             clickOutsideToClose: true,
             fullscreen: $scope.customFullscreen, // Only for -xs, -sm breakpoints.
-            d: { clientData: x }
+            d: { clientData: x, userType: $rootScope.user.userType }
         })
       .then(function (response) {
           debugger;
@@ -2015,6 +2015,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.bodyFatPopupCtrl = function ($scope, $mdDialog, d, $http) {
         var webService = 'BodyFat.asmx';
         var clientData = d.clientData;
+        var userType = d.userType;
         $scope.d = null;
         $scope.method = 'JP3';
         $scope.svg = clientData.gender.value === 0 ? 'manSvg' : 'womanSvg';
@@ -2033,6 +2034,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         init();
 
         $scope.calculate = function (x) {
+            if (userType < 2) {
+                functions.demoAlert('this function is available only in premium package');
+                return false;
+            }
             $http({
                 url: $sessionStorage.config.backend + webService + '/CaliperCalculate',
                 method: "POST",
@@ -2044,6 +2049,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         $scope.confirm = function (x) {
+            if (userType < 2) {
+                functions.demoAlert('this function is available only in premium package');
+                return false;
+            }
             $http({
                 url: $sessionStorage.config.backend + webService + '/Save',
                 method: "POST",
