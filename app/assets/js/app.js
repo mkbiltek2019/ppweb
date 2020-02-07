@@ -1995,7 +1995,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.bodyFatPopup = function (x) {
-        debugger
         $mdDialog.show({
             controller: $scope.bodyFatPopupCtrl,
             templateUrl: 'assets/partials/popup/bodyfat.html',
@@ -2006,7 +2005,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             d: { clientData: x, userType: $rootScope.user.userType }
         })
       .then(function (response) {
-          debugger;
           $rootScope.clientData.bodyFat.bodyFatPerc = response;
       }, function () {
       });
@@ -2377,7 +2375,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         var value = $rootScope.calculation.bodyFat.bodyFatPerc.toFixed(1);
         var unit = '%';
         var gender = $rootScope.client.gender.value;
-        debugger;
         var options = {
             title: '%',
             min: 0,
@@ -2608,7 +2605,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
     $scope.bmrIsDisabled = false;
     $scope.setBmrEquation = function (x) {
-        debugger;
         if ($rootScope.user.licenceStatus == 'demo') {
             functions.demoAlert('this function is not available in demo version');
             return false;
