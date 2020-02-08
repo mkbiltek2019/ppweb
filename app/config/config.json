@@ -1,6 +1,6 @@
 ﻿{
-  "version": "1.4.0",
-  "date": "7.2.2020",
+  "version": "1.4.2",
+  "date": "8.2.2020",
   "backend": "../",
   "title": "nutrition program",
   "shortDescription": "meal planning web app",

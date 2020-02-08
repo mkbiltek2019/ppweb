@@ -273,6 +273,8 @@ public class Calculations : System.Web.Services.WebService {
                 //double BMR = 10 * client.weight + 6.25 * client.height - 5 * client.age + a;
 
             double BMR = Bmr(client);
+
+            //(Specific dynamic action (SDA), also known as thermic effect of food (TEF) or dietary induced thermogenesis (DIT) https://en.wikipedia.org/wiki/Specific_dynamic_action
             double DIT = 0.1 * (client.pal.value * BMR);
             double TEE = client.pal.value * BMR + DIT;
             return Math.Round(TEE, 2);

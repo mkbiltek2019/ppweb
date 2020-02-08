@@ -3661,6 +3661,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.new = function () {
+        angular.forEach($rootScope.currentMenu.data.meals, function (value, key) {
+            if (value.description !== '') {
+                $rootScope.currentMenu.data.meals[key].description = '';
+            }
+        })
         init();
     }
 
