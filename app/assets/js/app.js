@@ -62,7 +62,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + 'Calculations.asmx/Init',
             method: "POST",
-            data: { userType: $rootScope.user.userType }
+            data: { userType: 2 }  // data: { userType: $rootScope.user.userType }
         })
         .then(function (response) {
             $rootScope.myCalculation = JSON.parse(response.data.d);
