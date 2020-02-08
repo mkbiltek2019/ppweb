@@ -1900,5 +1900,6 @@
   "low": "low",
   "average_": "Average",
   "very high": "Very high",
-  "overFat": "over fat"
+  "overFat": "over fat",
+  "newuser_note": "Additional users may only be registered if they are employees of a joint work organization (institution)"
 }

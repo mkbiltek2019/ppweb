@@ -9,7 +9,12 @@
             </tr>
             <tr>
                 <td>Broj korisnika
-                <p class="small"><em>* Odnosi se na broj korisnika aplikacija koji unutar jednog tima imaju pristup zajedničkoj bazi podataka.</em></p>
+                    <p class="small">
+                        <em>
+                            * Odnosi se na broj korisnika aplikacija koji unutar jednog tima imaju pristup zajedničkoj bazi podataka.<br />
+                            Pravo na dodatne licence imaju samo pravna lica.
+                        </em>
+                    </p>
                 </td>
                 <td class="text-center">1</td>
                 <td class="text-center">2</td>
@@ -17,7 +22,7 @@
                     <strong>
                         <select ng-model="premiumUsers_" ng-options="x for x in maxUsers" style="height:30px" ng-change="getPremiumPrice(premiumUsers_)"></select>
                     </strong><br />
-                    <em class="small">* dodatni korisnik 6.66 € / god.</em>
+                    <em class="small">* dodatna licenca: 67.5 € / god.</em>
                 </td>
             </tr>
             <tr>

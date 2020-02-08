@@ -1,6 +1,6 @@
 ﻿/*!
 app.js
-(c) 2018-2019 IG PROG, www.igprog.hr
+(c) 2018-2020 IG PROG, www.igprog.hr
 */
 angular.module('app', ['ngMaterial'])
 
@@ -68,7 +68,6 @@ angular.module('app', ['ngMaterial'])
 
     $scope.showCustomers = false;
     $scope.toggleCustomers = function () {
-        debugger;
         $scope.showCustomers = !$scope.showCustomers;
     };
     $scope.premiumUsers = 5;
@@ -83,8 +82,8 @@ angular.module('app', ['ngMaterial'])
     $scope.premiumPriceOneYear = 1850;
     $scope.premiumPriceTwoYear = 2960;
     $scope.getPremiumPrice = function (x) {
-        $scope.premiumPriceOneYear = x > 5 ? 1850 + ((x- 5) * 50) : 1850;
-        $scope.premiumPriceTwoYear = x > 5 ? 2960 + ((x - 5) * 50) : 2960;
+        $scope.premiumPriceOneYear = x > 5 ? 1850 + ((x- 5) * 500) : 1850;
+        $scope.premiumPriceTwoYear = x > 5 ? 2960 + ((x - 5) * 500) : 2960;
         $scope.premiumUsers = x;
         $scope.premiumUsers_ = x;
     }
@@ -295,7 +294,7 @@ angular.module('app', ['ngMaterial'])
         }
 
         totalprice = $scope.user.licenceNumber > 1 ? unitprice * $scope.user.licenceNumber - (unitprice * $scope.user.licenceNumber * 0.1) : unitprice;
-        var additionalUsers = $scope.premiumUsers > 5 && $scope.user.userType == 2 ? ($scope.premiumUsers - 5) * 50 : 0;  // 50kn/additional user;
+        var additionalUsers = $scope.premiumUsers > 5 && $scope.user.userType == 2 ? ($scope.premiumUsers - 5) * 500 : 0;  // 500kn/additional user;
         $scope.user.price = totalprice + additionalUsers;
         $scope.user.priceEur = (totalprice + additionalUsers) / $rootScope.config.eur;
     }

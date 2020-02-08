@@ -224,7 +224,7 @@
                                 <md-radio-button ng-repeat="x in pals" value="{{x.value}}" class="md-primary">
                                     {{x.title | translate}}
                                     <span ng-if="clientData.pal.value==x.value" class="p10">
-                                        <span style="font-size:1.1em" class="bg-primary">{{pal.description | translate}}</span>
+                                        <em style="font-size:1.1em" class="text-primary">({{pal.description | translate}})</em>
                                     </span>
                                 </md-radio-button>
                             </md-radio-group>

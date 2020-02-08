@@ -1910,6 +1910,7 @@
   "low": "Niska",
   "average_": "Prosječna",
   "very high": "Vrlo visoka",
-  "overFat": "Prekomjerna"
+  "overFat": "Prekomjerna",
+  "newuser_note": "Dodatne korisnike je dozvoljeno registrirati samo ako su zaposlenici zajedničke radne organizacije (ustanove)"
 
 }
