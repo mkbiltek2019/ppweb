@@ -1911,6 +1911,11 @@
   "average_": "Prosječna",
   "very high": "Vrlo visoka",
   "overFat": "Prekomjerna",
+  "essential fat": "vrijednost neophodne masti u tijelu",
+  "athletes": "vrijednost kod sportaša",
+  "fitness": "vrijednost kod rekreativaca",
+  "acceptable value": "prihvatljiva vrijednost",
+  "obese value": "vrijednost koja ukazuju na pretilost",
   "newuser_note": "Dodatne korisnike je dozvoljeno registrirati samo ako su zaposlenici zajedničke radne organizacije (ustanove)"
 
 

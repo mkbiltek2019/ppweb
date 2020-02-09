@@ -110,13 +110,14 @@
                                 </td>
                             </tr>
                             <tr class="text-center">
-                                <td class="text-primary"><em><strong>LBM</strong><em class="text-small text-muted"> ({{'lean body mass' | translate}})</em>:
+                                <td class="text-primary"><em><strong>LBM</strong><em class="text-small"> ({{'lean body mass' | translate}})</em>:
                                      {{calculation.bodyFat.lbm | number:0}} {{'kg' | translate}}</em>
                                 </td>
                             </tr>
-                            <tr ng-if="calculation.bodyFat.description">
+                            <tr ng-if="calculation.bodyFat.title">
                                 <td colspan="2" >
-                                    {{'fat level' | translate}}: <strong class="text-uppercase"> {{calculation.bodyFat.description | translate}}</strong>
+                                    {{'fat level' | translate}}: <strong class="text-uppercase"> {{calculation.bodyFat.title | translate}}</strong>
+                                    <em>({{calculation.bodyFat.description | translate}})</em>
                                 </td>
                             </tr>
                         </table>

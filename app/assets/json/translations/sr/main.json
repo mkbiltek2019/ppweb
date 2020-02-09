@@ -1893,7 +1893,7 @@
   "body fat measurement using caliper": "Merenje debljine masnog tkiva pomoću kalipera",
   "Jackson/Pollock 3-Site Caliper Method": "Merenje na 3 tačke prema Jackson/Pollock",
   "Jackson/Pollock 4-Site Caliper Method": "Merenje na 4 tačke prema Jackson/Pollock",
-  "Jackson/Pollock 7-Site Caliper Method": "Мерење на 7 тачака према Јацксон/Поллоцк",
+  "Jackson/Pollock 7-Site Caliper Method": "Merenje na 7 tačke prema Jackson/Pollock",
   "Durnin/Womersley Caliper Method": "Merenje prema Durnin/Womersley",
   "Chest": "Prsa",
   "Abdominal": "Abdominal",
@@ -1909,6 +1909,11 @@
   "average_": "Prosečna",
   "very high": "Vrlo visoka",
   "overFat": "Prekomerna",
-  "newuser_note": "Додатне кориснике је дозвољено регистрирати само ако су запосленици заједничке радне организације (установе)"
+  "essential fat": "vrednost neophodne masti u telu",
+  "athletes": "vrednost kod sportaša",
+  "fitness": "vrednost kod rekreativaca",
+  "acceptable value": "prihvatljiva vrednost",
+  "obese value": "vrednost koja ukazuju na pretilost",
+  "newuser_note": "Dodatne korisnike je dozvoljeno registrirati samo ako su zaposlenici zajedničke radne organizacije (ustanove)"
 
 }

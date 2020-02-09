@@ -1901,5 +1901,10 @@
   "average_": "Average",
   "very high": "Very high",
   "overFat": "over fat",
+  "essential fat": "Essential Fat",
+  "athletes": "Athletes",
+  "fitness": "fitness",
+  "acceptable value": "Acceptable Value",
+  "obese value": "Obese",
   "newuser_note": "Additional users may only be registered if they are employees of a joint work organization (institution)"
 }

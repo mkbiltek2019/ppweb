@@ -25,6 +25,7 @@ public class BodyFat : System.Web.Services.WebService {
         public double bodyFatPerc; /*** (%) ***/
         public double bodyFatMass; /*** (kg) ***/
         public double lbm;     /*** LBM lean body mass ***/
+        public string title;
         public string description;
     }
 
@@ -173,170 +174,221 @@ public class BodyFat : System.Web.Services.WebService {
 
     /***** Lean Body Mass *****/
     public NewBodyFat GetBodyFat(ClientsData.NewClientData x) {
-            NewBodyFat bf = new NewBodyFat();
-            // Lean Body Mass = (Weight(kg) x(100-(Body Fat)))/100
-            if (x.bodyFat.bodyFatPerc > 0) {
-                bf.lbm = (x.weight * (100 - (x.bodyFat.bodyFatPerc))) / 100;
-                bf.bodyFatMass = x.weight - bf.lbm;
-                bf.bodyFatPerc = x.bodyFat.bodyFatPerc;
-                bf.description = GetLmbDesc(x);
-            }
-            return bf;
+        NewBodyFat bf = new NewBodyFat();
+        // Lean Body Mass = (Weight(kg) x(100-(Body Fat)))/100
+        if (x.bodyFat.bodyFatPerc > 0) {
+            bf.lbm = (x.weight * (100 - (x.bodyFat.bodyFatPerc))) / 100;
+            bf.bodyFatMass = x.weight - bf.lbm;
+            bf.bodyFatPerc = x.bodyFat.bodyFatPerc;
+            BodyDesc bd = GetLmbDesc(x);
+            bf.title = bd.title;
+            bf.description = bd.desc;
         }
+        return bf;
+    }
 
-    public string GetLmbDesc(ClientsData.NewClientData x) {
+    public class BodyDesc {
+        public string title;
+        public string desc;
+    }
+
+    public BodyDesc GetLmbDesc(ClientsData.NewClientData x) {
         /*** depending of ages: https://www.thecalculator.co/health/Body-Fat-4-Site-Skinfold-Measurement-Calculator-1114.html ***/
-        string desc = null;
+        BodyDesc bd = new BodyDesc();
         double val = x.bodyFat.bodyFatPerc;
         int gender = x.gender.value;
         int age = x.age;
         string veryLow = "very low";
+        string essentialFat = "essential fat";
         string low = "low";
+        string athletes = "athletes";
         string average = "average_";
+        string fitness = "fitness";
         string veryHigh = "very high";
+        string acceptable = "acceptable value";
         string OverFat = "overFat";
+        string obese = "obese value";
 
         //Fat level
         if (gender == 0) {
             if (age >= 20 && age < 30 ) {
                 if (val < 9) {
-                    desc = veryLow;
+                    bd.title = veryLow;
+                    bd.desc = essentialFat;
                 }
                 if (val >= 9 && val < 13) {
-                    desc = low;
+                    bd.title = low;
+                    bd.desc = athletes;
                 }
                 if (val >= 13 && val < 17) {
-                    desc = average;
+                    bd.title = average;
+                    bd.desc = fitness;
                 }
                 if (val >= 17 && val < 20) {
-                    desc = veryHigh;
+                    bd.title = veryHigh;
+                    bd.desc = acceptable;
                 }
                 if (val >= 20) {
-                    desc = OverFat;
+                    bd.title = OverFat;
+                    bd.desc = obese;
                 }
             }
             if (age >= 30 && age < 40 ) {
                 if (val < 11) {
-                    desc = veryLow;
+                    bd.title = veryLow;
+                    bd.desc = essentialFat;
                 }
                 if (val >= 11 && val < 14) {
-                    desc = low;
+                    bd.title = low;
+                    bd.desc = athletes;
                 }
                 if (val >= 14 && val < 18) {
-                    desc = average;
+                    bd.title = average;
+                    bd.desc = fitness;
                 }
                 if (val >= 18 && val < 23) {
-                    desc = veryHigh;
+                    bd.title = veryHigh;
+                    bd.desc = acceptable;
                 }
                 if (val >= 23) {
-                    desc = OverFat;
+                    bd.title = OverFat;
+                    bd.desc = obese;
                 }
             }
             if (age >= 40 && age < 50 ) {
                 if (val < 12) {
-                    desc = veryLow;
+                    bd.title = veryLow;
+                    bd.desc = essentialFat;
                 }
                 if (val >= 12 && val < 16) {
-                    desc = low;
+                    bd.title = low;
+                    bd.desc = athletes;
                 }
                 if (val >= 16 && val < 21) {
-                    desc = average;
+                    bd.title = average;
+                    bd.desc = fitness;
                 }
                 if (val >= 21 && val < 26) {
-                    desc = veryHigh;
+                    bd.title = veryHigh;
+                    bd.desc = acceptable;
                 }
                 if (val >= 26) {
-                    desc = OverFat;
+                    bd.title = OverFat;
+                    bd.desc = obese;
                 }
             }
             if (age >= 50) {
                 if (val < 13) {
-                    desc = veryLow;
+                    bd.title = veryLow;
+                    bd.desc = essentialFat;
                 }
                 if (val >= 13 && val < 17) {
-                    desc = low;
+                    bd.title = low;
+                    bd.desc = athletes;
                 }
                 if (val >= 17 && val < 22) {
-                    desc = average;
+                    bd.title = average;
+                    bd.desc = fitness;
                 }
                 if (val >= 22 && val < 28) {
-                    desc = veryHigh;
+                    bd.title = veryHigh;
+                    bd.desc = acceptable;
                 }
                 if (val >= 28) {
-                    desc = OverFat;
+                    bd.title = OverFat;
+                    bd.desc = obese;
                 }
             }
         } else {
             if (age >= 20 && age < 30 ) {
                 if (val < 17) {
-                    desc = veryLow;
+                    bd.title = veryLow;
+                    bd.desc = essentialFat;
                 }
                 if (val >= 17 && val < 21) {
-                    desc = low;
+                    bd.title = low;
+                    bd.desc = athletes;
                 }
                 if (val >= 21 && val < 24) {
-                    desc = average;
+                    bd.title = average;
+                    bd.desc = fitness;
                 }
                 if (val >= 24 && val < 28) {
-                    desc = veryHigh;
+                    bd.title = veryHigh;
+                    bd.desc = acceptable;
                 }
                 if (val >= 28) {
-                    desc = OverFat;
+                    bd.title = OverFat;
                 }
             }
             if (age >= 30 && age < 40 ) {
                 if (val < 18) {
-                    desc = veryLow;
+                    bd.title = veryLow;
+                    bd.desc = essentialFat;
                 }
                 if (val >= 18 && val < 22) {
-                    desc = low;
+                    bd.title = low;
+                    bd.desc = athletes;
                 }
                 if (val >= 22 && val < 25) {
-                    desc = average;
+                    bd.title = average;
+                    bd.desc = fitness;
                 }
                 if (val >= 25 && val < 30) {
-                    desc = veryHigh;
+                    bd.title = veryHigh;
+                    bd.desc = acceptable;
                 }
                 if (val >= 30) {
-                    desc = OverFat;
+                    bd.title = OverFat;
+                    bd.desc = obese;
                 }
             }
             if (age >= 40 && age < 50 ) {
                 if (val < 20) {
-                    desc = veryLow;
+                    bd.title = veryLow;
+                    bd.desc = essentialFat;
                 }
                 if (val >= 20 && val < 24) {
-                    desc = low;
+                    bd.title = low;
+                    bd.desc = athletes;
                 }
                 if (val >= 24 && val < 28) {
-                    desc = average;
+                    bd.title = average;
+                    bd.desc = fitness;
                 }
                 if (val >= 28 && val < 32) {
-                    desc = veryHigh;
+                    bd.title = veryHigh;
+                    bd.desc = acceptable;
                 }
                 if (val >= 32) {
-                    desc = OverFat;
+                    bd.title = OverFat;
+                    bd.desc = obese;
                 }
             }
             if (age >= 50) {
                 if (val < 21) {
-                    desc = veryLow;
+                    bd.title = veryLow;
+                    bd.desc = essentialFat;
                 }
                 if (val >= 21 && val < 24) {
-                    desc = low;
+                    bd.title = low;
+                    bd.desc = athletes;
                 }
                 if (val >= 24 && val < 32) {
-                    desc = average;
+                    bd.title = average;
+                    bd.desc = fitness;
                 }
                 if (val >= 32 && val < 36) {
-                    desc = veryHigh;
+                    bd.title = veryHigh;
+                    bd.desc = acceptable;
                 }
                 if (val >= 36) {
-                    desc = OverFat;
+                    bd.title = OverFat;
+                    bd.desc = obese;
                 }
             }
         }
-        return desc;
+        return bd;
     }
 
     public CaliperData InitCaliper(ClientsData.NewClientData clientData) {
