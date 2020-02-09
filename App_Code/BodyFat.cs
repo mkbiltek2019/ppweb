@@ -180,21 +180,21 @@ public class BodyFat : System.Web.Services.WebService {
             bf.lbm = (x.weight * (100 - (x.bodyFat.bodyFatPerc))) / 100;
             bf.bodyFatMass = x.weight - bf.lbm;
             bf.bodyFatPerc = x.bodyFat.bodyFatPerc;
-            BodyDesc bd = GetLmbDesc(x);
+            BodyFatDesc bd = GetLmbDesc(x);
             bf.title = bd.title;
             bf.description = bd.desc;
         }
         return bf;
     }
 
-    public class BodyDesc {
+    public class BodyFatDesc {
         public string title;
         public string desc;
     }
 
-    public BodyDesc GetLmbDesc(ClientsData.NewClientData x) {
+    public BodyFatDesc GetLmbDesc(ClientsData.NewClientData x) {
         /*** depending of ages: https://www.thecalculator.co/health/Body-Fat-4-Site-Skinfold-Measurement-Calculator-1114.html ***/
-        BodyDesc bd = new BodyDesc();
+        BodyFatDesc bd = new BodyFatDesc();
         double val = x.bodyFat.bodyFatPerc;
         int gender = x.gender.value;
         int age = x.age;
