@@ -2249,6 +2249,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var getTotal = function () {
+        if ($rootScope.clientData === undefined) {
+            return false;
+        }
         if ($rootScope.clientData.dailyActivities.activities == null) {
             $rootScope.clientData.dailyActivities.activities = [];
         }
@@ -2824,6 +2827,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 }])
 
 .controller('mealsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
+    if ($rootScope.clientData === undefined) {
+        $rootScope.newTpl = 'assets/partials/clientsdata.html';
+        $rootScope.selectedNavItem = 'clientsdata';
+        return false;
+    }
     var webService = 'Meals.asmx';
 
     $scope.toggleMealsTpl = function (x) {
@@ -3185,6 +3193,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 }])
 
 .controller('menuCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'charts', '$timeout', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, charts, $timeout, functions, $translate) {
+    if ($rootScope.clientData === undefined) {
+        $rootScope.newTpl = 'assets/partials/meals.html';
+        $rootScope.selectedNavItem = 'meals';
+        return false;
+    }
     var webService = 'Foods.asmx';
     $scope.addFoodBtnIcon = 'fa fa-plus';
     $scope.addFoodBtn = false;
@@ -4245,73 +4258,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     };
 
-    //$scope.send = function () {
-    //    if ($rootScope.currentMenu.data.selectedFoods.length == 0) {
-    //        return false;
-    //    }
-    //    if ($rootScope.user.licenceStatus == 'demo') {
-    //        functions.demoAlert('this function is not available in demo version');
-    //        return false;
-    //    }
-    //    if ($rootScope.user.userType < 1) {
-    //        functions.demoAlert('this function is available only in standard and premium package');
-    //        return false;
-    //    }
-    //    openSendMenuPopup();
-    //}
-
-    //var openSendMenuPopup = function () {
-    //    $rootScope.client.clientData = $rootScope.clientData;
-    //    $mdDialog.show({
-    //        controller: openSendMenuPopupCtrl,
-    //        templateUrl: 'assets/partials/popup/sendmenu.html',
-    //        parent: angular.element(document.body),
-    //        clickOutsideToClose: true,
-    //        d: { currentMenu: $rootScope.currentMenu, client: $rootScope.client, user: $rootScope.user }
-    //    })
-    //   .then(function (x) {
-    //   }, function () {
-    //   });
-    //}
-
-    //var openSendMenuPopupCtrl = function ($scope, $mdDialog, $http, d, $translate, functions) {
-    //    $scope.d = angular.copy(d);
-
-    //    var send = function (x) {
-    //        $scope.titlealert = null;
-    //        $scope.emailalert = null;
-    //        if (functions.isNullOrEmpty(x.currentMenu.title)) {
-    //            $scope.titlealert = $translate.instant('menu title is required');
-    //            return false;
-    //        }
-    //        if (functions.isNullOrEmpty(x.client.email)) {
-    //            $scope.emailalert = $translate.instant('email is required');
-    //            return false;
-    //        }
-    //        $mdDialog.hide();
-    //        $http({
-    //            url: $sessionStorage.config.backend + 'Mail.asmx/SendMenu',
-    //            method: "POST",
-    //            data: { email: x.client.email, currentMenu: x.currentMenu, user: $scope.d.user, lang: $rootScope.config.language }
-    //        })
-    //        .then(function (response) {
-    //            functions.alert(response.data.d, '');
-    //        },
-    //        function (response) {
-    //            functions.alert($translate.instant(response.data.d), '');
-    //        });
-    //    }
-
-    //    $scope.cancel = function () {
-    //        $mdDialog.cancel();
-    //    };
-
-    //    $scope.confirm = function (x) {
-    //        send(x);
-    //    }
-
-    //};
-
     var getTotals = function (x) {
         $http({
             url: $sessionStorage.config.backend + webService + '/GetTotals',
@@ -4787,7 +4733,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     var saturatedFatsChart = function () {
         var id = 'saturatedFatsChart';
         var value = $rootScope.totals.saturatedFats;
-        unit = 'mg';
+        unit = 'g';
         var options = {
             title: 'saturated fats',
             min: 0,
@@ -4806,7 +4752,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     var trifluoroaceticAcidChart = function () {
         var id = 'trifluoroaceticAcidChart';
         var value = $rootScope.totals.trifluoroaceticAcid;
-        unit = 'mg';
+        unit = 'g';
         var options = {
             title: 'trifluoroacetic acid',
             min: 0,
@@ -5391,6 +5337,22 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.openPrintPdfPopup = function () {
         openPrintPdfPopup();
+    }
+
+    $scope.getFoodGroupClass = function (x) {
+        switch (x) {
+            case 'C': return 'bg-warning'; break;
+            case 'V': return 'bg-success'; break;
+            case 'F': return 'bg-primary'; break;
+            case 'M': case 'EUM': case 'NFM': case 'MFM': case 'FFM': return 'bg-danger'; break;
+            case 'MI': case 'LFMI': case 'SMI': case 'FFMI': return ''; break;
+            case 'FA': case 'SF': case 'UF': case 'MUF': return 'bg-info'; break;
+            case 'OF': return 'bg-otherfoods'; break;
+            case 'MF': return 'bg-mixedfoods'; break;
+            case 'PM': return 'bg-preparedmeals'; break;
+            default:
+                return '';
+        }
     }
 
 }])

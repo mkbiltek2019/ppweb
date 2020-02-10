@@ -54,9 +54,9 @@
                     </div>
                     <div ng-show="!loading" style="min-height:50%">
                         <div class="table-responsive">
-                            <table class="table table-condensed table-hover">
+                            <table class="table table-condensed">
                                 <tbody class="text-small">
-                                    <tr ng-repeat="x in currentMenu.data.selectedFoods | filter:filterMeal track by $index">
+                                    <tr ng-repeat="x in currentMenu.data.selectedFoods | filter:filterMeal track by $index" class="{{getFoodGroupClass(x.foodGroup.code)}}">
                                         <td class="borderNone"><a href="" ng-click="removeFood(x, currentMenu.data.selectedFoods.indexOf(x))" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-times text-danger"></i></a></td>
                                         <td class="borderNone">
                                             <button class="fa fa-arrow-up text-primary" ng-click="moveUp(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move up' | translate}}"></button><br />
