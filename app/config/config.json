@@ -81,5 +81,6 @@
       "price": 1850
     }
   ],
-  "showmenuslimit": 20
+  "showmenuslimit": 20,
+  "showfoodgroupscolors": false
 }

@@ -5340,13 +5340,16 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.getFoodGroupClass = function (x) {
+        if (!$rootScope.config.showfoodgroupscolors) {
+            return '';
+        }
         switch (x) {
-            case 'C': return 'bg-warning'; break;
-            case 'V': return 'bg-success'; break;
-            case 'F': return 'bg-primary'; break;
-            case 'M': case 'EUM': case 'NFM': case 'MFM': case 'FFM': return 'bg-danger'; break;
-            case 'MI': case 'LFMI': case 'SMI': case 'FFMI': return ''; break;
-            case 'FA': case 'SF': case 'UF': case 'MUF': return 'bg-info'; break;
+            case 'C': return 'bg-cereals'; break;
+            case 'V': return 'bg-vegetables'; break;
+            case 'F': return 'bg-fruit'; break;
+            case 'M': case 'EUM': case 'NFM': case 'MFM': case 'FFM': return 'bg-meat'; break;
+            case 'MI': case 'LFMI': case 'SMI': case 'FFMI': return 'bg-milk'; break;
+            case 'FA': case 'SF': case 'UF': case 'MUF': return 'bg-fat'; break;
             case 'OF': return 'bg-otherfoods'; break;
             case 'MF': return 'bg-mixedfoods'; break;
             case 'PM': return 'bg-preparedmeals'; break;

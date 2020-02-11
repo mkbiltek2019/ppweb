@@ -212,10 +212,8 @@ hr.bold {
 }
 
 .guage {
-    /*height:100px;
-    width:100px;*/
-    height:120px;
-    width:120px;
+    height:100px;
+    width:100px;
     margin:auto;
 }
 
@@ -320,14 +318,32 @@ a[class*="btn-default"], button[class*="btn-default"], input[class*="search"] {
     background-color: #337ab7
 }
 
+.bg-cereals {
+    background-color: #f2dea2;
+}
+.bg-vegetables {
+    background-color: #9feda8;
+}
+.bg-fruit {
+    background-color: #f5a36c;
+}
+.bg-meat {
+    background-color: #ff545a;
+}
+.bg-milk {
+    background-color: #fafafa;
+}
+.bg-fat {
+    background-color: #bab3a6;
+}
 .bg-otherfoods {
-    background-color: #f5c242;
+    background-color: #e5c8fa;
 }
 .bg-mixedfoods {
-    background-color: #b19cd9;
+    background-color: #d19c73;
 }
 .bg-preparedmeals {
-    background-color: #9c6069;
+    background-color: #73b3d1;
 }
 
 @media (max-width: 767px) {
