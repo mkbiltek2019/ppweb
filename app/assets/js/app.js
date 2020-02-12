@@ -5358,6 +5358,24 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     }
 
+    $scope.openColorGroupsInfoPopup = function () {
+        $mdDialog.show({
+            controller: colorGroupsInfoPopupCtrl,
+            templateUrl: 'assets/partials/popup/colorfoodgroups.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true
+        })
+        .then(function (recipe) {
+        }, function () {
+        });
+    };
+    var colorGroupsInfoPopupCtrl = function ($scope, $mdDialog) {
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+    };
+
+
 }])
 
 .controller('myFoodsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {

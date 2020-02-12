@@ -322,25 +322,25 @@ a[class*="btn-default"], button[class*="btn-default"], input[class*="search"] {
     background-color: #f2dea2;
 }
 .bg-vegetables {
-    background-color: #9feda8;
+    background-color: #cbf7d0;
 }
 .bg-fruit {
-    background-color: #f5a36c;
+    background-color: #fcf688;
 }
 .bg-meat {
-    background-color: #ff545a;
+    background-color: #fa9b9e;
 }
 .bg-milk {
     background-color: #fafafa;
 }
 .bg-fat {
-    background-color: #bab3a6;
+    background-color: #cccbb1;
 }
 .bg-otherfoods {
-    background-color: #e5c8fa;
+    background-color: #a18e6a;
 }
 .bg-mixedfoods {
-    background-color: #d19c73;
+    background-color: #dcbce6;
 }
 .bg-preparedmeals {
     background-color: #73b3d1;

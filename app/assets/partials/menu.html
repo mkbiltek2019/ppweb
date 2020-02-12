@@ -82,9 +82,17 @@
                                         <td class="borderNone text-right nowrap" style="width:150px">{{x.energy}} {{'kcal' | translate}}</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="4" class="text-capitalize">
-                                            <a ng-disabled="addFoodBtn" href="" class="btn btn-primary" ng-click="openFoodPopup(null,null)"><i ng-class="addFoodBtnIcon"></i> {{'add food' | translate}}</a>
-                                            <a href="" class="btn btn-default ml5" ng-click="openRecipePopup()"><i class="fa fa-file-text-o"></i> {{'add recipe' | translate}}</a>
+                                        <td colspan="4" >
+                                            <div class="text-capitalize">
+                                                <a ng-disabled="addFoodBtn" href="" class="btn btn-primary" ng-click="openFoodPopup(null,null)"><i ng-class="addFoodBtnIcon"></i> {{'add food' | translate}}</a>
+                                                <a href="" class="btn btn-default ml5" ng-click="openRecipePopup()"><i class="fa fa-file-text-o"></i> {{'add recipe' | translate}}</a>
+                                            </div>
+                                            <div ng-if="currentMenu.data.selectedFoods.length>0" class="pt10">
+                                                <md-checkbox ng-model="config.showfoodgroupscolors" class="md-primary">
+                                                    {{'color food groups' | translate}}
+                                                </md-checkbox>
+                                                <i class="fa fa-info-circle text-info" style="cursor:pointer" ng-click="openColorGroupsInfoPopup()"></i>
+                                            </div>
                                         </td>
                                         <td colspan="4" class="text-right">
                                             <span ng-repeat="x in currentMenu.data.meals">
@@ -100,8 +108,8 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div>
-                            <div ng-repeat="x in currentMenu.data.meals">
+                        <div class="pt10">
+                            <div ng-repeat="x in currentMenu.data.meals" >
                                 <md-input-container ng-if="x.code==currentMeal" class="md-block" style="margin:0px" flex-gt-sm>
                                     <label>{{'description, meal preparation' | translate}}...</label>
                                     <textarea ng-model="x.description" rows="3" class="area"></textarea>
@@ -110,11 +118,6 @@
                         </div>
                         <div ng-if="totals.price.value>0" class="text-right m10">
                             <em class="text-primary"><span class="text-capitalize">{{'price' | translate}}</span>: <span>{{totals.price.value | number:2}}</span> <span class="text-uppercase">{{config.currency}}</span></em>
-                        </div>
-                        <div>
-                            <md-checkbox ng-model="config.showfoodgroupscolors" class="md-primary" >
-                                {{'color food groups' | translate}}
-                            </md-checkbox>
                         </div>
                     </div>
                 </div>
