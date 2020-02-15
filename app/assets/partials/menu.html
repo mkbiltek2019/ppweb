@@ -283,7 +283,7 @@
                     <td class="text-success"><span style="font-size:24px">{{totals.energy | number:0}} {{'kcal' | translate}}</span></td>
                 </tr>
                 <tr>
-                    <td class="text-primary"><em>{{'recommended' | translate}}: {{recommendations.energy}} {{'kcal' | translate}}</em></td>
+                    <td class="text-primary"><em>{{'recommended' | translate}}: {{recommendations.energy | number:0}} {{'kcal' | translate}}</em></td>
                 </tr>
             </table>
         </div>
@@ -297,7 +297,7 @@
                     <td class="text-danger"><span style="font-size:24px">{{totals.servings.otherFoodsEnergy | number:0}} {{'kcal' | translate}}</span></td>
                 </tr>
                 <tr>
-                    <td class="text-primary"><em>{{'acceptable' | translate}}: {{recommendations.servings.otherFoodsEnergy}} {{'kcal' | translate}}</em></td>
+                    <td class="text-primary"><em>{{'acceptable' | translate}}: {{recommendations.servings.otherFoodsEnergy | number:0}} {{'kcal' | translate}}</em></td>
                 </tr>
             </table>
         </div>
