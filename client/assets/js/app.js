@@ -1,6 +1,6 @@
 ﻿/*!
 app.js
-(c) 2019 IG PROG, www.igprog.hr
+(c) 2019-2020 IG PROG, www.igprog.hr
 */
 angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngStorage', 'functions', 'charts'])
 
@@ -352,7 +352,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         $http({
             url: $sessionStorage.config.backend + 'Calculations.asmx/GetCalculation',
             method: "POST",
-            data: { client: $scope.clientData }
+            data: { client: $scope.clientData, userType: 1 }
         })
         .then(function (response) {
             $scope.calculation = JSON.parse(response.data.d);
