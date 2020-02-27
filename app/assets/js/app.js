@@ -5378,7 +5378,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 }])
 
-.controller('myFoodsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
+.controller('myFoodsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', '$timeout', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate, $timeout) {
     var webService = 'MyFoods.asmx';
     $scope.unit = null;
 
@@ -5614,6 +5614,106 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                  functions.alert($translate.instant(response.data.d), '');
              });
         }
+    };
+
+
+    //***** USDA *****
+    $scope.openUsdaPopup = function () {
+        if ($rootScope.user.licenceStatus == 'demo') { return false; }
+        $mdDialog.show({
+            controller: usdaPopupCtrl,
+            templateUrl: 'assets/partials/popup/usda.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true,
+        })
+        .then(function (d) {
+            init();
+            $timeout(function () {
+                debugger;
+                $scope.myFood.food = d.description;
+                $scope.myFood.mass = 100; // TODO
+                $scope.myFood.proteins = nutriAmount(d.foodNutrients, 1003);
+                $scope.myFood.fats = nutriAmount(d.foodNutrients, 1004);
+                $scope.myFood.carbohydrates = nutriAmount(d.foodNutrients, 1005);
+                $scope.myFood.energy = nutriAmount(d.foodNutrients, 1008);
+                $scope.myFood.totalSugar = nutriAmount(d.foodNutrients, 2000);
+                $scope.myFood.fibers = nutriAmount(d.foodNutrients, 1079);
+                $scope.myFood.calcium = nutriAmount(d.foodNutrients, 1087);
+                $scope.myFood.iron = nutriAmount(d.foodNutrients, 1089);
+                $scope.myFood.magnesium = nutriAmount(d.foodNutrients, 1090);
+                $scope.myFood.phosphorus = nutriAmount(d.foodNutrients, 1091);
+            }, 500);
+        }, function () {
+        });
+    };
+
+    var nutriAmount = function (foodNutrients, id) {
+        return foodNutrients.find(a => a.nutrient.id === id).amount;
+    }
+
+    var usdaPopupCtrl = function ($scope, $mdDialog, $http) {
+        var webService = 'Usda.asmx';
+        $scope.foods = null;
+        $scope.d = null;
+        $scope.fdcId = null;
+        $scope.searchValue = null;
+        
+        var load = function () {
+            $scope.loading = true;
+            $http({
+                url: $sessionStorage.config.backend + webService + '/Load',
+                method: "POST",
+                data: { page: 1 }
+            })
+            .then(function (response) {
+                $scope.foods = JSON.parse(response.data.d);
+                $scope.loading = false;
+            },
+            function (response) {
+                $scope.loading = false;
+                alert(response.data.d)
+            });
+        };
+        load();
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+
+        $scope.search = function (x) {
+            var param = 'generalSearchInput=' + x;
+            $http({
+                url: $sessionStorage.config.backend + webService + '/Search',
+                method: "POST",
+                data: { param }
+            })
+          .then(function (response) {
+              $scope.foods = JSON.parse(response.data.d);
+          },
+          function (response) {
+              alert(response.data.d)
+          });
+        }
+
+        $scope.get = function (x) {
+            if (x === null) { return false;}
+            $http({
+                url: $sessionStorage.config.backend + webService + '/Get',
+                method: "POST",
+                data: { id: x }
+            })
+          .then(function (response) {
+              $scope.d = JSON.parse(response.data.d);
+          },
+          function (response) {
+              alert(response.data.d)
+          });
+        }
+
+        $scope.confirm = function (x) {
+            $mdDialog.hide(x);
+        }
+
     };
 
 }])

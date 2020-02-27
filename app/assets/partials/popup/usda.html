@@ -1,0 +1,44 @@
+﻿<md-dialog flex>
+    <form ng-cloak>
+        <md-toolbar class="main-background">
+            <div class="md-toolbar-tools">
+                <h2 class="text-uppercase">{{'usda' | translate}}</h2>
+                <span flex></span>
+                <a href="" class="btn btn-primary" ng-click="cancel()" title="{{'close' | translate}}">x</a>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div class="row">
+                    <div class="col-sm-12 ">
+                        <div class="input-group">
+                            <input ng-model="searchValue" class="form-control search" type="text" placeholder="{{'search' | translate}}..." />
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" ng-click="search(searchValue)"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <select ng-model="fdcId" class="form-control" ng-click="get(fdcId)">
+                    <option value="{{x.fdcId}}" ng-repeat="x in foods.foods" >{{x.fdcId}} - {{x.description}}</option>
+                </select>
+                <h3>{{d.description}}</h3>
+                <div class="text-right">
+                    <button class="btn btn-default" ng-click="confirm(d)"><i class="fa fa-save"></i> {{'copy to my foods' | translate}}</button>
+                </div>
+                {{'nutrients' | translate}}:
+                <hr />
+                <ul>
+                    <li ng-repeat="x in d.foodNutrients">{{x.nutrient.name}}: {{x.amount}} {{x.nutrient.unitName}}</li>
+                </ul>
+                <div class="text-right">
+                    <hr />
+                    <button class="btn btn-default" ng-click="confirm(d)"><i class="fa fa-save"></i> {{'copy to my foods' | translate}}</button>
+                </div>
+
+                <json-directive data="foods" desc="'foods'"></json-directive>
+                <json-directive data="d" desc="'d'"></json-directive>
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>
