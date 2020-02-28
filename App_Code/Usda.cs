@@ -34,7 +34,7 @@ public class Usda : System.Web.Services.WebService {
 
     [WebMethod]
     public string Load(string page) {
-        return RequestData(RequestStr(string.Format("pageNumber:{0}", page)));
+        return RequestData(RequestStr(string.Format("pageNumber={0}", page)));
     }
 
     [WebMethod]

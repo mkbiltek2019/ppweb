@@ -1907,5 +1907,11 @@
   "acceptable value": "Acceptable Value",
   "obese value": "Obese",
   "newuser_note": "Additional users may only be registered if they are employees of a joint work organization (institution)",
-  "color food groups": "Color food groups"
+  "color food groups": "Color food groups",
+  "usda_info": "The USDA National Nutrient Database for Standard Reference is a database produced by the United States Department of Agriculture that provides the nutritional content of many generic and proprietary-branded foods",
+  "copy to my foods": "Copy to My Foods",
+  "nutrient": "Nutrient",
+  "prev page": "Previous page",
+  "next page": "Next page"
+
 }

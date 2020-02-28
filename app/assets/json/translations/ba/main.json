@@ -1918,5 +1918,11 @@
   "obese value": "vrijednost koja ukazuju na pretilost",
   "newuser_note": "Dodatne korisnike je dozvoljeno registrirati samo ako su zaposlenici zajedničke radne organizacije (ustanove)",
   "color food groups": "Oboji skupine namirnica",
-  "food groups": "Skupine namirnica"
+  "food groups": "Skupine namirnica",
+  "usda_info": "Nacionalna baza podataka nutritivnih sastojaka namirnica američkog ministarstva poljoprivrede",
+  "copy to my foods": "Kopiraj u Moje Namirnice",
+  "nutrient": "Nutrijent",
+  "prev page": "Prethodna stranica",
+  "next page": "Sljedeća stranica"
+
 }

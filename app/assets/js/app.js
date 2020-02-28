@@ -5674,17 +5674,18 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     var usdaPopupCtrl = function ($scope, $mdDialog, $http) {
         var webService = 'Usda.asmx';
+        $scope.page = 1;
         $scope.foods = null;
         $scope.d = null;
         $scope.fdcId = null;
         $scope.searchValue = null;
-        
-        var load = function () {
+
+        $scope.load = function (x) {
             $scope.loading = true;
             $http({
                 url: $sessionStorage.config.backend + webService + '/Load',
                 method: "POST",
-                data: { page: 1 }
+                data: { page: x }
             })
             .then(function (response) {
                 $scope.foods = JSON.parse(response.data.d);
@@ -5695,7 +5696,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 alert(response.data.d)
             });
         };
-        load();
+        $scope.load($scope.page);
 
         $scope.cancel = function () {
             $mdDialog.cancel();
@@ -5717,6 +5718,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         $scope.get = function (x) {
+            if ($rootScope.user.userType < 1) {
+                functions.demoAlert('this function is available only in standard and premium package');
+                return false;
+            }
             if (x === null) { return false;}
             $http({
                 url: $sessionStorage.config.backend + webService + '/Get',
@@ -5733,6 +5738,26 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         $scope.confirm = function (x) {
             $mdDialog.hide(x);
+        }
+
+        $scope.nextPage = function () {
+            if ($rootScope.user.userType < 1) {
+                functions.demoAlert('this function is available only in standard and premium package');
+                return false;
+            }
+            $scope.page = $scope.page + 1;
+            $scope.load($scope.page);
+        }
+
+        $scope.prevPage = function () {
+            if ($rootScope.user.userType < 1) {
+                functions.demoAlert('this function is available only in standard and premium package');
+                return false;
+            }
+            if ($scope.page > 1) {
+                $scope.page = $scope.page - 1;
+                $scope.load($scope.page);
+            }
         }
 
     };

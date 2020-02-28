@@ -5,7 +5,7 @@
             <a href="" class="btn btn-default" ng-click="search()"><i class="fa fa-search"></i> <span class="hidden-xs">{{'search' | translate}}</span></a>
             <a ng-disabled="myFood.food==null" href="" class="btn btn-default" ng-click="save(myFood)"><i class="fa fa-floppy-o"></i> <span class="hidden-xs">{{'save' | translate}}</span></a>
             <a ng-disabled="myFood.id==null" href="" class="btn btn-default" ng-click="remove(myFood)"><span class="text-danger"><i class="fa fa-trash-o"></i> <span class="hidden-xs">{{'delete' | translate}}</span></span></a>
-            <a ng-if="config.debug" href="" class="btn btn-default" ng-click="openUsdaPopup()"><i class="fa fa-lemon-o"></i> <span class="hidden-xs">{{'USDA' | translate}}</span></a>
+            <a href="" class="btn btn-default" ng-click="openUsdaPopup()" title="{{'usda_info' | translate}}"><i class="fa fa-lemon-o"></i> <span class="hidden-xs">{{'USDA' | translate}}</span></a>
         </div>
         <div class="mt20">
             <div layout-gt-sm="row">

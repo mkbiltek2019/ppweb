@@ -1,44 +1,63 @@
 ﻿<md-dialog flex>
-    <form ng-cloak>
-        <md-toolbar class="main-background">
-            <div class="md-toolbar-tools">
-                <h2 class="text-uppercase">{{'usda' | translate}}</h2>
-                <span flex></span>
-                <a href="" class="btn btn-primary" ng-click="cancel()" title="{{'close' | translate}}">x</a>
+    <md-toolbar class="main-background">
+        <div class="md-toolbar-tools">
+            <h2 class="text-uppercase">{{'usda' | translate}}</h2>
+            <span flex></span>
+            <a href="" class="btn btn-primary" ng-click="cancel()" title="{{'close' | translate}}">x</a>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <div class="text-primary">
+                USDA - <em class="text-small"> *{{'usda_info' | translate}}.</em>
             </div>
-        </md-toolbar>
-        <md-dialog-content>
-            <div class="md-dialog-content">
-                <div class="row">
-                    <div class="col-sm-12 ">
+            <div class="row mt10">
+                <div class="col-sm-6 ">
+                    <form id="searchFood">
                         <div class="input-group">
                             <input ng-model="searchValue" class="form-control search" type="text" placeholder="{{'search' | translate}}..." />
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="button" ng-click="search(searchValue)"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
+                                <button class="btn btn-default" type="submit" form="searchFood" ng-click="search(searchValue)"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
                             </span>
                         </div>
+                    </form>
+                    <div>
+                        <select ng-model="fdcId" size="22" class="form-control" ng-click="get(fdcId)">
+                            <option value="{{x.fdcId}}" ng-repeat="x in foods.foods">{{x.fdcId}} - {{x.description}}</option>
+                        </select>
+                    </div>
+                    <div class="pull-right m10">
+                        <a ng-if="page>1" href="" class="btn btn-default" ng-click="prevPage()"><i class="fa fa-arrow-left"></i> {{'prev page' | translate}}...</a>
+                        <span class="badge">{{page}}</span>
+                        <a href="" class="btn btn-default" ng-click="nextPage()">{{'next page' | translate}} <i class="fa fa-arrow-right"></i></a>
                     </div>
                 </div>
-                <select ng-model="fdcId" class="form-control" ng-click="get(fdcId)">
-                    <option value="{{x.fdcId}}" ng-repeat="x in foods.foods" >{{x.fdcId}} - {{x.description}}</option>
-                </select>
-                <h3>{{d.description}}</h3>
-                <div class="text-right">
-                    <button class="btn btn-default" ng-click="confirm(d)"><i class="fa fa-save"></i> {{'copy to my foods' | translate}}</button>
+                <div class="col-sm-6">
+                    <input ng-model="d.description" type="text" class="form-control" />
+                    <div class="pt10">
+                        <button class="btn btn-primary btn-block text-uppercase" ng-click="confirm(d)"><i class="fa fa-check"></i> {{'copy to my foods' | translate}}</button>
+                    </div>
+                    <table class="table table-condensed mt10" style="margin-bottom:0">
+                        <tr class="text-capitalize">
+                            <th style="width:70%">{{'nutrient' | translate}}</th>
+                            <th class="text-right">{{'mass' | translate}}</th>
+                            <th>{{'unit' | translate}}</th>
+                        </tr>
+                    </table>
+                    <div class="table-responsive table-scroll" style="height:300px">
+                        <table class="table table-condensed text-small">
+                            <tr ng-repeat="x in d.foodNutrients">
+                                <td style="width:70%">{{x.nutrient.name}}</td>
+                                <td class="text-right">{{x.amount}}</td>
+                                <td>{{x.nutrient.unitName}}</td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
-                {{'nutrients' | translate}}:
-                <hr />
-                <ul>
-                    <li ng-repeat="x in d.foodNutrients">{{x.nutrient.name}}: {{x.amount}} {{x.nutrient.unitName}}</li>
-                </ul>
-                <div class="text-right">
-                    <hr />
-                    <button class="btn btn-default" ng-click="confirm(d)"><i class="fa fa-save"></i> {{'copy to my foods' | translate}}</button>
-                </div>
-
-                <json-directive data="foods" desc="'foods'"></json-directive>
-                <json-directive data="d" desc="'d'"></json-directive>
             </div>
-        </md-dialog-content>
-    </form>
+            
+            <json-directive data="foods" desc="'foods'"></json-directive>
+            <json-directive data="d" desc="'d'"></json-directive>
+        </div>
+    </md-dialog-content>
 </md-dialog>
