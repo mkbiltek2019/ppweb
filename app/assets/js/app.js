@@ -5378,7 +5378,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 }])
 
-.controller('myFoodsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', '$timeout', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate, $timeout) {
+.controller('myFoodsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
     var webService = 'MyFoods.asmx';
     $scope.unit = null;
 
@@ -5616,7 +5616,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     };
 
-
     //***** USDA *****
     $scope.openUsdaPopup = function () {
         if ($rootScope.user.licenceStatus == 'demo') { return false; }
@@ -5627,9 +5626,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             clickOutsideToClose: true,
         })
         .then(function (d) {
-           // init();
-         //   $timeout(function () {
-                debugger;
                 $scope.myFood.food = d.description;
                 $scope.myFood.mass = 100; // TODO
                 $scope.myFood.proteins = nutriAmount(d.foodNutrients, 1003);
@@ -5660,10 +5656,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 $scope.myFood.saturatedFats = nutriAmount(d.foodNutrients, 1258);
                 $scope.myFood.monounsaturatedFats = nutriAmount(d.foodNutrients, 1292);
                 $scope.myFood.polyunsaturatedFats = nutriAmount(d.foodNutrients, 1293);
-
-
-            //   }, 500);
-
         }, function () {
         });
     };
@@ -5674,36 +5666,26 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     var usdaPopupCtrl = function ($scope, $mdDialog, $http) {
         var webService = 'Usda.asmx';
+        $scope.loading = false;
         $scope.page = 1;
         $scope.foods = null;
         $scope.d = null;
         $scope.fdcId = null;
         $scope.searchValue = null;
-
-        $scope.load = function (x) {
-            $scope.loading = true;
-            $http({
-                url: $sessionStorage.config.backend + webService + '/Load',
-                method: "POST",
-                data: { page: x }
-            })
-            .then(function (response) {
-                $scope.foods = JSON.parse(response.data.d);
-                $scope.loading = false;
-            },
-            function (response) {
-                $scope.loading = false;
-                alert(response.data.d)
-            });
-        };
-        $scope.load($scope.page);
+        $scope.pages = [1, 2, 3, 4, 5];
 
         $scope.cancel = function () {
             $mdDialog.cancel();
         };
 
-        $scope.search = function (x) {
-            var param = 'generalSearchInput=' + x;
+        $scope.search = function (searchValue, page) {
+            $scope.loading = true;
+            var param = null;
+            if (searchValue !== null) {
+                param = 'generalSearchInput=' + searchValue + '&pageNumber=' + page;
+            } else {
+                param = 'pageNumber=' + page;
+            }
             $http({
                 url: $sessionStorage.config.backend + webService + '/Search',
                 method: "POST",
@@ -5711,15 +5693,19 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             })
           .then(function (response) {
               $scope.foods = JSON.parse(response.data.d);
+              $scope.page = page;
+              $scope.loading = false;
           },
           function (response) {
-              alert(response.data.d)
+              $scope.loading = false;
+              alert(response.data.d);
           });
         }
+        $scope.search(null, 1);
 
         $scope.get = function (x) {
-            if ($rootScope.user.userType < 1) {
-                functions.demoAlert('this function is available only in standard and premium package');
+            if ($rootScope.user.userType < 2 || $rootScope.user.licenceStatus == 'demo') {
+                functions.demoAlert('this function is available only in premium package');
                 return false;
             }
             if (x === null) { return false;}
@@ -5740,24 +5726,22 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $mdDialog.hide(x);
         }
 
-        $scope.nextPage = function () {
-            if ($rootScope.user.userType < 1) {
-                functions.demoAlert('this function is available only in standard and premium package');
+        $scope.nextPage = function (searchValue, x) {
+            if ($rootScope.user.userType < 2 || $rootScope.user.licenceStatus == 'demo') {
+                functions.demoAlert('this function is available only in premium package');
                 return false;
             }
-            $scope.page = $scope.page + 1;
-            $scope.load($scope.page);
-        }
+            if ($scope.page > 4 && x === 1) {
+                $scope.pages.push($scope.page + 1);
+                $scope.pages.shift();
+            }
+            if ($scope.page > 5 && x === -1) {
+                $scope.pages.pop();
+                $scope.pages.unshift($scope.pages[0] - 1);
+            }
 
-        $scope.prevPage = function () {
-            if ($rootScope.user.userType < 1) {
-                functions.demoAlert('this function is available only in standard and premium package');
-                return false;
-            }
-            if ($scope.page > 1) {
-                $scope.page = $scope.page - 1;
-                $scope.load($scope.page);
-            }
+            $scope.page = $scope.page + x;
+            $scope.search(searchValue, $scope.page);
         }
 
     };

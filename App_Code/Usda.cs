@@ -32,10 +32,10 @@ public class Usda : System.Web.Services.WebService {
     //Documentation: https://fdc.nal.usda.gov/api-guide.html#bkmk-6
 
 
-    [WebMethod]
-    public string Load(string page) {
-        return RequestData(RequestStr(string.Format("pageNumber={0}", page)));
-    }
+    //[WebMethod]
+    //public string Load(string page) {
+    //    return RequestData(RequestStr(string.Format("pageNumber={0}", page)));
+    //}
 
     [WebMethod]
     public string Search(string param) {

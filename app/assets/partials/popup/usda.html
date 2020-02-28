@@ -17,41 +17,65 @@
                         <div class="input-group">
                             <input ng-model="searchValue" class="form-control search" type="text" placeholder="{{'search' | translate}}..." />
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit" form="searchFood" ng-click="search(searchValue)"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
+                                <button class="btn btn-default" type="submit" form="searchFood" ng-click="search(searchValue, 1)"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
                             </span>
                         </div>
                     </form>
                     <div>
-                        <select ng-model="fdcId" size="22" class="form-control" ng-click="get(fdcId)">
-                            <option value="{{x.fdcId}}" ng-repeat="x in foods.foods">{{x.fdcId}} - {{x.description}}</option>
-                        </select>
-                    </div>
-                    <div class="pull-right m10">
-                        <a ng-if="page>1" href="" class="btn btn-default" ng-click="prevPage()"><i class="fa fa-arrow-left"></i> {{'prev page' | translate}}...</a>
-                        <span class="badge">{{page}}</span>
-                        <a href="" class="btn btn-default" ng-click="nextPage()">{{'next page' | translate}} <i class="fa fa-arrow-right"></i></a>
+                        <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around">
+                            <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
+                        </div>
+                        <div style="min-height:300px">
+                            <div ng-hide="loading">
+                                <select ng-model="fdcId" size="22" class="form-control" ng-click="get(fdcId)">
+                                    <option value="{{x.fdcId}}" ng-repeat="x in foods.foods">{{x.description}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div ng-if="foods" class="text-right m10">
+                            <ul class="pagination">
+                                <li ng-click="nextPage(searchValue, -1)" title="{{'prev page' | translate}}"><a href="#"><<</a></li>
+                                <li class="{{page===x?'active':''}}" ng-repeat="x in pages" ng-click="search(searchValue, x)"><a href="#">{{x}}</a></li>
+                                <li ng-click="nextPage(searchValue, 1)" title="{{'next page' | translate}}"><a href="#">>></a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <input ng-model="d.description" type="text" class="form-control" />
-                    <div class="pt10">
-                        <button class="btn btn-primary btn-block text-uppercase" ng-click="confirm(d)"><i class="fa fa-check"></i> {{'copy to my foods' | translate}}</button>
-                    </div>
-                    <table class="table table-condensed mt10" style="margin-bottom:0">
-                        <tr class="text-capitalize">
-                            <th style="width:70%">{{'nutrient' | translate}}</th>
-                            <th class="text-right">{{'mass' | translate}}</th>
-                            <th>{{'unit' | translate}}</th>
-                        </tr>
-                    </table>
-                    <div class="table-responsive table-scroll" style="height:300px">
-                        <table class="table table-condensed text-small">
-                            <tr ng-repeat="x in d.foodNutrients">
-                                <td style="width:70%">{{x.nutrient.name}}</td>
-                                <td class="text-right">{{x.amount}}</td>
-                                <td>{{x.nutrient.unitName}}</td>
-                            </tr>
-                        </table>
+                    <div ng-if="d">
+                        <input ng-model="d.description" type="text" class="form-control" />
+                        <div class="pt10">
+                            <button class="btn btn-primary btn-block text-uppercase" ng-click="confirm(d)"><i class="fa fa-check"></i> {{'copy to my foods' | translate}}</button>
+                        </div>
+                        <div class="mt10" style="height:100px">
+                            <p>{{'food category' | translate}}: {{d.foodCategory.description}}</p>
+                            <p>{{'serving' | translate}}:</p>
+                            <select class="form-control">
+                                <option ng-repeat="x in d.foodPortions">{{x.amount}} {{x.modifier}}-{{x.portionDescription}} ({{x.gramWeight}} g)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <table class="table table-condensed mt10" style="margin-bottom:0">
+                                <tr class="text-capitalize">
+                                    <th style="width:70%">{{'nutrient' | translate}}</th>
+                                    <th class="text-right">{{'mass' | translate}}</th>
+                                    <th>{{'unit' | translate}}</th>
+                                </tr>
+                            </table>
+                            <div class="table-responsive table-scroll" style="height:200px">
+                                <table class="table table-condensed text-small">
+                                    <tr ng-repeat="x in d.foodNutrients">
+                                        <td style="width:70%">{{x.nutrient.name}}</td>
+                                        <td class="text-right">{{x.amount}}</td>
+                                        <td>{{x.nutrient.unitName}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="text-right text-muted">
+                            <em>{{'publication date' | translate}}: {{d.publicationDate}}</em>
+                        </div>
                     </div>
                 </div>
             </div>
