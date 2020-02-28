@@ -5627,8 +5627,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             clickOutsideToClose: true,
         })
         .then(function (d) {
-            init();
-            $timeout(function () {
+           // init();
+         //   $timeout(function () {
                 debugger;
                 $scope.myFood.food = d.description;
                 $scope.myFood.mass = 100; // TODO
@@ -5642,7 +5642,28 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 $scope.myFood.iron = nutriAmount(d.foodNutrients, 1089);
                 $scope.myFood.magnesium = nutriAmount(d.foodNutrients, 1090);
                 $scope.myFood.phosphorus = nutriAmount(d.foodNutrients, 1091);
-            }, 500);
+                $scope.myFood.potassium = nutriAmount(d.foodNutrients, 1092);
+                $scope.myFood.sodium = nutriAmount(d.foodNutrients, 1093);
+                $scope.myFood.zinc = nutriAmount(d.foodNutrients, 1095);
+                $scope.myFood.copper = nutriAmount(d.foodNutrients, 1098);
+                $scope.myFood.selenium = nutriAmount(d.foodNutrients, 1103);
+                $scope.myFood.retinol = nutriAmount(d.foodNutrients, 1105);
+                $scope.myFood.carotene = nutriAmount(d.foodNutrients, 1107);
+                $scope.myFood.vitaminE = nutriAmount(d.foodNutrients, 1109);
+                $scope.myFood.vitaminD = nutriAmount(d.foodNutrients, 1114);
+                $scope.myFood.vitaminC = nutriAmount(d.foodNutrients, 1162);
+                $scope.myFood.vitaminB6 = nutriAmount(d.foodNutrients, 1175);
+                $scope.myFood.folate = nutriAmount(d.foodNutrients, 1177);
+                $scope.myFood.vitaminB12 = nutriAmount(d.foodNutrients, 1178);
+                $scope.myFood.vitaminK = nutriAmount(d.foodNutrients, 1185);
+                $scope.myFood.cholesterol = nutriAmount(d.foodNutrients, 1253);
+                $scope.myFood.saturatedFats = nutriAmount(d.foodNutrients, 1258);
+                $scope.myFood.monounsaturatedFats = nutriAmount(d.foodNutrients, 1292);
+                $scope.myFood.polyunsaturatedFats = nutriAmount(d.foodNutrients, 1293);
+
+
+            //   }, 500);
+
         }, function () {
         });
     };
