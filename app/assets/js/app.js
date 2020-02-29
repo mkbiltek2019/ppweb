@@ -5378,7 +5378,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 }])
 
-.controller('myFoodsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
+.controller('myFoodsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', '$timeout', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate, $timeout) {
     var webService = 'MyFoods.asmx';
     $scope.unit = null;
 
@@ -5472,6 +5472,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             return false;
         }
         x.unit = $scope.unit;
+        if (functions.isNullOrEmpty(x.unit)) {
+            functions.alert($translate.instant('unit is required'), '');
+            return false;
+        }
         if (checkIsOtherFood(x) == true) {
             x.servings.cerealsServ = 0;
             x.servings.vegetablesServ = 0;
@@ -5625,9 +5629,15 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             parent: angular.element(document.body),
             clickOutsideToClose: true,
         })
-        .then(function (d) {
+        .then(function (res) {
+            debugger;
+            init();
+            $timeout(function () {
+                var d = res.nutrients;
+                var portion = res.portion;
                 $scope.myFood.food = d.description;
-                $scope.myFood.mass = 100; // TODO
+                $scope.myFood.mass = portion === undefined || portion == 100 ? 100 : portion.gramWeight;
+                $scope.myFood.unit = portion === undefined || portion == 100 ? '' : portion.portionDescription == 'Quantity not specified' ? '' : portion.portionDescription;
                 $scope.myFood.proteins = nutriAmount(d.foodNutrients, 1003);
                 $scope.myFood.fats = nutriAmount(d.foodNutrients, 1004);
                 $scope.myFood.carbohydrates = nutriAmount(d.foodNutrients, 1005);
@@ -5656,6 +5666,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 $scope.myFood.saturatedFats = nutriAmount(d.foodNutrients, 1258);
                 $scope.myFood.monounsaturatedFats = nutriAmount(d.foodNutrients, 1292);
                 $scope.myFood.polyunsaturatedFats = nutriAmount(d.foodNutrients, 1293);
+            }, 600);
         }, function () {
         });
     };
@@ -5670,9 +5681,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.page = 1;
         $scope.foods = null;
         $scope.d = null;
+        $scope.d_ = null;
         $scope.fdcId = null;
         $scope.searchValue = null;
         $scope.pages = [1, 2, 3, 4, 5];
+        $scope.gramWeight = 100;
 
         $scope.cancel = function () {
             $mdDialog.cancel();
@@ -5716,14 +5729,22 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             })
           .then(function (response) {
               $scope.d = JSON.parse(response.data.d);
+              $scope.d_ = JSON.parse(response.data.d);
+              debugger;
+              $scope.gramWeight = 100;
           },
           function (response) {
               alert(response.data.d)
           });
         }
 
-        $scope.confirm = function (x) {
-            $mdDialog.hide(x);
+        $scope.confirm = function (x, portion) {
+            var res = {
+                nutrients: x,
+                portion: portion
+            }
+            debugger;
+            $mdDialog.hide(res);
         }
 
         $scope.nextPage = function (searchValue, x) {
@@ -5742,6 +5763,21 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
             $scope.page = $scope.page + x;
             $scope.search(searchValue, $scope.page);
+        }
+
+        $scope.changeFoodPortions = function (gramWeight) {
+            debugger;
+            if (gramWeight === undefined) { gramWeight = 100 }
+            angular.forEach($scope.d_.foodNutrients, function (value, key) {
+                if (value.amount !== undefined) {
+                    $scope.d.foodNutrients[key].amount = (value.amount * gramWeight / 100).toFixed(2);
+                }
+            })
+            $scope.gramWeight = gramWeight;
+        }
+
+        $scope.show = function (x) {
+            return Number.isInteger(x) || x == 'Quantity not specified' ? false : true;
         }
 
     };

@@ -1922,6 +1922,8 @@
   "nutrient": "Nutrijent",
   "prev page": "Prethodna stranica",
   "next page": "Sledeća stranica",
-  "publication date": "Datum objave"
+  "publication date": "Datum objave",
+  "food category": "Kategorija",
+  "unit is required": "Mera je obavezna"
 
 }

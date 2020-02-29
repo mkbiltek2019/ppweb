@@ -25,14 +25,14 @@
                         <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around">
                             <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
                         </div>
-                        <div style="min-height:300px">
+                        <div style="min-height:280px">
                             <div ng-hide="loading">
-                                <select ng-model="fdcId" size="22" class="form-control" ng-click="get(fdcId)">
+                                <select ng-model="fdcId" size="22" class="form-control" ng-change="get(fdcId)">
                                     <option value="{{x.fdcId}}" ng-repeat="x in foods.foods">{{x.description}}</option>
                                 </select>
                             </div>
                         </div>
-                        <div ng-if="foods" class="text-right m10">
+                        <div ng-if="foods" class="text-right">
                             <ul class="pagination">
                                 <li ng-click="nextPage(searchValue, -1)" title="{{'prev page' | translate}}"><a href="#"><<</a></li>
                                 <li class="{{page===x?'active':''}}" ng-repeat="x in pages" ng-click="search(searchValue, x)"><a href="#">{{x}}</a></li>
@@ -44,15 +44,26 @@
                 <div class="col-sm-6">
                     <div ng-if="d">
                         <input ng-model="d.description" type="text" class="form-control" />
-                        <div class="pt10">
-                            <button class="btn btn-primary btn-block text-uppercase" ng-click="confirm(d)"><i class="fa fa-check"></i> {{'copy to my foods' | translate}}</button>
-                        </div>
                         <div class="mt10" style="height:100px">
-                            <p>{{'food category' | translate}}: {{d.foodCategory.description}}</p>
-                            <p>{{'serving' | translate}}:</p>
-                            <select class="form-control">
-                                <option ng-repeat="x in d.foodPortions">{{x.amount}} {{x.modifier}}-{{x.portionDescription}} ({{x.gramWeight}} g)</option>
-                            </select>
+                            <div style="min-height:25px">
+                                <em ng-if="d.foodCategory.description" class="text-muted">{{d.foodCategory.description}}</em>
+                            </div>
+                            <div class="pt10">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>{{'portion' | translate}}</label>
+                                    <md-select ng-model="portion" ng-change="changeFoodPortions(portion.gramWeight)">
+                                        <md-option value="100" ng-selected="gramWeight===100">
+                                            100 g
+                                        </md-option>
+                                        <md-option ng-value="x" ng-repeat="x in d.foodPortions">
+                                            <span ng-if="show(x.modifier)===false">{{x.modifier}}</span> <span ng-if="show(x.portionDescription)">{{x.portionDescription}}</span> ({{x.gramWeight}} g)
+                                        </md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+                        </div>
+                        <div class="pt10">
+                            <button class="btn btn-primary btn-block text-uppercase" ng-click="confirm(d, portion)"><i class="fa fa-check"></i> {{'copy to my foods' | translate}}</button>
                         </div>
                         <div>
                             <table class="table table-condensed mt10" style="margin-bottom:0">
@@ -62,9 +73,9 @@
                                     <th>{{'unit' | translate}}</th>
                                 </tr>
                             </table>
-                            <div class="table-responsive table-scroll" style="height:200px">
+                            <div class="table-responsive table-scroll" style="height:180px">
                                 <table class="table table-condensed text-small">
-                                    <tr ng-repeat="x in d.foodNutrients">
+                                    <tr ng-repeat="x in d.foodNutrients track by $index">
                                         <td style="width:70%">{{x.nutrient.name}}</td>
                                         <td class="text-right">{{x.amount}}</td>
                                         <td>{{x.nutrient.unitName}}</td>

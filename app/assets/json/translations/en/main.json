@@ -1913,6 +1913,8 @@
   "nutrient": "Nutrient",
   "prev page": "Previous page",
   "next page": "Next page",
-  "publication date": "Publication date"
+  "publication date": "Publication date",
+  "food category": "Food category",
+  "unit is required": "Unit is required"
 
 }

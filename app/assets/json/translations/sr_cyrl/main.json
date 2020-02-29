@@ -1919,6 +1919,8 @@
   "nutrient": "Нутријент",
   "prev page": "Претходна страница",
   "next page": "Следећа страница",
-  "publication date": "Датум објаве"
+  "publication date": "Датум објаве",
+  "food category": "Категорија",
+  "unit is required": "Мера је обавезна"
 
 }

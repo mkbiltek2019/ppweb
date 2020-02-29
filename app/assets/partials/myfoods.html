@@ -8,18 +8,22 @@
             <a href="" class="btn btn-default" ng-click="openUsdaPopup()" title="USDA - {{'usda_info' | translate}}"><i class="fa fa-database"></i> <span class="hidden-xs">{{'USDA' | translate}}</span></a>
         </div>
         <div class="mt20">
-            <div layout-gt-sm="row">
-                <md-input-container>
-                    <label>{{'food title' | translate}}</label>
-                    <input ng-model="myFood.food" type="text" required>
-                </md-input-container>
-                <md-input-container>
-                    <label>{{'quantity' | translate}}</label>
-                    <input ng-model="myFood.quantity" disabled="disabled" allow-only-numbers required>
-                </md-input-container>
-                <md-autocomplete md-no-cache="true" md-selected-item="myFood.unit" md-items="item in units" md-search-text="unit" md-item-text="item" md-floating-label="{{'unit' | translate}}">
-                    <span md-highlight-text="unit">{{item}}</span>
-                </md-autocomplete>
+            <div class="row">
+                <div class="col-sm-8">
+                    <div layout-gt-sm="row">
+                        <md-input-container class="md-block" flex-gt-xs>
+                            <label>{{'food title' | translate}}</label>
+                            <input ng-model="myFood.food" type="text" required>
+                        </md-input-container>
+                        <md-input-container>
+                            <label>{{'quantity' | translate}}</label>
+                            <input ng-model="myFood.quantity" disabled="disabled" allow-only-numbers required>
+                        </md-input-container>
+                        <md-autocomplete md-no-cache="true" md-selected-item="myFood.unit" md-items="item in units" md-search-text="unit" md-item-text="item" md-floating-label="{{'unit' | translate}}">
+                            <span md-highlight-text="unit">{{item}}</span>
+                        </md-autocomplete>
+                    </div>
+                </div>
             </div>
             <fieldset class="fieldset-border">
                 <legend class="fieldset-border text-capitalize">{{'unit servings' | translate}}</legend>

@@ -42,11 +42,6 @@ public class Usda : System.Web.Services.WebService {
         return RequestData(RequestStr(param));
     }
 
-    //[WebMethod]
-    //public string Search_(string food) {
-    //    return RequestData(RequestStr("generalSearchInput", food));
-    //}
-
     [WebMethod]
     public string Get(string id) {
         string request = string.Format("{0}{1}?api_key={2}", apiUrl, id, apiKey);
@@ -57,12 +52,6 @@ public class Usda : System.Web.Services.WebService {
         string url = string.Format("{0}search", apiUrl);
         return string.Format("{0}?api_key={1}&{2}", url, apiKey, param);
     }
-
-    //private string RequestStr(string param, string value) {
-    //    string url = string.Format("{0}search", apiUrl);
-    //    string parameters = string.Format("{0}={1}",param, value);
-    //    return string.Format("{0}?api_key={1}&{2}", url, apiKey, parameters);
-    //}
 
     private string RequestData(string url) {
         try {
