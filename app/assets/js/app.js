@@ -5684,8 +5684,16 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.d_ = null;
         $scope.fdcId = null;
         $scope.searchValue = null;
-        $scope.pages = [1, 2, 3, 4, 5];
+        $scope.pages = [];
         $scope.gramWeight = 100;
+
+        $scope.initPages = function (n) {
+            $scope.pages = [];
+            for (var i = 1; i <= n; i++) {
+                $scope.pages.push(i);
+            }
+        }
+        $scope.initPages(5);
 
         $scope.cancel = function () {
             $mdDialog.cancel();
@@ -5707,6 +5715,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
           .then(function (response) {
               $scope.foods = JSON.parse(response.data.d);
               $scope.page = page;
+              if (page === 1) {
+                  $scope.initPages($scope.foods.totalPages > 5 ? 5 : $scope.foods.totalPages);
+              }
               $scope.loading = false;
           },
           function (response) {
@@ -5730,7 +5741,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
           .then(function (response) {
               $scope.d = JSON.parse(response.data.d);
               $scope.d_ = JSON.parse(response.data.d);
-              debugger;
               $scope.gramWeight = 100;
           },
           function (response) {
@@ -5743,7 +5753,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 nutrients: x,
                 portion: portion
             }
-            debugger;
             $mdDialog.hide(res);
         }
 
@@ -5766,7 +5775,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         $scope.changeFoodPortions = function (gramWeight) {
-            debugger;
             if (gramWeight === undefined) { gramWeight = 100 }
             angular.forEach($scope.d_.foodNutrients, function (value, key) {
                 if (value.amount !== undefined) {

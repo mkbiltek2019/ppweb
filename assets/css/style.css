@@ -1,6 +1,6 @@
 ﻿ /*!
 style.css
-(c) 2017-2019 IG PROG, www.igprog.hr
+(c) 2017-2020 IG PROG, www.igprog.hr
 */
 html {
     height: auto;
@@ -9,7 +9,9 @@ html {
 body {
     font: 400 15px Lato, sans-serif;
     line-height: 1.8;
-    color: #818181;
+    color:#3e4040;
+    font-family: 'Encode Sans Expanded';
+    font-size: 16px;
 }
 
 h1 {
@@ -355,6 +357,20 @@ legend.fieldset-border {
     box-shadow: 5px 10px 8px #888888;
     margin: 20px
 }
+
+/***** Price box *****/
+* {
+    box-sizing: border-box;
+}
+.zoom {
+    transition: transform .6s;
+}
+.zoom:hover {
+    -ms-transform: scale(1.03); /* IE 9 */
+    -webkit-transform: scale(1.03); /* Safari 3-8 */
+    transform: scale(1.03);
+}
+/***** Price box *****/
 
 
 

@@ -15,7 +15,7 @@
                 <div class="col-sm-6 ">
                     <form id="searchFood">
                         <div class="input-group">
-                            <input ng-model="searchValue" class="form-control search" type="text" placeholder="{{'search' | translate}}..." />
+                            <input ng-model="searchValue" class="form-control search" type="text" placeholder="{{'search' | translate}}..." ng-change="initPages(5)" />
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="submit" form="searchFood" ng-click="search(searchValue, 1)"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
                             </span>
@@ -34,9 +34,9 @@
                         </div>
                         <div ng-if="foods" class="text-right">
                             <ul class="pagination">
-                                <li ng-click="nextPage(searchValue, -1)" title="{{'prev page' | translate}}"><a href="#"><<</a></li>
-                                <li class="{{page===x?'active':''}}" ng-repeat="x in pages" ng-click="search(searchValue, x)"><a href="#">{{x}}</a></li>
-                                <li ng-click="nextPage(searchValue, 1)" title="{{'next page' | translate}}"><a href="#">>></a></li>
+                                <li ng-if="pages.length>1" ng-click="nextPage(searchValue, -1)" title="{{'prev page' | translate}}"><a href="#"><<</a></li>
+                                <li class="{{page===x?'active':''}}" ng-repeat="x in pages" ng-click="search(searchValue, x)" title="{{'page' | translate}} {{x}}"><a href="#">{{x}}</a></li>
+                                <li ng-if="pages.length>1" ng-click="nextPage(searchValue, 1)" title="{{'next page' | translate}}"><a href="#">>></a></li>
                             </ul>
                         </div>
                     </div>
