@@ -5622,7 +5622,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     //***** USDA *****
     $scope.openUsdaPopup = function () {
-        if ($rootScope.user.licenceStatus == 'demo') { return false; }
         $mdDialog.show({
             controller: usdaPopupCtrl,
             templateUrl: 'assets/partials/popup/usda.html',
@@ -5630,7 +5629,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             clickOutsideToClose: true,
         })
         .then(function (res) {
-            debugger;
             init();
             $timeout(function () {
                 var d = res.nutrients;
@@ -5695,6 +5693,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
         $scope.initPages(5);
 
+        var checkVersion = function () {
+            if ($rootScope.user.userType < 2 || $rootScope.user.licenceStatus === 'demo') {
+                functions.demoAlert('this function is available only in premium package');
+                return false;
+            }
+        }
+
         $scope.cancel = function () {
             $mdDialog.cancel();
         };
@@ -5703,8 +5708,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $scope.loading = true;
             var param = null;
             if (searchValue !== null) {
+                checkVersion();
                 param = 'generalSearchInput=' + searchValue + '&pageNumber=' + page;
             } else {
+                if (page > 1) {
+                    checkVersion();
+                }
                 param = 'pageNumber=' + page;
             }
             $http({
@@ -5728,11 +5737,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.search(null, 1);
 
         $scope.get = function (x) {
-            if ($rootScope.user.userType < 2 || $rootScope.user.licenceStatus == 'demo') {
-                functions.demoAlert('this function is available only in premium package');
-                return false;
-            }
-            if (x === null) { return false;}
+            if (x === null) { return false; }
             $http({
                 url: $sessionStorage.config.backend + webService + '/Get',
                 method: "POST",
@@ -5749,6 +5754,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         $scope.confirm = function (x, portion) {
+            checkVersion();
             var res = {
                 nutrients: x,
                 portion: portion
@@ -5757,10 +5763,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         $scope.nextPage = function (searchValue, x) {
-            if ($rootScope.user.userType < 2 || $rootScope.user.licenceStatus == 'demo') {
-                functions.demoAlert('this function is available only in premium package');
-                return false;
-            }
             if ($scope.page > 4 && x === 1) {
                 $scope.pages.push($scope.page + 1);
                 $scope.pages.shift();
