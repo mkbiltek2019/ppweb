@@ -5693,7 +5693,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
         $scope.initPages(5);
 
-        var checkVersion = function () {
+        var checkUserType = function () {
             if ($rootScope.user.userType < 2 || $rootScope.user.licenceStatus === 'demo') {
                 functions.demoAlert('this function is available only in premium package');
                 return false;
@@ -5708,11 +5708,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $scope.loading = true;
             var param = null;
             if (searchValue !== null) {
-                checkVersion();
+                checkUserType();
                 param = 'generalSearchInput=' + searchValue + '&pageNumber=' + page;
             } else {
                 if (page > 1) {
-                    checkVersion();
+                    checkUserType();
                 }
                 param = 'pageNumber=' + page;
             }
@@ -5754,7 +5754,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         $scope.confirm = function (x, portion) {
-            checkVersion();
+            checkUserType();
             var res = {
                 nutrients: x,
                 portion: portion
