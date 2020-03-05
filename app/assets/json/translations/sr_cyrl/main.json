@@ -1695,11 +1695,11 @@
   "recipient": "Прималац",
   "croatia": "Хрватска",
   "payment description": "Опис плаћања",
-  "app access link": "Линк за приступ апликацији",
+  "app access link": "Линк за приступ апликацији је",
   "the app access link to track your body weight and download menus is": "Линк за приступ апликацији за прћење Ваше телесне масе и преузимање менија је",
   "this is an automatically generated email – please do not reply to it": "Ово је аутоматски генерирана порука - молимо не одговарајте на њу",
   "login details": "Подаци за пријаву у апликацију",
-  "registration": "регистрација",
+  "registration": "Pегистрација",
   "your account has been successfully activated": "Ваш рачун је успешно активисан",
   "first you need to create daily menus": "Прво морате да израдите дневне меније",
   "basal metabolic rate": "базални метаболизам",
@@ -1922,6 +1922,10 @@
   "publication date": "Датум објаве",
   "food category": "Категорија",
   "unit is required": "Мера је обавезна",
-  "page": "Страница"
+  "page": "Страница",
+  "welcome to": "Добродошли у",
+  "hi": "Поздрав",
+  "to access the application use the email and password you choose to sign in": "За приступ апликацији користите емаил и лозинку коју сте одабрали приликом регистрације",
+  "if you need any additional information, please do not hesitate to contact us": "За сва додатна питања стојимо Вам на располагању"
 
 }

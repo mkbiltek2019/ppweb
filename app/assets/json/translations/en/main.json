@@ -1552,7 +1552,7 @@
   "the selected additional energy expenditure is the same as recommended": "the selected additional energy expenditure is the same as recommended",
   "clients": "clients",
   "web": "web",
-  "nutrition program web": "nutrition program web",
+  "nutrition program web": "Nutrition Program Web",
   "delete choosen activity": "delete choosen activity",
   "show all": "show all",
   "gender": "gender",
@@ -1694,7 +1694,7 @@
   "the app access link to track your body weight and download menus is": "The app access link to track your body weight and download menus is",
   "this is an automatically generated email – please do not reply to it": "This is an automatically generated email – please do not reply to it",
   "login details": "login details",
-  "registration": "registration",
+  "registration": "Registration",
   "your account has been successfully activated": "Your account has been successfully activated",
   "first you need to create daily menus": "First you need to create daily menus",
   "basal metabolic rate": "basal metabolic rate",
@@ -1916,6 +1916,10 @@
   "publication date": "Publication date",
   "food category": "Food category",
   "unit is required": "Unit is required",
-  "page": "Page"
+  "page": "Page",
+  "welcome to": "Welcome to",
+  "hi": "Hi",
+  "to access the application use the email and password you choose to sign in": "To access the application use the email and password you choose to sign in",
+  "if you need any additional information, please do not hesitate to contact us": "If you need any additional information, please do not hesitate to contact us"
 
 }

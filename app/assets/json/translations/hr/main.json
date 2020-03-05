@@ -1561,7 +1561,7 @@
   "the selected additional energy expenditure is the same as recommended": "odabrana dodatna energetska potrošnja je veća od preporučene",
   "clients": "klijenti",
   "web": "web",
-  "nutrition program web": "program prehrane web",
+  "nutrition program web": "Program Prehrane Web",
   "delete choosen activity": "Briši odabranu aktivnost",
   "show all": "Prikaži sve",
   "gender": "Spol",
@@ -1700,11 +1700,11 @@
   "recipient": "Primatelj",
   "croatia": "Hrvatska",
   "payment description": "Opis plaćanja",
-  "app access link": "Link za pristup aplikaciji",
+  "app access link": "Link za pristup aplikaciji je",
   "the app access link to track your body weight and download menus is": "Link za pristup aplikaciji za prćenje Vaše tjelesne mase i preuzimanje jelovnika je",
   "this is an automatically generated email – please do not reply to it": "Ovo je automatski generirana poruka - molimo ne odgovarajte na nju",
   "login details": "Podaci za prijavu u aplikaciju",
-  "registration": "registracija",
+  "registration": "Registracija",
   "your account has been successfully activated": "Vaš račun je uspješno aktiviran",
   "first you need to create daily menus": "Prvo morate izraditi dnevne jelovnike",
   "basal metabolic rate": "bazalni metabolizam",
@@ -1927,6 +1927,10 @@
   "publication date": "Datum objave",
   "food category": "Kategorija",
   "unit is required": "Mjera je obavezna",
-  "page": "Stranica"
+  "page": "Stranica",
+  "welcome to": "Dobrodošli u",
+  "hi": "Pozdrav",
+  "to access the application use the email and password you choose to sign in": "Za pristup aplikaciji koristite email i lozinku koju ste odabrali prilikom registracije",
+  "if you need any additional information, please do not hesitate to contact us": "Za sva dodatna pitanja stojimo Vam na raspolaganju"
 
 }

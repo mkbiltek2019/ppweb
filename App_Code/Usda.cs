@@ -10,9 +10,6 @@ using Newtonsoft.Json;
 using System.Data.SQLite;
 using Igprog;
 
-
-
-
 /// <summary>
 /// USDA
 /// </summary>
