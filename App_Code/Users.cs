@@ -29,6 +29,8 @@ public class Users : System.Web.Services.WebService {
     string supervisorPassword = ConfigurationManager.AppSettings["SupervisorPassword"];
     string trialDays = ConfigurationManager.AppSettings["TrialDays"];
     string headerinfo = "headerinfo.txt";
+    string url = ConfigurationManager.AppSettings["url"];
+    string url_en = ConfigurationManager.AppSettings["url_en"];
     public Users() {
     }
     public class NewUser {
@@ -588,41 +590,11 @@ public class Users : System.Web.Services.WebService {
             NewUser x = new NewUser();
             using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase))) {
                 connection.Open();
-                string sql = string.Format("SELECT userId, userType, firstName, lastName, companyName, address, postalCode, city, country, pin, phone, email, userName, password, adminType, userGroupId, activationDate, expirationDate, isActive, iPAddress FROM users WHERE email = '{0}'", email);
+                string sql = string.Format("SELECT userId FROM users WHERE email = '{0}'", email);
                 using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
                     using (SQLiteDataReader reader = command.ExecuteReader()) {
                         while (reader.Read()) {
                             x.userId = reader.GetString(0);
-                            x.userType = reader.GetValue(1) == DBNull.Value ? 0 : reader.GetInt32(1);
-                            x.firstName = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
-                            x.lastName = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
-                            x.companyName = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
-                            x.address = reader.GetValue(5) == DBNull.Value ? "" : reader.GetString(5);
-                            x.postalCode = reader.GetValue(6) == DBNull.Value ? "" : reader.GetString(6);
-                            x.city = reader.GetValue(7) == DBNull.Value ? "" : reader.GetString(7);
-                            x.country = reader.GetValue(8) == DBNull.Value ? "" : reader.GetString(8);
-                            x.pin = reader.GetValue(9) == DBNull.Value ? "" : reader.GetString(9);
-                            x.phone = reader.GetValue(10) == DBNull.Value ? "" : reader.GetString(10);
-                            x.email = reader.GetValue(11) == DBNull.Value ? "" : reader.GetString(11);
-                            x.userName = reader.GetValue(12) == DBNull.Value ? "" : reader.GetString(12);
-                            x.password = reader.GetValue(13) == DBNull.Value ? "" : Decrypt(reader.GetString(13));
-                            x.adminType = reader.GetValue(14) == DBNull.Value ? 0 : reader.GetInt32(14);
-                            x.userGroupId = reader.GetString(15);
-                            x.activationDate = reader.GetValue(16) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(16);
-                            x.expirationDate = reader.GetValue(17) == DBNull.Value ? DateTime.UtcNow.ToString() : reader.GetString(17);
-                            x.daysToExpite = G.DateDiff(x.expirationDate);
-                            x.isActive = reader.GetValue(18) == DBNull.Value ? true : Convert.ToBoolean(reader.GetInt32(18));
-                            x.licenceStatus = GetLicenceStatus(x);
-                            x.ipAddress = reader.GetValue(19) == DBNull.Value ? "" : reader.GetString(19);
-                            x.subusers = GetUsersCountByUserGroup(x.userGroupId, connection);
-                            x.maxNumberOfUsers = GetMaxNumberOfUsers(x.userGroupId, x.userType);
-                            x.package = GetPackage(x.licenceStatus, x.userType);
-                            x.headerInfo = f.ReadFile(x.userGroupId, headerinfo);
-                            /****** SubUsers ******/
-                            if (x.userId != x.userGroupId) {
-                                x = GetUserGroupInfo(x, connection);
-                            }
-                            /**********************/
                         }
                     }  
                     connection.Close();
@@ -630,41 +602,56 @@ public class Users : System.Web.Services.WebService {
             }
                 
             Mail mail = new Mail();
-            string messageSubject = t.Tran("nutrition program", lang).ToUpper() + " - " + t.Tran("password", lang);
+            string messageSubject = t.Tran("nutrition program web", lang) + " - " + t.Tran("reset password", lang);
 
             string messageBody = string.Format(
                 @"
 <p>{0}</p>
-<p><i>{1}:</i></p>
+<p>{1}: {2}</p>
 <hr/>
-<p>{2}: <strong>{3}</strong></p>
-<p>{4}: <strong>{5}</strong></p>
-<p>{6}: {7}</p>
-<hr/>
-{8}
+{3}
 <br />
 <br />"
-, t.Tran("nutrition program", lang).ToUpper()
-, t.Tran("login details", lang)
-, t.Tran("user name", lang)
-, x.userName
-, t.Tran("password", lang)
-, x.password
-, t.Tran("app access link", lang)
-, string.Format("<a href='https://www.{0}/app'>https://www.{0}/app</a>", GetWebPage(lang))
-, string.Format(@"<i>* {0}</i>", t.Tran("this is an automatically generated email – please do not reply to it", lang)));
+, t.Tran("nutrition program web", lang).ToUpper()
+, t.Tran("reset password link", lang)
+, string.Format("<a href='{0}/app/resetpassword.html?uid={1}&lang={2}'>{0}/app/resetpassword.html?uid={1}&lang={2}</a>", GetWebPage(lang), x.userId, lang)
+, string.Format(@"<i>* {0}.</i>", t.Tran("this is an automatically generated email – please do not reply to it", lang)));
 
-            string response = "";
-            if (x.userName == null) {
+            string response = null;
+            if (string.IsNullOrEmpty(x.userId)) {
                 response = t.Tran("user not found", lang);
             }
             else {
-                mail.SendMail(x.email, messageSubject, messageBody, lang, null, false);
-                response = t.Tran("password has been sent to your e-mail", lang);
+                if (mail.SendMail(email, messageSubject, messageBody, lang, null, false)) {
+                    response = t.Tran("reset password link has been sent to your email", lang);
+                } else {
+                    response = t.Tran("error", lang);
+                }
             }
 
             return JsonConvert.SerializeObject(response, Formatting.None);
-        } catch (Exception e) { return ("error: " + e); }
+        } catch (Exception e) { return (e.Message); }
+    }
+
+    [WebMethod]
+    public string ResetPassword(string uid, string newPasword) {
+        try {
+            string password = Encrypt(newPasword);
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase))) {
+                connection.Open();
+                string sql = string.Format(@"UPDATE Users SET Password = '{0}' WHERE UserId = '{1}'", password, uid);
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    using (SQLiteTransaction transaction = connection.BeginTransaction()) {
+                        command.ExecuteNonQuery();
+                        transaction.Commit();
+                    }
+                }
+                connection.Close();
+            }
+            return ("saved");
+        } catch (Exception e) {
+            return (e.Message);
+        }
     }
 
     [WebMethod]
@@ -890,7 +877,7 @@ public class Users : System.Web.Services.WebService {
 , t.Tran("nutrition program web", lang)
 , t.Tran("to access the application use the email and password you choose to sign in", lang)
 , t.Tran("app access link", lang)
-, string.Format("<a href='https://www.{0}/app'>https://www.{0}/app</a>", GetWebPage(lang))
+, string.Format("<a href='{0}/app'>{0}/app</a>", GetWebPage(lang))
 , string.Format(@"<i>* {0}</i>", t.Tran("for a better experience in using the application, please use some of the modern browsers such as google chrome, mozilla firefox, microsoft edge etc.", lang))
 , t.Tran("if you need any additional information, please do not hesitate to contact us", lang)
 , string.Format(@"<p>{0}</p>", t.Tran("best regards", lang)));
@@ -1128,13 +1115,13 @@ public class Users : System.Web.Services.WebService {
     private string GetWebPage(string lang) {
         switch (lang) {
             case "en":
-                return "nutriprog.com";
+                return url_en; // "nutriprog.com";
             /*  case "hr":
                   return "programprehrane.com";
               case "sr": case "sr_cyrl":
                   return "plan-ishrane.com"; */
             default:
-                return "programprehrane.com";
+                return url; // "programprehrane.com";
         }
     }
 

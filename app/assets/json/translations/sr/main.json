@@ -1929,6 +1929,10 @@
   "welcome to": "Dobrodošli u",
   "hi": "Pozdrav",
   "to access the application use the email and password you choose to sign in": "Za pristup aplikaciji koristite email i lozinku koju ste odabrali prilikom registracije",
-  "if you need any additional information, please do not hesitate to contact us": "Za sva dodatna pitanja stojimo Vam na raspolaganju"
+  "if you need any additional information, please do not hesitate to contact us": "Za sva dodatna pitanja stojimo Vam na raspolaganju",
+  "reset password link has been sent to your email": "Link za resetovanje lozinke je poslan na Vaš email",
+  "reset password": "Resetuj lozinku",
+  "new password": "nova lozinka",
+  "reset password link": "Link za resetovanje lozinke"
 
 }

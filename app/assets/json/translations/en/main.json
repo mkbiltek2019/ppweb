@@ -1920,6 +1920,10 @@
   "welcome to": "Welcome to",
   "hi": "Hi",
   "to access the application use the email and password you choose to sign in": "To access the application use the email and password you choose to sign in",
-  "if you need any additional information, please do not hesitate to contact us": "If you need any additional information, please do not hesitate to contact us"
+  "if you need any additional information, please do not hesitate to contact us": "If you need any additional information, please do not hesitate to contact us",
+  "reset password link has been sent to your email": "Reset password link has been sent to Your email",
+  "reset password": "Reset password",
+  "new password": "new password",
+  "reset password link": "Reset password link"
 
 }

@@ -7475,7 +7475,72 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 }])
 
+.controller('resetPasswordCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', 'functions', '$translate', '$translatePartialLoader', function ($scope, $http, $sessionStorage, $window, $rootScope, functions, $translate, $translatePartialLoader) {
+    var webService = 'Users.asmx';
+    var config = null;
+    var lang = null;
+    var uid = null;
+    var queryString = null;
+    $scope.user = null;
+    $scope.resp = null;
+    $scope.d = {
+        password: null,
+        passwordConfirm: null
+    }
 
+    queryString = location.search.split('&');
+    if (queryString.length >= 1) {
+        if (queryString[0].substring(1, 4) === 'uid') {
+            uid = queryString[0].substring(5);
+            $http.get('./config/config.json').then(function (response) {
+                config = response.data;
+                $http({
+                    url: config.backend + webService + '/Get',
+                    method: "POST",
+                    data: { userId: uid }
+                })
+                .then(function (response) {
+                    $scope.user = JSON.parse(response.data.d);
+                },
+                function (response) {
+                    functions.alert(response.data.d, '');
+                });
+            });
+        }
+        if (queryString.length === 2) {
+            if (queryString[1].substring(0, 4) === 'lang') {
+                lang = queryString[1].substring(5);
+                $translate.use(lang);
+                $translatePartialLoader.addPart('main');
+            }
+        }
+    }
+
+    $scope.save = function (x) {
+        if (functions.isNullOrEmpty(x.password) || functions.isNullOrEmpty(x.passwordConfirm)) {
+            functions.alert($translate.instant('all fields are required'), '');
+            return false;
+        }
+        if (x.password !== x.passwordConfirm) {
+            functions.alert($translate.instant('passwords are not the same'), '');
+            return false;
+        }
+        $http({
+            url: config.backend + webService + '/ResetPassword',
+            method: "POST",
+            data: { uid: uid, newPasword: x.password }
+        })
+        .then(function (response) {
+            functions.alert($translate.instant(response.data.d), '');
+            $scope.resp = response.data.d;
+        },
+        function (response) {
+            functions.alert(response.data.d, '');
+        });
+    }
+
+
+}])
 //-------------end Program Prehrane Controllers--------------------
 
 .directive('allowOnlyNumbers', function () {
