@@ -128,6 +128,7 @@
         </div>
     </div>
     <json-directive data="currentMenu" desc="'currentMenu'"></json-directive>
+    <json-directive data="totals" desc="'totals'"></json-directive>
 </script>
 
 <script type="text/ng-template" id="weeklyMenuTpl">
@@ -318,6 +319,16 @@
                     <canvas id="mealsChart" class="chart chart-bar"
                             chart-data="mealsGraphData_menu.data" chart-labels="mealsGraphData_menu.labels" chart-colors="mealsGraphData_menu.colors" height="200"
                             chart-series="mealsGraphData_menu.series" chart-options="mealsGraphData_menu.options" chart-dataset-override="mealsGraphData_menu.datasetOverride"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default text-center">
+            <div class="panel-heading bg-subpanel"><span class="text-uppercase">{{'distribution of nutrients per meals' | translate}}</span></div>
+            <div class="panel-body">
+                <div class="row">
+                    <canvas id="mealsNutriChart" class="chart chart-bar"
+                            chart-data="mealsNutriGraphData_menu.data" chart-labels="mealsNutriGraphData_menu.labels" chart-colors="mealsNutriGraphData_menu.colors" height="200"
+                            chart-series="mealsNutriGraphData_menu.series" chart-options="mealsNutriGraphData_menu.options" chart-dataset-override="mealsNutriGraphData_menu.datasetOverride"></canvas>
                 </div>
             </div>
         </div>

@@ -4280,12 +4280,26 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.mealsMin = [];
         $scope.mealsMax = [];
         $scope.mealsTitles = [];
+
+        //TODO: nutrients meal chart
+        $scope.nutriMealTotals = {
+            carbohydrates: [],
+            proteins: [],
+            fats: []
+        }
+
+
         angular.forEach($rootScope.currentMenu.data.meals, function (value, key) {
             if (value.isSelected == true && angular.isDefined($rootScope.totals)) {
 
                 if (angular.isDefined($rootScope.totals.mealsTotal)) {
                     if (key < $rootScope.recommendations.mealsRecommendationEnergy.length) {
                         $scope.mealsTotals.push($rootScope.totals.mealsTotal.length > 0 ? $rootScope.totals.mealsTotal[key].energy.val.toFixed(1) : 0);
+
+                        $scope.nutriMealTotals.carbohydrates.push($rootScope.totals.mealsTotal.length > 0 ? $rootScope.totals.mealsTotal[key].carbohydrates.val.toFixed(1) : 0);
+                        $scope.nutriMealTotals.proteins.push($rootScope.totals.mealsTotal.length > 0 ? $rootScope.totals.mealsTotal[key].proteins.val.toFixed(1) : 0);
+                        $scope.nutriMealTotals.fats.push($rootScope.totals.mealsTotal.length > 0 ? $rootScope.totals.mealsTotal[key].fats.val.toFixed(1) : 0);
+
                         if ($rootScope.recommendations !== undefined) {
                             if (angular.isDefined($rootScope.recommendations.mealsRecommendationEnergy)) {
                                 $scope.mealsMin.push($rootScope.recommendations.mealsRecommendationEnergy[key].meal.energyMin);
@@ -4416,6 +4430,44 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $rootScope.mealsGraphData_menu = mealsGraphData(false);
         $rootScope.mealsGraphData_analysis = mealsGraphData(true);
 
+        var mealsNutriGraphData = function (displayLegend) {
+            return charts.createGraph(
+              ['carbs', 'proteins', 'fats'],
+              [$scope.nutriMealTotals.carbohydrates, $scope.nutriMealTotals.proteins, $scope.nutriMealTotals.fats],
+              $scope.mealsTitles,
+              ['#f2f20f', '#28c1e0', '#ed722f'],
+              {
+                  responsive: true, maintainAspectRatio: true, legend: { display: displayLegend },
+                  scales: {
+                      xAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: true } }],
+                      yAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: true, stepSize: 200 } }]
+                  }
+              },
+              [
+                   {
+                       label: $translate.instant('carbohydrates') + ' (' + $translate.instant('kcal') + ')',
+                       borderWidth: 1,
+                       type: 'bar',
+                       fill: true
+                   },
+                   {
+                       label: $translate.instant('proteins') + ' (' + $translate.instant('kcal') + ')',
+                       borderWidth: 1,
+                       type: 'bar',
+                       fill: false
+                   },
+                    {
+                        label: $translate.instant('fats') + ' (' + $translate.instant('kcal') + ')',
+                        borderWidth: 1,
+                        type: 'bar',
+                        fill: false
+                    }
+              ]
+            );
+
+        }
+        $rootScope.mealsNutriGraphData_menu = mealsNutriGraphData(false);
+        $rootScope.mealsNutriGraphData_analysis = mealsNutriGraphData(true);
 
         $scope.parametersGraphDataOther = charts.stackedChart(
             [$translate.instant('choosen')],
