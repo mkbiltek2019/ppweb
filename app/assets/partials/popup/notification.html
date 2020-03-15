@@ -12,8 +12,8 @@
         <md-dialog-content >
             <div class="md-dialog-content">
                 <div>
-                    <p class="lead text-success text-center">{{config.date}}<br /></p>
-                    <hr />
+                    <!--<p class="lead text-success text-center">{{config.date}}<br /></p>
+                    <hr />-->
                     <!--<p class="lead text-danger text-justify">
                         1. U subotu 9.11.2019 dogodio se veliki hakerski napad na server na kojemu se nalazi i <strong>programprehrane.com</strong>.
                         Pogođeno je više od 440 000 web stranica širom svijeta. Stranice su bile blokirane do danas u jutro (11.11). Aplikacija <strong>Program Prehrane Web</strong> je ponovno aktivna i srećom svi podaci su ostali sačuvani.
@@ -24,14 +24,18 @@
                     </p>-->
                     <p class="lead text-success text-justify">
                         1. {{'a new application upgrade is available' | translate}}. - <em><span class="text-capitalize">{{'version' | translate}}</span>: {{config.version}}</em>
+                        <em class="pull-right small">{{config.date}}</em>
                     </p>
+                    <hr />
                     <div>
                         <a ng-hide="config.language=='en'" href="" ng-click="toggleUpdates()" title="{{'what is new' | translate}}?" class="text-uppercase">{{'what is new' | translate}}? <i class="fa fa-caret-{{showUpdates==false?'right':'down'}}" aria-hidden="true"></i></a>
-                        <div ng-if="showUpdates==true" ng-include="'./assets/partials/updates.html'" class="text-center"></div>
+                        <div ng-if="showUpdates" ng-include="'./assets/partials/updates.html'" class="text-center table-scroll" style="height:40vh"></div>
                     </div>
                 </div>
                 <hr />
-                <a href="" class="btn btn-default text-uppercase" ng-click="hide()"><i class="fa fa-refresh"></i> {{'refresh page' | translate}}</a>
+                <div class="text-right">
+                    <a href="" class="btn btn-default text-uppercase" ng-click="hide()"><i class="fa fa-refresh"></i> {{'refresh page' | translate}}</a>
+                </div>
             </div>
         </md-dialog-content>
     </form>

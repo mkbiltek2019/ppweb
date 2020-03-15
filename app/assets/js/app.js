@@ -438,7 +438,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         return list;
     }
 
-    $scope.showUpdates = false;
+    $scope.showUpdates = true;
     $scope.toggleUpdates = function () {
         $scope.showUpdates = !$scope.showUpdates;
     };
@@ -468,7 +468,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     var notificationPoupCtrl = function ($scope, $rootScope, $mdDialog, $localStorage) {
         $scope.config = $rootScope.config;
-        $scope.showUpdates = false;
+        $scope.showUpdates = true;
         $scope.toggleUpdates = function () {
             $scope.showUpdates = !$scope.showUpdates;
         };
