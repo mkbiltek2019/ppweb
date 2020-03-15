@@ -4295,10 +4295,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 if (angular.isDefined($rootScope.totals.mealsTotal)) {
                     if (key < $rootScope.recommendations.mealsRecommendationEnergy.length) {
                         $scope.mealsTotals.push($rootScope.totals.mealsTotal.length > 0 ? $rootScope.totals.mealsTotal[key].energy.val.toFixed(1) : 0);
-
-                        $scope.nutriMealTotals.carbohydrates.push($rootScope.totals.mealsTotal.length > 0 ? $rootScope.totals.mealsTotal[key].carbohydrates.val.toFixed(1) : 0);
-                        $scope.nutriMealTotals.proteins.push($rootScope.totals.mealsTotal.length > 0 ? $rootScope.totals.mealsTotal[key].proteins.val.toFixed(1) : 0);
-                        $scope.nutriMealTotals.fats.push($rootScope.totals.mealsTotal.length > 0 ? $rootScope.totals.mealsTotal[key].fats.val.toFixed(1) : 0);
+                        debugger;
+                        $scope.nutriMealTotals.carbohydrates.push($rootScope.totals.mealsTotal.length > 0 ? $rootScope.totals.mealsTotal[key].carbohydrates.perc.toFixed(1) : 0);
+                        $scope.nutriMealTotals.proteins.push($rootScope.totals.mealsTotal.length > 0 ? $rootScope.totals.mealsTotal[key].proteins.perc.toFixed(1) : 0);
+                        $scope.nutriMealTotals.fats.push($rootScope.totals.mealsTotal.length > 0 ? $rootScope.totals.mealsTotal[key].fats.perc.toFixed(1) : 0);
 
                         if ($rootScope.recommendations !== undefined) {
                             if (angular.isDefined($rootScope.recommendations.mealsRecommendationEnergy)) {
@@ -4440,27 +4440,27 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                   responsive: true, maintainAspectRatio: true, legend: { display: displayLegend },
                   scales: {
                       xAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: true } }],
-                      yAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: true, stepSize: 200 } }]
+                      yAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: true, stepSize: 100 } }]
                   }
               },
               [
                    {
-                       label: $translate.instant('carbohydrates') + ' (' + $translate.instant('kcal') + ')',
+                       label: $translate.instant('carbohydrates') + ' (' + $translate.instant('%') + ')',
                        borderWidth: 1,
                        type: 'bar',
                        fill: true
                    },
                    {
-                       label: $translate.instant('proteins') + ' (' + $translate.instant('kcal') + ')',
+                       label: $translate.instant('proteins') + ' (' + $translate.instant('%') + ')',
                        borderWidth: 1,
                        type: 'bar',
-                       fill: false
+                       fill: true
                    },
                     {
-                        label: $translate.instant('fats') + ' (' + $translate.instant('kcal') + ')',
+                        label: $translate.instant('fats') + ' (' + $translate.instant('%') + ')',
                         borderWidth: 1,
                         type: 'bar',
-                        fill: false
+                        fill: true
                     }
               ]
             );

@@ -857,13 +857,13 @@ public class Foods : System.Web.Services.WebService {
             x.code = obj.code;
             x.title = obj.title;
             x.energy.val = selectedFoods.Where(a => a.meal.code == obj.code).Sum(a => a.energy);
-            x.energy.perc = (x.energy.val / selectedFoods.Sum(a => a.energy)) * 100;
+            x.energy.perc = x.energy.val > 0 ? (x.energy.val / selectedFoods.Sum(a => a.energy)) * 100 : 0;
             x.carbohydrates.val = selectedFoods.Where(a => a.meal.code == obj.code).Sum(a => a.carbohydrates);
-            x.carbohydrates.perc = (x.carbohydrates.val / selectedFoods.Sum(a => a.carbohydrates)) * 100;
+            x.carbohydrates.perc = x.carbohydrates.val > 0 ? (x.carbohydrates.val / selectedFoods.Sum(a => a.carbohydrates)) * 100 : 0;
             x.proteins.val = selectedFoods.Where(a => a.meal.code == obj.code).Sum(a => a.proteins);
-            x.proteins.perc = (x.proteins.val / selectedFoods.Sum(a => a.proteins)) * 100;
+            x.proteins.perc = x.proteins.val > 0 ? (x.proteins.val / selectedFoods.Sum(a => a.proteins)) * 100 : 0;
             x.fats.val = selectedFoods.Where(a => a.meal.code == obj.code).Sum(a => a.fats);
-            x.fats.perc = (x.fats.val / selectedFoods.Sum(a => a.fats)) * 100;
+            x.fats.perc = x.fats.val > 0 ? (x.fats.val / selectedFoods.Sum(a => a.fats)) * 100 : 0;
             xx.Add(x);
         }
         return xx;

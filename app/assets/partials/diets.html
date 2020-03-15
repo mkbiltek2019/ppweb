@@ -35,7 +35,7 @@
                             </thead>
                         </table>
                     </div>
-                    <div class="table-responsive" style="height:250px">
+                    <div class="table-responsive" style="height:50vh">
                         <table class="table table-hover table-condensed text-small">
                             <tbody>
                                 <tr ng-repeat="x in diets | filter: searchValue" ng-click="select(x)">
@@ -55,8 +55,9 @@
             <fieldset class="fieldset-border">
                 <legend class="fieldset-border text-capitalize">{{'choosen diet' | translate}}</legend>
                 <div class="alert alert-success">
-                    <strong>{{clientData.diet.diet | translate}}</strong> {{clientData.diet.dietDescription | translate}}.
-                    <p ng-if="clientData.diet.note">* {{clientData.diet.note}}</p>
+                    <strong>{{clientData.diet.diet | translate}}</strong>
+                    <p>{{clientData.diet.dietDescription | translate}}.</p> 
+                    <em ng-if="clientData.diet.note">* {{clientData.diet.note}}.</em>
                 </div>
             </fieldset>
         </div>

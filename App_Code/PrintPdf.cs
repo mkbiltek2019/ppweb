@@ -318,10 +318,14 @@ public class PrintPdf : System.Web.Services.WebService {
             doc.Add(Chunk.NEWLINE);
 
             doc.Add(new Paragraph(t.Tran("energy value", lang).ToUpper(), GetFont(10)));
-            PdfPTable tblMeals = new PdfPTable(3);
+            PdfPTable tblMeals = new PdfPTable(6);
+            tblMeals.WidthPercentage = 100f;
             tblMeals.AddCell(new PdfPCell(new Phrase(t.Tran("meals", lang), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 25, PaddingTop = 10 });
             tblMeals.AddCell(new PdfPCell(new Phrase(t.Tran("choosen", lang), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 25, PaddingTop = 10 });
             tblMeals.AddCell(new PdfPCell(new Phrase(t.Tran("recommended", lang), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 25, PaddingTop = 10 });
+            tblMeals.AddCell(new PdfPCell(new Phrase(t.Tran("carbohydrates", lang), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 25, PaddingTop = 10 });
+            tblMeals.AddCell(new PdfPCell(new Phrase(t.Tran("proteins", lang), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 25, PaddingTop = 10 });
+            tblMeals.AddCell(new PdfPCell(new Phrase(t.Tran("fats", lang), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 25, PaddingTop = 10 });
 
             int i = 0;
             foreach (var m in totals.mealsTotal) {
@@ -331,7 +335,10 @@ public class PrintPdf : System.Web.Services.WebService {
 
             tblMeals.AddCell(new PdfPCell(new Phrase(t.Tran("total", lang), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 25, PaddingTop = 10 });
             tblMeals.AddCell(new PdfPCell(new Phrase(totals.energy.ToString() + " " + t.Tran("kcal", lang), GetFont(CheckEnergy(totals.energy, recommendations.energy)))) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 25, PaddingTop = 10 });
-            tblMeals.AddCell(new PdfPCell(new Phrase(recommendations.energy.ToString() + " " + t.Tran("kcal", lang), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 25, PaddingTop = 10 });
+            tblMeals.AddCell(new PdfPCell(new Phrase(recommendations.energy.ToString() + " " + t.Tran("kcal", lang), GetFont(7))) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 25, PaddingTop = 10 });
+            tblMeals.AddCell(new PdfPCell(new Phrase(totals.carbohydrates.ToString() + " " + t.Tran("kcal", lang), GetFont(7))) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 25, PaddingTop = 10 });
+            tblMeals.AddCell(new PdfPCell(new Phrase(totals.proteins.ToString() + " " + t.Tran("kcal", lang), GetFont(7))) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 25, PaddingTop = 10 });
+            tblMeals.AddCell(new PdfPCell(new Phrase(totals.fats.ToString() + " " + t.Tran("kcal", lang), GetFont(7))) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 25, PaddingTop = 10 });
             doc.Add(tblMeals);
             doc.Add(Chunk.NEWLINE);
 
@@ -1458,7 +1465,10 @@ IBAN HR8423400091160342496
         if (totals.mealsTotal[i].energy.val > 0) {
             tblMeals.AddCell(new PdfPCell(new Phrase(t.Tran(GetMealTitle(meal.code, meal.title), lang), GetFont())) { Border = 0 });
             tblMeals.AddCell(new PdfPCell(new Phrase(totals.mealsTotal[i].energy.val.ToString() + " " + t.Tran("kcal", lang) + " (" + Math.Round(Convert.ToDouble(totals.mealsTotal[i].energy.perc), 1).ToString() + " %)", GetFont(CheckTotal(totals.mealsTotal[i].energy.perc, recommendations.mealsRecommendationEnergy[i].meal.energyMinPercentage, recommendations.mealsRecommendationEnergy[i].meal.energyMaxPercentage)))) { Border = 0 });
-            tblMeals.AddCell(new PdfPCell(new Phrase(recommendations.mealsRecommendationEnergy[i].meal.energyMin.ToString() + "-" + recommendations.mealsRecommendationEnergy[i].meal.energyMax.ToString() + " " + t.Tran("kcal", lang) + " (" + recommendations.mealsRecommendationEnergy[i].meal.energyMinPercentage.ToString() + "-" + recommendations.mealsRecommendationEnergy[i].meal.energyMaxPercentage.ToString() + " %)", GetFont())) { Border = 0 });
+            tblMeals.AddCell(new PdfPCell(new Phrase(recommendations.mealsRecommendationEnergy[i].meal.energyMin.ToString() + "-" + recommendations.mealsRecommendationEnergy[i].meal.energyMax.ToString() + " " + t.Tran("kcal", lang) + " (" + recommendations.mealsRecommendationEnergy[i].meal.energyMinPercentage.ToString() + "-" + recommendations.mealsRecommendationEnergy[i].meal.energyMaxPercentage.ToString() + " %)", GetFont(7))) { Border = 0 });
+            tblMeals.AddCell(new PdfPCell(new Phrase(totals.mealsTotal[i].carbohydrates.val.ToString() + " " + t.Tran("kcal", lang) + " (" + Math.Round(Convert.ToDouble(totals.mealsTotal[i].carbohydrates.perc), 1).ToString() + " %)", GetFont(7))) { Border = 0 });
+            tblMeals.AddCell(new PdfPCell(new Phrase(totals.mealsTotal[i].proteins.val.ToString() + " " + t.Tran("kcal", lang) + " (" + Math.Round(Convert.ToDouble(totals.mealsTotal[i].proteins.perc), 1).ToString() + " %)", GetFont(7))) { Border = 0 });
+            tblMeals.AddCell(new PdfPCell(new Phrase(totals.mealsTotal[i].fats.val.ToString() + " " + t.Tran("kcal", lang) + " (" + Math.Round(Convert.ToDouble(totals.mealsTotal[i].fats.perc), 1).ToString() + " %)", GetFont(7))) { Border = 0 });
         }
     }
 

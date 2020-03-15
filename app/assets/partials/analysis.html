@@ -15,16 +15,15 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-5">
-                    <ng-include src="'analysisTpl'"></ng-include>
-                </div>
-                <div class="col-sm-7">
-                    <ng-include src="'parametersTpl'"></ng-include>
-                </div>
+            <div>
+                <ng-include src="'analysisTpl'"></ng-include>
+            </div>
+            <div>
+                <ng-include src="'parametersTpl'"></ng-include>
             </div>
         </div>
     </div>
+    <json-directive data="totals" desc="'totals'"></json-directive>
 </div>
 
 <script type="text/ng-template" id="analysisTpl">
@@ -37,124 +36,145 @@
                         <th>{{'meals' | translate}}</th>
                         <th>{{'choosen' | translate}}</th>
                         <th>{{'recommended' | translate}}</th>
+                        <th>{{'carbohydrates' | translate}}</th>
+                        <th>{{'proteins' | translate}}</th>
+                        <th>{{'fats' | translate}}</th>
                     </tr>
                     <tr ng-repeat="x in totals.mealsTotal">
                         <td class="nowrap">{{x.title}}</td>
                         <td class="text-bold">{{x.energy.val | number:1}} {{'kcal' | translate}} ({{x.energy.perc | number:1}} %) <i class="{{checkTotal(x.energy.perc, getMealRecommendation(x.code).energyMinPercentage, getMealRecommendation(x.code).energyMaxPercentage)}}"></i></td>
                         <td>{{getMealRecommendation(x.code).energyMin}} - {{getMealRecommendation(x.code).energyMax}} {{'kcal' | translate}} ({{getMealRecommendation(x.code).energyMinPercentage}} - {{getMealRecommendation(x.code).energyMaxPercentage}} %)</td>
+                        <td>{{x.carbohydrates.val | number:1}} {{'kcal' | translate}} ({{x.carbohydrates.perc | number:1}} %)</td>
+                        <td>{{x.proteins.val | number:1}} {{'kcal' | translate}} ({{x.proteins.perc | number:1}} %)</td>
+                        <td>{{x.fats.val | number:1}} {{'kcal' | translate}} ({{x.fats.perc | number:1}} %)</td>
                     </tr>
                     <tr>
-                        <td colspan="3"></td>
+                        <td colspan="6"></td>
                     </tr>
                     <tr>
                         <td>{{'total' | translate}}</td>
-                        <td class="text-bold">{{totals.energy | number:1}} {{'kcal' | translate}} <i class="{{checkEnergy(totals.energy, recommendations.energy)}}"></i></td>
+                        <td class="text-bold lead">{{totals.energy | number:1}} {{'kcal' | translate}} <i class="{{checkEnergy(totals.energy, recommendations.energy)}}"></i></td>
                         <td>{{recommendations.energy}} {{'kcal' | translate}}</td>
+                        <td class="text-bold">{{totals.energy | number:1}} {{'kcal' | translate}}</td>
+                        <td class="text-bold">{{totals.proteins | number:1}} {{'kcal' | translate}}</td>
+                        <td class="text-bold">{{totals.fats | number:1}} {{'kcal' | translate}}</td>
                     </tr>
                 </table>
             </div>
-            <div>
-                <canvas id="mealsChart" class="chart chart-bar"
-                        chart-data="mealsGraphData_analysis.data" chart-labels="mealsGraphData_analysis.labels" chart-colors="mealsGraphData_analysis.colors" height="220"
-                        chart-series="mealsGraphData_analysis.series" chart-options="mealsGraphData_analysis.options" chart-dataset-override="mealsGraphData_analysis.datasetOverride">
-                </canvas>
+            <div class="row">
+                <div class="col-sm-6">
+                    <canvas id="mealsChart" class="chart chart-bar"
+                            chart-data="mealsGraphData_analysis.data" chart-labels="mealsGraphData_analysis.labels" chart-colors="mealsGraphData_analysis.colors" height="220"
+                            chart-series="mealsGraphData_analysis.series" chart-options="mealsGraphData_analysis.options" chart-dataset-override="mealsGraphData_analysis.datasetOverride"></canvas>
+                </div>
+                <div class="col-sm-6">
+                    <canvas id="mealsNutriChart" class="chart chart-bar"
+                            chart-data="mealsNutriGraphData_analysis.data" chart-labels="mealsNutriGraphData_analysis.labels" chart-colors="mealsNutriGraphData_analysis.colors" height="220"
+                            chart-series="mealsNutriGraphData_analysis.series" chart-options="mealsNutriGraphData_analysis.options" chart-dataset-override="mealsNutriGraphData_analysis.datasetOverride"></canvas>
+                </div>
             </div>
-            <div>
-                <canvas id="mealsNutriChart" class="chart chart-bar"
-                        chart-data="mealsNutriGraphData_analysis.data" chart-labels="mealsNutriGraphData_analysis.labels" chart-colors="mealsNutriGraphData_analysis.colors" height="220"
-                        chart-series="mealsNutriGraphData_analysis.series" chart-options="mealsNutriGraphData_analysis.options" chart-dataset-override="mealsNutriGraphData_analysis.datasetOverride"></canvas>
-            </div>
+            
         </fieldset>
         <fieldset class="fieldset-border">
             <legend class="fieldset-border">{{'unit servings' | translate}}</legend>
-            <div class="table-responsive">
-                <table class="table table-condensed text-small">
-                    <tr>
-                        <th></th>
-                        <th>{{'choosen' | translate}}</th>
-                        <th>{{'recommended' | translate}}</th>
-                    </tr>
-                    <tr>
-                        <td>{{'cereals and cereal products' | translate}}</td>
-                        <td class="text-bold">{{totals.servings.cerealsServ}} <i class="{{checkServ(totals.servings.cerealsServ, recommendations.servings.cerealsServ)}}"></i></td>
-                        <td>{{recommendations.servings.cerealsServ}}</td>
-                    </tr>
-                    <tr>
-                        <td>{{'vegetables' | translate}}</td>
-                        <td class="text-bold">{{totals.servings.vegetablesServ}} <i class="{{checkServ(totals.servings.vegetablesServ, recommendations.servings.vegetablesServ)}}"></i></td>
-                        <td>{{recommendations.servings.vegetablesServ}}</td>
-                    </tr>
-                    <tr>
-                        <td>{{'fruit' | translate}}</td>
-                        <td class="text-bold">{{totals.servings.fruitServ}} <i class="{{checkServ(totals.servings.fruitServ, recommendations.servings.fruitServ)}}"></i></td>
-                        <td>{{recommendations.servings.fruitServ}}</td>
-                    </tr>
-                    <tr>
-                        <td>{{'meat and substitutes' | translate}}</td>
-                        <td class="text-bold">{{totals.servings.meatServ}} <i class="{{checkServ(totals.servings.meatServ, recommendations.servings.meatServ)}}"></i></td>
-                        <td>{{recommendations.servings.meatServ}}</td>
-                    </tr>
-                    <tr>
-                        <td>{{'milk and dairy products' | translate}}</td>
-                        <td class="text-bold">{{totals.servings.milkServ}} <i class="{{checkServ(totals.servings.milkServ, recommendations.servings.milkServ)}}"></i></td>
-                        <td>{{recommendations.servings.milkServ}}</td>
-                    </tr>
-                    <tr>
-                        <td>{{'fats' | translate}}</td>
-                        <td class="text-bold">{{totals.servings.fatsServ}} <i class="{{checkServ(totals.servings.fatsServ, recommendations.servings.fatsServ)}}"></i></td>
-                        <td>{{recommendations.servings.fatsServ}}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3"></td>
-                    </tr>
-                    <tr>
-                        <th></th>
-                        <th>{{'choosen' | translate}}</th>
-                        <th>{{'acceptable' | translate}}</th>
-                    </tr>
-                    <tr>
-                        <td>{{'other foods' | translate}}</td>
-                        <td class="text-bold">{{totals.servings.otherFoodsEnergy | number:1}} {{'kcal' | translate}} <i class="{{checkOtherFoods(totals.servings.otherFoodsEnergy, recommendations.servings.otherFoodsEnergy)}}"></i></td>
-                        <td>{{recommendations.servings.otherFoodsEnergy | number:1}} {{'kcal' | translate}}</td>
-                    </tr>
-                </table>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="table-responsive">
+                        <table class="table table-condensed text-small">
+                            <tr>
+                                <th></th>
+                                <th>{{'choosen' | translate}}</th>
+                                <th>{{'recommended' | translate}}</th>
+                            </tr>
+                            <tr>
+                                <td>{{'cereals and cereal products' | translate}}</td>
+                                <td class="text-bold">{{totals.servings.cerealsServ}} <i class="{{checkServ(totals.servings.cerealsServ, recommendations.servings.cerealsServ)}}"></i></td>
+                                <td>{{recommendations.servings.cerealsServ}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{'vegetables' | translate}}</td>
+                                <td class="text-bold">{{totals.servings.vegetablesServ}} <i class="{{checkServ(totals.servings.vegetablesServ, recommendations.servings.vegetablesServ)}}"></i></td>
+                                <td>{{recommendations.servings.vegetablesServ}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{'fruit' | translate}}</td>
+                                <td class="text-bold">{{totals.servings.fruitServ}} <i class="{{checkServ(totals.servings.fruitServ, recommendations.servings.fruitServ)}}"></i></td>
+                                <td>{{recommendations.servings.fruitServ}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{'meat and substitutes' | translate}}</td>
+                                <td class="text-bold">{{totals.servings.meatServ}} <i class="{{checkServ(totals.servings.meatServ, recommendations.servings.meatServ)}}"></i></td>
+                                <td>{{recommendations.servings.meatServ}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{'milk and dairy products' | translate}}</td>
+                                <td class="text-bold">{{totals.servings.milkServ}} <i class="{{checkServ(totals.servings.milkServ, recommendations.servings.milkServ)}}"></i></td>
+                                <td>{{recommendations.servings.milkServ}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{'fats' | translate}}</td>
+                                <td class="text-bold">{{totals.servings.fatsServ}} <i class="{{checkServ(totals.servings.fatsServ, recommendations.servings.fatsServ)}}"></i></td>
+                                <td>{{recommendations.servings.fatsServ}}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"></td>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th>{{'choosen' | translate}}</th>
+                                <th>{{'acceptable' | translate}}</th>
+                            </tr>
+                            <tr>
+                                <td>{{'other foods' | translate}}</td>
+                                <td class="text-bold">{{totals.servings.otherFoodsEnergy | number:1}} {{'kcal' | translate}} <i class="{{checkOtherFoods(totals.servings.otherFoodsEnergy, recommendations.servings.otherFoodsEnergy)}}"></i></td>
+                                <td>{{recommendations.servings.otherFoodsEnergy | number:1}} {{'kcal' | translate}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <canvas id="servChart" class="chart chart-bar"
+                            chart-data="servGraphData.data" chart-labels="servGraphData.labels" chart-colors="servGraphData.colors" height="200"
+                            chart-series="servGraphData.series" chart-options="servGraphData.options" chart-dataset-override="servGraphData.datasetOverride"></canvas>
+                </div>
             </div>
-            <div>
-                <canvas id="servChart" class="chart chart-bar"
-                        chart-data="servGraphData.data" chart-labels="servGraphData.labels" chart-colors="servGraphData.colors" height="200"
-                        chart-series="servGraphData.series" chart-options="servGraphData.options" chart-dataset-override="servGraphData.datasetOverride"></canvas>
-            </div>
+         
         </fieldset>
         <fieldset class="fieldset-border">
             <legend class="fieldset-border text-capitalize">{{'macronutrients' | translate}}</legend>
-            <div class="table-responsive">
-                <table class="table table-condensed text-small">
-                    <tr>
-                        <th></th>
-                        <th style="width:30%">{{'choosen' | translate}}</th>
-                        <th>{{'recommended' | translate}}</th>
-                    </tr>
-                    <tr>
-                        <td>{{'carbohydrates' | translate}}</td>
-                        <td class="nowrap text-bold">{{totals.carbohydrates | number:1}} g, ({{totals.carbohydratesPercentage | number:1}} %) <i class="{{checkTotal(totals.carbohydratesPercentage, recommendations.carbohydratesPercentageMin, recommendations.carbohydratesPercentageMax)}}"></i></td>
-                        <td>{{recommendations.carbohydratesPercentageMin | number:1}}-{{recommendations.carbohydratesPercentageMax | number:1}} %</td>
-                    </tr>
-                    <tr>
-                        <td>{{'proteins' | translate}}</td>
-                        <td class="nowrap text-bold">{{totals.proteins | number:1}} g, ({{totals.proteinsPercentage | number:1}} %) <i class="{{checkTotal(totals.proteinsPercentage, recommendations.proteinsPercentageMin, recommendations.proteinsPercentageMax)}}"></i></td>
-                        <td>{{recommendations.proteinsPercentageMin | number:1}}-{{recommendations.proteinsPercentageMax | number:1}} %</td>
-                    </tr>
-                    <tr>
-                        <td>{{'fats' | translate}}</td>
-                        <td class="text-bold">{{totals.fats | number:1}} g, ({{totals.fatsPercentage | number:1}} %) <i class="{{checkTotal(totals.fatsPercentage, recommendations.fatsPercentageMin, recommendations.fatsPercentageMax)}}"></i></td>
-                        <td>{{recommendations.fatsPercentageMin | number:1}}-{{recommendations.fatsPercentageMax | number:1}} %</td>
-                    </tr>
-                </table>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="table-responsive">
+                        <table class="table table-condensed text-small">
+                            <tr>
+                                <th></th>
+                                <th style="width:30%">{{'choosen' | translate}}</th>
+                                <th>{{'recommended' | translate}}</th>
+                            </tr>
+                            <tr>
+                                <td>{{'carbohydrates' | translate}}</td>
+                                <td class="nowrap text-bold">{{totals.carbohydrates | number:1}} g, ({{totals.carbohydratesPercentage | number:1}} %) <i class="{{checkTotal(totals.carbohydratesPercentage, recommendations.carbohydratesPercentageMin, recommendations.carbohydratesPercentageMax)}}"></i></td>
+                                <td>{{recommendations.carbohydratesPercentageMin | number:1}}-{{recommendations.carbohydratesPercentageMax | number:1}} %</td>
+                            </tr>
+                            <tr>
+                                <td>{{'proteins' | translate}}</td>
+                                <td class="nowrap text-bold">{{totals.proteins | number:1}} g, ({{totals.proteinsPercentage | number:1}} %) <i class="{{checkTotal(totals.proteinsPercentage, recommendations.proteinsPercentageMin, recommendations.proteinsPercentageMax)}}"></i></td>
+                                <td>{{recommendations.proteinsPercentageMin | number:1}}-{{recommendations.proteinsPercentageMax | number:1}} %</td>
+                            </tr>
+                            <tr>
+                                <td>{{'fats' | translate}}</td>
+                                <td class="text-bold">{{totals.fats | number:1}} g, ({{totals.fatsPercentage | number:1}} %) <i class="{{checkTotal(totals.fatsPercentage, recommendations.fatsPercentageMin, recommendations.fatsPercentageMax)}}"></i></td>
+                                <td>{{recommendations.fatsPercentageMin | number:1}}-{{recommendations.fatsPercentageMax | number:1}} %</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <canvas id="pieChart" class="chart chart-pie"
+                            chart-data="pieGraphData.data" chart-labels="pieGraphData.labels" height="180"
+                            chart-series="pieGraphData.series" chart-options="pieGraphData.options" chart-colors="pieGraphData.colors"></canvas>
+                </div>
             </div>
-            <canvas id="pieChart" class="chart chart-pie"
-                    chart-data="pieGraphData.data" chart-labels="pieGraphData.labels"  height="180"
-                    chart-series="pieGraphData.series" chart-options="pieGraphData.options" chart-colors="pieGraphData.colors" >
-            </canvas>
         </fieldset>
     </div>
 </script>

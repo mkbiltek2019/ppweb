@@ -4,15 +4,7 @@
     </div>
     <div class="row">
         <div class="col-sm-6">
-            <table class="table">
-                <tr>
-                    <td class="borderNone nowrap">{{'additional energy expenditure' | translate}}: </td>
-                    <td width="100px" class="text-right bg-success borderNone">
-                        <strong>{{calculation.recommendedEnergyExpenditure}}</strong>
-                    </td>
-                    <td class="borderNone"><strong>kcal</strong></td>
-                </tr>
-            </table>
+            <p>{{'additional energy expenditure' | translate}}: <strong>{{calculation.recommendedEnergyExpenditure}} {{'kcal' | translate}}</strong></p>
         </div>
     </div>
     <div class="row">
@@ -36,7 +28,7 @@
                             </thead>
                         </table>
                     </div>
-                    <div class="table-responsive" style="height:200px">
+                    <div class="table-responsive" style="height:40vh">
                         <table class="table table-hover table-condensed text-small">
                             <tbody>
                                 <tr ng-repeat="x in activities | filter:{activity:searchValue} | orderBy:order | filter:{isSport:1}" ng-click="openPopup(x)">
@@ -60,16 +52,22 @@
         <div class="col-sm-6">
             <fieldset class="fieldset-border">
                 <legend class="fieldset-border text-capitalize">{{'choosen activities' | translate}}</legend>
-                <div class="table-responsive alert alert-success">
-                    <table class="table text-small">
-                        <tr ng-repeat="x in clientData.activities">
-                            <td><strong>{{x.activity}}</strong> - {{x.duration}} {{'min' | translate}},  {{x.energy | number:0}} {{'kcal' | translate}}</td>
-                            <td width="50px"><a href="" style="color:red" ng-click="removeActivity(x, $index)" class="btn btn-default"><i class="fa fa-times"></i></a></td>
-                        </tr>
-                        <tr ng-if="clientData.activities.length>1">
-                            <td class="text-capitalize">{{'total' | translate}}: <strong>{{energy}} {{'kcal' | translate}}</strong></td>
-                        </tr>
-                    </table>
+                <div class="alert alert-success" ng-repeat="x in clientData.activities">
+                    <a href="" ng-click="removeActivity(x, $index)" class="close" title="{{'delete' | translate}}">&times;</a>
+                    <div>
+                        <strong>{{x.activity}}</strong>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p title="{{'duration' | translate}}"><i class="fa fa-clock-o"></i> {{x.duration}} {{'min' | translate}}</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p title="{{'energy' | translate}}"><i class="fa fa-free-code-camp"></i> {{x.energy | number:0}} {{'kcal' | translate}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="clientData.activities.length>1" class="text-right text-capitalize">
+                    {{'total' | translate}}: <strong>{{energy}} {{'kcal' | translate}}</strong>
                 </div>
             </fieldset>
         </div>
