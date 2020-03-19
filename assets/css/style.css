@@ -372,6 +372,24 @@ legend.fieldset-border {
 }
 /***** Price box *****/
 
+/***** Social Share *****/
+#floatingSocialShare .facebook {
+    background-color: #85BC5E
+}
+#floatingSocialShare .google-plus {
+    background-color: #85BC5E
+}
+#floatingSocialShare .linkedin {
+    background-color: #85BC5E
+}
+#floatingSocialShare .pinterest {
+    background-color: #85BC5E
+}
+#floatingSocialShare .twitter {
+    background-color: #85BC5E
+}
+/***** Social Share *****/
+
 
 
 

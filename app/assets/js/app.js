@@ -2573,6 +2573,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     var getCalculation = function () {
+        if ($rootScope.clientData === undefined) { return false; }
         if ($rootScope.clientData.bmrEquation === 'KMA' && $rootScope.clientData.bodyFat.bodyFatPerc == 0) {
             $rootScope.clientData.bmrEquation = 'MSJ';  /*** MifflinStJeor ***/
         }
@@ -2603,8 +2604,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 
     /*******BMR Equations*******/
-    if ($rootScope.clientData.bodyFat.bodyFatPerc !== 0) {
-        $rootScope.clientData.bmrEquation = 'KMA'; /*** KatchMcArdle ***/
+    if ($rootScope.clientData !== undefined) {
+        if ($rootScope.clientData.bodyFat.bodyFatPerc !== 0) {
+            $rootScope.clientData.bmrEquation = 'KMA'; /*** KatchMcArdle ***/
+        }
     }
     $scope.bmrIsDisabled = false;
     $scope.setBmrEquation = function (x) {
@@ -2661,10 +2664,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
     var getEnergyLeft = function () {
         var energy = 0;
-        if ($rootScope.clientData.activities.length > 0) {
-            angular.forEach($rootScope.clientData.activities, function (value, key) {
-                energy = energy + value.energy;
-            })
+        if ($rootScope.clientData !== undefined) {
+            if ($rootScope.clientData.activities.length > 0) {
+                angular.forEach($rootScope.clientData.activities, function (value, key) {
+                    energy = energy + value.energy;
+                })
+            }
         }
         $scope.energy = energy.toFixed();
         return $rootScope.calculation.recommendedEnergyExpenditure - energy;
