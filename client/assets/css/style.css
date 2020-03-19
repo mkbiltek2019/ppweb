@@ -1,6 +1,6 @@
 ﻿ /*!
 style.css
-(c) 2018-2019 IG PROG, www.igprog.hr
+(c) 2018-2020 IG PROG, www.igprog.hr
 */
 
 
@@ -121,8 +121,8 @@ navbar-brand {
 
 @media (max-width: 767px) {
     .panel {
-        background-color: #3fa86d;
-        background-image: linear-gradient(to bottom right, #e3f7ca, #3fa86d);
+        background-color: #85BC5E;
+        background-image: linear-gradient(to bottom right, #e3f7ca, #85BC5E);
     }
     .lang {
         text-align: right;
@@ -135,16 +135,16 @@ navbar-brand {
     background-image: linear-gradient(to bottom right, #f1f1f1, #f1f1f1);
 }
 .text-primary, a {
-    color:#3fa86d;
+    color:#85BC5E;
 }
 
 .navbar, .btn-primary, .bg-subpanel {
-    background-color: #3fa86d !important;
+    background-color: #85BC5E !important;
     color: white !important; 
 }
 
 .btn-primary {
-    border: 1px solid #3fa86d !important;
+    border: 1px solid #85BC5E !important;
 }
 
 label {
@@ -162,7 +162,7 @@ label {
     z-index: 3;
     top: 0;
     left: 0;
-    background-color: #3fa86d;
+    background-color: #85BC5E;
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 80px;
