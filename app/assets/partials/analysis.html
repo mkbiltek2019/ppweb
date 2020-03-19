@@ -187,13 +187,24 @@
             <b class="text-uppercase">{{'ul' | translate}}</b>: <em>{{'upper intake level' | translate}}</em><br />
             <b class="text-uppercase">{{'rda' | translate}}</b>: <em>{{'recommended dietary allowance' | translate}}</em><br />
         </div>
-        <div class="mt10">
-            <ul class="nav nav-tabs">
-                <li ng-class="parametersTpl=='parametersChartTpl'?'active':''" ng-click="toggleParamTpl('parametersChartTpl')"><a href="#"><i class="fa fa-line-chart"></i> <span class="hidden-xs text-capitalize">{{'charts' | translate}}</span></a></li>
-                <li ng-class="parametersTpl=='parametersTableTpl'?'active':''" ng-click="toggleParamTpl('parametersTableTpl')"><a href="#"><i class="fa fa-table"></i> <span class="hidden-xs text-capitalize">{{'table' | translate}}</span></a></li>
-            </ul>
+        <div class="mt10 visible-md visible-sm visible-xs">
+            <div>
+                <ul class="nav nav-tabs">
+                    <li ng-class="parametersTpl=='parametersChartTpl'?'active':''" ng-click="toggleParamTpl('parametersChartTpl')"><a href="#"><i class="fa fa-line-chart"></i> <span class="hidden-xs text-capitalize">{{'charts' | translate}}</span></a></li>
+                    <li ng-class="parametersTpl=='parametersTableTpl'?'active':''" ng-click="toggleParamTpl('parametersTableTpl')"><a href="#"><i class="fa fa-table"></i> <span class="hidden-xs text-capitalize">{{'table' | translate}}</span></a></li>
+                </ul>
+            </div>
+            <div ng-include="parametersTpl" class="pt20"></div>
         </div>
-        <div ng-include="parametersTpl" style="padding-top:20px"></div>
+        <div class="row pt20 hidden-md hidden-sm hidden-xs">
+            <div class="col-sm-5">
+                <ng-include src="'parametersTableTpl'"></ng-include>
+            </div>
+            <div class="col-sm-7">
+                <ng-include src="'parametersChartTpl'"></ng-include>
+            </div>
+        </div>
+
     </fieldset>
 </script>
 
@@ -227,7 +238,7 @@
             </div>
         </div>
         
-        <div class="table-responsive table-scroll mt10">
+        <div class="table-responsive mt10">
             <table class="table table-bordered table-condensed text-small">
                 <tr>
                     <th></th>

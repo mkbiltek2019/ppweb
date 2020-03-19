@@ -236,7 +236,7 @@ public class Mail : System.Web.Services.WebService {
             MailMessage mail = new MailMessage();
             mail.From = new MailAddress(myEmail, myEmailName);
             mail.To.Add(sendTo);
-            if (send_cc) {
+            if (send_cc && sendTo != myEmail_cc) {
                 mail.CC.Add(myEmail_cc);
             }
             mail.Subject =  subject;

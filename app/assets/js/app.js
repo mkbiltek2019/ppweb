@@ -170,7 +170,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + 'Calculations.asmx/LoadPal',
             method: "POST",
-            data: ''
+            data: {}
         })
       .then(function (response) {
           $rootScope.pals = JSON.parse(response.data.d);
@@ -199,7 +199,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + 'Activities.asmx/Load',
             method: "POST",
-            data: ''
+            data: { lang: $rootScope.config.language }
         })
         .then(function (response) {
             $rootScope.activities = JSON.parse(response.data.d);
@@ -218,7 +218,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + 'Diets.asmx/Load',
             method: "POST",
-            data: ''
+            data: { lang: $rootScope.config.language }
         })
         .then(function (response) {
             $rootScope.diets = JSON.parse(response.data.d);
@@ -4295,7 +4295,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 if (angular.isDefined($rootScope.totals.mealsTotal)) {
                     if (key < $rootScope.recommendations.mealsRecommendationEnergy.length) {
                         $scope.mealsTotals.push($rootScope.totals.mealsTotal.length > 0 ? $rootScope.totals.mealsTotal[key].energy.val.toFixed(1) : 0);
-                        debugger;
+
                         $scope.nutriMealTotals.carbohydrates.push($rootScope.totals.mealsTotal.length > 0 ? $rootScope.totals.mealsTotal[key].carbohydrates.perc.toFixed(1) : 0);
                         $scope.nutriMealTotals.proteins.push($rootScope.totals.mealsTotal.length > 0 ? $rootScope.totals.mealsTotal[key].proteins.perc.toFixed(1) : 0);
                         $scope.nutriMealTotals.fats.push($rootScope.totals.mealsTotal.length > 0 ? $rootScope.totals.mealsTotal[key].fats.perc.toFixed(1) : 0);

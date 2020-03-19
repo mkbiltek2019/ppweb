@@ -17,6 +17,7 @@ using Igprog;
 public class Diets : System.Web.Services.WebService {
     string dataBase = ConfigurationManager.AppSettings["AppDataBase"];
     DataBase db = new DataBase();
+    Translate T = new Translate();
 
     public Diets() {
     }
@@ -52,39 +53,43 @@ public class Diets : System.Web.Services.WebService {
         x.saturatedFatsMin = 0;
         x.saturatedFatsMax = 0;
         x.note = "";
-        string json = JsonConvert.SerializeObject(x, Formatting.None);
-        return json;
+        return JsonConvert.SerializeObject(x, Formatting.None);
     }
 
     [WebMethod]
-    public string Load() {
+    public string Load(string lang) {
         try {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
-            connection.Open();
-            string sql = @"SELECT id, diet, dietDescription, carbohydratesMin, carbohydratesMax, proteinsMin, proteinsMax, fatsMin, fatsMax, saturatedFatsMin, saturatedFatsMax, note
+            List<NewDiet> xx = new List<NewDiet>();
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase))) {
+                connection.Open();
+                string sql = @"SELECT id, diet, dietDescription, carbohydratesMin, carbohydratesMax, proteinsMin, proteinsMax, fatsMin, fatsMax, saturatedFatsMin, saturatedFatsMax, note
                         FROM diets
                         ORDER BY rowid ASC";
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
-            List<NewDiet> xx = new List<NewDiet>();
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read()) {
-                NewDiet x = new NewDiet() {
-                    id = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0),
-                    diet = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1),
-                    dietDescription = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2),
-                    carbohydratesMin = reader.GetValue(3) == DBNull.Value ? 0 : reader.GetInt32(3),
-                    carbohydratesMax = reader.GetValue(4) == DBNull.Value ? 0 : reader.GetInt32(4),
-                    proteinsMin = reader.GetValue(5) == DBNull.Value ? 0 : reader.GetInt32(5),
-                    proteinsMax = reader.GetValue(6) == DBNull.Value ? 0 : reader.GetInt32(6),
-                    fatsMin = reader.GetValue(7) == DBNull.Value ? 0 : reader.GetInt32(7),
-                    fatsMax = reader.GetValue(8) == DBNull.Value ? 0 : reader.GetInt32(8),
-                    saturatedFatsMin = reader.GetValue(9) == DBNull.Value ? 0 : reader.GetInt32(9),
-                    saturatedFatsMax = reader.GetValue(10) == DBNull.Value ? 0 : reader.GetInt32(10),
-                    note = reader.GetValue(11) == DBNull.Value ? "" : reader.GetString(11)
-            };
-                xx.Add(x);
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    string[] translations = T.Translations(lang);
+                    using (SQLiteDataReader reader = command.ExecuteReader()) {
+                        while (reader.Read()) {
+                            NewDiet x = new NewDiet() {
+                                id = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0),
+                                diet = reader.GetValue(1) == DBNull.Value ? "" : T.Tran(reader.GetString(1), translations, string.IsNullOrEmpty(lang) ? "hr" : lang),
+                                dietDescription = reader.GetValue(2) == DBNull.Value ? "" : T.Tran(reader.GetString(2), translations, string.IsNullOrEmpty(lang) ? "hr" : lang),
+                                carbohydratesMin = reader.GetValue(3) == DBNull.Value ? 0 : reader.GetInt32(3),
+                                carbohydratesMax = reader.GetValue(4) == DBNull.Value ? 0 : reader.GetInt32(4),
+                                proteinsMin = reader.GetValue(5) == DBNull.Value ? 0 : reader.GetInt32(5),
+                                proteinsMax = reader.GetValue(6) == DBNull.Value ? 0 : reader.GetInt32(6),
+                                fatsMin = reader.GetValue(7) == DBNull.Value ? 0 : reader.GetInt32(7),
+                                fatsMax = reader.GetValue(8) == DBNull.Value ? 0 : reader.GetInt32(8),
+                                saturatedFatsMin = reader.GetValue(9) == DBNull.Value ? 0 : reader.GetInt32(9),
+                                saturatedFatsMax = reader.GetValue(10) == DBNull.Value ? 0 : reader.GetInt32(10),
+                                note = reader.GetValue(11) == DBNull.Value ? "" : T.Tran(reader.GetString(11), translations, string.IsNullOrEmpty(lang) ? "hr" : lang)
+                            };
+                            xx.Add(x);
+                        }
+                    } 
+                }
+                connection.Close();
             }
-            connection.Close();
+                
             string json = JsonConvert.SerializeObject(xx, Formatting.None);
             return json;
         } catch (Exception e) { return ("Error: " + e); }

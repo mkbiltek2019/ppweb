@@ -18,7 +18,7 @@ public class Foods : System.Web.Services.WebService {
     string dataBase = ConfigurationManager.AppSettings["AppDataBase"];
     string userType0FoodLimit = ConfigurationManager.AppSettings["UserType0FoodLimit"];
     DataBase db = new DataBase();
-    Translate t = new Translate();
+    Translate T = new Translate();
 
     public Foods() {
     }
@@ -420,12 +420,12 @@ public class Foods : System.Web.Services.WebService {
                         LEFT OUTER JOIN foodGroups AS fg
                         ON f.foodGroup = fg.code {0}", userType == "0" ? string.Format("LIMIT {0}", userType0FoodLimit) : "");
                 using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
-                    string[] translations = t.Translations(lang);
+                    string[] translations = T.Translations(lang);
                     using (SQLiteDataReader reader = command.ExecuteReader()) {
                         while (reader.Read()) {
                             NewFood x = new NewFood();
                             x.id = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
-                            x.food = reader.GetValue(1) == DBNull.Value ? "" : t.Tran(reader.GetString(1), translations, string.IsNullOrEmpty(lang) ? "hr" : lang);
+                            x.food = reader.GetValue(1) == DBNull.Value ? "" : T.Tran(reader.GetString(1), translations, string.IsNullOrEmpty(lang) ? "hr" : lang);
                             x.foodGroup.code = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
                             x.foodGroup.title = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
                             x.foodGroup.parent = GetParentGroup(connection, x.foodGroup.code);
@@ -677,14 +677,14 @@ public class Foods : System.Web.Services.WebService {
                 connection.Open();
                 string sql = "SELECT id, food, quantity, unit, mass, energy FROM foods";
                 using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
-                    string[] translations = t.Translations(lang);
+                    string[] translations = T.Translations(lang);
                     using (SQLiteDataReader reader = command.ExecuteReader()) {
                         while (reader.Read()) {
                             xx.Add(new {
                                 id = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0),
-                                food = reader.GetValue(1) == DBNull.Value ? "" : t.Tran(reader.GetString(1), translations, string.IsNullOrEmpty(lang) ? "hr" : lang),
+                                food = reader.GetValue(1) == DBNull.Value ? "" : T.Tran(reader.GetString(1), translations, string.IsNullOrEmpty(lang) ? "hr" : lang),
                                 quantity = reader.GetValue(2) == DBNull.Value ? 0 : reader.GetInt32(2),
-                                unit = reader.GetValue(3) == DBNull.Value ? "" : t.Tran(reader.GetString(3), translations, string.IsNullOrEmpty(lang) ? "hr" : lang),
+                                unit = reader.GetValue(3) == DBNull.Value ? "" : T.Tran(reader.GetString(3), translations, string.IsNullOrEmpty(lang) ? "hr" : lang),
                                 mass = reader.GetValue(4) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(4)),
                                 energy = reader.GetValue(5) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(5))
                             });
@@ -1840,7 +1840,7 @@ public class Foods : System.Web.Services.WebService {
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read()) {
                 x = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
-                xx.Add(t.Tran(x, lang));
+                xx.Add(T.Tran(x, lang));
             }
             connection.Close();
             return xx;

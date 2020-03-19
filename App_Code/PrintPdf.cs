@@ -90,12 +90,13 @@ public class PrintPdf : System.Web.Services.WebService {
 
             doc.Open();
             AppendHeader(doc, userId, headerInfo);
+
             if (settings.showClientData) {
                 ShowClientData(doc, currentMenu.client, lang);
             }
             doc.Add(new Paragraph(currentMenu.title, GetFont(12)));
             doc.Add(new Paragraph(currentMenu.note, GetFont(8)));
-            if(consumers > 1) {
+            if (consumers > 1) {
                 doc.Add(new Paragraph(t.Tran("number of consumers", lang) + ": " + consumers, GetFont(8)));
             }
 
@@ -1421,7 +1422,7 @@ IBAN HR8423400091160342496
         return string.Format("{0}{1} serv. {2}", (string.IsNullOrEmpty(des) ? "" : string.Format("{0}, ", des)), Math.Round(serv, 1), t.Tran(title, lang));
     }
 
-     private void AppendHeader(Document doc, string userId, string headerInfo) {
+    private void AppendHeader(Document doc, string userId, string headerInfo) {
         PdfPTable table = new PdfPTable(2);
         table.WidthPercentage = 100f;
         string logoPath = null;
@@ -1433,13 +1434,17 @@ IBAN HR8423400091160342496
             logo.ScaleToFit(160f, 30f);
             logo.SpacingAfter = 15f;
             table.AddCell(new PdfPCell(logo) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, PaddingBottom = 10 });
+
+            //HeaderFooter header = new HeaderFooter(new Phrase(new Chunk(logo, 10, 0)), false);
+            //header.Border = Rectangle.NO_BORDER;
+            //doc.Header = header;
+
         } else {
             table.AddCell(new PdfPCell(new Phrase("", GetFont())) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, PaddingBottom = 10 });
         }
         table.AddCell(new PdfPCell(new Phrase(headerInfo, GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, PaddingBottom = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
         doc.Add(table);
         doc.Add(new Chunk(line));
-
     }
 
     private void AppendFooter(Document doc, PrintMenuSettings settings, string date, string author, string lang, string type) {
@@ -1711,5 +1716,112 @@ IBAN HR8423400091160342496
         return c;
     }
     #endregion Methods
+
+    #region TestPdf
+    [WebMethod]
+    public string TestPdf() {
+        Document doc = new Document(iTextSharp.text.PageSize.A4);
+        System.IO.FileStream file =
+            new System.IO.FileStream(Server.MapPath("~/upload/PdfSample") +
+            DateTime.Now.ToString("ddMMyyHHmmss") + ".pdf",
+            System.IO.FileMode.OpenOrCreate);
+        //System.IO.FileStream file =
+        //    new System.IO.FileStream(Server.MapPath("~/Pdf/PdfSample") +
+        //    DateTime.Now.ToString("ddMMyyHHmmss") + ".pdf",
+        //    System.IO.FileMode.OpenOrCreate);
+        PdfWriter writer = PdfWriter.GetInstance(doc, file);
+        // calling PDFFooter class to Include in document
+        writer.PageEvent = new PDFFooter();
+        doc.Open();
+        PdfPTable tab = new PdfPTable(3);
+        PdfPCell cell = new PdfPCell(new Phrase("Header",
+                            new Font(Font.NORMAL, 24F)));
+        //PdfPCell cell = new PdfPCell(new Phrase("Header",
+        //                    new Font(Font.FontFamily.HELVETICA, 24F)));
+        cell.Colspan = 3;
+        cell.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                                      //Style
+        //cell.BorderColor = new BaseColor(System.Drawing.Color.Red);
+        cell.Border = Rectangle.BOTTOM_BORDER; // | Rectangle.TOP_BORDER;
+        cell.BorderWidthBottom = 3f;
+        tab.AddCell(cell);
+        for (int i = 0; i <= 100; i++) {
+            tab.AddCell("R1C1_" + i);
+            tab.AddCell("R1C2_" + i);
+            tab.AddCell("R1C3_" + i);
+        }
+
+        ////row 1
+        //tab.AddCell("R1C1");
+        //tab.AddCell("R1C2");
+        //tab.AddCell("R1C3");
+        ////row 2
+        //tab.AddCell("R2C1");
+        //tab.AddCell("R2C2");
+        //tab.AddCell("R2C3");
+        cell = new PdfPCell();
+        cell.Colspan = 3;
+        iTextSharp.text.List pdfList = new List(List.UNORDERED);
+        pdfList.Add(new iTextSharp.text.ListItem(new Phrase("Unorder List 1")));
+        pdfList.Add("Unorder List 2");
+        pdfList.Add("Unorder List 3");
+        pdfList.Add("Unorder List 4");
+        cell.AddElement(pdfList);
+        tab.AddCell(cell);
+        doc.Add(tab);
+        doc.Close();
+        file.Close();
+        return "OK";
+    }
+
+    public class PDFFooter : PdfPageEventHelper
+    {
+        // write on top of document
+        public override void OnOpenDocument(PdfWriter writer, Document document)
+        {
+            base.OnOpenDocument(writer, document);
+            PdfPTable tabFot = new PdfPTable(new float[] { 1F });
+            tabFot.SpacingAfter = 10F;
+            PdfPCell cell;
+            tabFot.TotalWidth = 300F;
+            cell = new PdfPCell(new Phrase("Header"));
+            tabFot.AddCell(cell);
+            tabFot.WriteSelectedRows(0, -1, 150, document.Top, writer.DirectContent);
+        }
+
+        // write on start of each page
+        public override void OnStartPage(PdfWriter writer, Document document)
+        {
+            base.OnStartPage(writer, document);
+
+            //PdfPTable tabFot = new PdfPTable(new float[] { 1F });
+            //tabFot.SpacingAfter = 10F;
+            //PdfPCell cell;
+            //tabFot.TotalWidth = 300F;
+            //cell = new PdfPCell(new Phrase("Header"));
+            //tabFot.AddCell(cell);
+            //tabFot.WriteSelectedRows(0, -1, 150, document.Top, writer.DirectContent);
+            //base.OnStartPage(writer, document);
+        }
+
+        // write on end of each page
+        public override void OnEndPage(PdfWriter writer, Document document)
+        {
+            base.OnEndPage(writer, document);
+            PdfPTable tabFot = new PdfPTable(new float[] { 1F });
+            PdfPCell cell;
+            tabFot.TotalWidth = 300F;
+            cell = new PdfPCell(new Phrase("Footer"));
+            tabFot.AddCell(cell);
+            tabFot.WriteSelectedRows(0, -1, 150, document.Bottom, writer.DirectContent);
+        }
+
+        //write on close of document
+        public override void OnCloseDocument(PdfWriter writer, Document document)
+        {
+            base.OnCloseDocument(writer, document);
+        }
+    }
+    #endregion
 
 }

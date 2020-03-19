@@ -29,10 +29,10 @@ public class MyMeals : System.Web.Services.WebService {
         public string description;
         public string userId;
         public string userGroupId;
-        public JsonFile data;
+        public JsonFileMeals data;
     }
 
-    public class JsonFile {
+    public class JsonFileMeals {
         public List<Meals.NewMeal> meals;
         public List<Foods.MealsRecommendationEnergy> energyPerc;
     }
@@ -59,7 +59,7 @@ public class MyMeals : System.Web.Services.WebService {
         e.meal.energyMinPercentage = 0;
         e.meal.energyMaxPercentage = 0;
         ee.Add(e);
-        JsonFile data = new JsonFile();
+        JsonFileMeals data = new JsonFileMeals();
         data.meals = mm;
         data.energyPerc = ee;
         x.data = data;
@@ -161,7 +161,7 @@ public class MyMeals : System.Web.Services.WebService {
         e.meal.energyMinPercentage = 2;
         e.meal.energyMaxPercentage = 5;
         ee.Add(e);
-        JsonFile data = new JsonFile();
+        JsonFileMeals data = new JsonFileMeals();
         data.meals = mm;
         data.energyPerc = ee;
         x.data = data;
@@ -190,7 +190,7 @@ public class MyMeals : System.Web.Services.WebService {
                 x.description = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
                 x.userId = reader.GetValue(3) == DBNull.Value ? "" : reader.GetString(3);
                 x.userGroupId = reader.GetValue(4) == DBNull.Value ? "" : reader.GetString(4);
-                x.data = JsonConvert.DeserializeObject<JsonFile>(GetJsonFile(userId, id));
+                x.data = JsonConvert.DeserializeObject<JsonFileMeals>(GetJsonFile(userId, id));
             }
             connection.Close();
             return JsonConvert.SerializeObject(x, Formatting.None);

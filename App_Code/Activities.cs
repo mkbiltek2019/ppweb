@@ -17,6 +17,8 @@ using Igprog;
 public class Activities : System.Web.Services.WebService {
     string dataBase = ConfigurationManager.AppSettings["AppDataBase"];
     DataBase db = new DataBase();
+    Translate T = new Translate();
+
     public Activities() {
     }
 
@@ -52,36 +54,34 @@ public class Activities : System.Web.Services.WebService {
         x.id = 0;
         x.activity = "";
         x.duration = 0.0;
-        string json = JsonConvert.SerializeObject(x, Formatting.None);
-        return json;
+        return JsonConvert.SerializeObject(x, Formatting.None);
     }
 
     [WebMethod]
-    public string Load() {
+    public string Load(string lang) {
         try {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
-            //SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + lang + "/" + dataBase));
-            connection.Open();
-
-            string sql = @"SELECT rowid, activity, factorKcal, isSport
-                        FROM activities
-                        ORDER BY activity ASC";
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
             List<NewActivity> xx = new List<NewActivity>();
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read()) {
-                NewActivity x = new NewActivity() {
-                    id = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0),
-                    activity = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1),
-                    factorKcal = reader.GetValue(2) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(2)),
-                    isSport = reader.GetValue(3) == DBNull.Value ? 0 : reader.GetInt32(3)
-                };
-                xx.Add(x);
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase))) {
+                connection.Open();
+                string sql = @"SELECT rowid, activity, factorKcal, isSport FROM activities ORDER BY activity ASC";
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    string[] translations = T.Translations(lang);
+                    using (SQLiteDataReader reader = command.ExecuteReader()) {
+                        while (reader.Read()) {
+                            NewActivity x = new NewActivity() {
+                                id = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0),
+                                activity = reader.GetValue(1) == DBNull.Value ? "" : T.Tran(reader.GetString(1), translations, string.IsNullOrEmpty(lang) ? "hr" : lang),
+                                factorKcal = reader.GetValue(2) == DBNull.Value ? 0.0 : Convert.ToDouble(reader.GetString(2)),
+                                isSport = reader.GetValue(3) == DBNull.Value ? 0 : reader.GetInt32(3)
+                            };
+                            xx.Add(x);
+                        }
+                    }
+                }
+                connection.Close();
             }
-            connection.Close();
-            string json = JsonConvert.SerializeObject(xx, Formatting.None);
-            return json;
-        } catch (Exception e) { return ("Error: " + e); }
+            return JsonConvert.SerializeObject(xx, Formatting.None);
+        } catch (Exception e) { return (JsonConvert.SerializeObject(e.Message, Formatting.None)); }
     }
     #endregion
 

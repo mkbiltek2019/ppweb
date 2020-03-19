@@ -110,26 +110,28 @@ public class Calculations : System.Web.Services.WebService {
     [WebMethod]
     public string LoadPal() {
         try {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase));
-            connection.Open();
-            string sql = @"SELECT code, title, palDescription, palMin, palMax FROM pal";
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
             List<Pal> xx = new List<Pal>();
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read()) {
-                Pal x = new Pal();
-                x.code = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
-                x.title = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
-                x.description = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
-                x.min = reader.GetValue(3) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(3));
-                x.max = reader.GetValue(4) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(4));
-                x.value = Math.Round((x.min + x.max) / 2, 2);
-                xx.Add(x);
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + Server.MapPath("~/App_Data/" + dataBase))) {
+                connection.Open();
+                string sql = @"SELECT code, title, palDescription, palMin, palMax FROM pal";
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection)) {
+                    using (SQLiteDataReader reader = command.ExecuteReader()) {
+                        while (reader.Read()) {
+                            Pal x = new Pal();
+                            x.code = reader.GetValue(0) == DBNull.Value ? "" : reader.GetString(0);
+                            x.title = reader.GetValue(1) == DBNull.Value ? "" : reader.GetString(1);
+                            x.description = reader.GetValue(2) == DBNull.Value ? "" : reader.GetString(2);
+                            x.min = reader.GetValue(3) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(3));
+                            x.max = reader.GetValue(4) == DBNull.Value ? 0 : Convert.ToDouble(reader.GetString(4));
+                            x.value = Math.Round((x.min + x.max) / 2, 2);
+                            xx.Add(x);
+                        }
+                    }  
+                }  
+                connection.Close();
             }
-            connection.Close();
-            string json = JsonConvert.SerializeObject(xx, Formatting.None);
-            return json;
-        } catch (Exception e) { return ("Error: " + e); }
+            return JsonConvert.SerializeObject(xx, Formatting.None);
+        } catch (Exception e) { return (JsonConvert.SerializeObject(e.Message, Formatting.None)); }
     }
 
     [WebMethod]
