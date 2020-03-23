@@ -1350,7 +1350,7 @@
   "new": "new",
   "open": "open",
   "add food": "add food",
-  "total": "total",
+  "total": "Total",
   "description": "description",
   "distribution of energy value per meals": "Distribution of energy value per meals",
   "analytics": "analytics",
@@ -1362,8 +1362,8 @@
   "acceptable": "acceptable",
   "other foods": "other foods",
   "macronutrients": "macronutrients",
-  "carbs": "carbs",
-  "prot": "prot",
+  "carbs": "Carbs",
+  "prot": "Prot",
   "bad nutrients": "bad nutrients",
   "sat. fats": "sat. fats",
   "tfa": "tfa",
@@ -1926,6 +1926,8 @@
   "new password": "new password",
   "reset password link": "Reset password link",
   "distribution of nutrients per meals": "Distribution of nutrients per meals",
-  "update details": "Update details"
+  "update details": "Update details",
+  "meal total": "Meal Total",
+  "total nutrition values": "Total nutrition values"
 
 }

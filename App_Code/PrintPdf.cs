@@ -28,11 +28,17 @@ public class PrintPdf : System.Web.Services.WebService {
     string logoPPPath = HttpContext.Current.Server.MapPath(string.Format("~/app/assets/img/logo.png"));
     string logoPathIgProg = HttpContext.Current.Server.MapPath(string.Format("~/assets/img/logo_igprog.png"));
 
-    iTextSharp.text.pdf.draw.LineSeparator line = new iTextSharp.text.pdf.draw.LineSeparator(0f, 100f, Color.BLACK, Element.ALIGN_LEFT, 1);
+    iTextSharp.text.pdf.draw.LineSeparator line = new iTextSharp.text.pdf.draw.LineSeparator(0f, 100f, Color.GRAY, Element.ALIGN_LEFT, 1);
 
     int weeklyMealIdx = 0;
     public List<Foods.Totals> weeklyMenuTotalList = new List<Foods.Totals>();
     public Foods.Totals weeklyMenuTotal = new Foods.Totals();
+
+    int rowCount = 0;  // menu rows counter
+    static string menuPage = null;
+    static string menuTitle = null;
+    static string menuAuthor = null;
+    static string menuDate = null;
 
     public PrintPdf() {
     }
@@ -86,9 +92,11 @@ public class PrintPdf : System.Web.Services.WebService {
             CreateFolder(path);
             string fileName = Guid.NewGuid().ToString();
             string filePath = Path.Combine(path, string.Format("{0}.pdf", fileName));
-            PdfWriter.GetInstance(doc, new FileStream(filePath, FileMode.Create));
+            PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(filePath, FileMode.Create));
+            writer.PageEvent = new PDFFooter();
 
             doc.Open();
+
             AppendHeader(doc, userId, headerInfo);
 
             if (settings.showClientData) {
@@ -96,47 +104,85 @@ public class PrintPdf : System.Web.Services.WebService {
             }
             doc.Add(new Paragraph(currentMenu.title, GetFont(12)));
             doc.Add(new Paragraph(currentMenu.note, GetFont(8)));
+            menuTitle = currentMenu.title;
+            if (settings.showDate && !string.IsNullOrEmpty(date)) {
+                menuDate = string.Format("{0}: {1}", t.Tran("creation date", lang), date);
+            }
+            if (settings.showAuthor && !string.IsNullOrEmpty(author)) {
+                menuAuthor = string.Format("{0}: {1}", t.Tran("author of the menu", lang), author);
+            }
+            rowCount = rowCount + 2;
             if (consumers > 1) {
                 doc.Add(new Paragraph(t.Tran("number of consumers", lang) + ": " + consumers, GetFont(8)));
+                rowCount = rowCount + 1;
             }
 
             doc.Add(new Chunk(line));
 
+            AppendFoodsHeaderTbl(doc, settings, lang);
+
             var meals = currentMenu.data.selectedFoods.Select(a => a.meal.code).Distinct().ToList();
             List<string> orderedMeals = GetOrderedMeals(meals);
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine(string.Format(@"
-                                        "));
 
+            int i = 1;
+            int currPage = 1;
+            menuPage = string.Format("{0}: {1}", t.Tran("page", lang), currPage);
+            bool firstPage = true;
             foreach (string m in orderedMeals) {
                 List<Foods.NewFood> meal = currentMenu.data.selectedFoods.Where(a => a.meal.code == m).ToList();
-                sb.AppendLine(AppendMeal(meal, currentMenu.data.meals, lang, totals, settings));
+                sb = new StringBuilder();
+                if (firstPage) {
+                    sb.AppendLine(string.Format(@"
+                                            "));
+                }
+                if (rowCount >= 35 && !firstPage) {
+                    doc.NewPage();
+                    sb.AppendLine(string.Format(@"
+                                            "));
+                    AppendHeader(doc, userId, headerInfo);
+                    currPage++;
+                    menuPage = string.Format("{0}: {1}", t.Tran("page", lang), currPage);
+                    rowCount = 0;
+                }
+
+
+                // *** old
+                //sb.AppendLine(AppendMeal(meal, currentMenu.data.meals, lang, totals, settings));
+                //doc.Add(new Paragraph(sb.ToString(), GetFont()));
+                // ***
+                AppendMeal(doc, meal, currentMenu.data.meals, lang, totals, settings);
+
+                firstPage = false;
+                i++;
             }
 
-            doc.Add(new Paragraph(sb.ToString(), GetFont()));
-
             if (settings.showTotals) {
-                doc.Add(new Chunk(line));
-                string tot = string.Format(@"
-{0}:
-{1}: {5} kcal
-{2}: {6} g ({7})%
-{3}: {8} g ({9})%
-{4}: {10} g ({11})%",
-                        t.Tran("total", lang).ToUpper() + (consumers > 1 ? " (" + t.Tran("per consumer", lang) + ")" : ""),
-                        t.Tran("energy value", lang),
-                        t.Tran("carbohydrates", lang),
-                        t.Tran("proteins", lang),
-                        t.Tran("fats", lang),
-                        Convert.ToString(totals.energy),
-                        Convert.ToString(totals.carbohydrates),
-                        Convert.ToString(totals.carbohydratesPercentage),
-                        Convert.ToString(totals.proteins),
-                        Convert.ToString(totals.proteinsPercentage),
-                        Convert.ToString(totals.fats),
-                        Convert.ToString(totals.fatsPercentage)
-                        );
-                doc.Add(new Paragraph(tot, GetFont()));
+
+                AppendMenuTotalTbl(doc, totals, consumers, lang);
+//                doc.Add(new Chunk(line));
+//                string tot = string.Format(@"
+//{0}:
+//{1}: {5} kcal
+//{2}: {6} g ({7})%
+//{3}: {8} g ({9})%
+//{4}: {10} g ({11})%",
+//                        t.Tran("total", lang).ToUpper() + (consumers > 1 ? " (" + t.Tran("per consumer", lang) + ")" : ""),
+//                        t.Tran("energy value", lang),
+//                        t.Tran("carbohydrates", lang),
+//                        t.Tran("proteins", lang),
+//                        t.Tran("fats", lang),
+//                        Convert.ToString(totals.energy),
+//                        Convert.ToString(totals.carbohydrates),
+//                        Convert.ToString(totals.carbohydratesPercentage),
+//                        Convert.ToString(totals.proteins),
+//                        Convert.ToString(totals.proteinsPercentage),
+//                        Convert.ToString(totals.fats),
+//                        Convert.ToString(totals.fatsPercentage)
+//                        );
+//                doc.Add(new Paragraph(tot, GetFont()));
+
+
             }
 
             if (totals.price.value > 0 && settings.showPrice) {
@@ -156,7 +202,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
             doc.Add(new Chunk(line));
 
-            AppendFooter(doc, settings, date, author, lang, "menu");
+            //AppendFooter(doc, settings, date, author, lang, "menu");
 
             doc.Close();
 
@@ -165,6 +211,95 @@ public class PrintPdf : System.Web.Services.WebService {
             return e.Message;
         }
     }
+
+//    [WebMethod]
+//    public string MenuPdf(string userId, Menues.NewMenu currentMenu, Foods.Totals totals, int consumers, string lang, PrintMenuSettings settings, string date, string author, string headerInfo) {
+//        try {
+//            var doc = new Document();
+//            string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
+//            DeleteFolder(path);
+//            CreateFolder(path);
+//            string fileName = Guid.NewGuid().ToString();
+//            string filePath = Path.Combine(path, string.Format("{0}.pdf", fileName));
+//            PdfWriter.GetInstance(doc, new FileStream(filePath, FileMode.Create));
+
+//            doc.Open();
+//            AppendHeader(doc, userId, headerInfo);
+
+//            if (settings.showClientData) {
+//                ShowClientData(doc, currentMenu.client, lang);
+//            }
+//            doc.Add(new Paragraph(currentMenu.title, GetFont(12)));
+//            doc.Add(new Paragraph(currentMenu.note, GetFont(8)));
+//            if (consumers > 1) {
+//                doc.Add(new Paragraph(t.Tran("number of consumers", lang) + ": " + consumers, GetFont(8)));
+//            }
+
+//            doc.Add(new Chunk(line));
+
+//            var meals = currentMenu.data.selectedFoods.Select(a => a.meal.code).Distinct().ToList();
+//            List<string> orderedMeals = GetOrderedMeals(meals);
+//            StringBuilder sb = new StringBuilder();
+//            sb.AppendLine(string.Format(@"
+//                                        "));
+
+//            foreach (string m in orderedMeals) {
+//                List<Foods.NewFood> meal = currentMenu.data.selectedFoods.Where(a => a.meal.code == m).ToList();
+//                sb.AppendLine(AppendMeal(meal, currentMenu.data.meals, lang, totals, settings));
+//            }
+
+//            doc.Add(new Paragraph(sb.ToString(), GetFont()));
+
+//            if (settings.showTotals) {
+//                doc.Add(new Chunk(line));
+//                string tot = string.Format(@"
+//{0}:
+//{1}: {5} kcal
+//{2}: {6} g ({7})%
+//{3}: {8} g ({9})%
+//{4}: {10} g ({11})%",
+//                        t.Tran("total", lang).ToUpper() + (consumers > 1 ? " (" + t.Tran("per consumer", lang) + ")" : ""),
+//                        t.Tran("energy value", lang),
+//                        t.Tran("carbohydrates", lang),
+//                        t.Tran("proteins", lang),
+//                        t.Tran("fats", lang),
+//                        Convert.ToString(totals.energy),
+//                        Convert.ToString(totals.carbohydrates),
+//                        Convert.ToString(totals.carbohydratesPercentage),
+//                        Convert.ToString(totals.proteins),
+//                        Convert.ToString(totals.proteinsPercentage),
+//                        Convert.ToString(totals.fats),
+//                        Convert.ToString(totals.fatsPercentage)
+//                        );
+//                doc.Add(new Paragraph(tot, GetFont()));
+//            }
+
+//            if (totals.price.value > 0 && settings.showPrice) {
+//                doc.Add(new Chunk(line));
+//                doc.Add(new Paragraph(string.Format(@"{0}: {1} {2}", t.Tran("price", lang).ToUpper(), Math.Round(totals.price.value, 2), totals.price.currency.ToUpper()), GetFont()));
+//            }
+
+//            if (currentMenu.client.clientData.activities.Count > 0 && settings.showActivities) {
+//                doc.Add(new Chunk(line));
+//                doc.Add(new Paragraph(string.Format("{0}:", t.Tran("additional activity", lang).ToUpper(), GetFont())));
+//                sb = new StringBuilder();
+//                foreach(var a in currentMenu.client.clientData.activities) {
+//                    sb.AppendLine(string.Format(@"- {0} - {1} min, {2} kcal",a.activity, a.duration, Math.Round(a.energy, 0)));
+//                }
+//                doc.Add(new Paragraph(sb.ToString(), GetFont()));
+//            }
+
+//            doc.Add(new Chunk(line));
+
+//            AppendFooter(doc, settings, date, author, lang, "menu");
+
+//            doc.Close();
+
+//            return fileName;
+//        } catch(Exception e) {
+//            return e.Message;
+//        }
+//    }
 
     [WebMethod]
     public string WeeklyMenuPdf(string userId, WeeklyMenus.NewWeeklyMenus weeklyMenu, int consumers, string lang, PrintMenuSettings settings, string date, string author, string headerInfo) {
@@ -1366,37 +1501,101 @@ IBAN HR8423400091160342496
         }
     }
 
-    private string AppendMeal(List<Foods.NewFood> meal, List<Meals.NewMeal> meals, string lang, Foods.Totals totals, PrintMenuSettings settings) {
-        StringBuilder sb = new StringBuilder();
+    private void AppendMeal(Document doc, List<Foods.NewFood> meal, List<Meals.NewMeal> meals, string lang, Foods.Totals totals, PrintMenuSettings settings) {
+
         if (meal.Count > 0) {
-            if(meals.Find(a => a.code == meal[0].meal.code).isSelected == true) {
-                sb.AppendLine(string.Format(@"{0}", t.Tran(GetMealTitle(meal[0].meal.code, meal[0].meal.title), lang)).ToUpper());
+            if (meals.Find(a => a.code == meal[0].meal.code).isSelected == true) {
+                //StringBuilder sb = new StringBuilder();
+                //sb.AppendLine(string.Format(@"{0}", t.Tran(GetMealTitle(meal[0].meal.code, meal[0].meal.title), lang)).ToUpper());
+                string mealtitle = string.Format(@"{0}", t.Tran(GetMealTitle(meal[0].meal.code, meal[0].meal.title), lang)).ToUpper();
+                doc.Add(new Paragraph(mealtitle, GetFont()));
+                rowCount = rowCount + 1;
                 string description = meals.Where(a => a.code == meal[0].meal.code).FirstOrDefault().description;
                 if (!string.IsNullOrWhiteSpace(description)) {
+                    StringBuilder sb = new StringBuilder();
                     sb = AppendMealDescription(sb, description, settings);
+                    doc.Add(new Paragraph(sb.ToString(), GetFont(9, Font.ITALIC)));
                 }
                 if (settings.showFoods) {
                     foreach (Foods.NewFood food in meal) {
-                        sb.AppendLine(AppendFoods(food, settings, lang));
+                        AppendFoodsTbl(doc, food, settings, lang);
                     }
                 }
                 if (settings.showMealsTotal) {
-                    sb.AppendLine(string.Format(@""));
-                    if(totals != null) {
-                        Foods.MealsTotal ft = totals.mealsTotal.Where(a => a.code == meal[0].meal.code).FirstOrDefault();
-                        sb.AppendLine(string.Format(@"{0}: {1} kcal ({2}%), {3}: {4} g ({5}%), {6}: {7} g ({8}%), {9}: {10} g ({11}%)"
-                                , t.Tran("energy", lang), Math.Round(ft.energy.val, 1), Math.Round(ft.energy.perc, 1)
-                                , t.Tran("carbohydrates", lang), Math.Round(ft.carbohydrates.val, 1), Math.Round(ft.carbohydrates.perc, 1)
-                                , t.Tran("proteins", lang), Math.Round(ft.proteins.val, 1), Math.Round(ft.proteins.perc, 1)
-                                , t.Tran("fats", lang), Math.Round(ft.fats.val, 1), Math.Round(ft.fats.perc, 1))).ToString();
+                    if (totals != null) {
+
+                        AppendMealTotalTbl(doc, totals.mealsTotal, meal[0].meal.code, settings, lang);
+
+                        //StringBuilder sb = new StringBuilder();
+                        //sb.AppendLine(string.Format(@""));
+                        //Foods.MealsTotal ft = totals.mealsTotal.Where(a => a.code == meal[0].meal.code).FirstOrDefault();
+                        //sb.AppendLine(string.Format(@"{0}: {1} kcal ({2}%), {3}: {4} g ({5}%), {6}: {7} g ({8}%), {9}: {10} g ({11}%)"
+                        //        , t.Tran("energy", lang), Math.Round(ft.energy.val, 1), Math.Round(ft.energy.perc, 1)
+                        //        , t.Tran("carbohydrates", lang), Math.Round(ft.carbohydrates.val, 1), Math.Round(ft.carbohydrates.perc, 1)
+                        //        , t.Tran("proteins", lang), Math.Round(ft.proteins.val, 1), Math.Round(ft.proteins.perc, 1)
+                        //        , t.Tran("fats", lang), Math.Round(ft.fats.val, 1), Math.Round(ft.fats.perc, 1))).ToString();
+                        //rowCount = rowCount + 2;
                     }
-                    
+
                 }
-                //sb.AppendLine("__________________________________________________________________________________________________");
             }
         }
-        return sb.ToString();
+
+
+
+
+
+        //if (settings.showDate || settings.showAuthor) {
+        //    doc.Add(new Chunk(line));
+        //    PdfPTable table = new PdfPTable(2);
+        //    table.WidthPercentage = 100f;
+        //    string date_p = "";
+        //    string author_p = "";
+        //    if (settings.showDate && !string.IsNullOrEmpty(date)) {
+        //        date_p = string.Format("{0}: {1}", t.Tran("creation date", lang), date);
+        //    }
+        //    if (settings.showAuthor && !string.IsNullOrEmpty(author)) {
+        //        author_p = string.Format("{0}: {1}", type == "recipe" ? t.Tran("author of the recipe", lang) : t.Tran("author of the menu", lang), author);
+        //    }
+        //    table.AddCell(new PdfPCell(new Phrase(date_p, GetFont())) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, PaddingTop = 10 });
+        //    table.AddCell(new PdfPCell(new Phrase(author_p, GetFont())) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, PaddingTop = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        //    doc.Add(table);
+        //}
     }
+
+    //private string AppendMeal(List<Foods.NewFood> meal, List<Meals.NewMeal> meals, string lang, Foods.Totals totals, PrintMenuSettings settings) {
+    //    StringBuilder sb = new StringBuilder();
+    //    if (meal.Count > 0) {
+    //        if (meals.Find(a => a.code == meal[0].meal.code).isSelected == true) {
+    //            sb.AppendLine(string.Format(@"{0}", t.Tran(GetMealTitle(meal[0].meal.code, meal[0].meal.title), lang)).ToUpper());
+    //            rowCount = rowCount + 1;
+    //            string description = meals.Where(a => a.code == meal[0].meal.code).FirstOrDefault().description;
+    //            if (!string.IsNullOrWhiteSpace(description)) {
+    //                sb = AppendMealDescription(sb, description, settings);
+    //            }
+    //            if (settings.showFoods) {
+    //                foreach (Foods.NewFood food in meal) {
+    //                    sb.AppendLine(AppendFoods(food, settings, lang));
+    //                }
+    //            }
+    //            if (settings.showMealsTotal) {
+    //                if (totals != null) {
+    //                    sb.AppendLine(string.Format(@""));
+    //                    Foods.MealsTotal ft = totals.mealsTotal.Where(a => a.code == meal[0].meal.code).FirstOrDefault();
+    //                    sb.AppendLine(string.Format(@"{0}: {1} kcal ({2}%), {3}: {4} g ({5}%), {6}: {7} g ({8}%), {9}: {10} g ({11}%)"
+    //                            , t.Tran("energy", lang), Math.Round(ft.energy.val, 1), Math.Round(ft.energy.perc, 1)
+    //                            , t.Tran("carbohydrates", lang), Math.Round(ft.carbohydrates.val, 1), Math.Round(ft.carbohydrates.perc, 1)
+    //                            , t.Tran("proteins", lang), Math.Round(ft.proteins.val, 1), Math.Round(ft.proteins.perc, 1)
+    //                            , t.Tran("fats", lang), Math.Round(ft.fats.val, 1), Math.Round(ft.fats.perc, 1))).ToString();
+    //                    rowCount = rowCount + 2;
+    //                }
+                    
+    //            }
+    //            //sb.AppendLine("__________________________________________________________________________________________________");
+    //        }
+    //    }
+    //    return sb.ToString();
+    //}
 
     private string AppendFoods(Foods.NewFood food, PrintMenuSettings settings, string lang) {
         string x = string.Format(@"- {0}{1}{2}{3}"
@@ -1404,7 +1603,156 @@ IBAN HR8423400091160342496
             , string.Format(@", {0}", settings.showQty ? sl.SmartQty(food.id, food.quantity, food.unit, food.mass, sl.LoadFoodQty(), lang) : "")
             , string.Format(@", {0}", settings.showMass ? sl.SmartMass(food.mass, lang) : "")
             , string.Format(@"{0}", settings.showServ && !string.IsNullOrEmpty(getServingDescription(food.servings, lang)) ? string.Format(@", ({0})", getServingDescription(food.servings, lang)) : ""));
+        rowCount = rowCount + 1;
         return x;
+    }
+
+    private void AppendFoodsHeaderTbl(Document doc, PrintMenuSettings settings, string lang) {
+        PdfPTable table = new PdfPTable(7);
+        table.SetWidths(new float[] { 3f, 2f, 1f, 1f, 1f, 1f, 1f });
+        table.WidthPercentage = 100f;
+        table.AddCell(new PdfPCell(new Phrase("", GetFont(true))) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, BorderColor = Color.GRAY });
+        table.AddCell(new PdfPCell(new Phrase("", GetFont(true))) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, BorderColor = Color.GRAY });
+        table.AddCell(new PdfPCell(new Phrase("", GetFont(true))) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, BorderColor = Color.GRAY });
+        //table.AddCell(new PdfPCell(new Phrase(t.Tran("serv", lang), GetFont(true))) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 15, BorderColor = Color.GRAY });
+        table.AddCell(new PdfPCell(new Phrase(t.Tran("energy", lang), GetFont(true))) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, BorderColor = Color.GRAY, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        table.AddCell(new PdfPCell(new Phrase(t.Tran("carbs", lang), GetFont(true))) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, BorderColor = Color.GRAY, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        table.AddCell(new PdfPCell(new Phrase(t.Tran("prot", lang), GetFont(true))) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, BorderColor = Color.GRAY, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        table.AddCell(new PdfPCell(new Phrase(t.Tran("fats", lang), GetFont(true))) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, BorderColor = Color.GRAY, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        doc.Add(table);
+
+        table = new PdfPTable(7);
+        table.SetWidths(new float[] { 3f, 2f, 1f, 1f, 1f, 1f, 1f });
+        table.WidthPercentage = 100f;
+        table.AddCell(new PdfPCell(new Phrase("", GetFont(true))) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 15, BorderColor = Color.GRAY });
+        table.AddCell(new PdfPCell(new Phrase("", GetFont(true))) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 15, BorderColor = Color.GRAY });
+        table.AddCell(new PdfPCell(new Phrase("", GetFont(true))) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 15, BorderColor = Color.GRAY });
+        //table.AddCell(new PdfPCell(new Phrase(t.Tran("serv", lang), GetFont(true))) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 15, BorderColor = Color.GRAY });
+        table.AddCell(new PdfPCell(new Phrase(string.Format("({0})", t.Tran("kcal", lang)), GetFont(true))) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 15, BorderColor = Color.GRAY, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        table.AddCell(new PdfPCell(new Phrase(string.Format("({0})", t.Tran("g", lang)), GetFont(true))) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 15, BorderColor = Color.GRAY, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        table.AddCell(new PdfPCell(new Phrase(string.Format("({0})", t.Tran("g", lang)), GetFont(true))) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 15, BorderColor = Color.GRAY, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        table.AddCell(new PdfPCell(new Phrase(string.Format("({0})", t.Tran("g", lang)), GetFont(true))) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 15, BorderColor = Color.GRAY, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        doc.Add(table);
+
+        rowCount = rowCount + 1;
+    }
+
+    private void AppendFoodsTbl(Document doc, Foods.NewFood food, PrintMenuSettings settings, string lang) {
+
+        PdfPTable table = new PdfPTable(7);
+        table.SetWidths(new float[] { 3f, 2f, 1f, 1f, 1f, 1f, 1f });
+        table.WidthPercentage = 100f;
+        //    string date_p = "";
+        //    string author_p = "";
+        //    if (settings.showDate && !string.IsNullOrEmpty(date)) {
+        //        date_p = string.Format("{0}: {1}", t.Tran("creation date", lang), date);
+        //    }
+        //    if (settings.showAuthor && !string.IsNullOrEmpty(author)) {
+        //        author_p = string.Format("{0}: {1}", type == "recipe" ? t.Tran("author of the recipe", lang) : t.Tran("author of the menu", lang), author);
+        //    }
+        string foodName = string.Format("- {0}", food.food);
+        string qty = string.Format("{0}", settings.showQty ? sl.SmartQty(food.id, food.quantity, food.unit, food.mass, sl.LoadFoodQty(), lang) : "");
+        string mass = string.Format("{0}", settings.showMass ? sl.SmartMass(food.mass, lang) : "");
+        string serv = string.Format("{0}", settings.showServ && !string.IsNullOrEmpty(getServingDescription(food.servings, lang)) ? string.Format(@", ({0})", getServingDescription(food.servings, lang)) : "");
+
+        table.AddCell(new PdfPCell(new Phrase(foodName, GetFont())) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15 });
+        table.AddCell(new PdfPCell(new Phrase(qty, GetFont())) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15 });
+        table.AddCell(new PdfPCell(new Phrase(mass, GetFont())) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        //table.AddCell(new PdfPCell(new Phrase(serv, GetFont())) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        table.AddCell(new PdfPCell(new Phrase(food.energy.ToString(), GetFont())) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        table.AddCell(new PdfPCell(new Phrase(food.carbohydrates.ToString(), GetFont())) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        table.AddCell(new PdfPCell(new Phrase(food.proteins.ToString(), GetFont())) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        table.AddCell(new PdfPCell(new Phrase(food.fats.ToString(), GetFont())) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        doc.Add(table);
+
+
+        //string x = string.Format(@"- {0}{1}{2}{3}"
+        //    , food.food
+        //    , string.Format(@", {0}", settings.showQty ? sl.SmartQty(food.id, food.quantity, food.unit, food.mass, sl.LoadFoodQty(), lang) : "")
+        //    , string.Format(@", {0}", settings.showMass ? sl.SmartMass(food.mass, lang) : "")
+        //    , string.Format(@"{0}", settings.showServ && !string.IsNullOrEmpty(getServingDescription(food.servings, lang)) ? string.Format(@", ({0})", getServingDescription(food.servings, lang)) : ""));
+        rowCount = rowCount + 1;
+    }
+
+    private void AppendMealTotalTbl(Document doc, List<Foods.MealsTotal> mt, string code, PrintMenuSettings settings, string lang) {
+
+        PdfPTable table = new PdfPTable(7);
+        table.SetWidths(new float[] { 3f, 2f, 1f, 1f, 1f, 1f, 1f });
+        table.WidthPercentage = 100f;
+        Foods.MealsTotal ft = mt.Where(a => a.code == code).FirstOrDefault();
+
+        //table.AddCell(new PdfPCell(new Phrase("", GetFont())) { Border = PdfPCell.TOP_BORDER, Padding = 2, MinimumHeight = 15 });
+        //table.AddCell(new PdfPCell(new Phrase("", GetFont())) { Border = PdfPCell.TOP_BORDER, Padding = 2, MinimumHeight = 15 });
+        table.AddCell(new PdfPCell(new Phrase(string.Format("{0}:", t.Tran("meal total", lang)), GetFont(true))) { Border = PdfPCell.TOP_BORDER, Padding = 2, MinimumHeight = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT, Colspan = 3 });
+
+        //table.AddCell(new PdfPCell(new Phrase(serv, GetFont())) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        table.AddCell(new PdfPCell(new Phrase(Math.Round(ft.energy.val, 1).ToString(), GetFont(true))) { Border = PdfPCell.TOP_BORDER, Padding = 2, MinimumHeight = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        table.AddCell(new PdfPCell(new Phrase(Math.Round(ft.proteins.val, 1).ToString(), GetFont(true))) { Border = PdfPCell.TOP_BORDER, Padding = 2, MinimumHeight = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        table.AddCell(new PdfPCell(new Phrase(Math.Round(ft.proteins.val, 1).ToString(), GetFont(true))) { Border = PdfPCell.TOP_BORDER, Padding = 2, MinimumHeight = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        table.AddCell(new PdfPCell(new Phrase(Math.Round(ft.fats.val, 1).ToString(), GetFont(true))) { Border = PdfPCell.TOP_BORDER, Padding = 2, MinimumHeight = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        doc.Add(table);
+
+        //TODO: postoci
+
+
+        //StringBuilder sb = new StringBuilder();
+        //sb.AppendLine(string.Format(@""));
+        //Foods.MealsTotal ft = totals.mealsTotal.Where(a => a.code == meal[0].meal.code).FirstOrDefault();
+        //sb.AppendLine(string.Format(@"{0}: {1} kcal ({2}%), {3}: {4} g ({5}%), {6}: {7} g ({8}%), {9}: {10} g ({11}%)"
+        //        , t.Tran("energy", lang), Math.Round(ft.energy.val, 1), Math.Round(ft.energy.perc, 1)
+        //        , t.Tran("carbohydrates", lang), Math.Round(ft.carbohydrates.val, 1), Math.Round(ft.carbohydrates.perc, 1)
+        //        , t.Tran("proteins", lang), Math.Round(ft.proteins.val, 1), Math.Round(ft.proteins.perc, 1)
+        //        , t.Tran("fats", lang), Math.Round(ft.fats.val, 1), Math.Round(ft.fats.perc, 1))).ToString();
+        rowCount = rowCount + 1;
+
+
+        
+
+    }
+
+    private void AppendMenuTotalTbl(Document doc, Foods.Totals totals, int consumers, string lang) {
+
+        PdfPTable table = new PdfPTable(7);
+        table.SetWidths(new float[] { 3f, 2f, 1f, 1f, 1f, 1f, 1f });
+        table.WidthPercentage = 100f;
+
+        //table.AddCell(new PdfPCell(new Phrase("", GetFont())) { Border = PdfPCell.TOP_BORDER, Padding = 2, MinimumHeight = 15 });
+        //table.AddCell(new PdfPCell(new Phrase("", GetFont())) { Border = PdfPCell.TOP_BORDER, Padding = 2, MinimumHeight = 15 });
+        table.AddCell(new PdfPCell(new Phrase(string.Format("{0}:", t.Tran("total nutrition values", lang) + (consumers > 1 ? " (" + t.Tran("per consumer", lang) + ")" : "")), GetFont(true))) { Border = PdfPCell.TOP_BORDER, Padding = 2, MinimumHeight = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT, Colspan = 3 });
+        
+        //table.AddCell(new PdfPCell(new Phrase(serv, GetFont())) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        table.AddCell(new PdfPCell(new Phrase(Math.Round(totals.energy, 1).ToString(), GetFont(true))) { Border = PdfPCell.TOP_BORDER, Padding = 2, MinimumHeight = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        table.AddCell(new PdfPCell(new Phrase(Math.Round(totals.carbohydrates, 1).ToString(), GetFont(true))) { Border = PdfPCell.TOP_BORDER, Padding = 2, MinimumHeight = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        table.AddCell(new PdfPCell(new Phrase(Math.Round(totals.proteins, 1).ToString(), GetFont(true))) { Border = PdfPCell.TOP_BORDER, Padding = 2, MinimumHeight = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        table.AddCell(new PdfPCell(new Phrase(Math.Round(totals.fats, 1).ToString(), GetFont(true))) { Border = PdfPCell.TOP_BORDER, Padding = 2, MinimumHeight = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        doc.Add(table);
+
+//        doc.Add(new Chunk(line));
+//        string tot = string.Format(@"
+//{0}:
+//{1}: {5} kcal
+//{2}: {6} g ({7})%
+//{3}: {8} g ({9})%
+//{4}: {10} g ({11})%",
+//                t.Tran("total", lang).ToUpper() + (consumers > 1 ? " (" + t.Tran("per consumer", lang) + ")" : ""),
+//                t.Tran("energy value", lang),
+//                t.Tran("carbohydrates", lang),
+//                t.Tran("proteins", lang),
+//                t.Tran("fats", lang),
+//                Convert.ToString(totals.energy),
+//                Convert.ToString(totals.carbohydrates),
+//                Convert.ToString(totals.carbohydratesPercentage),
+//                Convert.ToString(totals.proteins),
+//                Convert.ToString(totals.proteinsPercentage),
+//                Convert.ToString(totals.fats),
+//                Convert.ToString(totals.fatsPercentage)
+//                );
+//        doc.Add(new Paragraph(tot, GetFont()));
+        rowCount = rowCount + 1;
+
+
+
+
     }
 
     private string getServingDescription(Foods.Servings x, string lang) {
@@ -1570,16 +1918,19 @@ IBAN HR8423400091160342496
                 foreach (var l in list) {
                     if (settings.showTitle) {
                         sb.AppendLine(l.title);
+                        rowCount = rowCount + 1;
                     }
                     if (settings.showDescription) {
                         sb.AppendLine(string.Format(@"{0}
                                         ", l.description));
+                        rowCount = rowCount + 1;
                     }
                 }
             }
         } else {
             if (settings.showDescription) {
                 sb.AppendLine(description);
+                rowCount = rowCount + 1;
             }
         }
         return sb;
@@ -1614,16 +1965,17 @@ IBAN HR8423400091160342496
         }
         return string.Format("/upload/users/{0}/img/{1}.png", userId, fileName);
     }
-	
-	private void ShowClientData(Document doc, Clients.NewClient client, string lang) {
-            doc.Add(new Paragraph(string.Format("{0}: {1} {2}", t.Tran("client", lang), client.firstName, client.lastName), GetFont(8)));
-            doc.Add(new Paragraph(string.Format("{0}, {1} {2} {3}"
-            , string.Format("{0}: {1} cm", t.Tran("height", lang), client.clientData.height)
-            , string.Format("{0}: {1} kg", t.Tran("weight", lang), client.clientData.weight)
-            , client.clientData.waist > 0 ? string.Format(", {0}: {1} cm", t.Tran("waist", lang), client.clientData.waist) : ""
-            , client.clientData.hip > 0 ? string.Format(", {0}: {1} cm", t.Tran("hip", lang), client.clientData.hip) : "")
-            , GetFont(8)));
-            doc.Add(new Paragraph(string.Format("{0}: {1}", t.Tran("diet", lang), t.Tran(client.clientData.diet.diet, lang)), GetFont(8)));
+
+    private void ShowClientData(Document doc, Clients.NewClient client, string lang) {
+        doc.Add(new Paragraph(string.Format("{0}: {1} {2}", t.Tran("client", lang), client.firstName, client.lastName), GetFont(8)));
+        doc.Add(new Paragraph(string.Format("{0}, {1} {2} {3}"
+        , string.Format("{0}: {1} cm", t.Tran("height", lang), client.clientData.height)
+        , string.Format("{0}: {1} kg", t.Tran("weight", lang), client.clientData.weight)
+        , client.clientData.waist > 0 ? string.Format(", {0}: {1} cm", t.Tran("waist", lang), client.clientData.waist) : ""
+        , client.clientData.hip > 0 ? string.Format(", {0}: {1} cm", t.Tran("hip", lang), client.clientData.hip) : "")
+        , GetFont(8)));
+        doc.Add(new Paragraph(string.Format("{0}: {1}", t.Tran("diet", lang), t.Tran(client.clientData.diet.diet, lang)), GetFont(8)));
+        rowCount = rowCount + 3;
     }
 
     private List<string> GetOrderedMeals(List<string> meals) {
@@ -1715,6 +2067,63 @@ IBAN HR8423400091160342496
 
         return c;
     }
+
+    public class PDFFooter : PdfPageEventHelper {
+        /*
+        // write on top of document
+        public override void OnOpenDocument(PdfWriter writer, Document document)
+        {
+            base.OnOpenDocument(writer, document);
+            PdfPTable tabFot = new PdfPTable(new float[] { 1F });
+            tabFot.SpacingAfter = 10F;
+            PdfPCell cell;
+            tabFot.TotalWidth = 300F;
+            cell = new PdfPCell(new Phrase("Header"));
+            tabFot.AddCell(cell);
+            tabFot.WriteSelectedRows(0, -1, 150, document.Top, writer.DirectContent);
+        }
+
+        // write on start of each page
+        public override void OnStartPage(PdfWriter writer, Document document)
+        {
+            base.OnStartPage(writer, document);
+        }
+        */
+
+        // write on end of each page
+        public override void OnEndPage(PdfWriter writer, Document document) {
+            Font font = FontFactory.GetFont(HttpContext.Current.Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, 9, Font.NORMAL);
+            font.Color = Color.GRAY;
+            base.OnEndPage(writer, document);
+            PdfPTable table = new PdfPTable(2);
+            table.TotalWidth = 530f;
+            table.AddCell(new PdfPCell(new Phrase(menuAuthor, font)) { Border = PdfPCell.TOP_BORDER, Padding = 2, MinimumHeight = 15, PaddingTop = 10, BorderColor = Color.GRAY });
+            table.AddCell(new PdfPCell(new Phrase(menuTitle.ToString(), font)) { Border = PdfPCell.TOP_BORDER, Padding = 2, MinimumHeight = 15, PaddingTop = 10, HorizontalAlignment = 2, BorderColor = Color.GRAY });
+            table.WriteSelectedRows(0, -1, 30, document.Bottom + 25, writer.DirectContent);
+
+            table = new PdfPTable(2);
+            table.TotalWidth = 530f;
+            table.AddCell(new PdfPCell(new Phrase(menuDate, font)) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, BorderColor = Color.GRAY });
+            table.AddCell(new PdfPCell(new Phrase(menuPage, font)) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, HorizontalAlignment = 2, BorderColor = Color.GRAY });
+            table.WriteSelectedRows(0, -1, 30, document.Bottom, writer.DirectContent);
+
+
+            //base.OnEndPage(writer, document);
+            //PdfPTable tabFot = new PdfPTable(new float[] { 1F });
+            //PdfPCell cell;
+            //tabFot.TotalWidth = 300F;
+            //cell = new PdfPCell(new Phrase("Footer"));
+            //tabFot.AddCell(cell);
+            //tabFot.WriteSelectedRows(0, -1, 150, document.Bottom, writer.DirectContent);
+        }
+
+        //write on close of document
+        public override void OnCloseDocument(PdfWriter writer, Document document) {
+            base.OnCloseDocument(writer, document);
+        }
+    }
+
+
     #endregion Methods
 
     #region TestPdf
@@ -1725,15 +2134,14 @@ IBAN HR8423400091160342496
             new System.IO.FileStream(Server.MapPath("~/upload/PdfSample") +
             DateTime.Now.ToString("ddMMyyHHmmss") + ".pdf",
             System.IO.FileMode.OpenOrCreate);
-        //System.IO.FileStream file =
-        //    new System.IO.FileStream(Server.MapPath("~/Pdf/PdfSample") +
-        //    DateTime.Now.ToString("ddMMyyHHmmss") + ".pdf",
-        //    System.IO.FileMode.OpenOrCreate);
+
         PdfWriter writer = PdfWriter.GetInstance(doc, file);
         // calling PDFFooter class to Include in document
         writer.PageEvent = new PDFFooter();
         doc.Open();
         PdfPTable tab = new PdfPTable(3);
+
+ 
         PdfPCell cell = new PdfPCell(new Phrase("Header",
                             new Font(Font.NORMAL, 24F)));
         //PdfPCell cell = new PdfPCell(new Phrase("Header",
@@ -1745,7 +2153,21 @@ IBAN HR8423400091160342496
         cell.Border = Rectangle.BOTTOM_BORDER; // | Rectangle.TOP_BORDER;
         cell.BorderWidthBottom = 3f;
         tab.AddCell(cell);
+      
+
+        //PdfPCell cell = new PdfPCell();
+
+        int rows = 20;  // number of rows per page
         for (int i = 0; i <= 100; i++) {
+            if (i % rows == 0 && i >= rows) {
+                doc.Add(tab);
+                doc.NewPage();
+                tab = new PdfPTable(3);
+                cell = new PdfPCell(new Phrase("Header 1",
+                            new Font(Font.NORMAL, 24F)));
+                cell.Colspan = 3;
+                tab.AddCell(cell);
+            }
             tab.AddCell("R1C1_" + i);
             tab.AddCell("R1C2_" + i);
             tab.AddCell("R1C3_" + i);
@@ -1772,55 +2194,6 @@ IBAN HR8423400091160342496
         doc.Close();
         file.Close();
         return "OK";
-    }
-
-    public class PDFFooter : PdfPageEventHelper
-    {
-        // write on top of document
-        public override void OnOpenDocument(PdfWriter writer, Document document)
-        {
-            base.OnOpenDocument(writer, document);
-            PdfPTable tabFot = new PdfPTable(new float[] { 1F });
-            tabFot.SpacingAfter = 10F;
-            PdfPCell cell;
-            tabFot.TotalWidth = 300F;
-            cell = new PdfPCell(new Phrase("Header"));
-            tabFot.AddCell(cell);
-            tabFot.WriteSelectedRows(0, -1, 150, document.Top, writer.DirectContent);
-        }
-
-        // write on start of each page
-        public override void OnStartPage(PdfWriter writer, Document document)
-        {
-            base.OnStartPage(writer, document);
-
-            //PdfPTable tabFot = new PdfPTable(new float[] { 1F });
-            //tabFot.SpacingAfter = 10F;
-            //PdfPCell cell;
-            //tabFot.TotalWidth = 300F;
-            //cell = new PdfPCell(new Phrase("Header"));
-            //tabFot.AddCell(cell);
-            //tabFot.WriteSelectedRows(0, -1, 150, document.Top, writer.DirectContent);
-            //base.OnStartPage(writer, document);
-        }
-
-        // write on end of each page
-        public override void OnEndPage(PdfWriter writer, Document document)
-        {
-            base.OnEndPage(writer, document);
-            PdfPTable tabFot = new PdfPTable(new float[] { 1F });
-            PdfPCell cell;
-            tabFot.TotalWidth = 300F;
-            cell = new PdfPCell(new Phrase("Footer"));
-            tabFot.AddCell(cell);
-            tabFot.WriteSelectedRows(0, -1, 150, document.Bottom, writer.DirectContent);
-        }
-
-        //write on close of document
-        public override void OnCloseDocument(PdfWriter writer, Document document)
-        {
-            base.OnCloseDocument(writer, document);
-        }
     }
     #endregion
 

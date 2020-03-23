@@ -1356,7 +1356,7 @@
   "new": "novi",
   "open": "otvori",
   "add food": "dodajte namirnicu",
-  "total": "ukupno",
+  "total": "Ukupno",
   "description": "opis",
   "distribution of energy value per meals": "Raspored energetskih vrednosti po obroku",
   "analytics": "analitika",
@@ -1367,8 +1367,8 @@
   "recommended": "preporučeno",
   "acceptable": "prihvatljivo",
   "macronutrients": "makronutrijenti",
-  "carbs": "uglj",
-  "prot": "bjel",
+  "carbs": "Uglj",
+  "prot": "Bel",
   "bad nutrients": "loši nutrijenti",
   "sat. fats": "zasićene masti",
   "tfa": "tfa",
@@ -1935,6 +1935,8 @@
   "new password": "nova lozinka",
   "reset password link": "Link za resetovanje lozinke",
   "distribution of nutrients per meals": "Raspored nutrijenata po obrocima",
-  "update details": "Detalji o nadogradnjama"
+  "update details": "Detalji o nadogradnjama",
+  "meal total": "Obrok ukupno",
+  "total nutrition values": "Ukupne nutritivne vrednost"
 
 }
