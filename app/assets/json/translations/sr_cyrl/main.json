@@ -1934,6 +1934,9 @@
   "distribution of nutrients per meals": "Распоред нутријената по оброцима",
   "update details": "Детаљи о надоградњама",
   "meal total": "Оброк укупно",
-  "total nutrition values": "Укупне нутритивне вредност"
+  "total nutritional values": "Укупне нутритивне вредности",
+  "print style": "Врста приказа",
+  "table style": "Таблични приказ",
+  "old style": "Стари приказ"
 
 }

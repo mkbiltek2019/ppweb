@@ -1939,6 +1939,9 @@
   "distribution of nutrients per meals": "Raspored nutrijenata po obrocima",
   "update details": "Detalji o nadogradnjama",
   "meal total": "Obrok ukupno",
-  "total nutrition values": "Ukupne nutritivne vrijednost"
+  "total nutritional values": "Ukupne nutritivne vrijednosti",
+  "print style": "Vrsta prikaza",
+  "table style": "Tablični prikaz",
+  "old style": "Stari prikaz"
 
 }

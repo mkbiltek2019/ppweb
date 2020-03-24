@@ -1,4 +1,4 @@
-﻿<md-dialog flex>
+﻿<md-dialog flex="80">
     <form ng-cloak>
         <md-toolbar class="main-background">
             <div class="md-toolbar-tools">
@@ -15,24 +15,10 @@
                     <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success text-capitalize" download ng-click="hidePdfLink()">
                         <i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}
                     </a>
-                    <a ng-if="loginUser.adminType<2" ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" title="{{'send menu to the clients email' | translate}}" ng-click="send()"><i class="fa fa-paper-plane-o"></i> <span class="hidden-xs text-capitalize">{{'send' | translate}}</span></a>
+                    <a ng-if="loginUser.adminType<2" ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" title="{{'send menu to the clients email' | translate}}" ng-click="send()"><i class="fa fa-paper-plane-o"></i> <span class="text-capitalize">{{'send' | translate}}</span></a>
                 </div>
                 <div class="row small">
-                    <div class="col-sm-3">
-                        <fieldset class="fieldset-border">
-                            <legend class="fieldset-border">{{'settings' | translate}}</legend>
-                            <md-input-container class="md-block" flex-gt-xs style="margin-top:10px">
-                                <label>{{'print style' | translate}}</label>
-                                <md-select ng-model="settings.printStyle">
-                                    <md-option value="0">
-                                        <md-checkbox ng-checked="settings.printStyle==0?true:false" class="md-primary text-capitalize" aria-label="mealgroup">{{'table style' | translate}}</md-checkbox>
-                                    </md-option>
-                                    <md-option value="1">
-                                        <md-checkbox ng-checked="settings.printStyle==1?true:false" class="md-primary text-capitalize" aria-label="mealgroup">{{'old style' | translate}}</md-checkbox>
-                                    </md-option>
-                                </md-select>
-                            </md-input-container>
-                        </fieldset>
+                    <div class="col-lg-3">
                         <fieldset class="fieldset-border">
                             <legend class="fieldset-border text-capitalize">{{'number of consumers' | translate}}</legend>
                             <input ng-model="consumers" type="number" min="1" class="form-control" style="max-width:100px" ng-change="changeNumberOfConsumers(consumers)" allow-only-numbers>
@@ -111,8 +97,22 @@
                                 <input ng-model="author" class="form-control" ng-change="setAuthor(author)" />
                             </div>
                         </fieldset>
+                        <fieldset class="fieldset-border">
+                            <!--<legend class="fieldset-border">{{'settings' | translate}}</legend>-->
+                            <md-input-container class="md-block" flex-gt-xs style="margin-top:20px">
+                                <label>{{'print style' | translate}}</label>
+                                <md-select ng-model="settings.printStyle">
+                                    <md-option value="0">
+                                        <md-checkbox ng-checked="settings.printStyle==0?true:false" class="md-primary text-capitalize" aria-label="mealgroup">{{'table style' | translate}}</md-checkbox>
+                                    </md-option>
+                                    <md-option value="1">
+                                        <md-checkbox ng-checked="settings.printStyle==1?true:false" class="md-primary text-capitalize" aria-label="mealgroup">{{'old style' | translate}}</md-checkbox>
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                        </fieldset>
                     </div>
-                    <div class="col-sm-9">
+                    <div class="col-lg-9">
                         <fieldset class="fieldset-border">
                             <legend class="fieldset-border text-capitalize">{{'menu' | translate}}</legend>
                             <div id="menu_container">
@@ -125,8 +125,10 @@
                                     <p>{{currentMenu.client.clientData.diet.diet | translate}}</p>
                                     <hr />
                                 </div>
-                                <strong>{{currentMenu.title}}</strong>
-                                <p>{{currentMenu.note}}</p>
+                                <div class="text-center">
+                                    <p class="lead">{{currentMenu.title}}</p>
+                                    <p>{{currentMenu.note}}</p>
+                                </div>
                                 <p ng-if="consumers > 1">{{'number of consumers' | translate}}: <strong>{{consumers}}</strong></p>
 
                                 <ng-include src="settings.printStyle==0?'menu':'menu_old'"></ng-include>
@@ -183,55 +185,56 @@
             </div>
             <div ng-if="settings.showFoods" class="table-responsive mt10">
                 <table class="table table-condensed text-small">
-                    <tr>
-                        <th class="borderNone"></th>
-                        <th class="borderNone"></th>
-                        <th class="borderNone"></th>
-                        <th class="borderNone"></th>
-                        <th class="borderNone text-right">{{'energy' | translate}}<br /><em>({{'kcal' | translate}})</em></th>
-                        <th class="borderNone text-right">{{'carbs' | translate}}<br /><em>({{'g' | translate}})</em></th>
-                        <th class="borderNone text-right">{{'prot' | translate}}<br /><em>({{'g' | translate}})</em></th>
-                        <th class="borderNone text-right">{{'fats' | translate}}<br /><em>({{'g' | translate}})</em></th>
+                    <tr ng-if="settings.showMealsTotal">
+                        <th class="border-bottom"></th>
+                        <th class="border-bottom"></th>
+                        <th class="border-bottom"></th>
+                        <th class="border-bottom"></th>
+                        <th class="text-right col-width border-bottom">{{'energy' | translate}}<br /><em>({{'kcal' | translate}})</em></th>
+                        <th class="text-right col-width border-bottom">{{'carbs' | translate}}<br /><em>({{'g' | translate}})</em></th>
+                        <th class="text-right col-width border-bottom">{{'prot' | translate}}<br /><em>({{'g' | translate}})</em></th>
+                        <th class="text-right col-width border-bottom">{{'fats' | translate}}<br /><em>({{'g' | translate}})</em></th>
                     </tr>
                     <tr ng-if="y.meal.code==x.code" ng-repeat="y in foods track by $index">
-                        <td class="borderNone" style="width:40%">{{y.food}}</td>
+                        <td class="borderNone" style="width:30%">{{y.food}}</td>
                         <td class="borderNone"><span ng-if="settings.showQty">{{y.quantity}} {{y.unit}}</span></td>
                         <td class="borderNone"><span ng-if="settings.showMass">{{y.mass>999?(y.mass/1000).toFixed(1):y.mass}} {{y.mass>999?('kg' | translate):('g' | translate)}}</span></td>
                         <td class="borderNone"><span ng-if="settings.showServ&&getServDescription(y.servings)!=''">({{getServDescription(y.servings)}})</span></td>
-                        <td class="borderNone text-right"><span ng-if="settings.showMealsTotal">{{y.energy}}</span></td>
-                        <td class="borderNone text-right"><span ng-if="settings.showMealsTotal">{{y.carbohydrates}}</span></td>
-                        <td class="borderNone text-right"><span ng-if="settings.showMealsTotal">{{y.proteins}}</span></td>
-                        <td class="borderNone text-right"><span ng-if="settings.showMealsTotal">{{y.fats}}</span></td>
+                        <td class="borderNone text-right col-width"><span ng-if="settings.showMealsTotal">{{y.energy}}</span></td>
+                        <td class="borderNone text-right col-width"><span ng-if="settings.showMealsTotal">{{y.carbohydrates}}</span></td>
+                        <td class="borderNone text-right col-width"><span ng-if="settings.showMealsTotal">{{y.proteins}}</span></td>
+                        <td class="borderNone text-right col-width"><span ng-if="settings.showMealsTotal">{{y.fats}}</span></td>
                     </tr>
                     <tr ng-if="settings.showMealsTotal">
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th class="text-right">{{totals.mealsTotal[$index].energy.val | number:1}}<br /><em>({{totals.mealsTotal[$index].energy.perc| number:1}})</em></th>
-                        <th class="text-right">{{totals.mealsTotal[$index].carbohydrates.val | number:1}}<br /><em>({{totals.mealsTotal[$index].carbohydrates.perc| number:1}})</em></th>
-                        <th class="text-right">{{totals.mealsTotal[$index].proteins.val | number:1}}<br /><em>({{totals.mealsTotal[$index].proteins.perc| number:1}})</em></th>
-                        <th class="text-right">{{totals.mealsTotal[$index].fats.val | number:1}}<br /><em>({{totals.mealsTotal[$index].fats.perc| number:1}})</em></th>
+                        <th class="text-right" colspan="4"><label><span>{{'meal total' | translate}}</span><span ng-if="consumers > 1"> ({{'per consumer' | translate}})</span>:</label></th>
+                        <th class="text-right col-width">{{totals.mealsTotal[$index].energy.val | number:1}}<br /><em>({{totals.mealsTotal[$index].energy.perc| number:1}} %)</em></th>
+                        <th class="text-right col-width">{{totals.mealsTotal[$index].carbohydrates.val | number:1}}<br /><em>({{totals.mealsTotal[$index].carbohydrates.perc| number:1}} %)</em></th>
+                        <th class="text-right col-width">{{totals.mealsTotal[$index].proteins.val | number:1}}<br /><em>({{totals.mealsTotal[$index].proteins.perc| number:1}} %)</em></th>
+                        <th class="text-right col-width">{{totals.mealsTotal[$index].fats.val | number:1}}<br /><em>({{totals.mealsTotal[$index].fats.perc| number:1}} %)</em></th>
                     </tr>
                 </table>
-                <!--<div ng-if="y.meal.code==x.code" ng-repeat="y in foods track by $index">
-                    - {{y.food}}<span ng-if="settings.showQty">, {{y.quantity}} {{y.unit}}</span><span ng-if="settings.showMass">, {{y.mass>999?(y.mass/1000).toFixed(1):y.mass}} {{y.mass>999?('kg' | translate):('g' | translate)}}</span><span ng-if="settings.showServ&&getServDescription(y.servings)!=''">, ({{getServDescription(y.servings)}})</span>
-                </div>-->
             </div>
-            <!--<div ng-if="settings.showMealsTotal" class="mt10">
-                {{'energy' | translate}}: {{totals.mealsTotal[$index].energy.val | number:1}} {{'kcal' | translate}} ({{totals.mealsTotal[$index].energy.perc| number:1}} %),&nbsp;
-                {{'carbohydrates' | translate}}: {{totals.mealsTotal[$index].carbohydrates.val | number:1}} {{'g' | translate}} ({{totals.mealsTotal[$index].carbohydrates.perc| number:1}} %),&nbsp;
-                {{'proteins' | translate}}: {{totals.mealsTotal[$index].proteins.val | number:1}} {{'g' | translate}} ({{totals.mealsTotal[$index].proteins.perc| number:1}} %),&nbsp;
-                {{'fats' | translate}}: {{totals.mealsTotal[$index].fats.val | number:1}} {{'g' | translate}} ({{totals.mealsTotal[$index].fats.perc| number:1}} %)
-            </div>-->
         </div>
-        <div ng-if="settings.showTotals">
-            <hr />
-            <label><span class="text-uppercase">{{'total' | translate}}</span><span ng-if="consumers > 1"> ({{'per consumer' | translate}})</span>:</label>
-            <p>{{'energy value' | translate}}: <span>{{totals.energy}} kcal</span></p>
-            <p>{{'carbohydrates' | translate}}: <span>{{totals.carbohydrates | number:1}} g, ({{totals.carbohydratesPercentage | number:1}} %)</span></p>
-            <p>{{'proteins' | translate}}: <span>{{totals.proteins | number:1}} g, ({{totals.proteinsPercentage | number:1}} %)</span></p>
-            <p>{{'fats' | translate}}: <span>{{totals.fats | number:1}} g, ({{totals.fatsPercentage | number:1}} %)</span></p>
+        <div ng-if="settings.showTotals" class="table-responsive mt10">
+            <table class="table table-condensed text-small">
+                <tr ng-if="!settings.showMealsTotal">
+                    <th class="borderNone"></th>
+                    <th class="borderNone"></th>
+                    <th class="borderNone"></th>
+                    <th class="borderNone"></th>
+                    <th class="borderNone text-right col-width">{{'energy' | translate}}<br /><em>({{'kcal' | translate}})</em></th>
+                    <th class="borderNone text-right col-width">{{'carbs' | translate}}<br /><em>({{'g' | translate}})</em></th>
+                    <th class="borderNone text-right col-width">{{'prot' | translate}}<br /><em>({{'g' | translate}})</em></th>
+                    <th class="borderNone text-right col-width">{{'fats' | translate}}<br /><em>({{'g' | translate}})</em></th>
+                </tr>
+                <tr>
+                    <th class="borderNone text-right" colspan="4"><label><span>{{'total nutritional values' | translate}}</span><span ng-if="consumers > 1"> ({{'per consumer' | translate}})</span>:</label></th>
+                    <th class="borderNone text-right bg-gray col-width">{{totals.energy | number:1}}<br /><em></em></th>
+                    <th class="borderNone text-right bg-gray col-width">{{totals.carbohydrates | number:1}}<br /><em>({{totals.carbohydratesPercentage | number:1}} %)</em></th>
+                    <th class="borderNone text-right bg-gray col-width">{{totals.proteins | number:1}}<br /><em>({{totals.proteinsPercentage | number:1}} %)</em></th>
+                    <th class="borderNone text-right bg-gray col-width">{{totals.fats | number:1}}<br /><em>({{totals.fatsPercentage | number:1}} %)</em></th>
+                </tr>
+            </table>
         </div>
     </div>
 </script>
@@ -271,3 +274,16 @@
         </div>
     </div>
 </script>
+
+<style>
+    .col-width {
+        width: 80px;
+    }
+    .bg-gray {
+        background-color: #dbdbdb;
+    }
+    .border-bottom {
+        border-top: none !important;
+        border-bottom: 1px solid #dbdbdb;
+    }
+</style>

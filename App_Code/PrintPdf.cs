@@ -1723,7 +1723,7 @@ IBAN HR8423400091160342496
         table = new PdfPTable(7);
         table.SetWidths(new float[] { 5f, 3f, 2f, 1f, 1f, 1f, 1f });
         table.WidthPercentage = 100f;
-        table.AddCell(new PdfPCell(new Phrase(string.Format("{0}:", t.Tran("total nutrition values", lang) + (consumers > 1 ? " (" + t.Tran("per consumer", lang) + ")" : "")), GetFont(true))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 5, MinimumHeight = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT, Colspan = 3 });
+        table.AddCell(new PdfPCell(new Phrase(string.Format("{0}:", t.Tran("total nutritional values", lang) + (consumers > 1 ? " (" + t.Tran("per consumer", lang) + ")" : "")), GetFont(true))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 5, MinimumHeight = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT, Colspan = 3 });
         table.AddCell(new PdfPCell(new Phrase(Math.Round(totals.energy, 1).ToString(), GetFont(true))) { Border = PdfPCell.TOP_BORDER | PdfPCell.LEFT_BORDER, BorderWidthTop = 1, BorderWidthLeft = 1, Padding = 2, PaddingTop = 5, MinimumHeight = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
         table.AddCell(new PdfPCell(new Phrase(Math.Round(totals.carbohydrates, 1).ToString(), GetFont(true))) { Border = PdfPCell.TOP_BORDER, BorderWidthTop = 1, Padding = 2, PaddingTop = 5, MinimumHeight = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
         table.AddCell(new PdfPCell(new Phrase(Math.Round(totals.proteins, 1).ToString(), GetFont(true))) { Border = PdfPCell.TOP_BORDER, BorderWidthTop = 1, Padding = 2, PaddingTop = 5, MinimumHeight = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });

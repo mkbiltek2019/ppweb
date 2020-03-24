@@ -1928,6 +1928,9 @@
   "distribution of nutrients per meals": "Distribution of nutrients per meals",
   "update details": "Update details",
   "meal total": "Meal Total",
-  "total nutrition values": "Total nutrition values"
+  "total nutritional values": "Total nutritional values",
+  "print style": "Print style",
+  "table style": "Table style",
+  "old style": "Old style"
 
 }
