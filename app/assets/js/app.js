@@ -3936,6 +3936,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         };
         /*****send menu ***/
 
+        $scope.collapse = function () {
+            if (window.innerWidth < 1200) {
+                return 'collapse';
+            } else {
+                return null;
+            }
+        }
+
     };
   
     $scope.get = function () {
