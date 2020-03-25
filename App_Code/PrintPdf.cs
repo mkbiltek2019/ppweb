@@ -120,8 +120,6 @@ public class PrintPdf : System.Web.Services.WebService {
             note_p.Alignment = 1;
             doc.Add(note_p);
 
-            //doc.Add(new Paragraph(currentMenu.title, GetFont(12)));
-            //doc.Add(new Paragraph(currentMenu.note, GetFont(8)));
             menuTitle = currentMenu.title;
             if (settings.showDate && !string.IsNullOrEmpty(date)) {
                 menuDate = string.Format("{0}: {1}", t.Tran("creation date", lang), date);
@@ -135,8 +133,6 @@ public class PrintPdf : System.Web.Services.WebService {
                 rowCount = rowCount + 1;
             }
 
-            //doc.Add(new Chunk(line));
-
             AppendFoodsHeaderTbl(doc, settings, lang);
 
             var meals = currentMenu.data.selectedFoods.Select(a => a.meal.code).Distinct().ToList();
@@ -145,6 +141,7 @@ public class PrintPdf : System.Web.Services.WebService {
 
             int i = 1;
             int currPage = 1;
+            int rowsPerPage = 38;
             menuPage = string.Format("{0}: {1}", t.Tran("page", lang), currPage);
             bool firstPage = true;
             foreach (string m in orderedMeals) {
@@ -154,7 +151,7 @@ public class PrintPdf : System.Web.Services.WebService {
                     sb.AppendLine(string.Format(@"
                                             "));
                 }
-                if (rowCount >= 35 && !firstPage) {
+                if (rowCount >= rowsPerPage && !firstPage) {
                     doc.NewPage();
                     sb.AppendLine(string.Format(@"
                                             "));
@@ -191,9 +188,6 @@ public class PrintPdf : System.Web.Services.WebService {
             }
 
             doc.Add(new Chunk(line));
-
-            //AppendFooter(doc, settings, date, author, lang, "menu");
-
             doc.Close();
 
             return fileName;

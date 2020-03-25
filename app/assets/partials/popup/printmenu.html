@@ -10,6 +10,7 @@
         <md-dialog-content>
             <div class="md-dialog-content">
                 <div class="text-right">
+                    <a href="#printsettings" class="btn btn-default hidden-lg hidden-xl" data-toggle="collapse"><span class="text-capitalize"><i class="fa fa-cogs"></i> {{'settings' | translate}}</span></a>
                     <button ng-click="copyToClipboard('menu_container')" class="btn btn-default" title="{{'copy to clipboard' | translate}}"><span class="text-capitalize"><i class="fa fa-files-o"></i> {{'copy' | translate}}</span></button>
                     <a ng-if="pdfLink==null" href="" ng-click="printMenuPdf(consumers, date, author)" class="btn btn-default text-capitalize" ng-disabled="creatingPdf==true"><span class="text-danger"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</span></a>
                     <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success text-capitalize" download ng-click="hidePdfLink()">
@@ -19,98 +20,103 @@
                 </div>
                 <div class="row small">
                     <div class="col-lg-3">
-                        <fieldset class="fieldset-border">
-                            <legend class="fieldset-border text-capitalize">{{'number of consumers' | translate}}</legend>
-                            <input ng-model="consumers" type="number" min="1" class="form-control" style="max-width:100px" ng-change="changeNumberOfConsumers(consumers)" allow-only-numbers>
-                        </fieldset>
-                        <fieldset class="fieldset-border">
-                            <legend class="fieldset-border">{{'show in print' | translate}}</legend>
-                            <md-input-container class="md-block">
-                                <md-checkbox ng-model="settings.showClientData" class="md-primary">
-                                    {{'client data' | translate}}
-                                </md-checkbox>
-                            </md-input-container>
-                            <md-input-container class="md-block">
-                                <md-checkbox ng-model="settings.showTitle" class="md-primary">
-                                    {{'dish title' | translate}}
-                                </md-checkbox>
-                            </md-input-container>
-                            <md-input-container class="md-block">
-                                <md-checkbox ng-model="settings.showDescription" class="md-primary">
-                                    {{'description' | translate}}
-                                </md-checkbox>
-                            </md-input-container>
-                            <md-input-container class="md-block">
-                                <md-checkbox ng-model="settings.showFoods" class="md-primary">
-                                    {{'foods' | translate}}
-                                </md-checkbox>
-                            </md-input-container>
-                            <md-input-container class="md-block">
-                                <md-checkbox ng-disabled="!settings.showFoods" ng-model="settings.showQty" class="md-primary">
-                                    {{'quantity' | translate}}
-                                </md-checkbox>
-                            </md-input-container>
-                            <md-input-container class="md-block">
-                                <md-checkbox ng-disabled="!settings.showFoods" ng-model="settings.showMass" class="md-primary">
-                                    {{'mass' | translate}}
-                                </md-checkbox>
-                            </md-input-container>
-                            <md-input-container class="md-block">
-                                <md-checkbox ng-disabled="!settings.showFoods" ng-model="settings.showServ" class="md-primary">
-                                    {{'unit servings' | translate}}
-                                </md-checkbox>
-                            </md-input-container>
-                            <md-input-container class="md-block">
-                                <md-checkbox ng-model="settings.showMealsTotal" class="md-primary">
-                                    {{'total energy and nutritional value of the meals' | translate}}
-                                </md-checkbox>
-                            </md-input-container>
-                            <md-input-container class="md-block">
-                                <md-checkbox ng-model="settings.showTotals" class="md-primary">
-                                    {{'total energy and nutritional value of the meanu' | translate}}
-                                </md-checkbox>
-                            </md-input-container>
-                            <md-input-container class="md-block">
-                                <md-checkbox ng-model="settings.showActivities" class="md-primary">
-                                    {{'additional activity' | translate}}
-                                </md-checkbox>
-                            </md-input-container>
-                            <md-input-container class="md-block">
-                                <md-checkbox ng-model="settings.showPrice" class="md-primary">
-                                    {{'price' | translate}}
-                                </md-checkbox>
-                            </md-input-container>
-                            <md-input-container class="md-block" style="margin-bottom:2px">
-                                <md-checkbox ng-model="settings.showDate" class="md-primary" style="margin-bottom:2px">
-                                    {{'date' | translate}}
-                                </md-checkbox>
-                            </md-input-container>
-                            <div ng-if="settings.showDate">
-                                <input ng-model="date" class="form-control" ng-change="setDate(date)" />
-                            </div>
-                            <md-input-container class="md-block" style="margin-bottom:2px">
-                                <md-checkbox ng-model="settings.showAuthor" class="md-primary" style="margin-bottom:2px">
-                                    {{'author' | translate}}
-                                </md-checkbox>
-                            </md-input-container>
-                            <div ng-if="settings.showAuthor">
-                                <input ng-model="author" class="form-control" ng-change="setAuthor(author)" />
-                            </div>
-                        </fieldset>
-                        <fieldset class="fieldset-border">
-                            <!--<legend class="fieldset-border">{{'settings' | translate}}</legend>-->
-                            <md-input-container class="md-block" flex-gt-xs style="margin-top:20px">
-                                <label>{{'print style' | translate}}</label>
-                                <md-select ng-model="settings.printStyle">
-                                    <md-option value="0">
-                                        <md-checkbox ng-checked="settings.printStyle==0?true:false" class="md-primary text-capitalize" aria-label="mealgroup">{{'table style' | translate}}</md-checkbox>
-                                    </md-option>
-                                    <md-option value="1">
-                                        <md-checkbox ng-checked="settings.printStyle==1?true:false" class="md-primary text-capitalize" aria-label="mealgroup">{{'old style' | translate}}</md-checkbox>
-                                    </md-option>
-                                </md-select>
-                            </md-input-container>
-                        </fieldset>
+                        <div id="printsettings" ng-class="collapse()">
+                            <fieldset class="fieldset-border">
+                                <legend class="fieldset-border text-capitalize">{{'number of consumers' | translate}}</legend>
+                                <input ng-model="consumers" type="number" min="1" class="form-control" style="max-width:100px" ng-change="changeNumberOfConsumers(consumers)" allow-only-numbers>
+                            </fieldset>
+                            <fieldset class="fieldset-border">
+                                <legend class="fieldset-border">{{'show in print' | translate}}</legend>
+                                <md-input-container class="md-block">
+                                    <md-checkbox ng-model="settings.showClientData" class="md-primary">
+                                        {{'client data' | translate}}
+                                    </md-checkbox>
+                                </md-input-container>
+                                <md-input-container class="md-block">
+                                    <md-checkbox ng-model="settings.showTitle" class="md-primary">
+                                        {{'dish title' | translate}}
+                                    </md-checkbox>
+                                </md-input-container>
+                                <md-input-container class="md-block">
+                                    <md-checkbox ng-model="settings.showDescription" class="md-primary">
+                                        {{'description' | translate}}
+                                    </md-checkbox>
+                                </md-input-container>
+                                <md-input-container class="md-block">
+                                    <md-checkbox ng-model="settings.showFoods" class="md-primary">
+                                        {{'foods' | translate}}
+                                    </md-checkbox>
+                                </md-input-container>
+                                <md-input-container class="md-block">
+                                    <md-checkbox ng-disabled="!settings.showFoods" ng-model="settings.showQty" class="md-primary">
+                                        {{'quantity' | translate}}
+                                    </md-checkbox>
+                                </md-input-container>
+                                <md-input-container class="md-block">
+                                    <md-checkbox ng-disabled="!settings.showFoods" ng-model="settings.showMass" class="md-primary">
+                                        {{'mass' | translate}}
+                                    </md-checkbox>
+                                </md-input-container>
+                                <md-input-container class="md-block">
+                                    <md-checkbox ng-disabled="!settings.showFoods" ng-model="settings.showServ" class="md-primary">
+                                        {{'unit servings' | translate}}
+                                    </md-checkbox>
+                                </md-input-container>
+                                <md-input-container class="md-block">
+                                    <md-checkbox ng-model="settings.showMealsTotal" class="md-primary">
+                                        {{'total energy and nutritional value of the meals' | translate}}
+                                    </md-checkbox>
+                                </md-input-container>
+                                <md-input-container class="md-block">
+                                    <md-checkbox ng-model="settings.showTotals" class="md-primary">
+                                        {{'total energy and nutritional value of the meanu' | translate}}
+                                    </md-checkbox>
+                                </md-input-container>
+                                <md-input-container class="md-block">
+                                    <md-checkbox ng-model="settings.showActivities" class="md-primary">
+                                        {{'additional activity' | translate}}
+                                    </md-checkbox>
+                                </md-input-container>
+                                <md-input-container class="md-block">
+                                    <md-checkbox ng-model="settings.showPrice" class="md-primary">
+                                        {{'price' | translate}}
+                                    </md-checkbox>
+                                </md-input-container>
+                                <md-input-container class="md-block" style="margin-bottom:2px">
+                                    <md-checkbox ng-model="settings.showDate" class="md-primary" style="margin-bottom:2px">
+                                        {{'date' | translate}}
+                                    </md-checkbox>
+                                </md-input-container>
+                                <div ng-if="settings.showDate">
+                                    <input ng-model="date" class="form-control" ng-change="setDate(date)" />
+                                </div>
+                                <md-input-container class="md-block" style="margin-bottom:2px">
+                                    <md-checkbox ng-model="settings.showAuthor" class="md-primary" style="margin-bottom:2px">
+                                        {{'author' | translate}}
+                                    </md-checkbox>
+                                </md-input-container>
+                                <div ng-if="settings.showAuthor">
+                                    <input ng-model="author" class="form-control" ng-change="setAuthor(author)" />
+                                </div>
+                            </fieldset>
+                            <fieldset class="fieldset-border">
+                                <!--<legend class="fieldset-border">{{'settings' | translate}}</legend>-->
+                                <md-input-container class="md-block" flex-gt-xs style="margin-top:20px">
+                                    <label>{{'print style' | translate}}</label>
+                                    <md-select ng-model="settings.printStyle">
+                                        <md-option value="0">
+                                            <md-checkbox ng-checked="settings.printStyle==0?true:false" class="md-primary" aria-label="mealgroup">{{'table style' | translate}}</md-checkbox>
+                                        </md-option>
+                                        <md-option value="1">
+                                            <md-checkbox ng-checked="settings.printStyle==1?true:false" class="md-primary" aria-label="mealgroup">{{'old style' | translate}}</md-checkbox>
+                                        </md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </fieldset>
+                        </div>
+
+
+                      
                     </div>
                     <div class="col-lg-9">
                         <fieldset class="fieldset-border">
