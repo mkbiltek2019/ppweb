@@ -111,9 +111,18 @@
                         <div class="pt10">
                             <div ng-repeat="x in currentMenu.data.meals" >
                                 <md-input-container ng-if="x.code==currentMeal" class="md-block" style="margin:0px" flex-gt-sm>
-                                    <label>{{'description, meal preparation' | translate}}...</label>
-                                    <textarea ng-model="x.description" rows="3" class="area"></textarea>
+                                    <label>{{'description, meal preparation' | translate}}</label>
+                                    <textarea ng-model="x.description" rows="3" class="area" ng-click="mealDescHelp(true)"></textarea>
                                 </md-input-container>
+                            </div>
+                            <div ng-if="showMenuDescHelp&&config.language!=='en'" class="alert alert-warning alert-dismissible">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <p class="text-small ml10"> 
+                                    <i class="fa fa-exclamation-triangle"></i>
+                                    Za odvajanje naziva jela od njegovog opisa koristite separator <strong class="p5">~</strong> <kbd>Alt+1(!)</kbd>.
+                                    Ako imate više jela unutar jednog obroka, jela odvajajte separatorom <strong class="p5">|</strong> <kbd>Alt+w</kbd>.<br />
+                                    Npr: Naziv jela 1~Opis jela 1|Naziv jela 2~Opis jela 2.
+                                </p>
                             </div>
                         </div>
                         <div ng-if="totals.price.value>0" class="text-right m10">

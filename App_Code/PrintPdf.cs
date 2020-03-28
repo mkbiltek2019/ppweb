@@ -40,6 +40,9 @@ public class PrintPdf : System.Web.Services.WebService {
     static string menuAuthor = null;
     static string menuDate = null;
 
+    Color bg_color = new Color(222, 243, 255);
+
+
     public PrintPdf() {
     }
 
@@ -59,7 +62,7 @@ public class PrintPdf : System.Web.Services.WebService {
         public bool showMealsTotal;
         public bool showDate;
         public bool showAuthor;
-        public int printStyle;
+        public int printStyle;  // 0 = New Style (table style); 1 = Old style
     }
 
     #region WebMethods
@@ -79,6 +82,28 @@ public class PrintPdf : System.Web.Services.WebService {
         x.showPrice = false;
         x.showActivities = true;
         x.showMealsTotal = true;
+        x.showDate = true;
+        x.showAuthor = true;
+        x.printStyle = 0;
+        return JsonConvert.SerializeObject(x, Formatting.None);
+    }
+
+    [WebMethod]
+    public string InitWeeklyMenuSettings() {
+        PrintMenuSettings x = new PrintMenuSettings();
+        x.pageSize = "A4";
+        x.showQty = false;
+        x.showMass = false;
+        x.showServ = false;
+        x.showTitle = true;
+        x.showDescription = true;
+        x.orientation = "L";
+        x.showClientData = false;
+        x.showFoods = false;
+        x.showTotals = true;
+        x.showPrice = false;
+        x.showActivities = true;
+        x.showMealsTotal = false;
         x.showDate = true;
         x.showAuthor = true;
         x.printStyle = 0;
@@ -311,10 +336,16 @@ public class PrintPdf : System.Web.Services.WebService {
                 ShowClientData(doc, weeklyMenu.client, lang);
             }
             if (!string.IsNullOrEmpty(weeklyMenu.title)) {
-                doc.Add(new Paragraph(weeklyMenu.title, GetFont(12)));
+                //doc.Add(new Paragraph(weeklyMenu.title, GetFont(12)));
+                var title_p = new Paragraph(weeklyMenu.title, GetFont(12, Font.BOLD));
+                title_p.Alignment = 1;
+                doc.Add(title_p);
             }
             if (!string.IsNullOrEmpty(weeklyMenu.note)) {
-                doc.Add(new Paragraph(weeklyMenu.note, GetFont(8)));
+                //doc.Add(new Paragraph(weeklyMenu.note, GetFont(8)));
+                var note_p = new Paragraph(weeklyMenu.note, GetFont(8));
+                note_p.Alignment = 1;
+                doc.Add(note_p);
             }
             if (consumers > 1) {
                 doc.Add(new Paragraph(t.Tran("number of consumers", lang) + ": " + consumers, GetFont(10)));
@@ -322,19 +353,24 @@ public class PrintPdf : System.Web.Services.WebService {
                 //TODO show client data when there are more than 1 consumens
                 //ShowClientData(doc, currentMenu, clientData, settings.showClientData, lang);
             }
-            doc.Add(new Chunk(line));
+            //doc.Add(new Chunk(line));
 
-            PdfPTable table = new PdfPTable(8);
+            PdfPTable table = new PdfPTable(1);
+            table.WidthPercentage = 100f;
+            table.AddCell(new PdfPCell(new Phrase(" ", GetFont())) { Border = PdfPCell.NO_BORDER, MinimumHeight = 5 });
+            doc.Add(table);
+
+            table = new PdfPTable(8);
             table.WidthPercentage = 100f;
             table.SetWidths(new float[] { 1.5f, 2f, 2f, 2f, 2f, 2f, 2f, 2f });
-            table.AddCell(new PdfPCell(new Phrase(t.Tran("meals", lang).ToUpper(), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
-            table.AddCell(new PdfPCell(new Phrase(t.Tran("monday", lang).ToUpper(), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
-            table.AddCell(new PdfPCell(new Phrase(t.Tran("tuesday", lang).ToUpper(), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
-            table.AddCell(new PdfPCell(new Phrase(t.Tran("wednesday", lang).ToUpper(), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
-            table.AddCell(new PdfPCell(new Phrase(t.Tran("thursday", lang).ToUpper(), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
-            table.AddCell(new PdfPCell(new Phrase(t.Tran("friday", lang).ToUpper(), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
-            table.AddCell(new PdfPCell(new Phrase(t.Tran("saturday", lang).ToUpper(), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
-            table.AddCell(new PdfPCell(new Phrase(t.Tran("sunday", lang).ToUpper(), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
+            table.AddCell(new PdfPCell(new Phrase("", GetFont())) { Border = PdfPCell.NO_BORDER, Padding = 5, HorizontalAlignment = PdfPCell.ALIGN_CENTER, BorderColor = Color.LIGHT_GRAY });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("monday", lang).ToUpper(), GetFont(true))) { Padding = 5, HorizontalAlignment = PdfPCell.ALIGN_CENTER, BorderColor = Color.LIGHT_GRAY, BackgroundColor = bg_color });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("tuesday", lang).ToUpper(), GetFont(true))) { Padding = 5, HorizontalAlignment = PdfPCell.ALIGN_CENTER, BorderColor = Color.LIGHT_GRAY, BackgroundColor = bg_color });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("wednesday", lang).ToUpper(), GetFont(true))) { Padding = 5, HorizontalAlignment = PdfPCell.ALIGN_CENTER, BorderColor = Color.LIGHT_GRAY, BackgroundColor = bg_color });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("thursday", lang).ToUpper(), GetFont(true))) { Padding = 5, HorizontalAlignment = PdfPCell.ALIGN_CENTER, BorderColor = Color.LIGHT_GRAY, BackgroundColor = bg_color });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("friday", lang).ToUpper(), GetFont(true))) { Padding = 5, HorizontalAlignment = PdfPCell.ALIGN_CENTER, BorderColor = Color.LIGHT_GRAY, BackgroundColor = bg_color });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("saturday", lang).ToUpper(), GetFont(true))) { Padding = 5, HorizontalAlignment = PdfPCell.ALIGN_CENTER, BorderColor = Color.LIGHT_GRAY, BackgroundColor = bg_color });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("sunday", lang).ToUpper(), GetFont(true))) { Padding = 5, HorizontalAlignment = PdfPCell.ALIGN_CENTER, BorderColor = Color.LIGHT_GRAY, BackgroundColor = bg_color });
 
             //****************** Totals *****************
             weeklyMenuTotalList = new List<Foods.Totals>();
@@ -354,41 +390,41 @@ public class PrintPdf : System.Web.Services.WebService {
                 table = new PdfPTable(8);
                 table.WidthPercentage = 100f;
                 table.SetWidths(new float[] { 1.5f, 2f, 2f, 2f, 2f, 2f, 2f, 2f });
-                table.AddCell(new PdfPCell(new Phrase(string.Format("{0}:", t.Tran("energy value", lang)), GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 7 });
+                table.AddCell(new PdfPCell(new Phrase(string.Format("{0}:", t.Tran("energy", lang)), GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 7, HorizontalAlignment = 2 });
                 int ii = 0;
                 for (int i = 0; i < 7; i++) {
                     if (!string.IsNullOrEmpty(weeklyMenu.menuList[i]) && ii < weeklyMenuTotalList.Count) {
-                        table.AddCell(new PdfPCell(new Phrase(string.Format("{0} {1}", weeklyMenuTotalList[ii].energy.ToString(), t.Tran("kcal", lang)), GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 7 });
+                        table.AddCell(new PdfPCell(new Phrase(string.Format("{0} {1}", weeklyMenuTotalList[ii].energy.ToString(), t.Tran("kcal", lang)), GetFont(8, Font.BOLD))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 7, HorizontalAlignment = 1 });
                         ii++;
                     } else {
                         table.AddCell(new PdfPCell(new Phrase("", GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 2 });
                     }
                 }
-                table.AddCell(new PdfPCell(new Phrase(string.Format("{0}:", t.Tran("carbohydrates", lang)), GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 2 });
+                table.AddCell(new PdfPCell(new Phrase(string.Format("{0}:", t.Tran("carbohydrates", lang)), GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 2, HorizontalAlignment = 2 });
                 ii = 0;
                 for (int i = 0; i < 7; i++) {
                     if (!string.IsNullOrEmpty(weeklyMenu.menuList[i]) && ii < weeklyMenuTotalList.Count) {
-                        table.AddCell(new PdfPCell(new Phrase(string.Format("{0} {1}, ({2}%)", weeklyMenuTotalList[ii].carbohydrates.ToString(), t.Tran("g", lang), weeklyMenuTotalList[ii].carbohydratesPercentage.ToString()), GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 2 });
+                        table.AddCell(new PdfPCell(new Phrase(string.Format("{0} {1}, ({2}%)", weeklyMenuTotalList[ii].carbohydrates.ToString(), t.Tran("g", lang), weeklyMenuTotalList[ii].carbohydratesPercentage.ToString()), GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 2, HorizontalAlignment = 1 });
                         ii++;
                     } else {
                         table.AddCell(new PdfPCell(new Phrase("", GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 2 });
                     }
                 }
-                table.AddCell(new PdfPCell(new Phrase(string.Format("{0}:", t.Tran("proteins", lang)), GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 2 });
+                table.AddCell(new PdfPCell(new Phrase(string.Format("{0}:", t.Tran("proteins", lang)), GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 2, HorizontalAlignment = 2 });
                 ii = 0;
                 for (int i = 0; i < 7; i++) {
                     if (!string.IsNullOrEmpty(weeklyMenu.menuList[i]) && ii < weeklyMenuTotalList.Count) {
-                        table.AddCell(new PdfPCell(new Phrase(string.Format("{0} {1}, ({2}%)", weeklyMenuTotalList[ii].proteins.ToString(), t.Tran("g", lang), weeklyMenuTotalList[ii].proteinsPercentage.ToString()), GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 2 });
+                        table.AddCell(new PdfPCell(new Phrase(string.Format("{0} {1}, ({2}%)", weeklyMenuTotalList[ii].proteins.ToString(), t.Tran("g", lang), weeklyMenuTotalList[ii].proteinsPercentage.ToString()), GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 2, HorizontalAlignment = 1 });
                         ii++;
                     } else {
                         table.AddCell(new PdfPCell(new Phrase("", GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 2 });
                     }
                 }
-                table.AddCell(new PdfPCell(new Phrase(string.Format("{0}:", t.Tran("fats", lang)), GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 2 });
+                table.AddCell(new PdfPCell(new Phrase(string.Format("{0}:", t.Tran("fats", lang)), GetFont(8))) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, PaddingTop = 2, PaddingBottom = 5, HorizontalAlignment = 2, BorderColor = Color.LIGHT_GRAY });
                 ii = 0;
                 for (int i = 0; i < 7; i++) {
                     if (!string.IsNullOrEmpty(weeklyMenu.menuList[i]) && ii < weeklyMenuTotalList.Count) {
-                        table.AddCell(new PdfPCell(new Phrase(string.Format("{0} {1}, ({2}%)", weeklyMenuTotalList[ii].fats.ToString(), t.Tran("g", lang), weeklyMenuTotalList[ii].fatsPercentage.ToString()), GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 2 });
+                        table.AddCell(new PdfPCell(new Phrase(string.Format("{0} {1}, ({2}%)", weeklyMenuTotalList[ii].fats.ToString(), t.Tran("g", lang), weeklyMenuTotalList[ii].fatsPercentage.ToString()), GetFont(8))) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, PaddingTop = 2, PaddingBottom = 5, HorizontalAlignment = 1, BorderColor = Color.LIGHT_GRAY });
                         ii++;
                     } else {
                         table.AddCell(new PdfPCell(new Phrase("", GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 2 });
@@ -1487,8 +1523,6 @@ IBAN HR8423400091160342496
     private void AppendMeal(Document doc, List<Foods.NewFood> meal, List<Meals.NewMeal> meals, string lang, Foods.Totals totals, PrintMenuSettings settings) {
         if (meal.Count > 0) {
             if (meals.Find(a => a.code == meal[0].meal.code).isSelected == true) {
-                //StringBuilder sb = new StringBuilder();
-                //sb.AppendLine(string.Format(@"{0}", t.Tran(GetMealTitle(meal[0].meal.code, meal[0].meal.title), lang)).ToUpper());
                 string mealtitle = string.Format(@"{0}:", t.Tran(GetMealTitle(meal[0].meal.code, meal[0].meal.title), lang)).ToUpper();
                 doc.Add(new Paragraph(mealtitle, GetFont(true)));
                 rowCount = rowCount + 1;
@@ -1506,42 +1540,10 @@ IBAN HR8423400091160342496
                 if (settings.showMealsTotal) {
                     if (totals != null) {
                         AppendMealTotalTbl(doc, totals.mealsTotal, meal[0].meal.code, settings, lang);
-
-                        //StringBuilder sb = new StringBuilder();
-                        //sb.AppendLine(string.Format(@""));
-                        //Foods.MealsTotal ft = totals.mealsTotal.Where(a => a.code == meal[0].meal.code).FirstOrDefault();
-                        //sb.AppendLine(string.Format(@"{0}: {1} kcal ({2}%), {3}: {4} g ({5}%), {6}: {7} g ({8}%), {9}: {10} g ({11}%)"
-                        //        , t.Tran("energy", lang), Math.Round(ft.energy.val, 1), Math.Round(ft.energy.perc, 1)
-                        //        , t.Tran("carbohydrates", lang), Math.Round(ft.carbohydrates.val, 1), Math.Round(ft.carbohydrates.perc, 1)
-                        //        , t.Tran("proteins", lang), Math.Round(ft.proteins.val, 1), Math.Round(ft.proteins.perc, 1)
-                        //        , t.Tran("fats", lang), Math.Round(ft.fats.val, 1), Math.Round(ft.fats.perc, 1))).ToString();
-                        //rowCount = rowCount + 2;
                     }
-
                 }
             }
         }
-
-
-
-
-
-        //if (settings.showDate || settings.showAuthor) {
-        //    doc.Add(new Chunk(line));
-        //    PdfPTable table = new PdfPTable(2);
-        //    table.WidthPercentage = 100f;
-        //    string date_p = "";
-        //    string author_p = "";
-        //    if (settings.showDate && !string.IsNullOrEmpty(date)) {
-        //        date_p = string.Format("{0}: {1}", t.Tran("creation date", lang), date);
-        //    }
-        //    if (settings.showAuthor && !string.IsNullOrEmpty(author)) {
-        //        author_p = string.Format("{0}: {1}", type == "recipe" ? t.Tran("author of the recipe", lang) : t.Tran("author of the menu", lang), author);
-        //    }
-        //    table.AddCell(new PdfPCell(new Phrase(date_p, GetFont())) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, PaddingTop = 10 });
-        //    table.AddCell(new PdfPCell(new Phrase(author_p, GetFont())) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, PaddingTop = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
-        //    doc.Add(table);
-        //}
     }
 
     private string AppendMeal_old(List<Foods.NewFood> meal, List<Meals.NewMeal> meals, string lang, Foods.Totals totals, PrintMenuSettings settings) {
@@ -1664,20 +1666,7 @@ IBAN HR8423400091160342496
         table.AddCell(new PdfPCell(new Phrase(string.Format("{0} %", Math.Round(ft.fats.perc, 1)), GetFont(7, Font.ITALIC))) { Border = PdfPCell.NO_BORDER, Padding = 0, MinimumHeight = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT, BorderColor = Color.GRAY });
         doc.Add(table);
 
-
-        //StringBuilder sb = new StringBuilder();
-        //sb.AppendLine(string.Format(@""));
-        //Foods.MealsTotal ft = totals.mealsTotal.Where(a => a.code == meal[0].meal.code).FirstOrDefault();
-        //sb.AppendLine(string.Format(@"{0}: {1} kcal ({2}%), {3}: {4} g ({5}%), {6}: {7} g ({8}%), {9}: {10} g ({11}%)"
-        //        , t.Tran("energy", lang), Math.Round(ft.energy.val, 1), Math.Round(ft.energy.perc, 1)
-        //        , t.Tran("carbohydrates", lang), Math.Round(ft.carbohydrates.val, 1), Math.Round(ft.carbohydrates.perc, 1)
-        //        , t.Tran("proteins", lang), Math.Round(ft.proteins.val, 1), Math.Round(ft.proteins.perc, 1)
-        //        , t.Tran("fats", lang), Math.Round(ft.fats.val, 1), Math.Round(ft.fats.perc, 1))).ToString();
         rowCount = rowCount + 2;
-
-
-        
-
     }
 
     private void AppendMenuTotalTbl(Document doc, Foods.Totals totals, int consumers, PrintMenuSettings settings, string lang) {
@@ -1734,29 +1723,7 @@ IBAN HR8423400091160342496
         table.AddCell(new PdfPCell(new Phrase(string.Format("{0} %", Math.Round(totals.fatsPercentage, 1)), GetFont(7, Font.ITALIC))) { Border = PdfPCell.BOTTOM_BORDER | PdfPCell.RIGHT_BORDER, BorderWidthBottom = 2, BorderWidthRight = 2, Padding = 0, PaddingBottom = 5, PaddingRight = 5, MinimumHeight = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
         doc.Add(table);
 
-        //        doc.Add(new Chunk(line));
-        //        string tot = string.Format(@"
-        //{0}:
-        //{1}: {5} kcal
-        //{2}: {6} g ({7})%
-        //{3}: {8} g ({9})%
-        //{4}: {10} g ({11})%",
-        //                t.Tran("total", lang).ToUpper() + (consumers > 1 ? " (" + t.Tran("per consumer", lang) + ")" : ""),
-        //                t.Tran("energy value", lang),
-        //                t.Tran("carbohydrates", lang),
-        //                t.Tran("proteins", lang),
-        //                t.Tran("fats", lang),
-        //                Convert.ToString(totals.energy),
-        //                Convert.ToString(totals.carbohydrates),
-        //                Convert.ToString(totals.carbohydratesPercentage),
-        //                Convert.ToString(totals.proteins),
-        //                Convert.ToString(totals.proteinsPercentage),
-        //                Convert.ToString(totals.fats),
-        //                Convert.ToString(totals.fatsPercentage)
-        //                );
-        //        doc.Add(new Paragraph(tot, GetFont()));
         rowCount = rowCount + 3;
-
     }
 
     private string getServingDescription(Foods.Servings x, string lang) {
@@ -1801,7 +1768,7 @@ IBAN HR8423400091160342496
 
     private void AppendFooter(Document doc, PrintMenuSettings settings, string date, string author, string lang, string type) {
         if (settings.showDate || settings.showAuthor) {
-            doc.Add(new Chunk(line));
+            //doc.Add(new Chunk(line));
             PdfPTable table = new PdfPTable(2);
             table.WidthPercentage = 100f;
             string date_p = "";
@@ -1850,26 +1817,37 @@ IBAN HR8423400091160342496
             Foods food = new Foods();
             Menues me = new Menues();
             int i = 0;
+            int rowHeight = 65;
+            if (settings.showClientData) {
+                rowHeight = rowHeight - 10;
+            }
+            if (settings.pageSize == "A3") {
+                rowHeight = rowHeight + 30;
+            }
+            if (settings.showTotals) {
+                rowHeight = rowHeight - 15;
+            }
 
-            string menuTitle = "";
+            string mealTitle = "";
             foreach(string m in menuList) {
                 if(m != null) {
                     Menues.NewMenu wm = me.WeeklyMenu(userId, m);
                     if (wm.data.meals != null) {
                         if(wm.data.meals.Count > weeklyMealIdx) {
-                            menuTitle = wm.data.meals[weeklyMealIdx].title;
+                            mealTitle = wm.data.meals[weeklyMealIdx].title;
                             break;
                         }
                     }
                 }
             }
 
-            table.AddCell(new PdfPCell(new Phrase(menuTitle.ToUpper(), GetFont())) { Border = PdfPCell.BOTTOM_BORDER, Padding = 2, MinimumHeight = 30, PaddingTop = 15 });
+            table.AddCell(new PdfPCell(new Phrase(mealTitle.ToUpper(), GetFont(true))) { Padding = 2, MinimumHeight = 30, PaddingTop = 15, BorderColor = Color.LIGHT_GRAY, FixedHeight = rowHeight, HorizontalAlignment = 1, BackgroundColor = bg_color });
 
             for (i = 0; i < menuList.Count; i++) {
                 Menues.NewMenu weeklyMenu = !string.IsNullOrEmpty(menuList[i]) ? me.WeeklyMenu(userId, menuList[i]): new Menues.NewMenu();
                 string currMeal = !string.IsNullOrEmpty(menuList[i]) ? weeklyMenu.data.meals[weeklyMealIdx].code : "";
                 p = new Phrase();
+                
                 if (!string.IsNullOrEmpty(weeklyMenu.id)) {
                     meal = weeklyMenu.data.selectedFoods.Where(a => a.meal.code == currMeal).ToList();
                     string description = weeklyMenu.data.meals.Find(a => a.code == currMeal).description;
@@ -1904,7 +1882,7 @@ IBAN HR8423400091160342496
                 } else {
                     p.Add(new Chunk("", GetFont()));
                 }
-                table.AddCell(new PdfPCell(p) { Border = PdfPCell.BOTTOM_BORDER, MinimumHeight = 30, PaddingTop = 5, PaddingRight = 2, PaddingBottom = 5, PaddingLeft = 2 });
+                table.AddCell(new PdfPCell(p) { MinimumHeight = 30, PaddingTop = 5, PaddingRight = 2, PaddingBottom = 5, PaddingLeft = 2, BorderColor = Color.LIGHT_GRAY });
             }
             weeklyMealIdx += 1;
         } catch (Exception e) {}
@@ -2102,7 +2080,7 @@ IBAN HR8423400091160342496
             PdfPTable table = new PdfPTable(2);
             table.TotalWidth = 530f;
             table.AddCell(new PdfPCell(new Phrase(menuAuthor, font)) { Border = PdfPCell.TOP_BORDER, Padding = 2, MinimumHeight = 15, PaddingTop = 10, BorderColor = Color.GRAY });
-            table.AddCell(new PdfPCell(new Phrase(menuTitle.ToString(), font)) { Border = PdfPCell.TOP_BORDER, Padding = 2, MinimumHeight = 15, PaddingTop = 10, HorizontalAlignment = 2, BorderColor = Color.GRAY });
+            table.AddCell(new PdfPCell(new Phrase(menuTitle, font)) { Border = PdfPCell.TOP_BORDER, Padding = 2, MinimumHeight = 15, PaddingTop = 10, HorizontalAlignment = 2, BorderColor = Color.GRAY });
             table.WriteSelectedRows(0, -1, 30, document.Bottom + 30, writer.DirectContent);
 
             table = new PdfPTable(2);

@@ -3214,7 +3214,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: {}
         })
        .then(function (response) {
-           $rootScope.printSettings = JSON.parse(response.data.d);
+           $scope.printSettings = JSON.parse(response.data.d);
        },
        function (response) {
            alert(response.data.d)
@@ -3724,7 +3724,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             targetEvent: '',
             clickOutsideToClose: true,
             fullscreen: $scope.customFullscreen,
-            d: { currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData, client: $rootScope.client, totals: $rootScope.totals, settings: $rootScope.printSettings, config: $rootScope.config, user: $rootScope.user, loginUser: $rootScope.loginUser }
+            d: { currentMenu: $rootScope.currentMenu, clientData: $rootScope.clientData, client: $rootScope.client, totals: $rootScope.totals, settings: $scope.printSettings, config: $rootScope.config, user: $rootScope.user, loginUser: $rootScope.loginUser }
         })
         .then(function () {
         }, function () {
@@ -5327,7 +5327,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             templateUrl: 'assets/partials/popup/shoppinglist.html',
             parent: angular.element(document.body),
             clickOutsideToClose: true,
-            d: { currentMenu: x, settings: $rootScope.printSettings }
+            d: { currentMenu: x, settings: $scope.printSettings }
         })
         .then(function (r) {
             alert(r);
@@ -5440,6 +5440,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         };
     };
 
+    $scope.mealDescHelp = function (x) {
+        $scope.showMenuDescHelp = x;
+    }
+    $scope.mealDescHelp(false);
 
 }])
 
@@ -6288,7 +6292,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             targetEvent: '',
             clickOutsideToClose: true,
             fullscreen: $scope.customFullscreen,
-            d: { recipe: x, totals: $scope.totals, settings: $rootScope.printSettings, config: $rootScope.config, user: $rootScope.user }
+            d: { recipe: x, totals: $scope.totals, settings: $scope.printSettings, config: $rootScope.config, user: $rootScope.user }
         })
         .then(function () {
         }, function () {
@@ -6794,6 +6798,21 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     }
 
+    function initPrintSettings() {
+        $http({
+            url: $sessionStorage.config.backend + 'PrintPdf.asmx/InitWeeklyMenuSettings',
+            method: "POST",
+            data: {}
+        })
+       .then(function (response) {
+           $scope.printSettings = JSON.parse(response.data.d);
+       },
+       function (response) {
+           alert(response.data.d)
+       });
+    };
+    initPrintSettings();
+
     var emptyMenuList = true;
     var isEmptyList = function (x) {
         emptyMenuList = true;
@@ -6879,6 +6898,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.toLanguage = '';
         $scope.limit = 20;
         $scope.searchValue = null;
+        $scope.hideNav = true;
         var limit = $rootScope.config.showmenuslimit;
         var offset = 0;
 
@@ -7040,10 +7060,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     $scope.creatingPdf = false;
     $scope.pageSizes = ['A4', 'A3', 'A2', 'A1'];
-    $rootScope.printSettings.pageSize = 'A3';
-    $rootScope.printSettings.showTitle = false;
-    $rootScope.printSettings.showDescription = false;
-    $rootScope.printSettings.orientation = 'L';
 
     $scope.printWeeklyMenu = function (consumers, printSettings, date, author) {
         if (emptyMenuList) {
