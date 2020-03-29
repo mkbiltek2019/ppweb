@@ -114,29 +114,31 @@
                                 </md-input-container>
                             </fieldset>
                         </div>
-
-
-                      
                     </div>
                     <div class="col-lg-9">
                         <fieldset class="fieldset-border">
                             <legend class="fieldset-border text-capitalize">{{'menu' | translate}}</legend>
                             <div id="menu_container">
-                                <div ng-if="settings.showClientData">
-                                    <p>{{currentMenu.client.firstName}} {{currentMenu.client.lastName}}</p>
-                                    <p>
-                                        {{'height' | translate}}: {{currentMenu.client.clientData.height}} cm, {{'weight' | translate}}: {{currentMenu.client.clientData.weight}} kg
-                                        <span ng-if="currentMenu.client.clientData.waist>0">, {{'waist' | translate}}: {{currentMenu.client.clientData.waist}} cm</span><span ng-if="clientData.hip>0">, {{'hip' | translate}}: {{clientData.hip}} cm</span>
-                                    </p>
-                                    <p>{{currentMenu.client.clientData.diet.diet | translate}}</p>
-                                    <hr />
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <p class="lead">{{currentMenu.title}}</p>
+                                            <p>{{currentMenu.note}}</p>
+                                        </div>
+                                        <p ng-if="consumers > 1">{{'number of consumers' | translate}}: <strong>{{consumers}}</strong></p>
+                                    </div>
+                                    <div class="col-sm-6 text-right">
+                                        <div ng-if="settings.showClientData">
+                                            <p>{{'client' | translate}}: {{currentMenu.client.firstName}} {{currentMenu.client.lastName}}</p>
+                                            <p>
+                                                {{'height' | translate}}: {{currentMenu.client.clientData.height}} cm, {{'weight' | translate}}: {{currentMenu.client.clientData.weight}} kg
+                                                <span ng-if="currentMenu.client.clientData.waist>0">, {{'waist' | translate}}: {{currentMenu.client.clientData.waist}} cm</span><span ng-if="clientData.hip>0">, {{'hip' | translate}}: {{clientData.hip}} cm</span>
+                                            </p>
+                                            <p>{{'diet' | translate}}: {{currentMenu.client.clientData.diet.diet | translate}}</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="text-center">
-                                    <p class="lead">{{currentMenu.title}}</p>
-                                    <p>{{currentMenu.note}}</p>
-                                </div>
-                                <p ng-if="consumers > 1">{{'number of consumers' | translate}}: <strong>{{consumers}}</strong></p>
-
+                                <hr />
                                 <ng-include src="settings.printStyle==0?'menu':'menu_old'"></ng-include>
 
                                 <div ng-if="totals.price.value>0 && settings.showPrice">
