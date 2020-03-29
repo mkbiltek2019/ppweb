@@ -27,13 +27,13 @@
                         <table class="table table-bordered text-small table-condensed">
                             <tr>
                                 <td class="bg-subpanel"><strong>BMR</strong><em class="text-small text-muted"> ({{'basal metabolic rate' | translate}})</em></td>
-                                <td width=120px class="text-center"><span class="text-primary" style="font-size:24px">{{calculation.bmr | number:0}} {{'kcal' | translate}}</span></td>
+                                <td width=120px class="text-center"><span class="text-primary" style="font-size:20px">{{calculation.bmr | number:0}} {{'kcal' | translate}}</span></td>
                             </tr>
                         </table>
                         <table class="table table-bordered text-small table-condensed">
                             <tr>
                                 <td class="bg-subpanel"><strong>TEE</strong><em class="text-small text-muted"> ({{'total energy expenditure' | translate}})</em></td>
-                                <td width=120px class="text-center"><span class="text-primary" style="font-size:24px">{{calculation.tee | number:0}} {{'kcal' | translate}}</span></td>
+                                <td width=120px class="text-center"><span class="text-primary" style="font-size:20px">{{calculation.tee | number:0}} {{'kcal' | translate}}</span></td>
                             </tr>
                         </table>
                         <table class="table table-bordered text-small table-condensed">
@@ -42,7 +42,7 @@
                                 <td rowspan="3" style="width:120px"><div id="bmiChart" class="guage"></div></td>
                             </tr>
                             <tr class="text-center">
-                                <td ng-class="getBmiClass(calculation.bmi.value).text"><span style="font-size:24px">{{calculation.bmi.value | number:1}} {{'kg' | translate}}/m&sup2</span></td>
+                                <td ng-class="getBmiClass(calculation.bmi.value).text"><span style="font-size:20px">{{calculation.bmi.value | number:1}} {{'kg' | translate}}/m&sup2</span></td>
                             </tr>
                             <tr class="text-center">
                                 <td class="text-primary"><em>{{'recommended' | translate}}: (18.5 - 25)</em></td>
@@ -57,7 +57,7 @@
                                 <td rowspan="3" style="width:120px"><div id="whrChart" class="guage"></div></td>
                             </tr>
                             <tr class="text-center">
-                                <td ng-class="getWaistClass(calculation.whr).text"><span style="font-size:24px">{{calculation.whr.value | number:2}}</span></td>
+                                <td ng-class="getWaistClass(calculation.whr).text"><span style="font-size:20px">{{calculation.whr.value | number:2}}</span></td>
                             </tr>
                             <tr class="text-center">
                                 <td class="text-primary"><em>{{'recommended' | translate}}: (< {{calculation.whr.increasedRisk}})</em></td>
@@ -78,7 +78,7 @@
                                 <td rowspan="3" style="width:120px"><div id="waistChart" class="guage"></div></td>
                             </tr>
                             <tr class="text-center">
-                                <td ng-class="getWaistClass(calculation.waist).text"><span style="font-size:24px">{{calculation.waist.value | number:1}} cm</span></td>
+                                <td ng-class="getWaistClass(calculation.waist).text"><span style="font-size:20px">{{calculation.waist.value | number:1}} cm</span></td>
                             </tr>
                             <tr class="text-center">
                                 <td class="text-primary"><em>{{'recommended' | translate}}: (< {{calculation.waist.increasedRisk}})</em></td>
@@ -103,7 +103,7 @@
                             </tr>
                             <tr class="text-center">
                                 <td>
-                                    <span style="font-size:24px">{{calculation.bodyFat.bodyFatPerc | number:1}} %</span>
+                                    <span style="font-size:20px">{{calculation.bodyFat.bodyFatPerc | number:1}} %</span>
                                     <div>
                                         <em>({{calculation.bodyFat.bodyFatMass | number:1}} {{'kg' | translate}})</em>
                                     </div>
@@ -154,15 +154,15 @@
                     <table class="table table-bordered">
                         <tr>
                             <td>{{'weight' | translate}}</td>
-                            <td class="nowrap text-right"><span class="text-primary" style="font-size:24px">{{calculation.recommendedWeight.min | number:0}} - {{calculation.recommendedWeight.max | number:0}} {{'kg' | translate}}</span></td>
+                            <td class="nowrap text-right"><span class="text-primary" style="font-size:20px">{{calculation.recommendedWeight.min | number:0}} - {{calculation.recommendedWeight.max | number:0}} {{'kg' | translate}}</span></td>
                         </tr>
                         <tr>
                             <td>{{'energy intake' | translate}}</td>
-                            <td class="nowrap text-right"><span class="text-primary" style="font-size:24px">{{calculation.recommendedEnergyIntake}} {{'kcal' | translate}}</span></td>
+                            <td class="nowrap text-right"><span class="text-primary" style="font-size:20px">{{calculation.recommendedEnergyIntake}} {{'kcal' | translate}}</span></td>
                         </tr>
                         <tr>
                             <td>{{'additional energy expenditure' | translate}}</td>
-                            <td class="nowrap text-right"><span class="text-primary" style="font-size:24px">{{calculation.recommendedEnergyExpenditure}} {{'kcal' | translate}}</span></td>
+                            <td class="nowrap text-right"><span class="text-primary" style="font-size:20px">{{calculation.recommendedEnergyExpenditure}} {{'kcal' | translate}}</span></td>
                         </tr>
                     </table>
                 </fieldset>

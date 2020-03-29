@@ -139,17 +139,6 @@ public class PrintPdf : System.Web.Services.WebService {
 
             AppendMenuInfo(doc, currentMenu.title, currentMenu.note, currentMenu.client, settings, consumers, lang);
 
-            //if (settings.showClientData) {
-            //    ShowClientData(doc, currentMenu.client, lang);
-            //}
-
-            //var title_p = new Paragraph(currentMenu.title, GetFont(12, Font.BOLD));
-            //title_p.Alignment = 1;
-            //doc.Add(title_p);
-            //var note_p = new Paragraph(currentMenu.note, GetFont(8));
-            //note_p.Alignment = 1;
-            //doc.Add(note_p);
-
             menuTitle = currentMenu.title;
             if (settings.showDate && !string.IsNullOrEmpty(date)) {
                 menuDate = string.Format("{0}: {1}", t.Tran("creation date", lang), date);
@@ -157,12 +146,6 @@ public class PrintPdf : System.Web.Services.WebService {
             if (settings.showAuthor && !string.IsNullOrEmpty(author)) {
                 menuAuthor = string.Format("{0}: {1}", t.Tran("author of the menu", lang), author);
             }
-            //rowCount = rowCount + 2;
-            //if (consumers > 1)
-            //{
-            //    doc.Add(new Paragraph(t.Tran("number of consumers", lang) + ": " + consumers, GetFont(8)));
-            //    rowCount = rowCount + 1;
-            //}
 
             AppendFoodsHeaderTbl(doc, settings, lang);
 
@@ -218,7 +201,6 @@ public class PrintPdf : System.Web.Services.WebService {
                 doc.Add(new Paragraph(sb.ToString(), GetFont()));
             }
 
-            //doc.Add(new Chunk(line));
             doc.Close();
 
             return fileName;
@@ -339,29 +321,6 @@ public class PrintPdf : System.Web.Services.WebService {
             AppendHeader(doc, userId, headerInfo);
 
             AppendMenuInfo(doc, weeklyMenu.title, weeklyMenu.note, weeklyMenu.client, settings, consumers, lang);
-
-            //if (settings.showClientData) {
-            //    ShowClientData(doc, weeklyMenu.client, lang);
-            //}
-            //if (!string.IsNullOrEmpty(weeklyMenu.title)) {
-            //    //doc.Add(new Paragraph(weeklyMenu.title, GetFont(12)));
-            //    var title_p = new Paragraph(weeklyMenu.title, GetFont(12, Font.BOLD));
-            //    title_p.Alignment = 1;
-            //    doc.Add(title_p);
-            //}
-            //if (!string.IsNullOrEmpty(weeklyMenu.note)) {
-            //    //doc.Add(new Paragraph(weeklyMenu.note, GetFont(8)));
-            //    var note_p = new Paragraph(weeklyMenu.note, GetFont(8));
-            //    note_p.Alignment = 1;
-            //    doc.Add(note_p);
-            //}
-            //if (consumers > 1) {
-            //    doc.Add(new Paragraph(t.Tran("number of consumers", lang) + ": " + consumers, GetFont(10)));
-            //} else {
-            //    //TODO show client data when there are more than 1 consumens
-            //    //ShowClientData(doc, currentMenu, clientData, settings.showClientData, lang);
-            //}
-            ////doc.Add(new Chunk(line));
 
             PdfPTable table = new PdfPTable(1);
             table.WidthPercentage = 100f;
@@ -1788,21 +1747,12 @@ IBAN HR8423400091160342496
         StringBuilder sb = new StringBuilder();
         if (!string.IsNullOrEmpty(title)) {
             sb.AppendLine(title);
-            //doc.Add(new Paragraph(weeklyMenu.title, GetFont(12)));
-            //var title_p = new Paragraph(weeklyMenu.title, GetFont(12, Font.BOLD));
-            //title_p.Alignment = 1;
-            //doc.Add(title_p);
         }
         if (!string.IsNullOrEmpty(note)) {
             sb.AppendLine(note);
-            //doc.Add(new Paragraph(weeklyMenu.note, GetFont(8)));
-            //var note_p = new Paragraph(weeklyMenu.note, GetFont(8));
-            //note_p.Alignment = 1;
-            //doc.Add(note_p);
         }
         if (consumers > 1) {
             sb.AppendLine(string.Format("{0}: {1}", t.Tran("number of consumers", lang), consumers));
-            //doc.Add(new Paragraph(t.Tran("number of consumers", lang) + ": " + consumers, GetFont(10)));
         }
 
         if (!string.IsNullOrEmpty(title) || !string.IsNullOrEmpty(note) || consumers > 1) {
@@ -1814,44 +1764,14 @@ IBAN HR8423400091160342496
         if (settings.showClientData) {
             table.AddCell(new PdfPCell(new Phrase(ClientData(client, lang), font_gray)) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
             rowCount = rowCount + 3;
-            //ShowClientData(doc, weeklyMenu.client, lang);
         }
         doc.Add(table);
-        //if (!string.IsNullOrEmpty(weeklyMenu.title))
-        //{
-        //    //doc.Add(new Paragraph(weeklyMenu.title, GetFont(12)));
-        //    var title_p = new Paragraph(weeklyMenu.title, GetFont(12, Font.BOLD));
-        //    title_p.Alignment = 1;
-        //    doc.Add(title_p);
-        //}
-        //if (!string.IsNullOrEmpty(weeklyMenu.note))
-        //{
-        //    //doc.Add(new Paragraph(weeklyMenu.note, GetFont(8)));
-        //    var note_p = new Paragraph(weeklyMenu.note, GetFont(8));
-        //    note_p.Alignment = 1;
-        //    doc.Add(note_p);
-        //}
-        //if (consumers > 1)
-        //{
-        //    doc.Add(new Paragraph(t.Tran("number of consumers", lang) + ": " + consumers, GetFont(10)));
-        //}
-        //else
-        //{
-        //    //TODO show client data when there are more than 1 consumens
-        //    //ShowClientData(doc, currentMenu, clientData, settings.showClientData, lang);
-        //}
-        //doc.Add(new Chunk(line));
-
-        //table.AddCell(new PdfPCell(new Phrase(headerInfo, GetFont(8))) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, PaddingBottom = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
-        //doc.Add(table);
-        //doc.Add(new Chunk(line));
     }
 
     private void AppendFooter(Document doc, PrintMenuSettings settings, string date, string author, string lang, string type) {
         Font font = FontFactory.GetFont(HttpContext.Current.Server.MapPath("~/app/assets/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H, false, 9, Font.NORMAL);
         font.Color = Color.GRAY;
         if (settings.showDate || settings.showAuthor) {
-            //doc.Add(new Chunk(line));
             PdfPTable table = new PdfPTable(2);
             table.WidthPercentage = 100f;
             string date_p = "";
