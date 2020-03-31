@@ -859,23 +859,26 @@ public class Users : System.Web.Services.WebService {
         string messageBody = string.Format(
                 @"
 <p>{0} {1},</p>
-<p>{2} {3}.</p>
+<p>{2} <b>{3}</b>.</p>
 <br />
-<p>{4}</p>
-<p>{5}: {6}</p>
+<p>{4}: <b>{5}</b></p>
+<p>{6}.</p>
+<p>{7}: {8}</p>
 <br />
-<p>{7}</p>
+<p>{9}</p>
 <hr/>
 <br />
-{8}.
+{10}.
 <br />
 <br />
-{9}"
+{11}"
 , t.Tran("hi", lang)
 , x.firstName
 , t.Tran("welcome to", lang)
 , t.Tran("nutrition program web", lang)
-, t.Tran("to access the application use the email and password you choose to sign in", lang)
+, t.Tran("your username is", lang)
+, x.email
+, t.Tran("to access the application use the password you choose to sign in", lang)
 , t.Tran("app access link", lang)
 , string.Format("<a href='{0}/app'>{0}/app</a>", GetWebPage(lang))
 , string.Format(@"<i>* {0}</i>", t.Tran("for a better experience in using the application, please use some of the modern browsers such as google chrome, mozilla firefox, microsoft edge etc.", lang))

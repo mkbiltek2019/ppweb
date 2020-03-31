@@ -120,14 +120,14 @@
                             <legend class="fieldset-border text-capitalize">{{'menu' | translate}}</legend>
                             <div id="menu_container">
                                 <div class="row">
-                                    <div class="col-sm-6">
+                                    <div class="col-lg-5">
                                         <div>
                                             <p class="lead">{{currentMenu.title}}</p>
                                             <p>{{currentMenu.note}}</p>
                                         </div>
                                         <p ng-if="consumers > 1">{{'number of consumers' | translate}}: <strong>{{consumers}}</strong></p>
                                     </div>
-                                    <div class="col-sm-6 text-right">
+                                    <div class="col-lg-7 text-right">
                                         <div ng-if="settings.showClientData">
                                             <p>{{'client' | translate}}: {{currentMenu.client.firstName}} {{currentMenu.client.lastName}}</p>
                                             <p>

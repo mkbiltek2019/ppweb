@@ -1935,7 +1935,7 @@
   "page": "Stranica",
   "welcome to": "Dobrodošli u",
   "hi": "Pozdrav",
-  "to access the application use the email and password you choose to sign in": "Za pristup aplikaciji koristite email i lozinku koju ste odabrali prilikom registracije",
+  "to access the application use the password you choose to sign in": "Za pristup aplikaciji koristite lozinku koju ste odabrali prilikom registracije",
   "if you need any additional information, please do not hesitate to contact us": "Za sva dodatna pitanja stojimo Vam na raspolaganju",
   "reset password link has been sent to your email": "Link za resetovanje lozinke je poslan na Vaš email",
   "reset password": "Resetuj lozinku",
@@ -1947,6 +1947,7 @@
   "total nutritional values": "Ukupne nutritivne vrednosti",
   "print style": "Vrsta prikaza",
   "table style": "Tablični prikaz",
-  "old style": "Stari prikaz"
+  "old style": "Stari prikaz",
+  "your username is": "Vaše korisničko ime je"
 
 }
