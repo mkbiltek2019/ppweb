@@ -1,0 +1,26 @@
+﻿<div class="container">
+    <h2 class="h3 mb-0 text-gray-800">{{'physical activity level' | translate}}</h2>
+    <hr />
+    <!--<span class="col-sm-6 text-capitalize">{{'physical activity level' | translate}}:</span>-->
+    <div>
+        <select ng-model="clientData.pal" ng-options="(x.title | translate) for x in pals" class="form-control">
+            <option value="" disabled="disabled"> {{clientData.pal.title | translate}} </option>
+        </select>
+    </div>
+    <div class="card border-left-primary shadow h-100 py-2 mt-3">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">{{clientData.pal.description | translate}}</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">PAL: {{clientData.pal.value}}</div>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-walking fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-right pt-3">
+        <button class="btn btn-outline-primary text-capitalize" ng-click="save(clientData)"><i class="fa fa-save"></i> {{'save' | translate}}</button>
+    </div>
+</div>

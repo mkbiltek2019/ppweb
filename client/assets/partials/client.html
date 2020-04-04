@@ -1,0 +1,33 @@
+﻿<div class="container text-capitalize pb-5">
+    <h2 class="h3 mb-0 text-gray-800">{{'client profile' | translate}}</h2>
+    <hr />
+    <form>
+        <div class="form-group">
+            <label for="firstName">{{'first name' | translate}}:</label>
+            <input if="firstName" ng-model="client.firstName" type="text" placeholder="{{'first name' | translate}}" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="lastName">{{'last name' | translate}}:</label>
+            <input if="lastName" ng-model="client.lastName" type="text" placeholder="{{'last name' | translate}}" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="birthDate">{{'birth date' | translate}}:</label>
+            <input if="birthDate" ng-model="client.birthDate" type="date" placeholder="{{'birth date' | translate}}" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label class="radio-inline"><input ng-model="client.gender.value" value="0" type="radio" name="optradio" ng-click="setGenderTitle(client.gender)"><i class="fa fa-male pl-2 pr-1"></i><span>{{'male' | translate}}</span></label>
+            <label class="radio-inline"><input ng-model="client.gender.value" value="1" type="radio" name="optradio" ng-click="setGenderTitle(client.gender)"><i class="fa fa-female pl-2 pr-1"></i><span>{{'female' | translate}}</span></label>
+        </div>
+        <div class="form-group">
+            <label for="phone">{{'phone' | translate}}:</label>
+            <input if="phone" ng-model="client.phone" type="text" placeholder="{{'phone' | translate}}" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="email">{{'email' | translate}}:</label>
+            <input if="email" ng-model="client.email" type="text" placeholder="{{'email' | translate}}" class="form-control" />
+        </div>
+        <div class="text-right">
+            <button ng-click="updateClient(client)" type="submit" class="btn btn-outline-primary"><i class="fa fa-save"></i> {{'save' | translate}}</button>
+        </div>
+    </form>
+</div>

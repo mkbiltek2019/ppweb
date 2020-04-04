@@ -1,0 +1,38 @@
+﻿<div class="container pt-5 pb-5" ng-cloak>
+    <div class="row justify-content-center">
+        <div class="col-xl-10 col-lg-12 col-md-9">
+            <div class="card border-bottom-success border-0 shadow-lg my-5 text-center">
+                <div class="card-header bg-gradient-success">
+                    <div class="text-left">
+                        <img src="assets/img/logo.svg" />
+                    </div>
+                    <div class="pt-3">
+                        <h2 class="text-uppercase text-gray-900">{{config.title | translate}}</h2>
+                        <em class="text-gray-400">{{'application for tracking anthropometric parameters and taking menus' | translate}}</em>
+                    </div>
+                </div>
+                <div class="card-body text-center">
+                    <div ng-if="config.showlanguages" >
+                        <h4 disabled="disabled">{{'select language' | translate}}:</h4>
+                        <select ng-model="x" ng-options="x.title | translate for x in config.languages" ng-click="setLanguage(x.code)" class="form-control" ></select>
+                    </div>
+                    <div class="mt-3">
+                        <h4>{{'activation code' | translate}}:</h4>
+                    </div>
+                    <form id="activationform">
+                        <div class="input-group mb-3">
+                            <input ng-model="activationCode" class="form-control" type="{{activationCodeInputType}}" autocomplete="new-password" />
+                            <div class="input-group-append">
+                                <a href="" class="input-group-text" ng-click="showPass()"><i class="fa fa-eye"></i></a>
+                            </div>
+                        </div>
+                        <button ng-click="activateApp(activationCode)" form="activationform" class="btn btn-success text-uppercase mt-2" type="submit" style="width:250px"><i class="fa fa-lock-open"></i> {{'enter' | translate}}</button>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <em>*{{'ask your nutritionist for an activation code' | translate}}</em>.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

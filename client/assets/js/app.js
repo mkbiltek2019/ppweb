@@ -6,10 +6,44 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
 .config(['$stateProvider', '$urlRouterProvider', '$translateProvider', '$translatePartialLoaderProvider', '$httpProvider', function ($stateProvider, $urlRouterProvider, $translateProvider, $translatePartialLoaderProvider, $httpProvider) {
 
+    $stateProvider
+        .state('login', {
+            url: '/', templateUrl: './assets/partials/login.html'
+        })
+        .state('dashboard', {
+            url: '/dashboard', templateUrl: './assets/partials/dashboard.html', controller: 'dashboardCtrl'
+        })
+        .state('client', {
+            url: '/client', templateUrl: './assets/partials/client.html'
+        })
+        .state('inputdata', {
+            url: '/inputdata', templateUrl: './assets/partials/inputdata.html', controller: 'inputdataCtrl'
+        })
+        .state('clientlog', {
+            url: '/clientlog', templateUrl: './assets/partials/clientlog.html', controller: 'clientlogCtrl'
+        })
+        .state('activities', {
+            url: '/activities', templateUrl: './assets/partials/activities.html'
+        })
+        .state('additionalactivities', {
+            url: '/additional-activities', templateUrl: './assets/partials/additionalactivities.html'
+        })
+        .state('menus', {
+            url: '/menus', templateUrl: './assets/partials/menus.html'
+        })
+        .state('menu', {
+            url: '/menu', templateUrl: './assets/partials/menu.html'
+        })
+        .state('info', {
+            url: '/info', templateUrl: './assets/partials/info.html'
+        })
+
+    $urlRouterProvider.otherwise("/");
+
     $translateProvider.useLoader('$translatePartialLoader', {
          urlTemplate: './assets/json/translations/{lang}/{part}.json'
     });
-    $translateProvider.preferredLanguage('en');
+    $translateProvider.preferredLanguage('hr');
     $translatePartialLoaderProvider.addPart('main');
     $translateProvider.useSanitizeValueStrategy('escape');
 
@@ -25,7 +59,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
 }])
 
-.controller('AppCtrl', ['$scope', '$timeout', '$q', '$log', '$rootScope', '$localStorage', '$sessionStorage', '$window', '$http', '$translate', '$translatePartialLoader', 'functions', 'charts', function ($scope, $timeout, $q, $log, $rootScope, $localStorage, $sessionStorage, $window, $http, $translate, $translatePartialLoader, functions, charts) {
+.controller('AppCtrl', ['$scope', '$timeout', '$q', '$log', '$rootScope', '$localStorage', '$sessionStorage', '$window', '$http', '$translate', '$translatePartialLoader', 'functions', 'charts', '$state', function ($scope, $timeout, $q, $log, $rootScope, $localStorage, $sessionStorage, $window, $http, $translate, $translatePartialLoader, functions, charts, $state) {
 
     $scope.today = new Date();
 
@@ -82,9 +116,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         if (typeof (Storage) !== "undefined") {
             if (localStorage.language !== undefined) {
                 if (localStorage.language !== x) {
-                    $timeout(function () {
-                        setClientLogGraphData(0);
-                    }, 300);
+                    //$timeout(function () {
+                    //    setClientLogGraphData(0, 30);
+                    //}, 1000);
                 }
             }
             localStorage.language = x;
@@ -94,33 +128,36 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         initChartDays();
     };
 
-    $scope.toggleCurrTpl = function (x) {
-        $scope.currTpl = './assets/partials/' + x;
-        if (x == 'clientdata.html') {
-            $scope.tpl = 'inputData';
-            $scope.subTpl = 'clientLog';
-            getCharts();
-        }
-        if (x == 'activation.html') {
-            $scope.client = null;
-            $scope.clientApp = null;
-            localStorage.code = null;
-            localStorage.language = null;
-            $sessionStorage.config.language = null;
-            $scope.clientId = null;
-            $scope.userId = null;
-            window.location = window.location.href.split("?")[0];
-        }
-    };
+    //$scope.toggleTpl = function (x) {
+    //    $scope.currTpl = './assets/partials/' + x + '.html';
+    //    //if (x === 'clientdata') {
+    //    //    $scope.tpl = 'inputData';
+    //    //    $scope.subTpl = 'clientLog';
+    //    //    getCharts();
+    //    //}
+    //    if (x === 'dashboard' || x === 'clientlog' || x === 'clientdata') {
+    //        getCharts();
+    //    }
+    //    if (x === 'login') {
+    //        $scope.client = null;
+    //        $scope.clientApp = null;
+    //        localStorage.code = null;
+    //        localStorage.language = null;
+    //        $sessionStorage.config.language = null;
+    //        $scope.clientId = null;
+    //        $scope.userId = null;
+    //        window.location = window.location.href.split("?")[0];
+    //    }
+    //};
 
-    $scope.toggleTpl = function (x) {
-        $scope.tpl = x;
-        getCharts();
-    };
+    //$scope.toggleTpl = function (x) {
+    //    $scope.tpl = x;
+    //    getCharts();
+    //};
 
-    $scope.toggleSubTpl = function (x) {
-        $scope.subTpl = x;
-    };
+    //$scope.toggleSubTpl = function (x) {
+    //    $scope.subTpl = x;
+    //};
 
     $scope.activationCode = null;
     $scope.activateApp = function (x) {
@@ -133,7 +170,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
        .then(function (response) {
            $scope.clientApp = JSON.parse(response.data.d);
            if ($scope.clientApp.code == x) {
-              // $scope.setLanguage($scope.clientApp.lang);
+               //$scope.setLanguage($scope.clientApp.lang);
                localStorage.code = $scope.clientApp.code;
                //localStorage.language = $scope.clientApp.lang;
                //$sessionStorage.config.language = $scope.clientApp.lang;
@@ -142,8 +179,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
                initPrintSettings();
                getClient();
                loadPals();
-               $scope.setLanguage($scope.clientApp.lang);
-               $scope.toggleCurrTpl('clientdata.html');
+               $scope.loadMenues();
+               var lang = $scope.clientApp.lang;
+               if ($scope.config.language !== $scope.clientApp.lang) {
+                   lang = $scope.config.language;
+               }
+               $scope.setLanguage(lang);
+               //$scope.toggleTpl('dashboard');
+               $state.go('dashboard');
            } else {
                alert($translate.instant('wrong activation code'))
            }
@@ -198,7 +241,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
                   }
               }
               if ($scope.userId == null || $scope.clientId == null) {
-                  $scope.currTpl = './assets/partials/activation.html';
+                  //$scope.currTpl = './assets/partials/login.html';
+                  $state.go('login');
                   return false;
               }
 
@@ -206,7 +250,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
               getClient();
               initPrintSettings();
               loadPals();
-              $scope.toggleCurrTpl('clientdata.html');
+              $scope.loadMenues();
+              //$scope.toggleTpl('dashboard');
+              $state.go('dashboard');
               if (localStorage.version) {
                   if (localStorage.version != $scope.config.version) {
                       saveVersion();
@@ -248,6 +294,17 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         });
     }
 
+    $scope.activitiesTotalProgress = 0;
+    var getActivitiesTotal = function (x) {
+        if (x === undefined) { return false; }
+        tot = 0;
+        for (var i in x) {
+            tot += x[i].energy;
+        }
+        $scope.activitiesTotal = tot.toFixed(2);
+        $scope.activitiesTotalProgress = tot / 4;
+    }
+
     var getClientData = function () {
         $http({
             url: $sessionStorage.config.backend + 'ClientsData.asmx/Get',
@@ -257,31 +314,32 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         .then(function (response) {
             $scope.clientData = JSON.parse(response.data.d);
             $scope.clientData.date = new Date(new Date().setHours(0, 0, 0, 0));
+            getActivitiesTotal($scope.clientData.activities);
             $scope.calculate();
-            getClientLog();
+            //getClientLog();
         },
         function (response) {
             alert(response.data.d)
         });
     }
 
-    var getClientLog = function () {
-        $http({
-            url: $sessionStorage.config.backend + 'ClientsData.asmx/GetClientLog',
-            method: "POST",
-            data: { userId: $scope.userId, clientId: $scope.clientId }
-        })
-        .then(function (response) {
-            $scope.clientLog = JSON.parse(response.data.d);
-            angular.forEach($scope.clientLog, function (x, key) {
-                x.date = new Date(x.date);
-            });
-            setClientLogGraphData(0, $scope.clientLogsDays);
-        },
-        function (response) {
-            alert(response.data.d)
-        });
-    }
+    //var getClientLog = function () {
+    //    $http({
+    //        url: $sessionStorage.config.backend + 'ClientsData.asmx/GetClientLog',
+    //        method: "POST",
+    //        data: { userId: $scope.userId, clientId: $scope.clientId }
+    //    })
+    //    .then(function (response) {
+    //        $scope.clientLog = JSON.parse(response.data.d);
+    //        angular.forEach($scope.clientLog, function (x, key) {
+    //            x.date = new Date(x.date);
+    //        });
+    //        //setClientLogGraphData(0, $scope.clientLogsDays);
+    //    },
+    //    function (response) {
+    //        alert(response.data.d)
+    //    });
+    //}
 
     $scope.save = function (x) {
         x.date = functions.dateToString(x.date);
@@ -291,62 +349,65 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
             data: { userId: $scope.userId, x: x, userType: 0 }
         })
         .then(function (response) {
-            getClientLog();
+            //getClientLog();
         },
         function (response) {
             alert(response.data.d)
         });
     }
 
-    $scope.updateClientLog = function (x) {
-        var cd = angular.copy(x);
-        cd.date = functions.dateToString(cd.date);
-        $http({
-            url: $sessionStorage.config.backend + 'ClientsData.asmx/UpdateClientLog',
-            method: "POST",
-            data: { userId: $scope.userId, clientData: cd }
-        })
-        .then(function (response) {
-            getClientLog();
-        },
-        function (response) {
-            alert(response.data.d)
-        });
-    }
+    //$scope.updateClientLog = function (x) {
+    //    var cd = angular.copy(x);
+    //    cd.date = functions.dateToString(cd.date);
+    //    $http({
+    //        url: $sessionStorage.config.backend + 'ClientsData.asmx/UpdateClientLog',
+    //        method: "POST",
+    //        data: { userId: $scope.userId, clientData: cd }
+    //    })
+    //    .then(function (response) {
+    //        getClientLog();
+    //    },
+    //    function (response) {
+    //        alert(response.data.d)
+    //    });
+    //}
 
     $scope.getDateFormat = function (x) {
         return new Date(x);
     }
 
-    var getCharts = function () {
-        google.charts.load('current', { 'packages': ['gauge'] });
-        $timeout(function () {
-            bmiChart();
-        }, 1000);
-    }
+    //var getCharts = function () {
+    //    debugger;
+    //    google.charts.load('current', { 'packages': ['gauge'] });
+    //    $timeout(function () {
+    //        //bmiChart();
+    //        setClientLogGraphData(0, 30);
+    //    }, 1000);
+    //}
 
-    var bmiChart = function () {
-        if (!angular.isDefined($scope.calculation)) { return false; }
-        var id = 'bmiChart';
-        var value = $scope.calculation.bmi.value.toFixed(1);
-        var unit = 'BMI';
-        var options = {
-            title: 'BMI',
-            min: 15,
-            max: 34,
-            greenFrom: 18.5,
-            greenTo: 25,
-            yellowFrom: 25,
-            yellowTo: 30,
-            redFrom: 30,
-            redTo: 34,
-            minorTicks: 5
-        };
-        google.charts.setOnLoadCallback(charts.guageChart(id, value, unit, options));
-    }
+    //var bmiChart = function () {
+    //    if (!angular.isDefined($scope.calculation)) { return false; }
+    //    var id = 'bmiChart';
+    //    var value = $scope.calculation.bmi.value.toFixed(1);
+    //    var unit = 'BMI';
+    //    var options = {
+    //        title: 'BMI',
+    //        min: 15,
+    //        max: 34,
+    //        greenFrom: 18.5,
+    //        greenTo: 25,
+    //        yellowFrom: 25,
+    //        yellowTo: 30,
+    //        redFrom: 30,
+    //        redTo: 34,
+    //        minorTicks: 5
+    //    };
+    //    google.charts.setOnLoadCallback(charts.guageChart(id, value, unit, options));
+    //}
   //  getCharts();
 
-    $scope.displayType = 0;
+    //$scope.displayType = 0;
+
     var getCalculation = function () {
         if (isNaN($scope.clientData.weight) == true || isNaN($scope.clientData.height) == true || isNaN($scope.clientData.waist) == true || isNaN($scope.clientData.hip) == true) { return false; }
         $http({
@@ -364,143 +425,147 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
     $scope.calculate = function () {
         getCalculation();
-        getCharts();
+        //getCharts();
     }
 
-    var getRecommendedWeight = function (h) {
-        return {
-            min: Math.round(((18.5 * h * h) / 10000) * 10) / 10,
-            max: Math.round(((25 * h * h) / 10000) * 10) / 10
-        }
-    }
-
-    $scope.changeGoalWeightValue = function (value, type, clientLogsDays) {
-        $scope.goalWeightValue_ = parseInt(value);
-        setClientLogGraphData(type, clientLogsDays);
-    }
-
-    var getGoalLog = function (deficit, key, x, firstWeight, firstDate, currDate) {
-        var goal = (firstWeight + (functions.getTwoDateDiff(firstDate, currDate)) * deficit / 7000).toFixed(1);
-        var value = 0;
-        var goalLimit = $scope.goalWeightValue_ !== undefined ? parseInt($scope.goalWeightValue_) : 0;
-        if (goalLimit == 0) {
-            if (deficit == 0) {
-                goalLimit = x.weight;
-            } else if (deficit > 0) {
-                goalLimit = (getRecommendedWeight(x.height).min + getRecommendedWeight(x.height).max) / 2;
-            } else {
-                goalLimit = getRecommendedWeight(x.height).max;
-            }
-        }
-        if (key == 0) {
-            value = x.weight;
-        }
-        if (deficit > 0) {
-            if (goal <= goalLimit) {
-                value = goal;
-            } else {
-                value = goalLimit;
-            }
-        } else {
-            if (goal >= goalLimit) {
-                value = goal;
-            } else {
-                value = goalLimit;
-            }
-        }
-        return value;
-    }
+    //var getRecommendedWeight = function (h) {
+    //    return {
+    //        min: Math.round(((18.5 * h * h) / 10000) * 10) / 10,
+    //        max: Math.round(((25 * h * h) / 10000) * 10) / 10
+    //    }
+    //}
 
 
-    var setClientLogGraphData = function (type, clientLogsDays) {
-        $scope.clientLog_ = [];
-        var clientLog = [];
-        var goalFrom = [];
-        var goalTo = [];
-        var goalWeight = [];
-        var labels = [];
-        if (!angular.isDefined($scope.calculation)) { return false; }
-        if (angular.isDefined($scope.calculation.recommendedWeight)) {
-            var days = 30;
-            var goal = 0;
-            var deficit = ($scope.calculation.recommendedEnergyIntake - $scope.calculation.recommendedEnergyExpenditure) - $scope.calculation.tee;
-            if (clientLogsDays !== undefined) {
-                days = clientLogsDays.days;
-                $scope.clientLogsDays = clientLogsDays;
-            }
-            angular.forEach($scope.clientLog, function (x, key) {
-                if (functions.getDateDiff(x.date) <= days) {
-                    $scope.clientLog_.push(x);
-                    if (type == 0) {
-                        clientLog.push(x.weight);
-                        goalFrom.push(getRecommendedWeight(x.height).min);
-                        goalTo.push(getRecommendedWeight(x.height).max);
-                        /********** goal **********/
-                        goal = getGoalLog(deficit, key, x, $scope.clientLog[0].weight, $scope.clientLog[0].date, x.date);
-                        goalWeight.push(goal);
-                        /**************************/
-                    }
-                    if (type == 1) { clientLog.push(x.waist); goalFrom.push(95); }
-                    if (type == 2) { clientLog.push(x.hip); goalFrom.push(97); }
-                    if (key % (Math.floor($scope.clientLog.length / 31) + 1) === 0) {
-                        labels.push(new Date(x.date).toLocaleDateString());
-                    } else {
-                        labels.push("");
-                    }
-                }
-            });
-        }
 
-        $scope.clientLogGraphData = charts.createGraph(
-            [$translate.instant("measured value"), $translate.instant("lower limit"), $translate.instant("upper limit"), $translate.instant("goal")],
-            [
-                clientLog,
-                goalFrom,
-                goalTo,
-                goalWeight
-            ],
-            labels,
-            ['#3399ff', '#ff3333', '#33ff33', '#ffd633'],
-            {
-                responsive: true, maintainAspectRatio: true, legend: { display: true },
-                scales: {
-                    xAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: false } }],
-                    yAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: false } }]
-                }
-            },
-            [
-                { label: $translate.instant("measured value"), borderWidth: 1, type: 'bar', fill: true },
-                { label: $translate.instant("lower limit"), borderWidth: 2, type: 'line', fill: false },
-                { label: $translate.instant("upper limit"), borderWidth: 2, type: 'line', fill: false },
-                { label: $translate.instant("goal") + ' (2 ' + $translate.instant("kg") + '/' + $translate.instant("mo") + ')', borderWidth: 3, type: 'line', fill: false }
-            ]
-        )
-    };
+    //$scope.changeGoalWeightValue = function (value, type, clientLogsDays) {
+    //    $scope.goalWeightValue_ = parseInt(value);
+    //    setClientLogGraphData(type, clientLogsDays);
+    //}
 
-    $scope.setClientLogGraphData = function (type, clientLogsDays) {
-        setClientLogGraphData(type, clientLogsDays);
-    }
+    //var getGoalLog = function (deficit, key, x, firstWeight, firstDate, currDate) {
+    //    var goal = (firstWeight + (functions.getTwoDateDiff(firstDate, currDate)) * deficit / 7000).toFixed(1);
+    //    var value = 0;
+    //    var goalLimit = $scope.goalWeightValue_ !== undefined ? parseInt($scope.goalWeightValue_) : 0;
+    //    if (goalLimit == 0) {
+    //        if (deficit == 0) {
+    //            goalLimit = x.weight;
+    //        } else if (deficit > 0) {
+    //            goalLimit = (getRecommendedWeight(x.height).min + getRecommendedWeight(x.height).max) / 2;
+    //        } else {
+    //            goalLimit = getRecommendedWeight(x.height).max;
+    //        }
+    //    }
+    //    if (key == 0) {
+    //        value = x.weight;
+    //    }
+    //    if (deficit > 0) {
+    //        if (goal <= goalLimit) {
+    //            value = goal;
+    //        } else {
+    //            value = goalLimit;
+    //        }
+    //    } else {
+    //        if (goal >= goalLimit) {
+    //            value = goal;
+    //        } else {
+    //            value = goalLimit;
+    //        }
+    //    }
+    //    return value;
+    //}
 
-    $scope.removeClientLog = function (x) {
-        var r = confirm($translate.instant('delete record') + '?');
-        if (r == true) {
-            removeClientLog(x);
-        }
-    }
 
-    var removeClientLog = function (x) {
-        $http({
-            url: $sessionStorage.config.backend + 'ClientsData.asmx/Delete',
-            method: "POST",
-            data: { userId: $scope.userId, clientData: x }
-        })
-        .then(function (response) {
-            getClientLog();
-        },
-        function (response) {
-            alert(response.data.d)
-        });
-    }
+    //var setClientLogGraphData = function (type, clientLogsDays) {
+    //    debugger;
+       
+    //    $scope.clientLog_ = [];
+    //    var clientLog = [];
+    //    var goalFrom = [];
+    //    var goalTo = [];
+    //    var goalWeight = [];
+    //    var labels = [];
+    //    if (!angular.isDefined($scope.calculation)) { return false; }
+    //    if (angular.isDefined($scope.calculation.recommendedWeight)) {
+    //        var days = 30;
+    //        var goal = 0;
+    //        var deficit = ($scope.calculation.recommendedEnergyIntake - $scope.calculation.recommendedEnergyExpenditure) - $scope.calculation.tee;
+    //        if (clientLogsDays !== undefined) {
+    //            days = clientLogsDays.days;
+    //            $scope.clientLogsDays = clientLogsDays;
+    //        }
+    //        angular.forEach($scope.clientLog, function (x, key) {
+    //            if (functions.getDateDiff(x.date) <= days) {
+    //                $scope.clientLog_.push(x);
+    //                if (type == 0) {
+    //                    clientLog.push(x.weight);
+    //                    goalFrom.push(getRecommendedWeight(x.height).min);
+    //                    goalTo.push(getRecommendedWeight(x.height).max);
+    //                    /********** goal **********/
+    //                    goal = getGoalLog(deficit, key, x, $scope.clientLog[0].weight, $scope.clientLog[0].date, x.date);
+    //                    goalWeight.push(goal);
+    //                    /**************************/
+    //                }
+    //                if (type == 1) { clientLog.push(x.waist); goalFrom.push(95); }
+    //                if (type == 2) { clientLog.push(x.hip); goalFrom.push(97); }
+    //                if (key % (Math.floor($scope.clientLog.length / 31) + 1) === 0) {
+    //                    labels.push(new Date(x.date).toLocaleDateString());
+    //                } else {
+    //                    labels.push("");
+    //                }
+    //            }
+    //        });
+    //    }
+
+    //    $scope.clientLogGraphData = charts.createGraph(
+    //        [$translate.instant("measured value"), $translate.instant("lower limit"), $translate.instant("upper limit"), $translate.instant("goal")],
+    //        [
+    //            clientLog,
+    //            goalFrom,
+    //            goalTo,
+    //            goalWeight
+    //        ],
+    //        labels,
+    //        ['#3399ff', '#ff3333', '#33ff33', '#ffd633'],
+    //        {
+    //            responsive: true, maintainAspectRatio: true, legend: { display: true },
+    //            scales: {
+    //                xAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: false } }],
+    //                yAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: false } }]
+    //            }
+    //        },
+    //        [
+    //            { label: $translate.instant("measured value"), borderWidth: 1, type: 'bar', fill: true },
+    //            { label: $translate.instant("lower limit"), borderWidth: 2, type: 'line', fill: false },
+    //            { label: $translate.instant("upper limit"), borderWidth: 2, type: 'line', fill: false },
+    //            { label: $translate.instant("goal") + ' (2 ' + $translate.instant("kg") + '/' + $translate.instant("mo") + ')', borderWidth: 3, type: 'line', fill: false }
+    //        ]
+    //    )
+    //};
+
+    //$scope.setClientLogGraphData = function (type, clientLogsDays) {
+    //    setClientLogGraphData(type, clientLogsDays);
+    //}
+
+    //$scope.removeClientLog = function (x) {
+    //    var r = confirm($translate.instant('delete record') + '?');
+    //    if (r == true) {
+    //        removeClientLog(x);
+    //    }
+    //}
+
+    //var removeClientLog = function (x) {
+    //    $http({
+    //        url: $sessionStorage.config.backend + 'ClientsData.asmx/Delete',
+    //        method: "POST",
+    //        data: { userId: $scope.userId, clientData: x }
+    //    })
+    //    .then(function (response) {
+    //        getClientLog();
+    //    },
+    //    function (response) {
+    //        alert(response.data.d)
+    //    });
+    //}
 
     getConfig();
 
@@ -536,10 +601,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
             $scope.menu = JSON.parse(response.data.d);
             $scope.menu.client.clientData = $scope.clientData;
             getTotals($scope.menu);
-            $scope.toggleTpl('menu');
+            //$scope.toggleTpl('menu');
+            //$scope.toggleTpl('menu');
         },
         function (response) {
-            alert(response.data.d)
+            alert(response.data.d);
         });
     }
 
@@ -590,6 +656,35 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
             alert(response.data.d)
         });
     }
+
+    $scope.isSeparatedDes = function (x) {
+        return x.includes('~');
+    }
+
+    var currDes = null;
+    $scope.list = [];
+    var currList = [];
+    $scope.getTitleDes = function (x) {
+        if (currList === x) { return currList; }
+        if (!functions.isNullOrEmpty(x) && !$scope.list.includes(x)) {
+            $scope.list.push(x);
+            var desList = x.split('|');
+            var list = [];
+            angular.forEach(desList, function (value, key) {
+                list.push({
+                    title: value.split('~')[0],
+                    description: value.split('~')[1],
+                })
+            });
+            currDes = x;
+            currList = list;
+            return list.length > 0 ? list : x;
+        } else {
+            currList = x;
+            return x;
+        }
+    }
+
    
 
     $scope.change = function (step, scope) {
@@ -666,10 +761,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
     }
 
     $scope.getBmiClass = function (x) {
-        if (x < 18.5) { return { text: 'text-info', bg: 'alert alert-info', icon: 'fa fa-exclamation' }; }
-        if (x >= 18.5 && x <= 25) { return { text: 'text-success', bg: 'alert alert-success', icon: 'fa fa-check' }; }
-        if (x > 25 && x < 30) { return { text: 'text-warning', bg: 'alert alert-warning', icon: 'fa fa-exclamation' }; }
-        if (x >= 30) { return { text: 'text-danger', bg: 'alert alert-danger', icon: 'fa fa-exclamation' }; }
+        if (x < 18.5) { return { css: 'info', icon: 'exclamation' }; }
+        if (x >= 18.5 && x <= 25) { return { css: 'success', icon: 'check' }; }
+        if (x > 25 && x < 30) { return { css: 'warning', icon: 'exclamation' }; }
+        if (x >= 30) { return { css: 'danger', icon: 'exclamation' }; }
     }
 
     $scope.updateClient = function (x) {
@@ -696,7 +791,353 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         x.title = x.value == 0 ? 'male' : 'femaile';
     }
 
+    $scope.logout = function () {
+        $scope.client = null;
+        $scope.userId = null;
+        localStorage.clear();
+        $state.go('login');
+        //window.location.href = 'index.html'
+    }
+
+    $scope.activationCodeInputType = 'password';
+    $scope.showPass = function () {
+        $scope.activationCodeInputType = $scope.activationCodeInputType == 'password' ? 'type' : 'password'
+    }
+
+    //$scope.changeDisplayType = function (type, clientLogsDays) {
+    //    setClientLogGraphData(type, clientLogsDays);
+    //}
+
+
 }])
+
+.controller('dashboardCtrl', ['$scope', '$timeout', '$q', '$log', '$rootScope', '$localStorage', '$sessionStorage', '$window', '$http', '$translate', '$translatePartialLoader', 'functions', 'charts', function ($scope, $timeout, $q, $log, $rootScope, $localStorage, $sessionStorage, $window, $http, $translate, $translatePartialLoader, functions, charts) {
+    
+    var getClientData = function () {
+        $http({
+            url: $sessionStorage.config.backend + 'ClientsData.asmx/Get',
+            method: "POST",
+            data: { userId: $scope.userId, clientId: $scope.clientId }
+        })
+        .then(function (response) {
+            $scope.clientData = JSON.parse(response.data.d);
+            $scope.clientData.date = new Date(new Date().setHours(0, 0, 0, 0));
+            //getActivitiesTotal($scope.clientData.activities);
+            getCalculation();
+            getClientLog();
+        },
+        function (response) {
+            alert(response.data.d)
+        });
+    }
+
+    var getCalculation = function () {
+        if (isNaN($scope.clientData.weight) == true || isNaN($scope.clientData.height) == true || isNaN($scope.clientData.waist) == true || isNaN($scope.clientData.hip) == true) { return false; }
+        $http({
+            url: $sessionStorage.config.backend + 'Calculations.asmx/GetCalculation',
+            method: "POST",
+            data: { client: $scope.clientData, userType: 1 }
+        })
+        .then(function (response) {
+            $scope.calculation = JSON.parse(response.data.d);
+        },
+        function (response) {
+            alert(response.data.d)
+        });
+    };
+
+    var getClientLog = function () {
+        $http({
+            url: $sessionStorage.config.backend + 'ClientsData.asmx/GetClientLog',
+            method: "POST",
+            data: { userId: $scope.userId, clientId: $scope.clientId }
+        })
+        .then(function (response) {
+            $scope.clientLog = JSON.parse(response.data.d);
+            //angular.forEach($scope.clientLog, function (x, key) {
+            //    x.date = new Date(x.date);
+            //});
+            setClientLogGraphData(0, $scope.clientLogsDays);
+            //drawChart();
+        },
+        function (response) {
+            alert(response.data.d)
+        });
+    }
+
+    //$timeout(function () {
+    //    getClientLog();
+    //}, 2000);
+
+    var setClientLogGraphData = function (type, clientLogsDays) {
+        $scope.clientLog_ = [];
+        var clientLog = [];
+        //var goalFrom = [];
+        //var goalTo = [];
+        //var goalWeight = [];
+        var labels = [];
+        if (!angular.isDefined($scope.calculation)) { return false; }
+        if (angular.isDefined($scope.calculation.recommendedWeight)) {
+            var days = 30;
+            var goal = 0;
+            var deficit = ($scope.calculation.recommendedEnergyIntake - $scope.calculation.recommendedEnergyExpenditure) - $scope.calculation.tee;
+            if (clientLogsDays !== undefined) {
+                days = clientLogsDays.days;
+                $scope.clientLogsDays = clientLogsDays;
+            }
+            angular.forEach($scope.clientLog, function (x, key) {
+                if (functions.getDateDiff(x.date) <= days) {
+                    $scope.clientLog_.push(x);
+                    //if (type == 0) {
+                        clientLog.push(x.weight);
+                        //goalFrom.push(getRecommendedWeight(x.height).min);
+                        //goalTo.push(getRecommendedWeight(x.height).max);
+                        ///********** goal **********/
+                        //goal = getGoalLog(deficit, key, x, $scope.clientLog[0].weight, $scope.clientLog[0].date, x.date);
+                        //goalWeight.push(goal);
+                        ///**************************/
+                    //}
+                    //if (type == 1) { clientLog.push(x.waist); goalFrom.push(95); }
+                    //if (type == 2) { clientLog.push(x.hip); goalFrom.push(97); }
+                    if (key % (Math.floor($scope.clientLog.length / 31) + 1) === 0) {
+                        labels.push(new Date(x.date).toLocaleDateString());
+                    } else {
+                        labels.push("");
+                    }
+                }
+            });
+
+            $scope.clientLogGraphData = charts.createGraph(
+                [$translate.instant("")],
+                [clientLog],
+                labels,
+                ['#3399ff'],
+                {
+                    responsive: true, maintainAspectRatio: false, legend: { display: true },
+                    scales: {
+                        xAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: false } }],
+                        yAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: true } }]
+                    }
+                },
+                [
+                    { label: $translate.instant("weight") + ' (' + $translate.instant("kg") + ')', borderWidth: 3, type: 'line', fill: true }
+                ]
+            )
+
+        }
+
+    };
+
+    getClientData();
+
+}])
+
+.controller('inputdataCtrl', ['$scope', '$timeout', '$q', '$log', '$rootScope', '$localStorage', '$sessionStorage', '$window', '$http', '$translate', '$translatePartialLoader', 'functions', 'charts', function ($scope, $timeout, $q, $log, $rootScope, $localStorage, $sessionStorage, $window, $http, $translate, $translatePartialLoader, functions, charts) {
+    google.charts.load('current', { 'packages': ['gauge'] });
+    var bmiChart = function () {
+        //google.charts.load('current', { 'packages': ['gauge'] });
+        if (!angular.isDefined($scope.calculation)) { return false; }
+        var id = 'bmiChart';
+        var value = $scope.calculation.bmi.value.toFixed(1);
+        var unit = 'BMI';
+        var options = {
+            title: 'BMI',
+            min: 15,
+            max: 34,
+            greenFrom: 18.5,
+            greenTo: 25,
+            yellowFrom: 25,
+            yellowTo: 30,
+            redFrom: 30,
+            redTo: 34,
+            minorTicks: 5
+        };
+        google.charts.setOnLoadCallback(charts.guageChart(id, value, unit, options));
+    }
+
+    $timeout(function () {
+        bmiChart();
+    }, 800);
+
+}])
+
+.controller('clientlogCtrl', ['$scope', '$timeout', '$q', '$log', '$rootScope', '$localStorage', '$sessionStorage', '$window', '$http', '$translate', '$translatePartialLoader', 'functions', 'charts', function ($scope, $timeout, $q, $log, $rootScope, $localStorage, $sessionStorage, $window, $http, $translate, $translatePartialLoader, functions, charts) {
+    $scope.displayType = 0;
+
+    var getClientLog = function () {
+        $http({
+            url: $sessionStorage.config.backend + 'ClientsData.asmx/GetClientLog',
+            method: "POST",
+            data: { userId: $scope.userId, clientId: $scope.clientId }
+        })
+        .then(function (response) {
+            $scope.clientLog = JSON.parse(response.data.d);
+            angular.forEach($scope.clientLog, function (x, key) {
+                x.date = new Date(x.date);
+            });
+            setClientLogGraphData(0, $scope.clientLogsDays);
+        },
+        function (response) {
+            alert(response.data.d)
+        });
+    }
+    getClientLog();
+
+    $scope.updateClientLog = function (x) {
+        var cd = angular.copy(x);
+        cd.date = functions.dateToString(cd.date);
+        $http({
+            url: $sessionStorage.config.backend + 'ClientsData.asmx/UpdateClientLog',
+            method: "POST",
+            data: { userId: $scope.userId, clientData: cd }
+        })
+        .then(function (response) {
+            getClientLog();
+        },
+        function (response) {
+            alert(response.data.d)
+        });
+    }
+
+    var getRecommendedWeight = function (h) {
+        return {
+            min: Math.round(((18.5 * h * h) / 10000) * 10) / 10,
+            max: Math.round(((25 * h * h) / 10000) * 10) / 10
+        }
+    }
+
+    $scope.changeGoalWeightValue = function (value, type, clientLogsDays) {
+        $scope.goalWeightValue_ = parseInt(value);
+        setClientLogGraphData(type, clientLogsDays);
+    }
+
+    var getGoalLog = function (deficit, key, x, firstWeight, firstDate, currDate) {
+        var goal = (firstWeight + (functions.getTwoDateDiff(firstDate, currDate)) * deficit / 7000).toFixed(1);
+        var value = 0;
+        var goalLimit = $scope.goalWeightValue_ !== undefined ? parseInt($scope.goalWeightValue_) : 0;
+        if (goalLimit == 0) {
+            if (deficit == 0) {
+                goalLimit = x.weight;
+            } else if (deficit > 0) {
+                goalLimit = (getRecommendedWeight(x.height).min + getRecommendedWeight(x.height).max) / 2;
+            } else {
+                goalLimit = getRecommendedWeight(x.height).max;
+            }
+        }
+        if (key == 0) {
+            value = x.weight;
+        }
+        if (deficit > 0) {
+            if (goal <= goalLimit) {
+                value = goal;
+            } else {
+                value = goalLimit;
+            }
+        } else {
+            if (goal >= goalLimit) {
+                value = goal;
+            } else {
+                value = goalLimit;
+            }
+        }
+        return value;
+    }
+
+    var setClientLogGraphData = function (type, clientLogsDays) {
+        $scope.clientLog_ = [];
+        var clientLog = [];
+        var goalFrom = [];
+        var goalTo = [];
+        var goalWeight = [];
+        var labels = [];
+        if (!angular.isDefined($scope.calculation)) { return false; }
+        if (angular.isDefined($scope.calculation.recommendedWeight)) {
+            var days = 30;
+            var goal = 0;
+            var deficit = ($scope.calculation.recommendedEnergyIntake - $scope.calculation.recommendedEnergyExpenditure) - $scope.calculation.tee;
+            if (clientLogsDays !== undefined) {
+                days = clientLogsDays.days;
+                $scope.clientLogsDays = clientLogsDays;
+            }
+            angular.forEach($scope.clientLog, function (x, key) {
+                if (functions.getDateDiff(x.date) <= days) {
+                    $scope.clientLog_.push(x);
+                    if (type == 0) {
+                        clientLog.push(x.weight);
+                        goalFrom.push(getRecommendedWeight(x.height).min);
+                        goalTo.push(getRecommendedWeight(x.height).max);
+                        /********** goal **********/
+                        goal = getGoalLog(deficit, key, x, $scope.clientLog[0].weight, $scope.clientLog[0].date, x.date);
+                        goalWeight.push(goal);
+                        /**************************/
+                    }
+                    if (type == 1) { clientLog.push(x.waist); goalFrom.push(95); }
+                    if (type == 2) { clientLog.push(x.hip); goalFrom.push(97); }
+                    if (key % (Math.floor($scope.clientLog.length / 31) + 1) === 0) {
+                        labels.push(new Date(x.date).toLocaleDateString());
+                    } else {
+                        labels.push("");
+                    }
+                }
+            });
+        }
+
+        $scope.clientLogGraphData = charts.createGraph(
+            [$translate.instant("measured value"), $translate.instant("lower limit"), $translate.instant("upper limit"), $translate.instant("goal")],
+            [
+                clientLog,
+                goalFrom,
+                goalTo,
+                goalWeight
+            ],
+            labels,
+            ['#3399ff', '#ff3333', '#33ff33', '#ffd633'],
+            {
+                responsive: true, maintainAspectRatio: false, legend: { display: true },
+                scales: {
+                    xAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: false } }],
+                    yAxes: [{ display: true, scaleLabel: { display: true }, ticks: { beginAtZero: false } }]
+                }
+            },
+            [
+                { label: $translate.instant("measured value"), borderWidth: 1, type: 'bar', fill: true },
+                { label: $translate.instant("lower limit"), borderWidth: 2, type: 'line', fill: false },
+                { label: $translate.instant("upper limit"), borderWidth: 2, type: 'line', fill: false },
+                { label: $translate.instant("goal") + ' (2 ' + $translate.instant("kg") + '/' + $translate.instant("mo") + ')', borderWidth: 3, type: 'line', fill: false }
+            ]
+        )
+    };
+
+    $scope.setClientLogGraphData = function (type, clientLogsDays) {
+        setClientLogGraphData(type, clientLogsDays);
+    }
+
+    $scope.removeClientLog = function (x) {
+        var r = confirm($translate.instant('delete record') + '?');
+        if (r == true) {
+            removeClientLog(x);
+        }
+    }
+
+    var removeClientLog = function (x) {
+        $http({
+            url: $sessionStorage.config.backend + 'ClientsData.asmx/Delete',
+            method: "POST",
+            data: { userId: $scope.userId, clientData: x }
+        })
+        .then(function (response) {
+            getClientLog();
+        },
+        function (response) {
+            alert(response.data.d)
+        });
+    }
+
+    $scope.changeDisplayType = function (type, clientLogsDays) {
+        setClientLogGraphData(type, clientLogsDays);
+    }
+
+    }])
 
 //-------------end Program Prehrane Controllers--------------------
 

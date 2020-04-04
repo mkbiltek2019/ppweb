@@ -1,0 +1,112 @@
+﻿<div class="container" ng-cloak>
+    <h2 class="h3 mb-0 text-gray-800">{{'statistics' | translate}}</h2>
+    <hr />
+    <div>
+        <div class="row">
+            <div class="col-lg-4 pt-2">
+                <span>{{'show' | translate}}</span>
+                <select ng-model="displayType" class="form-control" ng-click="changeDisplayType(displayType, clientLogsDays)">
+                    <option value=0>{{'weight' | translate}} ({{'kg' | translate}})</option>
+                    <option value=1>{{'waist' | translate}} ({{'cm' | translate}})</option>
+                    <option value=2>{{'hip' | translate}} ({{'cm' | translate}})</option>
+                </select>
+            </div>
+            <div class="col-lg-4 pt-2">
+                <span>{{'period' | translate}}</span>
+                <select ng-model="clientLogsDays" class="form-control" ng-options="x.title | translate for x in chartDays" ng-change="setClientLogGraphData(0, clientLogsDays)"></select>
+            </div>
+            <div class="col-lg-2 pt-2">
+                <span>{{'goal' | translate}}</span>
+                <div class="input-group">
+                    <input type="text" ng-model="goalWeightValue_" class="form-control text-right" allow-only-numbers ng-change="changeGoalWeightValue(goalWeightValue_, 0, clientLogsDays)">
+                    <!--<button ng-click="changeGoalWeightValue(goalWeightValue_, 0, clientLogsDays)">confirm</button>-->
+                    <div class="input-group-append">
+                        <span class="input-group-text">{{'kg' | translate}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="mt-2">
+
+            <div class="chart-container" style="position: relative; height:45vh">
+                <canvas id="clientDataChart" class="chart-bar" chart-data="clientLogGraphData.data" chart-colors="clientLogGraphData.colors" height="100"
+                        chart-labels="clientLogGraphData.labels" chart-series="clientLogGraphData.series" chart-options="clientLogGraphData.options" chart-dataset-override="clientLogGraphData.datasetOverride"></canvas>
+            </div>
+
+            
+            <!--<canvas id="clientDataChart" class="chart-bar hidden-xs" chart-data="clientLogGraphData.data" chart-colors="clientLogGraphData.colors" height="80"
+                    chart-labels="clientLogGraphData.labels" chart-series="clientLogGraphData.series" chart-options="clientLogGraphData.options" chart-dataset-override="clientLogGraphData.datasetOverride"></canvas>
+            <canvas id="clientDataChart" class="chart-bar visible-xs" chart-data="clientLogGraphData.data" chart-colors="clientLogGraphData.colors" height="400"
+                    chart-labels="clientLogGraphData.labels" chart-series="clientLogGraphData.series" chart-options="clientLogGraphData.options" chart-dataset-override="clientLogGraphData.datasetOverride"></canvas>-->
+        </div>
+    </div>
+    <div class="table-responsive table-scroll">
+        <table class="table table-sm text-small">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>{{'number' | translate}}</th>
+                    <th>{{'date' | translate}}</th>
+                    <th>{{'height' | translate}} ({{'cm' | translate}})</th>
+                    <th>{{'weight' | translate}} ({{'kg' | translate}})</th>
+                    <th>{{'waist' | translate}} ({{'cm' | translate}})</th>
+                    <th>{{'hip' | translate}} ({{'cm' | translate}})</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="x in clientLog_">
+                    <td style="width:100px">
+                        <a href="" ng-click="removeClientLog(x)" class="btn btn-outline-danger btn-circle" title="{{'delete' | translate}}"><i class="fa fa-trash-alt"></i></a>
+                        <a href="" ng-click="updateClientLog(x)" class="btn btn-outline-primary btn-circle" title="{{'save' | translate}}"><i class="fa fa-save"></i></a>
+                    </td>
+                    <td>{{clientLog.length - $index}}</td>
+                    <td style="max-width:160px">
+                        <input ng-model="x.date" type="date" class="form-control">
+                        <!--{{getDateFormat(x.date) | date:'dd.MM.yyyy'}}-->
+                    </td>
+                    <td style="max-width:120px">
+                        <input ng-model="x.height" class="form-control" style="min-width:60px" allow-only-numbers />
+                    </td>
+                    <td style="max-width:180px">
+                        <div class="input-group">
+                            <input ng-model="x.weight" class="form-control" style="min-width:60px" allow-only-numbers />
+                            <div class="input-group-append">
+                                <span class="input-group-text" style="min-width:70px">
+                                    <small>
+                                        <i class="{{clientLogDiff('weight', clientLog, x, $index).icon}}"></i> <span class="ml-1">{{clientLogDiff('weight', clientLog, x, $index).diff}}</span>
+                                    </small>
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="max-width:180px">
+                        <div class="input-group">
+                            <input ng-model="x.waist" class="form-control" style="min-width:60px" allow-only-numbers />
+                            <div class="input-group-append">
+                                <span class="input-group-text" style="min-width:70px">
+                                    <small>
+                                        <i class="{{clientLogDiff('waist', clientLog, x, $index).icon}}"></i> <span class="ml-">{{clientLogDiff('waist', clientLog, x, $index).diff}}</span>
+                                    </small>
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="max-width:180px">
+                        <div class="input-group">
+                            <input ng-model="x.hip" class="form-control" style="min-width:60px" allow-only-numbers />
+                            <div class="input-group-append">
+                                <span class="input-group-text" style="min-width:70px">
+                                    <small>
+                                        <i class="{{clientLogDiff('hip', clientLog, x, $index).icon}}"></i> <span class="ml-2">{{clientLogDiff('hip', clientLog, x, $index).diff}}</span>
+                                    </small>
+                                </span>
+                                <!--<span class="input-group-text" style="min-width:70px"><i class="{{clientLogDiff('hip', clientLog, x, $index).icon}}"></i> <span class="ml-2">{{clientLogDiff('hip', clientLog, x, $index).diff}}</span></span>-->
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

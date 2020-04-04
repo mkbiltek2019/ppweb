@@ -26,19 +26,19 @@
         <div layout-gt-sm="row">
             <md-input-container class="md-block" flex-gt-sm>
                 <label>Potvrdite Email</label>
-                <input ng-model="emailConfirm" type="text" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" required>
+                <input ng-model="emailConfirm" type="text" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" required >
             </md-input-container>
         </div>
         <div layout-gt-sm="row">
             <md-input-container class="md-block" flex-gt-sm>
                 <label>Lozinka</label>
-                <input ng-model="user.password" type="password" required>
+                <input ng-model="user.password" type="password" required autocomplete="new-password">
             </md-input-container>
         </div>
         <div layout-gt-sm="row">
             <md-input-container class="md-block" flex-gt-sm>
                 <label>Potvrdite lozinku</label>
-                <input ng-model="passwordConfirm" type="password" required>
+                <input ng-model="passwordConfirm" type="password" required autocomplete="new-password">
             </md-input-container>
         </div>
             <div layout-gt-sm="row">

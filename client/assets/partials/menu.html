@@ -1,0 +1,119 @@
+﻿<div class="container">
+    <div class="text-right">
+        <button ng-if="!pdfLink" class="btn btn-outline-danger text-capitalize" ng-click="createMenuPdf()" ng-disabled="creatingPdf==true"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf'}}"></i> {{'create pdf' | translate}}</button>
+        <a ng-if="pdfLink" href="{{pdfLink}}" class="btn btn-outline-primary text-capitalize" download><i class="fa fa-download"></i> {{'take pdf' | translate}}</a>
+        <button ui-sref="menus" ui-sref-active="active" class="btn btn-outline-info text-capitalize" ><i class="fa fa-list"></i> {{'menus' | translate}}</button>
+    </div>
+    <div class="card mt-2">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-lg-5">
+                    <div>
+                        <p class="lead">{{menu.title}}</p>
+                        <p>{{menu.note}}</p>
+                    </div>
+                </div>
+                <div class="col-lg-7 text-right">
+                    <div ng-if="settings.showClientData">
+                        <p>{{'client' | translate}}: {{client.firstName}} {{client.lastName}}</p>
+                        <p>
+                            {{'height' | translate}}: {{client.clientData.height}} cm, {{'weight' | translate}}: {{currentMenu.client.clientData.weight}} kg
+                            <span ng-if="currentMenu.client.clientData.waist>0">, {{'waist' | translate}}: {{currentMenu.client.clientData.waist}} cm</span><span ng-if="client.clientData.hip>0">, {{'hip' | translate}}: {{client.clientData.hip}} cm</span>
+                        </p>
+                        <p>{{'diet' | translate}}: {{client.clientData.diet.diet | translate}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div ng-if="x.isSelected==1" ng-repeat="x in menu.data.meals track by $index" class="m10">
+                <label class="text-uppercase mt10">{{getMealTitle(x)}}</label>
+                <div ng-if="x.description" class="mt10">
+                    <em ng-if="!isSeparatedDes(x.description)&&settings.showDescription">{{x.description}}</em>
+                    <div ng-if="isSeparatedDes(x.description)">
+                        <div ng-repeat="y in getTitleDes(x.description) track by $index">
+                            <div ng-if="settings.showTitle">{{y.title}}</div>
+                            <em ng-if="settings.showDescription">{{y.description}}</em>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="settings.showFoods" class="table-responsive mt10">
+                    <table class="table table-condensed text-small">
+                        <tr ng-if="settings.showMealsTotal">
+                            <th class="border-bottom"></th>
+                            <th class="border-bottom"></th>
+                            <th class="border-bottom"></th>
+                            <th class="border-bottom"></th>
+                            <th class="text-right col-width border-bottom">{{'energy' | translate}}<br /><em>({{'kcal' | translate}})</em></th>
+                            <th class="text-right col-width border-bottom">{{'carbs' | translate}}<br /><em>({{'g' | translate}})</em></th>
+                            <th class="text-right col-width border-bottom">{{'prot' | translate}}<br /><em>({{'g' | translate}})</em></th>
+                            <th class="text-right col-width border-bottom">{{'fats' | translate}}<br /><em>({{'g' | translate}})</em></th>
+                        </tr>
+                        <tr ng-if="y.meal.code==x.code" ng-repeat="y in menu.data.selectedFoods track by $index">
+                            <td class="borderNone" style="width:30%">{{y.food}}</td>
+                            <td class="borderNone"><span ng-if="settings.showQty">{{y.quantity}} {{y.unit}}</span></td>
+                            <td class="borderNone"><span ng-if="settings.showMass">{{y.mass>999?(y.mass/1000).toFixed(1):y.mass}} {{y.mass>999?('kg' | translate):('g' | translate)}}</span></td>
+                            <td class="borderNone"><span ng-if="settings.showServ&&getServDescription(y.servings)!=''">({{getServDescription(y.servings)}})</span></td>
+                            <td class="borderNone text-right col-width"><span ng-if="settings.showMealsTotal">{{y.energy}}</span></td>
+                            <td class="borderNone text-right col-width"><span ng-if="settings.showMealsTotal">{{y.carbohydrates}}</span></td>
+                            <td class="borderNone text-right col-width"><span ng-if="settings.showMealsTotal">{{y.proteins}}</span></td>
+                            <td class="borderNone text-right col-width"><span ng-if="settings.showMealsTotal">{{y.fats}}</span></td>
+                        </tr>
+                        <tr ng-if="settings.showMealsTotal">
+                            <th class="text-right" colspan="4"><label><span>{{'meal total' | translate}}</span><span ng-if="consumers > 1"> ({{'per consumer' | translate}})</span>:</label></th>
+                            <th class="text-right col-width">{{totals.mealsTotal[$index].energy.val | number:1}}<br /><em>({{totals.mealsTotal[$index].energy.perc| number:1}} %)</em></th>
+                            <th class="text-right col-width">{{totals.mealsTotal[$index].carbohydrates.val | number:1}}<br /><em>({{totals.mealsTotal[$index].carbohydrates.perc| number:1}} %)</em></th>
+                            <th class="text-right col-width">{{totals.mealsTotal[$index].proteins.val | number:1}}<br /><em>({{totals.mealsTotal[$index].proteins.perc| number:1}} %)</em></th>
+                            <th class="text-right col-width">{{totals.mealsTotal[$index].fats.val | number:1}}<br /><em>({{totals.mealsTotal[$index].fats.perc| number:1}} %)</em></th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div ng-if="settings.showTotals" class="table-responsive mt10">
+                <table class="table table-condensed text-small">
+                    <tr ng-if="!settings.showMealsTotal">
+                        <th class="borderNone"></th>
+                        <th class="borderNone"></th>
+                        <th class="borderNone"></th>
+                        <th class="borderNone"></th>
+                        <th class="borderNone text-right col-width">{{'energy' | translate}}<br /><em>({{'kcal' | translate}})</em></th>
+                        <th class="borderNone text-right col-width">{{'carbs' | translate}}<br /><em>({{'g' | translate}})</em></th>
+                        <th class="borderNone text-right col-width">{{'prot' | translate}}<br /><em>({{'g' | translate}})</em></th>
+                        <th class="borderNone text-right col-width">{{'fats' | translate}}<br /><em>({{'g' | translate}})</em></th>
+                    </tr>
+                    <tr>
+                        <th class="borderNone text-right" colspan="4"><label><span>{{'total nutritional values' | translate}}</span><span ng-if="consumers > 1"> ({{'per consumer' | translate}})</span>:</label></th>
+                        <th class="borderNone text-right bg-gray col-width">{{totals.energy | number:1}}<br /><em></em></th>
+                        <th class="borderNone text-right bg-gray col-width">{{totals.carbohydrates | number:1}}<br /><em>({{totals.carbohydratesPercentage | number:1}} %)</em></th>
+                        <th class="borderNone text-right bg-gray col-width">{{totals.proteins | number:1}}<br /><em>({{totals.proteinsPercentage | number:1}} %)</em></th>
+                        <th class="borderNone text-right bg-gray col-width">{{totals.fats | number:1}}<br /><em>({{totals.fatsPercentage | number:1}} %)</em></th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <!--<div>
+        <strong>{{menu.title}}</strong>
+        <p>{{menu.note}}</p>
+        <hr />
+        <div ng-if="x.isSelected" ng-repeat="x in menu.data.meals track by $index">
+            <div class="text-uppercase"><strong>{{getMealTitle(x)}}</strong></div>
+            <div ng-if="x.description">
+                <em class="text-justify">{{x.description}}</em>
+            </div>
+            <div class="p10">
+                <p ng-if="y.meal.code==x.code" ng-repeat="y in menu.data.selectedFoods track by $index">- {{y.food | translate}}, {{y.quantity}} {{y.unit | translate}}, ({{y.mass}} {{'g' | translate}})</p>
+            </div>
+            <hr />
+        </div>
+        <div>
+            <div><strong class="text-uppercase">{{'total' | translate}}</strong></div>
+            <p><span class="text-capitalize">{{'energy value' | translate}}:</span> <span>{{totals.energy}} {{'kcal' | translate}}</span></p>
+            <p><span class="text-capitalize">{{'carbohydrates' | translate}}:</span> <span>{{totals.carbohydrates | number:1}} {{'g' | translate}}, ({{totals.carbohydratesPercentage | number:1}} %)</span></p>
+            <p><span class="text-capitalize">{{'proteins' | translate}}:</span> <span>{{totals.proteins | number:1}} {{'g' | translate}}, ({{totals.proteinsPercentage | number:1}} %)</span></p>
+            <p><span class="text-capitalize">{{'fats' | translate}}:</span> <span>{{totals.fats | number:1}} {{'g' | translate}}, ({{totals.fatsPercentage | number:1}} %)</span></p>
+        </div>
+    </div>-->
+</div>

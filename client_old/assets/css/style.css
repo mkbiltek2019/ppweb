@@ -4,12 +4,11 @@ style.css
 */
 
 
-/*.borderNone {
+.borderNone {
     border:none !important;
-}*/
+}
 
-
-/*.p5 {
+.p5 {
     padding:5px;
 }
 
@@ -97,46 +96,41 @@ navbar-brand {
 
 .nowrap{
     white-space: nowrap;
-}*/
+}
 
 .pointer {
     cursor:pointer;
 }
 
-/*.table-scroll {
+.table-scroll {
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
-}*/
-
-.guage {
-    height:220px;
-    width:220px;
-    margin:0 auto !important;
 }
 
-/*.user-info {
+.guage {
+    height:250px;
+    width:250px;
+    margin:auto;
+}
+
+.user-info {
     font-size:20px;
     cursor:pointer;
     padding:15px 5px 5px 25px;
-}*/
+}
 
 @media (max-width: 767px) {
-    /*.panel {
+    .panel {
         background-color: #85BC5E;
         background-image: linear-gradient(to bottom right, #e3f7ca, #85BC5E);
     }
     .lang {
         text-align: right;
-    }*/
-    .guage {
-        height:160px;
-        width:160px;
-        margin:0 auto !important;
     }
 }
 
 /************ main colors ***************/
-/*.background {
+.background {
     background-color: #f1f1f1;
     background-image: linear-gradient(to bottom right, #f1f1f1, #f1f1f1);
 }
@@ -155,13 +149,13 @@ navbar-brand {
 
 label {
     color:#f1f1f1 !important;
-}*/
+}
 /************ main colors ***************/
 
 
 /************* sidenav ******************/
 
-/*.sidenav {
+.sidenav {
     height: 100%;
     width: 0;
     position: fixed;
@@ -197,6 +191,6 @@ label {
 
 @media screen and (max-height: 450px) {
   .sidenav a {font-size: 18px;}
-}*/
+}
 
 /************* sidenav ******************/

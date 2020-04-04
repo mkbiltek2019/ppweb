@@ -1,0 +1,27 @@
+﻿<div class="container pb-5">
+    <h2 class="h3 mb-0 text-gray-800">{{'additional energy expenditure' | translate}}: {{activitiesTotal}} kcal</h2>
+    <hr />
+    <label class="h5 mb-0 text-gray-800">{{'additional activities' | translate}}:</label>
+    <div class="card border-left-primary shadow h-100 py-2 mt-3" ng-repeat="x in clientData.activities">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">{{x.activity}}</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                        <div class="row">
+                            <div class="col-sm-6 text-success">
+                                <p title="{{'duration' | translate}}"><i class="fa fa-stopwatch"></i> {{x.duration}} {{'min' | translate}}</p>
+                            </div>
+                            <div class="col-sm-6 text-danger">
+                                <p title="{{'energy' | translate}}"><i class="fa fa-fire"></i> {{x.energy | number:0}} {{'kcal' | translate}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-biking fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

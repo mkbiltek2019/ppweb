@@ -101,23 +101,6 @@
   "select language": "Select language",
   "delete": "Delete",
   "energy value": "energy value",
-  "client data": "client data",
-  "client profile": "Client Profile",
-  "are you sure you want to logout": "Are you sure you want to logout",
-  "logout": "Logout",
-  "meal total": "Meal Total",
-  "carbs": "Carbs",
-  "prot": "Prot",
-  "tracking of anthropometric measures": "ččlkčl k",
-  "measurement": "Measurement",
-  "new measurement": "New measurement",
-  "show all": "Show All",
-  "physical activity": "Physical Activity",
-  "yes": "Yes",
-  "no": "No",
-  "additional activity": "Additional Activity",
-  "measurements": "Measurements",
-  "additional activities": "additional activities",
-  "additional energy expenditure": "additional energy expenditure",
-  "period": "Period"
+  "client data": "client data"
+
 }

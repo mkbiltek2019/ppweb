@@ -1,0 +1,83 @@
+﻿<div class="container" ng-cloak>
+    <h2 class="h3 mb-0 text-gray-800">{{'antropometric data' | translate}}</h2>
+    <hr />
+    <div class="row">
+        <div class="col-lg-6 p-5">
+            <div class="form-group row">
+                <span class="col-sm-4 text-capitalize">{{'measurement date' | translate}}:</span>
+                <div class="col-sm-8">
+                    <input ng-model="clientData.date" type="date" class="form-control">
+                </div>
+            </div>
+            <div class="form-group row">
+                <span class="col-sm-4 text-capitalize">{{'weight' | translate}}:</span>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <input ng-model="clientData.weight" class="form-control" ng-change="calculate()" allow-only-numbers required>
+                        <div class="input-group-append">
+                            <span class="input-group-text" >{{'kg' | translate}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <span class="col-sm-4 text-capitalize">{{'height' | translate}}:</span>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <input ng-model="clientData.height" class="form-control" ng-change="calculate()" allow-only-numbers required>
+                        <div class="input-group-append">
+                            <span class="input-group-text">{{'cm' | translate}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <span class="col-sm-4 text-capitalize">{{'waist' | translate}}:</span>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <input ng-model="clientData.waist" class="form-control" ng-change="calculate()" allow-only-numbers>
+                        <div class="input-group-append">
+                            <span class="input-group-text">{{'cm' | translate}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <span class="col-sm-4 text-capitalize">{{'hip' | translate}}:</span>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <input ng-model="clientData.hip" class="form-control" ng-change="calculate()" allow-only-numbers>
+                        <div class="input-group-append">
+                            <span class="input-group-text">{{'cm' | translate}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-right">
+                <button class="btn btn-outline-primary" ng-click="save(clientData)"><i class="fa fa-save"></i> {{'save' | translate}}</button>
+            </div>
+        </div>
+        <div class="col-lg-6 text-center">
+            <div class="card border-bottom-{{getBmiClass(calculation.bmi.value).css}} shadow h-100">
+                <div class="card-header">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><span class="text-uppercase">{{'bmi' | translate}}</span> <em>({{'body mass index' | translate}})</em>: {{calculation.bmi.value}} {{'kg' | translate}}/m&sup2</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-{{getBmiClass(calculation.bmi.value).icon}} fa-2x text-{{getBmiClass(calculation.bmi.value).css}}-300"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="bmiChart" class="guage mt-2"></div>
+                </div>
+                <div class="card-footer">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase">
+                        {{calculation.bmi.title | translate}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
