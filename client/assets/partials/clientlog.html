@@ -1,4 +1,4 @@
-﻿<div class="container" ng-cloak>
+﻿<div class="container pb-5" ng-cloak>
     <h2 class="h3 mb-0 text-gray-800">{{'statistics' | translate}}</h2>
     <hr />
     <div>
@@ -19,7 +19,6 @@
                 <span>{{'goal' | translate}}</span>
                 <div class="input-group">
                     <input type="text" ng-model="goalWeightValue_" class="form-control text-right" allow-only-numbers ng-change="changeGoalWeightValue(goalWeightValue_, 0, clientLogsDays)">
-                    <!--<button ng-click="changeGoalWeightValue(goalWeightValue_, 0, clientLogsDays)">confirm</button>-->
                     <div class="input-group-append">
                         <span class="input-group-text">{{'kg' | translate}}</span>
                     </div>
@@ -28,17 +27,10 @@
         </div>
         <hr />
         <div class="mt-2">
-
-            <div class="chart-container" style="position: relative; height:45vh">
+            <div class="chart-container chart-line-40">
                 <canvas id="clientDataChart" class="chart-bar" chart-data="clientLogGraphData.data" chart-colors="clientLogGraphData.colors" height="100"
                         chart-labels="clientLogGraphData.labels" chart-series="clientLogGraphData.series" chart-options="clientLogGraphData.options" chart-dataset-override="clientLogGraphData.datasetOverride"></canvas>
             </div>
-
-            
-            <!--<canvas id="clientDataChart" class="chart-bar hidden-xs" chart-data="clientLogGraphData.data" chart-colors="clientLogGraphData.colors" height="80"
-                    chart-labels="clientLogGraphData.labels" chart-series="clientLogGraphData.series" chart-options="clientLogGraphData.options" chart-dataset-override="clientLogGraphData.datasetOverride"></canvas>
-            <canvas id="clientDataChart" class="chart-bar visible-xs" chart-data="clientLogGraphData.data" chart-colors="clientLogGraphData.colors" height="400"
-                    chart-labels="clientLogGraphData.labels" chart-series="clientLogGraphData.series" chart-options="clientLogGraphData.options" chart-dataset-override="clientLogGraphData.datasetOverride"></canvas>-->
         </div>
     </div>
     <div class="table-responsive table-scroll">
@@ -101,7 +93,6 @@
                                         <i class="{{clientLogDiff('hip', clientLog, x, $index).icon}}"></i> <span class="ml-2">{{clientLogDiff('hip', clientLog, x, $index).diff}}</span>
                                     </small>
                                 </span>
-                                <!--<span class="input-group-text" style="min-width:70px"><i class="{{clientLogDiff('hip', clientLog, x, $index).icon}}"></i> <span class="ml-2">{{clientLogDiff('hip', clientLog, x, $index).diff}}</span></span>-->
                             </div>
                         </div>
                     </td>

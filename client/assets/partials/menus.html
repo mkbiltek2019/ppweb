@@ -1,4 +1,4 @@
-﻿<div class="container">
+﻿<div class="container pb-5">
     <h2 class="h3 mb-0 text-gray-800 text-capitalize">{{'menus' | translate}}</h2>
     <hr />
     <div ng-if="menus.length===0">
@@ -18,14 +18,14 @@
             </div>
         </form>
     </div>
-    <div ng-if="menus.length>0" class="table-responsive table-scroll" >
+    <div ng-if="menus.length>0" class="table-responsive mt-2" >
         <table class="table table-sm table-hover">
             <tr class="text-capitalize">
                 <th></th>
                 <th>{{'number' | translate}}</th>
                 <th style="width:50%">{{'title' | translate}}</th>
                 <th>{{'date' | translate}}</th>
-                <th class="text-right">{{'energy value' | translate}} ({{'kcal' | translate}})</th>
+                <th class="text-right">{{'energy' | translate}} ({{'kcal' | translate}})</th>
             </tr>
             <tr ui-sref="menu" ui-sref-active="active" ng-repeat="x in menus | filter: searchMenu" ng-click="getMenu(x)" class="pointer">
                 <td><button class="btn btn-outline-primary btn-circle"><i class="fa fa-eye"></i></button></td>

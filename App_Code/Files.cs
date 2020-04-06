@@ -65,6 +65,25 @@ public class Files : System.Web.Services.WebService {
             }
         } catch (Exception e) { return (e.Message); }
     }
+
+    [WebMethod]
+    public string DeleteProfileImg(Clients.NewClient x) {
+        try {
+            string profileImg = null;
+            if (x.profileImg.Contains("?")) {
+                profileImg = x.profileImg.Remove(x.profileImg.IndexOf("?"));
+            } else {
+                profileImg = x.profileImg;
+            }
+            string path = string.Format("~/upload/users/{0}/clients/{1}/profileimg/{2}", x.userId, x.clientId, profileImg);
+            if (File.Exists(Server.MapPath(path))) {
+                File.Delete(Server.MapPath(path));
+                return null;
+            } else {
+                return "no file";
+            }
+        } catch (Exception e) { return (e.Message); }
+    }
     #endregion WebMethods
 
     #region Methods

@@ -40,6 +40,7 @@ public class Clients : System.Web.Services.WebService {
         public string date { get; set; }
         public int isActive { get; set; }
         public string note { get; set; }
+        public string profileImg { get; set; }
 
         public ClientsData.NewClientData clientData = new ClientsData.NewClientData();
     }
@@ -86,6 +87,7 @@ public class Clients : System.Web.Services.WebService {
                                     x.date = reader.GetValue(8) == DBNull.Value ? DateTime.Today.ToString() : reader.GetString(8);
                                     x.isActive = reader.GetValue(9) == DBNull.Value ? 1 : reader.GetInt32(9);
                                     x.note = reader.GetValue(10) == DBNull.Value ? "" : reader.GetString(10);
+                                    x.profileImg = GetProfileImg(userId, x.clientId);
                                     x.clientData = null;
                                 }
                             }
@@ -115,6 +117,7 @@ public class Clients : System.Web.Services.WebService {
         x.date = DateTime.UtcNow.ToString();
         x.isActive = 1;
         x.note = null;
+        x.profileImg = null;
         x.clientData = new ClientsData.NewClientData();
         return JsonConvert.SerializeObject(x, Formatting.None);
     }
@@ -202,6 +205,7 @@ public class Clients : System.Web.Services.WebService {
                             x.date = reader.GetValue(8) == DBNull.Value ? DateTime.Today.ToString() : reader.GetString(8);
                             x.isActive = reader.GetValue(9) == DBNull.Value ? 1 : reader.GetInt32(9);
                             x.note = reader.GetValue(10) == DBNull.Value ? "" : reader.GetString(10);
+                            x.profileImg = GetProfileImg(userId, x.clientId);
                             x.clientData = c.GetClientData(userId, clientId, connection);
                         }
                     }    
@@ -328,6 +332,7 @@ public class Clients : System.Web.Services.WebService {
                             x.date = reader.GetValue(8) == DBNull.Value ? DateTime.Today.ToString() : reader.GetString(8);
                             x.isActive = reader.GetValue(9) == DBNull.Value ? 1 : reader.GetInt32(9);
                             x.note = reader.GetValue(10) == DBNull.Value ? "" : reader.GetString(10);
+                            x.profileImg = GetProfileImg(userId, x.clientId);
                             xx.Add(x);
                         }
                     }   
@@ -369,6 +374,16 @@ public class Clients : System.Web.Services.WebService {
             default: c = 5; break;
         }
         return c;
+    }
+
+    public static string GetProfileImg(string userId, string clientId) {
+        string x = null;
+        string path = HttpContext.Current.Server.MapPath(string.Format("~/upload/users/{0}/clients/{1}/profileimg", userId, clientId));
+        if (Directory.Exists(path)) {
+            string[] ss = Directory.GetFiles(path);
+            x = ss.Select(a => string.Format("{0}?v={1}", Path.GetFileName(a), DateTime.Now.Ticks)).FirstOrDefault();
+        }
+        return x;
     }
     #endregion
 

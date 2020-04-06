@@ -27,18 +27,15 @@
     <script src="assets/js/vendor/bootstrap-select.min.js"></script>
     <script src="assets/js/vendor/jquery-ui.min.js"></script>
 
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>-->
-
-  <!-- Custom fonts for this template-->
-  <!--<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">-->
+    <!-- Custom fonts for this template-->
     <link href="assets/css/vendor/all.min.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="assets/css/style.css?v=1.0.0">
+    <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
 
-  <!-- Custom styles for this template-->
-  <link href="assets/css/vendor/sb-admin-2.min.css" rel="stylesheet">
-   
+    <!-- Custom styles for this template-->
+    <link href="assets/css/vendor/sb-admin-2.min.css" rel="stylesheet">
+
     <style>
         @media (min-width: 768px) {
             .sidebar {
@@ -51,287 +48,210 @@
 
 <body id="page-top" ng-app="app" ng-controller="AppCtrl">
 
-  <!-- Page Wrapper -->
-  <div id="wrapper">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
 
-    <!-- Sidebar -->
-    <div ng-show="client.clientId" class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion text-capitalize" id="accordionSidebar" ng-cloak>
+        <!-- Sidebar -->
+        <div ng-show="client.clientId" class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion text-capitalize" id="accordionSidebar" ng-cloak>
 
-      <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{config.webpageurl}}">
-        <div class="sidebar-brand-icon rotate-15 d-block d-sm-block d-md-none d-lg-none">
-            <!--<img src="assets/img/logo.svg" />-->
-          <i class="fas fa-utensils"></i>
-        </div>
-        <!--<div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>-->
-          <!--<div class="sidebar-brand-text mx-3">Program Prehrane <sup>Klijent</sup></div>-->
-          <!--<div class="sidebar-brand-text mx-3">{{config.title}}</div>-->
-          <div class="sidebar-brand-text mx-3">
-          <img src="assets/img/logo.svg" />
-              <div class="text-right">
-                  <sup><em>{{'client' | translate}}</em></sup>
-              </div>
-          </div>
-      </a>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider my-0">
-
-      <!-- Nav Item - Dashboard -->
-      <div class="nav-item active">
-          <a ui-sref="dashboard" ui-sref-active="active" class="nav-link" >
-              <i class="fas fa-fw fa-tachometer-alt"></i>
-              <span>Dashboard</span>
-          </a>
-      </div>
-
-      
-
-      <!-- Divider -->
-      <hr class="sidebar-divider">
-
-      <!-- Nav Item - Charts -->
-      <div class="nav-item">
-        <a ui-sref="client" ui-sref-active="active" class="nav-link" >
-          <i class="fas fa-fw fa-user"></i>
-          <span>{{'client profile' | translate}}</span></a>
-      </div>
-
-        <div class="nav-item">
-            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#measurements" aria-expanded="true" aria-controls="collapsePages">
-                <i class="fas fa-fw fa-thermometer-half"></i><span>{{'measurements' | translate}}</span>
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{config.webpageurl}}">
+                <div class="sidebar-brand-icon rotate-15 d-block d-sm-block d-md-none d-lg-none">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">
+                    <img src="assets/img/logo.svg" />
+                    <div class="text-right">
+                        <sup><em>{{'client' | translate}}</em></sup>
+                    </div>
+                </div>
             </a>
-            <div id="measurements" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <a ui-sref="inputdata" ui-sref-active="active"  class="collapse-item"><i class="fa fa-weight"></i><span class="pl-2">{{'new measurement' | translate}}</span></a>
-                    <a ui-sref="clientlog" ui-sref-active="active"  class="collapse-item"><i class="fa fa-chart-bar"></i><span class="pl-2">{{'statistics' | translate}}</span></a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <div class="nav-item active">
+                <a ui-sref="dashboard" ui-sref-active="active" class="nav-link">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Nav Item - Charts -->
+            <div class="nav-item">
+                <a ui-sref="client" ui-sref-active="active" class="nav-link">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>{{'my profile' | translate}}</span>
+                </a>
+            </div>
+
+            <div class="nav-item">
+                <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#measurements" aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-thermometer-half"></i><span>{{'measurements' | translate}}</span>
+                </a>
+                <div id="measurements" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a ui-sref="inputdata" ui-sref-active="active" class="collapse-item"><i class="fa fa-weight"></i><span class="pl-2">{{'new measurement' | translate}}</span></a>
+                        <a ui-sref="clientlog" ui-sref-active="active" class="collapse-item"><i class="fa fa-chart-bar"></i><span class="pl-2">{{'statistics' | translate}}</span></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-item">
+                <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#activities" aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-walking"></i><span>{{'physical activity' | translate}}</span>
+                </a>
+                <div id="activities" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a ui-sref="activities" ui-sref-active="active" href="#" class="collapse-item"><i class="fa fa-walking"></i><span class="pl-2">{{'physical activity level' | translate}}</span></a>
+                        <a ui-sref="additionalactivities" ui-sref-active="active" href="#" class="collapse-item"><i class="fa fa-biking"></i><span class="pl-2">{{'additional activities' | translate}}</span></a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="nav-item">
+                <a ui-sref="menus" ui-sref-active="active" class="nav-link" href="">
+                    <i class="fas fa-fw fa-utensils"></i>
+                    <span>{{'menus' | translate}}</span>
+                </a>
+            </div>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <div class="nav-item">
+                <a ui-sref="info" ui-sref-active="active" class="nav-link">
+                    <i class="fas fa-fw fa-info"></i>
+                    <span>{{'info' | translate}}</span>
+                </a>
+            </div>
+
+            <hr class="sidebar-divider">
+
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </div>
+        <!-- End of Sidebar -->
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav ng-show="client.clientId" class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+                        <li ng-if="config.showlanguages" class="nav-item dropdown no-arrow" ng-cloak>
+                            <a href="" class="nav-link dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{currLanguageTitle | translate}}</span>
+                                <i class="fa fa-globe"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="dropdownMenuButton">
+                                <a ng-model="x" ng-repeat="x in config.languages" class="dropdown-item" ng-click="setLanguage(x.code)">{{x.title | translate}}</a>
+                            </div>
+                        </li>
+
+                        <!--<div class="topbar-divider d-none d-sm-block"></div>-->
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow" ng-cloak>
+                            <a class="nav-link dropdown-toggle" href="" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{client.firstName}} {{client.lastName}}</span>
+                                <i ng-if="!client.profileImg" class="fa fa-user"></i>
+                                <img ng-if="client.profileImg" class="img-profile rounded-circle" src="../upload/users/{{userId}}/clients/{{client.clientId}}/profileimg/{{client.profileImg}}" alt="{{client.profileImg}}">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                <a ui-sref="client" ui-sref-active="active" class="dropdown-item" href="">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    {{'my profile' | translate}}
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    {{'logout' | translate}}
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <ui-view></ui-view>
+                </div>
+
+            </div>
+            <!-- End of Main Content -->
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span ng-cloak>Copyright &copy; {{today | date:'yyyy'}} {{config.copyright}}</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+    <!-- Scroll to Top Button-->
+    <!--<a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>-->
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{'logout' | translate}}</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">{{'are you sure you want to logout' | translate}}?</div>
+                <div class="modal-footer text-uppercase">
+                    <a class="btn btn-outline-secondary" href="" data-dismiss="modal">{{'no' | translate}}</a>
+                    <a class="btn btn-outline-primary" href="" data-dismiss="modal" ng-click="logout()">{{'yes' | translate}}</a>
                 </div>
             </div>
         </div>
-
-        <div class="nav-item">
-            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#activities" aria-expanded="true" aria-controls="collapsePages">
-                <i class="fas fa-fw fa-thermometer-half"></i><span>{{'physical activity' | translate}}</span>
-            </a>
-            <div id="activities" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <a ui-sref="activities" ui-sref-active="active" href="#" class="collapse-item"><i class="fa fa-walking"></i><span class="pl-2">{{'physical activity level' | translate}}</span></a>
-                    <a ui-sref="additionalactivities" ui-sref-active="active" href="#" class="collapse-item"><i class="fa fa-biking"></i><span class="pl-2">{{'additional activities' | translate}}</span></a>
-                </div>
-            </div>
-            <!--<div id="activities" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <a ui-sref="activities" ui-sref-active="active" href="#" class="collapse-item"><i class="fa fa-walking"></i><span class="pl-2">{{'physical activity level' | translate}}</span></a>
-                    <a ui-sref="additionalactivities" ui-sref-active="active" href="#" class="collapse-item"><i class="fa fa-biking"></i><span class="pl-2">{{'additional activities' | translate}}</span></a>
-                    <a href="#" class="collapse-item"><i class="fa fa-biking"></i><span class="pl-2">{{'additional activities' | translate}}</span></a>
-                </div>
-            </div>-->
-        </div>
-
-        <!--<div class="nav-item">
-            <a ui-sref="activities" ui-sref-active="active" class="nav-link" href="" >
-                <i class="fas fa-fw fa-walking"></i>
-                <span>{{'physical activity' | translate}}</span>
-            </a>
-        </div>-->
-
-        <div class="nav-item">
-            <a ui-sref="menus" ui-sref-active="active" class="nav-link" href="" >
-                <i class="fas fa-fw fa-utensils"></i>
-                <span>{{'menus' | translate}}</span>
-            </a>
-        </div>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider d-none d-md-block">
-
-        <div class="nav-item">
-            <a ui-sref="info" ui-sref-active="active" class="nav-link" >
-                <i class="fas fa-fw fa-info"></i>
-                <span>{{'info' | translate}}</span>
-            </a>
-        </div>
-
-        <hr class="sidebar-divider">
-
-
-      <!-- Sidebar Toggler (Sidebar) -->
-      <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-      </div>
-
     </div>
-    <!-- End of Sidebar -->
-
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
-
-      <!-- Main Content -->
-      <div id="content">
-
-        <!-- Topbar -->
-        <nav ng-show="client.clientId" class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-          <!-- Sidebar Toggle (Topbar) -->
-          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-            <i class="fa fa-bars"></i>
-          </button>
-
-          <!-- Topbar Search -->
-          <!--<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </form>-->
-
-          <!-- Topbar Navbar -->
-            <ul class="navbar-nav ml-auto">
-
-                <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                <!--<li class="nav-item dropdown no-arrow d-sm-none">
-          <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-search fa-fw"></i>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
-            <form class="form-inline mr-auto w-100 navbar-search">
-              <div class="input-group">
-                <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                <div class="input-group-append">
-                  <button class="btn btn-primary" type="button">
-                    <i class="fas fa-search fa-sm"></i>
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </li>-->
 
 
-            <li ng-if="config.showlanguages" class="nav-item dropdown no-arrow" ng-cloak>
-                <a href="" class="nav-link dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{currLanguageTitle | translate}}</span>
-                    <i class="fa fa-globe"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="dropdownMenuButton">
-                    <a ng-model="x" ng-repeat="x in config.languages" class="dropdown-item" ng-click="setLanguage(x.code)">{{x.title | translate}}</a>
-                </div>
-            </li>
+    <!-- Bootstrap core JavaScript-->
+    <script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
 
-            <!--<div class="topbar-divider d-none d-sm-block"></div>-->
+    <!-- Core plugin JavaScript-->
+    <script src="assets/js/vendor/jquery.easing.min.js"></script>
 
-            <!-- Nav Item - User Information -->
-            <li class="nav-item dropdown no-arrow" ng-cloak>
-              <a class="nav-link dropdown-toggle" href="" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{client.firstName}} {{client.lastName}}</span>
-                  <i class="fa fa-user"></i>
-                <!--<img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">-->
-              </a>
-              <!-- Dropdown - User Information -->
-              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a ui-sref="client" ui-sref-active="active" class="dropdown-item" href="" >
-                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  {{'client profile' | translate}}
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="" data-toggle="modal" data-target="#logoutModal">
-                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                  {{'logout' | translate}}
-                </a>
-              </div>
-            </li>
-
-          </ul>
-
-        </nav>
-        <!-- End of Topbar -->
-
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
-
-            <!--<ng-include src="currTpl"></ng-include>-->
-
-            <ui-view></ui-view>
-
-        </div>
-
-      </div>
-      <!-- End of Main Content -->
-
-      <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; {{today | date:'yyyy'}} {{config.copyright}}</span>
-          </div>
-        </div>
-      </footer>
-      <!-- End of Footer -->
-
-    </div>
-    <!-- End of Content Wrapper -->
-
-  </div>
-  <!-- End of Page Wrapper -->
-
-  <!-- Scroll to Top Button-->
-  <!--<a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>-->
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">{{'logout' | translate}}</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">{{'are you sure you want to logout' | translate}}?</div>
-        <div class="modal-footer text-uppercase">
-          <a class="btn btn-outline-secondary" href="" data-dismiss="modal">{{'no' | translate}}</a>
-          <a class="btn btn-outline-primary" href="" data-dismiss="modal" ng-click="logout()">{{'yes' | translate}}</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- Bootstrap core JavaScript-->
-  <!--<script src="assets/js/vendor/jquery.min.js"></script>-->
-  <script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="assets/js/vendor/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="assets/js/vendor/sb-admin-2.js"></script>
-
-  <!-- Page level plugins -->
-  <!--<script src="vendor/chart.js/Chart.min.js"></script>-->
-
-  <!-- Page level custom scripts -->
-  <!--<script src="js/demo/chart-area-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>-->
+    <!-- Custom scripts for all pages-->
+    <script src="assets/js/vendor/sb-admin-2.js"></script>
 
     <script src="assets/js/app.js?v=2"></script>
     <script src="assets/js/functions.js?v=1.0.0"></script>
     <script src="assets/js/charts.js?v=1.0.0"></script>
 
-
-    <!--<script>
-        $(document).ready(function(){
-            $(".collapse").click(function () {
-                $(".collapse").removeClass("show");
-          });
-        });
-    </script>-->
 
 </body>
 

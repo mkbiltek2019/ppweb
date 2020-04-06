@@ -86,7 +86,7 @@
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">{{'measurements' | translate}}</h6>
+                    <h6 class="m-0 font-weight-bold text-primary text-capitalize">{{'measurements' | translate}}</h6>
                     <div class="dropdown no-arrow">
                         <a class="dropdown-toggle" href="" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -100,19 +100,10 @@
                 <!-- Card Body -->
                 <div ui-sref="clientlog" ui-sref-active="active" class="card-body pointer">
                     <div class="chart-area">
-
-                        <!--<div ng-show="clientLog" id="weight_chart"></div>-->
-
-                        <div ng-show="clientLogGraphData" class="chart-container" style="position: relative; height:35vh">
+                        <div ng-show="clientLogGraphData" class="chart-container chart-line-35" >
                             <canvas id="clientDataChart" class="chart-bar hidden-xs" chart-data="clientLogGraphData.data" chart-colors="clientLogGraphData.colors" height="100"
                                     chart-labels="clientLogGraphData.labels" chart-series="clientLogGraphData.series" chart-options="clientLogGraphData.options" chart-dataset-override="clientLogGraphData.datasetOverride"></canvas>
                         </div>
-
-                        <!--<canvas ng-show="clientLogGraphData" id="clientDataChart" class="chart-bar hidden-xs" chart-data="clientLogGraphData.data" chart-colors="clientLogGraphData.colors" height="100"
-                            chart-labels="clientLogGraphData.labels" chart-series="clientLogGraphData.series" chart-options="clientLogGraphData.options" chart-dataset-override="clientLogGraphData.datasetOverride"></canvas>-->
-                        <!--<canvas id="clientDataChart" class="chart-bar visible-xs" chart-data="clientLogGraphData.data" chart-colors="clientLogGraphData.colors" height="400"
-                    chart-labels="clientLogGraphData.labels" chart-series="clientLogGraphData.series" chart-options="clientLogGraphData.options" chart-dataset-override="clientLogGraphData.datasetOverride"></canvas>-->
-                        <!--<canvas id="myAreaChart"></canvas>-->
                     </div>
                 </div>
             </div>
@@ -122,7 +113,7 @@
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">{{'menus' | translate}}</h6>
+                    <h6 class="m-0 font-weight-bold text-primary text-capitalize">{{'menus' | translate}}</h6>
                     <div class="dropdown no-arrow">
                         <a class="dropdown-toggle" href="" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -135,19 +126,15 @@
                 <!-- Card Body -->
                 <div class="card-body">
                     <div class="pt-4 pb-2">
-                        <!--<canvas id="myPieChart"></canvas>-->
                         <div ng-if="menus.length===0">
                             <div class="alert alert-danger">
                                 {{'you still do not have any menus' | translate}}.
                             </div>
                         </div>
                         <div ng-if="menus.length>0" class="table-responsive table-scroll">
-
                             <div class="list-group list-group-flush" ng-repeat="x in menus | limitTo:5">
                                 <a ui-sref="menu" ui-sref-active="active" class="list-group-item list-group-item-action" ng-click="getMenu(x)">{{$index+1}} {{x.title}}</a>
                             </div>
-
-
                         </div>
                         <div class="text-right">
                             <a ui-sref="menus" ui-sref-active="active" href="">{{'show all' | translate}}...</a>

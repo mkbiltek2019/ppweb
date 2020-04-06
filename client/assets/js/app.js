@@ -796,7 +796,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         $scope.userId = null;
         localStorage.clear();
         $state.go('login');
-        //window.location.href = 'index.html'
     }
 
     $scope.activationCodeInputType = 'password';
@@ -804,9 +803,42 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
         $scope.activationCodeInputType = $scope.activationCodeInputType == 'password' ? 'type' : 'password'
     }
 
-    //$scope.changeDisplayType = function (type, clientLogsDays) {
-    //    setClientLogGraphData(type, clientLogsDays);
-    //}
+    /********* Profile Image ************/
+    $scope.uploadImg = function () {
+        var content = new FormData(document.getElementById("formUpload"));
+        $http({
+            url: $sessionStorage.config.backend + '/UploadProfileImg.ashx',
+            method: 'POST',
+            headers: { 'Content-Type': undefined },
+            data: content,
+        }).then(function (response) {
+            $scope.client.profileImg = response.data;
+        },
+       function (response) {
+           alert($translate.instant(response.data));
+       });
+    }
+
+    $scope.removeProfileImg = function (x) {
+        if (confirm($translate.instant('remove image') + '?')) {
+            removeProfileImg(x);
+        }
+
+    }
+
+    var removeProfileImg = function (x) {
+        $http({
+            url: $sessionStorage.config.backend + 'Files.asmx/DeleteProfileImg',
+            method: 'POST',
+            data: { x: x },
+        }).then(function (response) {
+            $scope.client.profileImg = response.data.d;
+        },
+       function (response) {
+           alert($translate.instant(response.data.d));
+       });
+    }
+    /********* Profile Image ************/
 
 
 }])
