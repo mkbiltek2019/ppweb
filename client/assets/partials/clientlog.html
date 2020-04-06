@@ -6,9 +6,9 @@
             <div class="col-lg-4 pt-2">
                 <span>{{'show' | translate}}</span>
                 <select ng-model="displayType" class="form-control" ng-click="changeDisplayType(displayType, clientLogsDays)">
-                    <option value=0>{{'weight' | translate}} ({{'kg' | translate}})</option>
-                    <option value=1>{{'waist' | translate}} ({{'cm' | translate}})</option>
-                    <option value=2>{{'hip' | translate}} ({{'cm' | translate}})</option>
+                    <option value=0 ng-selected="displayType===0?true:false">{{'weight' | translate}} ({{'kg' | translate}})</option>
+                    <option value=1 ng-selected="displayType===1?true:false">{{'waist' | translate}} ({{'cm' | translate}})</option>
+                    <option value=2 ng-selected="displayType===2?true:false">{{'hip' | translate}} ({{'cm' | translate}})</option>
                 </select>
             </div>
             <div class="col-lg-4 pt-2">
