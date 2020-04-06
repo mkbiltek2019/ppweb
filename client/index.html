@@ -10,7 +10,6 @@
     <meta name="author" content="IG PROG, obrt za računalno programiranje">
 
     <script src="assets/js/vendor/jquery.min.js"></script>
-    <!--<script src="assets/js/vendor/bootstrap.min.js"></script>-->
     <script src="assets/js/vendor/angular.min.js"></script>
     <script src="assets/js/vendor/angular-animate.min.js"></script>
     <script src="assets/js/vendor/angular-aria.min.js"></script>
@@ -55,7 +54,7 @@
         <div ng-show="client.clientId" class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion text-capitalize" id="accordionSidebar" ng-cloak>
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{config.webpageurl}}">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon rotate-15 d-block d-sm-block d-md-none d-lg-none">
                     <i class="fas fa-utensils"></i>
                 </div>
@@ -230,7 +229,7 @@
                     </button>
                 </div>
                 <div class="modal-body">{{'are you sure you want to logout' | translate}}?</div>
-                <div class="modal-footer text-uppercase">
+                <div class="modal-footer text-capitalize">
                     <a class="btn btn-outline-secondary" href="" data-dismiss="modal">{{'no' | translate}}</a>
                     <a class="btn btn-outline-primary" href="" data-dismiss="modal" ng-click="logout()">{{'yes' | translate}}</a>
                 </div>
