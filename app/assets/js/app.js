@@ -357,7 +357,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $state.go(x);
         $rootScope.selectedNavItem = x;
     };
-    $scope.toggleNewTpl('clientsdata');
+    if ($sessionStorage.islogin) {
+        $scope.toggleNewTpl('clientsdata');
+    }
 
     $scope.logout = function () {
         $sessionStorage.loginuser = null;
