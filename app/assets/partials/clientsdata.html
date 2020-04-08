@@ -1,4 +1,4 @@
-﻿ <div ng-controller="clientsCtrl">
+﻿ <div>
      <div>
          <div class="panel-heading">
              <div class="row">
@@ -8,8 +8,14 @@
                      <a ng-disabled="!client.clientId" href="" class="btn btn-default text-capitalize" ng-click="saveClientData(clientData)"><i class="fa fa-floppy-o"></i> <span class="hidden-xs">{{'save' | translate}}</span></a>
                  </div>
                  <div class="text-right text-small col-sm-6">
-                     <div ng-if="client.clientId" class="p10">
-                         <strong><i class="fa fa-male"></i> <span class="text-capitalize">{{'client' | translate}}:</span> </strong> <a href="" ng-if="client.clientId!=null" ng-click="edit(client)" style="color:gray">{{client.firstName}} {{client.lastName}}, {{client.gender.title | translate}}, {{'age' | translate}}: {{clientData.age}}</a>
+                     <div ng-if="client.clientId" class="p10 text-muted">
+                         <a href="" ng-click="edit(client)" title="{{'client' | translate}}" class="decoration-none">
+                             <i ng-if="!client.profileImg" class="fa fa-user-circle-o fa-2x"></i>
+                             <img ng-if="client.profileImg" src="../upload/users/{{client.userId}}/clients/{{client.clientId}}/profileimg/{{client.profileImg}}" alt="{{client.profileImg}}" style="height:3rem;width:3rem" class="img-circle" />
+                             <span style="padding-left:5px">
+                                 {{client.firstName}} {{client.lastName}}, {{client.gender.title | translate}}, {{'age' | translate}}: {{clientData.age}}
+                             </span>
+                         </a>
                      </div>
                  </div>
              </div>
@@ -30,6 +36,7 @@
 </div>
 
 <json-directive data="clientData" desc="'clientData'"></json-directive>
+<json-directive data="client" desc="'client'"></json-directive>
 
 <script type="text/ng-template" id="inputData">
     <div ng-if="client.clientId">
@@ -311,7 +318,7 @@
 </script>
 
 <script type="text/ng-template" id="clientStatictic">
-    <div ng-if="clientData.clientId">
+    <div ng-if="clientData.clientId" ng-cloak>
         <div>
             <div class="text-right">
                 <a ng-if="pdfLink1==null" ng-click="printClientLogPdf()" class="btn btn-default text-capitalize" ng-disabled="creatingPdf"><span class="text-danger"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</span></a>
@@ -356,7 +363,7 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th>{{'number' | translate}}</th>
+                        <!--<th>{{'number' | translate}}</th>-->
                         <th>{{'date' | translate}}</th>
                         <th>{{'height' | translate}} (cm)</th>
                         <th>{{'weight' | translate}} (kg)</th>
@@ -370,29 +377,29 @@
                             <a href="" style="color:red" ng-click="removeClientLog(x)" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-times"></i></a>
                             <a href="" style="color:green" ng-click="updateClientLog(x)" class="btn btn-default" title="{{'save' | translate}}"><i class="fa fa-floppy-o"></i></a>
                         </td>
-                        <td>{{clientLog.length - $index}}</td>
-                        <td>
+                        <!--<td>{{clientLog.length - $index}}</td>-->
+                        <td style="width:120px; max-width:180px">
                             <input ng-model="x.date" type="date" class="form-control">
                             <!--{{getDateFormat(x.date) | date:'dd.MM.yyyy'}}-->
                         </td>
-                        <td>
-                            <input type="text" ng-model="x.height" class="form-control" style="min-width:70px" allow-only-numbers>
+                        <td style="max-width:120px">
+                            <input type="text" ng-model="x.height" class="form-control" style="min-width:60px" allow-only-numbers>
                         </td>
                         <td style="max-width:180px">
                             <div class="input-group">
-                                <input type="text" ng-model="x.weight" class="form-control" style="min-width:70px" allow-only-numbers>
+                                <input type="text" ng-model="x.weight" class="form-control" style="min-width:60px" allow-only-numbers>
                                 <span class="input-group-addon" style="min-width:70px"><i class="{{clientLogDiff('weight', clientLog, x, $index).icon}}"></i> {{clientLogDiff('weight', clientLog, x, $index).diff}}</span>
                             </div>
                         </td>
                         <td style="max-width:180px">
                             <div class="input-group">
-                                <input type="text" ng-model="x.waist" class="form-control" style="min-width:70px" allow-only-numbers>
+                                <input type="text" ng-model="x.waist" class="form-control" style="min-width:60px" allow-only-numbers>
                                 <span class="input-group-addon" style="min-width:70px"><i class="{{clientLogDiff('waist', clientLog, x, $index).icon}}"></i> {{clientLogDiff('waist', clientLog, x, $index).diff}}</span>
                             </div>
                         </td>
                         <td style="max-width:180px">
                             <div class="input-group">
-                                <input type="text" ng-model="x.hip" class="form-control" style="min-width:70px" allow-only-numbers>
+                                <input type="text" ng-model="x.hip" class="form-control" style="min-width:60px" allow-only-numbers>
                                 <span class="input-group-addon" style="min-width:70px"><i class="{{clientLogDiff('hip', clientLog, x, $index).icon}}"></i> {{clientLogDiff('hip', clientLog, x, $index).diff}}</span>
                             </div>
                         </td>

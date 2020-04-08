@@ -1,4 +1,4 @@
-﻿<div ng-controller="pricesCtrl">
+﻿<div>
     <div class="mt10">
         <div class="row">
             <div class="col-sm-6">
@@ -15,7 +15,7 @@
                     </span>
                 </div>
                 <div>
-                    <select ng-model="food" class="form-control" size="12" ng-change="selectFood(food)">
+                    <select ng-model="food" class="form-control" size="20" ng-change="selectFood(food)">
                         <option ng-repeat="x in foodList | filter:{food:searchFood} | orderBy:'food'" value="{{x}}">{{x.food}}</option>
                     </select>
                 </div>

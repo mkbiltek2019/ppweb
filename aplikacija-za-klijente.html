@@ -34,7 +34,7 @@
         </div>
     </nav>
     <div class="container pt60">
-        <h1>Program Prehrane Klijent</h1>
+        <h1>Program Prehrane <sub><small>Klijent</small></sub></h1>
         <h2>Aplikacija za klijente</h2>
         <div>
             <img src="assets/img/aplikacija-za-klijente/nutricionist-klijent.png" class="img-responsive" />
@@ -43,8 +43,8 @@
             <div class="row">
                 <div class="col-sm-12">
                     <p>
-                        <strong>Program Prehrane Klijent</strong> je web/mobilna aplikacija koja omogućuje klijentima odnosno pacijentima praćenje svojih antropometrijskih mjera i preuzimanje jelovnika
-                        napravljenih od strane nutricionista, korisnika web aplikacije <strong>Program Prehrane Web</strong>.
+                        <strong>Program Prehrane Klijent</strong> je web/mobilna aplikacija koja omogućava klijentima odnosno pacijentima praćenje svojih antropometrijskih mjera i preuzimanje jelovnika
+                        koje su za njih izradili nutricionisti.
                         Osnovna zamisao je da klijent putem aplikacije svakodnevno bilježi svoju tjelesnu masu i intenzitet tjelesne aktivnost,
                         dok nutricionist putem web aplikacije na osnovi tih podataka izrađuje plan prehrane i plan tjelesne aktivnosti.
                         Klijent zatim može putem aplikacije preuzeti jelovnike koje je nutricionist za njega izradio.
@@ -52,18 +52,30 @@
                     </p>
                     <div class="text-center mt20">
                         <h4>Aplikacija za klijente</h4>
-                        <button title="Web Aplikacija" class="btn-lg btn-primary" style="min-width:200px" onclick="window.location='./client'">
+                        <a href="./client" title="Web Aplikacija" class="btn btn-lg btn-primary" style="min-width:200px" >
+                            <span class="text-default">
+                                <i class="fa fa-globe fa-4x"></i><br />
+                                Web App
+                            </span>
+                        </a>
+                        <a href="https://files.appsgeyser.com/Program%20Prehrane%20Klijent_8297899.apk" title="Mobilna Aplikacija" class="btn btn-lg btn-success" style="min-width:200px" >
+                            <span class="text-danger">
+                                <i class="fa fa-android fa-4x"></i><br />
+                                Android App
+                            </span>
+                        </a>
+                        <!--<button title="Web Aplikacija" class="btn-lg btn-primary" style="min-width:200px" onclick="window.location='./client'">
                             <i class="fa fa-globe fa-4x"></i><br />
                             Web App
                         </button>
                         <button title="Mobilna Aplikacija" class="btn-lg btn-success" style="min-width:200px" onclick="window.location = 'https://files.appsgeyser.com/Program%20Prehrane%20Klijent_8297899.apk'">
                             <i class="fa fa-android fa-4x"></i><br />
                             Android App
-                        </button>
-                        <button title="Mobilna Aplikacija" class="btn-lg btn-danger" style="min-width:200px" onclick="window.location = './apk/ProgramPrehraneKlijent_v1.0.1.apk'">
+                        </button>-->
+                        <!--<button title="Mobilna Aplikacija" class="btn-lg btn-danger" style="min-width:200px" onclick="window.location = './apk/ProgramPrehraneKlijent_v1.0.1.apk'">
                             <i class="fa fa-android fa-4x"></i><br />
                             Android App BETA <em>v1.0.1</em>
-                        </button>
+                        </button>-->
                     </div>
                     <!--<div>
                         Program Prehrane Klijent - Beta <a href="apk/ProgramPrehraneKlijent.apk" title="Beta verzija">Download</a>
@@ -86,8 +98,8 @@
                         <em class="text-danger">* Napomena: Za korištenje aplikacije potrebna je veza sa internetom budući da se svi podaci spremaju i preuzimaju sa servera.</em>
                     </li>
                     <li>
-                        Antropometrijske mjere koje je klijent spremio putem aplikacije nutricionist može pratiti putem web aplikacije <em>Program Prehrane Web</em>. <br />
-                        Na osnovi tih podataka nutricionist izrađuje plan prehrane.
+                        Antropometrijske mjere koje je klijent spremio putem aplikacije nutricionist može pratiti putem web aplikacije <em>Program Prehrane Web</em>
+                        na osnovi kojih nutricionist izrađuje plan prehrane.
                     </li>
                     <li>
                         Klijent može putem aplikacije preuzeti jelovnike koje je nutricionist spremio na njegovo ime.
@@ -100,23 +112,27 @@
             <h3>Aplikacija za klijente</h3>
             <div class="mt20">
                 <div><label><em>* Antropometrijske mjere *</em></label></div>
-                <img src="assets/img/aplikacija-za-klijente/pp_client1.png" class="img-thumbnail box-shadow" />
+                <img src="assets/img/aplikacija-za-klijente/pp_client1.png" class="img-thumbnail box-shadow" alt="pp_client1.png" />
             </div>
             <div class="mt20">
-                <div><label><em>* Grafički prikaz *</em></label></div>
-                <img src="assets/img/aplikacija-za-klijente/pp_client2.png" class="img-thumbnail box-shadow" />
+                <div><label><em>* Praćenje antropometrijskih parametara *</em></label></div>
+                <img src="assets/img/aplikacija-za-klijente/pp_client2.png" class="img-thumbnail box-shadow" alt="pp_client2.png" />
             </div>
             <div class="mt20">
-                <div><label><em>* Lista jelonvika *</em></label></div>
-                <img src="assets/img/aplikacija-za-klijente/pp_client3.png" class="img-thumbnail box-shadow" />
+                <div><label><em>* Lista jelovnika *</em></label></div>
+                <img src="assets/img/aplikacija-za-klijente/pp_client3.png" class="img-thumbnail box-shadow" alt="pp_client3.png" />
             </div>
             <div class="mt20">
                 <div><label><em>* Jelovnik *</em></label></div>
-                <img src="assets/img/aplikacija-za-klijente/pp_client4.png" class="img-thumbnail box-shadow" />
+                <img src="assets/img/aplikacija-za-klijente/pp_client4.png" class="img-thumbnail box-shadow" alt="pp_client4.png"/>
+            </div>
+            <div class="mt20">
+                <div><label><em>* Dodatna tjelesna aktivnost *</em></label></div>
+                <img src="assets/img/aplikacija-za-klijente/pp_client5.png" class="img-thumbnail box-shadow" alt="pp_client5.png" />
             </div>
             <div class="mt20">
                 <div><label><em>* Podaci o klijentu *</em></label></div>
-                <img src="assets/img/aplikacija-za-klijente/pp_client5.png" class="img-thumbnail box-shadow" />
+                <img src="assets/img/aplikacija-za-klijente/pp_client6.png" class="img-thumbnail box-shadow" alt="pp_client6.png" />
             </div>
         </div>
         
@@ -129,7 +145,7 @@
         </div>
         <hr />
         <div>
-            <span class="pull-left">Copyright © 2019 IG PROG</span>
+            <span class="pull-left">Copyright © 2020 IG PROG</span>
         </div>
     </footer>
     <script src="assets/js/main.js"></script>

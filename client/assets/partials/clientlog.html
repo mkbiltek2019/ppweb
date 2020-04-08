@@ -1,5 +1,5 @@
 ﻿<div class="container pb-5" ng-cloak>
-    <h2 class="h3 mb-0 text-gray-800">{{'statistics' | translate}}</h2>
+    <h2 class="h3 mb-0 text-gray-800">{{'tracking of anthropometric measures' | translate}}</h2>
     <hr />
     <div>
         <div class="row">
@@ -38,7 +38,7 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>{{'number' | translate}}</th>
+                    <!--<th>{{'number' | translate}}</th>-->
                     <th>{{'date' | translate}}</th>
                     <th>{{'height' | translate}} ({{'cm' | translate}})</th>
                     <th>{{'weight' | translate}} ({{'kg' | translate}})</th>
@@ -52,8 +52,8 @@
                         <a href="" ng-click="removeClientLog(x)" class="btn btn-outline-danger btn-circle" title="{{'delete' | translate}}"><i class="fa fa-trash-alt"></i></a>
                         <a href="" ng-click="updateClientLog(x)" class="btn btn-outline-primary btn-circle" title="{{'save' | translate}}"><i class="fa fa-save"></i></a>
                     </td>
-                    <td>{{clientLog.length - $index}}</td>
-                    <td style="max-width:160px">
+                    <!--<td>{{clientLog.length - $index}}</td>-->
+                    <td style="width:120px; max-width:180px">
                         <input ng-model="x.date" type="date" class="form-control">
                         <!--{{getDateFormat(x.date) | date:'dd.MM.yyyy'}}-->
                     </td>

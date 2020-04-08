@@ -12,6 +12,10 @@
         </md-toolbar>
         <md-dialog-content class="text-capitalize">
             <div class="md-dialog-content">
+                <div ng-if="d.profileImg" class="text-center">
+                    <img src="../upload/users/{{d.userId}}/clients/{{d.clientId}}/profileimg/{{d.profileImg}}" alt="{{x.profileImg}}" style="height:15rem;width:15rem" class="img-circle" />
+                    <hr />
+                </div>
                 <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>{{'first name' | translate}}</label>

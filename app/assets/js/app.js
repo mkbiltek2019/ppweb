@@ -4,7 +4,44 @@ app.js
 */
 angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'chart.js', 'ngStorage', 'functions', 'charts'])
 
-.config(['$translateProvider', '$translatePartialLoaderProvider', '$httpProvider', function ($translateProvider, $translatePartialLoaderProvider, $httpProvider) {
+.config(['$stateProvider', '$urlRouterProvider', '$translateProvider', '$translatePartialLoaderProvider', '$httpProvider', function ($stateProvider, $urlRouterProvider, $translateProvider, $translatePartialLoaderProvider, $httpProvider) {
+
+    $stateProvider
+        .state('dashboard', {
+            url: '/dashboard', templateUrl: './assets/partials/dashboard.html', controller: 'dashboardCtrl'
+        })
+        .state('clientsdata', {
+            url: '/clientsdata', templateUrl: './assets/partials/clientsdata.html', controller: 'clientsCtrl'
+        })
+        .state('calculation', {
+            url: '/calculation', templateUrl: './assets/partials/calculation.html', controller: 'calculationCtrl'
+        })
+        .state('activities', {
+            url: '/activities', templateUrl: './assets/partials/activities.html', controller: 'activitiesCtrl'
+        })
+        .state('diets', {
+            url: '/diets', templateUrl: './assets/partials/diets.html', controller: 'dietsCtrl'
+        })
+        .state('meals', {
+            url: '/meals', templateUrl: './assets/partials/meals.html', controller: 'mealsCtrl'
+        })
+        .state('menu', {
+            url: '/menu', templateUrl: './assets/partials/menu.html', controller: 'menuCtrl'
+        })
+        .state('analysis', {
+            url: '/analysis', templateUrl: './assets/partials/analysis.html', controller: 'menuCtrl'
+        })
+        .state('myfoods', {
+            url: '/myfoods', templateUrl: './assets/partials/myfoods.html', controller: 'myFoodsCtrl'
+        })
+        .state('myrecipes', {
+            url: '/myrecipes', templateUrl: './assets/partials/myrecipes.html', controller: 'menuCtrl'
+        })
+        .state('prices', {
+            url: '/prices', templateUrl: './assets/partials/prices.html', controller: 'pricesCtrl'
+        })
+
+    $urlRouterProvider.otherwise("/");
 
     $translateProvider.useLoader('$translatePartialLoader', {
          urlTemplate: './assets/json/translations/{lang}/{part}.json'
@@ -30,7 +67,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 })
 
-.controller('AppCtrl', ['$scope', '$mdDialog', '$timeout', '$q', '$log', '$rootScope', '$localStorage', '$sessionStorage', '$window', '$http', '$translate', '$translatePartialLoader', 'functions', function ($scope, $mdDialog, $timeout, $q, $log, $rootScope, $localStorage, $sessionStorage, $window, $http, $translate, $translatePartialLoader, functions) {
+.controller('AppCtrl', ['$scope', '$mdDialog', '$timeout', '$q', '$log', '$rootScope', '$localStorage', '$sessionStorage', '$window', '$http', '$translate', '$translatePartialLoader', 'functions', '$state', function ($scope, $mdDialog, $timeout, $q, $log, $rootScope, $localStorage, $sessionStorage, $window, $http, $translate, $translatePartialLoader, functions, $state) {
     $rootScope.loginUser = $sessionStorage.loginuser;
     $rootScope.user = $sessionStorage.user;
     $scope.today = new Date();
@@ -287,19 +324,22 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 return false;
             };
             if ($rootScope.clientData.meals == null) {
-                $rootScope.newTpl = 'assets/partials/meals.html';
+                //$rootScope.newTpl = 'assets/partials/meals.html';
+                $state.go('meals');
                 $rootScope.selectedNavItem = 'meals';
                 functions.alert($translate.instant('choose meals'), '');
                 return false;
             }
             if (x == 'menu' && $rootScope.clientData.meals.length > 0 && !$rootScope.isMyMeals && $rootScope.clientData.meals[0].code == 'B') {
                 if ($rootScope.clientData.meals[1].isSelected == false && $rootScope.clientData.meals[5].isSelected == true) {
-                    $rootScope.newTpl = './assets/partials/meals.html';
+                    //$rootScope.newTpl = './assets/partials/meals.html';
+                    $state.go('meals');
                     functions.alert($translate.instant('the selected meal combination is not allowed in the menu') + '!', $rootScope.clientData.meals[5].title + ' ' + $translate.instant('in this combination must be turned off') + '.');
                     return false;
                 }
                 if ($rootScope.clientData.meals[3].isSelected == false && $rootScope.clientData.meals[5].isSelected == true) {
-                    $rootScope.newTpl = './assets/partials/meals.html';
+                    //$rootScope.newTpl = './assets/partials/meals.html';
+                    $state.go('meals');
                     functions.alert($translate.instant('the selected meal combination is not allowed in the menu') + '!', $rootScope.clientData.meals[5].title + ' ' + $translate.instant('in this combination must be turned off') + '.');
                     return false;
                 }
@@ -313,7 +353,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 $rootScope.saveClientData($rootScope.clientData);
             }
         }
-        $rootScope.newTpl = './assets/partials/' + x + '.html';
+        //$rootScope.newTpl = './assets/partials/' + x + '.html';
+        $state.go(x);
         $rootScope.selectedNavItem = x;
     };
     $scope.toggleNewTpl('clientsdata');
@@ -338,19 +379,22 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             return false;
         };
         if ($rootScope.clientData.meals == null) {
-            $rootScope.newTpl = 'assets/partials/meals.html';
+            //$rootScope.newTpl = 'assets/partials/meals.html';
+            $state.go('meals');
             $rootScope.selectedNavItem = 'meals';
             functions.alert($translate.instant('choose meals'), '');
             return false;
         }
         if ($rootScope.clientData.meals.length > 0 && !$rootScope.isMyMeals && $rootScope.clientData.meals[0].code == 'B') {
             if ($rootScope.clientData.meals[1].isSelected == false && $rootScope.clientData.meals[5].isSelected == true) {
-                $rootScope.newTpl = 'assets/partials/meals.html';
+                //$rootScope.newTpl = 'assets/partials/meals.html';
+                $state.go('meals');
                 functions.alert($translate.instant('the selected meal combination is not allowed in the menu') + '!', $rootScope.clientData.meals[5].title + ' ' + $translate.instant('in this combination must be turned off') + '.');
                 return false;
             }
             if ($rootScope.clientData.meals[3].isSelected == false && $rootScope.clientData.meals[5].isSelected == true) {
-                $rootScope.newTpl = 'assets/partials/meals.html';
+                //$rootScope.newTpl = 'assets/partials/meals.html';
+                $state.go('meals');
                 functions.alert($translate.instant('the selected meal combination is not allowed in the menu') + '!', $rootScope.clientData.meals[5].title + ' ' + $translate.instant('in this combination must be turned off') + '.');
                 return false;
             }
@@ -1268,17 +1312,20 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 }])
 
 //-------------- Program Prehrane Controllers---------------
-.controller('mainCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
+.controller('mainCtrl', ['$scope', '$rootScope', '$state', function ($scope, $rootScope, $state) {
     if ($rootScope.client) {
         if ($rootScope.client.clientId) {
-            $rootScope.newTpl = 'assets/partials/clientsdata.html',
+            //$rootScope.newTpl = 'assets/partials/clientsdata.html',
+            $state.go('clientsdata');
             $rootScope.selectedNavItem = 'clientsdata';
         } else {
-            $rootScope.newTpl = 'assets/partials/dashboard.html',
+            //$rootScope.newTpl = 'assets/partials/dashboard.html',
+            $state.go('dashboard');
             $rootScope.selectedNavItem = 'dashboard';
         }
     } else {
-        $rootScope.newTpl = 'assets/partials/dashboard.html',
+        //$rootScope.newTpl = 'assets/partials/dashboard.html',
+        $state.go('dashboard');
         $rootScope.selectedNavItem = 'dashboard';
     }
 
@@ -2625,7 +2672,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
         if (x === 'KMA' && $rootScope.clientData.bodyFat.bodyFatPerc == 0) {
             functions.alert($translate.instant('body fat is required'), '');
-            $rootScope.newTpl = './assets/partials/clientsdata.html';
+            //$rootScope.newTpl = './assets/partials/clientsdata.html';
+            $state.go('clientsdata');
             return false;
         }
         getCalculation();
@@ -2642,7 +2690,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 }])
 
-.controller('activitiesCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
+.controller('activitiesCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', '$state', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate, $state) {
     var webService = 'Activities.asmx';
     $scope.orderdirection = '-';
     $scope.orderby = function (x) {
@@ -2659,7 +2707,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $rootScope.calculation.recommendedEnergyExpenditure = $rootScope.myCalculation.recommendedEnergyExpenditure;
         }
     } else {
-        $rootScope.newTpl = './assets/partials/calculation.html';
+        //$rootScope.newTpl = './assets/partials/calculation.html';
+        $state.go('calculation');
         $rootScope.selectedNavItem = 'calculation';
     }
     var getEnergyLeft = function () {
@@ -2831,9 +2880,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 }])
 
-.controller('mealsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
+.controller('mealsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', '$state', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate, $state) {
     if ($rootScope.clientData === undefined) {
-        $rootScope.newTpl = 'assets/partials/clientsdata.html';
+        //$rootScope.newTpl = 'assets/partials/clientsdata.html';
+        $state.go('clientsdata');
         $rootScope.selectedNavItem = 'clientsdata';
         return false;
     }
@@ -3197,9 +3247,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 }])
 
-.controller('menuCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'charts', '$timeout', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, charts, $timeout, functions, $translate) {
+.controller('menuCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'charts', '$timeout', 'functions', '$translate', '$state', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, charts, $timeout, functions, $translate, $state) {
     if ($rootScope.clientData === undefined) {
-        $rootScope.newTpl = 'assets/partials/meals.html';
+        //$rootScope.newTpl = 'assets/partials/meals.html';
+        $state.go('meals');
         $rootScope.selectedNavItem = 'meals';
         return false;
     }
@@ -3225,7 +3276,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $rootScope.selectedFoods = $rootScope.selectedFoods == undefined ? [] : $rootScope.selectedFoods;
 
     if ($rootScope.clientData.meals.length < 3) {
-        $rootScope.newTpl = 'assets/partials/meals.html';
+        //$rootScope.newTpl = 'assets/partials/meals.html';
+        $state.go('meals');
         $rootScope.selectedNavItem = 'meals';
         functions.alert($translate.instant('choose at least 3 meals'), '');
     }
@@ -3411,7 +3463,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $scope.addFoodBtn = false;
             if (x.openAsMyFood !== undefined) {
                 if (x.openAsMyFood == true) {
-                    $rootScope.newTpl = './assets/partials/myfoods.html';
+                    //$rootScope.newTpl = './assets/partials/myfoods.html';
+                    $state.go('myfoods');
                     $rootScope.selectedNavItem = 'myfoods';
                     $rootScope.myFood_ = x.initFood;
                 } else {
@@ -4959,7 +5012,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         });
     };
 
-    var getRecipePopupCtrl = function ($scope, $mdDialog, $http, clientData, config, $translate, $translatePartialLoader, $timeout) {
+    var getRecipePopupCtrl = function ($scope, $mdDialog, $http, clientData, config, $translate, $translatePartialLoader, $timeout, $state) {
         $scope.clientData = clientData;
         $scope.config = config;
         $scope.user = $rootScope.user;
@@ -5026,7 +5079,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
         $scope.toggleMyRecipeTpl = function () {
             $mdDialog.cancel();
-            $rootScope.newTpl = './assets/partials/myrecipes.html';
+            //$rootScope.newTpl = './assets/partials/myrecipes.html';
+            $state.go('myrecipes');
             $rootScope.selectedNavItem = 'myrecipes';
         }
 
@@ -5232,7 +5286,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         if (data.selectedFoods.length == 0) {
             return false;
         }
-        $rootScope.newTpl = './assets/partials/myrecipes.html';
+        //$rootScope.newTpl = './assets/partials/myrecipes.html';
+        $state.go('myrecipes');
         $rootScope.selectedNavItem = 'myrecipes';
         $rootScope.recipeData = data;
         $rootScope.currentMealForRecipe = currentMeal;
@@ -5444,6 +5499,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.showMenuDescHelp = x;
     }
     $scope.mealDescHelp(false);
+
+    $scope.chartResp = function (w, w_resp) {
+        return window.innerWidth < 767 ? w_resp : w;
+    }
 
 }])
 
@@ -5698,8 +5757,18 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             clickOutsideToClose: true,
         })
         .then(function (res) {
-            init();
-            $timeout(function () {
+            $http({
+                url: $sessionStorage.config.backend + 'Foods.asmx/Init',
+                method: "POST",
+                data: { lang: $rootScope.config.language }
+            })
+            .then(function (response) {
+                var r = JSON.parse(response.data.d);
+                $scope.myFood = r.food;
+                $scope.units = r.units;
+                $scope.mainFoodGroups = r.foodGroups;
+
+                /***** USDA *****/
                 var d = res.nutrients;
                 var portion = res.portion;
                 $scope.myFood.food = d.description;
@@ -5733,13 +5802,19 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 $scope.myFood.saturatedFats = nutriAmount(d.foodNutrients, 1258);
                 $scope.myFood.monounsaturatedFats = nutriAmount(d.foodNutrients, 1292);
                 $scope.myFood.polyunsaturatedFats = nutriAmount(d.foodNutrients, 1293);
-            }, 600);
+                /***** USDA *****/
+
+            },
+            function (response) {
+                alert(response.data.d)
+            });
         }, function () {
         });
     };
 
     var nutriAmount = function (foodNutrients, id) {
-        return foodNutrients.find(a => a.nutrient.id === id).amount;
+        var x = foodNutrients.find(a => a.nutrient.id === id);
+        return x !== undefined ? x.amount : 0;
     }
 
     var usdaPopupCtrl = function ($scope, $mdDialog, $http) {

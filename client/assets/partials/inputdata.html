@@ -1,8 +1,8 @@
 ﻿<div class="container pb-5" ng-cloak>
     <h2 class="h3 mb-0 text-gray-800">{{'antropometric data' | translate}}</h2>
     <hr />
-    <div class="row">
-        <div class="col-lg-6 p-5">
+    <div class="row pt-5 pb-5">
+        <div class="col-lg-6">
             <div class="form-group row">
                 <span class="col-sm-4 text-capitalize">{{'measurement date' | translate}}:</span>
                 <div class="col-sm-8">
@@ -53,7 +53,7 @@
                     </div>
                 </div>
             </div>
-            <div class="text-right">
+            <div class="text-right pb-3">
                 <button class="btn btn-outline-primary" ng-click="save(clientData)"><i class="fa fa-save"></i> {{'save' | translate}}</button>
             </div>
         </div>
@@ -62,7 +62,15 @@
                 <div class="card-header">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="h5 mb-0 font-weight-bold text-gray-800"><span class="text-uppercase">{{'bmi' | translate}}</span> <em>({{'body mass index' | translate}})</em>: {{calculation.bmi.value}} {{'kg' | translate}}/m&sup2</div>
+                            <div class="row h5 mb-0 font-weight-bold text-gray-800">
+                                <div class="col-sm-8">
+                                    <span class="text-uppercase">{{'bmi' | translate}}</span>
+                                    <small><em>({{'body mass index' | translate}})</em>:</small>
+                                </div>
+                                <div class="col-sm-4">
+                                     {{calculation.bmi.value}} <small>{{'kg' | translate}}/m&sup2</small>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-{{getBmiClass(calculation.bmi.value).icon}} fa-2x text-{{getBmiClass(calculation.bmi.value).css}}-300"></i>

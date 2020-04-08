@@ -24,7 +24,11 @@
         <option value="myrecipes">{{'my recipes' | translate}}</option>
         <option value="prices">{{'prices' | translate}}</option>
     </select>
-    <div ng-include="newTpl" class="loginBox" style="min-height:80%"></div>
+    <!--<div ng-include="newTpl" class="loginBox" style="min-height:80%"></div>-->
+    <div class="loginBox" style="min-height:80%" ng-cloak>
+        <ui-view autoscroll="false"></ui-view>
+    </div>
+
 </div>
 
 

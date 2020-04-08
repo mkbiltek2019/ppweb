@@ -346,6 +346,10 @@ a[class*="btn-default"], button[class*="btn-default"], input[class*="search"] {
     background-color: #73b3d1;
 }
 
+.decoration-none {
+    text-decoration: none !important;
+}
+
 @media (max-width: 767px) {
     .loginBox {
         padding:20px;

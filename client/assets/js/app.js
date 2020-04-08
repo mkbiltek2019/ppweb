@@ -734,7 +734,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
 
     $timeout(function () {
         bmiChart();
-    }, 800);
+    }, 1000);
 
 }])
 

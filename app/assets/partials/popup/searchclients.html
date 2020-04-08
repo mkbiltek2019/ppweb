@@ -22,7 +22,8 @@
                 <table class="table table-hover table-condensed text-small">
                     <thead>
                         <tr class="text-capitalize">
-                            <th style="width:20%">{{'number' | translate}}</th>
+                            <th style="width:50px">{{'number' | translate}}</th>
+                            <th></th>
                             <th class="nowrap" style="width:20%">{{'first name' | translate}}</th>
                             <th class="nowrap" style="width:20%">{{'last name' | translate}}</th>
                             <th class="nowrap" style="width:20%">{{'birth date' | translate}}</th>
@@ -32,7 +33,8 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="x in d | filter:searchValue | limitTo:limit" ng-click="get(x)">
-                            <td style="width:20%">{{d.length-$index}}</td>
+                            <td style="width:50px">{{d.length-$index}}</td>
+                            <td><img ng-if="x.profileImg" src="../upload/users/{{x.userId}}/clients/{{x.clientId}}/profileimg/{{x.profileImg}}" alt="{{x.profileImg}}" style="height:3rem;width:3rem" class="img-circle" /></td>
                             <td style="width:20%">{{x.firstName}}</td>
                             <td style="width:20%">{{x.lastName}}</td>
                             <td style="width:20%">{{getDateFormat(x.birthDate) | date:'dd.MM.yyyy'}}</td>
