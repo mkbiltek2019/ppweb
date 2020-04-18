@@ -1,0 +1,82 @@
+﻿<div>
+    <div class="alert alert-warning">
+        <i class="fa fa-exclamation-triangle"></i>
+        <em class="text-small text-danger ml10"> {{'for persons with health problems or suspicion on them, it is recommended that before choosing additionaly physical activity consult with his doctor' | translate}}.</em>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <p>{{'additional energy expenditure' | translate}}: <strong>{{calculation.recommendedEnergyExpenditure}} {{'kcal' | translate}}</strong></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <fieldset class="fieldset-border">
+                <legend class="fieldset-border">{{'choose additional physical activity' | translate}}</legend>
+                <div class="hidden-xs">
+                    <div class="input-group">
+                        <input ng-model="searchValue" class="form-control search" type="text" placeholder="{{'search' | translate}}..." autofocus />
+                        <span class="input-group-btn">
+                            <a href="" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</a>
+                        </span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-condensed text-small">
+                            <thead>
+                                <tr>
+                                    <th style="width:80%"><i ng-click="orderby('activity')" class="fa fa-sort"></i> {{'activity' | translate}}</th>
+                                    <th style="width:20%"><i ng-click="orderby('factorKcal')" class="fa fa-sort"></i> {{'factor' | translate}}</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="table-responsive" style="height:40vh">
+                        <table class="table table-hover table-condensed text-small">
+                            <tbody>
+                                <tr ng-repeat="x in activities | filter:{activity:searchValue} | orderBy:order | filter:{isSport:1}" ng-click="openPopup(x)">
+                                    <td style="width:80%">{{x.activity}}</td>
+                                    <td style="width:20%">{{x.factorKcal}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="hidden-sm hidden-md hidden-lg hidden-xl">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>{{'select activity' | translate}}...</label>
+                        <md-select ng-model="x" ng-change="openPopup(x)">
+                            <md-option ng-value="x" ng-repeat="x in activities | filter:{activity:searchValue} | orderBy:order | filter:{isSport:1}">{{x.activity}}</md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </fieldset>
+        </div>
+        <div class="col-sm-6">
+            <fieldset class="fieldset-border">
+                <legend class="fieldset-border text-capitalize">{{'choosen activities' | translate}}</legend>
+                <div class="alert alert-success" ng-repeat="x in clientData.activities">
+                    <a href="" ng-click="removeActivity(x, $index)" class="close" title="{{'delete' | translate}}">&times;</a>
+                    <div>
+                        <strong>{{x.activity}}</strong>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p title="{{'duration' | translate}}"><i class="fa fa-clock-o"></i> {{x.duration}} {{'min' | translate}}</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p title="{{'energy' | translate}}"><i class="fa fa-free-code-camp"></i> {{x.energy | number:0}} {{'kcal' | translate}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="clientData.activities.length>1" class="text-right text-capitalize">
+                    {{'total' | translate}}: <strong>{{energy}} {{'kcal' | translate}}</strong>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div>
+        <a href="" ng-if="client.clientId" class="btn btn-default btn-lg center center-left" title="{{'back' | translate}}" ng-click="toggleNewTpl('calculation')"><i class="fa fa-angle-double-left fa-2x text-primary" aria-hidden="true"></i></a>
+        <a href="" ng-if="client.clientId" class="btn btn-default btn-lg center center-right" title="{{'forward' | translate}}" ng-click="toggleNewTpl('diets')"><i class="fa fa-angle-double-right fa-2x text-primary" aria-hidden="true"></i></a>
+    </div>
+</div>
+
+<json-directive data="clientData.activities" desc="'clientData.activities'"></json-directive>

@@ -1,17 +1,152 @@
-﻿<div ng-controller="loginCtrl">
-    <div class="row">
+﻿<div class="pt-3 pb-5">
+
+    <div class="row justify-content-center pb-5">
+        <!--<div class="col-xl-10 col-lg-12 col-md-9">-->
+        <div class="col-xl-4 col-lg-6 col-md-8">
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <!--<div class="col-lg-6 d-none d-lg-block bg-login-image">
+                    </div>-->
+                        <div class="col-lg-12">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">{{'welcome' | translate}}</h1>
+                                </div>
+                                <form class="user">
+                                    <div class="form-group">
+                                        <input ng-model="userName" type="text" class="form-control form-control-user" name="email" placeholder="{{'email' | translate}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <input ng-model="password" type="password" class="form-control form-control-user" name="password" placeholder="{{'password' | translate}}">
+                                    </div>
+                                    <div ng-if="config.showlanguages">
+                                        <select ng-model="config.language" ng-change="setLanguage(config.language)" class="form-control form-control-user" style="padding:2px 2px 2px 10px">
+                                            <option disabled="disabled" ng-selected="true" value="">{{'choose language' | translate}}</option>
+                                            <option ng-repeat="x in config.languages" value="{{x.code}}">
+                                                {{x.title | translate}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <!--<div class="form-group">
+                                    <div class="custom-control custom-checkbox small">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck">
+                                        <label class="custom-control-label" for="customCheck">Remember Me</label>
+                                    </div>
+                                </div>-->
+                                    <div class="pt-3">
+                                        <button type="submit" form="loginform" ng-click="login(userName, password)" class="btn btn-primary btn-user btn-block"><span class="fa fa-unlock-altfa fa-key" aria-hidden="true"></span> <span class="text-capitalize">{{'login' | translate}}</span></button>
+                                    </div>
+                                    <!--<a href="index.html" class="btn btn-primary btn-user btn-block">
+                                    Login
+                                </a>-->
+                                    <hr>
+                                    <!--<a href="index.html" class="btn btn-google btn-user btn-block">
+                                    <i class="fab fa-google fa-fw"></i> Login with Google
+                                </a>
+                                <a href="index.html" class="btn btn-facebook btn-user btn-block">
+                                    <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
+                                </a>-->
+                                </form>
+                                <div class="text-center pt-2">
+                                    <a href="" ng-click="forgotPasswordPopup()">{{'forgot your password' | translate}}?</a>
+                                </div>
+                                <div class="text-center pt-2">
+                                    <a href="" ng-click="toggleTpl('signup')">{{'sign up' | translate}}!</a>
+                                </div>
+                                <div ng-if="errorLogin" class="alert alert-danger">
+                                    <strong class="text-uppercase">{{'error' | translate}} !</strong> {{errorMesage}}.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--<div ng-include="tpl" class="loginBox"></div>-->
+    <!--<div class="row background">
         <div class="col-md-4 col-md-offset-4 mt20">
             <ul class="nav nav-tabs">
-                <li ng-class="tpl=='loginTpl'?'active':'inactive'" ng-click="toggleTpl('loginTpl')"><a href="#"><i class="fa fa-sign-in"></i> <span class="text-capitalize">{{'login' | translate}}</span></a></li>
-                <li ng-class="tpl=='signupTpl'?'active':'inactive'"><a href="#" ng-click="toggleTpl('signupTpl')"><i class="fa fa-user-plus"></i> <span class="text-capitalize">{{'sign up' | translate}}</span></a></li>
+                <li ng-class="tpl=='loginTpl'?'active':'inactive'" class="nav-item"  ng-click="toggleTpl('loginTpl')"><a href="#" class="nav-link"><i class="fa fa-sign-in"></i> <span class="text-capitalize">{{'login' | translate}}</span></a></li>
+                <li ng-class="tpl=='signupTpl'?'active':'inactive'" class="nav-item" ng-click="toggleTpl('signupTpl')"><a href="#" class="nav-link"><i class="fa fa-user-plus"></i> <span class="text-capitalize">{{'sign up' | translate}}</span></a></li>
             </ul>
             <div ng-include="tpl" class="loginBox"></div>
         </div>
-    </div>
+    </div>-->
 </div>
 
 <script type="text/ng-template" id="loginTpl">
-    <div>
+
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+        <div class="col-xl-10 col-lg-12 col-md-9">
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                        <div class="col-lg-6">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">{{'welcome' | translate}}</h1>
+                                </div>
+                                <form class="user">
+                                    <div class="form-group">
+                                        <input ng-model="userName" type="text" class="form-control form-control-user" name="email" placeholder="{{'email' | translate}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <input ng-model="password" type="password" class="form-control form-control-user" name="password" placeholder="{{'password' | translate}}">
+                                    </div>
+                                    <div ng-if="config.showlanguages" class="form group mt10">
+                                        <select ng-model="config.language" ng-change="setLanguage(config.language)" class="form-control form-control-user" style="padding:0">
+                                            <option disabled="disabled" ng-selected="true" value="">{{'choose language' | translate}}</option>
+                                            <option ng-repeat="x in config.languages" value="{{x.code}}">
+                                                {{x.title | translate}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <!--<div class="form-group">
+                                        <div class="custom-control custom-checkbox small">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck">
+                                            <label class="custom-control-label" for="customCheck">Remember Me</label>
+                                        </div>
+                                    </div>-->
+                                    <div class="pt-3">
+                                        <button type="submit" form="loginform" ng-click="login(userName, password)" class="btn btn-primary btn-user btn-block"><span class="fa fa-unlock-altfa fa-key" aria-hidden="true"></span> <span class="text-capitalize">{{'login' | translate}}</span></button>
+                                    </div>
+                                    <!--<a href="index.html" class="btn btn-primary btn-user btn-block">
+                                        Login
+                                    </a>-->
+                                    <hr>
+                                    <!--<a href="index.html" class="btn btn-google btn-user btn-block">
+                                        <i class="fab fa-google fa-fw"></i> Login with Google
+                                    </a>
+                                    <a href="index.html" class="btn btn-facebook btn-user btn-block">
+                                        <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
+                                    </a>-->
+                                </form>
+                                <div class="text-center">
+                                    <a class="small" href="" ng-click="forgotPasswordPopup()">{{'forgot your password' | translate}}?</a>
+                                </div>
+                                <div class="text-center">
+                                    <a class="small" ng-click="toggleTpl('signupTpl')">{{'sign up' | translate}}!</a>
+                                </div>
+                                <div ng-if="errorLogin" class="alert alert-danger">
+                                    <strong class="text-uppercase">{{'error' | translate}} !</strong> {{errorMesage}}.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--<div>
         <form id="loginform">
             <div class="input-group mt10">
                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
@@ -39,7 +174,7 @@
         <div ng-if="errorLogin" class="alert alert-danger">
             <strong class="text-uppercase">{{'error' | translate}} !</strong> {{errorMesage}}.
         </div>
-    </div>
+    </div>-->
 </script>
 
 <script type="text/ng-template" id="signupTpl">

@@ -1,5 +1,20 @@
-﻿<div ng-controller="mainCtrl">
-    <ul class="nav nav-tabs hidden-xs">
+﻿<div ng-cloak>
+    <div class="d-none d-sm-block">
+        <ul class="nav nav-tabs">
+            <li class="nav-item" ng-click="toggleNewTpl('clientsdata')"><a href="" ng-class="selectedNavItem=='clientsdata'?'nav-link active':'nav-link'"><i class="fa fa-weight"></i> <span class="text-uppercase">{{'input data' | translate}}</span></a></li>
+            <li class="nav-item" ng-click="toggleNewTpl('calculation')"><a href="" ng-class="selectedNavItem=='calculation'?'nav-link active':'nav-link'"><i class="fa fa-calculator"></i> <span class="text-uppercase">{{'calculation' | translate}}</span></a></li>
+            <li class="nav-item" ng-click="toggleNewTpl('activities')"><a href="" ng-class="selectedNavItem=='activities'?'nav-link active':'nav-link'"><i class="fa fa-bicycle"></i> <span class="text-uppercase">{{'additional activity' | translate}}</span></a></li>
+            <li class="nav-item" ng-click="toggleNewTpl('diets')"><a href="" ng-class="selectedNavItem=='diets'?'nav-link active':'nav-link'"><i class="fa fa-heartbeat"></i> <span class="text-uppercase">{{'diet' | translate}}</span></a></li>
+            <li class="nav-item" ng-click="toggleNewTpl('meals')"><a href="" ng-class="selectedNavItem=='meals'?'nav-link active':'nav-link'"><i class="fa fa-list-ol"></i> <span class="text-uppercase">{{'meals' | translate}}</span></a></li>
+            <li class="nav-item" ng-click="toggleNewTpl('menu')"><a href="" ng-class="selectedNavItem=='menu'?'nav-link active':'nav-link'"><i class="fa fa-utensils"></i> <span class="text-uppercase">{{'menu' | translate}}</span></a></li>
+            <li class="nav-item" ng-click="toggleNewTpl('analysis')"><a href="" ng-class="selectedNavItem=='analysis'?'nav-link active':'nav-link'"><i class="fa fa-bar-chart"></i> <span class="text-uppercase">{{'analysis' | translate}}</span></a></li>
+            <!--<li class="nav-item"><a href="#" ng-class="selectedNavItem=='myfoods'?'nav-link active':'nav-link'" ng-click="toggleNewTpl('myfoods')"><i class="fa fa-apple-alt"></i> <span class="text-uppercase">{{'my foods' | translate}}</span></a></li>
+            <li class="nav-item"><a href="#" ng-class="selectedNavItem=='myrecipes'?'nav-link active':'nav-link'" ng-click="toggleNewTpl('myrecipes')"><i class="fa fa-receipt"></i> <span class="text-uppercase">{{'my recipes' | translate}}</span></a></li>
+            <li class="nav-item"><a href="#" ng-class="selectedNavItem=='prices'?'nav-link active':'nav-link'" ng-click="toggleNewTpl('prices')"><i class="fa fa-usd"></i> <span class="text-uppercase">{{'prices' | translate}}</span></a></li>-->
+        </ul>
+    </div>
+    
+    <!--<ul class="nav nav-tabs hidden-xs">
         <li ng-class="selectedNavItem=='clientsdata'?'active':''" ng-click="toggleNewTpl('clientsdata')"><a href="#"><i class="fa fa-user-o"></i> <span class="text-uppercase">{{'client' | translate}}</span></a></li>
         <li ng-class="selectedNavItem=='calculation'?'active':''"><a href="#" ng-click="toggleNewTpl('calculation')"><i class="fa fa-calculator"></i> <span class="text-uppercase">{{'calculation' | translate}}</span></a></li>
         <li ng-class="selectedNavItem=='activities'?'active':''"><a href="#" ng-click="toggleNewTpl('activities')"><i class="fa fa-bicycle"></i> <span class="text-uppercase">{{'activity' | translate}}</span></a></li>
@@ -10,24 +25,29 @@
         <li ng-class="selectedNavItem=='myfoods'?'active':''"><a href="#" ng-click="toggleNewTpl('myfoods')"><i class="fa fa-apple"></i> <span class="text-uppercase">{{'my foods' | translate}}</span></a></li>
         <li ng-class="selectedNavItem=='myrecipes'?'active':''"><a href="#" ng-click="toggleNewTpl('myrecipes')"><i class="fa fa-file-text-o"></i> <span class="text-uppercase">{{'my recipes' | translate}}</span></a></li>
         <li ng-class="selectedNavItem=='prices'?'active':''"><a href="#" ng-click="toggleNewTpl('prices')"><i class="fa fa-usd"></i> <span class="text-uppercase">{{'prices' | translate}}</span></a></li>
-    </ul>
-    <select ng-model="selectedNavItem1" ng-click="toggleNewTpl(selectedNavItem1)" class="hidden-sm hidden-md hidden-lg hidden-xl form-control text-uppercase">
-        <option value="{{selectedNavItem1}}" disabled="disabled" selected="selected">{{selectedNavItem | translate}}</option>
-        <option value="clientsdata">{{'clientsdata' | translate}}</option>
-        <option value="calculation">{{'calculation' | translate}}</option>
-        <option value="activities">{{'activity' | translate}}</option>
-        <option value="diets">{{'diet' | translate}}</option>
-        <option value="meals">{{'meals' | translate}}</option>
-        <option value="menu">{{'menu' | translate}}</option>
-        <option value="analysis">{{'analysis' | translate}}</option>
-        <option value="myfoods">{{'my foods' | translate}}</option>
-        <option value="myrecipes">{{'my recipes' | translate}}</option>
-        <option value="prices">{{'prices' | translate}}</option>
-    </select>
-    <!--<div ng-include="newTpl" class="loginBox" style="min-height:80%"></div>-->
-    <div class="loginBox" style="min-height:80%" ng-cloak>
-        <ui-view autoscroll="false"></ui-view>
+    </ul>-->
+
+    <div class="d-block d-sm-none">
+        <select ng-model="selectedNavItem1" ng-click="toggleNewTpl(selectedNavItem1)" class="form-control text-uppercase">
+            <option value="{{selectedNavItem1}}" disabled="disabled" selected="selected">{{selectedNavItem | translate}}</option>
+            <option value="clientsdata">{{'clientsdata' | translate}}</option>
+            <option value="calculation">{{'calculation' | translate}}</option>
+            <option value="activities">{{'activity' | translate}}</option>
+            <option value="diets">{{'diet' | translate}}</option>
+            <option value="meals">{{'meals' | translate}}</option>
+            <option value="menu">{{'menu' | translate}}</option>
+            <option value="analysis">{{'analysis' | translate}}</option>
+            <option value="myfoods">{{'my foods' | translate}}</option>
+            <option value="myrecipes">{{'my recipes' | translate}}</option>
+            <option value="prices">{{'prices' | translate}}</option>
+        </select>
     </div>
+
+    
+    <!--<div ng-include="newTpl" class="loginBox" style="min-height:80%"></div>-->
+    <!--<div class="loginBox" style="min-height:80%" ng-cloak>
+        <ui-view autoscroll="false"></ui-view>
+    </div>-->
 
 </div>
 

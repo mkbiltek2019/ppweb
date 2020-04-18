@@ -1,0 +1,436 @@
+﻿<div>
+    <ul class="nav nav-tabs">
+        <li ng-class="menuTpl=='dailyMenuTpl'?'active':''"><a href="#" ng-click="toggleMenu('dailyMenuTpl')"><i class="fa fa-cutlery"></i> <span class="text-capitalize">{{'daily menu' | translate}}</span></a></li>
+        <li ng-class="menuTpl=='weeklyMenuTpl'?'active':''" ng-click="toggleMenu('weeklyMenuTpl')"><a href="#"><i class="fa fa-files-o"></i> <span class="text-capitalize">{{'weekly menu' | translate}}</span></a></li>
+    </ul>
+    <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around" class="mt20">
+        <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
+    </div>
+    <div ng-include="menuTpl" style="padding-top:20px"></div>
+</div>
+
+<script type="text/ng-template" id="dailyMenuTpl">
+    <div class="row">
+        <div class="col-md-8" style="min-height:70vh">
+            <div class="panel panel-default">
+                <div class="panel-heading text-capitalize">
+                    <a href="" class="btn btn-default" title="{{'new menu' | translate}}" ng-click="new()"><i class="fa fa-file-o"></i> <span class="hidden-xs"> {{'new' | translate}}</span></a>
+                    <a href="" class="btn btn-default" title="{{'open menu' | translate}}" ng-click="get()"><i class="fa fa-search"></i> <span class="hidden-xs"> {{'search' | translate}}</span></a>
+                    <div class="dropdown" style="display: inline-block" >
+                        <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-floppy-o text-primary"></i> <span class="hidden-xs text-primary">{{'save' | translate}}</span>
+                            <span class="caret text-primary"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" title="{{'save as menu' | translate}}" ng-click="save()"><span class="text-primary">{{'save as menu' | translate}}</span></a></li>
+                            <li><a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" ng-click="saveRecipeFromMenu(currentMenu.data, currentMeal)" title="{{'save current meal as recipe' | translate}}"><span class="text-primary">{{'save as recipe' | translate}}</span></a></li>
+                        </ul>
+                    </div>
+                    <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" title="{{'show menu preview' | translate}}" ng-click="printPreview()"><i class="fa fa-print"></i> <span class="hidden-xs">{{'print' | translate}}</span></a>
+                    <!--<a ng-if="loginUser.adminType<2" ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" title="{{'send menu to the clients email' | translate}}" ng-click="send()"><i class="fa fa-paper-plane-o"></i> <span class="hidden-xs">{{'send' | translate}}</span></a>-->
+                    <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" title="{{'shopping list' | translate}}" ng-click="getShoppingList(currentMenu)"><i class="fa fa-shopping-basket"></i> <span class="hidden-xs">{{'shopping list' | translate}}</span></a>
+                </div>
+                <div class="panel-body">
+                    <div layout-gt-sm="row" style="height:60px; margin:0px">
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label class="text-capitalize">{{'menu title' | translate}}</label>
+                            <input ng-model="currentMenu.title" type="text">
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label class="text-capitalize">{{'note' | translate}}</label>
+                            <input ng-model="currentMenu.note" type="text">
+                        </md-input-container>
+                    </div>
+                    <div>
+                        <select ng-model="currentMeal" ng-change="toggleMeals(currentMeal)" class="form-control visible-xs text-capitalize">
+                            <option ng-selected="x.code==currentMeal?true:false" value="{{x.code}}" ng-if="x.isSelected==1" ng-repeat="x in currentMenu.data.meals">{{getMealTitle(x)}}</option>
+                        </select>
+                        <ul class="nav nav-tabs hidden-xs text-capitalize">
+                            <li ng-class="x.code==currentMeal?'active':''" ng-click="toggleMeals(x.code)" ng-if="x.isSelected==1" ng-repeat="x in currentMenu.data.meals"><a href="">{{getMealTitle(x)}}</a></li>
+                        </ul>
+                    </div>
+                    <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around">
+                        <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
+                    </div>
+                    <div ng-show="!loading" style="min-height:50%">
+                        <div class="table-responsive">
+                            <table class="table table-condensed table-hover">
+                                <tbody class="text-small">
+                                    <tr ng-repeat="x in currentMenu.data.selectedFoods | filter:filterMeal track by $index" ng-class="getFoodGroupClass(x.foodGroup.code)" title="{{x.foodGroup.title}}">
+                                        <td class="borderNone"><a href="" ng-click="removeFood(x, currentMenu.data.selectedFoods.indexOf(x))" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-times text-danger"></i></a></td>
+                                        <td class="borderNone">
+                                            <button class="fa fa-arrow-up text-primary" ng-click="moveUp(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move up' | translate}}"></button><br />
+                                            <button class="fa fa-arrow-down text-primary" ng-click="moveDown(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move down' | translate}}"></button>
+                                        </td>
+                                        <td class="borderNone" style="width:400px" ng-click="openFoodPopup(x, currentMenu.data.selectedFoods.indexOf(x))" ><span>{{x.food}}</span></td>
+                                        <td class="borderNone text-right" style="min-width:140px">
+                                            <div class="input-group">
+                                                <span class="input-group-addon pointer" ng-click="change(-1, 'quantity', currentMenu.data.selectedFoods.indexOf(x))">-</span>
+                                                <input type="text" ng-model="x.quantity" class="form-control" ng-change="changeQuantity(x, 'quantity', currentMenu.data.selectedFoods.indexOf(x))" allow-only-numbers>
+                                                <span class="input-group-addon pointer" ng-click="change(1, 'quantity', currentMenu.data.selectedFoods.indexOf(x))">+</span>
+                                            </div>
+                                        </td>
+                                        <td class="borderNone" style="min-width:100px">{{x.unit}}</td>
+                                        <td class="borderNone text-right" style="min-width:160px">
+                                            <div class="input-group">
+                                                <span class="input-group-addon pointer" ng-click="change(-1, 'mass', currentMenu.data.selectedFoods.indexOf(x))">-</span>
+                                                <input type="text" ng-model="x.mass" class="form-control" ng-change="changeQuantity(x, 'mass', currentMenu.data.selectedFoods.indexOf(x))" allow-only-numbers>
+                                                <span class="input-group-addon pointer" ng-click="change(1, 'mass', currentMenu.data.selectedFoods.indexOf(x))">+</span>
+                                            </div>
+                                        </td>
+                                        <td class="borderNone" style="width:10px">{{'g' | translate}}</td>
+                                        <td class="borderNone text-right nowrap" style="width:150px">{{x.energy}} {{'kcal' | translate}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" >
+                                            <div class="text-capitalize">
+                                                <a ng-disabled="addFoodBtn" href="" class="btn btn-primary" ng-click="openFoodPopup(null,null)"><i ng-class="addFoodBtnIcon"></i> {{'add food' | translate}}</a>
+                                                <a href="" class="btn btn-default ml5" ng-click="openRecipePopup()"><i class="fa fa-file-text-o"></i> {{'add recipe' | translate}}</a>
+                                            </div>
+                                            <div ng-if="currentMenu.data.selectedFoods.length>0" class="pt10">
+                                                <md-checkbox ng-model="config.showfoodgroupscolors" class="md-primary">
+                                                    {{'color food groups' | translate}}
+                                                </md-checkbox>
+                                                <i class="fa fa-info-circle text-info" style="cursor:pointer" ng-click="openColorGroupsInfoPopup()"></i>
+                                            </div>
+                                        </td>
+                                        <td colspan="4" class="text-right">
+                                            <span ng-repeat="x in currentMenu.data.meals">
+                                                <span ng-if="x.code==currentMeal">
+                                                    <span class="text-capitalize">{{x.title}}</span>: {{'energy' | translate}}: {{totals.mealsTotal[$index].energy.val | number:1}} {{'kcal' | translate}} ({{totals.mealsTotal[$index].energy.perc| number:1}} %)<br />
+                                                    {{'carbohydrates' | translate}}: {{totals.mealsTotal[$index].carbohydrates.val | number:1}} {{'g' | translate}} ({{totals.mealsTotal[$index].carbohydrates.perc| number:1}} %)<br />
+                                                    {{'proteins' | translate}}: {{totals.mealsTotal[$index].proteins.val | number:1}} {{'g' | translate}} ({{totals.mealsTotal[$index].proteins.perc| number:1}} %)<br />
+                                                    {{'fats' | translate}}: {{totals.mealsTotal[$index].fats.val | number:1}} {{'g' | translate}} ({{totals.mealsTotal[$index].fats.perc| number:1}} %)<br />
+                                                </span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="pt10">
+                            <div ng-repeat="x in currentMenu.data.meals" >
+                                <md-input-container ng-if="x.code==currentMeal" class="md-block" style="margin:0px" flex-gt-sm>
+                                    <label>{{'description, meal preparation' | translate}}</label>
+                                    <textarea ng-model="x.description" rows="3" class="area" ng-click="mealDescHelp(true)"></textarea>
+                                </md-input-container>
+                            </div>
+                            <div ng-if="showMenuDescHelp&&config.language!=='en'" class="alert alert-warning alert-dismissible">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <p class="text-small ml10"> 
+                                    <i class="fa fa-exclamation-triangle"></i>
+                                    Za odvajanje naziva jela od njegovog opisa koristite separator <strong class="p5">~</strong> <kbd>Alt+1(!)</kbd>.
+                                    Ako imate više jela unutar jednog obroka, jela odvajajte separatorom <strong class="p5">|</strong> <kbd>Alt+w</kbd>.<br />
+                                    Npr: Naziv jela 1~Opis jela 1|Naziv jela 2~Opis jela 2.
+                                </p>
+                            </div>
+                        </div>
+                        <div ng-if="totals.price.value>0" class="text-right m10">
+                            <em class="text-primary"><span class="text-capitalize">{{'price' | translate}}</span>: <span>{{totals.price.value | number:2}}</span> <span class="text-uppercase">{{config.currency}}</span></em>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div ng-include="'chartsTpl'" class="table-scroll" style="height:80%"></div>
+        </div>
+    </div>
+    <json-directive data="currentMenu" desc="'currentMenu'"></json-directive>
+    <json-directive data="totals" desc="'totals'"></json-directive>
+</script>
+
+<script type="text/ng-template" id="weeklyMenuTpl">
+    <div ng-controller="weeklyMenuCtrl">
+        <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around" class="text-center">
+            <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
+        </div>
+        <div ng-if="!loading">
+            <div class="panel-heading text-capitalize">
+                <div>
+                    <a href="" ng-click="new()" class="btn btn-default m2"><i class="fa fa-file-o"></i> {{'new' | translate}} {{'menu' | translate}}</a>
+                    <a href="" class="btn btn-default m2" ng-click="search()"><i class="fa fa-search"></i> {{'search' | translate}}</a>
+                    <a ng-disabled="isEmptyList()" href="" ng-click="save()" class="btn btn-default m2"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</a>
+                    <a ng-disabled="isEmptyList()" href="" ng-click="remove(weeklyMenu)" class="btn btn-default m2"><span class="text-danger"><i class="fa fa-trash-o"></i> {{'delete' | translate}}</span></a>
+                    <a ng-disabled="isEmptyList()||creatingPdf==true" ng-if="pdfLink==null" ng-click="printWeeklyMenu(consumers, printSettings, date, author)" class="btn btn-default" ><span class="text-danger"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</span></a>
+                    <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success" download ng-click="hidePdfLink()"><i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}</a>
+                    <a ng-if="loginUser.adminType<2" ng-disabled="pdfLink==null" href="" class="btn btn-default" title="{{'send menu to the clients email' | translate}}" ng-click="send()"><i class="fa fa-paper-plane-o"></i> {{'send' | translate}}</a>
+                    <a ng-disabled="isEmptyList()||creatingSLPdf==true" ng-if="pdfSLLink==null" href="" class="btn btn-default" title="{{'shopping list' | translate}}" ng-click="createShoppingList(weeklyMenu.menuList, consumers, printSettings)"><i class="fa fa-{{creatingSLPdf==true?'spinner fa-spin':'shopping-basket'}}"></i> <span class="hidden-xs">{{'shopping list' | translate}}</span></a>
+                    <a ng-if="pdfSLLink!=null" href="{{pdfSLLink}}" class="btn btn-success" download ng-click="hidePdfSLLink()"><i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}</a>
+                </div>
+            </div>
+            <div class="row text-capitalize pt10">
+                <div class="col-sm-4">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>{{'menu title' | translate}}</label>
+                        <input ng-model="weeklyMenu.title">
+                    </md-input-container>
+                </div>
+                <div class="col-sm-8">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>{{'note' | translate}}</label>
+                        <input ng-model="weeklyMenu.note">
+                    </md-input-container>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-7">
+                    <fieldset class="fieldset-border">
+                        <legend class="fieldset-border text-capitalize">{{'menus' | translate}}</legend>
+                        <div ng-repeat="x in weeklyMenu.menuList track by $index" class="hover" ng-click="get($index)" title="{{'add menu' | translate}}" style="cursor:pointer">
+                            <span class="text-capitalize {{x!==''?'text-muted small':''}}">{{getDay($index) | translate}}</span>
+                            <div class="row" style="margin:0px">
+                                <div class="col-sm-11" style="padding:0px">
+                                    <span ng-if="x!==''">{{weeklyMenu.menuDes[$index].title}} - {{weeklyMenu.menuDes[$index].diet}} ({{weeklyMenu.menuDes[$index].energy}} kcal)</span>
+                                </div>
+                                <div class="col-sm-1 text-right" style="padding:0px">
+                                    <i class="fa fa-caret-down"></i>
+                                </div>
+                            </div>
+                            <hr style="margin:0px 0px 15px 0px" />
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="col-sm-5">
+                    <fieldset class="fieldset-border">
+                        <legend class="fieldset-border text-capitalize">{{'print settings' | translate}}</legend>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>{{'number of consumers' | translate}}</label>
+                                    <input ng-model="consumers" type="number" min="1" ng-change="hidePdfLink()">
+                                </md-input-container>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>{{'page size' | translate}}</label>
+                                    <md-select ng-model="printSettings.pageSize" ng-change="hidePdfLink()">
+                                        <md-option ng-repeat="x in pageSizes" ng-value="x">
+                                            {{x}}
+                                        </md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+                            <div class="col-sm-6">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>{{'orientation' | translate}}</label>
+                                    <md-select ng-model="printSettings.orientation" ng-change="hidePdfLink()">
+                                        <md-option ng-value="'L'">{{'landscape' | translate}}</md-option>
+                                        <md-option ng-value="'P'">{{'portrait' | translate}}</md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+                        </div>
+                        <div>
+                            <md-checkbox ng-model="printSettings.showClientData" class="md-primary">
+                                {{'show client data' | translate}}
+                            </md-checkbox>
+                            <md-checkbox ng-model="printSettings.showTitle" class="md-primary">
+                                {{'show dish title' | translate}}
+                            </md-checkbox>
+                            <md-checkbox ng-model="printSettings.showDescription" class="md-primary" ng-change="hidePdfLink()">
+                                {{'show description' | translate}}
+                            </md-checkbox>
+                            <md-checkbox ng-model="printSettings.showFoods" class="md-primary">
+                                {{'show foods' | translate}}
+                            </md-checkbox>
+                        </div>
+                        <div>
+                            <md-checkbox ng-disabled="!printSettings.showFoods" ng-model="printSettings.showQty" class="md-primary" ng-change="hidePdfLink()">
+                                {{'show quantity' | translate}}
+                            </md-checkbox>
+                            <md-checkbox ng-disabled="!printSettings.showFoods" ng-model="printSettings.showMass" class="md-primary" ng-change="hidePdfLink()">
+                                {{'show mass' | translate}}
+                            </md-checkbox>
+                            <md-checkbox ng-disabled="!printSettings.showFoods" ng-model="printSettings.showServ" class="md-primary" ng-change="hidePdfLink()">
+                                {{'show servings' | translate}}
+                            </md-checkbox>
+                            <md-checkbox ng-model="printSettings.showTotals" class="md-primary">
+                                {{'show totals' | translate}}
+                            </md-checkbox>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 mt5">
+                                <md-checkbox ng-model="printSettings.showDate" class="md-primary" style="margin-bottom:2px">
+                                    {{'date' | translate}}
+                                </md-checkbox>
+                            </div>
+                            <div class="col-sm-9 mt5">
+                                <input ng-if="printSettings.showDate" ng-model="date" class="form-control" ng-change="setDate(date)" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 mt5">
+                                <md-checkbox ng-model="printSettings.showAuthor" class="md-primary" style="margin-bottom:2px">
+                                    {{'author' | translate}}
+                                </md-checkbox>
+                            </div>
+                            <div class="col-sm-9 mt5">
+                                <input ng-if="printSettings.showAuthor" ng-model="author" class="form-control" ng-change="setAuthor(author)" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="chartsTpl">
+    <div class="text-small">
+        <div class="panel panel-default">
+            <table class="table table-bordered table-condensed text-small text-center">
+                <tr>
+                    <td class="bg-subpanel">
+                        <span class="text-uppercase">{{'energy value' | translate}}</span>
+                        <span custom-popover popover-html="{{'energy_value_info' | translate}}" popover-placement="bottom" popover-label=""></span>
+                    </td>
+                    <td rowspan="3" style="width:120px"><div id="energyChart" class="guage"></div></td>
+                </tr>
+                <tr>
+                    <td class="text-success"><span style="font-size:24px">{{totals.energy | number:0}} {{'kcal' | translate}}</span></td>
+                </tr>
+                <tr>
+                    <td class="text-primary"><em>{{'recommended' | translate}}: {{recommendations.energy | number:0}} {{'kcal' | translate}}</em></td>
+                </tr>
+            </table>
+        </div>
+        <div class="panel panel-default">
+            <table class="table table-bordered table-condensed text-small text-center">
+                <tr>
+                    <td class="bg-subpanel"><span class="text-uppercase">{{'other foods' | translate}}</span></td>
+                    <td rowspan="3" style="width:120px"><div id="otherFoodChart" class="guage"></div></td>
+                </tr>
+                <tr>
+                    <td class="text-danger"><span style="font-size:24px">{{totals.servings.otherFoodsEnergy | number:0}} {{'kcal' | translate}}</span></td>
+                </tr>
+                <tr>
+                    <td class="text-primary"><em>{{'acceptable' | translate}}: {{recommendations.servings.otherFoodsEnergy | number:0}} {{'kcal' | translate}}</em></td>
+                </tr>
+            </table>
+        </div>
+        <div class="panel panel-default text-center">
+            <div class="panel-heading bg-subpanel"><span class="text-uppercase">{{'unit servings' | translate}}</span></div>
+            <div class="panel-body">
+                <div class="row">
+                    <canvas id="servChart" class="chart chart-bar"
+                            chart-data="servGraphData.data" chart-labels="servGraphData.labels" chart-colors="servGraphData.colors" height="200"
+                            chart-series="servGraphData.series" chart-dataset-override="servGraphData.datasetOverride"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default text-center">
+            <div class="panel-heading bg-subpanel"><span class="text-uppercase">{{'distribution of energy value per meals' | translate}}</span></div>
+            <div class="panel-body">
+                <div class="row">
+                    <canvas id="mealsChart" class="chart chart-bar"
+                            chart-data="mealsGraphData_menu.data" chart-labels="mealsGraphData_menu.labels" chart-colors="mealsGraphData_menu.colors" height="200"
+                            chart-series="mealsGraphData_menu.series" chart-options="mealsGraphData_menu.options" chart-dataset-override="mealsGraphData_menu.datasetOverride"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default text-center">
+            <div class="panel-heading bg-subpanel"><span class="text-uppercase">{{'distribution of nutrients per meals' | translate}}</span></div>
+            <div class="panel-body">
+                <div class="row">
+                    <canvas id="mealsNutriChart" class="chart chart-bar"
+                            chart-data="mealsNutriGraphData_menu.data" chart-labels="mealsNutriGraphData_menu.labels" chart-colors="mealsNutriGraphData_menu.colors" height="200"
+                            chart-series="mealsNutriGraphData_menu.series" chart-options="mealsNutriGraphData_menu.options" chart-dataset-override="mealsNutriGraphData_menu.datasetOverride"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <table class="table table-bordered table-condensed text-small text-center">
+                <tr>
+                    <td class="bg-subpanel"><span class="text-uppercase">{{'carbohydrates' | translate}}</span></td>
+                    <td rowspan="3" style="width:120px"><div id="carbohydratesChart" class="guage"></div></td>
+                </tr>
+                <tr>
+                    <td class="text-success"><span style="font-size:24px">{{totals.carbohydrates | number:1}} g </span><span>({{totals.carbohydratesPercentage | number:1}} %)</span></td>
+                </tr>
+                <tr>
+                    <td class="text-primary"><em>{{'recommended' | translate}}: {{recommendations.carbohydratesPercentageMin | number:0}}-{{recommendations.carbohydratesPercentageMax | number:0}}%</em></td>
+                </tr>
+            </table>
+        </div>
+        <div class="panel panel-default">
+            <table class="table table-bordered table-condensed text-small text-center">
+                <tr>
+                    <td class="bg-subpanel"><span class="text-uppercase">{{'proteins' | translate}}</span></td>
+                    <td rowspan="3" style="width:120px"><div id="proteinsChart" class="guage"></div></td>
+                </tr>
+                <tr>
+                    <td class="text-success"><span style="font-size:24px">{{totals.proteins | number:1}} g </span><span>({{totals.proteinsPercentage | number:1}} %)</span></td>
+                </tr>
+                <tr>
+                    <td class="text-primary"><em>{{'recommended' | translate}}: {{recommendations.proteinsPercentageMin | number:0}}-{{recommendations.proteinsPercentageMax | number:0}}%</em></td>
+                </tr>
+            </table>
+        </div>
+        <div class="panel panel-default">
+            <table class="table table-bordered table-condensed text-small text-center">
+                <tr>
+                    <td class="bg-subpanel"><span class="text-uppercase">{{'fats' | translate}}</span></td>
+                    <td rowspan="3" style="width:120px"><div id="fatsChart" class="guage"></div></td>
+                </tr>
+                <tr>
+                    <td class="text-success"><span style="font-size:24px">{{totals.fats | number:1}} g </span><span>({{totals.fatsPercentage | number:1}} %)</span></td>
+                </tr>
+                <tr>
+                    <td class="text-primary"><em>{{'recommended' | translate}}: {{recommendations.fatsPercentageMin | number:0}}-{{recommendations.fatsPercentageMax | number:0}}%</em></td>
+                </tr>
+            </table>
+        </div>
+        <div class="panel panel-default">
+            <table class="table table-bordered table-condensed text-small text-center">
+                <tr>
+                    <td class="bg-subpanel"><span class="text-uppercase">{{'saturated fats' | translate}}</span></td>
+                    <td rowspan="3" style="width:120px"><div id="saturatedFatsChart" class="guage"></div></td>
+                </tr>
+                <tr>
+                    <td class="text-danger"><span style="font-size:24px">{{totals.saturatedFats | number:1}} g </span></td>
+                </tr>
+                <tr>
+                    <td class="text-primary"><em>{{'acceptable' | translate}}: {{recommendations.saturatedFats.ui | number:0}} g</em></td>
+                </tr>
+            </table>
+        </div>
+        <div class="panel panel-default">
+            <table class="table table-bordered table-condensed text-small text-center">
+                <tr>
+                    <td class="bg-subpanel"><span class="text-uppercase">{{'trifluoroacetic acid' | translate}}</span></td>
+                    <td rowspan="3" style="width:120px"><div id="trifluoroaceticAcidChart" class="guage"></div></td>
+                </tr>
+                <tr>
+                    <td class="text-danger"><span style="font-size:24px">{{totals.trifluoroaceticAcid | number:1}} g</span></td>
+                </tr>
+                <tr>
+                    <td class="text-primary"><em>{{'acceptable' | translate}}: {{recommendations.trifluoroaceticAcid.ui | number:0}} g</em></td>
+                </tr>
+            </table>
+        </div>
+        <div class="panel panel-default">
+            <table class="table table-bordered table-condensed text-small text-center">
+                <tr>
+                    <td class="bg-subpanel"><span class="text-uppercase">{{'cholesterol' | translate}}</span></td>
+                    <td rowspan="3" style="width:120px"><div id="cholesterolChart" class="guage"></div></td>
+                </tr>
+                <tr>
+                    <td class="text-danger"><span style="font-size:24px">{{totals.cholesterol | number:1}} mg </span></td>
+                </tr>
+                <tr>
+                    <td class="text-primary"><em>{{'acceptable' | translate}}: {{recommendations.cholesterol.ui | number:0}} mg</em></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</script>
+
+
+
+
+
+
+

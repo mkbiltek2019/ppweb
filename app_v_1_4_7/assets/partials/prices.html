@@ -1,0 +1,66 @@
+﻿<div>
+    <div class="mt10">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="p10">
+                    <md-radio-group ng-model="foodListType" layout="row" flex-gt-sm ng-click="getFoodList(foodListType)">
+                        <md-radio-button value="0" class="md-primary">{{'all foods' | translate}}</md-radio-button>
+                        <md-radio-button value="1" class="md-primary">{{'my foods' | translate}}</md-radio-button>
+                    </md-radio-group>
+                </div>
+                <div class="input-group">
+                    <input ng-model="searchFood" class="form-control" type="text" placeholder="{{'search' | translate}}..." autofocus ng-click="initCurrentFoodGroup()" />
+                    <span class="input-group-btn">
+                        <a href="" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</a>
+                    </span>
+                </div>
+                <div>
+                    <select ng-model="food" class="form-control" size="20" ng-change="selectFood(food)">
+                        <option ng-repeat="x in foodList | filter:{food:searchFood} | orderBy:'food'" value="{{x}}">{{x.food}}</option>
+                    </select>
+                </div>
+                <div class="row p10">
+                    <label class="col-sm-6 text-right">{{'net price' | translate}}:</label>
+                    <div class="col-sm-6 input-group ml10">
+                        <input ng-model="price.netPrice.value" class="form-control" style="min-width:75px" ng-change="calculateUnitPrice(price)" allow-only-numbers />
+                        <span class="input-group-addon"><span class="text-uppercase">{{config.currency}}</span> / <input ng-model="price.mass.value" style="width:60px; height:22px; border: 1px solid #ccc; border-radius:4px; background-color:lightgray" ng-change="calculateUnitPrice(price)" allow-only-numbers /> {{price.mass.unit}}</span>
+                    </div>
+                </div>
+                <div class="alert alert-{{price.netPrice.value<=0?'default':'success'}} mt10">
+                    <strong ng-if="price.netPrice.value>0">{{price.food.title}}</strong>
+                    <div ng-if="price.netPrice.value>0">{{'unit price' | translate}}: {{price.unitPrice.value | number:2}} {{price.netPrice.currency}} / kg</div>
+                    <div class="text-right">
+                        <a href="" ng-disabled="price.netPrice.value<=0" class="btn btn-primary" ng-click="save(price)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <fieldset class="fieldset-border">
+                    <legend class="fieldset-border text-capitalize">{{'price list' | translate}}</legend>
+                    <div class="table-responsive">
+                        <table class="table table-condensed text-small">
+                            <tr>
+                                <th></th>
+                                <th>{{'food' | translate}}</th>
+                                <th>{{'net price' | translate}}</th>
+                            </tr>
+                            <tr ng-repeat="x in prices">
+                                <td class="borderNone" style="width:100px">
+                                    <a href="" style="color:red" ng-click="remove(x)" class="btn btn-default"><i class="fa fa-times"></i></a>
+                                    <a href="" style="color:green" ng-click="save(x)" class="btn btn-default"><i class="fa fa-floppy-o"></i></a>
+                                </td>
+                                <td>{{x.food.title}}</td>
+                                <td class="text-right">
+                                    <div class="input-group">
+                                        <input ng-model="x.unitPrice.value" type="text" style="min-width:75px" allow-only-numbers class="form-control" />
+                                        <span class="input-group-addon"><span class="text-uppercase">{{x.unitPrice.currency}}</span>/kg</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>

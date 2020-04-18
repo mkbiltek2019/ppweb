@@ -1,0 +1,75 @@
+﻿<div ng-controller="clientAppCtrl">
+    <div class="text-right">
+        <a href="" class="btn btn-default" ng-click="backToApp()"><i class="fa fa-dashboard"></i> {{'back to app' | translate}}</a>
+    </div>
+    <div class="row mt20">
+        <div class="col-md-offset-2 col-sm-8">
+            <fieldset class="fieldset-border">
+                <legend class="fieldset-border"><i class="fa fa-male"></i> {{'client app' | translate}}:</legend>
+                <div>
+                    <p>{{'allow your clients to track their anthropometric parameters and download menus through a web app' | translate}}.</p>
+                </div>
+                <div ng-if="user.licenceStatus == 'demo' || user.userType < 1" class="alert alert-danger text-center m10" style="height:auto !important">
+                    <strong>
+                        <i class="fa fa-info-circle fa-2x" aria-hidden="true"></i>
+                        <span class="text-uppercase ml5">{{'this function is available only in standard and premium package' | translate}}</span>
+                        <strong class="btn btn-success ml10" ng-click="toggleCurrTpl('order')">
+                            <i class="fa fa-hand-o-right fa-2x" aria-hidden="true"></i>
+                            <span class="text-uppercase ml5">{{'order now' | translate}}</span>
+                        </strong>
+                    </strong>
+                </div>
+                <div ng-if="user.licenceStatus != 'demo' && user.userType > 0">
+                    <em>{{'search clients' | translate}}...</em>
+                    <select ng-model="client" ng-options="(y.firstName + ' ' + y.lastName) for (x, y) in clients" class="form-control" ng-change="get(client)"></select>
+                    <div ng-if="user.userType>0 && client!==null" class="mt20">
+                        <a href="" ng-click="toggle(client, clientApp)" class="btn btn-default">{{showTitle}} <i class="fa fa-chevron-{{show==false?'right':'up'}}" aria-hidden="true"></i></a>
+                        <div ng-if="show==true" class="panel panel-primary mt10">
+                            <div class="panel-heading">{{'application access data' | translate}}</div>
+                            <div class="panel-body">
+                                <div>
+                                    {{'web application' | translate}}: <a href="{{config.clientapppageurl}}" target="_blank">{{config.clientapppageurl}}</a>
+                                </div>
+                                <div>
+                                    {{'android application' | translate}}: <a href="{{config.clientapp_apk}}" target="_blank">{{config.clientapp_apk}}</a>
+                                </div>
+                                <div>
+                                    <iframe src="https://www.appsgeyser.com/social_widget/social_widget.php?width=100&height=100&apkName=Program Prehrane Klijent_8297899&simpleVersion=yes"
+                                            width="180" height="220" vspace="0" hspace="0" frameborder="no"
+                                            scrolling="no" seamless=""
+                                            allowtransparency="true">
+                                    </iframe>
+                                </div>
+                                <div>
+                                    {{'activation code' | translate}}: <input ng-model="clientApp.code" class="text-center" style="width:100px; height:30px; font-weight:600; font-size:16px" readonly />
+                                </div>
+                                <hr />
+                                <div>
+                                    {{'or' | translate}} {{'web application' | translate}} ({{'without activation code' | translate}}):<br />
+                                    <a ng-if="client.clientId" href="{{clientAppUrl(client)}}" target="_blank">{{clientAppUrl(client)}}</a>
+                                </div>
+
+                                <div class="mt10">
+                                    <p>{{"send access link to the client's email" | translate}} ({{client.firstName}} {{client.lastName}})</p>
+                                    <div class="input-group">
+                                        <input ng-model="client.email" type="email" class="form-control" placeholder="{{'email' | translate}}" />
+                                        <div class="input-group-addon pointer text-capitalize" ng-click="sendAppLinkToClientEmail(client)" ng-disabled="sendingMail==true"><a href=""><i class="fa fa-{{sendingMail==true?'spinner fa-spin':'paper-plane-o'}}"></i> {{sendingMail==true?'sending':'send' | translate}}</a></div>
+                                    </div>
+                                </div>  
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+
+    <div ng-if="config.debug">
+        Clientapp:
+        <pre>{{clientApp | json}}</pre>
+
+        Client:
+        <pre>{{client | json}}</pre>
+
+    </div>
+</div>

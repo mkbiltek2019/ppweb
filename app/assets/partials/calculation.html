@@ -1,15 +1,16 @@
 ﻿<div>
-    <div>
-        <div class="panel-heading text-right">
-            <a ng-if="pdfLink==null" ng-click="printPdf()" class="btn btn-default text-capitalize" ng-disabled="creatingPdf"><span class="text-danger"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</span></a>
-            <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success text-capitalize" download ng-click="hidePdfLink()"><i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}</a>
+    <ng-include src="'./assets/partials/main.html'"></ng-include>
+    <div class="bg-white p-3">
+        <div class="panel-heading text-right text-capitalize">
+            <button ng-if="pdfLink==null" ng-click="printPdf()" class="btn btn-outline-danger" ng-disabled="creatingPdf"><span><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</span></button>
+            <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success" download ng-click="hidePdfLink()"><i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}</a>
         </div>
-        <div class="row mt10">
+        <div class="row mt-3">
             <div class="col-sm-6">
                 <fieldset class="fieldset-border">
                     <legend class="fieldset-border text-capitalize">{{'calculation' | translate}}:</legend>
                     <div>
-                        <div class="mt10">
+                        <div class="mt-3">
                             <md-input-container class="md-block" flex-gt-xs style="margin-top:0px">
                                 <label>{{'bmr equation' | translate}}</label>
                                 <md-select ng-model="clientData.bmrEquation" ng-change="setBmrEquation(clientData.bmrEquation)">
@@ -27,13 +28,13 @@
                         <table class="table table-bordered text-small table-condensed">
                             <tr>
                                 <td class="bg-subpanel"><strong>BMR</strong><em class="text-small text-muted"> ({{'basal metabolic rate' | translate}})</em></td>
-                                <td width=120px class="text-center"><span class="text-primary" style="font-size:20px">{{calculation.bmr | number:0}} {{'kcal' | translate}}</span></td>
+                                <td width=120px class="text-center"><span class="text-primary" style="font-size:18px">{{calculation.bmr | number:0}} {{'kcal' | translate}}</span></td>
                             </tr>
                         </table>
                         <table class="table table-bordered text-small table-condensed">
                             <tr>
                                 <td class="bg-subpanel"><strong>TEE</strong><em class="text-small text-muted"> ({{'total energy expenditure' | translate}})</em></td>
-                                <td width=120px class="text-center"><span class="text-primary" style="font-size:20px">{{calculation.tee | number:0}} {{'kcal' | translate}}</span></td>
+                                <td width=120px class="text-center"><span class="text-primary" style="font-size:18px">{{calculation.tee | number:0}} {{'kcal' | translate}}</span></td>
                             </tr>
                         </table>
                         <table class="table table-bordered text-small table-condensed">
@@ -42,7 +43,7 @@
                                 <td rowspan="3" style="width:120px"><div id="bmiChart" class="guage"></div></td>
                             </tr>
                             <tr class="text-center">
-                                <td ng-class="getBmiClass(calculation.bmi.value).text"><span style="font-size:20px">{{calculation.bmi.value | number:1}} {{'kg' | translate}}/m&sup2</span></td>
+                                <td ng-class="getBmiClass(calculation.bmi.value).text"><span style="font-size:18px">{{calculation.bmi.value | number:1}} {{'kg' | translate}}/m&sup2</span></td>
                             </tr>
                             <tr class="text-center">
                                 <td class="text-primary"><em>{{'recommended' | translate}}: (18.5 - 25)</em></td>
@@ -57,7 +58,7 @@
                                 <td rowspan="3" style="width:120px"><div id="whrChart" class="guage"></div></td>
                             </tr>
                             <tr class="text-center">
-                                <td ng-class="getWaistClass(calculation.whr).text"><span style="font-size:20px">{{calculation.whr.value | number:2}}</span></td>
+                                <td ng-class="getWaistClass(calculation.whr).text"><span style="font-size:18px">{{calculation.whr.value | number:2}}</span></td>
                             </tr>
                             <tr class="text-center">
                                 <td class="text-primary"><em>{{'recommended' | translate}}: (< {{calculation.whr.increasedRisk}})</em></td>
@@ -78,7 +79,7 @@
                                 <td rowspan="3" style="width:120px"><div id="waistChart" class="guage"></div></td>
                             </tr>
                             <tr class="text-center">
-                                <td ng-class="getWaistClass(calculation.waist).text"><span style="font-size:20px">{{calculation.waist.value | number:1}} cm</span></td>
+                                <td ng-class="getWaistClass(calculation.waist).text"><span style="font-size:18px">{{calculation.waist.value | number:1}} cm</span></td>
                             </tr>
                             <tr class="text-center">
                                 <td class="text-primary"><em>{{'recommended' | translate}}: (< {{calculation.waist.increasedRisk}})</em></td>
@@ -103,7 +104,7 @@
                             </tr>
                             <tr class="text-center">
                                 <td>
-                                    <span style="font-size:20px">{{calculation.bodyFat.bodyFatPerc | number:1}} %</span>
+                                    <span style="font-size:18px">{{calculation.bodyFat.bodyFatPerc | number:1}} %</span>
                                     <div>
                                         <em>({{calculation.bodyFat.bodyFatMass | number:1}} {{'kg' | translate}})</em>
                                     </div>
@@ -142,8 +143,8 @@
                         <div class="col-sm-4">
                             <div class="input-group">
                                 <input type="text" ng-model="goalWeightValue" class="form-control text-right" style="min-width:75px" allow-only-numbers ng-change="changeGoalWeightValue(goalWeightValue)" >
-                                <div class="input-group-addon">
-                                    <div class="input-group-text" style="width:25px">{{'kg' | translate}}</div>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">{{'kg' | translate}}</span>
                                 </div>
                             </div>
                         </div> 
@@ -154,15 +155,15 @@
                     <table class="table table-bordered">
                         <tr>
                             <td>{{'weight' | translate}}</td>
-                            <td class="nowrap text-right"><span class="text-primary" style="font-size:20px">{{calculation.recommendedWeight.min | number:0}} - {{calculation.recommendedWeight.max | number:0}} {{'kg' | translate}}</span></td>
+                            <td class="nowrap text-right"><span class="text-primary" style="font-size:18px">{{calculation.recommendedWeight.min | number:0}} - {{calculation.recommendedWeight.max | number:0}} {{'kg' | translate}}</span></td>
                         </tr>
                         <tr>
                             <td>{{'energy intake' | translate}}</td>
-                            <td class="nowrap text-right"><span class="text-primary" style="font-size:20px">{{calculation.recommendedEnergyIntake}} {{'kcal' | translate}}</span></td>
+                            <td class="nowrap text-right"><span class="text-primary" style="font-size:18px">{{calculation.recommendedEnergyIntake}} {{'kcal' | translate}}</span></td>
                         </tr>
                         <tr>
                             <td>{{'additional energy expenditure' | translate}}</td>
-                            <td class="nowrap text-right"><span class="text-primary" style="font-size:20px">{{calculation.recommendedEnergyExpenditure}} {{'kcal' | translate}}</span></td>
+                            <td class="nowrap text-right"><span class="text-primary" style="font-size:18px">{{calculation.recommendedEnergyExpenditure}} {{'kcal' | translate}}</span></td>
                         </tr>
                     </table>
                 </fieldset>
@@ -170,45 +171,49 @@
                     <legend class="fieldset-border text-capitalize">{{'my recommendations' | translate}}:</legend>
                     <div>
                         <em class="text-small text-danger"> *{{'if your recommendations are different from the recommendations provided by the application, enter your values here, otherwise leave blank fields' | translate}}.</em>
-                        <div class="row mt10">
+                        <div class="row mt-2">
                             <div class="col-sm-8">
                                 {{'energy intake' | translate}}
                             </div>
                             <div class="col-sm-4">
                                 <div class="input-group">
                                     <input type="number" ng-model="myCalculation.recommendedEnergyIntake" style="min-width:75px" class="form-control text-right" allow-only-numbers>                                    
-                                    <div class="input-group-addon">
-                                        <div class="input-group-text" style="width:20px">{{'kcal' | translate}}</div>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">{{'kcal' | translate}}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row  mt5">
+                        <div class="row mt-2">
                             <div class="col-sm-8">
                                 {{'additional energy expenditure' | translate}}
                             </div>
                             <div class="col-sm-4">
                                 <div class="input-group">
                                     <input type="number" ng-model="myCalculation.recommendedEnergyExpenditure" style="min-width:75px" class="form-control text-right" allow-only-numbers>                                    
-                                    <div class="input-group-addon">
-                                        <div class="input-group-text" style="width:20px">{{'kcal' | translate}}</div>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">{{'kcal' | translate}}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="text-right text-capitalize mt10">
-                            <a href="" class="btn btn-default" ng-click="clearMyCalculation()"><span class="text-danger"><i class="fa fa-times"></i> {{'clear' | translate}}</span></a>
-                            <a href="" class="btn btn-default" ng-click="saveMyCalculation(myCalculation)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</a>
+                        <div class="text-right text-capitalize mt-2">
+                            <button class="btn btn-outline-danger text-capitalize" ng-click="clearMyCalculation()"><span><i class="fa fa-times"></i> {{'clear' | translate}}</span></button>
+                            <button class="btn btn-outline-primary" ng-click="saveMyCalculation(myCalculation)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</button>
                         </div>
                     </div>
                 </fieldset>
             </div>
         </div>
+        <div>
+            <button ng-if="client.clientId" class="btn btn-primary btn-lg" title="{{'back' | translate}}" ng-click="toggleNewTpl('clientsdata')"><i class="fa fa-angle-double-left fa-2x" aria-hidden="true"></i></button>
+            <button ng-if="client.clientId" class="btn btn-primary btn-lg pull-right" title="{{'forward' | translate}}" ng-click="toggleNewTpl('activities')"><i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i></button>
+        </div> 
     </div>
-    <div>
+    <!--<div>
         <a href="" ng-if="client.clientId" class="btn btn-default btn-lg center center-left" title="{{'back' | translate}}" ng-click="toggleNewTpl('clientsdata')"><i class="fa fa-angle-double-left fa-2x text-primary" aria-hidden="true"></i></a>
         <a href="" ng-if="client.clientId" class="btn btn-default btn-lg center center-right" title="{{'forward' | translate}}" ng-click="toggleNewTpl('activities')"><i class="fa fa-angle-double-right fa-2x text-primary" aria-hidden="true"></i></a>
-    </div> 
+    </div>-->
 </div>
 
 <json-directive data="calculation" desc="'calculation'"></json-directive>

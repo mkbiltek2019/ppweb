@@ -1,0 +1,62 @@
+﻿<md-dialog flex>
+    <form>
+        <md-toolbar class="main-background">
+            <div class="md-toolbar-tools">
+                <h2 class="text-capitalize">
+                    <span ng-if="d.clientId==null">{{'new client' | translate}}</span>
+                    <span ng-if="d.clientId!=null">{{'client' | translate}}</span>
+                </h2>
+                <span flex></span>
+                <a href="" class="btn btn-primary" ng-click="cancel()" title="{{'close' | translate}}">x</a>
+            </div>
+        </md-toolbar>
+        <md-dialog-content class="text-capitalize">
+            <div class="md-dialog-content">
+                <div ng-if="d.profileImg" class="text-center">
+                    <img src="../upload/users/{{d.userId}}/clients/{{d.clientId}}/profileimg/{{d.profileImg}}" alt="{{x.profileImg}}" style="height:15rem;width:15rem" class="img-circle" />
+                    <hr />
+                </div>
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>{{'first name' | translate}}</label>
+                        <input ng-model="d.firstName" type="text" required>
+                        <span ng-if="firstNameRequiredMsq" class="text-danger">{{firstNameRequiredMsq | translate}}</span>
+                    </md-input-container>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>{{'last name' | translate}}</label>
+                        <input ng-model="d.lastName" type="text" required>
+                    </md-input-container>
+                </div>
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>{{'birth date' | translate}} *</label>
+                        <md-datepicker ng-model="d.birthDate" md-current-view="year" md-open-on-focus></md-datepicker>
+                        <span ng-if="birthDateRequiredMsq" class="text-danger">{{birthDateRequiredMsq | translate}}</span>
+                    </md-input-container>
+                    <md-radio-group ng-model="d.gender.value" layout="column" flex-gt-sm>
+                        <md-radio-button value="0" class="md-primary">{{'male' | translate}}</md-radio-button>
+                        <md-radio-button value="1" class="md-primary">{{'female' | translate}}</md-radio-button>
+                    </md-radio-group>
+                </div>
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>{{'phone' | translate}}</label>
+                        <input ng-model="d.phone" type="text">
+                    </md-input-container>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>{{'email' | translate}}</label>
+                        <input name="email" ng-model="d.email" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" />
+                    </md-input-container>
+                </div>
+            </div>
+            <div class="pull-right m20">
+                <!--<a ng-if="user.licenceStatus=='demo'" href="" class="btn btn-primary" ng-click="save(d)">{{'forward' | translate}} <i class="fa fa-arrow-right"></i></a>
+                <a ng-if="user.licenceStatus!='demo'" href="" class="btn btn-primary" ng-click="save(d)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</a>-->
+                <button class="btn btn-primary" ng-click="save(d)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</button>
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>
+
+
+

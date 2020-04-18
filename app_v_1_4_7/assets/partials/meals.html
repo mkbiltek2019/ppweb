@@ -1,0 +1,92 @@
+﻿<div>
+    <div>
+        <ul class="nav nav-tabs">
+            <li ng-class="mealsTpl=='standardMeals'?'active':''" ng-click="toggleMealsTpl('standardMeals')"><a href="#"><i class="fa fa-thermometer-empty"></i> <span class="text-capitalize">{{'standard meals' | translate}}</span></a></li>
+            <li ng-class="mealsTpl=='myMeals'?'active':''" ng-click="toggleMealsTpl('myMeals')"><a href="#"><i class="fa fa-line-chart"></i> <span class="text-capitalize">{{'my meals' | translate}}</span></a></li>
+        </ul>
+    </div>
+    <div ng-include="mealsTpl"></div>
+    <div>
+        <a href="" ng-if="client.clientId" class="btn btn-default btn-lg center center-left" title="{{'back' | translate}}" ng-click="toggleNewTpl('diets')"><i class="fa fa-angle-double-left fa-2x text-primary" aria-hidden="true"></i></a>
+        <a href="" ng-if="client.clientId" class="btn btn-default btn-lg center center-right" title="{{'forward' | translate}}" ng-click="toggleNewTpl('menu')"><i class="fa fa-angle-double-right fa-2x text-primary" aria-hidden="true"></i></a>
+    </div> 
+</div>
+
+<script type="text/ng-template" id="standardMeals">
+    <div ng-controller="standardMealsCtrl" class="row mt60">
+        <div class="col-md-offset-5 p20">
+            <div ng-repeat="x in clientData.meals">
+                <md-checkbox ng-model="x.isSelected" class="md-primary" ng-disabled="x.isDisabled">
+                    {{getMealTitle(x)}}
+                </md-checkbox>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="myMeals">
+    <div ng-controller="myMealsCtrl" class="mt20">
+        <div ng-if="user.licenceStatus == 'demo' || user.userType < 2" class="alert alert-danger text-center m10" style="height:auto !important">
+            <strong>
+                <i class="fa fa-info-circle fa-2x" aria-hidden="true"></i>
+                <span class="text-uppercase ml5">{{'my meals are available only in premium version' | translate}}</span>
+                <strong class="btn btn-success ml10" ng-click="toggleTpl('order'); hideMsg()">
+                    <i class="fa fa-hand-o-right fa-2x" aria-hidden="true"></i>
+                    <span class="text-uppercase ml5">{{'order now' | translate}}</span>
+                </strong>
+            </strong>
+        </div>
+        <div class="panel-heading text-capitalize">
+            <div>
+                <a ng-disabled="user.userType < 2" href="" ng-click="new()" class="btn btn-default m2"><i class="fa fa-file-o"></i> {{'new' | translate}} {{'meals' | translate}}</a>
+                <a ng-disabled="user.userType < 2" href="" class="btn btn-default m2" ng-click="search()"><i class="fa fa-search"></i> {{'search' | translate}}</a>
+                <a ng-disabled="myMeals.data.meals.length==0||user.userType < 2" href="" ng-click="save()" class="btn btn-default m2"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</a>
+                <a ng-disabled="myMeals.id==null||user.userType < 2" href="" ng-click="remove(myMeals.id)" class="btn btn-default m2"><span class="text-danger"><i class="fa fa-trash-o"></i> {{'delete' | translate}}</span></a>
+                <a ng-disabled="user.userType < 2" href="" ng-click="getTemplate()" class="btn btn-default m2"><i class="fa fa-file-text-o"></i> {{'example' | translate}}</a>
+            </div>
+        </div>
+        <div class="mt20">
+            <div class="text-capitalize">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>{{'title' | translate}}</label>
+                    <input ng-model="myMeals.title" type="text">
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>{{'description' | translate}}...</label>
+                    <textarea ng-model="myMeals.description" rows="3" class="area"></textarea>
+                </md-input-container>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-condensed">
+                    <tr>
+                        <th colspan="3"></th>
+                        <th colspan="2" class="text-center" width="20%">{{'distribution of energy value per meals' | translate}} %</th>
+                    </tr>
+                    <tr class="text-capitalize">
+                        <th></th>
+                        <th width=20%>{{'meals' | translate}}</th>
+                        <th width=60%>{{'description' | translate}}</th>
+                        <th width=10%>{{'min' | translate}}</th>
+                        <th width=10%>{{'max' | translate}}</th>
+                    </tr>
+                    <tr ng-repeat="x in myMeals.data.meals">
+                        <td>
+                            <a ng-disabled="user.userType < 2" href="" ng-click="removeMeal($index)" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-times text-danger"></i></a>
+                        </td>
+                        <td><input ng-model="x.title" class="form-control" /></td>
+                        <td><input ng-model="x.description" class="form-control" /></td>
+                        <td><input ng-model="myMeals.data.energyPerc[$index].meal.energyMinPercentage" class="form-control" type="number" /></td>
+                        <td><input ng-model="myMeals.data.energyPerc[$index].meal.energyMaxPercentage" class="form-control" type="number" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <a ng-disabled="user.userType < 2" href="" ng-click="add()" class="btn btn-primary text-capitalize"><i class="fa fa-plus"></i> {{'add meal' | translate}}</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <json-directive data="clientData.meals" desc="'clientData.meals'"></json-directive>
+    </div>
+</script>
+

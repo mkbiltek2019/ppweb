@@ -1,0 +1,470 @@
+﻿ <div>
+     <div>
+         <div class="panel-heading">
+             <div class="row">
+                 <div class="col-sm-6">
+                     <a href="" class="btn btn-default text-capitalize" ng-click="newClient()"><i class="fa fa-user-plus"></i> <span class="hidden-xs">{{'new client' | translate}}</span></a>
+                     <a href="" ng-if="clients.length>0" class="btn btn-default text-capitalize" ng-click="search()"><i class="fa fa-search"></i> <span class="hidden-xs">{{'search clients' | translate}}</span></a>
+                     <a ng-disabled="!client.clientId" href="" class="btn btn-default text-capitalize" ng-click="saveClientData(clientData)"><i class="fa fa-floppy-o"></i> <span class="hidden-xs">{{'save' | translate}}</span></a>
+                 </div>
+                 <div class="text-right text-small col-sm-6">
+                     <div ng-if="client.clientId" class="p10 text-muted">
+                         <a href="" ng-click="edit(client)" title="{{'client' | translate}}" class="decoration-none">
+                             <i ng-if="!client.profileImg" class="fa fa-user-circle-o fa-2x"></i>
+                             <img ng-if="client.profileImg" src="../upload/users/{{client.userId}}/clients/{{client.clientId}}/profileimg/{{client.profileImg}}" alt="{{client.profileImg}}" style="height:3rem;width:3rem" class="img-circle" />
+                             <span style="padding-left:5px">
+                                 {{client.firstName}} {{client.lastName}}, {{client.gender.title | translate}}, {{'age' | translate}}: {{clientData.age}}
+                             </span>
+                         </a>
+                     </div>
+                 </div>
+             </div>
+         </div>
+         <div class="mt10">
+             <div ng-if="client.clientId">
+                 <ul class="nav nav-tabs">
+                     <li ng-class="clientDataTpl=='inputData'?'active':''" ng-click="toggleTpl('inputData')"><a href="#"><i class="fa fa-thermometer-half"></i> <span class="hidden-xs text-capitalize">{{'input data' | translate}}</span></a></li>
+                     <li ng-class="clientDataTpl=='clientStatictic'?'active':''"><a href="#" ng-click="getClientLog(client)"><i class="fa fa-line-chart"></i> <span class="hidden-xs text-capitalize">{{'tracking of anthropometric measures' | translate}}</span></a></li>
+                 </ul>
+             </div>
+             <div ng-include="clientDataTpl" style="padding-top:20px"></div>
+             <div>
+                 <a href="" class="btn btn-default btn-lg btn-border center center-right" ng-click="toggleNewTpl('calculation')" title="{{'forward' | translate}}"><i class="fa fa-angle-double-right fa-2x text-primary" aria-hidden="true"></i></a>
+             </div>
+         </div>
+     </div>
+</div>
+
+<json-directive data="clientData" desc="'clientData'"></json-directive>
+<json-directive data="client" desc="'client'"></json-directive>
+
+<script type="text/ng-template" id="inputData">
+    <div ng-if="client.clientId">
+        <div class="row">
+            <div class="col-sm-4">
+                <md-input-container class="md-block" flex-gt-sm style="margin-bottom:0">
+                    <label>{{'measurement date' | translate}}</label>
+                    <md-datepicker ng-model="clientData.date" md-open-on-focus ng-required="true"></md-datepicker>
+                </md-input-container>
+            </div>
+            <div class="col-sm-4">
+                <fieldset ng-if="config.language=='en'" class="fieldset-border" style="width:210px">
+                    <legend class="fieldset-border text-capitalize">{{'units' | translate}}:</legend>
+                    <md-radio-group ng-model="unitSystem" layout="row" flex-gt-sm ng-click="changeUnitSystem(unitSystem)">
+                        <md-radio-button value="0" class="md-primary text-capitalize">{{'standard' | translate}}</md-radio-button>
+                        <md-radio-button value="1" class="md-primary text-capitalize">{{'metric' | translate}}</md-radio-button>
+                    </md-radio-group>
+                </fieldset>
+            </div>
+            <div class="col-sm-4 text-right">
+                <a ng-if="pdfLink==null" ng-click="printClientPdf()" class="btn btn-default text-capitalize" ng-disabled="creatingPdf"><span class="text-danger"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</span></a>
+                <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success text-capitalize" download ng-click="hidePdfLink()"><i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-7">
+                <fieldset class="fieldset-border" style="padding-top:0; margin-top:0">
+                    <legend class="fieldset-border">{{'anthropometric parameters' | translate}}</legend>
+                    <div class="row">
+                        <div class="col-sm-6" style="padding:20px 20px 5px 20px">
+                            <div ng-if="unitSystem==1">
+                                <table>
+                                    <tr>
+                                        <td class="p5">{{'height' | translate}}:</td>
+                                        <td class="p5">
+                                            <div class="input-group">
+                                                <input ng-model="clientData.height" class="form-control" style="width:75px" required allow-only-numbers>
+                                                <span class="input-group-addon" style="width:50px">cm</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p5">{{'weight' | translate}}:</td>
+                                        <td class="p5" colspan="2">
+                                            <div class="input-group">
+                                                <input ng-model="clientData.weight" class="form-control" style="width:75px" required allow-only-numbers>
+                                                <span class="input-group-addon" style="width:50px">kg</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p5">{{'waist' | translate}}:</td>
+                                        <td class="p5" colspan="2">
+                                            <div class="input-group">
+                                                <input ng-model="clientData.waist" class="form-control" style="width:75px" allow-only-numbers>
+                                                <span class="input-group-addon" style="width:50px">cm</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p5">{{'hip' | translate}}:</td>
+                                        <td class="p5" colspan="2">
+                                            <div class="input-group">
+                                                <input ng-model="clientData.hip" class="form-control" style="width:75px" allow-only-numbers>
+                                                <span class="input-group-addon" style="width:50px">cm</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!--<tr>
+                                        <td class="p5">{{'body fat' | translate}}: <span ng-if="user.userType<2" custom-popover popover-html="{{'this function is available only in premium package' | translate}}" popover-placement="bottom" popover-label=""></span></td>
+                                        <td class="p5" colspan="2">
+                                            <div class="input-group">
+                                                <input ng-model="clientData.bodyFat.bodyFatPerc" class="form-control" style="width:75px" allow-only-numbers ng-disabled="user.userType<2">
+                                                <span class="input-group-addon" style="width:50px">%</span>
+                                            </div>
+                                        </td>
+                                    </tr>-->
+                                </table>
+                            </div>
+                            <div ng-if="unitSystem==0">
+                                <table>
+                                    <tr>
+                                        <td class="p5">{{'height' | translate}}:</td>
+                                        <td class="p5">
+                                            <div class="input-group">
+                                                <select ng-model="standard.height_feet" class="form-control" ng-click="convertToMetricSystem(standard)" style="width:55px">
+                                                    <option ng-repeat="x in populateDdl(4,7)" ng-selected="x==standard.height_feet?true:false" ng-value="x">{{x}}</option>
+                                                </select>
+                                                <span class="input-group-addon" style="width:70px">{{'foot' | translate}}</span>
+                                            </div>
+                                        </td>
+                                        <td class="p5">
+                                            <div class="input-group">
+                                                <select ng-model="standard.height_inches" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:55px">
+                                                    <option ng-repeat="x in populateDdl(0,11)" ng-selected="x==standard.height_inches?true:false" ng-value="x">{{x}}</option>
+                                                </select>
+                                                <span class="input-group-addon" style="width:70px">{{'inches' | translate}}</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p5">{{'weight' | translate}}:</td>
+                                        <td class="p5" colspan="2">
+                                            <div class="input-group">
+                                                <select ng-model="standard.weight" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:75px">
+                                                    <option ng-repeat="x in populateDdl(22,440)" ng-selected="x==standard.weight?true:false" ng-value="x">{{x}}</option>
+                                                </select>
+                                                <span class="input-group-addon" style="width:70px">{{'pounds' | translate}}</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p5">{{'waist' | translate}}:</td>
+                                        <td class="p5" colspan="2">
+                                            <div class="input-group">
+                                                <select ng-model="standard.waist" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:75px">
+                                                    <option ng-repeat="x in populateDdl(23,70)" ng-selected="x==standard.waist?true:false" ng-value="x">{{x}}</option>
+                                                </select>
+                                                <span class="input-group-addon" style="width:70px">{{'inches' | translate}}</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p5">{{'hip' | translate}}:</td>
+                                        <td class="p5" colspan="2">
+                                            <div class="input-group">
+                                                <select ng-model="standard.hip" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:75px">
+                                                    <option ng-repeat="x in populateDdl(35,70)" ng-selected="x==standard.hip?true:false" ng-value="x">{{x}}</option>
+                                                </select>
+                                                <span class="input-group-addon" style="width:70px">{{'inches' | translate}}</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!--<tr>
+                                        <td class="p5">{{'body fat' | translate}}: <span ng-if="user.userType<2" custom-popover popover-html="{{'this function is available only in premium package' | translate}}" popover-placement="bottom" popover-label=""></span></td>
+                                        <td class="p5" colspan="2">
+                                            <div class="input-group">
+                                                <input ng-model="clientData.bodyFat.bodyFatPerc" class="form-control" style="width:75px" allow-only-numbers ng-disabled="user.userType<2">
+                                                <span class="input-group-addon" style="width:50px">%</span>
+                                            </div>
+                                        </td>
+                                    </tr>-->
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <ng-include src="'humanSvg'"></ng-include>
+                        </div>
+                        <div class="col-sm-12">
+                            <hr />
+                            <table>
+                                <tr>
+                                    <td class="p5">{{'body fat' | translate}}: <span ng-if="user.userType<2" custom-popover popover-html="{{'this function is available only in premium package' | translate}}" popover-placement="bottom" popover-label=""></span></td>
+                                    <td class="p5">
+                                        <div class="input-group">
+                                            <input ng-model="clientData.bodyFat.bodyFatPerc" class="form-control" style="width:75px" allow-only-numbers ng-disabled="user.userType<2">
+                                            <span class="input-group-addon" style="width:50px">%</span>
+                                        </div>
+                                    </td>
+                                    <td><button class="btn btn-default" ng-click="bodyFatPopup(clientData)"><img src="../app/assets/img/caliper.png" style="height:18px" /> {{'body fat calculator' | translate}}</button></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col-lg-5">
+                <fieldset class="fieldset-border" style="padding-top:0; margin-top:0">
+                    <legend class="fieldset-border text-capitalize">{{'note' | translate}} <span custom-popover popover-html="{{'maximum number of characters is' | translate}} 500" popover-placement="bottom" popover-label="" ></span>
+                    </legend>
+                    <div>
+                        <textarea ng-model="clientData.clientNote" class="form-control" maxlength="500" style="height:238px"></textarea>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        
+        <!--<div ng-if="config.debug" class="col-sm-4">
+            <a href="assets/3d/body.html?bmi:25" target="_blank" class="btn btn-default"><span class="text-primary"><i class="fa fa-arrows-alt"></i> {{'full screen' | translate}}</span></a>
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="assets/3d/body.html?bmi:25" allowfullscreen></iframe>
+            </div>
+        </div>-->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <fieldset class="fieldset-border">
+                    <legend class="fieldset-border">{{'physical activity level' | translate}}</legend>
+                    <div class="row p20">
+                        <div class="col-sm-12">
+                            <md-radio-group ng-model="clientData.pal.value" ng-change="getPalDetails(clientData.pal.value)">
+                                <md-radio-button ng-repeat="x in pals" value="{{x.value}}" class="md-primary">
+                                    {{x.title | translate}}
+                                    <span ng-if="clientData.pal.value==x.value" class="p10">
+                                        <em style="font-size:1.1em" class="text-primary">({{pal.description | translate}})</em>
+                                    </span>
+                                </md-radio-button>
+                            </md-radio-group>
+                        </div>
+                    </div>
+                    <div ng-include="'detailCalculationOfEnergyExpenditure'" class="p20"></div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="detailCalculationOfEnergyExpenditure">
+    <div ng-controller="detailCalculationOfEnergyExpenditureCtrl" ng-cloak>
+        <fieldset class="fieldset-border">
+            <legend class="fieldset-border" ng-click="detailCalculationOfEnergyExpenditure()">{{'detail calculation of energy expenditure' | translate}} <i class="fa fa-chevron-{{showDetailCalculationOfEnergyExpenditure==true?'up':'right'}}"></i></legend>
+            <div ng-if="showDetailCalculationOfEnergyExpenditure" class="row">
+                <div class="col-sm-6">
+                    <fieldset class="fieldset-border">
+                        <legend class="fieldset-border">{{'activity duration' | translate}}:</legend>
+                        <div class="m10">
+                            <table>
+                                <tr>
+                                    <td class="text-right">{{'from' | translate}}:</td>
+                                    <td class="pl10"><label>{{from.hour}}:{{from.min}} h</label></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-right mr10">{{'to' | translate}}:</td>
+                                    <td class="pl10">
+                                        <select ng-model="to.hour" class="btn btn-default" ng-options="x for x in hours" ng-click="selectHours()"></select> h
+                                        <select ng-model="to.min" class="btn btn-default" ng-options="x for x in minutes"></select> min
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="input-group">
+                            <input ng-model="searchValue" class="form-control search" type="text" placeholder="{{'search' | translate}}..." />
+                            <span class="input-group-btn">
+                                <a href="" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</a>
+                            </span>
+                        </div>
+                        <div>
+                            <select ng-model="activity" class="form-control" size="7">
+                                <option value="{{x}}" ng-repeat="x in activities | filter:{activity:searchValue} | orderBy:'activity'">{{x.activity}}</option>
+                            </select>
+                            <a href="" ng-if="totalDailyEnergyExpenditure.duration<1440" class="btn btn-primary pull-right mt10 text-capitalize" ng-click="confirmActivity(activity)"><i class="fa fa-check"></i> {{'add' | translate}}</a>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="col-sm-6">
+                    <fieldset class="fieldset-border">
+                        <legend class="fieldset-border">{{'daily activities' | translate}}:</legend>
+                        <div class="table-responsive">
+                            <table class="table table-condensed text-small">
+                                <tr>
+                                    <th>{{'activity' | translate}}</th>
+                                    <th>{{'from' | translate}}</th>
+                                    <th>{{'to' | translate}}</th>
+                                    <th class="text-right">{{'min' | translate}}</th>
+                                    <th class="text-right">{{'kcal' | translate}}</th>
+                                </tr>
+                                <tr ng-repeat="x in clientData.dailyActivities.activities track by $index">
+                                    <td>{{x.activity}}</td>
+                                    <td>{{x.from.hour}}:{{x.from.min}}</td>
+                                    <td>{{x.to.hour}}:{{x.to.min}}</td>
+                                    <td class="text-right">{{x.duration}}</td>
+                                    <td class="text-right">{{x.energy | number:0}}</td>
+                                </tr>
+                                <tr>
+                                    <th colspan="5" class="text-right"><u>{{'total' | translate}}: {{clientData.dailyActivities.energy | number:0}} {{'kcal' | translate}}</u></th>
+                                </tr>
+                            </table>
+                        </div>
+                        <div ng-if="clientData.dailyActivities.activities.length>0" class="text-right mt20">
+                            <a href="" class="btn btn-default text-capitalize" ng-click="clearDailyActivities()"><span class="text-danger"><i class="fa fa-times"></i> {{'clear' | translate}}</span></a>
+                            <a href="" class="btn btn-default text-capitalize" ng-click="save(clientData.dailyActivities.activities)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</a>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+</script>
+
+<script type="text/ng-template" id="clientStatictic">
+    <div ng-if="clientData.clientId" ng-cloak>
+        <div>
+            <div class="text-right">
+                <a ng-if="pdfLink1==null" ng-click="printClientLogPdf()" class="btn btn-default text-capitalize" ng-disabled="creatingPdf"><span class="text-danger"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</span></a>
+                <a ng-if="pdfLink1!=null" href="{{pdfLink1}}" class="btn btn-success text-capitalize" download ng-click="hidePdfLink1()"><i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}</a>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 mt10">
+                    <md-radio-group ng-model="displayType" ng-click="changeDisplayType(displayType, clientLogsDays)" layout="row">
+                        <md-radio-button value=0 class="md-primary">{{'weight' | translate}}</md-radio-button>
+                        <md-radio-button value=1 class="md-primary">{{'waist' | translate}}</md-radio-button>
+                        <md-radio-button value=2 class="md-primary">{{'hip' | translate}}</md-radio-button>
+                    </md-radio-group>
+                </div>
+                <div class="col-sm-4 mt10">
+                    <span>{{'show' | translate}}</span>
+                    <select ng-model="clientLogsDays" class="form-control" ng-options="x.title | translate for x in chartDays" ng-change="setClientLogGraphData(0, clientLogsDays)"></select>
+                </div>
+                <div class="col-sm-2 mt10">
+                    <div ng-if="goalWeightValue_">
+                        <span>{{'goal' | translate}}</span>
+                        <div class="input-group">
+                            <input type="text" ng-model="goalWeightValue_" class="form-control text-right" style="min-width:75px" allow-only-numbers ng-change="changeGoalWeightValue(goalWeightValue_, 0, clientLogsDays)">
+                            <div class="input-group-addon">
+                                <div class="input-group-text" style="width:25px">{{'kg' | translate}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="" ng-if="!goalWeightValue_" class="btn btn-default" ng-click="toggleNewTpl('calculation')"><i class="fa fa-dot-circle-o"></i> {{'define goal' | translate}}</a>
+                </div>
+            </div>
+            <div class="p10">
+                <canvas id="clientDataChart" class="chart-bar hidden-xs" chart-data="clientLogGraphData.data" chart-colors="clientLogGraphData.colors" height="80"
+                        chart-labels="clientLogGraphData.labels" chart-series="clientLogGraphData.series" chart-options="clientLogGraphData.options" chart-dataset-override="clientLogGraphData.datasetOverride">
+                </canvas>
+                <canvas id="clientDataChart" class="chart-bar visible-xs" chart-data="clientLogGraphData.data" chart-colors="clientLogGraphData.colors" height="400"
+                        chart-labels="clientLogGraphData.labels" chart-series="clientLogGraphData.series" chart-options="clientLogGraphData.options" chart-dataset-override="clientLogGraphData.datasetOverride"></canvas>
+            </div>
+        </div>
+
+        <div class="table-responsive table-scroll" style="height:300px">
+            <table class="table table-condensed text-small">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <!--<th>{{'number' | translate}}</th>-->
+                        <th>{{'date' | translate}}</th>
+                        <th>{{'height' | translate}} (cm)</th>
+                        <th>{{'weight' | translate}} (kg)</th>
+                        <th>{{'waist' | translate}} (cm)</th>
+                        <th>{{'hip' | translate}} (cm)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="x in clientLog_">
+                        <td class="borderNone" style="width:100px">
+                            <a href="" style="color:red" ng-click="removeClientLog(x)" class="btn btn-default" title="{{'delete' | translate}}"><i class="fa fa-times"></i></a>
+                            <a href="" style="color:green" ng-click="updateClientLog(x)" class="btn btn-default" title="{{'save' | translate}}"><i class="fa fa-floppy-o"></i></a>
+                        </td>
+                        <!--<td>{{clientLog.length - $index}}</td>-->
+                        <td style="width:120px; max-width:180px">
+                            <input ng-model="x.date" type="date" class="form-control">
+                            <!--{{getDateFormat(x.date) | date:'dd.MM.yyyy'}}-->
+                        </td>
+                        <td style="max-width:120px">
+                            <input type="text" ng-model="x.height" class="form-control" style="min-width:60px" allow-only-numbers>
+                        </td>
+                        <td style="max-width:180px">
+                            <div class="input-group">
+                                <input type="text" ng-model="x.weight" class="form-control" style="min-width:60px" allow-only-numbers>
+                                <span class="input-group-addon" style="min-width:70px"><i class="{{clientLogDiff('weight', clientLog, x, $index).icon}}"></i> {{clientLogDiff('weight', clientLog, x, $index).diff}}</span>
+                            </div>
+                        </td>
+                        <td style="max-width:180px">
+                            <div class="input-group">
+                                <input type="text" ng-model="x.waist" class="form-control" style="min-width:60px" allow-only-numbers>
+                                <span class="input-group-addon" style="min-width:70px"><i class="{{clientLogDiff('waist', clientLog, x, $index).icon}}"></i> {{clientLogDiff('waist', clientLog, x, $index).diff}}</span>
+                            </div>
+                        </td>
+                        <td style="max-width:180px">
+                            <div class="input-group">
+                                <input type="text" ng-model="x.hip" class="form-control" style="min-width:60px" allow-only-numbers>
+                                <span class="input-group-addon" style="min-width:70px"><i class="{{clientLogDiff('hip', clientLog, x, $index).icon}}"></i> {{clientLogDiff('hip', clientLog, x, $index).diff}}</span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="humanSvg">
+    <svg width="280" height="240" xmlns="http://www.w3.org/2000/svg">
+        <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+        <defs>
+            <linearGradient spreadMethod="pad" y2="0" x2="1" y1="0" x1="0" id="svg_50">
+                <stop offset="0" stop-color="#fcf9f9" />
+                <stop offset="1" stop-color="#030606" />
+            </linearGradient>
+        </defs>
+        <g>
+            <title>background</title>
+            <rect x="-1" y="-1" width="282" height="242" id="canvas_background" fill="#ffffff" />
+        </g>
+        <g>
+            <title>Layer 1</title>
+            <line stroke="#000" fill="none" stroke-width="1.5" x1="84.840089" y1="11.030098" x2="85.840089" y2="206.509808" id="svg_1" stroke-linejoin="undefined" stroke-linecap="undefined" />
+            <line stroke="#000" fill="none" stroke-width="1.5" x1="76.77011" y1="11.030094" x2="93.204895" y2="11.030094" id="svg_2" stroke-linejoin="undefined" stroke-linecap="undefined" />
+            <line stroke="#000" fill="none" stroke-width="1.5" x1="78.32999" y1="207.313816" x2="92.808248" y2="207.313816" id="svg_3" stroke-linejoin="undefined" stroke-linecap="undefined" />
+            <text fill="#000000" stroke-width="0" x="233" y="292.4375" id="svg_8" font-size="24" font-family="Helvetica, Arial, sans-serif" text-anchor="start" xml:space="preserve" transform="matrix(3.6018126513772017,0,0,0.6660341620445251,-661.0813154443961,89.40891668014228) " stroke="#000" />
+            <g stroke="null" id="svg_32">
+                <g stroke="null" id="svg_14" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) ">
+                    <g stroke="null" id="svg_15">
+                        <path stroke="#000000" stroke-width="2" d="m587.950867,486.744848c-0.304,3.58 2.126,22.52899 3.38,29.95899c0.597,3.52 2.234,9.255 1.645,12.3c-0.841,4.244 -1.084,9.736 -0.621,12.934c0.292,1.942 1.211,10.899 -0.104,14.175c-0.688,1.718 -1.949,10.522 -1.949,10.522c-3.285,8.294 -1.431,7.886 -1.431,7.886c1.017,1.248 2.759,0.098 2.759,0.098c1.327,0.846 2.246,-0.201 2.246,-0.201c1.139,0.943 2.467,-0.116 2.467,-0.116c1.431,0.743 2.758,-0.627 2.758,-0.627c0.822,0.414 1.023,-0.109 1.023,-0.109c2.466,-0.158 -1.376,-8.05 -1.376,-8.05c-0.92,-7.088 0.913,-11.033 0.913,-11.033c6.004,-17.805 6.309,-22.53 3.909,-29.24c-0.676,-1.937 -0.847,-2.704 -0.536,-3.545c0.719,-1.941 0.195,-9.748 1.072,-12.848c1.692,-5.979 3.361,-21.142 4.231,-28.217c1.169,-9.53 -4.141,-22.308 -4.141,-22.308c-1.163,-5.2 0.542,-23.727 0.542,-23.727c2.381,3.705 2.29,10.245 2.29,10.245c-0.378,6.859 5.541,17.342 5.541,17.342c2.844,4.332 3.921,8.442 3.921,8.747c0,1.248 -0.273,4.269 -0.273,4.269l0.109,2.631c0.049,0.67 0.426,2.977 0.365,4.092c-0.444,6.862 0.646,5.571 0.646,5.571c0.92,0 1.931,-5.522 1.931,-5.522c0,1.424 -0.348,5.687 0.42,7.295c0.919,1.918 1.595,-0.329 1.607,-0.78c0.243,-8.737 0.768,-6.448 0.768,-6.448c0.511,7.088 1.139,8.689 2.265,8.135c0.853,-0.407 0.073,-8.506 0.073,-8.506c1.461,4.811 2.569,5.577 2.569,5.577c2.411,1.693 0.92,-2.983 0.585,-3.909c-1.784,-4.92 -1.839,-6.625 -1.839,-6.625c2.229,4.421 3.909,4.257 3.909,4.257c2.174,-0.694 -1.9,-6.954 -4.287,-9.953c-1.218,-1.528 -2.789,-3.574 -3.245,-4.789c-0.743,-2.058 -1.304,-8.674 -1.304,-8.674c-0.225,-7.807 -2.155,-11.198 -2.155,-11.198c-3.3,-5.282 -3.921,-15.135 -3.921,-15.135l-0.146,-16.635c-1.157,-11.347 -9.518,-11.429 -9.518,-11.429c-8.451,-1.258 -9.627,-3.988 -9.627,-3.988c-1.79,-2.576 -0.767,-7.514 -0.767,-7.514c1.485,-1.208 2.058,-4.415 2.058,-4.415c2.466,-1.891 2.345,-4.658 1.206,-4.628c-0.914,0.024 -0.707,-0.733 -0.707,-0.733c1.542,-12.456 -9.516,-13.092 -9.516,-13.092l-1.688,0c0,0 -11.063,0.636 -9.523,13.089c0,0 0.207,0.758 -0.715,0.733c-1.136,-0.03 -1.242,2.737 1.215,4.628c0,0 0.572,3.206 2.058,4.415c0,0 1.023,4.938 -0.767,7.514c0,0 -1.172,2.73 -9.627,3.988c0,0 -8.375,0.082 -9.514,11.429l-0.158,16.635c0,0 -0.609,9.853 -3.922,15.135c0,0 -1.921,3.392 -2.143,11.198c0,0 -0.563,6.616 -1.303,8.674c-0.451,1.209 -2.021,3.255 -3.249,4.789c-2.408,2.993 -6.455,9.24 -4.29,9.953c0,0 1.689,0.164 3.909,-4.257c0,0 -0.046,1.693 -1.827,6.625c-0.35,0.914 -1.839,5.59 0.573,3.909c0,0 1.117,-0.767 2.569,-5.577c0,0 -0.779,8.099 0.088,8.506c1.133,0.555 1.751,-1.047 2.262,-8.135c0,0 0.524,-2.289 0.767,6.448c0.012,0.451 0.673,2.698 1.596,0.78c0.779,-1.608 0.429,-5.864 0.429,-7.295c0,0 0.999,5.522 1.933,5.522c0,0 1.099,1.29101 0.648,-5.571c-0.073,-1.121 0.32,-3.422 0.369,-4.092l0.106,-2.631c0,0 -0.274,-3.014 -0.274,-4.269c0,-0.311 1.078,-4.41499 3.921,-8.74699c0,0 5.913,-10.48801 5.532,-17.342c0,0 -0.082,-6.54 2.299,-10.245c0,0 1.69,18.52599 0.545,23.72699c0,0 -5.319,12.77801 -4.146,22.308c0.864,7.09401 2.53,22.237 4.226,28.217c0.886,3.09401 0.362,10.899 1.072,12.848c0.32,0.847 0.152,1.627 -0.536,3.545c-2.387,6.71 -2.083,11.436 3.921,29.24c0,0 1.848,3.945 0.914,11.033c0,0 -3.836,7.892 -1.379,8.05c0,0 0.192,0.523 1.023,0.109c0,0 1.327,1.37 2.761,0.627c0,0 1.328,1.06 2.463,0.116c0,0 0.91,1.047 2.237,0.201c0,0 1.742,1.175 2.777,-0.098c0,0 1.839,0.408 -1.435,-7.886c0,0 -1.254,-8.793 -1.945,-10.522c-1.318,-3.275 -0.387,-12.251 -0.106,-14.175c0.453,-3.216 0.21,-8.695 -0.618,-12.934c-0.606,-3.038 1.035,-8.774 1.641,-12.29999c1.245,-7.423 3.685,-26.37301 3.38,-29.959l1.008,0.354c0.722,0.002 1.178,-0.351 1.178,-0.351z" id="svg_16" fill="#ffffff" />
+                    </g>
+                </g>
+                <g stroke="null" id="svg_17" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_18" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_19" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_20" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_21" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_22" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_23" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_24" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_25" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_26" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_27" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_28" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_29" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_30" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+                <g stroke="null" id="svg_31" transform="matrix(0.8763502597875319,0,0,0.9530372537664392,-374.2845654960212,-341.42462249378434) " />
+            </g>
+            <text fill="#000000" stroke-width="0" stroke-opacity="null" fill-opacity="null" x="58" y="154.5" id="svg_33" font-size="24" font-family="Helvetica, Arial, sans-serif" text-anchor="start" xml:space="preserve" stroke="#000" />
+            <text fill="#000000" stroke-width="0" stroke-opacity="null" fill-opacity="null" x="138.503806" y="102.2686" id="svg_34" font-size="16" font-family="Helvetica, Arial, sans-serif" text-anchor="start" xml:space="preserve" transform="rotate(-90 70.64827728271486,115.97492218017578) matrix(0.9086741989092684,0,0,0.7831017745601816,-75.02121183012477,40.19771412241296) " stroke="#000">{{clientData.height}} cm</text>
+            <rect fill="#bfacac" stroke="#000" stroke-width="0" stroke-opacity="null" x="132" y="302.4375" width="16" height="0" id="svg_36" />
+            <rect fill="#bfacac" stroke-width="0" stroke-opacity="null" x="214" y="302.4375" width="0" height="1" id="svg_38" stroke="#000" />
+            <text fill="#000000" stroke-width="0" stroke-opacity="null" fill-opacity="null" x="168.460434" y="171.98646" id="svg_40" font-size="16" font-family="Helvetica, Arial, sans-serif" text-anchor="start" xml:space="preserve" transform="matrix(1.1563497342955875,0,0,0.5510147793879513,-85.27293291224908,130.37638463350908) " stroke="#000">{{clientData.weight}} kg</text>
+            <line stroke="#000" fill="none" stroke-opacity="null" fill-opacity="null" x1="124.346838" y1="95.342604" x2="249.074569" y2="95.342604" id="svg_41" stroke-linejoin="null" stroke-linecap="null" />
+            <line stroke="#000" fill="none" stroke-opacity="null" fill-opacity="null" x1="121.673762" y1="108.999654" x2="249.667966" y2="108.999654" id="svg_42" stroke-linejoin="null" stroke-linecap="null" />
+            <text fill="#000000" stroke-width="0" stroke-opacity="null" fill-opacity="null" x="279.106026" y="102.579151" id="svg_43" font-size="16" font-family="Helvetica, Arial, sans-serif" text-anchor="start" xml:space="preserve" transform="matrix(0.9261506718962911,0,0,0.699732033998288,-70.02472568784694,50.00470083523374) " stroke="#000">&#8709; {{clientData.hip}} cm</text>
+            <text fill="#000000" stroke-width="0" stroke-opacity="null" fill-opacity="null" x="314.682926" y="75.515044" id="svg_44" font-size="16" font-family="Helvetica, Arial, sans-serif" text-anchor="start" xml:space="preserve" transform="matrix(0.9092834446739949,0,0,0.6640470843158995,-97.63073998242615,38.23343911476733) " stroke="#000">&#8709; {{clientData.waist}} cm</text>
+            <path stroke="#0c0c0b" id="svg_49" d="m85.866577,231.556734l20.300034,-21.770239l67.666784,0l20.300029,21.770239l-108.266847,0z" fill-opacity="0" stroke-width="2" fill="url(#svg_50)" />
+            <line stroke="#000" stroke-linecap="null" stroke-linejoin="null" id="svg_53" y2="96.035687" x2="124.460652" y1="96.035687" x1="155.707781" fill-opacity="null" stroke-opacity="null" stroke-width="null" fill="none" />
+            <line stroke="#000" stroke-linecap="null" stroke-linejoin="null" id="svg_55" y2="109.360885" x2="121.360227" y1="109.360885" x1="158.853452" fill-opacity="null" stroke-opacity="null" stroke-width="null" fill="none" />
+        </g>
+    </svg>
+</script>
+
+

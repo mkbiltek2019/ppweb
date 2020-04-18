@@ -1,0 +1,86 @@
+﻿{
+  "version": "1.4.7",
+  "date": "8.4.2020",
+  "backend": "../",
+  "title": "nutrition program",
+  "shortDescription": "meal planning web app",
+  "apppage": "app.programprehrane.com",
+  "apppageurl": "/app/",
+  "serverhostgreenwichtimediff": -1,
+  "debug": true,
+  "clientapppageurl": "../client/",
+  "clientapp_apk": "https://files.appsgeyser.com/Program%20Prehrane%20Klijent_8297899.apk",
+  "webpage": "www.programprehrane.com",
+  "webpageurl": "../",
+  "author": "Igor Gašparović",
+  "copyright": "IG PROG",
+  "email": "info@programprehrane.com",
+  "email_en": "nutrition.plan@yahoo.com",
+  "phone": "+385 98 330 966",
+  "language": "hr",
+  "languages": [
+    {
+      "code": "hr",
+      "title": "croatian"
+    },
+    {
+      "code": "ba",
+      "title": "bosnian"
+    },
+    {
+      "code": "sr",
+      "title": "serbian (latin)"
+    },
+    {
+      "code": "sr_cyrl",
+      "title": "serbian (cyrillic)"
+    },
+    {
+      "code": "en",
+      "title": "english"
+    }
+  ],
+  "eur": 7.4,
+  "usd": 6.3,
+  "currency": "hrk",
+  "currencies": [
+    {
+      "code": "hrk",
+      "title": "kuna"
+    },
+    {
+      "code": "bam",
+      "title": "marka"
+    },
+    {
+      "code": "rsd",
+      "title": "srpski dinar"
+    },
+    {
+      "code": "€",
+      "title": "euro"
+    },
+    {
+      "code": "$",
+      "title": "dollar"
+    }
+  ],
+  "showupdatedes": true,
+  "showlanguages": true,
+  "packages": [
+    {
+      "title": "START",
+      "price": 550
+    },
+    {
+      "title": "STANDARD",
+      "price": 950
+    },
+    {
+      "title": "PREMIUM",
+      "price": 1850
+    }
+  ],
+  "showmenuslimit": 20,
+  "showfoodgroupscolors": false
+}

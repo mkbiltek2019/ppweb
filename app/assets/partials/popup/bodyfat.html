@@ -8,9 +8,9 @@
             </div>
         </md-toolbar>
         <md-dialog-content>
-            <div class="md-dialog-content p20">
+            <div class="md-dialog-content p-3">
                 <div class="row">
-                    <div class="col-sm-4" style="padding:20px 0 0 50px">
+                    <div class="col-lg-4" style="padding:20px 0 0 50px">
                         <div>
                             <img src="/app/assets/img/caliper.png" />
                             <em class="text-primary">{{'body fat measurement using caliper' | translate}}</em>
@@ -39,26 +39,28 @@
                                 <td class="p5">
                                     <div class="input-group">
                                         <input ng-model="x.value" class="form-control" style="width:75px" allow-only-numbers ng-click="selectPoint(x.code)">
-                                        <span class="input-group-addon" style="width:50px">mm</span>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" style="width:50px">{{'mm' | translate}}</span>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
                         </table>
                         <hr />
                         <div class="text-right">
-                            <button class="btn btn-default" ng-click="calculate(d.data)"><i class="fa fa-calculator"></i> {{'calculate' | translate}}</button>
+                            <button class="btn btn-outline-primary" ng-click="calculate(d.data)"><i class="fa fa-calculator"></i> {{'calculate' | translate}}</button>
                         </div>
-                        <div ng-if="d.data.bodyFat>0" class="text-center text-primary pt20" style="font-size:24px">
+                        <div ng-if="d.data.bodyFat>0" class="text-center text-primary pt-3" style="font-size:24px">
                             <label>{{'body fat' | translate}}: {{d.data.bodyFat}} %</label>
                         </div>
                     </div>
-                    <div class="col-sm-8" style="padding:10px 0 0 0">
+                    <div class="col-lg-8" style="padding:10px 0 0 0">
                         <ng-include src="svg"></ng-include>
                     </div>
                 </div>
                 <div class="text-right">
                     <hr />
-                    <button class="btn btn-default" ng-click="confirm(d.data)"><i class="fa fa-save"></i> {{'save' | translate}}</button>
+                    <button class="btn btn-outline-primary" ng-click="confirm(d.data)"><i class="fa fa-save"></i> {{'save' | translate}}</button>
                 </div>
             </div>
             <json-directive data="d" desc="'d'"></json-directive>
@@ -68,7 +70,7 @@
 
 <script type="text/ng-template" id="manSvg">
     <div class="row">
-        <div class="col-xs-4" >
+        <div class="col-4" >
             <svg width="450" height="450" xmlns="http://www.w3.org/2000/svg">
                 <g>
                     <title>background</title>
@@ -91,7 +93,7 @@
                 </g>
             </svg>
         </div>
-        <div class="col-xs-4">
+        <div class="col-4">
             <svg width="450" height="450" xmlns="http://www.w3.org/2000/svg">
                 <g>
                     <title>background</title>
@@ -117,7 +119,7 @@
 
 <script type="text/ng-template" id="womanSvg">
     <div class="row">
-        <div class="col-xs-4" style="padding-left:50px">
+        <div class="col-4" style="padding-left:50px">
             <svg width="175" height="450" xmlns="http://www.w3.org/2000/svg">
                 <g>
                     <title>background</title>
@@ -139,7 +141,7 @@
                 </g>
             </svg>
         </div>
-        <div class="col-xs-4">
+        <div class="col-4">
             <svg width="175" height="450" xmlns="http://www.w3.org/2000/svg">
                 <g>
                     <title>background</title>

@@ -1,0 +1,72 @@
+﻿<div>
+    <div class="alert alert-warning">
+        <i class="fa fa-exclamation-triangle"></i>
+        <em class="text-small text-danger ml10"> {{'for persons with health problems or suspicion on them, it is recommended that before choosing a diet consult with his doctor' | translate}}.</em>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <fieldset class="fieldset-border">
+                <legend class="fieldset-border">{{'choose type of diet' | translate}}</legend>
+                <div class="input-group  hidden-xs">
+                    <input ng-model="searchValue" class="form-control search" type="text" placeholder="{{'search' | translate}}..." autofocus />
+                    <span class="input-group-btn">
+                        <a href="" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</a>
+                    </span>
+                </div>
+                <div class="hidden-sm hidden-md hidden-lg hidden-xl">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>{{'select diet' | translate}}...</label>
+                        <md-select ng-model="x" ng-change="select(x)">
+                            <md-option ng-value="x" ng-repeat="x in diets">
+                                <md-checkbox ng-checked="x.id==clientData.diet.id" class="md-primary" aria-label="diet">{{x.diet}}</md-checkbox>
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div class="hidden-xs">
+                    <div class="table-responsive">
+                        <table class="table table-condensed text-small">
+                            <thead>
+                                <tr>
+                                    <th class="nowrap" style="width:40%">{{'diet' | translate}}</th>
+                                    <th style="width:20%">{{'carbohydrates' | translate}}</th>
+                                    <th style="width:20%">{{'proteins' | translate}}</th>
+                                    <th style="width:20%">{{'fats' | translate}}</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="table-responsive" style="height:50vh">
+                        <table class="table table-hover table-condensed text-small">
+                            <tbody>
+                                <tr ng-repeat="x in diets | filter: searchValue" ng-click="select(x)">
+                                    <td><md-checkbox ng-checked="x.id==clientData.diet.id" class="md-primary" aria-label="diet"></md-checkbox></td>
+                                    <td style="width:40%">{{x.diet}}</td>
+                                    <td style="width:20%">{{x.carbohydratesMin}}-{{x.carbohydratesMax}}%</td>
+                                    <td style="width:20%">{{x.proteinsMin}}-{{x.proteinsMax}}%</td>
+                                    <td style="width:20%">{{x.fatsMin}}-{{x.fatsMax}}%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="col-sm-6">
+            <fieldset class="fieldset-border">
+                <legend class="fieldset-border text-capitalize">{{'choosen diet' | translate}}</legend>
+                <div class="alert alert-success">
+                    <strong>{{clientData.diet.diet | translate}}</strong>
+                    <p>{{clientData.diet.dietDescription | translate}}.</p> 
+                    <em ng-if="clientData.diet.note">* {{clientData.diet.note}}.</em>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div>
+        <a href="" ng-if="client.clientId" class="btn btn-default btn-lg center center-left" title="{{'back' | translate}}" ng-click="toggleNewTpl('activities')"><i class="fa fa-angle-double-left fa-2x text-primary" aria-hidden="true"></i></a>
+        <a href="" ng-if="client.clientId" class="btn btn-default btn-lg center center-right" title="{{'forward' | translate}}" ng-click="toggleNewTpl('meals')"><i class="fa fa-angle-double-right fa-2x text-primary" aria-hidden="true"></i></a>
+    </div>
+</div>
+
+<json-directive data="clientData.diet" desc="'clientData.diet'"></json-directive>

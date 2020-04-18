@@ -1,10 +1,98 @@
 ﻿<div>
-    <div class="text-center" style="margin-top:30px">
+    <!--<div class="text-center" style="margin-top:30px">
         <img src="assets/img/logo.png" alt="Program Prehrane Web" style="height:80px" />
     </div>
-    <hr />
-    <div class="row" style="margin-top:50px">
-        <div ng-controller="clientsCtrl" class="col-lg-3 col-md-6">
+    <hr />-->
+   
+
+        <div ng-controller="clientsCtrl" class="row" >
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 pointer">
+                    <div class="card-body" ng-click="search()" title="{{'search clients' | translate}}">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <i class="fas fa-male fa-4x text-gray-300"></i>
+                            </div>
+                            <div class="col-auto text-right text-primary">
+                                <div class="huge" style="font-size:30px"><i class="fa fa-search"></i> {{user.datasum.clients.total}}</div>
+                                <div>{{'total clients' | translate}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer" ng-click="newClient()">
+                        <i ng-if="clients.length==0" class="fa fa-hand-o-right fa-2x arrow1 pull-left" aria-hidden="true"></i>
+                        <span class="text-xs text-uppercase mb-1">{{'add new client' | translate}}</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <!--<div class="clearfix"></div>-->
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 pointer" ui-sref="scheduler" ui-sref-active="active">
+                    <div class="card-body" title="{{'appointments' | translate}}">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <i class="fas fa-calendar-alt fa-4x text-gray-300"></i>
+                            </div>
+                            <div class="col-auto text-right text-success">
+                                <div class="huge" style="font-size:30px">{{activeEvents===null?0:activeEvents.length}}</div>
+                                <div>{{'appointments' | translate}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="text-xs text-uppercase mb-1">{{'add appointment' | translate}}</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <!--<div class="clearfix"></div>-->
+                    </div>
+                </div>
+            </div>
+            <div ng-if="loginUser.adminType==0" class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-info shadow h-100 pointer" >
+                    <div class="card-body" ui-sref="users" ui-sref-active="users" title="{{'users' | translate}}">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <i class="fa fa-user-md fa-4x text-gray-300"></i>
+                            </div>
+                            <div class="col-auto text-right text-info">
+                                <div class="huge" style="font-size:30px">{{user.subusers+1}}</div>
+                                <div>{{'app users' | translate}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer" ui-sref="newuser" ui-sref-active="newuser">
+                        <span class="text-xs text-uppercase mb-1">{{'add new user' | translate}}</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <!--<div class="clearfix"></div>-->
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100" >
+                        <div class="card-body" title="{{'licence status' | translate}}">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <i class="fa fa-hourglass-half fa-4x text-gray-300"></i>
+                                </div>
+                                <div class="col-auto text-right text-warning">
+                                    <div class="huge" style="font-size:30px">{{user.licenceStatus!=='demo'?user.daysToExpite:'DEMO'}}</div>
+                                    <div>{{user.licenceStatus!=='demo'?('remaining days' | translate):('license' | translate)}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer pointer" ui-sref="order" ui-sref-active="order">
+                            <span class="text-xs text-uppercase mb-1">{{user.licenceStatus!=='demo'?('renew subscription' | translate):('activate full version' | translate)}}</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <!--<div class="clearfix"></div>-->
+                        </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!--<div ng-controller="clientsCtrl" class="col-lg-3 col-md-6">
             <div class="panel panel-primary">
                 <div class="panel-heading" ng-click="search()" title="pretraži klijente">
                     <div class="row">
@@ -94,69 +182,92 @@
                     </div>
                 </a>
             </div>
-        </div>
-    </div>
+        </div>-->
+
+
+
+    
     <div ng-if="loginUser.adminType<2" class="row" style="margin-top:40px">
-        <div class="col-sm-4">
-            <label class="text-capitalize">{{'statistics' | translate}}:</label>
-            <hr style="margin-top:2px" />
-            <ul class="list-group">
-                <li class="list-group-item text-capitalize">{{'clients' | translate}} <span class="badge">{{user.datasum.clients.total}}</span></li>
-                <li class="list-group-item text-capitalize">{{'menus' | translate}} <span class="badge">{{user.datasum.menues}}</span></li>
-                <li class="list-group-item">{{'weekly menus' | translate}} <span class="badge">{{user.datasum.weeklyMenus}}</span></li>
-                <li class="list-group-item">{{'my foods' | translate}} <span class="badge">{{user.datasum.myfoods}}</span></li>
-                <li class="list-group-item text-capitalize">{{'recipes' | translate}} <span class="badge">{{user.datasum.recipes}}</span></li>
-                <li class="list-group-item text-capitalize">{{'meals' | translate}} <span class="badge">{{user.datasum.meals}}</span></li>
-                <li class="list-group-item">{{'total appointments' | translate}} <span class="badge">{{user.datasum.scheduler.total}}</span></li>
-            </ul>
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <label class="text-capitalize">{{'statistics' | translate}}</label>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'clients' | translate}} <span class="badge badge-primary badge-pill">{{user.datasum.clients.total}}</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'menus' | translate}} <span class="badge badge-primary badge-pill">{{user.datasum.menues}}</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">{{'weekly menus' | translate}} <span class="badge badge-primary badge-pill">{{user.datasum.weeklyMenus}}</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">{{'my foods' | translate}} <span class="badge badge-primary badge-pill">{{user.datasum.myfoods}}</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'recipes' | translate}} <span class="badge badge-primary badge-pill">{{user.datasum.recipes}}</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'meals' | translate}} <span class="badge badge-primary badge-pill">{{user.datasum.meals}}</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">{{'total appointments' | translate}} <span class="badge badge-primary badge-pill">{{user.datasum.scheduler.total}}</span></li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div ng-if="user.licenceStatus!='demo'" class="col-sm-8">
-            <label>{{'license info' | translate}}:</label>
-            <hr style="margin-top:2px" />
-            <div class="row">
-                <div class="col-md-5" >
-                    <span class="text-capitalize">{{'package' | translate}}:</span> <label class="pull-right text-uppercase">{{user.package}}</label>
+        <div ng-if="user.licenceStatus!='demo'" class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <label>{{'license info' | translate}}</label>
                 </div>
-                <div class="col-md-7">
-                </div>
-            </div>
-            <div class="row mt10">
-                <div class="col-md-5">
-                    {{'expiration date' | translate}}: <label class="pull-right">{{expirationDate | date:'dd.MM.yyyy'}}</label>
-                </div>
-                <div class="col-md-7">
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar"
-                                aria-valuenow="{{((user.daysToExpite/365)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{((user.daysToExpite/365)*100).toFixed()}}%">
-                            {{((user.daysToExpite/365)*100).toFixed()}}%
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-5">
-                    {{'number of clinets' | translate}} ({{user.datasum.clients.currMonth}}/{{user.datasum.clients.currYear}}): <span class="pull-right"><span class="badge">{{user.datasum.clients.currMonthTotal}}</span> ({{user.datasum.clients.maxMonthlyNumberOfClients}})</span>
-                </div>
-                <div class="col-md-7">
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-striped active" role="progressbar"
-                                aria-valuenow="{{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}%">
-                            {{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}%
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-5">
-                    {{'number of users' | translate}}: <span class="pull-right"><span class="badge">{{user.subusers+1}}</span> ({{user.maxNumberOfUsers}})</span>
-                </div>
-                <div class="col-md-7">
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-striped active" role="progressbar"
-                                aria-valuenow="{{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}%">
-                            {{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}%
-                        </div>
-                    </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <span class="text-capitalize">{{'package' | translate}}:</span> <label class="pull-right text-uppercase badge badge-primary badge-pill">{{user.package}}</label>
+                                </div>
+                                <div class="col-md-7">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    {{'expiration date' | translate}} <label class="pull-right">{{expirationDate | date:'dd.MM.yyyy'}}</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar"
+                                             aria-valuenow="{{((user.daysToExpite/365)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{((user.daysToExpite/365)*100).toFixed()}}%">
+                                            {{((user.daysToExpite/365)*100).toFixed()}}%
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    {{'number of clinets' | translate}} ({{user.datasum.clients.currMonth}}/{{user.datasum.clients.currYear}}) <span class="pull-right"><span class="badge badge-primary badge-pill">{{user.datasum.clients.currMonthTotal}}</span> ({{user.datasum.clients.maxMonthlyNumberOfClients}})</span>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                             aria-valuenow="{{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}%">
+                                            {{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}%
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    {{'number of users' | translate}} <span class="pull-right"><span class="badge badge-primary badge-pill">{{user.subusers+1}}</span> ({{user.maxNumberOfUsers}})</span>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                             aria-valuenow="{{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}%">
+                                            {{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}%
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

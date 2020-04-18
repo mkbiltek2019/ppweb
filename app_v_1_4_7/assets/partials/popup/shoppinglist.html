@@ -1,0 +1,97 @@
+﻿<md-dialog flex>
+    <form ng-cloak>
+        <md-toolbar class="main-background">
+            <div class="md-toolbar-tools">
+                <h2 class="text-capitalize">{{'shopping list' | translate}}</h2>
+                <span flex></span>
+                <a href="" class="btn btn-primary" ng-click="cancel()" title="{{'close' | translate}}">x</a>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div class="text-right">
+                    <button ng-click="copyToClipboard('shoppinglist_container')" class="btn btn-default"><span class="text-capitalize"><i class="fa fa-files-o"></i> {{'copy to clipboard' | translate}}</span></button>
+                    <a ng-if="pdfLink==null" href="" ng-click="printShoppingListPdf(d, consumers, settings)" class="btn btn-default text-capitalize" ng-disabled="creatingPdf==true"><span class="text-danger"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</span></a>
+                    <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success text-capitalize" download ng-click="hidePdfLink()">
+                        <i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}
+                    </a>
+                </div>
+                <div class="row small">
+                    <div class="col-sm-3">
+                        <fieldset class="fieldset-border">
+                            <legend class="fieldset-border text-capitalize">{{'number of consumers' | translate}}</legend>
+                            <input ng-model="consumers" type="number" min="1" class="form-control" style="max-width:100px" ng-change="changeNumberOfConsumers(consumers)" allow-only-numbers>
+                        </fieldset>
+                        <fieldset class="fieldset-border">
+                            <legend class="fieldset-border">{{'show in print' | translate}}</legend>
+                            <md-checkbox ng-disabled="!settings.showFoods" ng-model="settings.showQty" class="md-primary">
+                                {{'show quantity' | translate}}
+                            </md-checkbox>
+                            <md-checkbox ng-disabled="!settings.showFoods" ng-model="settings.showMass" class="md-primary">
+                                {{'show mass' | translate}}
+                            </md-checkbox>
+                            <md-checkbox ng-model="settings.showPrice" class="md-primary">
+                                {{'show price' | translate}}
+                            </md-checkbox>
+                        </fieldset>
+                    </div>
+                    <div class="col-sm-9">
+                        <fieldset class="fieldset-border">
+                            <legend class="fieldset-border text-capitalize">{{'shopping list' | translate}}</legend>
+                            <div id="shoppinglist_container">
+                                <strong>{{currentMenu.title}}</strong>
+                                <p>{{currentMenu.note}}</p>
+                                <p ng-if="consumers > 1">{{'number of consumers' | translate}}: <strong>{{consumers}}</strong></p>
+                                <div clss="table-responsive">
+                                    <table class="table">
+                                        <tr class="text-capitalize">
+                                            <th>{{'food' | translate}}</th>
+                                            <th ng-if="settings.showQty">{{'quantity' | translate}}</th>
+                                            <th ng-if="settings.showMass" class="text-right">{{'mass' | translate}}</th>
+                                            <th ng-if="settings.showPrice" class="text-right">{{'price' | translate}}</th>
+                                        </tr>
+                                        <tr ng-repeat="x in d.foods">
+                                            <td>{{x.food}}</td>
+                                            <td ng-if="settings.showQty">{{x.smartQty}}</td>
+                                            <td ng-if="settings.showMass" class="text-right">{{x.smartMass}}</td>
+                                            <td ng-if="settings.showPrice" class="text-right">{{x.price}} <span class="text-uppercase">{{x.currency}}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td ng-if="settings.showQty"></td>
+                                            <td ng-if="settings.showMass"></td>
+                                            <td ng-if="settings.showPrice" class="text-capitalize text-right"><strong>{{'total price' | translate}}: {{d.total.price}} <span class="text-uppercase">{{d.total.currency}}</span></strong></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <!--<div class="mt10">
+                    <fieldset class="fieldset-border">
+                        <legend class="fieldset-border text-capitalize">{{'settings' | translate}}</legend>
+                        <div>
+                            <md-input-container style="margin-right:80px">
+                                <label>{{'number of consumers' | translate}}</label>
+                                <input ng-model="consumers" type="number" min="1" ng-change="changeNumberOfConsumers(consumers)">
+                            </md-input-container>
+                        </div>
+                        <div>
+                            <md-checkbox ng-disabled="!settings.showFoods" ng-model="settings.showQty" class="md-primary">
+                                {{'show quantity' | translate}}
+                            </md-checkbox>
+                            <md-checkbox ng-disabled="!settings.showFoods" ng-model="settings.showMass" class="md-primary">
+                                {{'show mass' | translate}}
+                            </md-checkbox>
+                            <md-checkbox ng-model="settings.showPrice" class="md-primary">
+                                {{'show price' | translate}}
+                            </md-checkbox>
+                        </div>
+                    </fieldset>
+                </div>-->
+               
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>

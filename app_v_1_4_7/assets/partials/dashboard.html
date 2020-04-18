@@ -1,0 +1,167 @@
+﻿<div>
+    <div class="text-center" style="margin-top:30px">
+        <img src="assets/img/logo.png" alt="Program Prehrane Web" style="height:80px" />
+    </div>
+    <hr />
+    <div class="row" style="margin-top:50px">
+        <div ng-controller="clientsCtrl" class="col-lg-3 col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading" ng-click="search()" title="pretraži klijente">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-male fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge" style="font-size:40px"><i class="fa fa-search"></i> {{user.datasum.clients.total}}</div>
+                            <div>{{'total clients' | translate}}</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#">
+                    <div class="panel-footer" ng-click="newClient()">
+                        <i ng-if="clients.length==0" class="fa fa-hand-o-right fa-2x arrow1 pull-left" aria-hidden="true"></i>
+                        <span class="pull-left text-uppercase">{{'add new client' | translate}}</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div ng-if="loginUser.adminType<2" class="col-lg-3 col-md-6" ng-click="toggleTpl('scheduler')">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-calendar fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge" style="font-size:40px">{{user.datasum.scheduler.appointments}}</div>
+                            <div>{{'appointments' | translate}}</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#">
+                    <div class="panel-footer">
+                        <span class="pull-left text-uppercase">{{'add appointment' | translate}}</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div ng-if="loginUser.adminType==0" class="col-lg-3 col-md-6">
+            <div class="panel panel-warning">
+                <div class="panel-heading" ng-click="toggleTpl('users')">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-user-md fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge" style="font-size:40px">{{user.subusers+1}}</div>
+                            <div>{{'app users' | translate}}</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" ng-click="toggleTpl('newuser')">
+                    <div class="panel-footer">
+                        <span class="pull-left text-uppercase">{{'add new user' | translate}}</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div ng-if="loginUser.adminType==0" class="col-lg-3 col-md-6">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-hourglass-half fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge" style="font-size:40px">{{user.licenceStatus!='demo'?user.daysToExpite:'DEMO'}}</div>
+                            <div>{{user.licenceStatus!='demo'?('remaining days' | translate):('license' | translate)}}</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#">
+                    <div class="panel-footer" ng-click="toggleTpl('order')">
+                        <span class="pull-left text-uppercase">{{user.licenceStatus!='demo'?('renew subscription' | translate):('activate full version' | translate)}}</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div ng-if="loginUser.adminType<2" class="row" style="margin-top:40px">
+        <div class="col-sm-4">
+            <label class="text-capitalize">{{'statistics' | translate}}:</label>
+            <hr style="margin-top:2px" />
+            <ul class="list-group">
+                <li class="list-group-item text-capitalize">{{'clients' | translate}} <span class="badge">{{user.datasum.clients.total}}</span></li>
+                <li class="list-group-item text-capitalize">{{'menus' | translate}} <span class="badge">{{user.datasum.menues}}</span></li>
+                <li class="list-group-item">{{'weekly menus' | translate}} <span class="badge">{{user.datasum.weeklyMenus}}</span></li>
+                <li class="list-group-item">{{'my foods' | translate}} <span class="badge">{{user.datasum.myfoods}}</span></li>
+                <li class="list-group-item text-capitalize">{{'recipes' | translate}} <span class="badge">{{user.datasum.recipes}}</span></li>
+                <li class="list-group-item text-capitalize">{{'meals' | translate}} <span class="badge">{{user.datasum.meals}}</span></li>
+                <li class="list-group-item">{{'total appointments' | translate}} <span class="badge">{{user.datasum.scheduler.total}}</span></li>
+            </ul>
+        </div>
+        <div ng-if="user.licenceStatus!='demo'" class="col-sm-8">
+            <label>{{'license info' | translate}}:</label>
+            <hr style="margin-top:2px" />
+            <div class="row">
+                <div class="col-md-5" >
+                    <span class="text-capitalize">{{'package' | translate}}:</span> <label class="pull-right text-uppercase">{{user.package}}</label>
+                </div>
+                <div class="col-md-7">
+                </div>
+            </div>
+            <div class="row mt10">
+                <div class="col-md-5">
+                    {{'expiration date' | translate}}: <label class="pull-right">{{expirationDate | date:'dd.MM.yyyy'}}</label>
+                </div>
+                <div class="col-md-7">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar"
+                                aria-valuenow="{{((user.daysToExpite/365)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{((user.daysToExpite/365)*100).toFixed()}}%">
+                            {{((user.daysToExpite/365)*100).toFixed()}}%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                    {{'number of clinets' | translate}} ({{user.datasum.clients.currMonth}}/{{user.datasum.clients.currYear}}): <span class="pull-right"><span class="badge">{{user.datasum.clients.currMonthTotal}}</span> ({{user.datasum.clients.maxMonthlyNumberOfClients}})</span>
+                </div>
+                <div class="col-md-7">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                aria-valuenow="{{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}%">
+                            {{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                    {{'number of users' | translate}}: <span class="pull-right"><span class="badge">{{user.subusers+1}}</span> ({{user.maxNumberOfUsers}})</span>
+                </div>
+                <div class="col-md-7">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                aria-valuenow="{{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}%">
+                            {{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}%
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <json-directive data="clients" desc="'clients'"></json-directive>
+    <json-directive data="user" desc="'user'"></json-directive>
+</div>
+

@@ -3,34 +3,32 @@
         <div class="md-toolbar-tools">
             <h4 class="text-capitalize">{{'foods' | translate}}</h4>
             <span flex></span>
-            <a href="" class="btn btn-primary" ng-click="cancel()" title="{{'close' | translate}}">x</a>
+            <a href="" class="btn btn-outline-primary" ng-click="cancel()" title="{{'close' | translate}}">x</a>
         </div>
     </md-toolbar>
     <md-dialog-content>
         <div class="md-dialog-content">
             <div class="text-right">
-                <a ng-if="food.id" href="" class="text-uppercase" ng-click="openAsMyFood(food)"><i class="fa fa-pencil"></i> {{'edit and save as my food' | translate}}</a>
+                <a ng-if="food.id" href="" class="text-uppercase" ng-click="openAsMyFood(food)"><i class="fa fa-edit"></i> {{'edit and save as my food' | translate}}</a>
             </div>
-            <div class="row text-small">
-                <form id="foodform">
+            <form id="foodform">
+                <div class="row small mt-2">
                     <div class="col-sm-6">
                         <div class="input-group">
                             <input if="searchfood" ng-model="searchFood" class="form-control" type="text" placeholder="{{'search' | translate}}..." ng-click="initCurrentFoodGroup()" autofocus />
                             <span class="input-group-btn">
-                                <a href="" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</a>
+                                <a href="" class="btn btn-outline-primary"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</a>
                             </span>
                         </div>
                         <div class="dropdown">
-                            <a href="" class="btn btn-default dropdown-toggle" style="width:100%; text-align:left" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{currentGroup.title | translate}} <span class="fa fa-sort-desc pull-right"></span>
-                            </a>
+                            <button class="btn btn-outline-primary dropdown-toggle" style="width:100%; text-align:left" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{currentGroup.title | translate}} <!--<span class="fa fa-sort-desc pull-right"></span>-->
+                            </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width:100%">
-                                <ul class="list-unstyled p10">
-                                    <li ng-if="x.parent == '' || x.parent == 'A' || x.parent == currentMainGroup" ng-repeat="x in foodGroups" ng-mousemove="showFoodSubGroups(x)" ng-click="changeFoodGroup(x.group)">
-                                        <a href="#" ng-class="x.group.code == currentGroup.code?'text-bold':''"><span ng-class="x.parent == currentMainGroup?'p10 text-muted':''">{{x.group.title | translate}}</span></a>
-                                    </li>
-                                    <li ng-click="changeFoodGroup({code:'MYF', title:'my foods'})">{{'my foods' | translate}}</li>
-                                </ul>
+                                <div ng-if="x.parent === '' || x.parent === 'A' || x.parent === currentMainGroup" ng-repeat="x in foodGroups" ng-mousemove="showFoodSubGroups(x)" ng-click="changeFoodGroup(x.group)">
+                                    <a href="" class="dropdown-item" ng-class="x.group.code === currentGroup.code?'text-bold':''"><span ng-class="x.parent == currentMainGroup?'pl-2 text-muted':''">{{x.group.title | translate}}</span></a>
+                                </div>
+                                <a href="" class="dropdown-item" ng-click="changeFoodGroup({code:'MYF', title:'my foods'})">{{'my foods' | translate}}</a>
                             </div>
                         </div>
                         <div>
@@ -44,37 +42,45 @@
                     </div>
                     <div class="col-sm-6">
                         <div ng-if="food.id">
-                            <table class="table table-condensed text-small">
+                            <div>
+                                <input ng-model="food.food" type="text" class="form-control" />
+                            </div>
+                            <div class="pt-2">
+                                {{'food group' | translate}}: <em class="text-muted pt-2">{{food.foodGroup.title | translate}}</em>
+                            </div>
+                            <table class="table table-sm text-small mt-4">
                                 <tr>
-                                    <td colspan="3"><input ng-model="food.food" type="text" class="form-control" /></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3"><em class="text-muted">{{food.foodGroup.title | translate}}</em></td>
-                                </tr>
-                                <tr>
-                                    <td style="width:100px">{{'quantity' | translate}}</td>
-                                    <td class="text-right" style="width:140px">
+                                    <td class="borderNone" style="width:100px">{{'quantity' | translate}}</td>
+                                    <td class="borderNone text-right" style="width:140px">
                                         <div class="input-group" style="width:140px">
-                                            <span class="input-group-addon pointer" ng-click="change(-1, 'quantity')">-</span>
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text pointer" ng-click="change(-1, 'quantity')">-</span>
+                                            </div>
                                             <input type="text" ng-model="food.quantity" class="form-control" ng-change="changeQuantity(food, 'quantity')" allow-only-numbers>
-                                            <span class="input-group-addon pointer" ng-click="change(1, 'quantity')">+</span>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text pointer" ng-click="change(1, 'quantity')">+</span>
+                                            </div>
                                         </div>
                                     </td>
-                                    <td class="nowrap">{{food.unit}}</td>
+                                    <td class="borderNone nowrap">{{food.unit}}</td>
                                 </tr>
                                 <tr>
-                                    <td>{{'mass' | translate}}</td>
-                                    <td class="text-right" style="width:140px">
+                                    <td class="borderNone">{{'mass' | translate}}</td>
+                                    <td class="borderNone text-right" style="width:140px">
                                         <div class="input-group" style="width:140px">
-                                            <span class="input-group-addon pointer" ng-click="change(-1, 'mass')">-</span>
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text pointer" ng-click="change(-1, 'mass')">-</span>
+                                            </div>
                                             <input type="text" ng-model="food.mass" class="form-control" ng-change="changeQuantity(food, 'mass')" allow-only-numbers>
-                                            <span class="input-group-addon pointer" ng-click="change(1, 'mass')">+</span>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text pointer" ng-click="change(1, 'mass')">+</span>
+                                            </div>
                                         </div>
                                     </td>
-                                    <td>g</td>
+                                    <td class="borderNone">g</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="3">
+                                    <td class="borderNone" colspan="3">
                                         <md-input-container class="md-block" flex-gt-sm>
                                             <label>{{'thermal treatment' | translate}}...</label>
                                             <md-select ng-disabled="food.thermalTreatments.length==0" ng-model="thermalTreatment" ng-change="getThermalTreatment(food.thermalTreatments, thermalTreatment)">
@@ -86,7 +92,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="3" class="text-center">
+                                    <td colspan="3" class="borderNone text-center">
                                         <button type="submit" form="foodform" class="btn btn-primary btn-block text-uppercase" ng-click="confirm(food)"><i class="fa fa-check"></i> {{'add' | translate}}</button>
                                     </td>
                                 </tr>
@@ -94,7 +100,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="table-responsive">
-                                        <table class="table table-condensed text-small">
+                                        <table class="table table-sm text-small">
                                             <tr>
                                                 <td style="width:100px">{{'energy' | translate}}</td>
                                                 <td class="text-right">{{food.energy}}</td>
@@ -155,15 +161,15 @@
                             <em ng-if="food.price.value>0" class="pull-right">{{'price' | translate}}: {{food.price.value | number:2}} <span class="text-uppercase">{{d.config.currency}}</span></em>
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </md-dialog-content>
 </md-dialog>
 
 <script type="text/ng-template" id="parametersTpl">
-    <div class="table-responsive table-scroll" style="height:150px">
-        <table class="table table-condensed text-small">
+    <div class="table-responsive table-scroll" style="height:220px">
+        <table class="table table-sm text-small">
             <tr>
                 <td>{{'starch' | translate}}</td>
                 <td class="text-right">{{food.starch}}</td>

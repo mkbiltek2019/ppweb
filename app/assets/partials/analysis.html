@@ -1,5 +1,6 @@
 ﻿<div>
-    <div>
+    <ng-include src="'./assets/partials/main.html'"></ng-include>
+    <div class="bg-white p-3">
         <div class="mt10">
             <div class="row">
                 <div class="col-sm-6 text-uppercase">
@@ -187,24 +188,25 @@
             <b class="text-uppercase">{{'ul' | translate}}</b>: <em>{{'upper intake level' | translate}}</em><br />
             <b class="text-uppercase">{{'rda' | translate}}</b>: <em>{{'recommended dietary allowance' | translate}}</em><br />
         </div>
-        <div class="mt10 visible-md visible-sm visible-xs">
+        <div class="d-none d-sm-block pt-3">
+            <div class="row">
+                <div class="col-sm-5">
+                    <ng-include src="'parametersTableTpl'"></ng-include>
+                </div>
+                <div class="col-sm-7">
+                    <ng-include src="'parametersChartTpl'"></ng-include>
+                </div>
+            </div>
+        </div>
+        <div class="d-block d-sm-none pt-3">
             <div>
                 <ul class="nav nav-tabs">
-                    <li ng-class="parametersTpl=='parametersChartTpl'?'active':''" ng-click="toggleParamTpl('parametersChartTpl')"><a href="#"><i class="fa fa-line-chart"></i> <span class="hidden-xs text-capitalize">{{'charts' | translate}}</span></a></li>
-                    <li ng-class="parametersTpl=='parametersTableTpl'?'active':''" ng-click="toggleParamTpl('parametersTableTpl')"><a href="#"><i class="fa fa-table"></i> <span class="hidden-xs text-capitalize">{{'table' | translate}}</span></a></li>
+                    <li class="nav-item" ng-click="toggleParamTpl('parametersChartTpl')"><a href="#" ng-class="parametersTpl=='parametersChartTpl'?'nav-link active':'nav-link'"><i class="fa fa-line-chart"></i> <span class="hidden-xs text-capitalize">{{'charts' | translate}}</span></a></li>
+                    <li class="nav-item" ng-click="toggleParamTpl('parametersTableTpl')"><a href="#" ng-class="parametersTpl=='parametersTableTpl'?'nav-link active':'nav-link'"><i class="fa fa-table"></i> <span class="hidden-xs text-capitalize">{{'table' | translate}}</span></a></li>
                 </ul>
             </div>
-            <div ng-include="parametersTpl" class="pt20"></div>
+            <ng-include src="parametersTpl" class="pt-3"></ng-include>
         </div>
-        <div class="row pt20 hidden-md hidden-sm hidden-xs">
-            <div class="col-sm-5">
-                <ng-include src="'parametersTableTpl'"></ng-include>
-            </div>
-            <div class="col-sm-7">
-                <ng-include src="'parametersChartTpl'"></ng-include>
-            </div>
-        </div>
-
     </fieldset>
 </script>
 

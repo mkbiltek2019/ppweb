@@ -1,0 +1,53 @@
+﻿<md-dialog flex="5">
+    <form ng-cloak>
+        <md-toolbar class="main-background">
+            <div class="md-toolbar-tools">
+                <h2 class="text-capitalize">{{'food groups' | translate}}</h2>
+                <span flex></span>
+                <a href="" class="btn btn-primary" ng-click="cancel()" title="{{'close' | translate}}">x</a>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content p20">
+                <table class="table table-condensed">
+                    <tr>
+                        <td class="bg-cereals" style="width:50px"></td>
+                        <td>{{'cereals and cereal products' | translate}}</td>
+                    </tr>
+                    <tr>
+                        <td class="bg-vegetables"></td>
+                        <td>{{'vegetables' | translate}}</td>
+                    </tr>
+                    <tr>
+                        <td class="bg-fruit"></td>
+                        <td>{{'fruit' | translate}}</td>
+                    </tr>
+                    <tr>
+                        <td class="bg-meat"></td>
+                        <td>{{'meat and substitutes' | translate}}</td>
+                    </tr>
+                    <tr>
+                        <td class="bg-milk"></td>
+                        <td>{{'milk and dairy products' | translate}}</td>
+                    </tr>
+                    <tr>
+                        <td class="bg-fat"></td>
+                        <td>{{'fat' | translate}}</td>
+                    </tr>
+                    <tr>
+                        <td class="bg-otherfoods"></td>
+                        <td>{{'other foods' | translate}}</td>
+                    </tr>
+                    <tr>
+                        <td class="bg-mixedfoods"></td>
+                        <td>{{'mixed foods' | translate}}</td>
+                    </tr>
+                    <tr>
+                        <td class="bg-preparedmeals"></td>
+                        <td>{{'prepared meals' | translate}}</td>
+                    </tr>
+                </table>
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>

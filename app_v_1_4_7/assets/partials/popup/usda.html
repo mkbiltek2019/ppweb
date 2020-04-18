@@ -1,0 +1,98 @@
+﻿<md-dialog flex>
+    <md-toolbar class="main-background">
+        <div class="md-toolbar-tools">
+            <h2 class="text-uppercase">{{'usda' | translate}}</h2>
+            <span flex></span>
+            <a href="" class="btn btn-primary" ng-click="cancel()" title="{{'close' | translate}}">x</a>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <div class="text-primary">
+                USDA - <em class="text-small"> *{{'usda_info' | translate}}.</em>
+            </div>
+            <div class="row mt10">
+                <div class="col-sm-6 ">
+                    <form id="searchFood">
+                        <div class="input-group">
+                            <input ng-model="searchValue" class="form-control search" type="text" placeholder="{{'search' | translate}}..." ng-change="initPages(5)" />
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit" form="searchFood" ng-click="search(searchValue, 1)"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
+                            </span>
+                        </div>
+                    </form>
+                    <div>
+                        <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around">
+                            <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
+                        </div>
+                        <div style="min-height:280px">
+                            <div ng-hide="loading">
+                                <select ng-model="fdcId" size="22" class="form-control" ng-change="get(fdcId)">
+                                    <option value="{{x.fdcId}}" ng-repeat="x in foods.foods">{{x.description}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div ng-if="foods" class="text-right">
+                            <ul class="pagination">
+                                <li ng-if="pages.length>1" ng-click="nextPage(searchValue, -1)" title="{{'prev page' | translate}}"><a href="#"><<</a></li>
+                                <li class="{{page===x?'active':''}}" ng-repeat="x in pages" ng-click="search(searchValue, x)" title="{{'page' | translate}} {{x}}"><a href="#">{{x}}</a></li>
+                                <li ng-if="pages.length>1" ng-click="nextPage(searchValue, 1)" title="{{'next page' | translate}}"><a href="#">>></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div ng-if="d">
+                        <input ng-model="d.description" type="text" class="form-control" />
+                        <div class="mt10" style="height:100px">
+                            <div style="min-height:25px">
+                                <em ng-if="d.foodCategory.description" class="text-muted">{{d.foodCategory.description}}</em>
+                            </div>
+                            <div class="pt10">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>{{'portion' | translate}}</label>
+                                    <md-select ng-model="portion" ng-change="changeFoodPortions(portion.gramWeight)">
+                                        <md-option value="100" ng-selected="gramWeight===100">
+                                            100 g
+                                        </md-option>
+                                        <md-option ng-value="x" ng-repeat="x in d.foodPortions">
+                                            <span ng-if="show(x.modifier)===false">{{x.modifier}}</span> <span ng-if="show(x.portionDescription)">{{x.portionDescription}}</span> ({{x.gramWeight}} g)
+                                        </md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+                        </div>
+                        <div class="pt10">
+                            <button class="btn btn-primary btn-block text-uppercase" ng-click="confirm(d, portion)"><i class="fa fa-check"></i> {{'copy to my foods' | translate}}</button>
+                        </div>
+                        <div>
+                            <table class="table table-condensed mt10" style="margin-bottom:0">
+                                <tr class="text-capitalize">
+                                    <th style="width:70%">{{'nutrient' | translate}}</th>
+                                    <th class="text-right">{{'mass' | translate}}</th>
+                                    <th>{{'unit' | translate}}</th>
+                                </tr>
+                            </table>
+                            <div class="table-responsive table-scroll" style="height:180px">
+                                <table class="table table-condensed text-small">
+                                    <tr ng-repeat="x in d.foodNutrients track by $index">
+                                        <td style="width:70%">{{x.nutrient.name}}</td>
+                                        <td class="text-right">{{x.amount}}</td>
+                                        <td>{{x.nutrient.unitName}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="text-right text-muted">
+                            <em>{{'publication date' | translate}}: {{d.publicationDate}}</em>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <json-directive data="foods" desc="'foods'"></json-directive>
+            <json-directive data="d" desc="'d'"></json-directive>
+        </div>
+    </md-dialog-content>
+</md-dialog>

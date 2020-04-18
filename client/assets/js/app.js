@@ -100,12 +100,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'chart.js', 'ngSto
     $scope.currLanguageTitle = null
     var getLanguageTitle = function (x) {
         if ($scope.config !== undefined) {
-            angular.forEach($scope.config.languages, function (value, key) {
-                if (value.code == x) {
-                    $scope.currLanguageTitle = value.title;
-                    return false;
-                }
-            });
+            $scope.currLanguageTitle = $scope.config.languages.find(a => a.code === x).title;
+            //angular.forEach($scope.config.languages, function (value, key) {
+            //    if (value.code == x) {
+            //        $scope.currLanguageTitle = value.title;
+            //        return false;
+            //    }
+            //});
         }
     }
 

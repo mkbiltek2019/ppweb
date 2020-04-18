@@ -12,10 +12,10 @@
                 <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
             </div>
             <div ng-show="!loading" class="md-dialog-content">
-                <div ng-hide="hideNav" class="row p10">
-                    <ul class="nav nav-tabs">
-                        <li ng-class="appMenues==false?'active':''" ng-click="toggle('myMenus')"><a href="" class="text-capitalize">{{'my menus' | translate}}</a></li>
-                        <li ng-if="config.language!='en'" ng-class="appMenues==true?'active':''" ng-click="toggle('appMenus')"><a href="" class="text-capitalize">{{'menu examples' | translate}}</a></li>
+                <div ng-hide="hideNav" class="pt-3">
+                    <ul class="nav nav-tabs text-capitalize">
+                        <li class="nav-item" ng-click="toggle('myMenus')"><a href="" ng-class="appMenues==false?'nav-link active':'nav-link'">{{'my menus' | translate}}</a></li>
+                        <li ng-if="config.language!='en'" class="nav-item" ng-click="toggle('appMenus')"><a href="" ng-class="appMenues==true?'nav-link active':'nav-link'">{{'menu examples' | translate}}</a></li>
                         <!--<li ng-class="appMenues==false?'active':''" ng-click="load()"><a href="" class="text-capitalize">{{'my menus' | translate}}</a></li>
                         <li ng-if="config.language!='en'" ng-class="appMenues==true?'active':''" ng-click="loadAppMenues()"><a href="" class="text-capitalize">{{'menu examples' | translate}}</a></li>-->
                     </ul>

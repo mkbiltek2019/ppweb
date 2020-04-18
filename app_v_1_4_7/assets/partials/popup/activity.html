@@ -1,0 +1,28 @@
+﻿<md-dialog flex>
+    <form ng-cloak>
+        <md-toolbar class="main-background">
+            <div class="md-toolbar-tools">
+                <h2 class="text-capitalize">{{'activity' | translate}}</h2>
+                <span flex></span>
+                <a href="" class="btn btn-primary" ng-click="cancel()" title="{{'close' | translate}}">x</a>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+               <label>{{d.activity | translate}}</label>
+                <div class="row">
+                    <div class="col-sm-6 p10">
+                        <div class="input-group" style="max-width:250px">
+                            <span class="input-group-addon text-capitalize">{{'duration' | translate}}</span>
+                            <input type="text" ng-model="duration" class="form-control" style="min-width:80px" allow-only-numbers>
+                            <span class="input-group-addon">{{'min' | translate}}</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 text-right p10">
+                        <button class="btn btn-primary text-capitalize" ng-click="confirm(d)"><i class="fa fa-check"></i> {{'add' | translate}}</button>
+                    </div>
+                </div>
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>

@@ -7,6 +7,24 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 .config(['$stateProvider', '$urlRouterProvider', '$translateProvider', '$translatePartialLoaderProvider', '$httpProvider', function ($stateProvider, $urlRouterProvider, $translateProvider, $translatePartialLoaderProvider, $httpProvider) {
 
     $stateProvider
+        .state('login', {
+            url: '/login', templateUrl: './assets/partials/login.html', controller: 'loginCtrl'
+        })
+        .state('signup', {
+            url: '/signup', templateUrl: './assets/partials/signup.html', controller: 'signupCtrl'
+        })
+        .state('user', {
+            url: '/user', templateUrl: './assets/partials/user.html', controller: 'userCtrl'
+        })
+        .state('users', {
+            url: '/users', templateUrl: './assets/partials/users.html', controller: 'userCtrl'
+        })
+        .state('newuser', {
+            url: '/newuser', templateUrl: './assets/partials/newuser.html', controller: 'userCtrl'
+        })
+        .state('order', {
+            url: '/order', templateUrl: './assets/partials/order.html', controller: 'orderCtrl'
+        })
         .state('dashboard', {
             url: '/dashboard', templateUrl: './assets/partials/dashboard.html', controller: 'dashboardCtrl'
         })
@@ -35,10 +53,22 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             url: '/myfoods', templateUrl: './assets/partials/myfoods.html', controller: 'myFoodsCtrl'
         })
         .state('myrecipes', {
-            url: '/myrecipes', templateUrl: './assets/partials/myrecipes.html', controller: 'menuCtrl'
+            url: '/myrecipes', templateUrl: './assets/partials/myrecipes.html', controller: 'myRecipesCtrl'
         })
         .state('prices', {
             url: '/prices', templateUrl: './assets/partials/prices.html', controller: 'pricesCtrl'
+        })
+        .state('scheduler', {
+            url: '/scheduler', templateUrl: './assets/partials/scheduler.html', controller: 'schedulerCtrl'
+        })
+        .state('clientapp', {
+            url: '/clientapp', templateUrl: './assets/partials/clientapp.html', controller: 'clientAppCtrl'
+        })
+        .state('info', {
+            url: '/info', templateUrl: './assets/partials/info.html', controller: 'infoCtrl'
+        })
+        .state('settings', {
+            url: '/settings', templateUrl: './assets/partials/settings.html', controller: 'settingsCtrl'
         })
 
     $urlRouterProvider.otherwise("/");
@@ -170,6 +200,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
        });
     }
 
+    $scope.currLanguageTitle = null
+    var getLanguageTitle = function (x) {
+        if ($scope.config !== undefined) {
+            $scope.currLanguageTitle = $rootScope.config.languages.find(a => a.code === x).title;
+        }
+    }
+
     $rootScope.setLanguage = function (x) {
         $translate.use(x);
         $translatePartialLoader.addPart('main');
@@ -181,6 +218,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         if ($sessionStorage.usergroupid != undefined || $sessionStorage.usergroupid != null) {
             $rootScope.loadData();
         }
+        getLanguageTitle(x);
     };
 
     $rootScope.loadFoods = function () {
@@ -270,6 +308,23 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         });
     };
 
+    $scope.activeEvents = null;
+    $rootScope.getActiveEvents = function () {
+        if ($rootScope.user.userType == 0) { return false; }
+        var now = new Date().getTime();
+        $http({
+            url: $sessionStorage.config.backend + 'Scheduler.asmx/GetActiveEvents',
+            method: 'POST',
+            data: { user: $rootScope.user, now: now }
+        })
+       .then(function (response) {
+           $scope.activeEvents = JSON.parse(response.data.d);
+       },
+       function (response) {
+           functions.alert($translate.instant(response.data.d));
+       });
+    };
+
     $rootScope.loadData = function () {
         if ($sessionStorage.user == null) {
             $scope.toggleTpl('login');
@@ -280,11 +335,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $rootScope.loadGoals();
             $rootScope.loadActivities();
             $rootScope.loadDiets();
+            $rootScope.getActiveEvents();
         }
     }
 
     $scope.toggleTpl = function (x) {
-        $rootScope.currTpl = './assets/partials/' + x + '.html';
+        debugger;
+        //$rootScope.currTpl = './assets/partials/' + x + '.html';
+        $state.go(x);
     };
 
     var checkUser = function () {
@@ -301,6 +359,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     var validateForm = function () {
         if ($rootScope.clientData.clientId == null) {
+            //TODO:
+            //functions.alert($translate.instant('choose client'));
             return false;
         }
         if ($rootScope.clientData.height <= 0) {
@@ -352,10 +412,15 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             if (x !== 'clientsdata') {
                 $rootScope.saveClientData($rootScope.clientData);
             }
+        } else {
+            if (x !== 'clientsdata') {
+                functions.alert($translate.instant('choose client'), '');
+                return false;
+            }
         }
-        //$rootScope.newTpl = './assets/partials/' + x + '.html';
         $state.go(x);
         $rootScope.selectedNavItem = x;
+        //$rootScope.newTpl = './assets/partials/' + x + '.html';
     };
     if ($sessionStorage.islogin) {
         $scope.toggleNewTpl('clientsdata');
@@ -373,7 +438,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $sessionStorage.islogin = false;
         $sessionStorage.usergroupid = null;
         $rootScope.mainMessage = null;
-        $rootScope.currTpl = 'assets/partials/login.html';
+        //$rootScope.currTpl = 'assets/partials/login.html';
+        $state.go('login');
     }
 
     $rootScope.saveClientData = function (x) {
@@ -630,13 +696,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 }])
 
-.controller('loginCtrl', ['$scope', '$http','$localStorage', '$sessionStorage', '$window', '$rootScope', 'functions', '$translate', '$mdDialog', function ($scope, $http, $localStorage, $sessionStorage, $window, $rootScope, functions, $translate, $mdDialog) {
+.controller('loginCtrl', ['$scope', '$http', '$localStorage', '$sessionStorage', '$window', '$rootScope', 'functions', '$translate', '$mdDialog', '$state', function ($scope, $http, $localStorage, $sessionStorage, $window, $rootScope, functions, $translate, $mdDialog, $state) {
     var webService = 'Users.asmx';
 
-    $scope.toggleTpl = function (x) {
-        $scope.tpl = x;
-    }
-    $scope.toggleTpl('loginTpl');
+    //$scope.toggleTpl = function (x) {
+    //    $scope.tpl = x;
+    //}
+    //$scope.toggleTpl('loginTpl');
 
     $scope.login = function (u, p) {
         $scope.errorMesage = null;
@@ -679,9 +745,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 if ($rootScope.user.licenceStatus == 'expired') {
                     $rootScope.isLogin = false;
                     functions.alert($translate.instant('your subscription has expired'), $translate.instant('renew subscription'));
-                    $rootScope.currTpl = './assets/partials/order.html';
+                    //$rootScope.currTpl = './assets/partials/order.html';
+                    $state.go('order');
                 } else {
-                    $rootScope.currTpl = './assets/partials/dashboard.html';
+                    //$rootScope.currTpl = './assets/partials/dashboard.html';
+                    $state.go('dashboard');
                     if ($rootScope.user.daysToExpite <= 10 && $rootScope.user.daysToExpite > 0) {
                         $rootScope.mainMessage = $translate.instant('your subscription will expire in') + ' ' + $rootScope.user.daysToExpite + ' ' + ($rootScope.user.daysToExpite == 1 ? $translate.instant('day') : $translate.instant('days')) + '.';
                         $rootScope.mainMessageBtn = $translate.instant('renew subscription');
@@ -710,7 +778,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 $rootScope.loading = false;
                 $scope.errorLogin = true;
                 $scope.errorMesage = $translate.instant('wrong user name or password');
-               // $rootScope.currTpl = 'assets/partials/signup.html';  //<< Only for first registration
+                //$state.go('signup'); // $rootScope.currTpl = 'assets/partials/signup.html';  //<< Only for first registration
             }
         },
         function (response) {
@@ -720,7 +788,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
      }
 
      $scope.signup = function () {
-         $rootScope.currTpl = 'assets/partials/signup.html';
+         //$rootScope.currTpl = 'assets/partials/signup.html';
+         $state.go('signup');
      }
 
      $scope.forgotPasswordPopup = function () {
@@ -769,7 +838,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 }])
 
-.controller('signupCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, functions, $translate) {
+.controller('signupCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', 'functions', '$translate', '$state', function ($scope, $http, $sessionStorage, $window, $rootScope, functions, $translate, $state) {
     var webService = 'Users.asmx';
     $scope.showAlert = false;
     $scope.passwordConfirm = '';
@@ -1315,21 +1384,26 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 //-------------- Program Prehrane Controllers---------------
 .controller('mainCtrl', ['$scope', '$rootScope', '$state', function ($scope, $rootScope, $state) {
-    if ($rootScope.client) {
-        if ($rootScope.client.clientId) {
-            //$rootScope.newTpl = 'assets/partials/clientsdata.html',
-            $state.go('clientsdata');
-            $rootScope.selectedNavItem = 'clientsdata';
-        } else {
-            //$rootScope.newTpl = 'assets/partials/dashboard.html',
-            $state.go('dashboard');
-            $rootScope.selectedNavItem = 'dashboard';
-        }
-    } else {
-        //$rootScope.newTpl = 'assets/partials/dashboard.html',
-        $state.go('dashboard');
-        $rootScope.selectedNavItem = 'dashboard';
-    }
+    //if ($rootScope.client) {
+    //    if ($rootScope.client.clientId) {
+    //        //$rootScope.newTpl = 'assets/partials/clientsdata.html',
+    //        $state.go('clientsdata');
+    //        $rootScope.selectedNavItem = 'clientsdata';
+    //    } else {
+    //        //$rootScope.newTpl = 'assets/partials/dashboard.html',
+    //        $state.go('dashboard');
+    //        $rootScope.selectedNavItem = 'dashboard';
+    //    }
+    //} else {
+    //    //$rootScope.newTpl = 'assets/partials/dashboard.html',
+    //    $state.go('dashboard');
+    //    $rootScope.selectedNavItem = 'dashboard';
+    //}
+
+    //$scope.toggleNewTpl_ = function (x) {
+    //    $state.go(x);
+    //    $scope.selectedNavItem = x;
+    //}
 
 }])
 
@@ -1350,6 +1424,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 	getUser();
 
 	var showHelpAlert = function () {
+	    debugger;
 	    $timeout(function () {
 	        if ($rootScope.currTpl == './assets/partials/dashboard.html') {
 	            $http({
@@ -1418,6 +1493,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
   
     var getClients = function () {
+        debugger;
         $rootScope.loading = true;
         $http({
             url: $sessionStorage.config.backend + webService + '/Load',
@@ -1553,6 +1629,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.search = function () {
+        debugger;
         $http({
             url: $sessionStorage.config.backend + webService + '/Load',
             method: "POST",
@@ -2792,7 +2869,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 }])
 
-.controller('dietsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions) {
+.controller('dietsCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$state', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $state) {
     var webService = 'Diets.asmx';
    
     var get = function (x) {
@@ -2874,7 +2951,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
         get(diet);
     }
-    if ($rootScope.clientData.diet.id == null) { init(); }
+    if ($rootScope.clientData === undefined) {
+        $state.go('clientsdata');
+    } else {
+        if ($rootScope.clientData.diet.id == null) { init(); }
+    }
 
     $scope.select = function (x) {
         $rootScope.clientData.diet = x;
@@ -3432,16 +3513,15 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.change = function (x, type, idx) {
-        if ($rootScope.currentMenu.data.selectedFoods[idx].quantity + x > 0) {
-                if (type == 'quantity') {
-                    $rootScope.currentMenu.data.selectedFoods[idx].quantity = $rootScope.currentMenu.data.selectedFoods[idx].quantity * 1 + x;
-                    $scope.changeQuantity($rootScope.currentMenu.data.selectedFoods[idx], 'quantity', idx);
-                }
-                if (type == 'mass') {
-                    $rootScope.currentMenu.data.selectedFoods[idx].mass = $rootScope.currentMenu.data.selectedFoods[idx].mass * 1  + x;
-                    $scope.changeQuantity($rootScope.currentMenu.data.selectedFoods[idx], 'mass', idx);
-                }
-            }
+        debugger;
+        if (type === 'quantity' && $rootScope.currentMenu.data.selectedFoods[idx].quantity + x > 0) {
+            $rootScope.currentMenu.data.selectedFoods[idx].quantity = $rootScope.currentMenu.data.selectedFoods[idx].quantity * 1 + x;
+            $scope.changeQuantity($rootScope.currentMenu.data.selectedFoods[idx], 'quantity', idx);
+        }
+        if (type === 'mass' && $rootScope.currentMenu.data.selectedFoods[idx].mass + x > 0) {
+            $rootScope.currentMenu.data.selectedFoods[idx].mass = $rootScope.currentMenu.data.selectedFoods[idx].mass * 1 + x;
+            $scope.changeQuantity($rootScope.currentMenu.data.selectedFoods[idx], 'mass', idx);
+        }
     }
 
     $scope.openFoodPopup = function (x, idx) {
@@ -3649,15 +3729,13 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         $scope.change = function (x, type) {
-            if ($scope.food.quantity + x > 0) {
-                if (type == 'quantity') {
-                    $scope.food.quantity = $scope.food.quantity + x;
-                    $scope.changeQuantity($scope.food, 'quantity');
-                }
-                if (type == 'mass') {
-                    $scope.food.mass = $scope.food.mass + x;
-                    $scope.changeQuantity($scope.food, 'mass');
-                }
+            if (type === 'quantity' && $scope.food.quantity + x > 0) {
+                $scope.food.quantity = $scope.food.quantity + x;
+                $scope.changeQuantity($scope.food, 'quantity');
+            }
+            if (type === 'mass' && $scope.food.mass + x > 0) {
+                $scope.food.mass = $scope.food.mass + x;
+                $scope.changeQuantity($scope.food, 'mass');
             }
         }
 

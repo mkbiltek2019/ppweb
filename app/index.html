@@ -14,13 +14,17 @@
     <meta property="og:image:height" content="200">
     <link rel="stylesheet" href="assets/css/vendor/bootstrap-select.min.css">
     <link rel="stylesheet" href="assets/css/vendor/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">-->
     <link rel="stylesheet" href="assets/css/vendor/angular-material.min.css">
     <!--<link rel="stylesheet" type="text/css" href="../assets/css/vendor/jquery.floating-social-share.min.css" />-->
+    <link href="assets/css/vendor/all.min.css" rel="stylesheet" type="text/css">
+    <!-- Custom styles for this template-->
+    <link href="assets/css/vendor/sb-admin-2.css" rel="stylesheet">
+
     <link rel="stylesheet" href="assets/css/style.css?v=1.0.0">
     <!--JS-->
     <script src="assets/js/vendor/jquery.min.js"></script>
-    <script src="assets/js/vendor/bootstrap.min.js"></script>
+    <!--<script src="assets/js/vendor/bootstrap.min.js"></script>-->
     <script src="assets/js/vendor/angular.min.js"></script>
     <script src="assets/js/vendor/angular-animate.min.js"></script>
     <script src="assets/js/vendor/angular-aria.min.js"></script>
@@ -43,15 +47,352 @@
     <script src="assets/js/vendor/jquery-ui.min.js"></script>
  	<link rel="icon" type="image/x-icon" href="/favicon.ico?v=1" />
     <link href='https://fonts.googleapis.com/css?family=Encode Sans Expanded' rel='stylesheet'>
+
     <style>
         body {
             font-family: 'Encode Sans Expanded';
-            font-size: 12px;
+            font-size: 14px;
+        }
+        @media (min-width: 768px) {
+            .sidebar {
+                width: 17rem !important;
+            }
         }
     </style>
 </head>
 <body ng-app="app" ng-controller="AppCtrl" style="height:auto">
-    <div ng-class="!isLogin?'background':''">
+
+    <div id="wrapper" >
+
+        <!-- Sidebar -->
+        <div ng-show="isLogin" class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion text-capitalize" id="accordionSidebar" ng-cloak>
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon rotate-15 d-block d-sm-block d-md-none d-lg-none">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">
+                    <img src="assets/img/logo.svg" />
+                    <!--<div class="text-right">
+                        <sup><em>...</em></sup>
+                    </div>-->
+                </div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <div class="nav-item active">
+                <a ui-sref="dashboard" ui-sref-active="active" class="nav-link" >
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>{{'dashboard' | translate}}</span>
+                </a>
+            </div>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <div class="nav-item">
+                <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#clients" aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-users"></i><span>{{'clients' | translate}}</span>
+                </a>
+                <div id="clients" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a href="" class="collapse-item"><i class="fas fa-user-plus"></i><span class="pl-2">{{'new client' | translate}}</span></a>
+                        <a href="" class="collapse-item"><i class="fas fa-search"></i><span class="pl-2">{{'search clients' | translate}}</span></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-item">
+                <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#cretemenus" aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-concierge-bell"></i><span>{{'program' | translate}}</span>
+                </a>
+                <div id="cretemenus" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a ui-sref="clientsdata" ui-sref-active="active" class="collapse-item"><i class="fas fa-weight"></i><span class="pl-2">{{'input data' | translate}}</span></a>
+                        <a ui-sref="calculation" ui-sref-active="active" class="collapse-item"><i class="fas fa-calculator"></i><span class="pl-2">{{'calculation' | translate}}</span></a>
+                        <a ui-sref="activities" ui-sref-active="active" class="collapse-item"><i class="fas fa-bicycle"></i><span class="pl-2">{{'additional activities' | translate}}</span></a>
+                        <a ui-sref="diets" ui-sref-active="active" class="collapse-item"><i class="fas fa-heartbeat"></i><span class="pl-2">{{'diets' | translate}}</span></a>
+                        <a ui-sref="meals" ui-sref-active="active" class="collapse-item"><i class="fas fa-list-ol"></i><span class="pl-2">{{'meals' | translate}}</span></a>
+                        <a ui-sref="menu" ui-sref-active="active" class="collapse-item"><i class="fas fa-utensils"></i><span class="pl-2">{{'menu' | translate}}</span></a>
+                        <a ui-sref="analysis" ui-sref-active="active" class="collapse-item"><i class="fas fa-bar-chart"></i><span class="pl-2">{{'analysis' | translate}}</span></a>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <div class="nav-item">
+                <a ui-sref="myfoods" ui-sref-active="active" class="nav-link" href="">
+                    <i class="fas fa-fw fa-apple-alt"></i>
+                    <span>{{'my foods' | translate}}</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a ui-sref="myrecipes" ui-sref-active="active" class="nav-link" href="">
+                    <i class="fas fa-fw fa-receipt"></i>
+                    <span>{{'my recipes' | translate}}</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a ui-sref="prices" ui-sref-active="active" class="nav-link" href="">
+                    <i class="fas fa-fw fa-usd"></i>
+                    <span>{{'prices' | translate}}</span>
+                </a>
+            </div>
+
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <div ng-if="loginUser.adminType<2" class="nav-item">
+                <a ui-sref="scheduler" ui-sref-active="active" class="nav-link">
+                    <i class="fas fa-fw fa-calendar-alt"></i>
+                    <span>{{'calendar' | translate}}</span>
+                </a>
+            </div>
+
+            <div ng-if="isLogin&&loginUser.adminType<2" class="nav-item">
+                <a ui-sref="clientapp" ui-sref-active="active" class="nav-link">
+                    <i class="fas fa-fw fa-mobile-alt"></i>
+                    <span>{{'client app' | translate}}</span>
+                </a>
+            </div>
+
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <div class="nav-item">
+                <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#useraccount" aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-user-cog"></i><span>{{'user account' | translate}}</span>
+                </a>
+                <div id="useraccount" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a ng-if="loginUser.adminType<2" ui-sref="user" ui-sref-active="active" href="#" class="collapse-item"><i class="fa fa-user"></i><span class="pl-2">{{'my profile' | translate}}</span></a>
+                        <a ng-if="loginUser.adminType===0" ui-sref="users" ui-sref-active="active" href="#" class="collapse-item"><i class="fa fa-users"></i><span class="pl-2">{{'users' | translate}}</span></a>
+                        <a ng-if="loginUser.adminType===0" ui-sref="newuser" ui-sref-active="active" href="#" class="collapse-item"><i class="fa fa-user-plus"></i><span class="pl-2">{{'new user' | translate}}</span></a>
+                        <a ui-sref="order" ui-sref-active="active" href="#" class="collapse-item"><i class="fa fa-cart-arrow-down"></i><span class="pl-2">{{user.licenceStatus!=='demo'?('renew subscription' | translate):('activate full version' | translate)}}</span></a>
+                        <a href="" data-toggle="modal" data-target="#logoutModal" class="collapse-item"><i class="fa fa-sign-out-alt"></i><span class="pl-2">{{'logout' | translate}}</span></a>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-if="isLogin&&loginUser.adminType<2&&config.debug" class="nav-item">
+                <a ui-sref="settings" ui-sref-active="active" title="{{'settings' | translate}}" class="nav-link">
+                    <i class="fas fa-fw fa-cogs"></i>
+                    <span>{{'settings' | translate}}</span>
+                </a>
+            </div>
+
+            <div ng-if="config.language!=='en'" class="nav-item">
+                <a href="../uputa.html" target="_blank" title="{{'help' | translate}}" class="nav-link">
+                    <i class="fas fa-fw fa-question"></i>
+                    <span>{{'help' | translate}}</span>
+                </a>
+            </div>
+
+            <div class="nav-item">
+                <a ui-sref="info" ui-sref-active="active" class="nav-link">
+                    <i class="fas fa-fw fa-info"></i>
+                    <span>{{'info' | translate}}</span>
+                </a>
+            </div>
+
+            <div ng-if="loginUser.adminType<2" class="nav-item">
+                <a href="" ng-click="reportABug()" title="{{'report a bug' | translate}}" class="nav-link">
+                    <i class="fas fa-fw fa-bug"></i>
+                    <span>{{'report a bug' | translate}}</span>
+                </a>
+            </div>
+
+            <hr class="sidebar-divider">
+
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </div>
+        <!-- End of Sidebar -->
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column" ng-class="!isLogin?'background':''">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav ng-show="isLogin" class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Apointments -->
+                        <li class="nav-item dropdown no-arrow mx-1" ng-cloak>
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <span ng-if="activeEvents.length>0" class="badge badge-danger badge-counter">{{activeEvents.length}}</span>
+                            </a>
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    {{'appointments' | translate}}
+                                </h6>
+                                <a ui-sref="scheduler" ui-sref-active="" ng-repeat="x in activeEvents" class="dropdown-item d-flex align-items-center" href="">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-user-clock text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">{{x.startDate | date}}</div>
+                                        <span>{{x.content}}</span>
+                                    </div>
+                                </a>
+                                <a ui-sref="scheduler" ui-sref-active="" class="dropdown-item text-center small text-gray-500" href="">{{'show all appointments' | translate}}</a>
+                            </div>
+                        </li>
+
+                        <li ng-if="config.showlanguages" class="nav-item dropdown no-arrow" ng-cloak>
+                            <a href="" class="nav-link dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{currLanguageTitle | translate}}</span>
+                                <i class="fa fa-globe"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="dropdownMenuButton">
+                                <a ng-model="x" ng-repeat="x in config.languages" class="dropdown-item" ng-click="setLanguage(x.code)">{{x.title | translate}}</a>
+                            </div>
+                        </li>
+
+                        <!--<div class="topbar-divider d-none d-sm-block"></div>-->
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow" ng-cloak>
+                            <a class="nav-link dropdown-toggle" href="" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{user.firstName}} {{user.lastName}}</span>
+                                <i class="fa fa-user"></i>
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                <a ng-click="toggleTpl('user')" class="dropdown-item" href="">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    {{'my profile' | translate}}
+                                </a>
+                                <a ng-click="toggleTpl('users')" class="dropdown-item" href="">
+                                    <i class="fas fa-users fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    {{'users' | translate}}
+                                </a>
+                                <a ng-click="toggleTpl('newuser')" class="dropdown-item" href="">
+                                    <i class="fas fa-user-plus fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    {{'new user' | translate}}
+                                </a>
+                                <a ui-sref="order" ui-sref-active="active" class="dropdown-item"  href="">
+                                    <i class="fa fa-cart-arrow-down mr-2 text-gray-400"></i>
+                                    {{user.licenceStatus!=='demo'?('renew subscription' | translate):('activate full version' | translate)}}
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    {{'logout' | translate}}
+                                </a>
+
+
+                        <!--<li ng-if="loginUser.adminType<2">
+                            <a href="#" ng-click="toggleTpl('user')" class="text-capitalize"><i class="fa fa-user fa-fw"></i> {{'user profile' | translate}}</a>
+                        </li>
+                        <li ng-if="loginUser.adminType==0">
+                            <a href="#" ng-click="toggleTpl('users')" class="text-capitalize"><i class="fa fa-users fa-fw"></i> {{'users' | translate}}</a>
+                        </li>
+                        <li ng-if="loginUser.adminType==0">
+                            <a href="#" ng-click="toggleTpl('newuser')" class="text-capitalize"><i class="fa fa-user-plus fa-fw"></i> {{'new user' | translate}}</a>
+                        </li>
+                        <li>
+                            <a href="" ng-click="logout()" class="text-capitalize"><i class="fa fa-sign-out fa-fw"></i> <span>{{'logout' | translate}}</span></a>
+                        </li>-->
+
+                    </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                        <div ng-if="!isLogin" class="text-center text-white pt-5" ng-cloak>
+                            <h1 class="text-uppercase" style="font-size:26px">{{config.title | translate}}</h1>
+                            <h2 style="font-size:18px"><em>{{'version' | translate}}: {{config.version}}</em></h2>
+                        </div>
+                        <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around" class="text-center">
+                            <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
+                        </div>
+                        <div ng-if="browserMsg" class="alert alert-danger alert-dismissable text-center m10" style="height:auto !important" ng-cloak>
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>
+                                <i class="fa fa-internet-explorer fa-2x" aria-hidden="true"></i><span class="ml5">{{browserMsg.title | translate}}</span>
+                            </strong>
+                            <div>{{browserMsg.description | translate}}</div>
+                        </div>
+                        <div ng-if="mainMessage && isLogin && client.clientId" class="alert alert-danger alert-dismissable text-center m10" style="height:auto !important" ng-cloak>
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>
+                                <i class="fa fa-info-circle fa-2x" aria-hidden="true"></i><span class="text-uppercase ml5">{{mainMessage}}</span>
+                                <button class="btn btn-default text-uppercase ml10" ng-click="toggleTpl('order'); hideMsg()">
+                                    <span class="text-danger"><i class="fa fa-hand-o-right fa-2x arrow1" aria-hidden="true"></i> {{mainMessageBtn}}</span>
+                                </button>
+                            </strong>
+                        </div>
+
+                        <!--<div ng-show="!loading" ng-include="currTpl" style="margin-bottom:50px"></div>-->
+
+                       <ui-view autoscroll="false"></ui-view>
+
+                        <!--<div class="text-right navbar-fixed-bottom" style="padding:5px 10px 0px 0px" ng-cloak>
+                            <span class="text-primary small">&copy {{today | date:'yyyy'}} {{config.copyright}}</span>
+                        </div>-->
+
+                </div>
+
+            </div>
+            <!-- End of Main Content -->
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span ng-cloak>&copy; {{today | date:'yyyy'}} {{config.copyright}}</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{'logout' | translate}}</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">{{'are you sure you want to logout' | translate}}?</div>
+                <div class="modal-footer text-capitalize">
+                    <a class="btn btn-outline-secondary" href="" data-dismiss="modal">{{'no' | translate}}</a>
+                    <a class="btn btn-outline-primary" href="" data-dismiss="modal" ng-click="logout()">{{'yes' | translate}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--<div ng-class="!isLogin?'background':''">
         <nav class="navbar navbar-inverse noprint" ng-cloak>
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -136,13 +477,21 @@
 
             <div ng-show="!loading" ng-include="currTpl" style="margin-bottom:50px"></div>
 
-            <!--<ui-view></ui-view>-->
-
             <div class="text-right navbar-fixed-bottom" style="padding:5px 10px 0px 0px" ng-cloak>
                 <span class="text-primary small">&copy {{today | date:'yyyy'}} {{config.copyright}}</span>
             </div>
         </div>
-    </div>
+    </div>-->
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="assets/js/vendor/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="assets/js/vendor/sb-admin-2.js"></script>
    
     <script src="assets/js/app.js"></script>
     <script src="assets/js/functions.js"></script>

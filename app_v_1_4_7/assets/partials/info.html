@@ -1,0 +1,20 @@
+﻿<div>
+    <a href="" class="btn btn-default pull-right text-capitalize m10" ng-click="isLogin?toggleTpl('dashboard'):toggleTpl('login')"><i class="fa fa-times"></i><span class="hidden-xs"> {{'cancel' | translate}}</span></a>
+    <div style="background-color:#fff" class="p20">
+        <h3 class="text-uppercase"><i class="fa fa-info-circle"></i> {{'info' | translate}}</h3>
+        <hr />
+        <h4 class="text-capitalize">{{config.title | translate}} <span class="text-uppercase">{{user.package}}</span></h4>
+        <ul>
+            <li><span class="text-capitalize">{{'version' | translate}}: </span>{{config.version}}</li>
+            <li>&copy {{today | date:'yyyy'}} {{config.copyright}}</li>
+            <li><span class="text-capitalize">{{'author' | translate}}: </span>{{config.author}}</li>
+            <li><span class="text-capitalize">{{'web' | translate}}: </span><a href="{{config.webpageurl}}" target="_blank">{{config.webpage}}</a></li>
+            <li><span class="text-capitalize">{{'email' | translate}}: </span><a href="mailto:{{config.language=='en'?config.email_en:config.email}}" target="_blank">{{config.language=='en'?config.email_en:config.email}}</a></li>
+        </ul>
+        <hr />
+        <div ng-if="config.language!=='en'">
+            <a href="" ng-click="toggleUpdates()">{{'update details' | translate}} <i class="fa fa-caret-{{showUpdates==false?'right':'down'}}" aria-hidden="true"></i></a>
+            <div ng-if="showUpdates==true" ng-include="'./assets/partials/updates.html'"></div>
+        </div>
+    </div>
+</div>
