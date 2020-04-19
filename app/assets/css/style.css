@@ -48,9 +48,9 @@ md-dialog {
     max-height: 80%;
 }
 
-.borderNone {
+/*.borderNone {
     border:none !important;
-}
+}*/
 
 
 /*.p5 {
@@ -160,17 +160,17 @@ navbar-brand {
     width: 1px;
 }
 
-.text-small{
+/*.text-small{
    font-size:12px
-}
+}*/
 
-.text-bold{
+/*.text-bold{
     font-weight:600 !important;
-}
+}*/
 
-hr.bold {
+/*hr.bold {
 	border-top: 2px solid;
-}
+}*/
 
 .pointer {
     cursor:pointer;
@@ -359,7 +359,7 @@ a[class*="btn-default"], button[class*="btn-default"], input[class*="search"] {
 }
 
 .chart-box {
-    border: 1px solid #e3e6f0;
+    /*border: 1px solid #e3e6f0;*/
     border-radius: 0.35rem;
     padding:0.1rem !important;
 }

@@ -2415,16 +2415,16 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     var webService = 'Calculations.asmx';
 
     $scope.getBmiClass = function (x) {
-        if (x < 18.5) { return { text: 'text-info', icon: 'fa fa-exclamation' }; }
-        if (x >= 18.5 && x <= 25) { return { text: 'text-success', icon: 'fa fa-check' }; }
-        if (x > 25 && x < 30) { return { text: 'text-warning', icon: 'fa fa-exclamation' }; }
-        if (x >= 30) { return { text: 'text-danger', icon: 'fa fa-exclamation' }; }
+        if (x < 18.5) { return { text: 'text-info', icon: 'fa fa-exclamation-triangle' }; }
+        if (x >= 18.5 && x <= 25) { return { text: 'text-success', icon: 'fa fa-check-circle' }; }
+        if (x > 25 && x < 30) { return { text: 'text-warning', icon: 'fa fa-exclamation-circle' }; }
+        if (x >= 30) { return { text: 'text-danger', icon: 'fa fa-exclamation-triangle' }; }
     }
 
     $scope.getWaistClass = function (x) {
-        if (x.value < x.increasedRisk) { return { text: 'text-success', icon: 'fa fa-check' }; }
-        if (x.value >= x.increasedRisk && x.value < x.highRisk) { return { text: 'text-warning', icon: 'fa fa-exclamation' }; }
-        if (x.value >= x.highRisk) { return { text: 'text-danger', icon: 'fa fa-exclamation' }; }
+        if (x.value < x.increasedRisk) { return { text: 'text-success', icon: 'fa fa-check-circle' }; }
+        if (x.value >= x.increasedRisk && x.value < x.highRisk) { return { text: 'text-warning', icon: 'fa fa-exclamation-circle' }; }
+        if (x.value >= x.highRisk) { return { text: 'text-danger', icon: 'fa fa-exclamation-triangle' }; }
     }
 
     var getCharts = function () {

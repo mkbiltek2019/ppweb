@@ -1,6 +1,6 @@
 ﻿<div>
     <ng-include src="'./assets/partials/main.html'"></ng-include>
-    <div class="bg-white p-3">
+    <div class="bg-white p-3" ng-cloak>
         <ul class="nav nav-tabs">
             <li class="nav-item" ng-click="toggleMenu('dailyMenuTpl')"><a href="#" ng-class="menuTpl=='dailyMenuTpl'?'nav-link active':'nav-link'"><i class="fa fa-utensils"></i> <span class="text-capitalize">{{'daily menu' | translate}}</span></a></li>
             <li class="nav-item" ng-click="toggleMenu('weeklyMenuTpl')"><a href="#" ng-class="menuTpl=='weeklyMenuTpl'?'nav-link active':'nav-link'"><i class="fa fa-files-o"></i> <span class="text-capitalize">{{'weekly menu' | translate}}</span></a></li>
@@ -61,25 +61,33 @@
                     </div>
                     <div ng-show="!loading" class="pt-1" style="min-height:50vh">
                         <div class="table-responsive">
-                            <table class="table table-sm">
+                            <table class="table table-sm table-borderless">
                                 <tbody class="small">
                                     <tr>
-                                        <th class="borderNone" colspan="7"></th>
-                                        <th class="borderNone text-right">{{'energy' | translate}} <span class="small">(<em>{{'kcal' | translate}}</em>)</span></th>
-                                        <th class="borderNone text-right">{{'carbs' | translate}}. <span class="small">(<em>{{'g' | translate}}</em>)</span></th>
-                                        <th class="borderNone text-right">{{'prot' | translate}}. <span class="small">(<em>{{'g' | translate}}</em>)</span></th>
-                                        <th class="borderNone text-right">{{'fats' | translate}}. <span class="small">(<em>{{'g' | translate}}</em>)</span></th>
+                                        <th colspan="7"></th>
+                                        <th class="text-right border-bottom">{{'energy' | translate}} <span class="small">(<em>{{'kcal' | translate}}</em>)</span></th>
+                                        <th class="text-right border-bottom">{{'carbs' | translate}}. <span class="small">(<em>{{'g' | translate}}</em>)</span></th>
+                                        <th class="text-right border-bottom">{{'prot' | translate}}. <span class="small">(<em>{{'g' | translate}}</em>)</span></th>
+                                        <th class="text-right border-bottom">{{'fats' | translate}}. <span class="small">(<em>{{'g' | translate}}</em>)</span></th>
                                     </tr>
                                     <tr ng-repeat="x in currentMenu.data.selectedFoods | filter:filterMeal track by $index" ng-class="getFoodGroupClass(x.foodGroup.code)" title="{{x.foodGroup.title}}">
-                                        <td class="borderNone">
+                                        <td>
                                             <button ng-click="removeFood(x, currentMenu.data.selectedFoods.indexOf(x))" class="btn btn-outline-danger btn-circle btn-sm" title="{{'delete' | translate}}"><i class="fa fa-times"></i></button>
                                         </td>
-                                        <td class="borderNone">
-                                            <button class="fa fa-arrow-up text-primary" ng-click="moveUp(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move up' | translate}}"></button><br />
-                                            <button class="fa fa-arrow-down text-primary" ng-click="moveDown(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move down' | translate}}"></button>
+                                        <td>
+                                            <div>
+                                                <button class="btn btn-outline-secondary rounded btn-sm" ng-click="moveUp(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move up' | translate}}"><i class="fa fa-arrow-up"></i></button>
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-outline-secondary rounded btn-sm" ng-click="moveDown(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move down' | translate}}"><i class="fa fa-arrow-down"></i></button>
+                                            </div>
+                                            
+                                            
+                                            <!--<button class="fa fa-arrow-up text-primary bg-white rounded" ng-click="moveUp(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move up' | translate}}"></button><br />
+                                            <button class="fa fa-arrow-down text-primary bg-white rounded" ng-click="moveDown(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move down' | translate}}"></button>-->
                                         </td>
-                                        <td class="borderNone pointer" style="width:400px" ng-click="openFoodPopup(x, currentMenu.data.selectedFoods.indexOf(x))" ><span>{{x.food}}</span></td>
-                                        <td class="borderNone text-right" style="min-width:100px">
+                                        <td class="pointer" style="width:400px" ng-click="openFoodPopup(x, currentMenu.data.selectedFoods.indexOf(x))" ><span>{{x.food}}</span></td>
+                                        <td class="text-right" style="min-width:100px">
                                             <input type="text" ng-model="x.quantity" class="form-control" ng-change="changeQuantity(x, 'quantity', currentMenu.data.selectedFoods.indexOf(x))" allow-only-numbers>
                                         </td>
                                         <!--<td class="borderNone text-right" style="min-width:140px">
@@ -93,8 +101,8 @@
                                                 </div>
                                             </div>
                                         </td>-->
-                                        <td class="borderNone" style="min-width:100px">{{x.unit}}</td>
-                                        <td class="borderNone text-right" style="min-width:100px">
+                                        <td style="min-width:100px">{{x.unit}}</td>
+                                        <td class="text-right" style="min-width:100px">
                                             <input type="text" ng-model="x.mass" class="form-control" ng-change="changeQuantity(x, 'mass', currentMenu.data.selectedFoods.indexOf(x))" allow-only-numbers>
                                         </td>
                                         <!--<td class="borderNone text-right" style="min-width:160px">
@@ -108,14 +116,14 @@
                                                 </div>
                                             </div>
                                         </td>-->
-                                        <td class="borderNone" style="width:10px">{{'g' | translate}}</td>
-                                        <td class="borderNone text-right nowrap" style="width:150px">{{x.energy}}</td>
+                                        <td style="width:10px">{{'g' | translate}}</td>
+                                        <td class="text-right nowrap" style="width:150px">{{x.energy}}</td>
 
-                                        <td class="borderNone text-right nowrap" style="width:150px">{{x.carbohydrates}}</td>
-                                        <td class="borderNone text-right nowrap" style="width:150px">{{x.proteins}}</td>
-                                        <td class="borderNone text-right nowrap" style="width:150px">{{x.fats}}</td>
+                                        <td class="text-right nowrap" style="width:150px">{{x.carbohydrates}}</td>
+                                        <td class="text-right nowrap" style="width:150px">{{x.proteins}}</td>
+                                        <td class="text-right nowrap" style="width:150px">{{x.fats}}</td>
                                     </tr>
-                                    <tr ng-if="x.code===currentMeal" ng-repeat="x in currentMenu.data.meals">
+                                    <tr ng-if="x.code===currentMeal" ng-repeat="x in currentMenu.data.meals" >
                                         <td colspan="7">
                                             <div class="text-capitalize">
                                                 <a ng-disabled="addFoodBtn" href="" class="btn btn-primary mt-1" ng-click="openFoodPopup(null,null)"><i ng-class="addFoodBtnIcon"></i> {{'add food' | translate}}</a>
@@ -128,10 +136,10 @@
                                                 <i class="fa fa-info-circle text-info" style="cursor:pointer" ng-click="openColorGroupsInfoPopup()"></i>
                                             </div>
                                         </td>
-                                        <td class="text-right" style="vertical-align:top"><span class="text-bold">{{totals.mealsTotal[$index].energy.val | number:1}}</span> <br /><span class="small"><em>({{totals.mealsTotal[$index].energy.perc| number:1}} %)</em></span></td>
-                                        <td class="text-right" style="vertical-align:top"><span class="text-bold">{{totals.mealsTotal[$index].carbohydrates.val | number:1}}</span> <br /><span class="small"><em>({{totals.mealsTotal[$index].carbohydrates.perc| number:1}} %)</em></span></td>
-                                        <td class="text-right" style="vertical-align:top"><span class="text-bold">{{totals.mealsTotal[$index].proteins.val | number:1}}</span> <br /><span class="small"><em>({{totals.mealsTotal[$index].proteins.perc| number:1}} %)</em></span></td>
-                                        <td class="text-right" style="vertical-align:top"><span class="text-bold">{{totals.mealsTotal[$index].fats.val | number:1}}</span> <br /><span class="small"><em>({{totals.mealsTotal[$index].fats.perc| number:1}} %)</em></span></td>
+                                        <td class="text-right border-top" style="vertical-align:top"><span class="text-bold">{{totals.mealsTotal[$index].energy.val | number:1}}</span> <br /><span class="small"><em>({{totals.mealsTotal[$index].energy.perc| number:1}} %)</em></span></td>
+                                        <td class="text-right border-top" style="vertical-align:top"><span class="text-bold">{{totals.mealsTotal[$index].carbohydrates.val | number:1}}</span> <br /><span class="small"><em>({{totals.mealsTotal[$index].carbohydrates.perc| number:1}} %)</em></span></td>
+                                        <td class="text-right border-top" style="vertical-align:top"><span class="text-bold">{{totals.mealsTotal[$index].proteins.val | number:1}}</span> <br /><span class="small"><em>({{totals.mealsTotal[$index].proteins.perc| number:1}} %)</em></span></td>
+                                        <td class="text-right border-top" style="vertical-align:top"><span class="text-bold">{{totals.mealsTotal[$index].fats.val | number:1}}</span> <br /><span class="small"><em>({{totals.mealsTotal[$index].fats.perc| number:1}} %)</em></span></td>
                                     </tr>
                                     <tr>
                                         <!--<td colspan="5">
@@ -414,7 +422,7 @@
             </div>
             <div id="serv_c" class="card-body collapse show p-2">
                 <canvas id="servChart" class="chart chart-bar"
-                        chart-data="servGraphData.data" chart-labels="servGraphData.labels" chart-colors="servGraphData.colors" height="120"
+                        chart-data="servGraphData.data" chart-labels="servGraphData.labels" chart-colors="servGraphData.colors" 
                         chart-series="servGraphData.series" chart-dataset-override="servGraphData.datasetOverride"></canvas>
             </div>
         </div>
@@ -425,7 +433,7 @@
             </div>
             <div id="meals_c" class="card-body collapse show p-2">
                 <canvas id="mealsChart" class="chart chart-bar"
-                        chart-data="mealsGraphData_menu.data" chart-labels="mealsGraphData_menu.labels" chart-colors="mealsGraphData_menu.colors" height="120"
+                        chart-data="mealsGraphData_menu.data" chart-labels="mealsGraphData_menu.labels" chart-colors="mealsGraphData_menu.colors" 
                         chart-series="mealsGraphData_menu.series" chart-options="mealsGraphData_menu.options" chart-dataset-override="mealsGraphData_menu.datasetOverride"></canvas>
             </div>
         </div>
@@ -436,7 +444,7 @@
             </div>
             <div id="mealsnutri_c" class="card-body collapse show p-2">
                 <canvas id="mealsNutriChart" class="chart chart-bar"
-                        chart-data="mealsNutriGraphData_menu.data" chart-labels="mealsNutriGraphData_menu.labels" chart-colors="mealsNutriGraphData_menu.colors" height="120"
+                        chart-data="mealsNutriGraphData_menu.data" chart-labels="mealsNutriGraphData_menu.labels" chart-colors="mealsNutriGraphData_menu.colors" 
                         chart-series="mealsNutriGraphData_menu.series" chart-options="mealsNutriGraphData_menu.options" chart-dataset-override="mealsNutriGraphData_menu.datasetOverride"></canvas>
             </div>
         </div>
