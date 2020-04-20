@@ -1116,7 +1116,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
 }])
 
-.controller('userCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate) {
+.controller('userCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', '$state', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate, $state) {
     var webService = 'Users.asmx';
 
     $scope.adminTypes = [
@@ -1255,7 +1255,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             data: { userId: x }
         }).then(function (response) {
             $rootScope.user = JSON.parse(response.data.d);
-            $rootScope.currTpl = 'assets/partials/user.html';
+            //$rootScope.currTpl = 'assets/partials/user.html';
+            $state.go('user');
+
         },
        function (response) {
            functions.alert($translate.instant(response.data.d));
@@ -1493,7 +1495,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
   
     var getClients = function () {
-        debugger;
+        if ($sessionStorage.usergroupid === undefined) { return false; }
         $rootScope.loading = true;
         $http({
             url: $sessionStorage.config.backend + webService + '/Load',

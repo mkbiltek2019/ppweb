@@ -101,9 +101,9 @@
                     <i class="fas fa-fw fa-users"></i><span>{{'clients' | translate}}</span>
                 </a>
                 <div id="clients" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a href="" class="collapse-item"><i class="fas fa-user-plus"></i><span class="pl-2">{{'new client' | translate}}</span></a>
-                        <a href="" class="collapse-item"><i class="fas fa-search"></i><span class="pl-2">{{'search clients' | translate}}</span></a>
+                    <div class="bg-white py-2 collapse-inner rounded" ng-controller="clientsCtrl">
+                        <a href="" class="collapse-item" ng-click="newClient()"><i class="fas fa-user-plus"></i><span class="pl-2">{{'new client' | translate}}</span></a>
+                        <a href="" class="collapse-item" ng-click="search()"><i class="fas fa-search"></i><span class="pl-2">{{'search clients' | translate}}</span></a>
                     </div>
                 </div>
             </div>

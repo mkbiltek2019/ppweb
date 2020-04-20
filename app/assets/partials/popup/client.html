@@ -34,8 +34,8 @@
                         <span ng-if="birthDateRequiredMsq" class="text-danger">{{birthDateRequiredMsq | translate}}</span>
                     </md-input-container>
                     <md-radio-group ng-model="d.gender.value" layout="column" flex-gt-sm>
-                        <md-radio-button value="0" class="md-primary">{{'male' | translate}}</md-radio-button>
-                        <md-radio-button value="1" class="md-primary">{{'female' | translate}}</md-radio-button>
+                        <md-radio-button value="0" class="md-primary"><i class="fa fa-male pl-2 pr-1"></i>{{'male' | translate}}</md-radio-button>
+                        <md-radio-button value="1" class="md-primary"><i class="fa fa-female pl-2 pr-1"></i>{{'female' | translate}}</md-radio-button>
                     </md-radio-group>
                 </div>
                 <div layout-gt-sm="row">
@@ -49,7 +49,7 @@
                     </md-input-container>
                 </div>
             </div>
-            <div class="pull-right m20">
+            <div class="pull-right mr-2">
                 <!--<a ng-if="user.licenceStatus=='demo'" href="" class="btn btn-primary" ng-click="save(d)">{{'forward' | translate}} <i class="fa fa-arrow-right"></i></a>
                 <a ng-if="user.licenceStatus!='demo'" href="" class="btn btn-primary" ng-click="save(d)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</a>-->
                 <button class="btn btn-primary" ng-click="save(d)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</button>

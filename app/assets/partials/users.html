@@ -1,4 +1,59 @@
-﻿<div class="mt20" ng-cloak>
+﻿<div class="container" ng-cloak>
+    <div class="card">
+        <div class="card-header">
+            <h4>{{'users' | translate}}</h4>
+        </div>
+        <div class="card-body">
+            <div class="text-right">
+                <button ng-click="toggleTpl('newuser', 10)" class="btn btn-outline-primary text-capitalize"><i class="fa fa-user-plus fa-fw"></i> {{'new user' | translate}}</button>
+                <!--<a href="" class="btn btn-default text-capitalize m10" ng-click="isLogin?toggleTpl('dashboard'):toggleTpl('login')" title="{{'close' | translate}}"><i class="fa fa-times"></i><span class="hidden-xs"> {{'cancel' | translate}}</span></a>-->
+            </div>
+            <div>
+                <label>{{'number of users' | translate}}: <span class="badge">{{users.length}}</span> <em>({{'maximum number of users' | translate}}: {{user.maxNumberOfUsers}})</em></label>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped active" role="progressbar"
+                         aria-valuenow="{{((users.length/user.maxNumberOfUsers)*100).toFixed(0)}}" aria-valuemin="0" aria-valuemax="100" style="width:{{((users.length/user.maxNumberOfUsers)*100).toFixed(0)}}%">
+                        {{((users.length/user.maxNumberOfUsers)*100).toFixed(0)}}%
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <!--<th ng-if="config.debug">{{'id' | translate}}</th>
+                            <th ng-if="config.debug">{{'user group' | translate}}</th>-->
+                            <th>{{'user' | translate}}</th>
+                            <th></th>
+                            <th>{{'admin type' | translate}}</th>
+                            <th>{{'expiration date' | translate}}</th>
+                            <th>{{'is active' | translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="x in users track by $index">
+                            <!--<td ng-if="config.debug">{{x.userId}}</td>
+                            <td ng-if="config.debug">{{x.userGroupId}}</td>-->
+                            <td>
+                                <button class="btn btn-circle btn-outline-primary" ng-click="showUser(x.userId)"><i class="fa fa-info"></i></button>
+                            </td>
+                            <td>{{x.firstName}} {{x.lastName}}</td>
+                            <td>{{adminType(x.adminType)}}</td>
+                            <td>{{x.expirationDate}}</td>
+                            <td>
+                                <md-checkbox ng-if="x.userId!=x.userGroupId" ng-model="x.isActive" class="md-primary" aria-label="" ng-change="updateUser(x)">
+                                    {{x.isActive==true?'Da':'Ne'}}
+                                </md-checkbox>
+                            </td>
+                            <td>
+                                <button ng-if="x.userId!=x.userGroupId" class="btn btn-circle btn-outline-danger" ng-click="remove(x)"><i class="fa fa-trash-alt"></i></button>
+                            </td>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
     <fieldset class="fieldset-border">
         <legend class="fieldset-border text-capitalize">{{'users' | translate}}:</legend>
         <div class="text-right">

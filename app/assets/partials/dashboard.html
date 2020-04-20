@@ -195,13 +195,13 @@
                 </div>
                 <div class="card-body">
                     <ul class="list-group">
-                        <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'clients' | translate}} <span class="badge badge-primary badge-pill">{{user.datasum.clients.total}}</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'menus' | translate}} <span class="badge badge-primary badge-pill">{{user.datasum.menues}}</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">{{'weekly menus' | translate}} <span class="badge badge-primary badge-pill">{{user.datasum.weeklyMenus}}</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">{{'my foods' | translate}} <span class="badge badge-primary badge-pill">{{user.datasum.myfoods}}</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'recipes' | translate}} <span class="badge badge-primary badge-pill">{{user.datasum.recipes}}</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'meals' | translate}} <span class="badge badge-primary badge-pill">{{user.datasum.meals}}</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">{{'total appointments' | translate}} <span class="badge badge-primary badge-pill">{{user.datasum.scheduler.total}}</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'clients' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.clients.total}}</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'menus' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.menues}}</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">{{'weekly menus' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.weeklyMenus}}</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">{{'my foods' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.myfoods}}</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'recipes' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.recipes}}</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'meals' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.meals}}</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">{{'total appointments' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.scheduler.total}}</span></li>
                     </ul>
                 </div>
             </div>
@@ -216,7 +216,7 @@
                         <li class="list-group-item">
                             <div class="row">
                                 <div class="col-md-5">
-                                    <span class="text-capitalize">{{'package' | translate}}:</span> <label class="pull-right text-uppercase badge badge-primary badge-pill">{{user.package}}</label>
+                                    <span class="text-capitalize">{{'package' | translate}}:</span> <label class="pull-right text-uppercase badge badge-light badge-pill">{{user.package}}</label>
                                 </div>
                                 <div class="col-md-7">
                                 </div>
@@ -229,7 +229,7 @@
                                 </div>
                                 <div class="col-md-7">
                                     <div class="progress">
-                                        <div class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar"
+                                        <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated" role="progressbar"
                                              aria-valuenow="{{((user.daysToExpite/365)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{((user.daysToExpite/365)*100).toFixed()}}%">
                                             {{((user.daysToExpite/365)*100).toFixed()}}%
                                         </div>
@@ -240,11 +240,11 @@
                         <li class="list-group-item">
                             <div class="row">
                                 <div class="col-md-5">
-                                    {{'number of clinets' | translate}} ({{user.datasum.clients.currMonth}}/{{user.datasum.clients.currYear}}) <span class="pull-right"><span class="badge badge-primary badge-pill">{{user.datasum.clients.currMonthTotal}}</span> ({{user.datasum.clients.maxMonthlyNumberOfClients}})</span>
+                                    {{'number of clinets' | translate}} ({{user.datasum.clients.currMonth}}/{{user.datasum.clients.currYear}}) <span class="pull-right"><span class="badge badge-light badge-pill">{{user.datasum.clients.currMonthTotal}}</span> ({{user.datasum.clients.maxMonthlyNumberOfClients}})</span>
                                 </div>
                                 <div class="col-md-7">
                                     <div class="progress">
-                                        <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                        <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated" role="progressbar"
                                              aria-valuenow="{{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}%">
                                             {{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}%
                                         </div>
@@ -255,11 +255,11 @@
                         <li class="list-group-item">
                             <div class="row">
                                 <div class="col-md-5">
-                                    {{'number of users' | translate}} <span class="pull-right"><span class="badge badge-primary badge-pill">{{user.subusers+1}}</span> ({{user.maxNumberOfUsers}})</span>
+                                    {{'number of users' | translate}} <span class="pull-right"><span class="badge badge-light badge-pill">{{user.subusers+1}}</span> ({{user.maxNumberOfUsers}})</span>
                                 </div>
                                 <div class="col-md-7">
                                     <div class="progress">
-                                        <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                        <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" role="progressbar"
                                              aria-valuenow="{{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}%">
                                             {{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}%
                                         </div>
