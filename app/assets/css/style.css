@@ -161,7 +161,7 @@ navbar-brand {
 }
 
 /*.text-small{
-   font-size:12px
+   font-size:12px;
 }*/
 
 /*.text-bold{
@@ -258,8 +258,17 @@ legend.fieldset-border {
   }
 }
 
-.main-background {
-    background-color: #337ab7 !important;
+.bg-main {
+    /*background-color: #337ab7 !important;*/
+  /*background-color: #4e73df;
+  background-image: linear-gradient(180deg, #3d748e 10%, #224abe 100%);
+  background-size: cover;*/
+
+
+  background-color: #1cc88a;
+  background-image: linear-gradient(180deg, #0fa56f  10%, #13855c 100%);
+  background-size: cover;
+
 }
 
 a[class*="btn-default"], button[class*="btn-default"], input[class*="search"] {
@@ -364,6 +373,11 @@ a[class*="btn-default"], button[class*="btn-default"], input[class*="search"] {
     padding:0.1rem !important;
 }
 
+.chart-line-40 {
+    position: relative;
+    height:40vh;
+}
+
 @media (max-width: 767px) {
     .loginBox {
         padding:20px;
@@ -397,6 +411,10 @@ a[class*="btn-default"], button[class*="btn-default"], input[class*="search"] {
     .container, .container-fluid {
         padding-left:5px !important;
         padding-right:5px !important;
+    }
+    .chart-line-40 {
+        position: relative;
+        height: 45vh;
     }
 }
 

@@ -1,9 +1,9 @@
 ﻿<md-dialog flex>
-    <md-toolbar class="main-background">
+    <md-toolbar class="bg-main">
         <div class="md-toolbar-tools">
             <h4 class="text-capitalize">{{'foods' | translate}}</h4>
             <span flex></span>
-            <a href="" class="btn btn-outline-primary" ng-click="cancel()" title="{{'close' | translate}}">x</a>
+            <a href="" class="btn btn-outline-light" ng-click="cancel()" title="{{'close' | translate}}">x</a>
         </div>
     </md-toolbar>
     <md-dialog-content>
@@ -48,10 +48,10 @@
                             <div class="pt-2">
                                 {{'food group' | translate}}: <em class="text-muted pt-2">{{food.foodGroup.title | translate}}</em>
                             </div>
-                            <table class="table table-sm text-small mt-4">
+                            <table class="table table-sm table-borderless text-small mt-4">
                                 <tr>
-                                    <td class="borderNone" style="width:100px">{{'quantity' | translate}}</td>
-                                    <td class="borderNone text-right" style="width:140px">
+                                    <td style="width:100px">{{'quantity' | translate}}</td>
+                                    <td class="text-right" style="width:140px">
                                         <div class="input-group" style="width:140px">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text pointer" ng-click="change(-1, 'quantity')">-</span>
@@ -62,11 +62,11 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="borderNone nowrap">{{food.unit}}</td>
+                                    <td class="nowrap">{{food.unit}}</td>
                                 </tr>
                                 <tr>
-                                    <td class="borderNone">{{'mass' | translate}}</td>
-                                    <td class="borderNone text-right" style="width:140px">
+                                    <td>{{'mass' | translate}}</td>
+                                    <td class="text-right" style="width:140px">
                                         <div class="input-group" style="width:140px">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text pointer" ng-click="change(-1, 'mass')">-</span>
@@ -77,10 +77,10 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="borderNone">g</td>
+                                    <td>g</td>
                                 </tr>
                                 <tr>
-                                    <td class="borderNone" colspan="3">
+                                    <td colspan="3">
                                         <md-input-container class="md-block" flex-gt-sm>
                                             <label>{{'thermal treatment' | translate}}...</label>
                                             <md-select ng-disabled="food.thermalTreatments.length==0" ng-model="thermalTreatment" ng-change="getThermalTreatment(food.thermalTreatments, thermalTreatment)">
@@ -92,7 +92,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="3" class="borderNone text-center">
+                                    <td colspan="3" class="text-center">
                                         <button type="submit" form="foodform" class="btn btn-primary btn-block text-uppercase" ng-click="confirm(food)"><i class="fa fa-check"></i> {{'add' | translate}}</button>
                                     </td>
                                 </tr>

@@ -76,15 +76,11 @@
                                         </td>
                                         <td>
                                             <div>
-                                                <button class="btn btn-outline-secondary rounded btn-sm" ng-click="moveUp(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move up' | translate}}"><i class="fa fa-arrow-up"></i></button>
+                                                <button class="btn btn-outline-primary rounded btn-sm" ng-click="moveUp(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move up' | translate}}"><i class="fa fa-arrow-up"></i></button>
                                             </div>
                                             <div>
-                                                <button class="btn btn-outline-secondary rounded btn-sm" ng-click="moveDown(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move down' | translate}}"><i class="fa fa-arrow-down"></i></button>
+                                                <button class="btn btn-outline-primary rounded btn-sm" ng-click="moveDown(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move down' | translate}}"><i class="fa fa-arrow-down"></i></button>
                                             </div>
-                                            
-                                            
-                                            <!--<button class="fa fa-arrow-up text-primary bg-white rounded" ng-click="moveUp(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move up' | translate}}"></button><br />
-                                            <button class="fa fa-arrow-down text-primary bg-white rounded" ng-click="moveDown(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move down' | translate}}"></button>-->
                                         </td>
                                         <td class="pointer" style="width:400px" ng-click="openFoodPopup(x, currentMenu.data.selectedFoods.indexOf(x))" ><span>{{x.food}}</span></td>
                                         <td class="text-right" style="min-width:100px">

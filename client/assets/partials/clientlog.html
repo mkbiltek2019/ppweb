@@ -34,9 +34,9 @@
         </div>
     </div>
     <div class="table-responsive table-scroll">
-        <table class="table table-sm text-small">
+        <table class="table table-sm table-borderless text-small">
             <thead>
-                <tr>
+                <tr class="border-bottom">
                     <th></th>
                     <!--<th>{{'number' | translate}}</th>-->
                     <th>{{'date' | translate}}</th>
@@ -49,8 +49,8 @@
             <tbody>
                 <tr ng-repeat="x in clientLog_">
                     <td style="width:100px">
-                        <a href="" ng-click="removeClientLog(x)" class="btn btn-outline-danger btn-circle" title="{{'delete' | translate}}"><i class="fa fa-trash-alt"></i></a>
-                        <a href="" ng-click="updateClientLog(x)" class="btn btn-outline-primary btn-circle" title="{{'save' | translate}}"><i class="fa fa-save"></i></a>
+                        <button ng-click="removeClientLog(x)" class="btn btn-outline-danger btn-circle" title="{{'delete' | translate}}"><i class="fa fa-trash-alt"></i></button>
+                        <button ng-click="updateClientLog(x)" class="btn btn-outline-primary btn-circle" title="{{'save' | translate}}"><i class="fa fa-save"></i></button>
                     </td>
                     <!--<td>{{clientLog.length - $index}}</td>-->
                     <td style="width:120px; max-width:180px">

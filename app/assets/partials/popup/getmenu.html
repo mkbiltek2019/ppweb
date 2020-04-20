@@ -1,9 +1,9 @@
 ﻿<md-dialog flex class="fixed-height">
-    <md-toolbar class="main-background">
+    <md-toolbar class="bg-main">
         <div class="md-toolbar-tools">
             <h2 class="text-capitalize">{{'menus' | translate}}</h2>
             <span flex></span>
-            <a href="" class="btn btn-primary" ng-click="cancel()" title="{{'close' | translate}}">x</a>
+            <a href="" class="btn btn-outline-light" ng-click="cancel()" title="{{'close' | translate}}">x</a>
         </div>
     </md-toolbar>
     <md-dialog-content>
@@ -27,8 +27,8 @@
                                 <form>
                                     <div class="input-group">
                                         <input ng-model="searchValue" class="form-control search" type="text" placeholder="{{'search' | translate}}..." />
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" type="submit" ng-click="search(searchValue)"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
+                                        <span class="input-group-append">
+                                            <button class="btn btn-outline-primary" type="submit" ng-click="search(searchValue)"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
                                         </span>
                                     </div>
                                 </form>
