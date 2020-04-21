@@ -1,13 +1,17 @@
-﻿<div>
-    <div>
-        <div class="panel-heading text-capitalize">
-            <a href="" class="btn btn-default" ng-click="new()"><i class="fa fa-file-o"></i> <span class="hidden-xs">{{'new food' | translate}}</span></a>
-            <a href="" class="btn btn-default" ng-click="search()"><i class="fa fa-search"></i> <span class="hidden-xs">{{'search' | translate}}</span></a>
-            <a ng-disabled="myFood.food==null" href="" class="btn btn-default" ng-click="save(myFood)"><i class="fa fa-floppy-o"></i> <span class="hidden-xs">{{'save' | translate}}</span></a>
-            <a ng-disabled="myFood.id==null" href="" class="btn btn-default" ng-click="remove(myFood)"><span class="text-danger"><i class="fa fa-trash-o"></i> <span class="hidden-xs">{{'delete' | translate}}</span></span></a>
-            <a href="" class="btn btn-default" ng-click="openUsdaPopup()" title="USDA - {{'usda_info' | translate}}"><i class="fa fa-database"></i> <span class="hidden-xs">{{'USDA' | translate}}</span></a>
+﻿<div class="container" ng-cloak>
+    <div class="card">
+        <div class="card-header text-capitalize">
+            <h4>{{'my foods' | translate}}</h4>
+            <hr />
+            <div>
+                <button class="btn btn-outline-primary text-capitalize" ng-click="new()"><i class="fa fa-file"></i> {{'new food' | translate}}</button>
+                <button class="btn btn-outline-primary text-capitalize" ng-click="search()"><i class="fa fa-search"></i> {{'search' | translate}}</button>
+                <button ng-disabled="myFood.food==null"  class="btn btn-outline-primary text-capitalize" ng-click="save(myFood)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</button>
+                <button ng-disabled="myFood.id==null" class="btn btn-outline-danger text-capitalize" ng-click="remove(myFood)"><i class="fa fa-trash-alt"></i> {{'delete' | translate}}</button>
+                <button class="btn btn-outline-primary" ng-click="openUsdaPopup()" title="USDA - {{'usda_info' | translate}}"><i class="fa fa-database"></i> {{'USDA' | translate}}</button>
+            </div>
         </div>
-        <div class="mt20">
+        <div class="card-body p-4">
             <div class="row">
                 <div class="col-sm-8">
                     <div layout-gt-sm="row">
@@ -293,9 +297,9 @@
                     </div>
                 </div>
             </fieldset>
-        </div>
-        <div class="text-right p10">
-            <a ng-disabled="myFood.food==null" href="" class="btn btn-primary" ng-click="save(myFood)"><i class="fa fa-floppy-o"></i> <span>{{'save' | translate}}</span></a>
+            <div class="text-right p-2">
+                <button ng-disabled="myFood.food==null" class="btn btn-outline-primary" ng-click="save(myFood)"><i class="fa fa-floppy-o"></i> <span>{{'save' | translate}}</span></button>
+            </div>
         </div>
     </div>
     <json-directive data="myFood" desc="'myFood'"></json-directive>

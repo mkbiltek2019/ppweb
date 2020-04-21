@@ -9,15 +9,15 @@
     <md-dialog-content>
         <div class="md-dialog-content">
             <div class="text-primary">
-                USDA - <em class="text-small"> *{{'usda_info' | translate}}.</em>
+                USDA - <em> *{{'usda_info' | translate}}.</em>
             </div>
-            <div class="row mt10">
+            <div class="row mt-2">
                 <div class="col-sm-6 ">
-                    <form id="searchFood">
+                    <form id="searchFood" class="mb-0">
                         <div class="input-group">
                             <input ng-model="searchValue" class="form-control search" type="text" placeholder="{{'search' | translate}}..." ng-change="initPages(5)" />
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit" form="searchFood" ng-click="search(searchValue, 1)"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
+                            <span class="input-group-append">
+                                <button class="btn btn-outline-primary" type="submit" form="searchFood" ng-click="search(searchValue, 1)"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
                             </span>
                         </div>
                     </form>
@@ -32,11 +32,11 @@
                                 </select>
                             </div>
                         </div>
-                        <div ng-if="foods" class="text-right">
+                        <div ng-if="foods" class="pull-right mt-2">
                             <ul class="pagination">
-                                <li ng-if="pages.length>1" ng-click="nextPage(searchValue, -1)" title="{{'prev page' | translate}}"><a href="#"><<</a></li>
-                                <li class="{{page===x?'active':''}}" ng-repeat="x in pages" ng-click="search(searchValue, x)" title="{{'page' | translate}} {{x}}"><a href="#">{{x}}</a></li>
-                                <li ng-if="pages.length>1" ng-click="nextPage(searchValue, 1)" title="{{'next page' | translate}}"><a href="#">>></a></li>
+                                <li class="page-item" ng-if="pages.length>1" ng-click="nextPage(searchValue, -1)" title="{{'prev page' | translate}}"><a href="" class="page-link"><<</a></li>
+                                <li class="{{page===x?'page-item active':'page-item'}}" ng-repeat="x in pages" ng-click="search(searchValue, x)" title="{{'page' | translate}} {{x}}"><a href="" class="page-link">{{x}}</a></li>
+                                <li class="page-item" ng-if="pages.length>1" ng-click="nextPage(searchValue, 1)" title="{{'next page' | translate}}"><a href="" class="page-link">>></a></li>
                             </ul>
                         </div>
                     </div>
@@ -44,11 +44,11 @@
                 <div class="col-sm-6">
                     <div ng-if="d">
                         <input ng-model="d.description" type="text" class="form-control" />
-                        <div class="mt10" style="height:100px">
+                        <div class="mt-2" style="height:100px">
                             <div style="min-height:25px">
                                 <em ng-if="d.foodCategory.description" class="text-muted">{{d.foodCategory.description}}</em>
                             </div>
-                            <div class="pt10">
+                            <div class="pt-3">
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label>{{'portion' | translate}}</label>
                                     <md-select ng-model="portion" ng-change="changeFoodPortions(portion.gramWeight)">
@@ -62,18 +62,18 @@
                                 </md-input-container>
                             </div>
                         </div>
-                        <div class="pt10">
+                        <div class="pt-4">
                             <button class="btn btn-primary btn-block text-uppercase" ng-click="confirm(d, portion)"><i class="fa fa-check"></i> {{'copy to my foods' | translate}}</button>
                         </div>
                         <div>
-                            <table class="table table-condensed mt10" style="margin-bottom:0">
+                            <table class="table table-condensed mt-4" style="margin-bottom:0">
                                 <tr class="text-capitalize">
                                     <th style="width:70%">{{'nutrient' | translate}}</th>
                                     <th class="text-right">{{'mass' | translate}}</th>
                                     <th>{{'unit' | translate}}</th>
                                 </tr>
                             </table>
-                            <div class="table-responsive table-scroll" style="height:180px">
+                            <div class="table-responsive table-scroll" style="height:280px">
                                 <table class="table table-condensed text-small">
                                     <tr ng-repeat="x in d.foodNutrients track by $index">
                                         <td style="width:70%">{{x.nutrient.name}}</td>

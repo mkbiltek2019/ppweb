@@ -1,5 +1,4 @@
 ﻿<div class="pt-3 pb-5">
-
     <div class="container pb-5">
         <div class="card o-hidden border-0 shadow-lg pb-5">
             <div class="card-body p-0">
@@ -7,11 +6,11 @@
                 <div class="row">
                     <!--<div class="col-lg-5 d-none d-lg-block bg-register-image_"></div>-->
                     <div class="col-lg-12">
-                        <div class="p-5">
+                        <div ng-show="!showAlert" class="p-5">
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">{{'create an account' | translate}}!</h1>
                             </div>
-                            <form class="user">
+                            <form id="signupform" class="user">
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input ng-model="newUser.firstName" class="form-control form-control-user" type="text" required placeholder="{{'first name' | translate}}">
@@ -44,7 +43,6 @@
                                         <a href="{{config.appurl}}{{config.language=='en'?'eula.html':'licence.txt'}}" target="_blank">{{'terms and conditions' | translate}}</a>
                                     </md-input-container>
                                 </div>
-                                <button ng-disabled="signupdisabled||signingUp" type="submit" form="signupform" class="btn btn-primary btn-user btn-block" ng-click="signup()"><i class="fa fa-{{signingUp===true?'spinner fa-spin':'check'}}"></i> {{'register' | translate}}</button>
                                 <!--<a href="login.html" class="btn btn-primary btn-user btn-block">
                                     Register Account
                                 </a>-->
@@ -56,12 +54,23 @@
                                     <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
                                 </a>-->
                             </form>
+                            <div class="m-2">
+                                <button ng-disabled="signupdisabled||signingUp" type="submit" form="signupform" class="btn btn-primary btn-user btn-block rounded-pill" ng-click="signup()"><i class="fa fa-{{signingUp===true?'spinner fa-spin':'check'}}"></i> {{'register' | translate}}</button>
+                            </div>
                             <hr>
                             <div ng-controller="loginCtrl" class="text-center pt-2">
                                 <a href="" ng-click="forgotPasswordPopup()">{{'forgot password' | translate}}?</a>
                             </div>
                             <div class="text-center pt-2">
                                 <a href="" ng-click="toggleTpl('login')">{{'already have an account' | translate}}? {{'login_' | translate}}!</a>
+                            </div>
+                        </div>
+                        <div ng-if="showAlert" class="p-5">
+                            <div class="alert alert-success text-center p-5">
+                                <h3><span class="fa fa-check fa-lg"></span> {{alertMessage | translate}}.</h3>
+                                <div class="mt-5">
+                                    <a href="" ng-controller="loginCtrl" class="btn btn-primary btn-lg" ng-click="login(newUser.userName, newUser.password)"><i class="fa fa-sign-in-alt"></i> <span class="text-uppercase">{{'enter application' | translate}}</span></a>
+                                </div>
                             </div>
                         </div>
                     </div>

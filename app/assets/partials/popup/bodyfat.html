@@ -8,14 +8,14 @@
             </div>
         </md-toolbar>
         <md-dialog-content>
-            <div class="md-dialog-content p-3">
+            <div class="md-dialog-content p-4">
+                <div>
+                    <img src="/app/assets/img/caliper.png" />
+                    <em class="text-primary">{{'body fat measurement using caliper' | translate}}</em>
+                </div>
                 <div class="row">
-                    <div class="col-lg-4" style="padding:20px 0 0 50px">
-                        <div>
-                            <img src="/app/assets/img/caliper.png" />
-                            <em class="text-primary">{{'body fat measurement using caliper' | translate}}</em>
-                        </div>
-                        <div class="mt20 pt20">
+                    <div class="col-lg-5 pt-4 pb-5">
+                        <div class="mt-4 pt-4">
                             <md-input-container class="md-block" flex style="margin-top:0px">
                                 <label>{{'method' | translate}}</label>
                                 <md-select ng-model="method">
@@ -35,8 +35,8 @@
                         </div>
                         <table>
                             <tr ng-repeat="x in d.data.measurements | filter:{isSelected:true}" ng-mousemove="selectPoint(x.code)" style="cursor:pointer">
-                                <td class="p5">{{x.title | translate}}:</td>
-                                <td class="p5">
+                                <td class="p-2 pl-5">{{x.title | translate}}:</td>
+                                <td class="p-2 pl-5" style="min-width:200px">
                                     <div class="input-group">
                                         <input ng-model="x.value" class="form-control" style="width:75px" allow-only-numbers ng-click="selectPoint(x.code)">
                                         <div class="input-group-append">
@@ -54,7 +54,7 @@
                             <label>{{'body fat' | translate}}: {{d.data.bodyFat}} %</label>
                         </div>
                     </div>
-                    <div class="col-lg-8" style="padding:10px 0 0 0">
+                    <div class="col-lg-7 pt-2">
                         <ng-include src="svg"></ng-include>
                     </div>
                 </div>

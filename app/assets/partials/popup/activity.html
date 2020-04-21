@@ -9,16 +9,20 @@
         </md-toolbar>
         <md-dialog-content>
             <div class="md-dialog-content">
-               <label>{{d.activity | translate}}</label>
+               <label class="h4">{{d.activity | translate}}</label>
                 <div class="row">
-                    <div class="col-sm-6 p10">
-                        <div class="input-group" style="max-width:250px">
-                            <span class="input-group-addon text-capitalize">{{'duration' | translate}}</span>
-                            <input type="text" ng-model="duration" class="form-control" style="min-width:80px" allow-only-numbers>
-                            <span class="input-group-addon">{{'min' | translate}}</span>
+                    <div class="col p-2">
+                        <div class="form-inline">
+                            <div class="input-group" style="max-width:250px">
+                                <label class="text-capitalize pr-2">{{'duration' | translate}}:</label>
+                                <input type="text" ng-model="duration" class="form-control" style="min-width:60px" allow-only-numbers>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">{{'min' | translate}}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 text-right p10">
+                    <div class="col text-right p-2">
                         <button class="btn btn-primary text-capitalize" ng-click="confirm(d)"><i class="fa fa-check"></i> {{'add' | translate}}</button>
                     </div>
                 </div>

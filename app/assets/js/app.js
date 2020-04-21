@@ -1040,6 +1040,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             getAppointmentsCountByUserId();
+            $rootScope.getActiveEvents();
         },
         function (response) {
             functions.alert($translate.instant(response.data.d));
@@ -1065,6 +1066,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         })
         .then(function (response) {
             getAppointmentsCountByUserId();
+            $rootScope.getActiveEvents();
         },
         function (response) {
             functions.alert($translate.instant(response.data));
@@ -1096,7 +1098,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }).then(function (response) {
             $scope.uid = null;
             getAppointmentsCountByUserId();
-            $scope.toggleTpl('dashboard');
+            $rootScope.getActiveEvents();
+            //$scope.toggleTpl('dashboard');
         },
        function (response) {
            functions.alert($translate.instant(response.data.d));

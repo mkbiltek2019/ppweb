@@ -20,7 +20,6 @@
     <link href="assets/css/vendor/all.min.css" rel="stylesheet" type="text/css">
     <!-- Custom styles for this template-->
     <link href="assets/css/vendor/sb-admin-2.css" rel="stylesheet">
-
     <link rel="stylesheet" href="assets/css/style.css?v=1.0.0">
     <!--JS-->
     <script src="assets/js/vendor/jquery.min.js"></script>
@@ -95,6 +94,21 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider">
+
+            <div ng-if="client.clientId" class="nav-item">
+                <div ng-controller="clientsCtrl" class="p-2 text-center small">
+                    <a href="" ng-click="edit(client)" title="{{'client' | translate}}" class="decoration-none">
+                        <div>
+                            <i ng-if="!client.profileImg" class="fa fa-user-circle fa-3x"></i>
+                            <img ng-if="client.profileImg" src="../upload/users/{{client.userId}}/clients/{{client.clientId}}/profileimg/{{client.profileImg}}" alt="{{client.profileImg}}" style="height:3rem;width:3rem" class="img-circle rounded-circle" />
+                        </div>
+                        <div class="pt-2 text-white">
+                            {{client.firstName}} {{client.lastName}}, {{'age' | translate}}: {{clientData.age}}
+                        </div>
+                    </a>
+                </div>
+                <hr class="sidebar-divider">
+            </div>
 
             <div class="nav-item">
                 <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#clients" aria-expanded="true" aria-controls="collapsePages">
@@ -235,7 +249,7 @@
                     <ul class="navbar-nav ml-auto">
 
                         <!-- Nav Item - Apointments -->
-                        <li class="nav-item dropdown no-arrow mx-1" ng-cloak>
+                        <li class="nav-item dropdown no-arrow mx-1" title="{{'appointments' | translate}}" ng-cloak>
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
                                 <span ng-if="activeEvents.length>0" class="badge badge-danger badge-counter">{{activeEvents.length}}</span>
@@ -485,13 +499,10 @@
         </div>
     </div>-->
 
-
     <!-- Bootstrap core JavaScript-->
     <script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
-
     <!-- Core plugin JavaScript-->
     <script src="assets/js/vendor/jquery.easing.min.js"></script>
-
     <!-- Custom scripts for all pages-->
     <script src="assets/js/vendor/sb-admin-2.js"></script>
    

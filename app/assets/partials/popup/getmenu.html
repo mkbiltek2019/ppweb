@@ -20,7 +20,7 @@
                         <li ng-if="config.language!='en'" ng-class="appMenues==true?'active':''" ng-click="loadAppMenues()"><a href="" class="text-capitalize">{{'menu examples' | translate}}</a></li>-->
                     </ul>
                 </div>
-                <div class="mt10">
+                <div class="mt-4">
                     <div ng-if="appMenues==false">
                         <div class="row">
                             <div class="col-sm-4">
@@ -33,21 +33,21 @@
                                     </div>
                                 </form>
                             </div>
-                            <div class="col-sm-4 p10 ml10">
+                            <div class="col-sm-4 p10 ml-2">
                                 <md-radio-group ng-show="appMenues==false" ng-model="type" layout="row" ng-click="loadMore(searchValue)">
                                     <md-radio-button value="0" class="md-primary">{{'all menus' | translate}}</md-radio-button>
                                     <md-radio-button value="1" class="md-primary">{{'client menus' | translate}}</md-radio-button>
                                 </md-radio-group>
                             </div>
                         </div>
-                        <table class="table table-hover table-condensed">
+                        <table class="table table-hover">
                             <tr>
                                 <th>{{'title' | translate}}</th>
                                 <th>{{'diet' | translate}}</th>
                                 <th>{{'energy'| translate}}</th>
                                 <th>{{'date' | translate}}</th>
                                 <th>{{'note' | translate}}</th>
-                                <th ng-if="config.debug">{{'client Id' | translate}}</th>
+                                <!--<th ng-if="config.debug">{{'client Id' | translate}}</th>-->
                                 <th>{{'client' | translate}}</th>
                                 <th></th>
                             </tr>
@@ -57,17 +57,17 @@
                                 <td class="nowrap"><span ng-if="x.energy>0">{{x.energy | number:0}} {{'kcal' | translate}}</span></td>
                                 <td>{{x.date | date:'dd.MM.yyyy'}}</td>
                                 <td class="nowrap">{{x.note}}</td>
-                                <td ng-if="config.debug">{{x.client.clientId}}</td>
+                                <!--<td ng-if="config.debug">{{x.client.clientId}}</td>-->
                                 <td>{{x.client.firstName}} {{x.client.lastName}}</td>
-                                <td ng-click="remove(x)"><a href="" style="color:red" class="btn btn-default"><i class="fa fa-trash-o"></i></a></td>
+                                <td ng-click="remove(x)"><button class="btn btn-outline-danger btn-circle"><i class="fa fa-trash-alt"></i></button></td>
                             </tr>
                         </table>
-                        <div class="text-right" style="margin-right:26px">
-                            <a href="" class="btn btn-default" ng-click="loadMore(searchValue)"><i class="fa fa-arrow-down"></i> {{'show more' | translate}}...</a>
+                        <div class="text-right mr-4">
+                            <a href="" class="btn btn-outline-primary" ng-click="loadMore(searchValue)"><i class="fa fa-arrow-down"></i> {{'show more' | translate}}...</a>
                         </div>
                     </div>
                     <div ng-if="appMenues==true">
-                        <table class="table table-hover table-condensed">
+                        <table class="table table-hover">
                             <tr ng-if="config.debug">
                                 <td><label><input ng-model="toTranslate" type="checkbox" ng-checked="setToTranslate(toTranslate)" /> {{'translate to' | translate}}: </label></td>
                                 <td ng-if="toTranslate==true">
