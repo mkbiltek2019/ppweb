@@ -10,8 +10,8 @@
         <md-dialog-content>
             <div class="md-dialog-content">
                 <div class="text-right">
-                    <button ng-click="copyToClipboard('menu_container')" class="btn btn-default" title="{{'copy to clipboard' | translate}}"><span class="text-capitalize"><i class="fa fa-files-o"></i> {{'copy' | translate}}</span></button>
-                    <a ng-if="pdfLink==null" href="" ng-click="printRecipePdf(consumers, date, author)" class="btn btn-default text-capitalize" ng-disabled="creatingPdf==true"><span class="text-danger"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</span></a>
+                    <button ng-click="copyToClipboard('menu_container')" class="btn btn-outline-primary" title="{{'copy to clipboard' | translate}}"><span class="text-capitalize"><i class="fa fa-files-o"></i> {{'copy' | translate}}</span></button>
+                    <a ng-if="pdfLink==null" href="" ng-click="printRecipePdf(consumers, date, author)" class="btn btn-outline-primary text-capitalize" ng-disabled="creatingPdf==true"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</a>
                     <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success text-capitalize" download ng-click="hidePdfLink()">
                         <i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}
                     </a>
@@ -119,9 +119,12 @@
 
                                 <div ng-if="settings.showFoods" class="mt10">
                                     <label class="text-uppercase">{{'ingredients' | translate}}:</label>
-                                    <div ng-repeat="y in recipe.data.selectedFoods track by $index">
+                                    <div ng-repeat="y in foods track by $index">
                                         - {{y.food}}<span ng-if="settings.showQty">, {{y.quantity}} {{y.unit}}</span><span ng-if="settings.showMass">, {{y.mass>999?(y.mass/1000).toFixed(1):y.mass}} {{y.mass>999?('kg' | translate):('g' | translate)}}</span> <span ng-if="settings.showServ&&getServDescription(y.servings)!=''">, ({{getServDescription(y.servings)}})</span>
                                     </div>
+                                    <!--<div ng-repeat="y in recipe.data.selectedFoods track by $index">
+                                        - {{y.food}}<span ng-if="settings.showQty">, {{y.quantity}} {{y.unit}}</span><span ng-if="settings.showMass">, {{y.mass>999?(y.mass/1000).toFixed(1):y.mass}} {{y.mass>999?('kg' | translate):('g' | translate)}}</span> <span ng-if="settings.showServ&&getServDescription(y.servings)!=''">, ({{getServDescription(y.servings)}})</span>
+                                    </div>-->
                                 </div>
 
 

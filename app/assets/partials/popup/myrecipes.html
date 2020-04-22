@@ -50,7 +50,7 @@
                         <tr ng-repeat="x in d | filter:searchValue | filter:{'mealGroup':mealGroup} | limitTo:limit" ng-click="confirm(x, showDescription)">
                             <td class="nowrap">{{x.title}}</td>
                             <td class="nowrap text-right"><span ng-if="x.energy>0">{{x.energy | number:0}} {{'kcal' | translate}}</span></td>
-                            <td class="text-right"><a href="" style="color:red" ng-click="remove(x)" class="btn btn-default"><i class="fa fa-trash-o"></i></a></td>
+                            <td class="text-right"><a href="" style="color:red" ng-click="remove(x)" class="btn btn-outline-danger btn-circle"><i class="fa fa-trash-alt"></i></a></td>
                         </tr>
                     </table>
                 </div>

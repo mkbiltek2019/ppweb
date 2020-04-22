@@ -10,8 +10,8 @@
         <md-dialog-content>
             <div class="md-dialog-content">
                 <div class="text-right">
-                    <button ng-click="copyToClipboard('shoppinglist_container')" class="btn btn-default"><span class="text-capitalize"><i class="fa fa-files-o"></i> {{'copy to clipboard' | translate}}</span></button>
-                    <a ng-if="pdfLink==null" href="" ng-click="printShoppingListPdf(d, consumers, settings)" class="btn btn-default text-capitalize" ng-disabled="creatingPdf==true"><span class="text-danger"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</span></a>
+                    <button ng-click="copyToClipboard('shoppinglist_container')" class="btn btn-outline-primary"><span class="text-capitalize"><i class="fa fa-files-o"></i> {{'copy to clipboard' | translate}}</span></button>
+                    <a ng-if="pdfLink==null" href="" ng-click="printShoppingListPdf(d, consumers, settings)" class="btn btn-outline-primary text-capitalize" ng-disabled="creatingPdf==true"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</a>
                     <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success text-capitalize" download ng-click="hidePdfLink()">
                         <i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}
                     </a>

@@ -66,8 +66,7 @@ public class Recipes : System.Web.Services.WebService {
         data.selectedInitFoods = new List<Foods.NewFood>();
         x.data = data;
         x.mealGroups = InitMealGroups();
-        string json = JsonConvert.SerializeObject(x, Formatting.None);
-        return json;
+        return JsonConvert.SerializeObject(x, Formatting.None);
     }
 
     [WebMethod]

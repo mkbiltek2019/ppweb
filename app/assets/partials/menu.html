@@ -64,7 +64,7 @@
                             <table class="table table-sm table-borderless">
                                 <tbody class="small">
                                     <tr>
-                                        <th colspan="7"></th>
+                                        <th colspan="8"></th>
                                         <th class="text-right border-bottom">{{'energy' | translate}} <span class="small">(<em>{{'kcal' | translate}}</em>)</span></th>
                                         <th class="text-right border-bottom">{{'carbs' | translate}}. <span class="small">(<em>{{'g' | translate}}</em>)</span></th>
                                         <th class="text-right border-bottom">{{'prot' | translate}}. <span class="small">(<em>{{'g' | translate}}</em>)</span></th>
@@ -75,12 +75,21 @@
                                             <button ng-click="removeFood(x, currentMenu.data.selectedFoods.indexOf(x))" class="btn btn-outline-danger btn-circle btn-sm" title="{{'delete' | translate}}"><i class="fa fa-times"></i></button>
                                         </td>
                                         <td>
+                                            <button class="btn btn-outline-primary btn-circle btn-sm" ng-click="openFoodPopup(x, currentMenu.data.selectedFoods.indexOf(x))" title="{{'edit' | translate}}"><i class="fa fa-pencil-alt"></i></button>
+                                        </td>
+                                        <td class="pointer">
                                             <div>
-                                                <button class="btn btn-outline-primary rounded btn-sm" ng-click="moveUp(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move up' | translate}}"><i class="fa fa-arrow-up"></i></button>
+                                                <button class="btn btn-outline-primary btn-sm pl-1 pr-1 pt-0 pb-0" ng-click="moveUp(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move up' | translate}}"><i class="fa fa-angle-up"></i></button>
                                             </div>
                                             <div>
-                                                <button class="btn btn-outline-primary rounded btn-sm" ng-click="moveDown(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move down' | translate}}"><i class="fa fa-arrow-down"></i></button>
+                                                <button class="btn btn-outline-primary btn-sm pl-1 pr-1 pt-0 pb-0" ng-click="moveDown(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move down' | translate}}"><i class="fa fa-angle-down"></i></button>
                                             </div>
+                                            <!--<div>
+                                                <button class="btn btn-outline-primary rounded btn-sm" ng-click="moveUp(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move up' | translate}}"><i class="fa fa-sort-up"></i></button>
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-outline-primary rounded btn-sm" ng-click="moveDown(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move down' | translate}}"><i class="fa fa-sort-down"></i></button>
+                                            </div>-->
                                         </td>
                                         <td class="pointer" style="width:400px" ng-click="openFoodPopup(x, currentMenu.data.selectedFoods.indexOf(x))" ><span>{{x.food}}</span></td>
                                         <td class="text-right" style="min-width:100px">
@@ -120,7 +129,7 @@
                                         <td class="text-right nowrap" style="width:150px">{{x.fats}}</td>
                                     </tr>
                                     <tr ng-if="x.code===currentMeal" ng-repeat="x in currentMenu.data.meals" >
-                                        <td colspan="7">
+                                        <td colspan="8">
                                             <div class="text-capitalize">
                                                 <a ng-disabled="addFoodBtn" href="" class="btn btn-primary mt-1" ng-click="openFoodPopup(null,null)"><i ng-class="addFoodBtnIcon"></i> {{'add food' | translate}}</a>
                                                 <a href="" class="btn btn-outline-primary mt-1 ml-2" ng-click="openRecipePopup()"><i class="fa fa-file-alt"></i> {{'add recipe' | translate}}</a>

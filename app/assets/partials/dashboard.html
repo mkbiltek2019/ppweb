@@ -7,7 +7,7 @@
 
         <div ng-controller="clientsCtrl" class="row" >
             <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-primary shadow h-100 pointer">
+                <div class="card border-left-primary shadow pointer">
                     <div class="card-body" ng-click="search()" title="{{'search clients' | translate}}">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-success shadow h-100 pointer" ui-sref="scheduler" ui-sref-active="active">
+                <div class="card border-left-success shadow pointer" ui-sref="scheduler" ui-sref-active="active">
                     <div class="card-body" title="{{'appointments' | translate}}">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
@@ -48,7 +48,7 @@
                 </div>
             </div>
             <div ng-if="loginUser.adminType==0" class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-info shadow h-100 pointer" >
+                <div class="card border-left-info shadow pointer" >
                     <div class="card-body" ui-sref="users" ui-sref-active="users" title="{{'users' | translate}}">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
@@ -68,7 +68,7 @@
                 </div>
             </div>
             <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-warning shadow h-100" >
+                <div class="card border-left-warning shadow" >
                         <div class="card-body" title="{{'licence status' | translate}}">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">

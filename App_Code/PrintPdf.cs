@@ -72,7 +72,7 @@ public class PrintPdf : System.Web.Services.WebService {
     [WebMethod]
     public string InitMenuSettings() {
         PrintMenuSettings x = new PrintMenuSettings();
-        x.pageSize = "A3";
+        x.pageSize = "A4";
         x.showQty = true;
         x.showMass = true;
         x.showServ = false;
@@ -106,6 +106,28 @@ public class PrintPdf : System.Web.Services.WebService {
         x.showTotals = true;
         x.showPrice = false;
         x.showActivities = true;
+        x.showMealsTotal = false;
+        x.showDate = true;
+        x.showAuthor = true;
+        x.printStyle = 0;
+        return JsonConvert.SerializeObject(x, Formatting.None);
+    }
+
+    [WebMethod]
+    public string InitRecipeSettings() {
+        PrintMenuSettings x = new PrintMenuSettings();
+        x.pageSize = "A4";
+        x.showQty = true;
+        x.showMass = true;
+        x.showServ = false;
+        x.showTitle = true;
+        x.showDescription = true;
+        x.orientation = portrait;
+		x.showClientData = false;
+        x.showFoods = true;
+        x.showTotals = true;
+        x.showPrice = false;
+        x.showActivities = false;
         x.showMealsTotal = false;
         x.showDate = true;
         x.showAuthor = true;
