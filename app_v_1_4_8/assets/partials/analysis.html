@@ -44,9 +44,9 @@
                         <td class="nowrap">{{x.title}}</td>
                         <td class="text-bold">{{x.energy.val | number:1}} {{'kcal' | translate}} ({{x.energy.perc | number:1}} %) <i class="{{checkTotal(x.energy.perc, getMealRecommendation(x.code).energyMinPercentage, getMealRecommendation(x.code).energyMaxPercentage)}}"></i></td>
                         <td>{{getMealRecommendation(x.code).energyMin}} - {{getMealRecommendation(x.code).energyMax}} {{'kcal' | translate}} ({{getMealRecommendation(x.code).energyMinPercentage}} - {{getMealRecommendation(x.code).energyMaxPercentage}} %)</td>
-                        <td>{{x.carbohydrates.val | number:1}} {{'kcal' | translate}} ({{x.carbohydrates.perc | number:1}} %)</td>
-                        <td>{{x.proteins.val | number:1}} {{'kcal' | translate}} ({{x.proteins.perc | number:1}} %)</td>
-                        <td>{{x.fats.val | number:1}} {{'kcal' | translate}} ({{x.fats.perc | number:1}} %)</td>
+                        <td>{{x.carbohydrates.val | number:1}} {{'g' | translate}} ({{x.carbohydrates.perc | number:1}} %)</td>
+                        <td>{{x.proteins.val | number:1}} {{'g' | translate}} ({{x.proteins.perc | number:1}} %)</td>
+                        <td>{{x.fats.val | number:1}} {{'g' | translate}} ({{x.fats.perc | number:1}} %)</td>
                     </tr>
                     <tr>
                         <td colspan="6"></td>
@@ -55,9 +55,9 @@
                         <td>{{'total' | translate}}</td>
                         <td class="text-bold lead">{{totals.energy | number:1}} {{'kcal' | translate}} <i class="{{checkEnergy(totals.energy, recommendations.energy)}}"></i></td>
                         <td>{{recommendations.energy}} {{'kcal' | translate}}</td>
-                        <td class="text-bold">{{totals.energy | number:1}} {{'kcal' | translate}}</td>
-                        <td class="text-bold">{{totals.proteins | number:1}} {{'kcal' | translate}}</td>
-                        <td class="text-bold">{{totals.fats | number:1}} {{'kcal' | translate}}</td>
+                        <td class="text-bold">{{totals.carbohydrates | number:1}} {{'g' | translate}}</td>
+                        <td class="text-bold">{{totals.proteins | number:1}} {{'g' | translate}}</td>
+                        <td class="text-bold">{{totals.fats | number:1}} {{'g' | translate}}</td>
                     </tr>
                 </table>
             </div>

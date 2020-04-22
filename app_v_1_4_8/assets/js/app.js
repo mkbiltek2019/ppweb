@@ -6358,6 +6358,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     //TODO: Print recipe
     $scope.printRecipePreview = function (x) {
+        debugger;
         if ($rootScope.user.userType < 2 || $rootScope.user.licenceStatus == 'demo') {
             functions.demoAlert('this function is available only in premium package');
             return false;
@@ -6396,7 +6397,8 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $http({
                 url: $sessionStorage.config.backend + 'Foods.asmx/ChangeNumberOfConsumers',
                 method: "POST",
-                data: { foods: $scope.recipe.data.selectedInitFoods, number: x }
+                data: { foods: $scope.recipe.data.selectedFoods, number: x }
+                //data: { foods: $scope.recipe.data.selectedInitFoods, number: x }
             })
            .then(function (response) {
                $scope.recipe.data.selectedFoods = JSON.parse(response.data.d);
