@@ -237,133 +237,135 @@
         <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around" class="text-center">
             <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
         </div>
-        <div ng-if="!loading">
-            <div class="panel-heading text-capitalize">
+        <div ng-if="!loading" class="card">
+            <div class="card-header text-capitalize">
                 <div>
-                    <a href="" ng-click="new()" class="btn btn-outline-primary m2"><i class="fa fa-file-o"></i> {{'new' | translate}} {{'menu' | translate}}</a>
-                    <a href="" class="btn btn-outline-primary m2" ng-click="search()"><i class="fa fa-search"></i> {{'search' | translate}}</a>
-                    <a ng-disabled="isEmptyList()" href="" ng-click="save()" class="btn btn-outline-primary m2"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</a>
-                    <a ng-disabled="isEmptyList()" href="" ng-click="remove(weeklyMenu)" class="btn btn-outline-primary m2"><span class="text-danger"><i class="fa fa-trash-o"></i> {{'delete' | translate}}</span></a>
-                    <a ng-disabled="isEmptyList()||creatingPdf==true" ng-if="pdfLink==null" ng-click="printWeeklyMenu(consumers, printSettings, date, author)" class="btn btn-outline-primary"><span class="text-danger"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</span></a>
+                    <button ng-click="new()" class="btn btn-outline-primary"><i class="fa fa-file"></i> {{'new' | translate}} {{'menu' | translate}}</button>
+                    <button class="btn btn-outline-primary" ng-click="search()"><i class="fa fa-search"></i> {{'search' | translate}}</button>
+                    <button ng-disabled="isEmptyList()" ng-click="save()" class="btn btn-outline-primary"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</button>
+                    <button ng-disabled="isEmptyList()" ng-click="remove(weeklyMenu)" class="btn btn-outline-danger"><i class="fa fa-trash-alt"></i> {{'delete' | translate}}</button>
+                    <button ng-disabled="isEmptyList()||creatingPdf==true" ng-if="pdfLink==null" ng-click="printWeeklyMenu(consumers, printSettings, date, author)" class="btn btn-outline-primary"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</button>
                     <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success" download ng-click="hidePdfLink()"><i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}</a>
-                    <a ng-if="loginUser.adminType<2" ng-disabled="pdfLink==null" href="" class="btn btn-outline-primary" title="{{'send menu to the clients email' | translate}}" ng-click="send()"><i class="fa fa-paper-plane-o"></i> {{'send' | translate}}</a>
-                    <a ng-disabled="isEmptyList()||creatingSLPdf==true" ng-if="pdfSLLink==null" href="" class="btn btn-outline-primary" title="{{'shopping list' | translate}}" ng-click="createShoppingList(weeklyMenu.menuList, consumers, printSettings)"><i class="fa fa-{{creatingSLPdf==true?'spinner fa-spin':'shopping-basket'}}"></i> <span class="hidden-xs">{{'shopping list' | translate}}</span></a>
+                    <button ng-if="loginUser.adminType<2" ng-disabled="pdfLink==null" class="btn btn-outline-primary" title="{{'send menu to the clients email' | translate}}" ng-click="send()"><i class="fa fa-paper-plane"></i> {{'send' | translate}}</button>
+                    <button ng-disabled="isEmptyList()||creatingSLPdf==true" ng-if="pdfSLLink==null" class="btn btn-outline-primary" title="{{'shopping list' | translate}}" ng-click="createShoppingList(weeklyMenu.menuList, consumers, printSettings)"><i class="fa fa-{{creatingSLPdf==true?'spinner fa-spin':'shopping-basket'}}"></i> <span class="hidden-xs">{{'shopping list' | translate}}</span></button>
                     <a ng-if="pdfSLLink!=null" href="{{pdfSLLink}}" class="btn btn-success" download ng-click="hidePdfSLLink()"><i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}</a>
                 </div>
             </div>
-            <div class="row text-capitalize pt10">
-                <div class="col-sm-4">
-                    <md-input-container class="md-block" flex-gt-sm>
-                        <label>{{'menu title' | translate}}</label>
-                        <input ng-model="weeklyMenu.title">
-                    </md-input-container>
+            <div class="card-body">
+                <div class="row text-capitalize pt-2">
+                    <div class="col-sm-4">
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>{{'menu title' | translate}}</label>
+                            <input ng-model="weeklyMenu.title">
+                        </md-input-container>
+                    </div>
+                    <div class="col-sm-8">
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>{{'note' | translate}}</label>
+                            <input ng-model="weeklyMenu.note">
+                        </md-input-container>
+                    </div>
                 </div>
-                <div class="col-sm-8">
-                    <md-input-container class="md-block" flex-gt-sm>
-                        <label>{{'note' | translate}}</label>
-                        <input ng-model="weeklyMenu.note">
-                    </md-input-container>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-7">
-                    <fieldset class="fieldset-border">
-                        <legend class="fieldset-border text-capitalize">{{'menus' | translate}}</legend>
-                        <div ng-repeat="x in weeklyMenu.menuList track by $index" class="hover" ng-click="get($index)" title="{{'add menu' | translate}}" style="cursor:pointer">
-                            <span class="text-capitalize {{x!==''?'text-muted small':''}}">{{getDay($index) | translate}}</span>
-                            <div class="row" style="margin:0px">
-                                <div class="col-sm-11" style="padding:0px">
-                                    <span ng-if="x!==''">{{weeklyMenu.menuDes[$index].title}} - {{weeklyMenu.menuDes[$index].diet}} ({{weeklyMenu.menuDes[$index].energy}} kcal)</span>
+                <div class="row">
+                    <div class="col-sm-7">
+                        <fieldset class="fieldset-border">
+                            <legend class="fieldset-border text-capitalize">{{'menus' | translate}}</legend>
+                            <div ng-repeat="x in weeklyMenu.menuList track by $index" class="hover" ng-click="get($index)" title="{{'add menu' | translate}}" style="cursor:pointer">
+                                <span class="text-capitalize {{x!==''?'text-muted small':''}}">{{getDay($index) | translate}}</span>
+                                <div class="row" style="margin:0px">
+                                    <div class="col-sm-11" style="padding:0px">
+                                        <span ng-if="x!==''">{{weeklyMenu.menuDes[$index].title}} - {{weeklyMenu.menuDes[$index].diet}} ({{weeklyMenu.menuDes[$index].energy}} kcal)</span>
+                                    </div>
+                                    <div class="col-sm-1 text-right" style="padding:0px">
+                                        <i class="fa fa-caret-down"></i>
+                                    </div>
                                 </div>
-                                <div class="col-sm-1 text-right" style="padding:0px">
-                                    <i class="fa fa-caret-down"></i>
+                                <hr style="margin:0px 0px 15px 0px" />
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-sm-5">
+                        <fieldset class="fieldset-border">
+                            <legend class="fieldset-border text-capitalize">{{'print settings' | translate}}</legend>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <md-input-container class="md-block" flex-gt-sm>
+                                        <label>{{'number of consumers' | translate}}</label>
+                                        <input ng-model="consumers" type="number" min="1" ng-change="hidePdfLink()">
+                                    </md-input-container>
                                 </div>
                             </div>
-                            <hr style="margin:0px 0px 15px 0px" />
-                        </div>
-                    </fieldset>
-                </div>
-                <div class="col-sm-5">
-                    <fieldset class="fieldset-border">
-                        <legend class="fieldset-border text-capitalize">{{'print settings' | translate}}</legend>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <md-input-container class="md-block" flex-gt-sm>
-                                    <label>{{'number of consumers' | translate}}</label>
-                                    <input ng-model="consumers" type="number" min="1" ng-change="hidePdfLink()">
-                                </md-input-container>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <md-input-container class="md-block" flex-gt-sm>
+                                        <label>{{'page size' | translate}}</label>
+                                        <md-select ng-model="printSettings.pageSize" ng-change="hidePdfLink()">
+                                            <md-option ng-repeat="x in pageSizes" ng-value="x">
+                                                {{x}}
+                                            </md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                </div>
+                                <div class="col-sm-6">
+                                    <md-input-container class="md-block" flex-gt-sm>
+                                        <label>{{'orientation' | translate}}</label>
+                                        <md-select ng-model="printSettings.orientation" ng-change="hidePdfLink()">
+                                            <md-option ng-value="'L'">{{'landscape' | translate}}</md-option>
+                                            <md-option ng-value="'P'">{{'portrait' | translate}}</md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <md-input-container class="md-block" flex-gt-sm>
-                                    <label>{{'page size' | translate}}</label>
-                                    <md-select ng-model="printSettings.pageSize" ng-change="hidePdfLink()">
-                                        <md-option ng-repeat="x in pageSizes" ng-value="x">
-                                            {{x}}
-                                        </md-option>
-                                    </md-select>
-                                </md-input-container>
-                            </div>
-                            <div class="col-sm-6">
-                                <md-input-container class="md-block" flex-gt-sm>
-                                    <label>{{'orientation' | translate}}</label>
-                                    <md-select ng-model="printSettings.orientation" ng-change="hidePdfLink()">
-                                        <md-option ng-value="'L'">{{'landscape' | translate}}</md-option>
-                                        <md-option ng-value="'P'">{{'portrait' | translate}}</md-option>
-                                    </md-select>
-                                </md-input-container>
-                            </div>
-                        </div>
-                        <div>
-                            <md-checkbox ng-model="printSettings.showClientData" class="md-primary">
-                                {{'show client data' | translate}}
-                            </md-checkbox>
-                            <md-checkbox ng-model="printSettings.showTitle" class="md-primary">
-                                {{'show dish title' | translate}}
-                            </md-checkbox>
-                            <md-checkbox ng-model="printSettings.showDescription" class="md-primary" ng-change="hidePdfLink()">
-                                {{'show description' | translate}}
-                            </md-checkbox>
-                            <md-checkbox ng-model="printSettings.showFoods" class="md-primary">
-                                {{'show foods' | translate}}
-                            </md-checkbox>
-                        </div>
-                        <div>
-                            <md-checkbox ng-disabled="!printSettings.showFoods" ng-model="printSettings.showQty" class="md-primary" ng-change="hidePdfLink()">
-                                {{'show quantity' | translate}}
-                            </md-checkbox>
-                            <md-checkbox ng-disabled="!printSettings.showFoods" ng-model="printSettings.showMass" class="md-primary" ng-change="hidePdfLink()">
-                                {{'show mass' | translate}}
-                            </md-checkbox>
-                            <md-checkbox ng-disabled="!printSettings.showFoods" ng-model="printSettings.showServ" class="md-primary" ng-change="hidePdfLink()">
-                                {{'show servings' | translate}}
-                            </md-checkbox>
-                            <md-checkbox ng-model="printSettings.showTotals" class="md-primary">
-                                {{'show totals' | translate}}
-                            </md-checkbox>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-3 mt5">
-                                <md-checkbox ng-model="printSettings.showDate" class="md-primary" style="margin-bottom:2px">
-                                    {{'date' | translate}}
+                            <div>
+                                <md-checkbox ng-model="printSettings.showClientData" class="md-primary">
+                                    {{'show client data' | translate}}
+                                </md-checkbox>
+                                <md-checkbox ng-model="printSettings.showTitle" class="md-primary">
+                                    {{'show dish title' | translate}}
+                                </md-checkbox>
+                                <md-checkbox ng-model="printSettings.showDescription" class="md-primary" ng-change="hidePdfLink()">
+                                    {{'show description' | translate}}
+                                </md-checkbox>
+                                <md-checkbox ng-model="printSettings.showFoods" class="md-primary">
+                                    {{'show foods' | translate}}
                                 </md-checkbox>
                             </div>
-                            <div class="col-sm-9 mt5">
-                                <input ng-if="printSettings.showDate" ng-model="date" class="form-control" ng-change="setDate(date)" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-3 mt5">
-                                <md-checkbox ng-model="printSettings.showAuthor" class="md-primary" style="margin-bottom:2px">
-                                    {{'author' | translate}}
+                            <div>
+                                <md-checkbox ng-disabled="!printSettings.showFoods" ng-model="printSettings.showQty" class="md-primary" ng-change="hidePdfLink()">
+                                    {{'show quantity' | translate}}
+                                </md-checkbox>
+                                <md-checkbox ng-disabled="!printSettings.showFoods" ng-model="printSettings.showMass" class="md-primary" ng-change="hidePdfLink()">
+                                    {{'show mass' | translate}}
+                                </md-checkbox>
+                                <md-checkbox ng-disabled="!printSettings.showFoods" ng-model="printSettings.showServ" class="md-primary" ng-change="hidePdfLink()">
+                                    {{'show servings' | translate}}
+                                </md-checkbox>
+                                <md-checkbox ng-model="printSettings.showTotals" class="md-primary">
+                                    {{'show totals' | translate}}
                                 </md-checkbox>
                             </div>
-                            <div class="col-sm-9 mt5">
-                                <input ng-if="printSettings.showAuthor" ng-model="author" class="form-control" ng-change="setAuthor(author)" />
+                            <div class="row">
+                                <div class="col-sm-3 mt-2">
+                                    <md-checkbox ng-model="printSettings.showDate" class="md-primary" style="margin-bottom:2px">
+                                        {{'date' | translate}}
+                                    </md-checkbox>
+                                </div>
+                                <div class="col-sm-9 mt-2">
+                                    <input ng-if="printSettings.showDate" ng-model="date" class="form-control" ng-change="setDate(date)" />
+                                </div>
                             </div>
-                        </div>
-                    </fieldset>
+                            <div class="row">
+                                <div class="col-sm-3 mt-2">
+                                    <md-checkbox ng-model="printSettings.showAuthor" class="md-primary" style="margin-bottom:2px">
+                                        {{'author' | translate}}
+                                    </md-checkbox>
+                                </div>
+                                <div class="col-sm-9 mt-2">
+                                    <input ng-if="printSettings.showAuthor" ng-model="author" class="form-control" ng-change="setAuthor(author)" />
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
                 </div>
             </div>
         </div>

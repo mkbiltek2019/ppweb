@@ -7787,6 +7787,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     $scope.pdfSLLink = null;
     $scope.creatingSLPdf = false;
     $scope.createShoppingList = function (x, c, s) {
+        var printSetting = angular.copy(s);
         $http({
             url: $sessionStorage.config.backend + 'ShoppingList.asmx/CreateWeeklyShoppingList',
             method: "POST",
@@ -7796,10 +7797,17 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             var shoppingList = JSON.parse(response.data.d);
             if (shoppingList.total) {
                 if (shoppingList.total.price > 0) {
-                    $scope.printSettings.showPrice = true;
+                    //$scope.printSettings.showPrice = true;
+                    printSetting.showPrice = true;
                 }
             }
-            printShoppingListPdf(shoppingList, c, s);
+            // TODO: print settings
+            printSetting.showQty = true;
+            printSetting.showMass = true;
+            printSetting.showTitle = true;
+            printSetting.showDescription = true;
+
+            printShoppingListPdf(shoppingList, c, printSetting);
         },
         function (response) {
             functions.alert($translate.instant(response.data.d), '');
