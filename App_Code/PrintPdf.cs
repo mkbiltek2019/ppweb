@@ -136,6 +136,28 @@ public class PrintPdf : System.Web.Services.WebService {
     }
 
     [WebMethod]
+    public string InitShoppingListSettings() {
+        PrintMenuSettings x = new PrintMenuSettings();
+        x.pageSize = "A4";
+        x.showQty = true;
+        x.showMass = true;
+        x.showServ = false;
+        x.showTitle = true;
+        x.showDescription = true;
+        x.orientation = portrait;
+		x.showClientData = false;
+        x.showFoods = true;
+        x.showTotals = true;
+        x.showPrice = false;
+        x.showActivities = false;
+        x.showMealsTotal = false;
+        x.showDate = true;
+        x.showAuthor = true;
+        x.printStyle = 0;
+        return JsonConvert.SerializeObject(x, Formatting.None);
+    }
+
+    [WebMethod]
     public string MenuPdf(string userId, Menues.NewMenu currentMenu, Foods.Totals totals, int consumers, string lang, PrintMenuSettings settings, string date, string author, string headerInfo) {
         if (settings.printStyle == 0) {
             return MenuPdf_tbl(userId, currentMenu, totals, consumers, lang, settings, date, author, headerInfo);
@@ -1048,7 +1070,7 @@ public class PrintPdf : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string ShoppingList(string userId, object shoppingList, Menues.NewMenu currentMenu, int consumers, string lang, PrintMenuSettings settings, string headerInfo) {
+    public string ShoppingList(string userId, object shoppingList, string title, string note, int consumers, string lang, PrintMenuSettings settings, string headerInfo) {
         try {
             var doc = new Document();
             string path = Server.MapPath(string.Format("~/upload/users/{0}/pdf/", userId));
@@ -1062,8 +1084,8 @@ public class PrintPdf : System.Web.Services.WebService {
 
             AppendHeader(doc, userId, headerInfo);
 
-            doc.Add(new Paragraph(currentMenu.title, GetFont(12)));
-            doc.Add(new Paragraph(currentMenu.note, GetFont(8)));
+            doc.Add(new Paragraph(title, GetFont(12)));
+            doc.Add(new Paragraph(note, GetFont(8)));
             if(consumers > 1) {
                 doc.Add(new Paragraph(t.Tran("number of consumers", lang) + ": " + consumers, GetFont(8)));
             }

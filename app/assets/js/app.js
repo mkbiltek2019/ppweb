@@ -5743,7 +5743,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 $http({
                     url: $sessionStorage.config.backend + 'PrintPdf.asmx/ShoppingList',
                     method: "POST",
-                    data: { userId: $sessionStorage.usergroupid, shoppingList: sl, currentMenu: $scope.currentMenu, consumers: n, lang: $rootScope.config.language, settings: s, headerInfo: $rootScope.user.headerInfo }
+                    data: { userId: $sessionStorage.usergroupid, shoppingList: sl, title: $scope.currentMenu.title, note: $scope.currentMenu.note, consumers: n, lang: $rootScope.config.language, settings: s, headerInfo: $rootScope.user.headerInfo }
                 })
                 .then(function (response) {
                     var fileName = response.data.d;
@@ -7784,55 +7784,186 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
     };
 
-    $scope.pdfSLLink = null;
-    $scope.creatingSLPdf = false;
-    $scope.createShoppingList = function (x, c, s) {
-        var printSetting = angular.copy(s);
-        $http({
-            url: $sessionStorage.config.backend + 'ShoppingList.asmx/CreateWeeklyShoppingList',
-            method: "POST",
-            data: { userId: $sessionStorage.usergroupid, menuList: x, consumers: c, lang: $rootScope.config.language }
+    //$scope.pdfSLLink = null;
+    //$scope.creatingSLPdf = false;
+    //$scope.createShoppingList = function (x, c, s) {
+    //    var printSetting = angular.copy(s);
+    //    $http({
+    //        url: $sessionStorage.config.backend + 'ShoppingList.asmx/CreateWeeklyShoppingList',
+    //        method: "POST",
+    //        data: { userId: $sessionStorage.usergroupid, menuList: x, consumers: c, lang: $rootScope.config.language }
+    //    })
+    //    .then(function (response) {
+    //        var shoppingList = JSON.parse(response.data.d);
+    //        if (shoppingList.total) {
+    //            if (shoppingList.total.price > 0) {
+    //                printSetting.showPrice = true;
+    //            }
+    //        }
+    //        // TODO: print settings
+    //        printSetting.showQty = true;
+    //        printSetting.showMass = true;
+    //        printSetting.showTitle = true;
+    //        printSetting.showDescription = true;
+
+    //        printShoppingListPdf(shoppingList, c, printSetting);
+
+    //    },
+    //    function (response) {
+    //        functions.alert($translate.instant(response.data.d), '');
+    //    });
+    //}
+
+
+    //TODO
+    $scope.openShoppingListPopup = function (x) {
+        debugger;
+        if (x.length === 0) {
+            return false;
+        }
+        $mdDialog.show({
+            controller: shoppingListPdfCtrl,
+            templateUrl: 'assets/partials/popup/shoppinglist.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true,
+            d: { weeklyMenu: x }
         })
-        .then(function (response) {
-            var shoppingList = JSON.parse(response.data.d);
-            if (shoppingList.total) {
-                if (shoppingList.total.price > 0) {
-                    //$scope.printSettings.showPrice = true;
-                    printSetting.showPrice = true;
-                }
-            }
-            // TODO: print settings
-            printSetting.showQty = true;
-            printSetting.showMass = true;
-            printSetting.showTitle = true;
-            printSetting.showDescription = true;
-
-            printShoppingListPdf(shoppingList, c, printSetting);
-        },
-        function (response) {
-            functions.alert($translate.instant(response.data.d), '');
+        .then(function (r) {
+            alert(r);
+        }, function () {
         });
-    }
+    };
 
-    var printShoppingListPdf = function (sl, n, s) {
-        $scope.creatingSLPdf = true;
-        if (angular.isDefined($scope.currentMenu)) {
+    var shoppingListPdfCtrl = function ($scope, $rootScope, $mdDialog, $http, d, $translate, $translatePartialLoader) {
+        debugger;
+        //$scope.currentMenu = d.currentMenu;
+        var menuList = d.weeklyMenu;
+        //var title = d.weeklyMenu.title;
+        //var note = d.weeklyMenu.note;
+        $scope.settings = d.settings;
+        $scope.consumers = 1;
+        $scope.pdfLink == null;
+        $scope.creatingPdf = false;
+        $scope.d = null;
+
+        var initSettings = function() {
             $http({
-                url: $sessionStorage.config.backend + 'PrintPdf.asmx/WeeklyMenuShoppingList',
+                url: $sessionStorage.config.backend + 'PrintPdf.asmx/InitShoppingListSettings',
                 method: "POST",
-                data: { userId: $sessionStorage.usergroupid, shoppingList: sl, consumers: n, lang: $rootScope.config.language, settings: s, headerInfo: $rootScope.user.headerInfo }
+                data: {}
             })
             .then(function (response) {
-                var fileName = response.data.d;
-                $scope.creatingSLPdf = false;
-                $scope.pdfSLLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
+                $scope.settings = JSON.parse(response.data.d);
+                createShoppingList(menuList.menuList, $scope.settings);
             },
             function (response) {
-                $scope.creatingSLPdf = false;
-                alert(response.data.d);
+                functions.alert($translate.instant(response.data.d), '');
             });
         }
-    }
+
+        var createShoppingList = function (x, c) {
+            $http({
+                url: $sessionStorage.config.backend + 'ShoppingList.asmx/CreateWeeklyShoppingList',
+                method: "POST",
+                data: { userId: $sessionStorage.usergroupid, menuList: x, consumers: c, lang: $rootScope.config.language }
+            })
+            .then(function (response) {
+                $scope.d = JSON.parse(response.data.d);
+                if (d.total) {
+                    if (d.total.price > 0) {
+                        $scope.settings.showPrice = true;
+                    }
+                }
+            },
+            function (response) {
+                functions.alert($translate.instant(response.data.d), '');
+            });
+        }
+        initSettings();
+
+     
+
+        //var createShoppingList = function (x, c) {
+        //    $http({
+        //        url: $sessionStorage.config.backend + 'ShoppingList.asmx/Create',
+        //        method: "POST",
+        //        data: { x: x, consumers: c, lang: $rootScope.config.language }
+        //    })
+        //    .then(function (response) {
+        //        $scope.d = JSON.parse(response.data.d);
+        //        if ($scope.d.total) {
+        //            if ($scope.d.total.price > 0) {
+        //                $scope.settings.showPrice = true;
+        //            }
+        //        }
+        //    },
+        //    function (response) {
+        //        functions.alert($translate.instant(response.data.d), '');
+        //    });
+        //}
+        //createShoppingList($scope.currentMenu.data.selectedFoods, $scope.consumers);
+
+
+        $scope.changeNumberOfConsumers = function (x) {
+            if (x < 1 || functions.isNullOrEmpty(x)) { return false }
+            createShoppingList(menuList.menuList, x);
+        }
+
+        $scope.copyToClipboard = function (id) {
+            return functions.copyToClipboard(id);
+        }
+
+        $scope.printShoppingListPdf = function (sl, n, s) {
+            debugger;
+            $scope.creatingPdf = true;
+            if (angular.isDefined(sl)) {
+                $http({
+                    url: $sessionStorage.config.backend + 'PrintPdf.asmx/ShoppingList',
+                    method: "POST",
+                    data: { userId: $sessionStorage.usergroupid, shoppingList: sl, title: menuList.title, note: menuList.note, consumers: n, lang: $rootScope.config.language, settings: s, headerInfo: $rootScope.user.headerInfo }
+                })
+                .then(function (response) {
+                    var fileName = response.data.d;
+                    $scope.creatingPdf = false;
+                    $scope.pdfLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
+                },
+                function (response) {
+                    $scope.creatingPdf = false;
+                    alert(response.data.d);
+                });
+            }
+        }
+
+        $scope.hidePdfLink = function () {
+            $scope.pdfLink = null;
+        }
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+    };
+
+
+
+    //var printShoppingListPdf = function (sl, n, s) {
+    //    $scope.creatingSLPdf = true;
+    //    if (angular.isDefined($scope.currentMenu)) {
+    //        $http({
+    //            url: $sessionStorage.config.backend + 'PrintPdf.asmx/WeeklyMenuShoppingList',
+    //            method: "POST",
+    //            data: { userId: $sessionStorage.usergroupid, shoppingList: sl, consumers: n, lang: $rootScope.config.language, settings: s, headerInfo: $rootScope.user.headerInfo }
+    //        })
+    //        .then(function (response) {
+    //            var fileName = response.data.d;
+    //            $scope.creatingSLPdf = false;
+    //            $scope.pdfSLLink = $sessionStorage.config.backend + 'upload/users/' + $rootScope.user.userGroupId + '/pdf/' + fileName + '.pdf';
+    //        },
+    //        function (response) {
+    //            $scope.creatingSLPdf = false;
+    //            alert(response.data.d);
+    //        });
+    //    }
+    //}
 
     $scope.hidePdfSLLink = function () {
         $scope.pdfSLLink = null;
