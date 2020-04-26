@@ -1948,6 +1948,18 @@
   "print style": "Vrsta prikaza",
   "table style": "Tablični prikaz",
   "old style": "Stari prikaz",
-  "your username is": "Vaše korisničko ime je"
+  "your username is": "Vaše korisničko ime je",
+  "user account": "Korisnički račun",
+  "my profile": "Moj profil",
+  "are you sure you want to logout": "Dali ste sigurni da želite da se odjavite",
+  "already have an account": "Već imate račun",
+  "login_": "Prijavite se",
+  "choose client": "Odaberite klijenta",
+  "welcome": "Dobrodošli",
+  "nutritients": "Nutrijenti",
+  "show all appointments": "Prikaži sve termine",
+  "recommended weight": "Preporučena težina",
+  "value": "Vrednost",
+  "create an account": "Izradite korisnički račun"
 
 }

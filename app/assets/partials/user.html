@@ -1,4 +1,4 @@
-﻿<div class="container" ng-cloak>
+﻿<div class="container pb-4" ng-cloak>
     <div class="card">
         <div class="card-header">
             <h4>{{'user profile' | translate}}</h4>
@@ -7,7 +7,6 @@
             <div class="text-right">
                 <button ng-disabled="user.adminType==2" class="btn btn-outline-primary" ng-click="update(user)"><span class="fa fa-floppy-o"></span> {{'save' | translate}}</button>
                 <button ng-if="loginUser.adminType==0" class="btn btn-outline-primary" ng-click="isLogin?toggleTpl('users'):toggleTpl('login')"><span class="fa fa-users"></span> {{'users' | translate}}</button>
-                <!--<button class="btn btn-default text-capitalize" ng-click="isLogin?toggleTpl('dashboard'):toggleTpl('login')"><i class="fa fa-times"></i><span class="hidden-xs"> {{'cancel' | translate}}</span></button>-->
             </div>
             <div>
                 <fieldset class="fieldset-border">
@@ -178,176 +177,7 @@
                 <button class="btn btn-outline-primary" ng-click="update(user)"><span class="fa fa-save"></span> {{'save' | translate}}</button>
             </div>
         </div>
-
     </div>
-
-
-
-    <fieldset class="fieldset-border">
-        <legend class="fieldset-border text-capitalize">{{'user profile' | translate}}</legend>
-        <div class="text-right">
-            <button ng-disabled="user.adminType==2" class="btn btn-primary" ng-click="update(user)"><span class="fa fa-floppy-o"></span> {{'save' | translate}}</button>
-            <button ng-if="loginUser.adminType==0" class="btn btn-default" ng-click="isLogin?toggleTpl('users'):toggleTpl('login')"><span class="fa fa-users"></span> {{'users' | translate}}</button>
-            <button class="btn btn-default text-capitalize" ng-click="isLogin?toggleTpl('dashboard'):toggleTpl('login')"><i class="fa fa-times"></i><span class="hidden-xs"> {{'cancel' | translate}}</span></button>
-        </div>
-        <div>
-            <fieldset class="fieldset-border">
-                <legend class="fieldset-border text-capitalize">{{'user data' | translate}}</legend>
-                <form autocomplete="off">
-                    <div layout-gt-sm="row" class="text-capitalize">
-                        <md-input-container ng-if="user.userId && config.debug" class="md-block" flex-gt-sm>
-                            <label>{{'id' | translate}}</label>
-                            <input ng-model="user.userId" type="text" disabled>
-                        </md-input-container>
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label>{{'first name' | translate}}</label>
-                            <input ng-model="user.firstName" type="text">
-                        </md-input-container>
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label>{{'last name' | translate}}</label>
-                            <input ng-model="user.lastName">
-                        </md-input-container>
-                    </div>
-                    <div layout-gt-sm="row" class="text-capitalize">
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label>{{'company name' | translate}}</label>
-                            <input ng-disabled="loginUser.adminType==0?false:true" ng-model="user.companyName">
-                        </md-input-container>
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label class="text-uppercase">{{'pin' | translate}}</label>
-                            <input ng-disabled="loginUser.adminType==0?false:true" ng-model="user.pin">
-                        </md-input-container>
-                    </div>
-                    <div layout-gt-sm="row" class="text-capitalize">
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label>{{'address' | translate}}</label>
-                            <input ng-model="user.address">
-                        </md-input-container>
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label>{{'postal code' | translate}}</label>
-                            <input ng-model="user.postalCode">
-                        </md-input-container>
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label>{{'city' | translate}}</label>
-                            <input ng-model="user.city">
-                        </md-input-container>
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label>{{'country' | translate}}</label>
-                            <input ng-model="user.country">
-                        </md-input-container>
-                    </div>
-                    <div layout-gt-sm="row" class="text-capitalize">
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label>{{'phone' | translate}}</label>
-                            <input ng-model="user.phone">
-                        </md-input-container>
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label>{{'email' | translate}}</label>
-                            <input ng-model="user.email" type="email" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" disabled>
-                        </md-input-container>
-                    </div>
-                </form>
-            </fieldset>
-            <div ng-if="user.userType>=1" class="mt10">
-                <fieldset class="fieldset-border">
-                    <legend class="fieldset-border text-capitalize">{{'headers print' | translate}}</legend>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <fieldset class="fieldset-border">
-                                <legend class="fieldset-border text-capitalize">{{'logo' | translate}}</legend>
-                                <form ng-disabled="user.adminType!=0" id="formUpload" ng-submit="upload()" enctype="multipart/form-data" method="post">
-                                    <input id="userid" name="userid" ng-model="user.userGroupId" type="text" hidden="hidden">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <input ng-disabled="user.adminType!=0" ng-model="file" name="UploadedFile" id="UploadedFile" type="file" accept=".png" class="form-control">
-                                            <em class="text-danger">* {{'use only png format' | translate}}</em>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <button ng-disabled="user.adminType!=0" type="submit" class="btn btn-default text-capitalize"><i class="fa fa-upload"></i> {{'upload' | translate}}</button>
-                                        </div>
-                                    </div>
-                                </form>
-                                <div ng-if="showLogo" class="text-capitalize mt10">
-                                    <img ng-if="showLogo" src="{{logo}}" class="img-thumbnail" width="200" />
-                                    <button ng-disabled="user.adminType!=0" class="btn btn-default text-capitalize" ng-click="removeLogo(user)"><span class="text-danger"><i class="fa fa-trash-o"></i> {{'delete' | translate}}</span></button>
-                                </div>
-                            </fieldset>
-                        </div>
-                        <div class="col-sm-6">
-                            <fieldset class="fieldset-border">
-                                <legend class="fieldset-border text-capitalize">{{'info' | translate}}</legend>
-                                <textarea ng-model="user.headerInfo" rows="4" class="form-control"></textarea>
-                            </fieldset>
-                        </div>
-                    </div>
-                </fieldset>
-            </div>
-
-            <fieldset class="fieldset-border">
-                <legend class="fieldset-border text-capitalize">{{'account settings' | translate}}</legend>
-                <div>
-                    <label style="margin-bottom:30px;font-weight:100; color:gray" class="text-capitalize small">
-                        {{'package' | translate}}: <strong class="text-uppercase large">{{user.package}}</strong>
-                    </label>
-                </div>
-                <div>
-                    <label style="margin-bottom:30px;font-weight:100; color:gray" class="small">
-                        {{'maximum number of users' | translate}}: <strong class="large"><span class="badge">{{user.maxNumberOfUsers}}</span></strong>
-                    </label>
-                </div>
-                <hr />
-                <div ng-if="user.userType>0" class="row">
-                    <div class="col-sm-4 text-capitalize">
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label style="margin-bottom:30px;font-weight:100; color:gray" class="small">{{'admin type' | translate}}</label>
-                            <select ng-disabled="loginUser.adminType==0?false:true" ng-model="user.adminType" class="form-control">
-                                <option ng-selected="user.adminType==0?true:false" value="0">{{'supervisor' | translate}}</option>
-                                <option ng-selected="user.adminType==1?true:false" value="1">{{'admin' | translate}}</option>
-                                <option ng-selected="user.adminType==2?true:false" value="2">{{'student' | translate}}</option>
-                            </select>
-                        </md-input-container>
-                    </div>
-                    <div class="col-sm-8">
-                        <md-input-container class="md-block text-danger" flex-gt-sm>
-                            <p ng-if="user.adminType==0" class="ml10">* <em>{{'adminType0_des' | translate}}</em>.</p>
-                            <p ng-if="user.adminType==1" class="ml10">* <em>{{'adminType1_des' | translate}}</em>.</p>
-                            <p ng-if="user.adminType==2" class="ml10">* <em>{{'adminType2_des' | translate}}</em>.</p>
-                        </md-input-container>
-                    </div>
-                </div>
-                <form autocomplete="off">
-                    <div layout-gt-sm="row" class="text-capitalize">
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label>{{'user name' | translate}}</label>
-                            <input ng-model="user.userName" disabled>
-                        </md-input-container>
-                        <md-input-container ng-if="showpass" class="md-block" flex-gt-sm>
-                            <label>{{'password' | translate}}</label>
-                            <input ng-model="user.password" >
-                        </md-input-container>
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <span class="input-group-addon cursor" style="width:30px" ng-click="showPassword()" title="{{showpass==true?('hide password' | translate):('show password' | translate)}}"><i class="fa fa-eye{{showpass==true?'-slash':''}}"></i></span>
-                        </md-input-container>
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label>{{'activation date' | translate}}</label>
-                            <input ng-disabled="!config.debug" ng-model="user.activationDate" type="text">
-                        </md-input-container>
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label>{{'expiration date' | translate}}</label>
-                            <input ng-disabled="!config.debug" ng-model="user.expirationDate" type="text">
-                        </md-input-container>
-                        <md-input-container ng-if="config.debug" class="md-block" flex-gt-sm>
-                            <label>{{'is active' | translate}}</label>
-                            <input ng-model="user.isActive" type="checkbox">
-                        </md-input-container>
-                    </div>
-                </form>
-            </fieldset>
-        </div>
-        <div class="text-right">
-            <button class="btn btn-primary" ng-click="update(user)"><span class="fa fa-floppy-o"></span> {{'save' | translate}}</button>
-        </div>
-    </fieldset>
 </div>
 
 

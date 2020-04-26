@@ -1945,6 +1945,18 @@
   "print style": "Врста приказа",
   "table style": "Таблични приказ",
   "old style": "Стари приказ",
-  "your username is": "Ваше корисничко име је"
+  "your username is": "Ваше корисничко име је",
+  "user account": "Кориснички рачун",
+  "my profile": "Мој профил",
+  "are you sure you want to logout": "Дали сте сигурни да желите да се ођавите",
+  "already have an account": "Већ имате рачун",
+  "login_": "Пријавите се",
+  "choose client": "Одаберите клијента",
+  "welcome": "Добродошли",
+  "nutritients": "Нутријенти",
+  "show all appointments": "Прикажи све термине",
+  "recommended weight": "Препоручена тежина",
+  "value": "Вредност",
+  "create an account": "Израдите кориснички рачун"
 
 }
