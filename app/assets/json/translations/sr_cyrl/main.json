@@ -1336,9 +1336,9 @@
   "input data": "улазни подаци",
   "activities": "активности",
   "diet": "Дијета",
-  "menu": "јеловник",
-  "print": "испис",
-  "search": "претражи",
+  "menu": "Jеловник",
+  "print": "Испис",
+  "search": "Претражи",
   "carbohydrates": "угљени хидрати",
   "proteins": "беланчевине",
   "fats": "масти",
@@ -1351,7 +1351,7 @@
   "choose language": "изабери језик",
   "forgot your password": "заборавили сте лозинку",
   "error": "грешка",
-  "new": "нови",
+  "new": "Hови",
   "open": "отвори",
   "add food": "додајте намирницу",
   "total": "Yкупно",
@@ -1957,6 +1957,7 @@
   "show all appointments": "Прикажи све термине",
   "recommended weight": "Препоручена тежина",
   "value": "Вредност",
-  "create an account": "Израдите кориснички рачун"
+  "create an account": "Израдите кориснички рачун",
+  "show title": "прикажи назив"
 
 }

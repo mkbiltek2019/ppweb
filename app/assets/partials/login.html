@@ -11,10 +11,16 @@
                     </div>-->
                         <div class="col-lg-12">
                             <div class="p-5">
+                                <div class="text-center" ng-cloak>
+                                    <h1 class="text-uppercase" style="font-size:26px">{{config.title | translate}}</h1>
+                                    <h2 style="font-size:18px"><em>{{'version' | translate}}: {{config.version}}</em></h2>
+                                    <hr />
+                                </div>
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">{{'welcome' | translate}}</h1>
                                 </div>
                                 <form id="loginform" class="user">
+
                                     <div class="form-group">
                                         <input ng-model="userName" type="text" class="form-control form-control-user" name="email" placeholder="{{'email' | translate}}">
                                     </div>

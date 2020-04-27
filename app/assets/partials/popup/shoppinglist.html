@@ -24,10 +24,16 @@
                         </fieldset>
                         <fieldset class="fieldset-border">
                             <legend class="fieldset-border">{{'show in print' | translate}}</legend>
-                            <md-checkbox ng-disabled="!settings.showFoods" ng-model="settings.showQty" class="md-primary">
+                            <md-checkbox ng-model="settings.showTitle" class="md-primary">
+                                {{'show title' | translate}}
+                            </md-checkbox>
+                            <md-checkbox ng-model="settings.showDescription" class="md-primary">
+                                {{'show description' | translate}}
+                            </md-checkbox>
+                            <md-checkbox ng-model="settings.showQty" class="md-primary">
                                 {{'show quantity' | translate}}
                             </md-checkbox>
-                            <md-checkbox ng-disabled="!settings.showFoods" ng-model="settings.showMass" class="md-primary">
+                            <md-checkbox ng-model="settings.showMass" class="md-primary">
                                 {{'show mass' | translate}}
                             </md-checkbox>
                             <md-checkbox ng-model="settings.showPrice" class="md-primary">
@@ -39,8 +45,8 @@
                         <fieldset class="fieldset-border">
                             <legend class="fieldset-border text-capitalize">{{'shopping list' | translate}}</legend>
                             <div id="shoppinglist_container">
-                                <strong>{{currentMenu.title}}</strong>
-                                <p>{{currentMenu.note}}</p>
+                                <strong ng-if="settings.showTitle">{{currentMenu.title}}</strong>
+                                <p ng-if="settings.showDescription">{{currentMenu.note}}</p>
                                 <p ng-if="consumers > 1">{{'number of consumers' | translate}}: <strong>{{consumers}}</strong></p>
                                 <div clss="table-responsive">
                                     <table class="table">

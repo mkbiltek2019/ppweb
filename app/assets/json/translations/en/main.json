@@ -1332,9 +1332,9 @@
   "input data": "input data",
   "activities": "activities",
   "diet": "Diet",
-  "menu": "menu",
-  "print": "print",
-  "search": "search",
+  "menu": "Menu",
+  "print": "Print",
+  "search": "Search",
   "carbohydrates": "carbohydrates",
   "proteins": "proteins",
   "fats": "fats",
@@ -1347,7 +1347,7 @@
   "choose language": "choose language",
   "forgot your password": "forgot your password",
   "error": "error",
-  "new": "new",
+  "new": "New",
   "open": "open",
   "add food": "add food",
   "total": "Total",
@@ -1951,6 +1951,7 @@
   "show all appointments": "Show All Appointments",
   "recommended weight": "Recommended Weight",
   "value": "Value",
-  "create an account": "Create an Account"
+  "create an account": "Create an Account",
+  "show title": "show title"
 
 }

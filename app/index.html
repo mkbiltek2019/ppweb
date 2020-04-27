@@ -69,15 +69,12 @@
         <div ng-show="isLogin" class="navbar-nav bg-main sidebar sidebar-dark accordion text-capitalize" id="accordionSidebar" ng-cloak>
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="../index.html" title="{{config.webpage}}">
                 <div class="sidebar-brand-icon rotate-15 d-block d-sm-block d-md-none d-lg-none">
                     <i class="fas fa-utensils"></i>
                 </div>
                 <div class="sidebar-brand-text mx-3">
                     <img src="assets/img/logo.svg" />
-                    <!--<div class="text-right">
-                        <sup><em>...</em></sup>
-                    </div>-->
                 </div>
             </a>
 
@@ -238,15 +235,20 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <nav ng-show="isLogin" class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <nav class="navbar navbar-expand navbar-light topbar mb-4 static-top shadow" ng-class="isLogin?'bg-white':''">
+                    <div ng-show="!isLogin" ng-cloak>
+                        <a href="../index.html" title="{{config.webpage}}">
+                            <img src="assets/img/logo.svg" />
+                        </a>
+                    </div>
 
                     <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                    <button ng-show="isLogin" id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
 
                     <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                    <ul ng-show="isLogin" class="navbar-nav ml-auto">
 
                         <!-- Nav Item - Apointments -->
                         <li class="nav-item dropdown no-arrow mx-1" title="{{'appointments' | translate}}" ng-cloak>
@@ -337,37 +339,33 @@
                 <!-- End of Topbar -->
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                        <div ng-if="!isLogin" class="text-center text-white pt-5" ng-cloak>
-                            <h1 class="text-uppercase" style="font-size:26px">{{config.title | translate}}</h1>
-                            <h2 style="font-size:18px"><em>{{'version' | translate}}: {{config.version}}</em></h2>
-                        </div>
-                        <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around" class="text-center">
-                            <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
-                        </div>
-                        <div ng-if="browserMsg" class="alert alert-danger alert-dismissable text-center m10" style="height:auto !important" ng-cloak>
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>
-                                <i class="fa fa-internet-explorer fa-2x" aria-hidden="true"></i><span class="ml5">{{browserMsg.title | translate}}</span>
-                            </strong>
-                            <div>{{browserMsg.description | translate}}</div>
-                        </div>
-                        <div ng-if="mainMessage && isLogin && client.clientId" class="alert alert-danger alert-dismissable text-center m10" style="height:auto !important" ng-cloak>
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>
-                                <i class="fa fa-info-circle fa-2x" aria-hidden="true"></i><span class="text-uppercase ml5">{{mainMessage}}</span>
-                                <button class="btn btn-default text-uppercase ml10" ng-click="toggleTpl('order'); hideMsg()">
-                                    <span class="text-danger"><i class="fa fa-hand-o-right fa-2x arrow1" aria-hidden="true"></i> {{mainMessageBtn}}</span>
-                                </button>
-                            </strong>
-                        </div>
+                    <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around" class="text-center">
+                        <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
+                    </div>
+                    <div ng-if="browserMsg" class="alert alert-danger alert-dismissable text-center m10" style="height:auto !important" ng-cloak>
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>
+                            <i class="fa fa-internet-explorer fa-2x" aria-hidden="true"></i><span class="ml5">{{browserMsg.title | translate}}</span>
+                        </strong>
+                        <div>{{browserMsg.description | translate}}</div>
+                    </div>
+                    <div ng-if="mainMessage && isLogin && client.clientId" class="alert alert-danger alert-dismissable text-center m10" style="height:auto !important" ng-cloak>
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>
+                            <i class="fa fa-info-circle fa-2x" aria-hidden="true"></i><span class="text-uppercase ml5">{{mainMessage}}</span>
+                            <button class="btn btn-default text-uppercase ml10" ng-click="toggleTpl('order'); hideMsg()">
+                                <span class="text-danger"><i class="fa fa-hand-o-right fa-2x arrow1" aria-hidden="true"></i> {{mainMessageBtn}}</span>
+                            </button>
+                        </strong>
+                    </div>
 
-                        <!--<div ng-show="!loading" ng-include="currTpl" style="margin-bottom:50px"></div>-->
+                    <!--<div ng-show="!loading" ng-include="currTpl" style="margin-bottom:50px"></div>-->
 
-                       <ui-view autoscroll="false"></ui-view>
+                    <ui-view autoscroll="false"></ui-view>
 
-                        <!--<div class="text-right navbar-fixed-bottom" style="padding:5px 10px 0px 0px" ng-cloak>
-                            <span class="text-primary small">&copy {{today | date:'yyyy'}} {{config.copyright}}</span>
-                        </div>-->
+                    <!--<div class="text-right navbar-fixed-bottom" style="padding:5px 10px 0px 0px" ng-cloak>
+                        <span class="text-primary small">&copy {{today | date:'yyyy'}} {{config.copyright}}</span>
+                    </div>-->
 
                 </div>
 

@@ -90,7 +90,6 @@
                                         <td class="p-1" colspan="2">
                                             <div class="input-group">
                                                 <input ng-model="clientData.weight" class="form-control" style="width:75px" required allow-only-numbers>
-                                                <!--<span class="input-group-addon" style="width:50px">kg</span>-->
                                                 <div class="input-group-append">
                                                     <span class="input-group-text" style="width:50px">{{'kg' | translate}}</span>
                                                 </div>
@@ -162,7 +161,6 @@
                                                 <select ng-model="standard.weight" ng-click="convertToMetricSystem(standard)" class="form-control" style="max-width:75px">
                                                     <option ng-repeat="x in populateDdl(22,440)" ng-selected="x==standard.weight?true:false" ng-value="x">{{x}}</option>
                                                 </select>
-                                                <!--<span class="input-group-addon" style="width:70px">{{'pounds' | translate}}</span>-->
                                                 <div class="input-group-append">
                                                     <span class="input-group-text" style="width:88px">{{'pounds' | translate}}</span>
                                                 </div>
@@ -176,7 +174,6 @@
                                                 <select ng-model="standard.waist" ng-click="convertToMetricSystem(standard)" class="form-control" style="max-width:75px">
                                                     <option ng-repeat="x in populateDdl(23,70)" ng-selected="x==standard.waist?true:false" ng-value="x">{{x}}</option>
                                                 </select>
-                                                <!--<span class="input-group-addon" style="width:70px">{{'inches' | translate}}</span>-->
                                                 <div class="input-group-append">
                                                     <span class="input-group-text" style="width:88px">{{'inches' | translate}}</span>
                                                 </div>
@@ -190,7 +187,6 @@
                                                 <select ng-model="standard.hip" ng-click="convertToMetricSystem(standard)" class="form-control" style="max-width:75px">
                                                     <option ng-repeat="x in populateDdl(35,70)" ng-selected="x==standard.hip?true:false" ng-value="x">{{x}}</option>
                                                 </select>
-                                                <!--<span class="input-group-addon" style="width:70px">{{'inches' | translate}}</span>-->
                                                 <div class="input-group-append">
                                                     <span class="input-group-text" style="width:88px">{{'inches' | translate}}</span>
                                                 </div>
@@ -263,7 +259,7 @@
                             </md-radio-button>
                         </md-radio-group>-->
                     </div>
-                    <div class="col-lg-8">
+                    <div class="col-lg-8 pt-3">
                         <ng-include src="'detailCalculationOfEnergyExpenditure'"></ng-include>
                     </div>
                 </div>
@@ -595,11 +591,11 @@
             </linearGradient>
         </defs>
         <g>
-            <title>background</title>
+            <!--<title>background</title>-->
             <rect x="-1" y="-1" width="282" height="242" id="canvas_background" fill="#ffffff" />
         </g>
         <g>
-            <title>Layer 1</title>
+            <!--<title>Layer 1</title>-->
             <line stroke="#000" fill="none" stroke-width="1.5" x1="84.840089" y1="11.030098" x2="85.840089" y2="206.509808" id="svg_1" stroke-linejoin="undefined" stroke-linecap="undefined" />
             <line stroke="#000" fill="none" stroke-width="1.5" x1="76.77011" y1="11.030094" x2="93.204895" y2="11.030094" id="svg_2" stroke-linejoin="undefined" stroke-linecap="undefined" />
             <line stroke="#000" fill="none" stroke-width="1.5" x1="78.32999" y1="207.313816" x2="92.808248" y2="207.313816" id="svg_3" stroke-linejoin="undefined" stroke-linecap="undefined" />

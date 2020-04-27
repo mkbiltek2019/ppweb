@@ -1333,10 +1333,10 @@
   "input data": "Ulazni podaci",
   "activities": "aktivnosti",
   "diet": "Dijeta",
-  "meals": "obroci",
-  "menu": "jelovnik",
-  "print": "ispis",
-  "search": "pretraži",
+  "meals": "Obroci",
+  "menu": "Jelovnik",
+  "print": "Ispis",
+  "search": "Pretraži",
   "carbohydrates": "Ugljikohidrati",
   "proteins": "Bjelančevine",
   "fats": "Masti",
@@ -1349,7 +1349,7 @@
   "choose language": "odaberi jezik",
   "forgot your password": "zaboravili ste lozinku",
   "error": "greška",
-  "new": "novi",
+  "new": "Novi",
   "open": "otvori",
   "add food": "dodaj namirnicu",
   "total": "Ukupno",
@@ -1960,6 +1960,7 @@
   "show all appointments": "Prikaži sve termine",
   "recommended weight": "Preporučena težina",
   "value": "Vrijednost",
-  "create an account": "Izradite korisnički račun"
+  "create an account": "Izradite korisnički račun",
+  "show title": "prikaži naziv"
 
 }

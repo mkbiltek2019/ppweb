@@ -5,7 +5,7 @@
             <li class="nav-item" ng-click="toggleMenu('dailyMenuTpl')"><a href="#" ng-class="menuTpl=='dailyMenuTpl'?'nav-link active':'nav-link'"><i class="fa fa-utensils"></i> <span class="text-capitalize">{{'daily menu' | translate}}</span></a></li>
             <li class="nav-item" ng-click="toggleMenu('weeklyMenuTpl')"><a href="#" ng-class="menuTpl=='weeklyMenuTpl'?'nav-link active':'nav-link'"><i class="fa fa-files-o"></i> <span class="text-capitalize">{{'weekly menu' | translate}}</span></a></li>
         </ul>
-        <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around" class="mt20">
+        <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around" class="mt-5">
             <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
         </div>
         <div ng-include="menuTpl" style="padding-top:20px"></div>
@@ -385,12 +385,12 @@
                     <div class="col chart-box">
                         <span>{{'energy' | translate}}</span>
                         <div id="energyChart" class="guage"></div>
-                        <span class="text-primary"><em>{{'recommended' | translate}}: {{recommendations.energy | number:0}} {{'kcal' | translate}}</em></span>
+                        <span class="text-primary text-xs"><em>{{'recommended' | translate}}: {{recommendations.energy | number:0}} {{'kcal' | translate}}</em></span>
                     </div>
                     <div class="col chart-box">
                         <span>{{'other foods' | translate}}</span>
                         <div id="otherFoodChart" class="guage"></div>
-                        <span class="text-primary"><em>{{'acceptable' | translate}}: {{recommendations.servings.otherFoodsEnergy | number:0}} {{'kcal' | translate}}</em></span>
+                        <span class="text-primary text-xs"><em>{{'acceptable' | translate}}: {{recommendations.servings.otherFoodsEnergy | number:0}} {{'kcal' | translate}}</em></span>
                     </div>
                 </div>
             </div>
@@ -405,20 +405,20 @@
                     <div class="col chart-box">
                         <span>{{'carbohydrates' | translate}}</span>
                         <div id="carbohydratesChart" class="guage"></div>
-                        <div style="font-size:14px">{{totals.carbohydrates | number:1}} g <span>({{totals.carbohydratesPercentage | number:1}} %)</span></div>
-                        <em class="text-primary small">{{'recommended' | translate}}: {{recommendations.carbohydratesPercentageMin | number:0}}-{{recommendations.carbohydratesPercentageMax | number:0}}%</em>
+                        <div class="text-xs">{{totals.carbohydrates | number:1}} g <span>({{totals.carbohydratesPercentage | number:1}} %)</span></div>
+                        <em class="text-primary text-xs">{{'recommended' | translate}}: {{recommendations.carbohydratesPercentageMin | number:0}}-{{recommendations.carbohydratesPercentageMax | number:0}}%</em>
                     </div>
                     <div class="col chart-box">
                         <span>{{'proteins' | translate}}</span>
                         <div id="proteinsChart" class="guage"></div>
-                        <div style="font-size:14px">{{totals.proteins | number:1}} g <span>({{totals.proteinsPercentage | number:1}} %)</span></div>
-                        <em class="text-primary small">{{'recommended' | translate}}: {{recommendations.proteinsPercentageMin | number:0}}-{{recommendations.proteinsPercentageMax | number:0}}%</em>
+                        <div class="text-xs">{{totals.proteins | number:1}} g <span>({{totals.proteinsPercentage | number:1}} %)</span></div>
+                        <em class="text-primary text-xs">{{'recommended' | translate}}: {{recommendations.proteinsPercentageMin | number:0}}-{{recommendations.proteinsPercentageMax | number:0}}%</em>
                     </div>
                     <div class="col chart-box">
                         <span>{{'fats' | translate}}</span>
                         <div id="fatsChart" class="guage"></div>
-                        <div style="font-size:14px">{{totals.fats | number:1}} g <span>({{totals.fatsPercentage | number:1}} %)</span></div>
-                        <em class="text-primary small">{{'recommended' | translate}}: {{recommendations.fatsPercentageMin | number:0}}-{{recommendations.fatsPercentageMax | number:0}}%</em>
+                        <div class="text-xs">{{totals.fats | number:1}} g <span>({{totals.fatsPercentage | number:1}} %)</span></div>
+                        <em class="text-primary text-xs">{{'recommended' | translate}}: {{recommendations.fatsPercentageMin | number:0}}-{{recommendations.fatsPercentageMax | number:0}}%</em>
                     </div>
                 </div>
             </div>
@@ -466,20 +466,20 @@
                     <div class="col chart-box">
                         <span>{{'saturated fats' | translate}}</span>
                         <div id="saturatedFatsChart" class="guage"></div>
-                        <div style="font-size:14px">{{totals.saturatedFats | number:1}} g </div>
-                        <em class="text-primary small">{{'acceptable' | translate}}: {{recommendations.saturatedFats.ui | number:0}} g</em>
+                        <div>{{totals.saturatedFats | number:1}} g </div>
+                        <em class="text-primary text-xs">{{'acceptable' | translate}}: {{recommendations.saturatedFats.ui | number:0}} g</em>
                     </div>
                     <div class="col chart-box">
                         <span>{{'trifluoroacetic acid' | translate}}</span>
                         <div id="trifluoroaceticAcidChart" class="guage"></div>
-                        <div style="font-size:14px">{{totals.trifluoroaceticAcid | number:1}} g</div>
-                        <em class="text-primary small">{{'acceptable' | translate}}: {{recommendations.trifluoroaceticAcid.ui | number:0}} g</em>
+                        <div>{{totals.trifluoroaceticAcid | number:1}} g</div>
+                        <em class="text-primary text-xs">{{'acceptable' | translate}}: {{recommendations.trifluoroaceticAcid.ui | number:0}} g</em>
                     </div>
                     <div class="col chart-box">
                         <span>{{'cholesterol' | translate}}</span>
                         <div id="cholesterolChart" class="guage"></div>
-                        <div style="font-size:14px">{{totals.cholesterol | number:1}} mg </div>
-                        <em class="text-primary small">{{'acceptable' | translate}}: {{recommendations.cholesterol.ui | number:0}} mg</em>
+                        <div>{{totals.cholesterol | number:1}} mg </div>
+                        <em class="text-primary text-xs">{{'acceptable' | translate}}: {{recommendations.cholesterol.ui | number:0}} mg</em>
                     </div>
                 </div>
             </div>

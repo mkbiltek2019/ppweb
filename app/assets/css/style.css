@@ -220,7 +220,7 @@ navbar-brand {
 }
 
 .guage {
-    height:80%;
+    /*height:80%;*/
     width:80%;
     margin:auto;
 }
@@ -265,15 +265,19 @@ legend.fieldset-border {
   background-size: cover;*/
 
 
-  background-color: #1cc88a;
+  /*background-color: #1cc88a;
   background-image: linear-gradient(180deg, #0fa56f  10%, #13855c 100%);
+  background-size: cover;*/
+
+  background-color: #85BC5E;
+  background-image: linear-gradient(180deg, #85BC5E  10%, #558632  100%);
   background-size: cover;
 
 }
 
 a[class*="btn-default"], button[class*="btn-default"], input[class*="search"] {
-    border-color: #337ab7;
-    color: #337ab7;
+    border-color: #558632;
+    color: #558632;
 }
 
 .center {
@@ -378,6 +382,10 @@ a[class*="btn-default"], button[class*="btn-default"], input[class*="search"] {
     height:40vh;
 }
 
+.dashboard-card {
+    max-height: 220px;
+}
+
 @media (max-width: 767px) {
     .loginBox {
         padding:20px;
@@ -418,6 +426,12 @@ a[class*="btn-default"], button[class*="btn-default"], input[class*="search"] {
     }
 }
 
+@media (max-width: 992px) {
+    .dashboard-card {
+        max-height: 240px;
+    }
+}
+
 @media (min-width: 992px) {
     md-dialog {
         max-width:60%;
@@ -427,9 +441,6 @@ a[class*="btn-default"], button[class*="btn-default"], input[class*="search"] {
         min-height:90%;
     }
 }
-
-
-
 
 /*.text-capitalize-first::first-letter {
     text-transform: uppercase !important;

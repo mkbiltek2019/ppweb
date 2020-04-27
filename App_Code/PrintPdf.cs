@@ -1084,8 +1084,13 @@ public class PrintPdf : System.Web.Services.WebService {
 
             AppendHeader(doc, userId, headerInfo);
 
-            doc.Add(new Paragraph(title, GetFont(12)));
-            doc.Add(new Paragraph(note, GetFont(8)));
+            if (settings.showTitle) {
+                doc.Add(new Paragraph(title, GetFont(12)));
+            }
+            if (settings.showDescription) {
+                doc.Add(new Paragraph(note, GetFont(8)));
+            }
+            
             if(consumers > 1) {
                 doc.Add(new Paragraph(t.Tran("number of consumers", lang) + ": " + consumers, GetFont(8)));
             }

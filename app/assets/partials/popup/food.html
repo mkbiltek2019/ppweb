@@ -15,9 +15,9 @@
                 <div class="row small mt-2">
                     <div class="col-sm-6">
                         <div class="input-group">
-                            <input if="searchfood" ng-model="searchFood" class="form-control" type="text" placeholder="{{'search' | translate}}..." ng-click="initCurrentFoodGroup()" autofocus />
-                            <span class="input-group-btn">
-                                <a href="" class="btn btn-outline-primary"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</a>
+                            <input id="searchfood" ng-model="searchFood" class="form-control search" type="text" placeholder="{{'search' | translate}}..." ng-click="initCurrentFoodGroup()" autofocus />
+                            <span class="input-group-append">
+                                <button class="btn btn-outline-primary"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
                             </span>
                         </div>
                         <div class="dropdown">
