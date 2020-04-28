@@ -580,8 +580,8 @@ public class Users : System.Web.Services.WebService {
                 Files f = new Files();
                 f.DeleteUserFolder(x.userGroupId);
             }
-            return "ok";
-        } catch (Exception e) { return ("error: " + e); }
+            return JsonConvert.SerializeObject("account has been deleted", Formatting.None);
+        } catch (Exception e) { return JsonConvert.SerializeObject(e.Message, Formatting.None); }
     }
 
     [WebMethod]
@@ -769,6 +769,41 @@ public class Users : System.Web.Services.WebService {
         } catch (Exception e) {
             return JsonConvert.SerializeObject(e.Message, Formatting.None);
         }
+    }
+
+    [WebMethod]
+    public string SendDeleteAccountLink(NewUser x, string lang) {
+        try {
+            Mail mail = new Mail();
+            string messageSubject = t.Tran("nutrition program web", lang) + " - " + t.Tran("delete user account", lang);
+
+            string messageBody = string.Format(
+                @"
+<p>{0}</p>
+<p>{1}: {2}</p>
+<hr/>
+{3}
+<br />
+<br />"
+, t.Tran("nutrition program web", lang).ToUpper()
+, t.Tran("delete user account link", lang)
+, string.Format("<a href='{0}/app/deleteuseraccount.html?uid={1}&lang={2}'>{0}/app/deleteuseraccount.html?uid={1}&lang={2}</a>", GetWebPage(lang), x.userId, lang)
+, string.Format(@"<i>* {0}.</i>", t.Tran("this is an automatically generated email – please do not reply to it", lang)));
+
+            string response = null;
+            if (string.IsNullOrEmpty(x.userId)) {
+                response = t.Tran("user not found", lang);
+            }
+            else {
+                if (mail.SendMail(x.email, messageSubject, messageBody, lang, null, false)) {
+                    response = t.Tran("delete user account link has been sent to your email", lang);
+                } else {
+                    response = t.Tran("error", lang);
+                }
+            }
+
+            return JsonConvert.SerializeObject(response, Formatting.None);
+        } catch (Exception e) { return (e.Message); }
     }
     #endregion
 

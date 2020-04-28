@@ -342,19 +342,19 @@
                     <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around" class="text-center">
                         <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
                     </div>
-                    <div ng-if="browserMsg" class="alert alert-danger alert-dismissable text-center m10" style="height:auto !important" ng-cloak>
+                    <div ng-if="browserMsg" class="alert alert-danger alert-dismissable text-center m-2" style="height:auto !important" ng-cloak>
                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                         <strong>
-                            <i class="fa fa-internet-explorer fa-2x" aria-hidden="true"></i><span class="ml5">{{browserMsg.title | translate}}</span>
+                            <i class="fa fa-internet-explorer fa-2x" aria-hidden="true"></i><span class="ml-2">{{browserMsg.title | translate}}</span>
                         </strong>
                         <div>{{browserMsg.description | translate}}</div>
                     </div>
-                    <div ng-if="mainMessage && isLogin && client.clientId" class="alert alert-danger alert-dismissable text-center m10" style="height:auto !important" ng-cloak>
+                    <div ng-if="mainMessage&&isLogin&&client.clientId" class="alert alert-warning alert-dismissable text-center m-2" style="height:auto !important" ng-cloak>
                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                         <strong>
-                            <i class="fa fa-info-circle fa-2x" aria-hidden="true"></i><span class="text-uppercase ml5">{{mainMessage}}</span>
-                            <button class="btn btn-default text-uppercase ml10" ng-click="toggleTpl('order'); hideMsg()">
-                                <span class="text-danger"><i class="fa fa-hand-o-right fa-2x arrow1" aria-hidden="true"></i> {{mainMessageBtn}}</span>
+                            <i class="fa fa-info-circle fa-2x" aria-hidden="true"></i><span class="text-uppercase ml-2">{{mainMessage}}</span>
+                            <button class="btn btn-primary text-uppercase ml-4" ng-click="toggleTpl('order'); hideMsg()">
+                                <span><i class="fa fa-hand-o-right fa-2x arrow1" aria-hidden="true"></i> {{mainMessageBtn}}</span>
                             </button>
                         </strong>
                     </div>

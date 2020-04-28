@@ -358,7 +358,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     checkUser();
 
     var validateForm = function () {
-        if ($rootScope.clientData.clientId == null) {
+        if ($rootScope.clientData.clientId === null) {
             //TODO:
             //functions.alert($translate.instant('choose client'));
             return false;
@@ -380,9 +380,16 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     
     $scope.toggleNewTpl = function (x) {
         if ($rootScope.clientData !== undefined) {
-            if (validateForm() == false) {
+            if ($rootScope.clientData.length === 0 && x === 'clientsdata') {
+                $state.go(x);
+                $rootScope.selectedNavItem = x;
                 return false;
-            };
+            }
+            if (x !== 'clientsdata') {
+                if (validateForm() == false) {
+                    return false;
+                };
+            }
             if ($rootScope.clientData.meals == null) {
                 //$rootScope.newTpl = 'assets/partials/meals.html';
                 $state.go('meals');
@@ -1023,7 +1030,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
              parent: angular.element(document.body),
              targetEvent: '',
              clickOutsideToClose: true,
-             fullscreen: $scope.customFullscreen, // Only for -xs, -sm breakpoints.
+             fullscreen: $scope.customFullscreen,
              d: ''
          })
          .then(function (response) {
@@ -1465,7 +1472,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $http({
             url: $sessionStorage.config.backend + webService + '/Update',
             method: 'POST',
-            data: {x: user}
+            data: { x: user }
         })
        .then(function (response) {
            functions.alert($translate.instant('saved'), '');
@@ -1608,34 +1615,24 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
     /********* Logo ************/
 
+    $scope.sendDeleteAccountLink = function (user) {
+        debugger;
+        $http({
+            url: $sessionStorage.config.backend + webService + '/SendDeleteAccountLink',
+            method: 'POST',
+            data: { x: user, lang: $rootScope.config.language }
+        }).then(function (response) {
+            functions.alert($translate.instant(response.data.d));
+        },
+       function (response) {
+           functions.alert($translate.instant(response.data.d));
+       });
+    }
+
 
 }])
 
 //-------------- Program Prehrane Controllers---------------
-.controller('mainCtrl', ['$scope', '$rootScope', '$state', function ($scope, $rootScope, $state) {
-    //if ($rootScope.client) {
-    //    if ($rootScope.client.clientId) {
-    //        //$rootScope.newTpl = 'assets/partials/clientsdata.html',
-    //        $state.go('clientsdata');
-    //        $rootScope.selectedNavItem = 'clientsdata';
-    //    } else {
-    //        //$rootScope.newTpl = 'assets/partials/dashboard.html',
-    //        $state.go('dashboard');
-    //        $rootScope.selectedNavItem = 'dashboard';
-    //    }
-    //} else {
-    //    //$rootScope.newTpl = 'assets/partials/dashboard.html',
-    //    $state.go('dashboard');
-    //    $rootScope.selectedNavItem = 'dashboard';
-    //}
-
-    //$scope.toggleNewTpl_ = function (x) {
-    //    $state.go(x);
-    //    $scope.selectedNavItem = x;
-    //}
-
-}])
-
 .controller('dashboardCtrl', ['$scope', '$http', '$sessionStorage', '$rootScope', 'functions', '$translate', '$timeout', function ($scope, $http, $sessionStorage, $rootScope, functions, $translate, $timeout) {
 	var getUser = function () {
         $http({
@@ -1831,10 +1828,11 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                    functions.alert($translate.instant(JSON.parse(response.data.d).message), '');
                    return false;
                }
-               getClients();
-               $timeout(function () {
-                   $mdDialog.hide(JSON.parse(response.data.d).data);
-               }, 500);
+               //getClients();
+               //$timeout(function () {
+               //    $mdDialog.hide(JSON.parse(response.data.d).data);
+               //}, 500);
+               $mdDialog.hide(JSON.parse(response.data.d).data);
            },
            function (response) {
                functions.alert($translate.instant(response.data.d), '');
@@ -1857,31 +1855,35 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         });
     }
 
+    //$scope.search = function () {
+    //    debugger;
+    //    $http({
+    //        url: $sessionStorage.config.backend + webService + '/Load',
+    //        method: "POST",
+    //        data: { userId: $sessionStorage.usergroupid, user: $rootScope.user }
+    //    })
+    //   .then(function (response) {
+    //       $rootScope.clients = JSON.parse(response.data.d);
+    //       $scope.d = JSON.parse(response.data.d);
+    //       $scope.openSearchPopup();
+    //   },
+    //   function (response) {
+    //       alert(response.data.d)
+    //   });
+    //}
+
     $scope.search = function () {
         debugger;
-        $http({
-            url: $sessionStorage.config.backend + webService + '/Load',
-            method: "POST",
-            data: { userId: $sessionStorage.usergroupid, user: $rootScope.user }
-        })
-       .then(function (response) {
-           $rootScope.clients = JSON.parse(response.data.d);
-           $scope.d = JSON.parse(response.data.d);
-           $scope.openSearchPopup();
-       },
-       function (response) {
-           alert(response.data.d)
-       });
+        $scope.openSearchPopup();
     }
 
-    $scope.openSearchPopup = function () {
+    $rootScope.openSearchPopup = function () {
         $mdDialog.show({
             controller: $scope.searchPopupCtrl,
             templateUrl: 'assets/partials/popup/searchclients.html',
             parent: angular.element(document.body),
             targetEvent: '',
-            clickOutsideToClose: true,
-            d: $scope.d
+            clickOutsideToClose: true
         })
         .then(function (response) {
             $rootScope.client = response;
@@ -1892,8 +1894,43 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         });
     };
 
-    $scope.searchPopupCtrl = function ($scope, $mdDialog, d, $http) {
-        $scope.d = d;
+    //$rootScope.openSearchPopup = function () {
+    //    $mdDialog.show({
+    //        controller: $scope.searchPopupCtrl,
+    //        templateUrl: 'assets/partials/popup/searchclients.html',
+    //        parent: angular.element(document.body),
+    //        targetEvent: '',
+    //        clickOutsideToClose: true,
+    //        d: $scope.d
+    //    })
+    //    .then(function (response) {
+    //        $rootScope.client = response;
+    //        $rootScope.currTpl = './assets/partials/main.html';
+    //        $scope.toggleNewTpl('clientsdata');
+    //        $scope.get(response);
+    //    }, function () {
+    //    });
+    //};
+
+    $scope.searchPopupCtrl = function ($scope, $mdDialog, $http) {
+        var load = function () {
+            debugger;
+            $http({
+                url: $sessionStorage.config.backend + 'Clients.asmx/Load',
+                method: "POST",
+                data: { userId: $sessionStorage.usergroupid, user: $rootScope.user }
+            })
+            .then(function (response) {
+                //$rootScope.clients = JSON.parse(response.data.d);
+                $scope.d = JSON.parse(response.data.d);
+            },
+            function (response) {
+                alert(response.data.d)
+            });
+        }
+        load();
+
+        //$scope.d = d;
         $scope.limit = 20;
 
         $scope.loadMore = function () {
@@ -1942,6 +1979,9 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                $rootScope.clients = JSON.parse(response.data.d);
                $rootScope.client = [];
                $rootScope.clientData = [];
+               if ($rootScope.clients.length > 0) {
+                   $rootScope.openSearchPopup();
+               }
            },
            function (response) {
                alert(response.data.d)
@@ -7817,7 +7857,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     //TODO
     $scope.openShoppingListPopup = function (x) {
-        debugger;
         if (x.length === 0) {
             return false;
         }
@@ -8112,6 +8151,87 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         });
     }
 
+
+}])
+
+.controller('deleteAccountCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', 'functions', '$translate', '$translatePartialLoader', function ($scope, $http, $sessionStorage, $window, $rootScope, functions, $translate, $translatePartialLoader) {
+    var webService = 'Users.asmx';
+    var config = null;
+    var lang = null;
+    $scope.uid = null;
+    var queryString = null;
+    $scope.user = null;
+    $scope.errorMesage = false;
+    $scope.d = {
+        userName: null,
+        password: null
+    }
+
+    queryString = location.search.split('&');
+    if (queryString.length >= 1) {
+        if (queryString[0].substring(1, 4) === 'uid') {
+            $scope.uid = queryString[0].substring(5);
+            $http.get('./config/config.json').then(function (response) {
+                config = response.data;
+            });
+        }
+        if (queryString.length === 2) {
+            if (queryString[1].substring(0, 4) === 'lang') {
+                lang = queryString[1].substring(5);
+                $translate.use(lang);
+                $translatePartialLoader.addPart('main');
+            }
+        }
+    }
+
+    $scope.login = function (d) {
+        $http({
+            url: config.backend + 'Users.asmx/Login',
+            method: "POST",
+            data: { userName: d.userName, password: d.password }
+        }).then(function (response) {
+            var user = JSON.parse(response.data.d);
+            if (user.userId !== null) {
+                if (user.userId !== $scope.uid) {
+                    $scope.showErrorAlert = true;
+                    $scope.errorMesage = $translate.instant('wrong user');
+                } else {
+                    $scope.showErrorAlert = false;
+                    $scope.user = user;
+                }
+            } else {
+                $scope.showErrorAlert = true;
+                $scope.errorMesage = $translate.instant('wrong user name or password');
+            }
+        },
+        function (response) {
+            $scope.errorLogin = true;
+            $scope.showErrorAlert = true;
+            $scope.errorMesage = $translate.instant('user was not found');
+            $scope.showUserDetails = false;
+        });
+    }
+
+    var remove = function (user) {
+        $http({
+            url: config.backend + 'Users.asmx/DeleteAllUserGroup',
+            method: 'POST',
+            data: { x: user }
+        })
+        .then(function (response) {
+            functions.alert($translate.instant(JSON.parse(response.data.d)), '');
+        },
+        function (response) {
+            functions.alert($translate.instant(JSON.parse(response.data.d)), '');
+        });
+    }
+
+    $scope.confirm = function (user) {
+        var r = confirm($translate.instant('delete') + " " + user.firstName + " " + user.lastName + "?");
+        if (r === true) {
+            remove(user);
+        }
+    }
 
 }])
 //-------------end Program Prehrane Controllers--------------------

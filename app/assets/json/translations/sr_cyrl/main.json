@@ -1958,6 +1958,13 @@
   "recommended weight": "Препоручена тежина",
   "value": "Вредност",
   "create an account": "Израдите кориснички рачун",
-  "show title": "прикажи назив"
+  "show title": "прикажи назив",
+  "wrong user": "Погрешан корисник",
+  "account has been deleted": "Рачун је избрисан",
+  "delete user account": "Брисање корисничког рачуна",
+  "permanently delete user account": "Трајно брисање корисничког рачуна",
+  "send delete user account link": "Пошаљи линк за брисање корисничког рачуна",
+  "delete user account link has been sent to your email": "Линк за брисање корисничког рачуна је послан на Ваш емаил",
+  "delete user account link": "Линк за брисање корисничког рачуна"
 
 }
