@@ -186,91 +186,145 @@
 
 
 
-    <div ng-if="loginUser.adminType<2" class="row" style="margin-top:40px">
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-header">
-                    <label class="text-capitalize">{{'statistics' | translate}}</label>
+    <div ng-if="loginUser.adminType<2" style="margin-top:40px">
+        <div class="row">
+            <div class="col-lg-8" ng-controller="clientsCtrl">
+                <div class="card">
+                    <div class="card-header d-flex flex-row align-items-center justify-content-between">
+                        <label class="text-capitalize">{{'clients' | translate}}</label>
+                        <div class="dropdown no-arrow">
+                            <a class="dropdown-toggle" href="" role="button" id="dropdownClient" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownClient">
+                                <a class="dropdown-item" href="" ng-click="newClient()">{{'new client' | translate}}</a>
+                                <a class="dropdown-item" href="" ng-click="search()">{{'search clients' | translate}}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row m-2">
+                            <div class="col-sm-4">
+                                <div class="input-group">
+                                    <input ng-model="searchValue" class="form-control search" type="text" placeholder="{{'search' | translate}}..." />
+                                    <span class="input-group-append">
+                                        <button class="btn btn-outline-primary"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr class="text-capitalize">
+                                        <th></th>
+                                        <th class="nowrap" style="width:40%">{{'first name' | translate}}</th>
+                                        <th class="nowrap" style="width:40%">{{'last name' | translate}}</th>
+                                        <th style="width:20%">{{'gender' | translate}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="x in clients | filter:searchValue | limitTo:6" ng-click="getClient(x)" class="pointer">
+                                        <td>
+                                            <i ng-if="!x.profileImg" class="fa fa-user-circle fa-2x"></i>
+                                            <img ng-if="x.profileImg" src="../upload/users/{{x.userId}}/clients/{{x.clientId}}/profileimg/{{x.profileImg}}" alt="{{x.profileImg}}" style="height:2rem;width:2rem" class="img-circle rounded-circle" />
+                                        </td>
+                                        <td style="width:40%">{{x.firstName}}</td>
+                                        <td style="width:40%">{{x.lastName}}</td>
+                                        <td style="width:20%"><i class="fa fa-{{x.gender.title}}"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <ul class="list-group">
-                        <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'clients' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.clients.total}}</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'menus' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.menues}}</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">{{'weekly menus' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.weeklyMenus}}</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">{{'my foods' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.myfoods}}</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'recipes' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.recipes}}</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'meals' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.meals}}</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">{{'total appointments' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.scheduler.total}}</span></li>
-                    </ul>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header">
+                        <label class="text-capitalize">{{'statistics' | translate}}</label>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'clients' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.clients.total}}</span></li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'menus' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.menues}}</span></li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">{{'weekly menus' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.weeklyMenus}}</span></li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">{{'my foods' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.myfoods}}</span></li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'recipes' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.recipes}}</span></li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'meals' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.meals}}</span></li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">{{'total appointments' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.scheduler.total}}</span></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-        <div ng-if="user.licenceStatus!='demo'" class="col-lg-8">
-            <div class="card">
-                <div class="card-header">
-                    <label>{{'license info' | translate}}</label>
-                </div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-md-5">
-                                    <span class="text-capitalize">{{'package' | translate}}:</span> <label class="pull-right text-uppercase badge badge-light badge-pill">{{user.package}}</label>
+        <div ng-if="user.licenceStatus!=='demo'" class="pt-4" >
+                <div class="card">
+                    <div class="card-header">
+                        <label>{{'license info' | translate}}</label>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <span class="text-capitalize">{{'package' | translate}}:</span> <label class="pull-right text-uppercase badge badge-light badge-pill">{{user.package}}</label>
+                                    </div>
+                                    <div class="col-md-7">
+                                    </div>
                                 </div>
-                                <div class="col-md-7">
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-md-5">
-                                    {{'expiration date' | translate}} <label class="pull-right">{{expirationDate | date:'dd.MM.yyyy'}}</label>
-                                </div>
-                                <div class="col-md-7">
-                                    <div class="progress">
-                                        <div class="progress-bar bg-warning" role="progressbar"
-                                             aria-valuenow="{{((user.daysToExpite/365)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{((user.daysToExpite/365)*100).toFixed()}}%">
-                                            {{((user.daysToExpite/365)*100).toFixed()}}%
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        {{'expiration date' | translate}} <label class="pull-right">{{expirationDate | date:'dd.MM.yyyy'}}</label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="progress">
+                                            <div class="progress-bar bg-warning" role="progressbar"
+                                                 aria-valuenow="{{((user.daysToExpite/365)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{((user.daysToExpite/365)*100).toFixed()}}%">
+                                                {{((user.daysToExpite/365)*100).toFixed()}}%
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-md-5">
-                                    {{'number of clinets' | translate}} ({{user.datasum.clients.currMonth}}/{{user.datasum.clients.currYear}}) <span class="pull-right"><span class="badge badge-light badge-pill">{{user.datasum.clients.currMonthTotal}}</span> ({{user.datasum.clients.maxMonthlyNumberOfClients}})</span>
-                                </div>
-                                <div class="col-md-7">
-                                    <div class="progress">
-                                        <div class="progress-bar bg-primary" role="progressbar"
-                                             aria-valuenow="{{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}%">
-                                            {{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}%
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        {{'number of clinets' | translate}} ({{user.datasum.clients.currMonth}}/{{user.datasum.clients.currYear}}) <span class="pull-right"><span class="badge badge-light badge-pill">{{user.datasum.clients.currMonthTotal}}</span> ({{user.datasum.clients.maxMonthlyNumberOfClients}})</span>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="progress">
+                                            <div class="progress-bar bg-primary" role="progressbar"
+                                                 aria-valuenow="{{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}%">
+                                                {{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}%
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-md-5">
-                                    {{'number of users' | translate}} <span class="pull-right"><span class="badge badge-light badge-pill">{{user.subusers+1}}</span> ({{user.maxNumberOfUsers}})</span>
-                                </div>
-                                <div class="col-md-7">
-                                    <div class="progress">
-                                        <div class="progress-bar bg-info" role="progressbar"
-                                             aria-valuenow="{{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}%">
-                                            {{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}%
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        {{'number of users' | translate}} <span class="pull-right"><span class="badge badge-light badge-pill">{{user.subusers+1}}</span> ({{user.maxNumberOfUsers}})</span>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="progress">
+                                            <div class="progress-bar bg-info" role="progressbar"
+                                                 aria-valuenow="{{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}%">
+                                                {{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}%
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
     </div>
     <json-directive data="user" desc="'user'"></json-directive>
+    <json-directive data="clients" desc="'clients'"></json-directive>
 </div>
 

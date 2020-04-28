@@ -6,6 +6,7 @@ Disallow: /instal.html
 Disallow: /index1.html
 Disallow: /app/eula.html
 Disallow: /app/resetpassword.html
+Disallow: /app/deleteuseraccount.html
 Disallow: /4da35544-91f6-4206-9c33-47ad44379a3b/
 Disallow: /client/
 

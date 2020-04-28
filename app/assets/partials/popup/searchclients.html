@@ -18,7 +18,7 @@
                     </div>
                 </div>
             </div>
-            <div class="md-dialog-content table-responsive">
+            <div class="table-responsive">
                 <table class="table table-hover table-sm">
                     <thead>
                         <tr class="text-capitalize">
@@ -34,7 +34,10 @@
                     <tbody>
                         <tr ng-repeat="x in d | filter:searchValue | limitTo:limit" ng-click="get(x)">
                             <!--<td style="width:50px">{{d.length-$index}}</td>-->
-                            <td><img ng-if="x.profileImg" src="../upload/users/{{x.userId}}/clients/{{x.clientId}}/profileimg/{{x.profileImg}}" alt="{{x.profileImg}}" style="height:2rem;width:2rem" class="img-circle rounded-circle" /></td>
+                            <td>
+                                <i ng-if="!x.profileImg" class="fa fa-user-circle fa-2x"></i>
+                                <img ng-if="x.profileImg" src="../upload/users/{{x.userId}}/clients/{{x.clientId}}/profileimg/{{x.profileImg}}" alt="{{x.profileImg}}" style="height:2rem;width:2rem" class="img-circle rounded-circle" />
+                            </td>
                             <td style="width:20%">{{x.firstName}}</td>
                             <td style="width:20%">{{x.lastName}}</td>
                             <td style="width:20%">{{getDateFormat(x.birthDate) | date:'dd.MM.yyyy'}}</td>

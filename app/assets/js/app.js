@@ -2022,6 +2022,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         });
     }
 
+    $scope.getClient = function (x) {
+        debugger;
+        $rootScope.client = x;
+        $rootScope.currTpl = './assets/partials/main.html';
+        $scope.toggleNewTpl('clientsdata');
+        $scope.get(x);
+    }
+
     $scope.getPalDetails = function (x) {
         $http({
             url: $sessionStorage.config.backend + 'Calculations.asmx/GetPalDetails',
@@ -4351,7 +4359,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
   
     $scope.get = function () {
-        if ($rootScope.user.licenceStatus == 'demo') {
+        if ($rootScope.user.licenceStatus === 'demo') {
             functions.demoAlert('this function is not available in demo version');
         } else {
             getMenuPopup();
