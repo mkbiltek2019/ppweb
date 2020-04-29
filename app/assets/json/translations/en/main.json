@@ -1959,7 +1959,9 @@
   "permanently delete user account": "Permanently delete user account",
   "send delete user account link": "Send delete user account link",
   "delete user account link has been sent to your email": "Delete user account link has been sent to your email",
-  "delete user account link": "Delete user account link"
+  "delete user account link": "Delete user account link",
+  "create menu": "Create menu",
+  "show all clients":  "Show all clients"
 
 
 }
