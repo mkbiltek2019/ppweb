@@ -257,12 +257,12 @@
                                 <span ng-if="activeEvents.length>0" class="badge badge-danger badge-counter">{{activeEvents.length}}</span>
                             </a>
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header">
+                                <h6 class="dropdown-header bg-main">
                                     {{'appointments' | translate}}
                                 </h6>
                                 <a ui-sref="scheduler" ui-sref-active="" ng-repeat="x in activeEvents" class="dropdown-item d-flex align-items-center" href="">
                                     <div class="mr-3">
-                                        <div class="icon-circle bg-primary">
+                                        <div class="icon-circle bg-main">
                                             <i class="fas fa-user-clock text-white"></i>
                                         </div>
                                     </div>
@@ -372,7 +372,7 @@
             </div>
             <!-- End of Main Content -->
             <!-- Footer -->
-            <footer class="sticky-footer bg-white">
+            <footer class="sticky-footer bg-light">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
                         <span ng-cloak>&copy; {{today | date:'yyyy'}} {{config.copyright}}</span>

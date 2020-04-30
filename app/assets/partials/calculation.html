@@ -281,6 +281,8 @@
             <button ng-if="client.clientId" class="btn btn-primary btn-lg" title="{{'back' | translate}}" ng-click="toggleNewTpl('clientsdata')"><i class="fa fa-angle-double-left fa-2x" aria-hidden="true"></i></button>
             <button ng-if="client.clientId" class="btn btn-primary btn-lg pull-right" title="{{'forward' | translate}}" ng-click="toggleNewTpl('activities')"><i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i></button>
         </div> 
+
+        <json-directive data="calculation" desc="'calculation'"></json-directive>
         
         <!--<div class="row mt-3">
             <div class="col-sm-6">
@@ -488,7 +490,8 @@
         <a href="" ng-if="client.clientId" class="btn btn-default btn-lg center center-left" title="{{'back' | translate}}" ng-click="toggleNewTpl('clientsdata')"><i class="fa fa-angle-double-left fa-2x text-primary" aria-hidden="true"></i></a>
         <a href="" ng-if="client.clientId" class="btn btn-default btn-lg center center-right" title="{{'forward' | translate}}" ng-click="toggleNewTpl('activities')"><i class="fa fa-angle-double-right fa-2x text-primary" aria-hidden="true"></i></a>
     </div>-->
+
 </div>
 
-<json-directive data="calculation" desc="'calculation'"></json-directive>
+
 

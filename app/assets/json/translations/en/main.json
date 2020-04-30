@@ -1961,7 +1961,11 @@
   "delete user account link has been sent to your email": "Delete user account link has been sent to your email",
   "delete user account link": "Delete user account link",
   "create menu": "Create menu",
-  "show all clients":  "Show all clients"
+  "show all clients": "Show all clients",
+  "you do not have any appointments": "You do not have any appointments",
+  "client database is empty": "Client database is empty",
+  "add client": "Add Client"
+
 
 
 }

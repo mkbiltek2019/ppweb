@@ -47,12 +47,12 @@
                     <div>
                         <div class="d-block d-sm-none">
                             <select ng-model="currentMeal" ng-change="toggleMeals(currentMeal)" class="form-control text-capitalize">
-                                <option ng-selected="x.code==currentMeal?true:false" value="{{x.code}}" ng-if="x.isSelected==1" ng-repeat="x in currentMenu.data.meals">{{getMealTitle(x)}}</option>
+                                <option ng-selected="x.code===currentMeal?true:false" value="{{x.code}}" ng-if="x.isSelected==1" ng-repeat="x in currentMenu.data.meals">{{getMealTitle(x)}}</option>
                             </select>
                         </div>
                         <div class="d-none d-sm-block">
                             <ul class="nav nav-tabs text-capitalize">
-                                <li class="nav-item" ng-click="toggleMeals(x.code)" ng-if="x.isSelected==1" ng-repeat="x in currentMenu.data.meals"><a href="" ng-class="x.code==currentMeal?'nav-link active':'nav-link'">{{getMealTitle(x)}}</a></li>
+                                <li class="nav-item" ng-click="toggleMeals(x.code)" ng-if="x.isSelected==1" ng-repeat="x in currentMenu.data.meals"><a href="" ng-class="x.code===currentMeal?'nav-link active':'nav-link'">{{getMealTitle(x)}}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -84,12 +84,6 @@
                                             <div>
                                                 <button class="btn btn-outline-primary btn-sm pl-1 pr-1 pt-0 pb-0" ng-click="moveDown(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move down' | translate}}"><i class="fa fa-angle-down"></i></button>
                                             </div>
-                                            <!--<div>
-                                                <button class="btn btn-outline-primary rounded btn-sm" ng-click="moveUp(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move up' | translate}}"><i class="fa fa-sort-up"></i></button>
-                                            </div>
-                                            <div>
-                                                <button class="btn btn-outline-primary rounded btn-sm" ng-click="moveDown(currentMenu.data.selectedFoods.indexOf(x))" title="{{'move down' | translate}}"><i class="fa fa-sort-down"></i></button>
-                                            </div>-->
                                         </td>
                                         <td class="pointer" style="width:400px" ng-click="openFoodPopup(x, currentMenu.data.selectedFoods.indexOf(x))" ><span>{{x.food}}</span></td>
                                         <td class="text-right" style="min-width:100px">

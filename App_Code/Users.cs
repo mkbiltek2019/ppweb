@@ -1003,6 +1003,9 @@ public class Users : System.Web.Services.WebService {
                 SQLiteDataReader reader = null;
 
                 tbl = "clients";
+                Clients c = new Clients();
+                x.clients.currMonth = DateTime.Now.Month.ToString();
+                x.clients.currYear = DateTime.Now.Year.ToString();
                 sql = CheckTblExistsSql(tbl);
                 command = new SQLiteCommand(sql, connection);
                 reader = command.ExecuteReader();
@@ -1013,12 +1016,9 @@ public class Users : System.Web.Services.WebService {
                     while (reader.Read()) {
                         x.clients.total = reader.GetValue(0) == DBNull.Value ? 0 : reader.GetInt32(0);
                     }
-                    Clients c = new Clients();
-                    x.clients.currMonth = DateTime.Now.Month.ToString();
-                    x.clients.currYear = DateTime.Now.Year.ToString();
-                    x.clients.currMonthTotal = c.NumberOfClientsPerMonth(userGroupId);
-                    x.clients.maxMonthlyNumberOfClients = c.MonthlyLimitOfClients(userType);
                 }
+                x.clients.currMonthTotal = c.NumberOfClientsPerMonth(userGroupId);
+                x.clients.maxMonthlyNumberOfClients = c.MonthlyLimitOfClients(userType);
 
                 tbl = "menues";
                 sql = CheckTblExistsSql(tbl);

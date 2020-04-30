@@ -1417,7 +1417,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.signup = function () {
-        if ($rootScope.user.licenceStatus == 'demo') {
+        if ($rootScope.user.licenceStatus === 'demo') {
             functions.demoAlert('this function is not available in demo version');
             return false;
         }

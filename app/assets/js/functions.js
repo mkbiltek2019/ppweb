@@ -1,10 +1,10 @@
 ﻿/*!
 functions.js
-(c) 2017-2019 IG PROG, www.igprog.hr
+(c) 2017-2020 IG PROG, www.igprog.hr
 */
 angular.module('functions', [])
 
-.factory('functions', ['$mdDialog', '$rootScope', '$window', '$translate', '$sessionStorage', function ($mdDialog, $rootScope, $window, $translate, $sessionStorage) {
+.factory('functions', ['$mdDialog', '$rootScope', '$window', '$translate', '$sessionStorage', '$state', function ($mdDialog, $rootScope, $window, $translate, $sessionStorage, $state) {
     return {
         alert: function (title, content) {
             var confirm = $mdDialog.confirm()
@@ -24,7 +24,7 @@ angular.module('functions', [])
                 .ok($translate.instant('yes'))
                 .cancel($translate.instant('not now'));
             $mdDialog.show(confirm).then(function () {
-                $rootScope.currTpl = './assets/partials/order.html';
+                $state.go('order');
             }, function () {
             });
         },

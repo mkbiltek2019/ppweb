@@ -4,6 +4,16 @@
             <h4>{{'new user' | translate}}</h4>
         </div>
         <div class="card-body">
+            <div ng-if="user.licenceStatus==='demo'" class="alert alert-danger text-center" style="height:auto !important">
+                <strong>
+                    <i class="fa fa-info-circle fa-2x" aria-hidden="true"></i>
+                    <span class="text-uppercase ml-2">{{'this function is not available in demo version' | translate}}</span>
+                    <a ui-sref="order" ui-sref-active="" href="" class="btn btn-primary ml-2" ng-click="toggleTpl('order')">
+                        <i class="fa fa-hand-o-right fa-2x" aria-hidden="true"></i>
+                        <span class="text-uppercase ml-2">{{'order now' | translate}}</span>
+                    </a>
+                </strong>
+            </div>
             <div>
                 <div class="alert alert-warning">
                     <em class="text-danger ml-2"> *{{'newuser_note' | translate}}.</em>

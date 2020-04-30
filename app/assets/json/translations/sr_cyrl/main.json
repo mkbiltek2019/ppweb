@@ -1965,6 +1965,11 @@
   "permanently delete user account": "Трајно брисање корисничког рачуна",
   "send delete user account link": "Пошаљи линк за брисање корисничког рачуна",
   "delete user account link has been sent to your email": "Линк за брисање корисничког рачуна је послан на Ваш емаил",
-  "delete user account link": "Линк за брисање корисничког рачуна"
+  "delete user account link": "Линк за брисање корисничког рачуна",
+  "create menu": "Изради јеловник",
+  "show all clients": "Прикажи све клијенте",
+  "you do not have any appointments": "Немате нити један заказан термин",
+  "client database is empty": "База клијената је празна",
+  "add client": "Додај клијента"
 
 }

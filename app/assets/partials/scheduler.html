@@ -4,14 +4,14 @@
             <h4 class="page-header text-capitalize">{{'calendar' | translate}}</h4>
         </div>
         <div class="card-body">
-            <div ng-if="user.licenceStatus === 'demo' || user.userType < 1" class="alert alert-danger text-center m10" style="height:auto !important">
+            <div ng-if="user.licenceStatus === 'demo' || user.userType < 1" class="alert alert-danger text-center" style="height:auto !important">
                 <strong>
                     <i class="fa fa-info-circle fa-2x" aria-hidden="true"></i>
-                    <span class="text-uppercase ml5">{{'save events is available only in standard and premium version' | translate}}</span>
-                    <strong class="btn btn-outline-success ml-2" ng-click="toggleTpl('order'); hideMsg()">
+                    <span class="text-uppercase ml-2">{{'save events is available only in standard and premium version' | translate}}</span>
+                    <a ui-sref="order" ui-sref-active="" href="" class="btn btn-primary ml-2">
                         <i class="fa fa-hand-o-right fa-2x" aria-hidden="true"></i>
                         <span class="text-uppercase ml-2">{{'order now' | translate}}</span>
-                    </strong>
+                    </a>
                 </strong>
             </div>
             <md-input-container ng-hide="user.adminType>0">
