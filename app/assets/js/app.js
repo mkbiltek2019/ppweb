@@ -662,6 +662,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.d = {
             description: null,
             email: functions.isNullOrEmpty(d.user) ? null : d.user.email,
+            userName: functions.isNullOrEmpty(d.user) ? null : d.user.userName,
             alert_des: null,
             alert_email: null
         }
@@ -678,7 +679,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
                 return false;
             }
             $mdDialog.hide();
-            var body = x.description + ' E-mail: ' + x.email;
+            var body = x.description + '. E-mail: ' + x.email + ', User Name: ' + x.userName;
             $http({
                 url: $sessionStorage.config.backend + 'Mail.asmx/SendMessage',
                 method: "POST",

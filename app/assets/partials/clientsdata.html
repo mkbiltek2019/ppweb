@@ -1,8 +1,7 @@
 ﻿ <div>
      <ng-include src="'./assets/partials/main.html'"></ng-include>
      <div class="bg-white p-3">
-         <div class="panel-heading">
-             <div class="row">
+        <div class="row">
                  <div class="col-sm-8">
                      <a href="" class="btn btn-outline-primary text-capitalize" ng-click="newClient()"><i class="fa fa-user-plus"></i> <span class="hidden-xs">{{'new client' | translate}}</span></a>
                      <a href="" ng-if="clients.length>0" class="btn btn-outline-primary text-capitalize" ng-click="search()"><i class="fa fa-search"></i> <span class="hidden-xs">{{'search clients' | translate}}</span></a>
@@ -20,7 +19,6 @@
                      </div>
                  </div>
              </div>
-         </div>
          <div class="mt-2">
              <div ng-if="client.clientId">
                  <ul class="nav nav-tabs">
@@ -52,7 +50,7 @@
                 </md-input-container>
             </div>
             <div class="col-sm-4">
-                <fieldset ng-if="config.language=='en'" class="fieldset-border" style="width:210px">
+                <fieldset ng-if="config.language=='en'" class="fieldset-border" style="width:250px">
                     <legend class="fieldset-border text-capitalize">{{'units' | translate}}:</legend>
                     <md-radio-group ng-model="unitSystem" layout="row" flex-gt-sm ng-click="changeUnitSystem(unitSystem)">
                         <md-radio-button value="0" class="md-primary text-capitalize">{{'standard' | translate}}</md-radio-button>
@@ -65,14 +63,14 @@
                 <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-outline-success text-capitalize" download ng-click="hidePdfLink()"><i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}</a>
             </div>
         </div>
-
         <div class="row">
-            <div class="col-lg-7">
-                <fieldset class="fieldset-border" style="padding-top:0; margin-top:0">
+            <div class="col-xl-7">
+                <fieldset class="fieldset-border h-100" style="padding-top:0; margin-top:0; max-height:55vh">
                     <legend class="fieldset-border">{{'anthropometric parameters' | translate}}</legend>
-                    <div class="row">
-                        <div class="col-lg-7" style="padding:20px 20px 5px 20px">
-                            <div ng-if="unitSystem===1">
+
+                    <div class="row p-2 pt-4">
+                        <div class="col-lg-6 pr-0">
+                            <div ng-if="unitSystem==1">
                                 <table>
                                     <tr>
                                         <td class="p-1">{{'height' | translate}}*:</td>
@@ -118,34 +116,25 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    <!--<tr>
-                                        <td class="p5">{{'body fat' | translate}}: <span ng-if="user.userType<2" custom-popover popover-html="{{'this function is available only in premium package' | translate}}" popover-placement="bottom" popover-label=""></span></td>
-                                        <td class="p5" colspan="2">
-                                            <div class="input-group">
-                                                <input ng-model="clientData.bodyFat.bodyFatPerc" class="form-control" style="width:75px" allow-only-numbers ng-disabled="user.userType<2">
-                                                <span class="input-group-addon" style="width:50px">%</span>
-                                            </div>
-                                        </td>
-                                    </tr>-->
                                 </table>
+
+
                             </div>
-                            <div ng-if="unitSystem===0">
+                            <div ng-if="unitSystem==0">
                                 <table>
                                     <tr>
-                                        <td>{{'height' | translate}}*:</td>
-                                        <td>
-                                            <div class="input-group">
-                                                <select ng-model="standard.height_feet" class="form-control" ng-click="convertToMetricSystem(standard)" style="width:75px">
+                                        <td class="p-1">{{'height' | translate}}*:</td>
+                                        <td class="p-1">
+                                            <div class="input-group" style="width:170px">
+                                                <select ng-model="standard.height_feet" class="form-control" ng-click="convertToMetricSystem(standard)">
                                                     <option ng-repeat="x in populateDdl(4,7)" ng-selected="x==standard.height_feet?true:false" ng-value="x">{{x}}</option>
                                                 </select>
                                                 <div class="input-group-append">
                                                     <span class="input-group-text" style="width:88px">{{'foot' | translate}}</span>
                                                 </div>
                                             </div>
-                                        </td>
-                                        <td>
-                                            <div class="input-group">
-                                                <select ng-model="standard.height_inches" ng-click="convertToMetricSystem(standard)" class="form-control" style="width:75px">
+                                            <div class="input-group" style="width:170px">
+                                                <select ng-model="standard.height_inches" ng-click="convertToMetricSystem(standard)" class="form-control">
                                                     <option ng-repeat="x in populateDdl(0,11)" ng-selected="x==standard.height_inches?true:false" ng-value="x">{{x}}</option>
                                                 </select>
                                                 <div class="input-group-append">
@@ -155,10 +144,10 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>{{'weight' | translate}}*:</td>
-                                        <td colspan="2">
-                                            <div class="input-group">
-                                                <select ng-model="standard.weight" ng-click="convertToMetricSystem(standard)" class="form-control" style="max-width:75px">
+                                        <td class="p-1">{{'weight' | translate}}*:</td>
+                                        <td class="p-1">
+                                            <div class="input-group" style="width:170px">
+                                                <select ng-model="standard.weight" ng-click="convertToMetricSystem(standard)" class="form-control">
                                                     <option ng-repeat="x in populateDdl(22,440)" ng-selected="x==standard.weight?true:false" ng-value="x">{{x}}</option>
                                                 </select>
                                                 <div class="input-group-append">
@@ -168,10 +157,10 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>{{'waist' | translate}}:</td>
-                                        <td colspan="2">
-                                            <div class="input-group">
-                                                <select ng-model="standard.waist" ng-click="convertToMetricSystem(standard)" class="form-control" style="max-width:75px">
+                                        <td class="p-1">{{'waist' | translate}}:</td>
+                                        <td class="p-1">
+                                            <div class="input-group" style="width:170px">
+                                                <select ng-model="standard.waist" ng-click="convertToMetricSystem(standard)" class="form-control">
                                                     <option ng-repeat="x in populateDdl(23,70)" ng-selected="x==standard.waist?true:false" ng-value="x">{{x}}</option>
                                                 </select>
                                                 <div class="input-group-append">
@@ -181,10 +170,10 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>{{'hip' | translate}}:</td>
-                                        <td colspan="2">
-                                            <div class="input-group">
-                                                <select ng-model="standard.hip" ng-click="convertToMetricSystem(standard)" class="form-control" style="max-width:75px">
+                                        <td class="p-1">{{'hip' | translate}}:</td>
+                                        <td class="p-1">
+                                            <div class="input-group" style="width:170px">
+                                                <select ng-model="standard.hip" ng-click="convertToMetricSystem(standard)" class="form-control">
                                                     <option ng-repeat="x in populateDdl(35,70)" ng-selected="x==standard.hip?true:false" ng-value="x">{{x}}</option>
                                                 </select>
                                                 <div class="input-group-append">
@@ -196,72 +185,55 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="col-lg-5">
+                        <div class="col-lg-6 pl-0 pr-0">
                             <ng-include src="'humanSvg'"></ng-include>
                         </div>
-                        <div class="col-lg-12">
-                            <hr />
-                            <table>
-                                <tr>
-                                    <td class="p-1">{{'body fat' | translate}}: <span ng-if="user.userType<2" custom-popover popover-html="{{'this function is available only in premium package' | translate}}" popover-placement="bottom" popover-label=""></span></td>
-                                    <td class="p-1">
-                                        <div class="input-group">
-                                            <input ng-model="clientData.bodyFat.bodyFatPerc" class="form-control" style="width:75px" allow-only-numbers ng-disabled="user.userType<2">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" style="width:50px">%</span>
-                                            </div>
+                    </div>
+                    <div>
+                        <hr />
+                        <table>
+                            <tr>
+                                <td class="p-1">{{'body fat' | translate}}: <span ng-if="user.userType<2" custom-popover popover-html="{{'this function is available only in premium package' | translate}}" popover-placement="bottom" popover-label=""></span></td>
+                                <td class="p-1">
+                                    <div class="input-group" style="width:120px">
+                                        <input ng-model="clientData.bodyFat.bodyFatPerc" class="form-control" allow-only-numbers ng-disabled="user.userType<2">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" style="width:50px">%</span>
                                         </div>
-                                    </td>
-                                    <td><button class="btn btn-outline-primary" ng-click="bodyFatPopup(clientData)"><img src="../app/assets/img/caliper.png" style="height:18px" /> {{'body fat calculator' | translate}}</button></td>
-                                </tr>
-                            </table>
-                        </div>
+                                    </div>
+                                </td>
+                                <td><button class="btn btn-outline-primary" ng-click="bodyFatPopup(clientData)"><img src="../app/assets/img/caliper.png" style="height:18px" /> {{'body fat calculator' | translate}}</button></td>
+                            </tr>
+                        </table>
                     </div>
                 </fieldset>
             </div>
-            <div class="col-lg-5">
-                <fieldset class="fieldset-border" style="padding-top:0; margin-top:0">
-                    <legend class="fieldset-border text-capitalize">
-                        {{'note' | translate}} <span custom-popover popover-html="{{'maximum number of characters is' | translate}} 500" popover-placement="bottom" popover-label=""></span>
-                    </legend>
+            <div class="col-xl-5">
+                <fieldset class="fieldset-border h-100" style="max-height:55vh">
+                    <legend class="fieldset-border">{{'energy expenditure' | translate}}</legend>
+                    <div class="p-2 pt-4">
+                        <md-radio-group ng-model="clientData.pal.value" ng-change="getPalDetails(clientData.pal.value)">
+                            <md-radio-button ng-repeat="x in pals" value="{{x.value}}" class="md-primary">
+                                <span class="{{clientData.pal.value==x.value?'text-primary':'text-muted'}}">{{x.title | translate}}</span>
+                                <div ng-if="clientData.pal.value==x.value">
+                                    <small class="text-primary">{{x.description | translate}}</small>
+                                </div>
+                            </md-radio-button>
+                        </md-radio-group>
+                    </div>
                     <div>
-                        <textarea ng-model="clientData.clientNote" class="form-control" maxlength="500" style="height:238px"></textarea>
+                        <ng-include src="'detailCalculationOfEnergyExpenditure'"></ng-include>
                     </div>
                 </fieldset>
             </div>
         </div>
         <div>
-            <fieldset class="fieldset-border">
-                <legend class="fieldset-border">{{'energy expenditure' | translate}}</legend>
-                <div class="row mt-4">
-                    <div class="col-lg-4">
-                        <md-input-container class="md-block" flex style="margin-top:0px">
-                            <label>{{'physical activity level' | translate}}</label>
-                            <md-select ng-model="clientData.pal.value" ng-change="getPalDetails(clientData.pal.value)" ng-required="true">
-                                <md-option ng-value="x.value" ng-repeat="x in pals track by $index" >
-                                    <md-checkbox ng-checked="clientData.pal.value===x.value" class="md-primary" aria-label="pal">
-                                        <span>{{x.title | translate}}</span>
-                                        <div>
-                                            <small class="text-primary">{{x.description | translate}}</small>
-                                        </div>
-                                    </md-checkbox>
-                                </md-option>
-                            </md-select>
-                        </md-input-container>
-
-
-                        <!--<md-radio-group ng-model="clientData.pal.value" ng-change="getPalDetails(clientData.pal.value)">
-                            <md-radio-button ng-repeat="x in pals" value="{{x.value}}" class="md-primary">
-                                {{x.title | translate}}
-                                <span ng-if="clientData.pal.value==x.value" class="p10">
-                                    <em style="font-size:1.1em" class="text-primary">({{pal.description | translate}})</em>
-                                </span>
-                            </md-radio-button>
-                        </md-radio-group>-->
-                    </div>
-                    <div class="col-lg-8 pt-3">
-                        <ng-include src="'detailCalculationOfEnergyExpenditure'"></ng-include>
-                    </div>
+            <fieldset class="fieldset-border" style="padding-top:0; margin-top:0">
+                <legend class="fieldset-border text-capitalize">
+                    {{'note' | translate}} <span custom-popover popover-html="{{'maximum number of characters is' | translate}} 500" popover-placement="bottom" popover-label=""></span>
+                </legend>
+                <div>
+                    <textarea ng-model="clientData.clientNote" class="form-control" maxlength="500" style="height:150px"></textarea>
                 </div>
             </fieldset>
         </div>
