@@ -2024,7 +2024,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.getClient = function (x) {
-        debugger;
         $rootScope.client = x;
         $rootScope.currTpl = './assets/partials/main.html';
         $scope.toggleNewTpl('clientsdata');
@@ -2521,173 +2520,364 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     };
 
-}])
-
-.controller('detailCalculationOfEnergyExpenditureCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', '$timeout', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate, $timeout) {
-    $rootScope.totalDailyEnergyExpenditure = {
-        value: 0,
-        duration: 0
-    }
-
-    var init = function () {
-        $http({
-            url: $sessionStorage.config.backend + 'DetailEnergyExpenditure.asmx/Init',
-            method: "POST",
-            data: ''
+    $scope.detailExpenditurePopup = function (x) {
+        $mdDialog.show({
+            controller: $scope.detailExpenditurePopupCtrl,
+            templateUrl: 'assets/partials/popup/detailexpenditure.html',
+            parent: angular.element(document.body),
+            targetEvent: '',
+            clickOutsideToClose: true,
+            fullscreen: $scope.customFullscreen, // Only for -xs, -sm breakpoints.
+            d: { dailyActivities: x, activities: $rootScope.activities }
         })
       .then(function (response) {
-          $scope.dailyActivity = JSON.parse(response.data.d);
-      },
-      function (response) {
-          functions.alert($translate.instant(response.data.d), '');
+          $rootScope.clientData.dailyActivities = response;
+      }, function () {
       });
-    }
-    init();
+    };
 
-    var setTime = function (h) {
-        $scope.hours = [];
-        $scope.minutes = [];
-        for (i = h; i < 25; i++) {
-            $scope.hours.push(i);
+    $scope.detailExpenditurePopupCtrl = function ($scope, $mdDialog, d, $http) {
+        $scope.d = d;
+
+        $scope.totalDailyEnergyExpenditure = {
+            value: 0,
+            duration: 0
         }
-        for (i = 0; i < 60; i = i + 5) {
-            $scope.minutes.push(i);
+
+        var init = function () {
+            $http({
+                url: $sessionStorage.config.backend + 'DetailEnergyExpenditure.asmx/Init',
+                method: "POST",
+                data: ''
+            })
+          .then(function (response) {
+              $scope.dailyActivity = JSON.parse(response.data.d);
+          },
+          function (response) {
+              functions.alert($translate.instant(response.data.d), '');
+          });
         }
-    }
-
-    var initTime = function () {
-        $scope.from = {
-            hour: 0,
-            min: 0
-        };
-        $scope.to = {
-            hour: 0,
-            min: 0
-        }
-        setTime(0);
-    }
-    initTime();
-
-    $scope.clearDailyActivities = function () {
-        $rootScope.clientData.dailyActivities.activities = [];
-        $rootScope.clientData.dailyActivities.energy = 0;
-        $rootScope.clientData.dailyActivities.duration = 0;
-        $rootScope.totalDailyEnergyExpenditure.value = 0;
-        $rootScope.totalDailyEnergyExpenditure.duration = 0;
-        $scope.save($rootScope.clientData.dailyActivities.activities);
-        initTime();
-    }
-
-    $rootScope.detailCalculationOfEnergyExpenditure = function () {
-        $rootScope.showDetailCalculationOfEnergyExpenditure = !$rootScope.showDetailCalculationOfEnergyExpenditure;
         init();
-        //$scope.clearDailyActivities();
-    }
 
-    var totalEnergy = function () {
-        var e = 0;
-        angular.forEach($rootScope.clientData.dailyActivities.activities, function (value, key) {
-            e = e + value.energy;
-        })
-        return e;
-    }
-
-    var totalDuration = function () {
-        var d = 0;
-        angular.forEach($rootScope.clientData.dailyActivities.activities, function (value, key) {
-            d = d + value.duration;
-        })
-        return d;
-    }
-
-    $scope.confirmActivity = function (x) {
-        if (timeDiff($scope.from, $scope.to) == 0) {
-            functions.alert($translate.instant('the start time and end of activity can not be the same'), '');
-            return false;
+        var setTime = function (h) {
+            $scope.hours = [];
+            $scope.minutes = [];
+            for (i = h; i < 25; i++) {
+                $scope.hours.push(i);
+            }
+            for (i = 0; i < 60; i = i + 5) {
+                $scope.minutes.push(i);
+            }
         }
-        $scope.dailyActivity.id = angular.fromJson(x).id;
-        $scope.dailyActivity.activity = angular.fromJson(x).activity;
-        //$scope.dailyActivity.from = $scope.from.hour + ':' + $scope.from.minute;
-        $scope.dailyActivity.from.hour = $scope.from.hour;
-        $scope.dailyActivity.from.min = $scope.from.min;
-        // $scope.dailyActivity.to = $scope.to.hour + ':' + $scope.to.minute;
-        $scope.dailyActivity.to.hour = $scope.to.hour;
-        $scope.dailyActivity.to.min = $scope.to.min;
-        $scope.dailyActivity.duration = timeDiff($scope.from, $scope.to);
-        $scope.dailyActivity.energy = energy(timeDiff($scope.from, $scope.to), angular.fromJson(x).factorKcal);
 
-        $rootScope.clientData.dailyActivities.activities.push(angular.copy($scope.dailyActivity));
-        $rootScope.totalDailyEnergyExpenditure.value = totalEnergy(); // $scope.totalDailyEnergyExpenditure + $scope.dailyActivity.energy;
-        $rootScope.clientData.dailyActivities.energy = $rootScope.totalDailyEnergyExpenditure.value;
-        $rootScope.totalDailyEnergyExpenditure.duration = totalDuration();
-        $rootScope.clientData.dailyActivities.duration = $rootScope.totalDailyEnergyExpenditure.duration;
-
-        $scope.from = angular.copy($scope.to);
-        setTime($scope.from.hour);
-    }
-
-    var timeDiff = function (from, to) {
-        return (to.hour * 60 + to.min) - (from.hour * 60 + from.min);
-    }
-
-    var energy = function (duration, factor) {
-        return duration * factor;
-    }
-
-    $scope.save = function (x) {
-        if ($rootScope.user.licenceStatus == 'demo') {
-            functions.demoAlert('this function is not available in demo version');
-            return false;
-        }
-        $http({
-            url: $sessionStorage.config.backend + 'DetailEnergyExpenditure.asmx/Save',
-            method: "POST",
-            data: { userId: $rootScope.user.userGroupId, clientId: $rootScope.client.clientId, activities: x }
-        })
-      .then(function (response) {
-          $rootScope.clientData.dailyActivities = JSON.parse(response.data.d);
-      },
-      function (response) {
-          functions.alert($translate.instant(response.data.d), '');
-      });
-    }
-
-    var getTotal = function () {
-        if ($rootScope.clientData === undefined) {
-            return false;
-        }
-        if ($rootScope.clientData.dailyActivities.activities == null) {
-            $rootScope.clientData.dailyActivities.activities = [];
-        }
-        if ($rootScope.clientData.dailyActivities.activities.length > 0) {
-            $rootScope.totalDailyEnergyExpenditure.value = totalEnergy();
-            $rootScope.totalDailyEnergyExpenditure.duration = totalDuration();
-            var lastActivity = $rootScope.clientData.dailyActivities.activities[$rootScope.clientData.dailyActivities.activities.length - 1];
+        var initTime = function () {
             $scope.from = {
-                hour: lastActivity.to.hour,
-                min: lastActivity.to.min
+                hour: 0,
+                min: 0
             };
             $scope.to = {
-                hour: lastActivity.to.hour,
-                min: lastActivity.to.min
+                hour: 0,
+                min: 0
             }
-            setTime(lastActivity.to.hour);
+            setTime(0);
         }
-    }
-    $timeout(function () {  // TODO, ne ucita prvi put 
-        getTotal();
-    }, 1000);
+        initTime();
 
-
-    $scope.selectHours = function () {
-        if ($scope.to.hour == 24) {
-            $scope.to.min = 0;
-            $scope.minutes = [];
-            $scope.minutes.push(0);
+        $scope.clearDailyActivities = function () {
+            $scope.d.dailyActivities.activities = [];
+            $scope.d.dailyActivities.energy = 0;
+            $scope.d.dailyActivities.duration = 0;
+            $scope.totalDailyEnergyExpenditure.value = 0;
+            $scope.totalDailyEnergyExpenditure.duration = 0;
+            $scope.save($scope.d.dailyActivities.activities);
+            initTime();
         }
-    }
+
+        //$rootScope.detailCalculationOfEnergyExpenditure = function () {
+        //    $rootScope.showDetailCalculationOfEnergyExpenditure = !$rootScope.showDetailCalculationOfEnergyExpenditure;
+        //    init();
+        //    //$scope.clearDailyActivities();
+        //}
+
+        var totalEnergy = function () {
+            var e = 0;
+            angular.forEach($scope.d.dailyActivities.activities, function (value, key) {
+                e = e + value.energy;
+            })
+            return e;
+        }
+
+        var totalDuration = function () {
+            var d = 0;
+            angular.forEach($scope.d.dailyActivities.activities, function (value, key) {
+                d = d + value.duration;
+            })
+            return d;
+        }
+
+        $scope.confirmActivity = function (x) {
+            if (timeDiff($scope.from, $scope.to) == 0) {
+                functions.alert($translate.instant('the start time and end of activity can not be the same'), '');
+                return false;
+            }
+            $scope.dailyActivity.id = angular.fromJson(x).id;
+            $scope.dailyActivity.activity = angular.fromJson(x).activity;
+            //$scope.dailyActivity.from = $scope.from.hour + ':' + $scope.from.minute;
+            $scope.dailyActivity.from.hour = $scope.from.hour;
+            $scope.dailyActivity.from.min = $scope.from.min;
+            // $scope.dailyActivity.to = $scope.to.hour + ':' + $scope.to.minute;
+            $scope.dailyActivity.to.hour = $scope.to.hour;
+            $scope.dailyActivity.to.min = $scope.to.min;
+            $scope.dailyActivity.duration = timeDiff($scope.from, $scope.to);
+            $scope.dailyActivity.energy = energy(timeDiff($scope.from, $scope.to), angular.fromJson(x).factorKcal);
+
+            $scope.d.dailyActivities.activities.push(angular.copy($scope.dailyActivity));
+            $scope.totalDailyEnergyExpenditure.value = totalEnergy(); // $scope.totalDailyEnergyExpenditure + $scope.dailyActivity.energy;
+            $scope.d.dailyActivities.energy = $scope.totalDailyEnergyExpenditure.value;
+            $scope.totalDailyEnergyExpenditure.duration = totalDuration();
+            $scope.d.dailyActivities.duration = $scope.totalDailyEnergyExpenditure.duration;
+
+            $scope.from = angular.copy($scope.to);
+            setTime($scope.from.hour);
+        }
+
+        var timeDiff = function (from, to) {
+            return (to.hour * 60 + to.min) - (from.hour * 60 + from.min);
+        }
+
+        var energy = function (duration, factor) {
+            return duration * factor;
+        }
+
+        $scope.save = function (x) {
+            if ($rootScope.user.licenceStatus == 'demo') {
+                functions.demoAlert('this function is not available in demo version');
+                return false;
+            }
+            $http({
+                url: $sessionStorage.config.backend + 'DetailEnergyExpenditure.asmx/Save',
+                method: "POST",
+                data: { userId: $rootScope.user.userGroupId, clientId: $rootScope.client.clientId, activities: x }
+            })
+          .then(function (response) {
+              $scope.d.dailyActivities = JSON.parse(response.data.d);
+          },
+          function (response) {
+              functions.alert($translate.instant(response.data.d), '');
+          });
+        }
+
+        var getTotal = function () {
+            if ($rootScope.d === undefined) {
+                return false;
+            }
+            if ($scope.d.dailyActivities.activities == null) {
+                $scope.d.dailyActivities.activities = [];
+            }
+            if ($scope.d.clientData.dailyActivities.activities.length > 0) {
+                $scope.totalDailyEnergyExpenditure.value = totalEnergy();
+                $scope.totalDailyEnergyExpenditure.duration = totalDuration();
+                var lastActivity = $scope.d.dailyActivities.activities[$scope.d.dailyActivities.activities.length - 1];
+                $scope.from = {
+                    hour: lastActivity.to.hour,
+                    min: lastActivity.to.min
+                };
+                $scope.to = {
+                    hour: lastActivity.to.hour,
+                    min: lastActivity.to.min
+                }
+                setTime(lastActivity.to.hour);
+            }
+        }
+        $timeout(function () {  // TODO, ne ucita prvi put 
+            getTotal();
+        }, 1000);
+
+        $scope.selectHours = function () {
+            if ($scope.to.hour == 24) {
+                $scope.to.min = 0;
+                $scope.minutes = [];
+                $scope.minutes.push(0);
+            }
+        }
+
+        $scope.confirm = function (x) {
+            $mdDialog.hide(x);
+        }
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+
+    };
 
 }])
+
+//.controller('detailCalculationOfEnergyExpenditureCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'functions', '$translate', '$timeout', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, functions, $translate, $timeout) {
+//    $rootScope.totalDailyEnergyExpenditure = {
+//        value: 0,
+//        duration: 0
+//    }
+
+//    var init = function () {
+//        $http({
+//            url: $sessionStorage.config.backend + 'DetailEnergyExpenditure.asmx/Init',
+//            method: "POST",
+//            data: ''
+//        })
+//      .then(function (response) {
+//          $scope.dailyActivity = JSON.parse(response.data.d);
+//      },
+//      function (response) {
+//          functions.alert($translate.instant(response.data.d), '');
+//      });
+//    }
+//    init();
+
+//    var setTime = function (h) {
+//        $scope.hours = [];
+//        $scope.minutes = [];
+//        for (i = h; i < 25; i++) {
+//            $scope.hours.push(i);
+//        }
+//        for (i = 0; i < 60; i = i + 5) {
+//            $scope.minutes.push(i);
+//        }
+//    }
+
+//    var initTime = function () {
+//        $scope.from = {
+//            hour: 0,
+//            min: 0
+//        };
+//        $scope.to = {
+//            hour: 0,
+//            min: 0
+//        }
+//        setTime(0);
+//    }
+//    initTime();
+
+//    $scope.clearDailyActivities = function () {
+//        $rootScope.clientData.dailyActivities.activities = [];
+//        $rootScope.clientData.dailyActivities.energy = 0;
+//        $rootScope.clientData.dailyActivities.duration = 0;
+//        $rootScope.totalDailyEnergyExpenditure.value = 0;
+//        $rootScope.totalDailyEnergyExpenditure.duration = 0;
+//        $scope.save($rootScope.clientData.dailyActivities.activities);
+//        initTime();
+//    }
+
+//    $rootScope.detailCalculationOfEnergyExpenditure = function () {
+//        $rootScope.showDetailCalculationOfEnergyExpenditure = !$rootScope.showDetailCalculationOfEnergyExpenditure;
+//        init();
+//        //$scope.clearDailyActivities();
+//    }
+
+//    var totalEnergy = function () {
+//        var e = 0;
+//        angular.forEach($rootScope.clientData.dailyActivities.activities, function (value, key) {
+//            e = e + value.energy;
+//        })
+//        return e;
+//    }
+
+//    var totalDuration = function () {
+//        var d = 0;
+//        angular.forEach($rootScope.clientData.dailyActivities.activities, function (value, key) {
+//            d = d + value.duration;
+//        })
+//        return d;
+//    }
+
+//    $scope.confirmActivity = function (x) {
+//        if (timeDiff($scope.from, $scope.to) == 0) {
+//            functions.alert($translate.instant('the start time and end of activity can not be the same'), '');
+//            return false;
+//        }
+//        $scope.dailyActivity.id = angular.fromJson(x).id;
+//        $scope.dailyActivity.activity = angular.fromJson(x).activity;
+//        //$scope.dailyActivity.from = $scope.from.hour + ':' + $scope.from.minute;
+//        $scope.dailyActivity.from.hour = $scope.from.hour;
+//        $scope.dailyActivity.from.min = $scope.from.min;
+//        // $scope.dailyActivity.to = $scope.to.hour + ':' + $scope.to.minute;
+//        $scope.dailyActivity.to.hour = $scope.to.hour;
+//        $scope.dailyActivity.to.min = $scope.to.min;
+//        $scope.dailyActivity.duration = timeDiff($scope.from, $scope.to);
+//        $scope.dailyActivity.energy = energy(timeDiff($scope.from, $scope.to), angular.fromJson(x).factorKcal);
+
+//        $rootScope.clientData.dailyActivities.activities.push(angular.copy($scope.dailyActivity));
+//        $rootScope.totalDailyEnergyExpenditure.value = totalEnergy(); // $scope.totalDailyEnergyExpenditure + $scope.dailyActivity.energy;
+//        $rootScope.clientData.dailyActivities.energy = $rootScope.totalDailyEnergyExpenditure.value;
+//        $rootScope.totalDailyEnergyExpenditure.duration = totalDuration();
+//        $rootScope.clientData.dailyActivities.duration = $rootScope.totalDailyEnergyExpenditure.duration;
+
+//        $scope.from = angular.copy($scope.to);
+//        setTime($scope.from.hour);
+//    }
+
+//    var timeDiff = function (from, to) {
+//        return (to.hour * 60 + to.min) - (from.hour * 60 + from.min);
+//    }
+
+//    var energy = function (duration, factor) {
+//        return duration * factor;
+//    }
+
+//    $scope.save = function (x) {
+//        if ($rootScope.user.licenceStatus == 'demo') {
+//            functions.demoAlert('this function is not available in demo version');
+//            return false;
+//        }
+//        $http({
+//            url: $sessionStorage.config.backend + 'DetailEnergyExpenditure.asmx/Save',
+//            method: "POST",
+//            data: { userId: $rootScope.user.userGroupId, clientId: $rootScope.client.clientId, activities: x }
+//        })
+//      .then(function (response) {
+//          $rootScope.clientData.dailyActivities = JSON.parse(response.data.d);
+//      },
+//      function (response) {
+//          functions.alert($translate.instant(response.data.d), '');
+//      });
+//    }
+
+//    var getTotal = function () {
+//        if ($rootScope.clientData === undefined) {
+//            return false;
+//        }
+//        if ($rootScope.clientData.dailyActivities.activities == null) {
+//            $rootScope.clientData.dailyActivities.activities = [];
+//        }
+//        if ($rootScope.clientData.dailyActivities.activities.length > 0) {
+//            $rootScope.totalDailyEnergyExpenditure.value = totalEnergy();
+//            $rootScope.totalDailyEnergyExpenditure.duration = totalDuration();
+//            var lastActivity = $rootScope.clientData.dailyActivities.activities[$rootScope.clientData.dailyActivities.activities.length - 1];
+//            $scope.from = {
+//                hour: lastActivity.to.hour,
+//                min: lastActivity.to.min
+//            };
+//            $scope.to = {
+//                hour: lastActivity.to.hour,
+//                min: lastActivity.to.min
+//            }
+//            setTime(lastActivity.to.hour);
+//        }
+//    }
+//    $timeout(function () {  // TODO, ne ucita prvi put 
+//        getTotal();
+//    }, 1000);
+
+
+//    $scope.selectHours = function () {
+//        if ($scope.to.hour == 24) {
+//            $scope.to.min = 0;
+//            $scope.minutes = [];
+//            $scope.minutes.push(0);
+//        }
+//    }
+
+//}])
 
 .controller('calculationCtrl', ['$scope', '$http', '$sessionStorage', '$window', '$rootScope', '$mdDialog', 'charts', '$timeout', 'functions', '$translate', function ($scope, $http, $sessionStorage, $window, $rootScope, $mdDialog, charts, $timeout, functions, $translate) {
     var webService = 'Calculations.asmx';

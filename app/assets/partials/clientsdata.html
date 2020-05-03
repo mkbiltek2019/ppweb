@@ -65,9 +65,8 @@
         </div>
         <div class="row">
             <div class="col-xl-7">
-                <fieldset class="fieldset-border h-100" style="padding-top:0; margin-top:0; max-height:55vh">
+                <fieldset class="fieldset-border" style="padding-top:0; margin-top:0">
                     <legend class="fieldset-border">{{'anthropometric parameters' | translate}}</legend>
-
                     <div class="row p-2 pt-4">
                         <div class="col-lg-6 pr-0">
                             <div ng-if="unitSystem==1">
@@ -117,8 +116,6 @@
                                         </td>
                                     </tr>
                                 </table>
-
-
                             </div>
                             <div ng-if="unitSystem==0">
                                 <table>
@@ -202,14 +199,14 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td><button class="btn btn-outline-primary" ng-click="bodyFatPopup(clientData)"><img src="../app/assets/img/caliper.png" style="height:18px" /> {{'body fat calculator' | translate}}</button></td>
+                                <td><a href="" class="pl-2" ng-click="bodyFatPopup(clientData)" title="{{'body fat calculator' | translate}}"><img src="../app/assets/img/caliper.png" style="height:18px" /> {{'body fat calculator' | translate}}</a></td>
                             </tr>
                         </table>
                     </div>
                 </fieldset>
             </div>
             <div class="col-xl-5">
-                <fieldset class="fieldset-border h-100" style="max-height:55vh">
+                <fieldset class="fieldset-border">
                     <legend class="fieldset-border">{{'energy expenditure' | translate}}</legend>
                     <div class="p-2 pt-4">
                         <md-radio-group ng-model="clientData.pal.value" ng-change="getPalDetails(clientData.pal.value)">
@@ -221,8 +218,10 @@
                             </md-radio-button>
                         </md-radio-group>
                     </div>
-                    <div>
-                        <ng-include src="'detailCalculationOfEnergyExpenditure'"></ng-include>
+                    <hr />
+                    <div class="text-right">
+                        <a href="" ng-click="detailExpenditurePopup(clientData.dailyActivities)" title="{{'detail calculation of energy expenditure' | translate}}"><i class="fa fa-fire"></i> {{'detail calculation of energy expenditure' | translate}} <span ng-if="clientData.dailyActivities.energy&&clientData.dailyActivities.duration==1440">({{clientData.dailyActivities.energy}} {{'kcal' | translate}})</span></a>
+                        <!--<ng-include src="'detailCalculationOfEnergyExpenditure'"></ng-include>-->
                     </div>
                 </fieldset>
             </div>
@@ -233,7 +232,7 @@
                     {{'note' | translate}} <span custom-popover popover-html="{{'maximum number of characters is' | translate}} 500" popover-placement="bottom" popover-label=""></span>
                 </legend>
                 <div>
-                    <textarea ng-model="clientData.clientNote" class="form-control" maxlength="500" style="height:150px"></textarea>
+                    <textarea ng-model="clientData.clientNote" class="form-control" maxlength="500" style="height:120px"></textarea>
                 </div>
             </fieldset>
         </div>

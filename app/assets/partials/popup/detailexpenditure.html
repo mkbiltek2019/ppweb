@@ -1,0 +1,87 @@
+﻿<md-dialog flex>
+    <form ng-cloak>
+        <md-toolbar class="bg-main">
+            <div class="md-toolbar-tools">
+                <h2 class="text-capitalize">{{'detail calculation of energy expenditure' | translate}}</h2>
+                <span flex></span>
+                <a href="" class="btn btn-outline-light" ng-click="cancel()" title="{{'close' | translate}}">x</a>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content p-4">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <fieldset class="fieldset-border">
+                                <legend class="fieldset-border">{{'activity duration' | translate}}:</legend>
+                                <div>
+                                    <table>
+                                        <tr>
+                                            <td class="text-right">{{'from' | translate}}: </td>
+                                            <td>{{from.hour}}:{{from.min}} h</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-right">{{'to' | translate}}: </td>
+                                            <td class="form-inline">
+                                                <select ng-model="to.hour" class="form-control" ng-options="x for x in hours" ng-click="selectHours()"></select><span class="pl-1 pr-1">h</span>
+                                                <select ng-model="to.min" class="form-control ml-1" ng-options="x for x in minutes"></select><span class="pl-1">min</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="input-group mt-2">
+                                    <input ng-model="searchValue" class="form-control search" type="text" placeholder="{{'search' | translate}}..." />
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-primary" type="button"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <select ng-model="activity" class="form-control" size="15">
+                                        <option value="{{x}}" ng-repeat="x in d.activities | filter:{activity:searchValue} | orderBy:'activity'" title="{{x.activity}}">{{x.activity}}</option>
+                                    </select>
+                                </div>
+                                <div class="text-right pt-2">
+                                    <button ng-if="totalDailyEnergyExpenditure.duration<1440" class="btn btn-outline-primary text-capitalize" ng-click="confirmActivity(activity)"><i class="fa fa-check"></i> {{'add' | translate}}</button>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="col-sm-6">
+                            <fieldset class="fieldset-border">
+                                <legend class="fieldset-border">{{'daily activities' | translate}}:</legend>
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-borderless">
+                                        <tr class="border-bottom">
+                                            <th>{{'activity' | translate}}</th>
+                                            <th>{{'from' | translate}}</th>
+                                            <th>{{'to' | translate}}</th>
+                                            <th class="text-right">{{'min' | translate}}</th>
+                                            <th class="text-right">{{'kcal' | translate}}</th>
+                                        </tr>
+                                        <tr ng-repeat="x in d.dailyActivities.activities track by $index">
+                                            <td>{{x.activity}}</td>
+                                            <td>{{x.from.hour}}:{{x.from.min}}</td>
+                                            <td>{{x.to.hour}}:{{x.to.min}}</td>
+                                            <td class="text-right">{{x.duration}}</td>
+                                            <td class="text-right">{{x.energy | number:0}}</td>
+                                        </tr>
+                                        <tr class="border-top">
+                                            <th colspan="5" class="text-right">{{'total' | translate}}: {{d.dailyActivities.energy | number:0}}</th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div ng-if="d.dailyActivities.activities.length>0" class="text-right mt-2">
+                                    <button class="btn btn-outline-danger text-capitalize" ng-click="clearDailyActivities()"><span><i class="fa fa-times"></i> {{'clear' | translate}}</span></button>
+                                    <button class="btn btn-outline-primary text-capitalize" ng-click="save(d.dailyActivities.activities)"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</button>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+
+                <!--<div class="text-right">
+                    <hr />
+                    <button class="btn btn-outline-primary" ng-click="confirm(d.data)"><i class="fa fa-save"></i> {{'save' | translate}}</button>
+                </div>-->
+            </div>
+            <json-directive data="d" desc="'d'"></json-directive>
+        </md-dialog-content>
+    </form>
+</md-dialog>

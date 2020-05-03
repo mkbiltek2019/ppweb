@@ -19,9 +19,9 @@
                 </div>
             </div>
             <div class="table-responsive">
-                <table class="table table-hover table-sm">
+                <table class="table table-hover table-sm table-borderless pointer">
                     <thead>
-                        <tr class="text-capitalize">
+                        <tr class="text-capitalize border-bottom">
                             <!--<th style="width:50px">{{'number' | translate}}</th>-->
                             <th></th>
                             <th class="nowrap" style="width:20%">{{'first name' | translate}}</th>
@@ -31,17 +31,17 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr ng-repeat="x in d | filter:searchValue | limitTo:limit" ng-click="get(x)">
+                    <tbody class="border-bottom">
+                        <tr ng-repeat="x in d | filter:searchValue | limitTo:limit">
                             <!--<td style="width:50px">{{d.length-$index}}</td>-->
-                            <td>
+                            <td ng-click="get(x)">
                                 <i ng-if="!x.profileImg" class="fa fa-user-circle fa-2x"></i>
                                 <img ng-if="x.profileImg" src="../upload/users/{{x.userId}}/clients/{{x.clientId}}/profileimg/{{x.profileImg}}" alt="{{x.profileImg}}" style="height:2rem;width:2rem" class="img-circle rounded-circle" />
                             </td>
-                            <td style="width:20%">{{x.firstName}}</td>
-                            <td style="width:20%">{{x.lastName}}</td>
-                            <td style="width:20%">{{getDateFormat(x.birthDate) | date:'dd.MM.yyyy'}}</td>
-                            <td style="width:20%">{{x.phone}}</td>
+                            <td style="width:20%" ng-click="get(x)">{{x.firstName}}</td>
+                            <td style="width:20%" ng-click="get(x)">{{x.lastName}}</td>
+                            <td style="width:20%" ng-click="get(x)">{{getDateFormat(x.birthDate) | date:'dd.MM.yyyy'}}</td>
+                            <td style="width:20%" ng-click="get(x)">{{x.phone}}</td>
                             <td><button ng-click="remove(x, $index)" class="btn btn-outline-danger btn-circle"><i class="fa fa-trash-alt"></i></button></td>
                         </tr>
                     </tbody>

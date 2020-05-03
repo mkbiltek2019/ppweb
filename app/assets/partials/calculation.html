@@ -141,6 +141,7 @@
                         <em class="small">({{calculation.bodyFat.bodyFatMass | number:1}} {{'kg' | translate}})</em>
                     </td>
                     <td style="width:140px">
+                        <div id="bfChart" class="guage"></div>
                     </td>
                     <td>
                         <div ng-if="calculation.bodyFat.title">
@@ -239,7 +240,7 @@
                         </div>
                     </td>
                     <td>
-                        <span class="font-weight-bold pr-2">{{calculation.recommendedEnergyIntake}} {{'kcal' | translate}}</span>
+                        <span class="font-weight-bold pr-2">{{calculation.recommendedEnergyIntake | number:0}} {{'kcal' | translate}}</span>
                     </td>
                     <td style="width:220px" class="bg-light pl-2">
                         <div class="input-group">
@@ -263,7 +264,7 @@
                             {{'additional energy expenditure' | translate}}
                         </div>
                     <td>
-                        <span class="font-weight-bold pr-2">{{calculation.recommendedEnergyExpenditure}} {{'kcal' | translate}}</span>
+                        <span class="font-weight-bold pr-2">{{calculation.recommendedEnergyExpenditure | number:0}} {{'kcal' | translate}}</span>
                     </td>
                     <td style="width:220px" class="bg-light pl-2">
                         <div class="input-group">
