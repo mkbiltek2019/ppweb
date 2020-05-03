@@ -2529,15 +2529,17 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             clickOutsideToClose: true,
             fullscreen: $scope.customFullscreen, // Only for -xs, -sm breakpoints.
             d: { dailyActivities: x, activities: $rootScope.activities }
-        })
-      .then(function (response) {
-          $rootScope.clientData.dailyActivities = response;
-      }, function () {
+        }).then(function (response) {
+            if ($rootScope.user.licenceStatus !== 'demo') {
+                $rootScope.clientData.dailyActivities = response;
+            }
+        },function () {
       });
     };
 
     $scope.detailExpenditurePopupCtrl = function ($scope, $mdDialog, d, $http) {
-        $scope.d = d;
+        $scope.d = angular.copy(d);
+        $scope.licenceStatus = $rootScope.user.licenceStatus;
 
         $scope.totalDailyEnergyExpenditure = {
             value: 0,
@@ -2650,7 +2652,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
 
         $scope.save = function (x) {
-            if ($rootScope.user.licenceStatus == 'demo') {
+            if ($rootScope.user.licenceStatus === 'demo') {
                 functions.demoAlert('this function is not available in demo version');
                 return false;
             }
