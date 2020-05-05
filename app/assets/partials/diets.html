@@ -17,29 +17,25 @@
                             </span>
                         </div>
                         <div class="table-responsive pt-2">
-                            <table class="table table-sm text-small">
-                                <thead>
-                                    <tr>
-                                        <th style="width:5%"></th>
-                                        <th class="nowrap" style="width:65%">{{'diet' | translate}}</th>
-                                        <th style="width:10%">{{'carbohydrates' | translate}}</th>
-                                        <th style="width:10%">{{'proteins' | translate}}</th>
-                                        <th style="width:10%">{{'fats' | translate}}</th>
-                                    </tr>
-                                </thead>
+                            <table class="table table-sm table-borderless">
+                                <tr class="border-bottom">
+                                    <th style="width:5%"></th>
+                                    <th class="nowrap" style="width:65%">{{'diet' | translate}}</th>
+                                    <th style="width:10%">{{'carbohydrates' | translate}}</th>
+                                    <th style="width:10%">{{'proteins' | translate}}</th>
+                                    <th style="width:10%">{{'fats' | translate}}</th>
+                                </tr>
                             </table>
                         </div>
                         <div class="table-responsive" style="height:50vh">
-                            <table class="table table-hover table-sm text-small">
-                                <tbody>
-                                    <tr ng-repeat="x in diets | filter: searchValue" ng-click="select(x)">
-                                        <td style="width:5%"><md-checkbox ng-checked="x.id==clientData.diet.id" class="md-primary" aria-label="diet"></md-checkbox></td>
-                                        <td style="width:65%">{{x.diet}}</td>
-                                        <td style="width:10%">{{x.carbohydratesMin}}-{{x.carbohydratesMax}}%</td>
-                                        <td style="width:10%">{{x.proteinsMin}}-{{x.proteinsMax}}%</td>
-                                        <td style="width:10%">{{x.fatsMin}}-{{x.fatsMax}}%</td>
-                                    </tr>
-                                </tbody>
+                            <table class="table table-hover table-sm table-borderless">
+                                <tr ng-repeat="x in diets | filter: searchValue" ng-click="select(x)">
+                                    <td style="width:5%"><md-checkbox ng-checked="x.id==clientData.diet.id" class="md-primary" aria-label="diet"></md-checkbox></td>
+                                    <td style="width:65%">{{x.diet}}</td>
+                                    <td style="width:10%">{{x.carbohydratesMin}}-{{x.carbohydratesMax}}%</td>
+                                    <td style="width:10%">{{x.proteinsMin}}-{{x.proteinsMax}}%</td>
+                                    <td style="width:10%">{{x.fatsMin}}-{{x.fatsMax}}%</td>
+                                </tr>
                             </table>
                         </div>
                     </div>
@@ -88,7 +84,7 @@
         </div>
         <div>
             <button ng-if="client.clientId" class="btn btn-primary btn-lg" title="{{'back' | translate}}" ng-click="toggleNewTpl('activities')"><i class="fa fa-angle-double-left fa-2x" aria-hidden="true"></i></button>
-            <button ng-if="client.clientId" class="btn btn-primary btn-lg pull-right" title="{{'forward' | translate}}" ng-click="toggleNewTpl('meals')"><i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i></button>
+            <button ng-if="client.clientId" class="btn btn-primary btn-lg float-right" title="{{'forward' | translate}}" ng-click="toggleNewTpl('meals')"><i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i></button>
         </div>
         <json-directive data="clientData.diet" desc="'clientData.diet'"></json-directive>
     </div>

@@ -22,17 +22,17 @@
                     <!--<p class="lead text-danger text-justify">
                         1. E-mail adresa za tehničku pordšku <strong>info@programprehrane.com</strong> je privremeno nedostupna. Umjesto nje koristite <strong>program.prehrane@yahoo.com</strong>.
                     </p>-->
-                    <p class="lead text-success text-justify">
+                    <p class="lead text-justify">
                         1. {{'a new application upgrade is available' | translate}}. - <em><span class="text-capitalize">{{'version' | translate}}</span>: {{config.version}}</em>
-                        <em class="pull-right small">{{config.date}}</em>
+                        <em class="float-right small">{{config.date}}</em>
                     </p>
                     <div>
                         <a ng-hide="config.language=='en'" href="" ng-click="toggleUpdates()" title="{{'what is new' | translate}}?" class="text-uppercase">{{'what is new' | translate}}? <i class="fa fa-caret-{{showUpdates==false?'right':'down'}}" aria-hidden="true"></i></a>
                         <div ng-if="showUpdates" ng-include="'./assets/partials/updates.html'" class="text-center table-scroll" style="height:55vh"></div>
                     </div>
                 </div>
-                <div class="text-right pt20">
-                    <a href="" class="btn btn-default text-uppercase" ng-click="hide()"><i class="fa fa-refresh"></i> {{'refresh page' | translate}}</a>
+                <div class="text-right pt-5">
+                    <a href="" class="btn btn-outline-primary text-uppercase" ng-click="hide()"><i class="fa fa-refresh"></i> {{'refresh page' | translate}}</a>
                 </div>
             </div>
         </md-dialog-content>

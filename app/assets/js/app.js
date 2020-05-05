@@ -2530,10 +2530,12 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             fullscreen: $scope.customFullscreen, // Only for -xs, -sm breakpoints.
             d: { dailyActivities: x, activities: $rootScope.activities }
         }).then(function (response) {
+            debugger;
             if ($rootScope.user.licenceStatus !== 'demo') {
                 $rootScope.clientData.dailyActivities = response;
             }
-        },function () {
+        }, function () {
+            debugger;
       });
     };
 
@@ -2663,6 +2665,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             })
           .then(function (response) {
               $scope.d.dailyActivities = JSON.parse(response.data.d);
+              $mdDialog.hide($scope.d.dailyActivities);
           },
           function (response) {
               functions.alert($translate.instant(response.data.d), '');

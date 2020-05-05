@@ -22,23 +22,19 @@
                             </span>
                         </div>
                         <div class="table-responsive pt-2">
-                            <table class="table table-sm text-small">
-                                <thead>
-                                    <tr>
-                                        <th style="width:80%"><i ng-click="orderby('activity')" class="fa fa-sort"></i> {{'activity' | translate}}</th>
-                                        <th style="width:20%"><i ng-click="orderby('factorKcal')" class="fa fa-sort"></i> {{'factor' | translate}}</th>
-                                    </tr>
-                                </thead>
+                            <table class="table table-sm table-borderless">
+                                <tr class="border-bottom">
+                                    <th style="width:80%"><i ng-click="orderby('activity')" class="fa fa-sort"></i> {{'activity' | translate}}</th>
+                                    <th style="width:20%"><i ng-click="orderby('factorKcal')" class="fa fa-sort"></i> {{'factor' | translate}}</th>
+                                </tr>
                             </table>
                         </div>
                         <div class="table-responsive" style="height:40vh">
-                            <table class="table table-hover table-sm text-small">
-                                <tbody>
-                                    <tr ng-repeat="x in activities | filter:{activity:searchValue} | orderBy:order | filter:{isSport:1}" ng-click="openPopup(x)">
-                                        <td style="width:80%">{{x.activity}}</td>
-                                        <td style="width:20%">{{x.factorKcal}}</td>
-                                    </tr>
-                                </tbody>
+                            <table class="table table-hover table-sm table-borderless">
+                                <tr ng-repeat="x in activities | filter:{activity:searchValue} | orderBy:order | filter:{isSport:1}" ng-click="openPopup(x)">
+                                    <td style="width:80%">{{x.activity}}</td>
+                                    <td style="width:20%">{{x.factorKcal}}</td>
+                                </tr>
                             </table>
                         </div>
                     </div>
@@ -86,7 +82,7 @@
         </div>
         <div>
             <button ng-if="client.clientId" class="btn btn-primary btn-lg" title="{{'back' | translate}}" ng-click="toggleNewTpl('calculation')"><i class="fa fa-angle-double-left fa-2x" aria-hidden="true"></i></button>
-            <button ng-if="client.clientId" class="btn btn-primary btn-lg pull-right" title="{{'forward' | translate}}" ng-click="toggleNewTpl('diets')"><i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i></button>
+            <button ng-if="client.clientId" class="btn btn-primary btn-lg float-right" title="{{'forward' | translate}}" ng-click="toggleNewTpl('diets')"><i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i></button>
         </div>
         <!--<div>
             <a href="" ng-if="client.clientId" class="btn btn-default btn-lg center center-left" title="{{'back' | translate}}" ng-click="toggleNewTpl('calculation')"><i class="fa fa-angle-double-left fa-2x text-primary" aria-hidden="true"></i></a>
