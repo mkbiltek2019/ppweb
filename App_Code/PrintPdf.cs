@@ -1611,13 +1611,13 @@ IBAN HR8423400091160342496
             PdfPTable table = new PdfPTable(7);
             table.SetWidths(new float[] { 5f, 3f, 2f, 1f, 1f, 1f, 1f });
             table.WidthPercentage = 100f;
-            table.AddCell(new PdfPCell(new Phrase("", GetFont(true))) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, BorderColor = Color.GRAY });
-            table.AddCell(new PdfPCell(new Phrase("", GetFont(true))) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, BorderColor = Color.GRAY });
-            table.AddCell(new PdfPCell(new Phrase("", GetFont(true))) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, BorderColor = Color.GRAY });
-            table.AddCell(new PdfPCell(new Phrase(t.Tran("energy", lang), GetFont(true))) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, BorderColor = Color.GRAY, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
-            table.AddCell(new PdfPCell(new Phrase(t.Tran("carbs", lang), GetFont(true))) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, BorderColor = Color.GRAY, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
-            table.AddCell(new PdfPCell(new Phrase(t.Tran("prot", lang), GetFont(true))) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, BorderColor = Color.GRAY, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
-            table.AddCell(new PdfPCell(new Phrase(t.Tran("fats", lang), GetFont(true))) { Border = PdfPCell.NO_BORDER, Padding = 2, MinimumHeight = 15, BorderColor = Color.GRAY, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
+            table.AddCell(new PdfPCell(new Phrase("", GetFont(true))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 5, MinimumHeight = 15, BorderColor = Color.GRAY });
+            table.AddCell(new PdfPCell(new Phrase("", GetFont(true))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 5, MinimumHeight = 15, BorderColor = Color.GRAY });
+            table.AddCell(new PdfPCell(new Phrase("", GetFont(true))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 5, MinimumHeight = 15, BorderColor = Color.GRAY });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("energy", lang), GetFont(true))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 5, MinimumHeight = 15, BorderColor = Color.GRAY, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("carbs", lang), GetFont(true))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 5, MinimumHeight = 15, BorderColor = Color.GRAY, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("prot", lang), GetFont(true))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 5, MinimumHeight = 15, BorderColor = Color.GRAY, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
+            table.AddCell(new PdfPCell(new Phrase(t.Tran("fats", lang), GetFont(true))) { Border = PdfPCell.NO_BORDER, Padding = 2, PaddingTop = 5, MinimumHeight = 15, BorderColor = Color.GRAY, HorizontalAlignment = PdfPCell.ALIGN_CENTER });
             doc.Add(table);
 
             table = new PdfPTable(7);
@@ -1676,10 +1676,10 @@ IBAN HR8423400091160342496
         table.SetWidths(new float[] { 5f, 3f, 2f, 1f, 1f, 1f, 1f });
         table.WidthPercentage = 100f;
         table.AddCell(new PdfPCell(new Phrase("", GetFont())) { Border = PdfPCell.NO_BORDER, Padding = 0, MinimumHeight = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT, Colspan = 3, BorderColor = Color.GRAY });
-        table.AddCell(new PdfPCell(new Phrase(string.Format("{0} %", Math.Round(ft.energy.perc, 1)), GetFont(7, Font.ITALIC))) { Border = PdfPCell.NO_BORDER, Padding = 0, MinimumHeight = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT, BorderColor = Color.GRAY });
-        table.AddCell(new PdfPCell(new Phrase(string.Format("{0} %", Math.Round(ft.carbohydrates.perc, 1)), GetFont(7, Font.ITALIC))) { Border = PdfPCell.NO_BORDER, Padding = 0, MinimumHeight = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT, BorderColor = Color.GRAY });
-        table.AddCell(new PdfPCell(new Phrase(string.Format("{0} %", Math.Round(ft.proteins.perc, 1)), GetFont(7, Font.ITALIC))) { Border = PdfPCell.NO_BORDER, Padding = 0, MinimumHeight = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT, BorderColor = Color.GRAY });
-        table.AddCell(new PdfPCell(new Phrase(string.Format("{0} %", Math.Round(ft.fats.perc, 1)), GetFont(7, Font.ITALIC))) { Border = PdfPCell.NO_BORDER, Padding = 0, MinimumHeight = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT, BorderColor = Color.GRAY });
+        table.AddCell(new PdfPCell(new Phrase(string.Format("({0} %)", Math.Round(ft.energy.perc, 1)), GetFont(7, Font.ITALIC))) { Border = PdfPCell.NO_BORDER, Padding = 0, MinimumHeight = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT, BorderColor = Color.GRAY });
+        table.AddCell(new PdfPCell(new Phrase(string.Format("({0} %)", Math.Round(ft.carbohydrates.perc, 1)), GetFont(7, Font.ITALIC))) { Border = PdfPCell.NO_BORDER, Padding = 0, MinimumHeight = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT, BorderColor = Color.GRAY });
+        table.AddCell(new PdfPCell(new Phrase(string.Format("({0} %)", Math.Round(ft.proteins.perc, 1)), GetFont(7, Font.ITALIC))) { Border = PdfPCell.NO_BORDER, Padding = 0, MinimumHeight = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT, BorderColor = Color.GRAY });
+        table.AddCell(new PdfPCell(new Phrase(string.Format("({0} %)", Math.Round(ft.fats.perc, 1)), GetFont(7, Font.ITALIC))) { Border = PdfPCell.NO_BORDER, Padding = 0, MinimumHeight = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT, BorderColor = Color.GRAY });
         doc.Add(table);
 
         rowCount = rowCount + 2;
@@ -1734,9 +1734,9 @@ IBAN HR8423400091160342496
         table.WidthPercentage = 100f;
         table.AddCell(new PdfPCell(new Phrase("", GetFont())) { Border = PdfPCell.NO_BORDER, Padding = 0, PaddingBottom = 5, PaddingLeft = 2, MinimumHeight = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT, Colspan = 3, });
         table.AddCell(new PdfPCell(new Phrase("", GetFont(7, Font.ITALIC))) { Border = PdfPCell.LEFT_BORDER | PdfPCell.BOTTOM_BORDER, BorderWidthLeft = 1, BorderWidthBottom = 2, Padding = 0, PaddingBottom = 5, MinimumHeight = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
-        table.AddCell(new PdfPCell(new Phrase(string.Format("{0} %", Math.Round(totals.carbohydratesPercentage, 1)), GetFont(7, Font.ITALIC))) { Border = PdfPCell.BOTTOM_BORDER, BorderWidth = 1, BorderWidthBottom = 2, Padding = 0, PaddingBottom = 5, MinimumHeight = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
-        table.AddCell(new PdfPCell(new Phrase(string.Format("{0} %", Math.Round(totals.proteinsPercentage, 1)), GetFont(7, Font.ITALIC))) { Border = PdfPCell.BOTTOM_BORDER, BorderWidth = 1, BorderWidthBottom = 2, Padding = 0, PaddingBottom = 5, MinimumHeight = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
-        table.AddCell(new PdfPCell(new Phrase(string.Format("{0} %", Math.Round(totals.fatsPercentage, 1)), GetFont(7, Font.ITALIC))) { Border = PdfPCell.BOTTOM_BORDER | PdfPCell.RIGHT_BORDER, BorderWidthBottom = 2, BorderWidthRight = 2, Padding = 0, PaddingBottom = 5, PaddingRight = 5, MinimumHeight = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        table.AddCell(new PdfPCell(new Phrase(string.Format("({0} %)", Math.Round(totals.carbohydratesPercentage, 1)), GetFont(7, Font.ITALIC))) { Border = PdfPCell.BOTTOM_BORDER, BorderWidth = 1, BorderWidthBottom = 2, Padding = 0, PaddingBottom = 5, MinimumHeight = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        table.AddCell(new PdfPCell(new Phrase(string.Format("({0} %)", Math.Round(totals.proteinsPercentage, 1)), GetFont(7, Font.ITALIC))) { Border = PdfPCell.BOTTOM_BORDER, BorderWidth = 1, BorderWidthBottom = 2, Padding = 0, PaddingBottom = 5, MinimumHeight = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
+        table.AddCell(new PdfPCell(new Phrase(string.Format("({0} %)", Math.Round(totals.fatsPercentage, 1)), GetFont(7, Font.ITALIC))) { Border = PdfPCell.BOTTOM_BORDER | PdfPCell.RIGHT_BORDER, BorderWidthBottom = 2, BorderWidthRight = 2, Padding = 0, PaddingBottom = 5, PaddingRight = 5, MinimumHeight = 10, HorizontalAlignment = PdfPCell.ALIGN_RIGHT });
         doc.Add(table);
 
         rowCount = rowCount + 3;

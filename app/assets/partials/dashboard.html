@@ -159,29 +159,36 @@
             </div>
             <div class="col-lg-4">
                 <div class="card shadow h-100" style="max-height:80vh">
-                    <div class="card-header">
+                    <div class="card-header d-flex flex-row align-items-center justify-content-between">
                         <label class="text-capitalize">{{'appointments' | translate}}</label>
+                        <div class="dropdown no-arrow">
+                            <a class="dropdown-toggle" href="" role="button" id="dropdownAppointments" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownAppointments">
+                                <a ui-sref="scheduler" ui-sref-active="" class="dropdown-item" href="" ><i class="fas fa-user-clock"></i><span class="pl-2">{{'appointments' | translate}}</span></a>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div ng-if="activeEvents.length>0">
                             <a ui-sref="scheduler" ui-sref-active="" ng-repeat="x in activeEvents" class="dropdown-item d-flex align-items-center p-2" href="">
                                 <div class="mr-3">
-                                    <btn class="btn btn-outline-primary btn-circle">
+                                    <span class="btn btn-outline-primary btn-circle">
                                         <i class="fas fa-user-clock"></i>
-                                    </btn>
+                                    </span>
                                 </div>
                                 <div>
                                     <div class="small text-gray-500">{{x.startDate | date: "dd.MM.y, h:mm" }}</div>
                                     <span>{{x.content}}</span>
                                 </div>
                             </a>
+                            <a ui-sref="scheduler" ui-sref-active="" class="dropdown-item text-center small text-gray-500" href="">{{'show all appointments' | translate}}</a>
                         </div>
-                        <div ng-if="activeEvents.length===0" class="text-center">
+                        <div ng-if="activeEvents.length===0||activeEvents===null" class="text-center">
                             <p>{{'you do not have any appointments' | translate}}</p>
+                            <button ui-sref="scheduler" ui-sref-active="" class="btn btn-outline-primary btn-lg"><i class="fa fa-user-clock"></i> {{'add appointment' | translate}}</button>
                         </div>
-                        <hr />
-                        <a ui-sref="scheduler" ui-sref-active="" class="dropdown-item text-center small text-gray-500" href="">{{'show all appointments' | translate}}</a>
-
                         <!--<ul class="list-group">
                             <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize" ng-repeat="x in activeEvents">
                                 <div class="small text-gray-500">{{x.startDate | date: "dd.MM.y, h:mm" }}</div>
@@ -199,14 +206,14 @@
                         <label class="text-capitalize">{{'statistics' | translate}}</label>
                     </div>
                     <div class="card-body">
-                        <ul class="list-group">
-                            <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'clients' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.clients.total}}</span></li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'menus' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.menues}}</span></li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">{{'weekly menus' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.weeklyMenus}}</span></li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">{{'my foods' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.myfoods}}</span></li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'recipes' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.recipes}}</span></li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'meals' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.meals}}</span></li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">{{'total appointments' | translate}} <span class="badge badge-light badge-pill">{{user.datasum.scheduler.total}}</span></li>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'clients' | translate}} <span class="badge badge-secondary badge-pill">{{user.datasum.clients.total}}</span></li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'menus' | translate}} <span class="badge badge-secondary badge-pill">{{user.datasum.menues}}</span></li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">{{'weekly menus' | translate}} <span class="badge badge-secondary badge-pill">{{user.datasum.weeklyMenus}}</span></li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">{{'my foods' | translate}} <span class="badge badge-secondary badge-pill">{{user.datasum.myfoods}}</span></li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'recipes' | translate}} <span class="badge badge-secondary badge-pill">{{user.datasum.recipes}}</span></li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center text-capitalize">{{'meals' | translate}} <span class="badge badge-secondary badge-pill">{{user.datasum.meals}}</span></li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">{{'total appointments' | translate}} <span class="badge badge-secondary badge-pill">{{user.datasum.scheduler.total}}</span></li>
                         </ul>
                     </div>
                 </div>
@@ -224,11 +231,11 @@
                                 <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="{{((user.daysToExpite/365)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{((user.daysToExpite/365)*100).toFixed()}}%"></div>
                             </div>
                         </div>
-                        <div>{{'number of clinets' | translate}} ({{user.datasum.clients.currMonth}}/{{user.datasum.clients.currYear}}): <span class="font-weight-bold">{{user.datasum.clients.currMonthTotal}}</span> <em class="small text-muted">({{'max' | translate}} {{user.datasum.clients.maxMonthlyNumberOfClients}})</em> <span class="float-right">{{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}%</span></div>
+                        <div>{{'number of clinets' | translate}} ({{user.datasum.clients.currMonth}}/{{user.datasum.clients.currYear}}): <span class="badge badge-secondary badge-pill">{{user.datasum.clients.currMonthTotal}}</span> <em class="small text-muted">({{'max' | translate}} {{user.datasum.clients.maxMonthlyNumberOfClients}})</em> <span class="float-right">{{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}%</span></div>
                         <div class="progress mb-4">
                             <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="{{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}%"></div>
                         </div>
-                        <div>{{'number of users' | translate}}: <span class="font-weight-bold">{{user.subusers+1}}</span> <em class="small text-muted">({{'max' | translate}} {{user.maxNumberOfUsers}})</em> <span class="float-right">{{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}%</span></div>
+                        <div>{{'number of users' | translate}}: <span class="badge badge-secondary badge-pill">{{user.subusers+1}}</span> <em class="small text-muted">({{'max' | translate}} {{user.maxNumberOfUsers}})</em> <span class="float-right">{{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}%</span></div>
                         <div class="progress mb-4">
                             <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="{{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}%"></div>
                         </div>

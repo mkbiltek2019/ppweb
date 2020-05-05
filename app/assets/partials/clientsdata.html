@@ -207,7 +207,7 @@
             </div>
             <div class="col-xl-5">
                 <fieldset class="fieldset-border">
-                    <legend class="fieldset-border">{{'energy expenditure' | translate}}</legend>
+                    <legend class="fieldset-border">{{'physical activity level' | translate}}</legend>
                     <div class="p-2 pt-4">
                         <md-radio-group ng-model="clientData.pal.value" ng-change="getPalDetails(clientData.pal.value)">
                             <md-radio-button ng-repeat="x in pals" value="{{x.value}}" class="md-primary">
@@ -227,7 +227,7 @@
             </div>
         </div>
         <div>
-            <fieldset class="fieldset-border" style="padding-top:0; margin-top:0">
+            <fieldset class="fieldset-border pt-0 mt-0">
                 <legend class="fieldset-border text-capitalize">
                     {{'note' | translate}} <span custom-popover popover-html="{{'maximum number of characters is' | translate}} 500" popover-placement="bottom" popover-label=""></span>
                 </legend>

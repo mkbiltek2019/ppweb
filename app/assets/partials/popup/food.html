@@ -36,7 +36,7 @@
                                 <option ng-if="checkIf(x)===true" ng-repeat="x in isShowMyFood === true ? myFoods : foods | filter:{food:searchFood} | orderBy:'food' | limitTo:limit" value="{{x}}">{{x.food}}</option>
                             </select>
                         </div>
-                        <div class="pull-right m10">
+                        <div class="pull-right mt-2">
                             <a href="" ng-if="limit<foods.length+1" class="btn btn-default" ng-click="loadMore()"><i class="fa fa-arrow-down"></i> {{'show all' | translate}}...</a>
                         </div>
                     </div>

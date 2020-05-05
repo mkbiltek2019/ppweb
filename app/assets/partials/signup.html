@@ -8,7 +8,9 @@
                     <div class="col-lg-12">
                         <div ng-show="!showAlert" class="p-5">
                             <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">{{'create an account' | translate}}!</h1>
+                                <h2 class="text-uppercase" style="font-size:24px">{{config.title | translate}}</h2>
+                                <hr />
+                                <div class="h4 text-gray-900 mb-4">{{'create an account' | translate}}!</div>
                             </div>
                             <form id="signupform" class="user">
                                 <div class="form-group row">
@@ -36,7 +38,7 @@
                                     </div>
                                 </div>
                                 <div layout-gt-sm="row">
-                                    <md-input-container class="md-block m2" flex-gt-sm>
+                                    <md-input-container class="md-block mt-0 mb-0" flex-gt-sm>
                                         <md-checkbox md-no-ink aria-label={{'terms and conditions' | translate}} ng-model="accept" class="md-primary">
                                             {{'i agree to the' | translate}}
                                         </md-checkbox>
@@ -57,7 +59,6 @@
                             <div class="m-2">
                                 <button ng-disabled="signupdisabled||signingUp" type="submit" form="signupform" class="btn btn-primary btn-user btn-block rounded-pill" ng-click="signup()"><i class="fa fa-{{signingUp===true?'spinner fa-spin':'check'}}"></i> {{'register' | translate}}</button>
                             </div>
-                            <hr>
                             <div ng-controller="loginCtrl" class="text-center pt-2">
                                 <a href="" ng-click="forgotPasswordPopup()">{{'forgot password' | translate}}?</a>
                             </div>

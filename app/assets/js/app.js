@@ -7197,7 +7197,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 }])
 
 .controller('orderCtrl', ['$scope', '$http', '$rootScope', '$translate', 'functions', function ($scope, $http, $rootScope, $translate, functions) {
-    $scope.application = $translate.instant('nutrition program');
+    $scope.application = $translate.instant('nutrition program web');
     $scope.version = 'STANDARD';
     $scope.userType = 1;
     $scope.showAlert = false;
@@ -8240,7 +8240,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
         $scope.sendingMail = true;
         var link = $scope.clientAppUrl(client);
-        var messageSubject = $translate.instant('nutrition program') + '. ' + $translate.instant('application access data');
+        var messageSubject = $translate.instant('nutrition program web') + '. ' + $translate.instant('application access data');
         var messageBody = '<p>' + $translate.instant('dear') + ',' + '</p>' +
             $translate.instant('we send you the access data to track your body weight and download menus') + '.' +
             '<br />' +
