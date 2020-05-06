@@ -2,8 +2,8 @@
     <ng-include src="'./assets/partials/main.html'"></ng-include>
     <div class="bg-white p-3">
         <div class="panel-heading text-right text-capitalize">
-            <button ng-if="pdfLink==null" ng-click="printPdf()" class="btn btn-outline-danger" ng-disabled="creatingPdf"><span><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</span></button>
-            <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success" download ng-click="hidePdfLink()"><i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}</a>
+            <button ng-if="pdfLink==null" ng-click="printPdf()" class="btn btn-outline-primary" ng-disabled="creatingPdf"><span><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</span></button>
+            <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-danger" download ng-click="hidePdfLink()"><i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}</a>
         </div>
         <div class="row">
             <div class="col-lg-5">

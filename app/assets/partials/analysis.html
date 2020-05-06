@@ -10,7 +10,7 @@
                 <div class="col-sm-6">
                     <div class="text-right">
                         <a ng-if="pdfLink==null" href="" ng-click="printMenuDetailsPdf()" class="btn btn-outline-primary text-capitalize" ng-disabled="creatingPdf1==true"><i class="fa fa-{{creatingPdf1==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</a>
-                        <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success text-capitalize" download ng-click="hidePdfLink()">
+                        <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-danger text-capitalize" download ng-click="hidePdfLink()">
                             <i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}
                         </a>
                     </div>

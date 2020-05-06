@@ -12,7 +12,7 @@
                 <div class="text-right">
                     <button ng-click="copyToClipboard('shoppinglist_container')" class="btn btn-outline-primary"><span class="text-capitalize"><i class="fa fa-files-o"></i> {{'copy to clipboard' | translate}}</span></button>
                     <a ng-if="pdfLink==null" href="" ng-click="printShoppingListPdf(d, consumers, settings)" class="btn btn-outline-primary text-capitalize" ng-disabled="creatingPdf==true"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</a>
-                    <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success text-capitalize" download ng-click="hidePdfLink()">
+                    <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-danger text-capitalize" download ng-click="hidePdfLink()">
                         <i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}
                     </a>
                 </div>
@@ -49,8 +49,8 @@
                                 <p ng-if="settings.showDescription">{{currentMenu.note}}</p>
                                 <p ng-if="consumers > 1">{{'number of consumers' | translate}}: <strong>{{consumers}}</strong></p>
                                 <div clss="table-responsive">
-                                    <table class="table">
-                                        <tr class="text-capitalize">
+                                    <table class="table table-sm table-borderless">
+                                        <tr class="text-capitalize border-bottom">
                                             <th>{{'food' | translate}}</th>
                                             <th ng-if="settings.showQty">{{'quantity' | translate}}</th>
                                             <th ng-if="settings.showMass" class="text-right">{{'mass' | translate}}</th>
@@ -62,7 +62,7 @@
                                             <td ng-if="settings.showMass" class="text-right">{{x.smartMass}}</td>
                                             <td ng-if="settings.showPrice" class="text-right">{{x.price}} <span class="text-uppercase">{{x.currency}}</span></td>
                                         </tr>
-                                        <tr>
+                                        <tr class="border-top">
                                             <td></td>
                                             <td ng-if="settings.showQty"></td>
                                             <td ng-if="settings.showMass"></td>

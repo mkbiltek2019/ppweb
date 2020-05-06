@@ -1,7 +1,7 @@
 ﻿<div class="container pb-5">
     <div class="text-right">
         <button ng-if="!pdfLink" class="btn btn-outline-danger text-capitalize" ng-click="createMenuPdf()" ng-disabled="creatingPdf==true"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf'}}"></i> {{'create pdf' | translate}}</button>
-        <a ng-if="pdfLink" href="{{pdfLink}}" class="btn btn-outline-success text-capitalize" download><i class="fa fa-download"></i> {{'take pdf' | translate}}</a>
+        <a ng-if="pdfLink" href="{{pdfLink}}" class="btn btn-danger text-capitalize" download><i class="fa fa-download"></i> {{'take pdf' | translate}}</a>
         <button ui-sref="menus" ui-sref-active="active" class="btn btn-outline-primary text-capitalize" ><i class="fa fa-list"></i> {{'menus' | translate}}</button>
     </div>
     <div class="card mt-2">

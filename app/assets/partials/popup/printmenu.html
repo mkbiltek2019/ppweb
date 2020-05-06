@@ -13,7 +13,7 @@
                     <!--<a href="#printsettings" class="btn btn-outline-primary hidden-lg hidden-xl" data-toggle="collapse"><span class="text-capitalize"><i class="fa fa-cogs"></i> {{'settings' | translate}}</span></a>-->
                     <button ng-click="copyToClipboard('menu_container')" class="btn btn-outline-primary" title="{{'copy to clipboard' | translate}}"><span class="text-capitalize"><i class="fa fa-files-o"></i> {{'copy' | translate}}</span></button>
                     <a ng-if="pdfLink==null" href="" ng-click="printMenuPdf(consumers, date, author)" class="btn btn-outline-primary text-capitalize" ng-disabled="creatingPdf==true"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</a>
-                    <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-success text-capitalize" download ng-click="hidePdfLink()">
+                    <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-danger text-capitalize" download ng-click="hidePdfLink()">
                         <i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}
                     </a>
                     <a ng-if="loginUser.adminType<2" ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-outline-primary" title="{{'send menu to the clients email' | translate}}" ng-click="send()"><i class="fa fa-paper-plane"></i> <span class="text-capitalize">{{'send' | translate}}</span></a>

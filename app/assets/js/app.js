@@ -2252,7 +2252,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             });
         }
         
-        $rootScope.clientLogGraphData = charts.createGraph(
+        $scope.clientLogGraphData = charts.createGraph(
             [$translate.instant("measured value"), $translate.instant("lower limit"), $translate.instant("upper limit"), $translate.instant("goal")],
             [
                 clientLog,
@@ -2279,7 +2279,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 
     };
 
-    $rootScope.setClientLogGraphData = function (type, clientLogsDays) {
+    //$rootScope.setClientLogGraphData = function (type, clientLogsDays) {
+    //    setClientLogGraphData(type, clientLogsDays);
+    //}
+    $scope.setClientLogGraphData = function (type, clientLogsDays) {
         setClientLogGraphData(type, clientLogsDays);
     }
 
@@ -2926,7 +2929,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             redTo: 34,
             minorTicks: 5
         };
-            google.charts.setOnLoadCallback(charts.guageChart(id, value, unit, options));
+        google.charts.setOnLoadCallback(charts.guageChart(id, value, unit, options));
     }
 
     var whrChart = function () {

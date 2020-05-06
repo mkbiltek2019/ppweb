@@ -9,31 +9,31 @@
         </md-toolbar>
         <md-dialog-content>
             <div class="md-dialog-content">
-                <div class="mt10">
-                    <md-input-container class="md-block" style="margin:2px" flex-gt-sx>
+                <div class="mt-4">
+                    <md-input-container class="md-block m-2" flex-gt-sx>
                         <label class="text-capitalize">{{'menu title' | translate}}</label>
                         <input ng-model="d.currentMenu.title" type="text" maxlength="50">
                         <div ng-if="titlealert" class="text-danger">{{titlealert}}</div>
                     </md-input-container>
                 </div>
                 <div>
-                    <md-input-container class="md-block" style="margin:2px" flex-gt-sm>
+                    <md-input-container class="md-block m-2" flex-gt-sm>
                         <label class="text-capitalize">{{'note' | translate}}...</label>
                         <textarea ng-model="d.currentMenu.note" rows="3" class="area"></textarea>
                     </md-input-container>
                 </div>
                 <div>
-                    <md-input-container class="md-block" style="margin:2px" flex-gt-sx>
+                    <md-input-container class="md-block m-2" flex-gt-sx>
                         <label>{{'client email' | translate}}...</label>
                         <input name="email" ng-model="d.client.email" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" />
                         <div ng-if="emailalert" class="text-danger">{{emailalert}}</div>
                     </md-input-container>
                 </div>
-                <div ng-if="d.pdfLink">
-                    <i class="fa fa-file-pdf-o fa-3x text-danger"></i>
+                <div ng-if="d.pdfLink" class="m-2">
+                    <i class="fa fa-file-pdf-o fa-3x text-danger" title="{{'menu' | translate}} ({{'pdf' | translate}})"></i>
                 </div>
-                <div class="row text-right text-capitalize m10">
-                    <a href="" class="btn btn-primary" ng-click="confirm(d)" title="{{'send menu' | translate}}"><i class="fa fa-paper-plane-o"></i> {{'send' | translate }}</a>
+                <div class="text-right text-capitalize m-2">
+                    <button class="btn btn-outline-primary" ng-click="confirm(d)" title="{{'send menu' | translate}}"><i class="fa fa-paper-plane"></i> {{'send' | translate }}</button>
                 </div>
             </div>
         </md-dialog-content>
