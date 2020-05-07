@@ -6,13 +6,13 @@
 
     <div ng-controller="clientsCtrl" class="row">
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-primary shadow pointer h-100 dashboard-card">
+            <div class="card border-left-main shadow pointer h-100 dashboard-card">
                 <div class="card-body" ng-click="search()" title="{{'search clients' | translate}}">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <i class="fas fa-male fa-4x text-gray-300"></i>
                         </div>
-                        <div class="col-auto text-right text-primary">
+                        <div class="col-auto text-right text-main">
                             <div class="huge" style="font-size:30px"><i class="fa fa-search"></i> {{user.datasum.clients.total}}</div>
                             <div>{{'total clients' | translate}}</div>
                         </div>
@@ -27,13 +27,13 @@
             </div>
         </div>
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-success shadow pointer h-100 dashboard-card" ui-sref="scheduler" ui-sref-active="active">
+            <div class="card border-left-main shadow pointer h-100 dashboard-card" ui-sref="scheduler" ui-sref-active="active">
                 <div class="card-body" title="{{'appointments' | translate}}">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <i class="fas fa-calendar-alt fa-4x text-gray-300"></i>
                         </div>
-                        <div class="col-auto text-right text-success">
+                        <div class="col-auto text-right text-main">
                             <div class="huge" style="font-size:30px">{{activeEvents===null?0:activeEvents.length}}</div>
                             <div>{{'appointments' | translate}}</div>
                         </div>
@@ -47,13 +47,13 @@
             </div>
         </div>
         <div ng-if="loginUser.adminType===0" class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-warning shadow pointer h-100 dashboard-card">
+            <div class="card border-left-main shadow pointer h-100 dashboard-card">
                 <div class="card-body" ui-sref="users" ui-sref-active="users" title="{{'users' | translate}}">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <i class="fa fa-user-md fa-4x text-gray-300"></i>
                         </div>
-                        <div class="col-auto text-right text-warning">
+                        <div class="col-auto text-right text-main">
                             <div class="huge" style="font-size:30px">{{user.subusers+1}}</div>
                             <div>{{'app users' | translate}}</div>
                         </div>
@@ -67,13 +67,13 @@
             </div>
         </div>
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-danger shadow h-100 dashboard-card">
+            <div class="card border-left-main shadow h-100 dashboard-card">
                 <div class="card-body" title="{{'licence status' | translate}}">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <i class="fa fa-hourglass-half fa-4x text-gray-300"></i>
                         </div>
-                        <div class="col-auto text-right text-danger">
+                        <div class="col-auto text-right text-main">
                             <div class="huge" style="font-size:30px">{{user.licenceStatus!=='demo'?user.daysToExpite:'DEMO'}}</div>
                             <div>{{user.licenceStatus!=='demo'?('remaining days' | translate):('license' | translate)}}</div>
                         </div>
@@ -228,75 +228,17 @@
                         <div ng-hide="user.licenceStatus==='demo'">
                             <div>{{'expiration date' | translate}}: <span class="font-weight-bold">{{expirationDate | date:'dd.MM.yyyy'}}</span><span class="float-right font-weight-bold ">{{((user.daysToExpite/365)*100).toFixed()}}%</span></div>
                             <div class="progress mb-4">
-                                <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="{{((user.daysToExpite/365)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{((user.daysToExpite/365)*100).toFixed()}}%"></div>
+                                <div class="progress-bar bg-main" role="progressbar" aria-valuenow="{{((user.daysToExpite/365)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{((user.daysToExpite/365)*100).toFixed()}}%"></div>
                             </div>
                         </div>
                         <div>{{'number of clinets' | translate}} ({{user.datasum.clients.currMonth}}/{{user.datasum.clients.currYear}}): <span class="badge badge-secondary badge-pill">{{user.datasum.clients.currMonthTotal}}</span> <em class="small text-muted">({{'max' | translate}} {{user.datasum.clients.maxMonthlyNumberOfClients}})</em> <span class="float-right">{{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}%</span></div>
                         <div class="progress mb-4">
-                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="{{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}%"></div>
+                            <div class="progress-bar bg-main" role="progressbar" aria-valuenow="{{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}%"></div>
                         </div>
                         <div>{{'number of users' | translate}}: <span class="badge badge-secondary badge-pill">{{user.subusers+1}}</span> <em class="small text-muted">({{'max' | translate}} {{user.maxNumberOfUsers}})</em> <span class="float-right">{{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}%</span></div>
                         <div class="progress mb-4">
-                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="{{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}%"></div>
+                            <div class="progress-bar bg-main" role="progressbar" aria-valuenow="{{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}%"></div>
                         </div>
-
-                        <!--<ul class="list-group list-group-flush">
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <span class="text-capitalize">{{'package' | translate}}:</span> <label class="pull-right text-uppercase badge badge-light badge-pill">{{user.package}}</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        {{'expiration date' | translate}} <label class="pull-right">{{expirationDate | date:'dd.MM.yyyy'}}</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <div class="progress">
-                                            <div class="progress-bar bg-warning" role="progressbar"
-                                                 aria-valuenow="{{((user.daysToExpite/365)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{((user.daysToExpite/365)*100).toFixed()}}%">
-                                                {{((user.daysToExpite/365)*100).toFixed()}}%
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        {{'number of clinets' | translate}} ({{user.datasum.clients.currMonth}}/{{user.datasum.clients.currYear}}) <span class="pull-right"><span class="badge badge-light badge-pill">{{user.datasum.clients.currMonthTotal}}</span> ({{user.datasum.clients.maxMonthlyNumberOfClients}})</span>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <div class="progress">
-                                            <div class="progress-bar bg-primary" role="progressbar"
-                                                 aria-valuenow="{{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}%">
-                                                {{(((user.datasum.clients.currMonthTotal)/user.datasum.clients.maxMonthlyNumberOfClients)*100).toFixed()}}%
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        {{'number of users' | translate}} <span class="pull-right"><span class="badge badge-light badge-pill">{{user.subusers+1}}</span> ({{user.maxNumberOfUsers}})</span>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <div class="progress">
-                                            <div class="progress-bar bg-info" role="progressbar"
-                                                 aria-valuenow="{{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}" aria-valuemin="0" aria-valuemax="100" style="width:{{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}%">
-                                                {{(((user.subusers+1)/user.maxNumberOfUsers)*100).toFixed()}}%
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>-->
-
                     </div>
                 </div>
             </div>
