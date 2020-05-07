@@ -17,7 +17,7 @@
 
 <script type="text/ng-template" id="standardMeals">
     <div ng-controller="standardMealsCtrl" class="d-flex justify-content-center mt-5" >
-        <div class="p-2">
+        <div class="p-2 pt-5">
             <div ng-repeat="x in clientData.meals">
                 <md-checkbox ng-model="x.isSelected" class="md-primary" ng-disabled="x.isDisabled">
                     {{getMealTitle(x)}}
@@ -40,11 +40,11 @@
             </strong>
         </div>
         <div class="text-capitalize pt-2">
-            <button ng-disabled="user.userType < 2" ng-click="new()" class="btn btn-outline-primary m2"><i class="fa fa-file"></i> {{'new' | translate}} {{'meals' | translate}}</button>
-            <button ng-disabled="user.userType < 2" class="btn btn-outline-primary m2" ng-click="search()"><i class="fa fa-search"></i> {{'search' | translate}}</button>
-            <button ng-disabled="myMeals.data.meals.length===0||user.userType < 2" ng-click="save()" class="btn btn-outline-primary m2"><i class="fa fa-save"></i> {{'save' | translate}}</button>
-            <button ng-disabled="myMeals.id===null||user.userType < 2" ng-click="remove(myMeals.id)" class="btn btn-outline-primary m2"><span><i class="fa fa-trash-alt"></i> {{'delete' | translate}}</span></button>
-            <button ng-disabled="user.userType < 2" ng-click="getTemplate()" class="btn btn-outline-primary m2"><i class="fa fa-file-text"></i> {{'example' | translate}}</button>
+            <button ng-disabled="user.userType < 2" ng-click="new()" class="btn btn-outline-primary"><i class="fa fa-file"></i> {{'new' | translate}} {{'meals' | translate}}</button>
+            <button ng-disabled="user.userType < 2" class="btn btn-outline-primary" ng-click="search()"><i class="fa fa-search"></i> {{'search' | translate}}</button>
+            <button ng-disabled="myMeals.data.meals.length===0||user.userType < 2" ng-click="save()" class="btn btn-outline-primary"><i class="fa fa-save"></i> {{'save' | translate}}</button>
+            <button ng-disabled="myMeals.id===null||user.userType < 2" ng-click="remove(myMeals.id)" class="btn btn-outline-primary text-capitalize"><i class="fa fa-trash-alt"></i> {{'delete' | translate}}</button>
+            <button ng-disabled="user.userType < 2" ng-click="getTemplate()" class="btn btn-outline-primary text-capitalize"><i class="fa fa-file-text"></i> {{'example' | translate}}</button>
         </div>
         <div class="mt-4">
             <div class="text-capitalize">

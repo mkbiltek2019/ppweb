@@ -1,176 +1,18 @@
 ﻿ /*!
 style.css
-(c) 2017-2020 IG PROG, www.igprog.hr
+(c) 2020 IG PROG, www.igprog.hr
 */
 
-/*.dashboardBox {
-margin:10px 0px 10px 0px;
-padding: 10px;
-border-radius: 5px;
-height: 220px;
-border-color: red;
-}
-
-.huge {
-    font-size: 36px;
-}
-
-.vertical-nav {
-    background-color:#5cb85c;
-}*/
-
-/*a {
-    color: white;
-}*/
-
-/*.solidBox {
-    margin:10px;
-    border:1px solid green;
-    border-radius:5px;
-}*/
-
-
-/*.loginBox {
-    padding:20px;
-    margin-top:0px;
-    background-image: url('../img/login_bg.jpg');
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    box-shadow: 8px 8px 5px silver;
-    border-radius: 0px 0px 10px 10px !important;
-    border:1px solid #ddd;
-    border-top:0px;
-    background-color: white;
-}*/
 
 md-dialog {
     min-width: 40%;
     max-height: 80%;
 }
 
-/*.borderNone {
-    border:none !important;
-}*/
-
-
-/*.p5 {
-    padding:5px;
-}
-
-.p10 {
-    padding:10px;
-}
-
-.p20 {
-    padding:20px;
-}
-
-.pt10 {
-    padding-top:10px;
-}
-
-.pt20 {
-    padding-top:20px;
-}
-
-.pl10 {
-    padding-left:10px;
-}
-
-.m2 {
-    margin:2px;
-}
-
-.m10 {
-    margin:10px;
-}
-
-.m20 {
-    margin:20px;
-}
-
-.mr10 {
-    margin-right:10px;
-}
-
-.mt5 {
-    margin-top:5px;
-}
-
-.mt10 {
-    margin-top:10px;
-}
-
-.mt20 {
-    margin-top:20px;
-}
-
-.mt60 {
-    margin-top:60px;
-}
-
-.ml10 {
-    margin-left:10px;
-}
-
-.ml5 {
-    margin-left:5px;
-}*/
-
-.debugBox{
-    border: solid 2px silver;
-    padding: 10px;
-}
-
-@media print {
-    .noprint {
-        display: none;
-    }
-}
-
-/*.panel-heading {
-    background-color:#e6e6e6 !important;
-    color:black !important;
-}*/
-
-/*.navbar{
-    background-color: #337ab7;
-    border:none !important;
-    border-radius:0 !important;
-}
-
-navbar-brand {
-    color:cornsilk !important;
-}
-
-.navbar-inverse .navbar-nav>li>a {
-    color: cornsilk !important;
-}
-
-.navbar-inverse .navbar-brand {
-    color: cornsilk !important;
-}
-
-.bg-subpanel{
-    background-color:#f7eeb2 !important;
-}*/
-
 .nowrap{
     white-space: nowrap;
     width: 1px;
 }
-
-/*.text-small{
-   font-size:12px;
-}*/
-
-/*.text-bold{
-    font-weight:600 !important;
-}*/
-
-/*hr.bold {
-	border-top: 2px solid;
-}*/
 
 .pointer {
     cursor:pointer;
@@ -220,7 +62,6 @@ navbar-brand {
 }
 
 .guage {
-    /*height:80%;*/
     width:80%;
     margin:auto;
 }
@@ -273,6 +114,14 @@ legend.fieldset-border {
   background-image: linear-gradient(180deg, #85BC5E  10%, #558632  100%);
   background-size: cover;
 
+}
+
+.text-main {
+    color: #558632;
+}
+
+.border-left-main {
+    border-left: 0.25rem solid #558632 !important;
 }
 
 a[class*="btn-default"], button[class*="btn-default"], input[class*="search"] {

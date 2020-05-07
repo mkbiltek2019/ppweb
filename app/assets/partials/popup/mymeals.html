@@ -28,10 +28,10 @@
                     </div>
                 </div>
                 <div class="table-responsive mt-4">
-                    <table class="table table-hover">
-                        <tr>
+                    <table class="table table-hover table-borderless">
+                        <tr class="border-bottom text-capitalize">
                             <th>{{'title' | translate}}</th>
-                            <th class="text-right">{{'energy'| translate}}</th>
+                            <th>{{'description'| translate}}</th>
                         </tr>
                         <tr ng-repeat="x in d | filter:searchValue | limitTo:limit" ng-click="confirm(x, showDescription)">
                             <td class="nowrap">{{x.title}}</td>

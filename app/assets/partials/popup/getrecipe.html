@@ -21,7 +21,7 @@
                         <li class="nav-item" ng-click="loadAppRecipes()"><a href="" ng-class="appRecipes==true?'nav-link active':'nav-link'">{{'recipes examples' | translate}}</a></li>
                     </ul>
                 </div>
-                <div ng-if="d.length==0" class="pt20">
+                <div ng-if="d.length==0" class="pt-4">
                     <div class="alert alert-danger">
                         {{'you do not have any recipes' | translate}}
                     </div>
@@ -31,13 +31,13 @@
                         <div class="col-sm-8">
                             <div class="input-group">
                                 <input ng-model="searchValue" class="form-control search" type="text" placeholder="{{'search' | translate}}..." />
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
+                                <span class="input-group-append">
+                                    <button class="btn btn-outline-primary" type="button"><i class="fa fa-search" aria-hidden="true"></i>&#8203;</button>
                                 </span>
                             </div>
                         </div>
                         <div class="col-sm-4">
-                            <md-input-container class="md-block" flex-gt-xs style="margin-top:0px">
+                            <md-input-container class="md-block m-0" flex-gt-xs>
                                 <label>{{'meal group' | translate}}</label>
                                 <md-select ng-model="mealGroup">
                                     <md-option value="">
@@ -49,15 +49,15 @@
                                 </md-select>
                             </md-input-container>
                         </div>
-                        <div class="col-sm-12 pt10">
+                        <div class="col-sm-12 pt-2">
                             <md-checkbox ng-model="showDescription" class="md-primary">
                                 {{'show description' | translate}}
                             </md-checkbox>
                         </div>
                     </div>
                     <div class="table-responsive mt-2">
-                        <table class="table table-hover">
-                            <tr class="text-capitalize">
+                        <table class="table table-hover table-borderless">
+                            <tr class="text-capitalize border-bottom">
                                 <th>{{'title' | translate}}</th>
                                 <th class="text-right">{{'energy'| translate}}</th>
                             </tr>
@@ -92,7 +92,7 @@
                         </table>-->
                     </div>
                     <div class="text-right">
-                        <a href="" ng-if="limit<d.length+1" class="btn btn-default" ng-click="loadMore()"><i class="fa fa-arrow-down"></i> {{'show more' | translate}}...</a>
+                        <a href="" ng-if="limit<d.length+1" class="btn btn-outline-primary" ng-click="loadMore()"><i class="fa fa-arrow-down"></i> {{'show more' | translate}}...</a>
                     </div>
                 </div>
             </div>
