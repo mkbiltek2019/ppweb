@@ -66,7 +66,7 @@
     <div id="wrapper" >
 
         <!-- Sidebar -->
-        <div ng-show="isLogin" class="navbar-nav bg-main sidebar sidebar-dark accordion text-capitalize" id="accordionSidebar" ng-cloak>
+        <div ng-show="isLogin" class="navbar-nav sidebar bg-main sidebar-dark accordion text-capitalize" id="accordionSidebar" ng-cloak>
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="../index.html" title="{{config.webpage}}">
@@ -99,7 +99,7 @@
                             <i ng-if="!client.profileImg" class="fa fa-user-circle fa-3x"></i>
                             <img ng-if="client.profileImg" src="../upload/users/{{client.userId}}/clients/{{client.clientId}}/profileimg/{{client.profileImg}}" alt="{{client.profileImg}}" style="height:3rem;width:3rem" class="img-circle rounded-circle" />
                         </div>
-                        <div class="pt-2 text-white">
+                        <div class="text-light pt-2">
                             {{client.firstName}} {{client.lastName}}, {{'age' | translate}}: {{clientData.age}}
                         </div>
                     </a>

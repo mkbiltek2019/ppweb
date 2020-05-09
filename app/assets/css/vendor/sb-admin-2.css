@@ -161,7 +161,8 @@ sup {
 a {
   /*color: #4e73df;*/
   /*color: #13855c;*/
-  color: #558632;
+  /*color: #558632;*/
+  color:#858796;
   text-decoration: none;
   background-color: transparent;
 }
@@ -2562,7 +2563,9 @@ fieldset:disabled a.btn {
 }
 
 .btn-outline-primary.disabled, .btn-outline-primary:disabled {
-  color: #4e73df;
+  /*color: #4e73df;*/
+  color: #858796;
+  border-color:#858796;
   background-color: transparent;
 }
 
@@ -10021,7 +10024,7 @@ a:focus {
 
 .topbar .dropdown-list .dropdown-header {
   background-color: #4e73df;
-  border: 1px solid #4e73df;
+  /*border: 1px solid #4e73df;*/
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
   color: #fff;
