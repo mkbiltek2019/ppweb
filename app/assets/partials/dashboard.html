@@ -10,11 +10,11 @@
                 <div class="card-body" ng-click="search()" title="{{'search clients' | translate}}">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <i class="fas fa-male fa-4x text-gray-300"></i>
+                            <i class="fas fa-male fa-3x text-gray-300"></i>
                         </div>
                         <div class="col-auto text-right text-main">
                             <div class="huge" style="font-size:30px"><i class="fa fa-search"></i> {{user.datasum.clients.total}}</div>
-                            <div>{{'total clients' | translate}}</div>
+                            <div class="small">{{'total clients' | translate}}</div>
                         </div>
                     </div>
                 </div>
@@ -31,11 +31,11 @@
                 <div class="card-body" title="{{'appointments' | translate}}">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <i class="fas fa-calendar-alt fa-4x text-gray-300"></i>
+                            <i class="fas fa-calendar-alt fa-3x text-gray-300"></i>
                         </div>
                         <div class="col-auto text-right text-main">
                             <div class="huge" style="font-size:30px">{{activeEvents===null?0:activeEvents.length}}</div>
-                            <div>{{'appointments' | translate}}</div>
+                            <div class="small">{{'appointments' | translate}}</div>
                         </div>
                     </div>
                 </div>
@@ -51,11 +51,11 @@
                 <div class="card-body" ui-sref="users" ui-sref-active="users" title="{{'users' | translate}}">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <i class="fa fa-user-md fa-4x text-gray-300"></i>
+                            <i class="fa fa-user-md fa-3x text-gray-300"></i>
                         </div>
                         <div class="col-auto text-right text-main">
                             <div class="huge" style="font-size:30px">{{user.subusers+1}}</div>
-                            <div>{{'app users' | translate}}</div>
+                            <div class="small">{{'app users' | translate}}</div>
                         </div>
                     </div>
                 </div>
@@ -71,11 +71,11 @@
                 <div class="card-body" title="{{'licence status' | translate}}">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <i class="fa fa-hourglass-half fa-4x text-gray-300"></i>
+                            <i class="fa fa-hourglass-half fa-3x text-gray-300"></i>
                         </div>
                         <div class="col-auto text-right text-main">
                             <div class="huge" style="font-size:30px">{{user.licenceStatus!=='demo'?user.daysToExpite:'DEMO'}}</div>
-                            <div>{{user.licenceStatus!=='demo'?('remaining days' | translate):('license' | translate)}}</div>
+                            <div class="small">{{user.licenceStatus!=='demo'?('remaining days' | translate):('license' | translate)}}</div>
                         </div>
                     </div>
                 </div>

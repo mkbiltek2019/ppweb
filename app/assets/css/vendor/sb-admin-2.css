@@ -2265,9 +2265,10 @@ fieldset:disabled a.btn {
 .btn-primary {
   color: #fff;
   background-color: #1cc88a;
-  background-image: linear-gradient(180deg, #85BC5E  10%, #558632  100%);
+  /*background-image: linear-gradient(180deg, #85BC5E  10%, #558632  100%);*/
+  background-image: linear-gradient(180deg, #75c7ca 10%, #224abe 100%);
   background-size: cover;
-  border-color: #85BC5E;
+  border-color: #75c7ca;
 }
 
 .btn-primary:hover {
@@ -2541,8 +2542,10 @@ fieldset:disabled a.btn {
   border-color: #4e73df;
 }*/
 .btn-outline-primary {
-  color: #558632;
-  border-color: #558632;
+  /*color: #558632;
+  border-color: #558632;*/
+  color: #5394c5;
+  border-color: #5394c5;
 }
 
 /*.btn-outline-primary:hover {
@@ -2553,7 +2556,8 @@ fieldset:disabled a.btn {
 
 .btn-outline-primary:hover {
   color: #fff;
-  background-image: linear-gradient(180deg, #85BC5E  10%, #558632  100%);
+  /*background-image: linear-gradient(180deg, #85BC5E  10%, #558632  100%);*/
+  background-image: linear-gradient(180deg, #75c7ca 10%, #224abe 100%);
   background-size: cover;
   border-color: #85BC5E;
 }
