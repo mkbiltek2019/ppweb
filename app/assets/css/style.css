@@ -100,6 +100,14 @@ legend.fieldset-border {
 }
 
 .bg-main {
+  /*background-color: #5394c5 !important;*/
+
+  background-color: #5d9ea0;
+  background-image: linear-gradient(180deg, #9ae8ea 10%, #1465a2  100%);
+  background-size: cover;
+}
+
+.bg-main-gradient {
     /*background-color: #337ab7 !important;*/
   /*background-color: #4e73df;
   background-image: linear-gradient(180deg, #3d748e 10%, #224abe 100%);
@@ -114,8 +122,8 @@ legend.fieldset-border {
   background-image: linear-gradient(180deg, #85BC5E  10%, #558632  100%);
   background-size: cover;*/
 
-  background-color: #5394c5;
-  background-image: linear-gradient(180deg, #75c7ca 10%, #224abe 100%);
+  background-color: #5d9ea0;
+  background-image: linear-gradient(180deg, #5d9ea0 10%, #1465a2  100%);
   background-size: cover;
 
 }

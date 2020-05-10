@@ -14,7 +14,6 @@
     <meta property="og:image:height" content="200">
     <link rel="stylesheet" href="assets/css/vendor/bootstrap-select.min.css">
     <link rel="stylesheet" href="assets/css/vendor/font-awesome.min.css">
-    <!--<link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">-->
     <link rel="stylesheet" href="assets/css/vendor/angular-material.min.css">
     <!--<link rel="stylesheet" type="text/css" href="../assets/css/vendor/jquery.floating-social-share.min.css" />-->
     <link href="assets/css/vendor/all.min.css" rel="stylesheet" type="text/css">
@@ -23,7 +22,6 @@
     <link rel="stylesheet" href="assets/css/style.css?v=1.0.0">
     <!--JS-->
     <script src="assets/js/vendor/jquery.min.js"></script>
-    <!--<script src="assets/js/vendor/bootstrap.min.js"></script>-->
     <script src="assets/js/vendor/angular.min.js"></script>
     <script src="assets/js/vendor/angular-animate.min.js"></script>
     <script src="assets/js/vendor/angular-aria.min.js"></script>
@@ -36,8 +34,6 @@
     <script src="assets/js/vendor/aui-min.js"></script>
     <script src="assets/js/vendor/moment.js"></script>
     <script src="assets/js/vendor/ui-scheduler-event-recorder.js"></script>
-    <!--<script src="assets/js/vendor/html2canvas.min.js"></script>
-    <script src="assets/js/vendor/jspdf.min.js"></script>-->
     <script src="assets/js/vendor/angular-ui-router.min.js"></script>
     <script src="assets/js/vendor/angular-translate.min.js"></script>
     <script src="assets/js/vendor/angular-translate-loader-partial.min.js"></script>
@@ -45,15 +41,9 @@
     <script src="assets/js/vendor/bootstrap-select.min.js"></script>
     <script src="assets/js/vendor/jquery-ui.min.js"></script>
  	<link rel="icon" type="image/x-icon" href="/favicon.ico?v=1" />
-    <!--<link href='https://fonts.googleapis.com/css?family=Encode Sans Expanded' rel='stylesheet'>-->
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-
     <style>
-        /*body {
-            font-family: 'Encode Sans Expanded';
-            font-size: 14px;
-        }*/
         @media (min-width: 768px) {
             .sidebar {
                 width: 17rem !important;
@@ -66,7 +56,7 @@
     <div id="wrapper" >
 
         <!-- Sidebar -->
-        <div ng-show="isLogin" class="navbar-nav sidebar bg-main sidebar-dark accordion text-capitalize" id="accordionSidebar" ng-cloak>
+        <div ng-show="isLogin" class="navbar-nav sidebar bg-main-gradient sidebar-dark accordion text-capitalize" id="accordionSidebar" ng-cloak>
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="../index.html" title="{{config.webpage}}">
@@ -404,98 +394,6 @@
             </div>
         </div>
     </div>
-
-
-    <!--<div ng-class="!isLogin?'background':''">
-        <nav class="navbar navbar-inverse noprint" ng-cloak>
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a ng-if="config.language=='hr' || config.language=='en' || config.language=='ba'" class="navbar-brand" href="../" target="_blank" style="padding-top:2px !important"><img src="assets/img/logo.svg" alt="Program Prehrane"></a>
-					<a ng-if="config.language=='sr'|| config.language=='sr_cyrl'" class="navbar-brand" href="../sr/" target="_blank" style="padding-top:2px !important"><img src="assets/img/logo.svg" alt="Program Ishrane"></a>
-                </div>
-                <div class="collapse navbar-collapse" id="myNavbar">
-                    <ul class="nav navbar-nav navbar-right text-right">
-                        <li ng-if="isLogin">
-                            <a href="#" ng-click="toggleTpl('dashboard')"><i class="fa fa-tachometer fa-fw"></i> <span class="text-capitalize">{{'dashboard' | translate}}</span></a>
-                        </li>
-                        <li ng-if="isLogin&&loginUser.adminType<2">
-                            <a href="#" ng-click="toggleTpl('scheduler')"><i class="fa fa-calendar fa-fw"></i> <span class="text-capitalize">{{'scheduler' | translate}}</span><span ng-if="user.datasum.scheduler.appointments>0" class="badge-info" title="{{'appointments' | translate}}">{{user.datasum.scheduler.appointments}}</span></a>
-                        </li>
-                        <li ng-if="isLogin&&loginUser.adminType<2">
-                            <a href="#" ng-click="toggleTpl('clientapp')"><i class="fa fa-tablet fa-fw"></i> <span>{{'client app' | translate}}</span></a>
-                        </li>
-                        <li ng-if="isLogin&&loginUser.adminType<2&&config.debug">
-                            <a href="#" ng-click="toggleTpl('settings')"><i class="fa fa-cogs fa-fw"></i> <span class="text-capitalize">{{'settings' | translate}}</span></a>
-                        </li>
-                        <li ng-if="loginUser.adminType<2">
-                            <a href="#" ng-click="reportABug()"><i class="fa fa-bug fa-fw"></i> <span class="text-capitalize">{{'report a bug' | translate}}</span></a>
-                        </li>
-                        <li ng-if="config.language!='en'">
-                            <a href="../uputa.html" target="_blank"><i class="fa fa-question fa-fw"></i> <span class="text-capitalize">{{'help' | translate}}</span></a>
-                        </li>
-                        <li>
-                            <a href="#" ng-click="toggleTpl('info')"><i class="fa fa-info fa-fw"></i> <span class="text-capitalize">{{'info' | translate}}</span></a>
-                        </li>
-                        <li ng-if="isLogin" class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <i class="fa fa-user fa-fw"></i> <span class="text-capitalize">{{'user' | translate}}: {{loginUser.firstName}} {{loginUser.lastName}}</span> <i class="fa fa-caret-down"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-user text-right">
-                                <li ng-if="loginUser.adminType<2">
-                                    <a href="#" ng-click="toggleTpl('user')" class="text-capitalize"><i class="fa fa-user fa-fw"></i> {{'user profile' | translate}}</a>
-                                </li>
-                                <li ng-if="loginUser.adminType==0">
-                                    <a href="#" ng-click="toggleTpl('users')" class="text-capitalize"><i class="fa fa-users fa-fw"></i> {{'users' | translate}}</a>
-                                </li>
-                                <li ng-if="loginUser.adminType==0">
-                                    <a href="#" ng-click="toggleTpl('newuser')" class="text-capitalize"><i class="fa fa-user-plus fa-fw"></i> {{'new user' | translate}}</a>
-                                </li>
-                                <li>
-                                    <a href="" ng-click="logout()" class="text-capitalize"><i class="fa fa-sign-out fa-fw"></i> <span>{{'logout' | translate}}</span></a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <div class="container">
-            <div ng-if="!isLogin" class="text-center" style="padding-top:40px; color:white" ng-cloak>
-                <h1 class="text-uppercase" style="font-size:26px">{{config.title | translate}}</h1>
-                <h2 style="font-size:18px"><em>{{'version' | translate}}: {{config.version}}</em></h2>
-            </div>
-            <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around" class="text-center">
-                <md-progress-circular ng-disabled="!loading" md-mode="indeterminate"></md-progress-circular>
-            </div>
-            <div ng-if="browserMsg" class="alert alert-danger alert-dismissable text-center m10" style="height:auto !important" ng-cloak>
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong>
-                    <i class="fa fa-internet-explorer fa-2x" aria-hidden="true"></i><span class="ml5">{{browserMsg.title | translate}}</span>
-                </strong>
-                <div>{{browserMsg.description | translate}}</div>
-            </div>
-            <div ng-if="mainMessage && isLogin && client.clientId" class="alert alert-danger alert-dismissable text-center m10" style="height:auto !important" ng-cloak>
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong>
-                    <i class="fa fa-info-circle fa-2x" aria-hidden="true"></i><span class="text-uppercase ml5">{{mainMessage}}</span>
-                    <button class="btn btn-default text-uppercase ml10" ng-click="toggleTpl('order'); hideMsg()">
-                        <span class="text-danger"><i class="fa fa-hand-o-right fa-2x arrow1" aria-hidden="true"></i> {{mainMessageBtn}}</span>
-                    </button>
-                </strong>
-            </div>
-
-            <div ng-show="!loading" ng-include="currTpl" style="margin-bottom:50px"></div>
-
-            <div class="text-right navbar-fixed-bottom" style="padding:5px 10px 0px 0px" ng-cloak>
-                <span class="text-primary small">&copy {{today | date:'yyyy'}} {{config.copyright}}</span>
-            </div>
-        </div>
-    </div>-->
 
     <!-- Bootstrap core JavaScript-->
     <script src="assets/js/vendor/bootstrap.bundle.min.js"></script>

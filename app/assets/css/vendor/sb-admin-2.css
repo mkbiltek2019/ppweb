@@ -168,7 +168,7 @@ a {
 }
 
 a:hover {
-  color: #224abe;
+  color: #1465a2;
   text-decoration: underline;
 }
 
@@ -2266,9 +2266,9 @@ fieldset:disabled a.btn {
   color: #fff;
   background-color: #1cc88a;
   /*background-image: linear-gradient(180deg, #85BC5E  10%, #558632  100%);*/
-  background-image: linear-gradient(180deg, #75c7ca 10%, #224abe 100%);
+  background-image: linear-gradient(180deg, #9ae8ea 10%, #1465a2  100%);
   background-size: cover;
-  border-color: #75c7ca;
+  border-color: #9ae8ea;
 }
 
 .btn-primary:hover {
@@ -2557,7 +2557,7 @@ fieldset:disabled a.btn {
 .btn-outline-primary:hover {
   color: #fff;
   /*background-image: linear-gradient(180deg, #85BC5E  10%, #558632  100%);*/
-  background-image: linear-gradient(180deg, #75c7ca 10%, #224abe 100%);
+  background-image: linear-gradient(180deg, #9ae8ea 10%, #1465a2  100%);
   background-size: cover;
   border-color: #85BC5E;
 }

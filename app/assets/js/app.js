@@ -340,8 +340,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.toggleTpl = function (x) {
-        debugger;
-        //$rootScope.currTpl = './assets/partials/' + x + '.html';
         $state.go(x);
     };
 
@@ -703,7 +701,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 
     $rootScope.foodPopupCtrl = function ($scope, $mdDialog, d, $http, $translate) {
-        debugger;
         $scope.d = d;
         $scope.foods = d.foods;
         $scope.myFoods = d.myFoods;
@@ -1617,7 +1614,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     /********* Logo ************/
 
     $scope.sendDeleteAccountLink = function (user) {
-        debugger;
         $http({
             url: $sessionStorage.config.backend + webService + '/SendDeleteAccountLink',
             method: 'POST',
@@ -1651,7 +1647,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
 	getUser();
 
 	var showHelpAlert = function () {
-	    debugger;
 	    $timeout(function () {
 	        if ($rootScope.currTpl == './assets/partials/dashboard.html') {
 	            $http({
@@ -1856,25 +1851,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         });
     }
 
-    //$scope.search = function () {
-    //    debugger;
-    //    $http({
-    //        url: $sessionStorage.config.backend + webService + '/Load',
-    //        method: "POST",
-    //        data: { userId: $sessionStorage.usergroupid, user: $rootScope.user }
-    //    })
-    //   .then(function (response) {
-    //       $rootScope.clients = JSON.parse(response.data.d);
-    //       $scope.d = JSON.parse(response.data.d);
-    //       $scope.openSearchPopup();
-    //   },
-    //   function (response) {
-    //       alert(response.data.d)
-    //   });
-    //}
-
     $scope.search = function () {
-        debugger;
         $scope.openSearchPopup();
     }
 
@@ -1895,34 +1872,14 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         });
     };
 
-    //$rootScope.openSearchPopup = function () {
-    //    $mdDialog.show({
-    //        controller: $scope.searchPopupCtrl,
-    //        templateUrl: 'assets/partials/popup/searchclients.html',
-    //        parent: angular.element(document.body),
-    //        targetEvent: '',
-    //        clickOutsideToClose: true,
-    //        d: $scope.d
-    //    })
-    //    .then(function (response) {
-    //        $rootScope.client = response;
-    //        $rootScope.currTpl = './assets/partials/main.html';
-    //        $scope.toggleNewTpl('clientsdata');
-    //        $scope.get(response);
-    //    }, function () {
-    //    });
-    //};
-
     $scope.searchPopupCtrl = function ($scope, $mdDialog, $http) {
         var load = function () {
-            debugger;
             $http({
                 url: $sessionStorage.config.backend + 'Clients.asmx/Load',
                 method: "POST",
                 data: { userId: $sessionStorage.usergroupid, user: $rootScope.user }
             })
             .then(function (response) {
-                //$rootScope.clients = JSON.parse(response.data.d);
                 $scope.d = JSON.parse(response.data.d);
             },
             function (response) {
@@ -1931,7 +1888,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         }
         load();
 
-        //$scope.d = d;
         $scope.limit = 20;
 
         $scope.loadMore = function () {
@@ -2533,12 +2489,10 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             fullscreen: $scope.customFullscreen, // Only for -xs, -sm breakpoints.
             d: { dailyActivities: x, activities: $rootScope.activities }
         }).then(function (response) {
-            debugger;
             if ($rootScope.user.licenceStatus !== 'demo') {
                 $rootScope.clientData.dailyActivities = response;
             }
         }, function () {
-            debugger;
       });
     };
 
@@ -3989,7 +3943,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     }
 
     $scope.change = function (x, type, idx) {
-        debugger;
         if (type === 'quantity' && $rootScope.currentMenu.data.selectedFoods[idx].quantity + x > 0) {
             $rootScope.currentMenu.data.selectedFoods[idx].quantity = $rootScope.currentMenu.data.selectedFoods[idx].quantity * 1 + x;
             $scope.changeQuantity($rootScope.currentMenu.data.selectedFoods[idx], 'quantity', idx);
@@ -4021,7 +3974,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $scope.addFoodBtn = false;
             if (x.openAsMyFood !== undefined) {
                 if (x.openAsMyFood == true) {
-                    //$rootScope.newTpl = './assets/partials/myfoods.html';
                     $state.go('myfoods');
                     $rootScope.selectedNavItem = 'myfoods';
                     $rootScope.myFood_ = x.initFood;
@@ -4036,230 +3988,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
             $scope.addFoodBtn = false;
         });
     };
-
-    //$rootScope.foodPopupCtrl = function ($scope, $mdDialog, d, $http, $translate) {
-    //    debugger;
-    //    $scope.d = d;
-    //    $scope.foods = d.foods;
-    //    $scope.myFoods = d.myFoods;
-    //    $scope.foodGroups = d.foodGroups;
-    //    var initFood = null;
-
-    //    var initFoodForEdit = function (x) {
-    //        $http({
-    //            url: $sessionStorage.config.backend + 'Foods.asmx/InitFoodForEdit',
-    //            method: "POST",
-    //            data: { food: x }
-    //        })
-    //        .then(function (response) {
-    //            initFood = JSON.parse(response.data.d);
-    //        },
-    //        function (response) {
-    //            alert(response.data.d)
-    //        });
-    //    }
-
-    //    var isEditMode = false;
-    //    if (d.food == null) {
-    //        $scope.food = null;
-    //        initFood = null;
-    //        isEditMode = false;
-    //    } else {
-    //        $scope.food = d.food;
-    //        initFoodForEdit(d.food);
-    //        isEditMode = true;
-    //    }
-
-    //    $scope.limit = 100;
-
-    //    $scope.initCurrentFoodGroup = function () {
-    //        $scope.currentGroup = { code: 'A', title: 'all foods' };
-    //    }
-    //    $scope.initCurrentFoodGroup();
-
-    //    var initThermalTreatment = function () {
-    //        $http({
-    //            url: $sessionStorage.config.backend + 'Foods.asmx/InitThermalTreatment',
-    //            method: "POST",
-    //            data: ''
-    //        })
-    //        .then(function (response) {
-    //            $scope.selectedThermalTreatment = JSON.parse(response.data.d);
-    //        },
-    //        function (response) {
-    //            alert(response.data.d)
-    //        });
-    //    }
-    //    initThermalTreatment();
-
-    //    $scope.showMyFoods = function (x) {
-    //        $scope.isShowMyFood = x;
-    //    }
-
-    //    // TOOD: translate on server side
-    //    $scope.getFoodDetails = function (x) {
-    //        if ($scope.isShowMyFood == true) {
-    //            getMyFoodDetails(x);
-    //            return false;
-    //        }
-    //        $http({
-    //            url: $sessionStorage.config.backend + 'Foods.asmx/Get',
-    //            method: "POST",
-    //            data: { userId: $rootScope.user.userId, id: JSON.parse(x).id }
-    //        })
-    //        .then(function (response) {
-    //            $scope.food = JSON.parse(response.data.d);
-    //            if ($scope.food.id === null) {
-    //                getMyFoodDetails(x);
-    //            } else {
-    //                $scope.food.food = $translate.instant($scope.food.food);
-    //                $scope.food.unit = $translate.instant($scope.food.unit);
-    //                $scope.food.foodGroup.title = $translate.instant($scope.food.foodGroup.title);
-    //                $scope.food.meal.title = $translate.instant($scope.food.meal.title);
-    //                angular.forEach($scope.food.thermalTreatments, function (value, key) {
-    //                    $scope.food.thermalTreatments[key].thermalTreatment.title = $translate.instant($scope.food.thermalTreatments[key].thermalTreatment.title);
-    //                })
-    //                initFood = angular.copy($scope.food);
-    //            }
-    //        },
-    //        function (response) {
-    //            alert(response.data.d)
-    //        });
-    //    }
-
-    //    var getMyFoodDetails = function (x) {
-    //        $http({
-    //            url: $sessionStorage.config.backend + 'MyFoods.asmx/Get',
-    //            method: "POST",
-    //            data: { userId: $rootScope.user.userGroupId, id: JSON.parse(x).id }
-    //        })
-    //        .then(function (response) {
-    //            $scope.food = JSON.parse(response.data.d);
-    //            $scope.food.unit = $translate.instant($scope.food.unit);
-    //            $scope.food.foodGroup.title = $translate.instant($scope.food.foodGroup.title);
-    //            initFood = angular.copy($scope.food);
-    //        },
-    //        function (response) {
-    //            alert(response.data.d)
-    //        });
-    //    }
-
-    //    var currThermalTreatmentIdx = 0;
-    //    $scope.getThermalTreatment = function (x, idx) {
-    //        if (functions.isNullOrEmpty(idx)) {
-    //            idx = currThermalTreatmentIdx;
-    //        }
-    //        angular.forEach(x, function (value, key) {
-    //            value.isSelected = false;
-    //        })
-    //        $scope.selectedThermalTreatment = x[idx];
-    //        x[idx].isSelected = true;
-    //        currThermalTreatmentIdx = idx;
-    //        if (isEditMode) {
-    //            isEditMode = false;
-    //        } else {
-    //            includeThermalTreatment($scope.selectedThermalTreatment);
-    //        }
-    //    }
-
-    //    var includeThermalTreatment = function (x) {
-    //        $http({
-    //            url: $sessionStorage.config.backend + 'Foods.asmx/IncludeThermalTreatment',
-    //            method: "POST",
-    //            data: { initFood: initFood, food: $scope.food, thermalTreatment: x }
-    //        })
-    //        .then(function (response) {
-    //            $scope.food = JSON.parse(response.data.d);
-    //        },
-    //        function (response) {
-    //            alert(response.data.d)
-    //        });
-    //    }
-
-    //    $scope.cancel = function () {
-    //        $mdDialog.cancel();
-    //    };
-
-    //    $scope.confirm = function (x) {
-    //        var data = { food: x, initFood: initFood }
-    //        $mdDialog.hide(data);
-    //    }
-
-    //    $scope.changeQuantity = function (x, type) {
-    //        isEditMode = false;
-    //        if (x.quantity > 0.0001 && isNaN(x.quantity) == false && x.mass > 0.0001 && isNaN(x.mass) == false) {
-    //            var currentFood = $scope.food.food;  // << in case where user change food title
-    //            $timeout(function () {
-    //                $http({
-    //                    url: $sessionStorage.config.backend + webService + '/ChangeFoodQuantity',
-    //                    method: "POST",
-    //                    data: { initFood: initFood, newQuantity: x.quantity, newMass: x.mass, type: type, thermalTreatment: $scope.selectedThermalTreatment }
-    //                })
-    //                .then(function (response) {
-    //                    $scope.food = JSON.parse(response.data.d);
-    //                    $scope.food.food = currentFood; // << in case where user change food title
-    //                },
-    //                function (response) {
-    //                });
-    //            }, 600);
-    //        }
-    //    }
-
-    //    $scope.change = function (x, type) {
-    //        if (type === 'quantity' && $scope.food.quantity + x > 0) {
-    //            $scope.food.quantity = $scope.food.quantity + x;
-    //            $scope.changeQuantity($scope.food, 'quantity');
-    //        }
-    //        if (type === 'mass' && $scope.food.mass + x > 0) {
-    //            $scope.food.mass = $scope.food.mass + x;
-    //            $scope.changeQuantity($scope.food, 'mass');
-    //        }
-    //    }
-
-    //    $scope.showFoodSubGroups = function (x) {
-    //        if(x.parent == 'A') {
-    //            $scope.currentMainGroup = x.group.code;
-    //        }
-    //    }
-       
-    //    $scope.changeFoodGroup = function (x) {
-    //        $scope.searchFood = '';
-    //        $scope.limit = $scope.foods.length + 1;
-    //        if (x.code === 'MYF') {
-    //            $scope.showMyFoods(true);
-    //        } else {
-    //            $scope.showMyFoods(false);
-    //        }
-    //        $scope.currentGroup = {
-    //            code: x.code,
-    //            title: x.title
-    //        };
-    //    }
-
-    //    $scope.checkIf = function (x) {
-    //        if (x.foodGroup.code == $scope.currentGroup.code || $scope.currentGroup.code == 'A' || $scope.isShowMyFood == true) {
-    //            return true;
-    //        } else {
-    //            if ($scope.currentGroup.code == $scope.currentMainGroup) {
-    //                if (x.foodGroup.parent == $scope.currentGroup.code) {
-    //                    return true;
-    //                }
-    //            } else {
-    //                return false;
-    //            }
-    //        }
-    //    }
-
-    //    $scope.loadMore = function () {
-    //        $scope.limit = $scope.limit + $scope.foods.length;
-    //    }
-
-    //    $scope.openAsMyFood = function (x) {
-    //        var data = { food: x, initFood: initFood, openAsMyFood: true }
-    //        $mdDialog.hide(data);
-    //    }
-
-    //};
 
     $scope.addFoodToMeal = function (x, initFood, idx) {
         if (x.food != undefined || x.food != null) {
@@ -4342,7 +4070,6 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
     };
 
     $scope.printPreviewCtrl = function ($scope, $mdDialog, d, $http) {
-        debugger;
         $scope.currentMenu = d.currentMenu;
         $scope.clientData = d.clientData;
         $scope.client = d.client;
@@ -6563,16 +6290,7 @@ angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngMaterial', 'cha
         $scope.recipe.push(x);
     }
 
-    //$scope.getTotEnergy = function (x) {
-    //    var sum = 0;
-    //    angular.forEach(x, function (value, key) {
-    //        sum += value.energy;
-    //    })
-    //    return sum;
-    //}
-
     $scope.openFoodPopup = function (food, idx) {
-        debugger;
         $scope.addFoodBtn = true;
         $scope.addFoodBtnIcon = 'fa fa-spinner fa-spin';
         $mdDialog.show({
