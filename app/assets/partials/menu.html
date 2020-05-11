@@ -17,11 +17,11 @@
         <div class="col-lg-8" >
             <div class="card">
                 <div class="card-header text-capitalize">
-                    <button class="btn btn-outline-primary" title="{{'new menu' | translate}}" ng-click="new()"><i class="fa fa-file"></i> <span class="hidden-xs"> {{'new' | translate}}</span></button>
-                    <button class="btn btn-outline-primary" title="{{'open menu' | translate}}" ng-click="get()"><i class="fa fa-search"></i> <span class="hidden-xs"> {{'search' | translate}}</span></button>
+                    <button class="btn btn-outline-primary" title="{{'new menu' | translate}}" ng-click="new()"><i class="fa fa-file"></i> <span class="d-none d-sm-inline"> {{'new' | translate}}</span></button>
+                    <button class="btn btn-outline-primary" title="{{'open menu' | translate}}" ng-click="get()"><i class="fa fa-search"></i> <span class="d-none d-sm-inline"> {{'search' | translate}}</span></button>
                     <div class="dropdown" style="display: inline-block" >
                         <button ng-disabled="currentMenu.data.selectedFoods.length==0" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-floppy-o"></i> <span class="hidden-xs">{{'save' | translate}}</span>
+                            <i class="fa fa-floppy-o"></i> <span class="d-none d-sm-inline">{{'save' | translate}}</span>
                             <span class="caret"></span>
                         </button>
                         <div class="dropdown-menu">
@@ -29,9 +29,8 @@
                             <a ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="dropdown-item" ng-click="saveRecipeFromMenu(currentMenu.data, currentMeal)" title="{{'save current meal as recipe' | translate}}"><span>{{'save as recipe' | translate}}</span></a>
                         </div>
                     </div>
-                    <button ng-disabled="currentMenu.data.selectedFoods.length==0" class="btn btn-outline-primary" title="{{'show menu preview' | translate}}" ng-click="printPreview()"><i class="fa fa-print"></i> <span class="hidden-xs">{{'print' | translate}}</span></button>
-                    <!--<a ng-if="loginUser.adminType<2" ng-disabled="currentMenu.data.selectedFoods.length==0" href="" class="btn btn-default" title="{{'send menu to the clients email' | translate}}" ng-click="send()"><i class="fa fa-paper-plane-o"></i> <span class="hidden-xs">{{'send' | translate}}</span></a>-->
-                    <button ng-disabled="currentMenu.data.selectedFoods.length==0" class="btn btn-outline-primary" title="{{'shopping list' | translate}}" ng-click="getShoppingList(currentMenu)"><i class="fas fa-shopping-basket"></i> <span class="hidden-xs">{{'shopping list' | translate}}</span></button>
+                    <button ng-disabled="currentMenu.data.selectedFoods.length==0" class="btn btn-outline-primary" title="{{'show menu preview' | translate}}" ng-click="printPreview()"><i class="fa fa-print"></i> <span class="d-none d-sm-inline">{{'print' | translate}}</span></button>
+                    <button ng-disabled="currentMenu.data.selectedFoods.length==0" class="btn btn-outline-primary" title="{{'shopping list' | translate}}" ng-click="getShoppingList(currentMenu)"><i class="fas fa-shopping-basket"></i> <span class="d-none d-sm-inline">{{'shopping list' | translate}}</span></button>
                 </div>
                 <div class="card-body">
                     <div layout-gt-sm="row" style="margin:0px">
@@ -50,7 +49,7 @@
                                 <option ng-selected="x.code===currentMeal?true:false" value="{{x.code}}" ng-if="x.isSelected==1" ng-repeat="x in currentMenu.data.meals">{{getMealTitle(x)}}</option>
                             </select>
                         </div>
-                        <div class="d-none d-sm-block">
+                        <div class="d-none d-sm-inline">
                             <ul class="nav nav-tabs text-capitalize">
                                 <li class="nav-item" ng-click="toggleMeals(x.code)" ng-if="x.isSelected==1" ng-repeat="x in currentMenu.data.meals"><a href="" ng-class="x.code===currentMeal?'nav-link active':'nav-link'">{{getMealTitle(x)}}</a></li>
                             </ul>
@@ -182,14 +181,14 @@
         </div>
         <div ng-if="!loading" class="card">
             <div class="card-header text-capitalize">
-                <button ng-click="new()" class="btn btn-outline-primary"><i class="fa fa-file"></i> {{'new' | translate}} {{'menu' | translate}}</button>
-                <button class="btn btn-outline-primary" ng-click="search()"><i class="fa fa-search"></i> {{'search' | translate}}</button>
-                <button ng-disabled="isEmptyList()" ng-click="save()" class="btn btn-outline-primary"><i class="fa fa-floppy-o"></i> {{'save' | translate}}</button>
-                <button ng-disabled="isEmptyList()" ng-click="remove(weeklyMenu)" class="btn btn-outline-danger"><i class="fa fa-trash-alt"></i> {{'delete' | translate}}</button>
-                <button ng-disabled="isEmptyList()||creatingPdf==true" ng-if="pdfLink==null" ng-click="printWeeklyMenu(consumers, printSettings, date, author)" class="btn btn-outline-primary"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> {{'create pdf' | translate}}</button>
+                <button ng-click="new()" class="btn btn-outline-primary"><i class="fa fa-file"></i> <span class="d-none d-sm-inline">{{'new' | translate}} {{'menu' | translate}}</span></button>
+                <button class="btn btn-outline-primary" ng-click="search()"><i class="fa fa-search"></i> <span class="d-none d-sm-inline">{{'search' | translate}}</span></button>
+                <button ng-disabled="isEmptyList()" ng-click="save()" class="btn btn-outline-primary"><i class="fa fa-floppy-o"></i> <span class="d-none d-sm-inline">{{'save' | translate}}</span></button>
+                <button ng-disabled="isEmptyList()" ng-click="remove(weeklyMenu)" class="btn btn-outline-danger"><i class="fa fa-trash-alt"></i> <span class="d-none d-sm-inline">{{'delete' | translate}}</span></button>
+                <button ng-disabled="isEmptyList()||creatingPdf==true" ng-if="pdfLink==null" ng-click="printWeeklyMenu(consumers, printSettings, date, author)" class="btn btn-outline-primary"><i class="fa fa-{{creatingPdf==true?'spinner fa-spin':'file-pdf-o'}}"></i> <span class="d-none d-sm-inline">{{'create pdf' | translate}}</span></button>
                 <a ng-if="pdfLink!=null" href="{{pdfLink}}" class="btn btn-danger" download ng-click="hidePdfLink()"><i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}</a>
-                <button ng-if="loginUser.adminType<2" ng-disabled="pdfLink==null" class="btn btn-outline-primary" title="{{'send menu to the clients email' | translate}}" ng-click="send()"><i class="fa fa-paper-plane"></i> {{'send' | translate}}</button>
-                <button ng-disabled="isEmptyList()" class="btn btn-outline-primary" title="{{'shopping list' | translate}}" ng-click="openShoppingListPopup(weeklyMenu)"><i class="fa fa-{{creatingSLPdf==true?'spinner fa-spin':'shopping-basket'}}"></i> <span class="hidden-xs">{{'shopping list' | translate}}</span></button>
+                <button ng-if="loginUser.adminType<2" ng-disabled="pdfLink==null" class="btn btn-outline-primary" title="{{'send menu to the clients email' | translate}}" ng-click="send()"><i class="fa fa-paper-plane"></i> <span class="d-none d-sm-inline">{{'send' | translate}}</span></button>
+                <button ng-disabled="isEmptyList()" class="btn btn-outline-primary" title="{{'shopping list' | translate}}" ng-click="openShoppingListPopup(weeklyMenu)"><i class="fa fa-{{creatingSLPdf==true?'spinner fa-spin':'shopping-basket'}}"></i> <span class="d-none d-sm-inline">{{'shopping list' | translate}}</span></button>
                 <!--<button ng-disabled="isEmptyList()||creatingSLPdf==true" ng-if="pdfSLLink==null" class="btn btn-outline-primary" title="{{'shopping list' | translate}}" ng-click="createShoppingList(weeklyMenu.menuList, consumers, printSettings)"><i class="fa fa-{{creatingSLPdf==true?'spinner fa-spin':'shopping-basket'}}"></i> <span class="hidden-xs">{{'shopping list' | translate}}</span></button>
                 <a ng-if="pdfSLLink!=null" href="{{pdfSLLink}}" class="btn btn-success" download ng-click="hidePdfSLLink()"><i class="fa fa-file-pdf-o"></i> {{'take pdf' | translate}}</a>-->
             </div>

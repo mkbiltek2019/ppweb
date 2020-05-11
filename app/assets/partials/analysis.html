@@ -204,8 +204,8 @@
         <div class="d-block d-sm-none pt-3">
             <div>
                 <ul class="nav nav-tabs">
-                    <li class="nav-item" ng-click="toggleParamTpl('parametersChartTpl')"><a href="#" ng-class="parametersTpl=='parametersChartTpl'?'nav-link active':'nav-link'"><i class="fa fa-line-chart"></i> <span class="hidden-xs text-capitalize">{{'charts' | translate}}</span></a></li>
-                    <li class="nav-item" ng-click="toggleParamTpl('parametersTableTpl')"><a href="#" ng-class="parametersTpl=='parametersTableTpl'?'nav-link active':'nav-link'"><i class="fa fa-table"></i> <span class="hidden-xs text-capitalize">{{'table' | translate}}</span></a></li>
+                    <li class="nav-item" ng-click="toggleParamTpl('parametersChartTpl')"><a href="#" ng-class="parametersTpl=='parametersChartTpl'?'nav-link active':'nav-link'"><i class="fa fa-line-chart"></i> <span class="d-none d-sm-inline text-capitalize">{{'charts' | translate}}</span></a></li>
+                    <li class="nav-item" ng-click="toggleParamTpl('parametersTableTpl')"><a href="#" ng-class="parametersTpl=='parametersTableTpl'?'nav-link active':'nav-link'"><i class="fa fa-table"></i> <span class="d-none d-sm-inline text-capitalize">{{'table' | translate}}</span></a></li>
                 </ul>
             </div>
             <ng-include src="parametersTpl" class="pt-3"></ng-include>
